@@ -70,11 +70,6 @@ fetch('https://ipapi.co/json/')
   });
 
 
-// Event listeners for social logins
-document.querySelector(".facebook").addEventListener("click", function() {
-    window.location.href = "/auth/facebook"; // Redirect to backend for Facebook OAuth
-});
-
 document.querySelector(".google").addEventListener("click", function() {
     window.location.href = "/auth/google"; // Redirect to backend for Google OAuth
 });

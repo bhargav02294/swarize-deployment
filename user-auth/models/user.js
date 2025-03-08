@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
       },
     authMethod: {
         type: String,
-        enum: ['email', 'google', 'facebook'],
+        enum: ['email', 'google'],
         required: true,
       },
     facebookId: { type: String }, // For Facebook users

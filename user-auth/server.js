@@ -19,7 +19,10 @@ app.use(cookieParser()); // ✅ Ensure cookie-parser is used
 const path = require('path');
 const bodyParser = require('body-parser');
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://www.swarize.in"], // Allow local and deployed site
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const subscribers = []; // Temporary storage (use database in production)
@@ -47,7 +50,6 @@ const flash = require('connect-flash');
 const { check, validationResult } = require('express-validator'); // For validation
 
 const session = require('express-session');
-const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -382,74 +384,6 @@ app.post('/reset-password', async (req, res) => {
 
 
 
-// Passport.js Facebook Strategy 
-passport.use(new FacebookStrategy({
-  clientID: process.env.FACEBOOK_CLIENT_ID,
-  clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-  callbackURL: "/auth/facebook/callback",
-  profileFields: ['id', 'displayName', 'emails']
-}, async (accessToken, refreshToken, profile, done) => {
-  try {
-    // Extract first and last names (use them to create a display name)
-    const firstName = profile.name.givenName;
-    const lastName = profile.name.familyName;
-    const displayName = `${firstName} ${lastName}`;
-    const email = profile.emails[0].value;
-
-    // Check if the user already exists in the database
-    let user = await User.findOne({ email });
-
-    if (user) {
-      return done(null, user);
-    }
-
-    // Create a new user with Facebook credentials
-    user = new User({
-      name: profile.displayName,
-      email: email,
-      authMethod: 'facebook',
-    });
-
-    await user.save();
-    done(null, user);
-  } catch (error) {
-    console.error('Error in Facebook strategy:', error);
-    done(error, null);
-  }
-}));
-
-
-
-// Facebook Authentication Routes
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
-
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/' }),
-  function (req, res) {
-    if (req.query.error) {
-      return res.render('index.ejs', { message: req.query.error });
-    }
-    // Redirect to index.html after successful Facebook login
-    res.redirect('/');
-  }
-);
-
-
-
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
-
 
 
 
@@ -472,7 +406,7 @@ passport.deserializeUser(async (id, done) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:3000/auth/google/callback' // Adjust for localhost
+  callbackURL: 'https://www.swarize.in/auth/google/callback' // Adjust for localhost
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     // Check if user already exists
@@ -589,15 +523,6 @@ app.get('/auth/google/callback',
   }
 );
 
-// Facebook Authentication Routes
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
-
-app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { failureRedirect: '/signin' }),
-    (req, res) => {
-        res.redirect('/index.html');  // Redirect to profile on success
-    }
-);
 
 // Forgot Password Route
 app.get('/forgot-password', (req, res) => {

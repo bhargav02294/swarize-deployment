@@ -10,7 +10,7 @@ document.getElementById("contactForm").addEventListener("submit", async (e) => {
     responseMessage.style.color = "#007bff"; // Blue color while sending
 
     try {
-        const response = await fetch("http://localhost:3000/send-message", {
+        const response = await fetch("http://www.swarize.in/send-message", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, message }),

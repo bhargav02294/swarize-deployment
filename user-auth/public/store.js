@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Load Products from API
     function loadProducts() {
-        fetch("http://localhost:3000/api/products", {
+        fetch("http://www.swarize.in/api/products", {
             method: "GET",
             credentials: "include"  // ✅ Ensures authentication is checked
         })
@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
                     // ✅ Ensure correct path to image
                     const imagePath = product.thumbnailImage.startsWith("uploads/") 
-                    ? `http://localhost:3000/${product.thumbnailImage}` 
-                    : `http://localhost:3000/uploads/${product.thumbnailImage}`;
+                    ? `http://www.swarize.in/${product.thumbnailImage}` 
+                    : `http://www.swarize.in/uploads/${product.thumbnailImage}`;
                     
                     productItem.innerHTML = `
                         <div class="product-card">
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     
         // ✅ Send DELETE request to backend
-        fetch(`http://localhost:3000/api/products/${productId}`, {
+        fetch(`http://www.swarize.in/api/products/${productId}`, {
             method: "DELETE",
             credentials: "include" // ✅ Ensure session cookies are sent
         })

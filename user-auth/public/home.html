@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - eCommerce</title>
+    <link rel="stylesheet" href="home.css">
+    <script defer src="home.js"></script>
+</head>
+<body>
+    <!-- Sign-In Message Section (Visible by Default) -->
+    <div id="sign-in-message" class="center-message">
+        <h2>You are not signed in!</h2>
+        <button class="btn" id="sign-in-btn">Go to Sign In</button>
+    </div>
+
+    <!-- Main Content Section (Initially Hidden) -->
+    <div id="main-container" class="container hidden">
+        <aside class="sidebar"></aside>
+        <div class="main-content">
+            <h1>Welcome to Your Dashboard</h1>
+
+            <div id="button-container" class="button-container"></div>
+
+            <div class="grid-container" id="grid-container">
+                <div class="grid-item">
+                    <h2>My Collections / Downloads</h2>
+                    <button class="btn" id="collections-btn">View Collections</button>
+                </div>
+                <div class="grid-item">
+                    <h2>My Store</h2>
+                    <button class="btn" id="store-btn">Manage Store</button>
+                </div>
+                <div class="grid-item">
+                    <h2>Seller Dashboard</h2>
+                    <button class="btn" id="seller-dashboard-btn">View Seller Dashboard</button> <!-- Added button for Seller Dashboard -->
+                </div>
+                <div class="grid-item">
+                    <h2>User Profile</h2>
+                    <button class="btn" id="profile-btn">User Profile</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

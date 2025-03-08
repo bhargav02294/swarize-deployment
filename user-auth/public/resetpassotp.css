@@ -1,0 +1,266 @@
+
+/* Navbar */
+.navbar {
+    background-color: #F4D1AE;
+    display: flex;
+    width: 1520px;
+    align-items: center;
+    height: 60px;
+    justify-content: space-between;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .navbar-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #8C4A32;
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  
+  /* Footer */
+  .footer {
+    background-color: #F4D1AE;
+    text-align: center;
+    padding: 10px;
+    width: 1520px;
+    margin-top: 220px;
+    color: #4A403A;
+  }
+  
+  /* Logo Styling */
+  .logo-container {
+    width: 60px;
+    height: 60px;
+    background-color: #8C4A32;
+    border-radius: 50%;
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logo-text {
+    font-size: 50px;
+    font-weight: 600;
+    color: #F4D1AE;
+    font-family: 'Times New Roman';
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-link {
+    text-decoration: none;
+  }
+  
+/* --- Custom Animated Back Button --- */
+.back-button {
+  display: block;
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+}
+
+.back-button:before,
+.back-button:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  inset: 7px;
+}
+
+.back-button:before {
+  border: 4px solid #4A403A;
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.back-button:after {
+  border: 4px solid #8C4A32;
+  transform: scale(1.3);
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.back-button:hover:before {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.back-button:hover:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.button-box {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.button-elem {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 17px 18px 0 18px;
+  transform: rotate(180deg);
+  fill: #4A403A;
+}
+
+.back-button:hover .button-box {
+  transition: 0.4s;
+  transform: translateX(-56px);
+}
+
+
+
+
+
+
+
+
+
+
+
+  /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* OTP Container */
+.otp-container {
+    background: white;
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+}
+
+.otp-container h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    color: #4A403A;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4A403A;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.timer {
+    font-size: 16px;
+    color: #8C4A32;
+    margin-bottom: 10px;
+}
+
+/* Resend OTP Link */
+#resend-otp {
+    color: #4A403A;
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+#resend-otp:hover {
+    text-decoration: underline;
+}
+
+
+
+@media (max-width: 768px) {
+  .otp-container {
+      width: 90%;
+      padding: 15px;
+  }
+
+  input {
+      font-size: 14px;
+  }
+
+  button {
+      font-size: 14px;
+      padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .otp-container {
+      width: 100%;
+      padding: 10px;
+  }
+
+  h2 {
+      font-size: 20px;
+  }
+
+  input {
+      font-size: 12px;
+  }
+
+  button {
+      font-size: 12px;
+      padding: 6px;
+  }
+}

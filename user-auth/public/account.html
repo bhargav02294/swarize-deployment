@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Save Bank Details</title>
+  <link rel="stylesheet" href="bank-details.css" />
+</head>
+<body>
+  <div class="bank-details-container">
+    <h2>Save Your Bank Details</h2>
+    <form id="bank-details-form">
+      <div class="form-group">
+        <label for="bankName">Bank Name:</label>
+        <input type="text" id="bankName" name="bankName" placeholder="Enter your bank name" required />
+      </div>
+      <div class="form-group">
+        <label for="accountHolder">Account Holder Name:</label>
+        <input type="text" id="accountHolder" name="accountHolder" placeholder="As per bank passbook" required />
+      </div>
+      <div class="form-group">
+        <label for="accountNumber">Account Number:</label>
+        <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter your account number" required />
+      </div>
+      <div class="form-group">
+        <label for="ifscCode">IFSC Code:</label>
+        <input type="text" id="ifscCode" name="ifscCode" placeholder="Enter IFSC code" required />
+      </div>
+      <button type="submit" class="save-btn">Save Details</button>
+    </form>
+    <div id="message"></div>
+  </div>
+  <script src="bank-details.js"></script>
+</body>
+</html>

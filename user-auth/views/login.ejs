@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <% if (messages.error) { %>
+        <div style="color: red;"><%= messages.error %></div>
+    <% } %>
+    <% if (messages.success) { %>
+        <div style="color: green;"><%= messages.success %></div>
+    <% } %>
+    <form action="/signin" method="post">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Log In</button>
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>

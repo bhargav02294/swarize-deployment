@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product</title>
+  <link rel="stylesheet" href="add-product.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+            <span class="logo-text">S</span> <!-- Swarize logo -->
+            </a>
+        </div>
+        <h1 class="navbar-title">User Profile</h1>
+    </div>
+</nav>
+
+<!-- Back Button -->
+<button class="back-button" onclick="window.location.href='store.html';">
+    <div class="button-box">
+        <span class="button-elem">
+            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+            </svg>
+        </span>
+        <span class="button-elem">
+            <svg viewBox="0 0 46 40">
+                <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+            </svg>
+        </span>
+    </div>
+</button>
+
+  
+  <div class="container">
+    <h1>Add Product</h1>
+    <form id="add-product-form">
+      <!-- Product Name -->
+      <label for="product-name">Product Name *</label>
+      <input type="text" id="product-name" name="name" placeholder="Enter product name" required>
+
+      <!-- Price -->
+      <label for="price">Price (INR):</label>
+      <input type="number" id="price" name="price" min="1" required placeholder="Must be greater than ₹248">
+      
+
+      <!-- Thumbnail Image -->
+      <label for="thumbnail-image">Thumbnail Image *</label>
+      <input type="file" id="thumbnail-image" name="thumbnailImage" accept="image/*" required>
+
+      <!-- Extra Images -->
+      <label for="extraImage1">Extra Image 1:</label>
+      <input type="file" id="extraImage1" accept="image/*">
+      <label for="extraImage2">Extra Image 2:</label>
+      <input type="file" id="extraImage2" accept="image/*">
+      <label for="extraImage3">Extra Image 3:</label>
+      <input type="file" id="extraImage3" accept="image/*">
+      <label for="extraImage4">Extra Image 4:</label>
+      <input type="file" id="extraImage4" accept="image/*">
+
+      <!-- Extra Videos -->
+      <label for="extraVideo1">Extra Video 1:</label>
+      <input type="file" id="extraVideo1" accept="video/*">
+      <label for="extraVideo2">Extra Video 2:</label>
+      <input type="file" id="extraVideo2" accept="video/*">
+      <label for="extraVideo3">Extra Video 3:</label>
+      <input type="file" id="extraVideo3" accept="video/*">
+
+      <!-- Description -->
+      <label for="description">Description *</label>
+      <textarea id="description" name="description" placeholder="Enter a detailed product description" required></textarea>
+
+      <!-- Summary -->
+      <label for="summary">Summary:</label>
+      <textarea id="summary" name="summary" placeholder="Enter product summary"></textarea>
+  
+      <!-- Category -->
+      <label for="category">Category *</label>
+      <select id="category" name="category" required>
+        <option value="" disabled selected>Select a category</option>
+      </select>
+
+      <!-- Subcategory -->
+      <label for="subcategory">Subcategory *</label>
+      <select id="subcategory" name="subcategory" required>
+        <option value="" disabled selected>Select a subcategory</option>
+      </select>
+
+      <!-- Tags -->
+      <label for="tags">Tags (Comma-separated)</label>
+      <input type="text" id="tags" name="tags" placeholder="Enter tags separated by commas" required>
+
+      <label for="availableIn">Available In (Optional):</label>
+      <input type="text" id="availableIn" name="availableIn" placeholder="Enter states separated by commas (Default: All Over India)">
+
+      <!-- Optional Fields -->
+      <fieldset>
+        <legend>Optional Features</legend>
+        <label for="size">Size</label>
+        <input type="text" id="size" name="size" placeholder="Enter size (e.g., S, M, L)">
+        
+        <label for="color">Color</label>
+        <input type="text" id="color" name="color" placeholder="Enter color">
+        
+        <label for="material">Material</label>
+        <input type="text" id="material" name="material" placeholder="Enter material (e.g., Cotton)">
+        
+        <label for="model-style">Model/Style</label>
+        <input type="text" id="model-style" name="modelStyle" placeholder="Enter model or style">
+        
+      </fieldset>
+
+      <button type="submit">Add Product</button>
+      
+    </form>
+    <div id="message"></div>
+
+  </div>
+
+  <!-- Live Preview -->
+  <div class="live-preview">
+    <h2>Live Preview</h2>
+    <div class="preview-container">
+      <div class="preview-thumbnail">
+        <img id="preview-thumbnail" src="" alt="Thumbnail Preview">
+      </div>
+      <h3 id="preview-name">Product Name</h3>
+      <p id="preview-price">₹0.00</p>
+      <p id="preview-description">Product description will appear here.</p>
+      <div class="preview-extra-images">
+        <h4>Extra Images:</h4>
+        <img id="preview-extra-image-1" src="" alt="Extra Image 1">
+        <img id="preview-extra-image-2" src="" alt="Extra Image 2">
+        <img id="preview-extra-image-3" src="" alt="Extra Image 3">
+        <img id="preview-extra-image-4" src="" alt="Extra Image 4">
+      </div>
+       <!-- Extra Videos Preview -->
+       <div class="preview-extra-videos">
+        <h4>Extra Videos:</h4>
+        <video id="preview-extra-video-1" controls></video>
+        <video id="preview-extra-video-2" controls></video>
+        <video id="preview-extra-video-3" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 Swarize. All rights reserved.</p>
+</footer>
+
+  <script src="add-product.js"></script>
+</body>
+</html>

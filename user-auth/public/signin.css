@@ -1,0 +1,279 @@
+
+
+/* Sign-In Container */
+.container {
+  background-color: white;
+  padding: 30px;
+  width: 380px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 50px;
+  margin-left: 37%;
+}
+
+h2 {
+  font-size: 24px;
+  color: #4A403A;
+  margin-bottom: 20px;
+}
+
+/* Message Container */
+.message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Input Fields */
+input[type="email"],
+input[type="password"] {
+  width: 356px;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: 0.3s ease-in-out;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #8C4A32;
+  outline: none;
+}
+
+/* Sign-In Button */
+button {
+  width: 50%;
+  padding: 12px;
+  background-color: #502c1e;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+button:hover {
+  
+  color: #e5ff00;
+
+}
+
+/* Social Login Buttons */
+.btn {
+  width: 356px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: white;
+  display: block;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.google {
+  background-color: #dd4b39;
+}
+
+.facebook {
+  background-color: #3b5998;
+}
+
+.google:hover,
+.facebook:hover {
+  opacity: 0.8;
+}
+
+/* Forgot Password & Signup */
+.forgot-password {
+  display: block;
+  margin-top: 15px;
+  color: #4A403A;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+p {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #4A403A;
+}
+
+p a {
+  color: #8C4A32;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+/* Divider */
+hr {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background-color: #ccc;
+}
+
+
+
+
+
+
+
+
+/* Navbar */
+.navbar {
+  background-color: #F4D1AE;
+  display: flex;
+  width: 1520px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  height: 60px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.navbar-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #8C4A32;
+  flex-grow: 1;
+  text-align: center;
+}
+
+
+
+
+/* Logo Styling */
+.logo-container {
+  width: 60px;
+  height: 60px;
+  background-color: #8C4A32;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 50px;
+  font-weight: 600;
+  color: #F4D1AE;
+  font-family: 'Times New Roman';
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+/* --- Custom Animated Back Button --- */
+.back-button {
+  display: block;
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+}
+
+.back-button:before,
+.back-button:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  inset: 7px;
+}
+
+.back-button:before {
+  border: 4px solid #4A403A;
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.back-button:after {
+  border: 4px solid #8C4A32;
+  transform: scale(1.3);
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.back-button:hover:before {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.back-button:hover:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.button-box {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.button-elem {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 17px 18px 0 18px;
+  transform: rotate(180deg);
+  fill: #4A403A;
+}
+
+.back-button:hover .button-box {
+  transition: 0.4s;
+  transform: translateX(-56px);
+}
+
+
+
+@media (max-width: 768px) {
+  .container {
+      width: 90%;
+      padding: 20px;
+  }
+
+  input {
+      width: 100%;
+      font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+      width: 100%;
+      padding: 15px;
+  }
+
+  input {
+      font-size: 12px;
+  }
+}

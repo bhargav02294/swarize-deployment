@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="otp.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container">
+                <a href="index.html" class="logo-link">
+                <span class="logo-text">S</span> <!-- Swarize logo -->
+                </a>
+            </div>
+            <h1 class="navbar-title">Email Verification</h1>
+        </div>
+    </nav>
+    
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.location.href='signup.html';">
+        <div class="button-box">
+            <span class="button-elem">
+                <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+                </svg>
+            </span>
+            <span class="button-elem">
+                <svg viewBox="0 0 46 40">
+                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+                </svg>
+            </span>
+        </div>
+    </button>
+
+
+    <div class="container">
+        <form id="otp-form">
+            <h1>Verify Your Account</h1>
+
+            <!-- Email Address -->
+            <div class="form-group">
+                <label for="otp-email">Email Address</label>
+                <input type="email" id="otp-email" placeholder="Enter your email" readonly>
+                <div id="email-error" class="error"></div>
+            </div>
+
+            <!-- Get OTP Button -->
+            <div class="form-group">
+                <button type="button" id="get-otp">Get OTP</button>
+            </div>
+
+            <!-- Timer -->
+            <div id="timer" class="timer">Time left: <span id="timer-count">01:00</span></div>
+
+            <!-- Resend OTP -->
+            <div class="form-group">
+                <button type="button" id="resend-otp" style="display: none;">Resend OTP</button>
+            </div>
+
+            <!-- Email OTP -->
+            <div class="form-group">
+                <label for="otp-email-input">Enter Email OTP</label>
+                <input type="text" id="otp-email-input" placeholder="Enter Email OTP" required>
+                <div id="email-otp-error" class="error"></div>
+                <!-- Alert Message Section -->
+<div id="message-container" class="hidden">
+    <p id="message-text"></p>
+</div>
+
+                <button type="button" id="submit-email-otp">Submit OTP</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="otp.js"></script>
+</body>
+</html>

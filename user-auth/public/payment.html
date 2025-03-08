@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+
+    <div class="payment-container">
+        <h2>Payment Summary</h2>
+        <p><strong>Product:</strong> <span id="product-name"></span></p>
+        <p><strong>Price:</strong> ₹<span id="product-price"></span></p>
+
+     
+        <div class="promo-section">
+            <label for="promo-code">Enter Promo Code:</label>
+            <input type="text" id="promo-code" placeholder="Enter promo code">
+            <button id="apply-promo-btn">Apply Promo Code</button>
+            <p id="promo-message"></p>
+        </div>
+        
+        <h3>Final Price: ₹<span id="final-price"></span></h3>
+        
+        
+
+        <div id="message"></div>
+        <div id="payment-buttons">
+            <button id="pay-now-btn" class="hidden">Pay Now</button>
+            <button id="add-bank-btn" class="hidden" onclick="window.location.href='bank-details.html'">Add Bank Details</button>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="payment.js"></script>
+
+</body>
+</html>

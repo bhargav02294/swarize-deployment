@@ -1,1 +1,30 @@
-node_modules
+# Ignore node_modules everywhere
+node_modules/
+
+# Ignore root-level package.json (keep only user-auth package.json)
+package.json
+package-lock.json
+
+# Ignore build files
+dist/
+build/
+
+# Ignore logs and temp files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore cache and editor files
+.cache/
+.vscode/
+
+# Ignore Git history (if needed)
+.git/
+
+# Ignore uploads (if you have an "uploads" folder)
+uploads/

@@ -18,6 +18,7 @@ app.use(cookieParser()); // ✅ Ensure cookie-parser is used
 
 const path = require('path');
 const bodyParser = require('body-parser');
+const jwt = require("jsonwebtoken");
 
 const cors = require("cors");
 app.use(cors({
@@ -30,6 +31,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const subscribers = []; // Temporary storage (use database in production)
+
+const { isAuthenticated } = require("./middleware/auth");
 
 const User = require('./models/user');
 const Store = require('./models/store');
@@ -89,17 +92,18 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
-    collectionName: 'sessions',
-    autoRemove: 'native'
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: 'sessions',
+      autoRemove: 'native'
   }),
   cookie: {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // ✅ Secure cookies only in production
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ Lax for development
-    maxAge: 24 * 60 * 60 * 1000 // 1 day
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // ✅ Secure in production
+      sameSite: "None", // ✅ Fixes cross-origin issues
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -126,22 +130,18 @@ app.set('view engine', 'ejs');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      tls: true, // ✅ Enable TLS for secure connection
-      tlsAllowInvalidCertificates: true // ✅ Allow self-signed certificates (if needed)
-    });
-
-    console.log("✅ MongoDB Connection Successful:", conn.connection.host);
+      const conn = await mongoose.connect(process.env.MONGO_URI, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          tls: true,
+          tlsAllowInvalidCertificates: true
+      });
+      console.log("✅ MongoDB Connected:", conn.connection.host);
   } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error);
-    setTimeout(connectDB, 5000); // ✅ Retry connection after 5 seconds
+      console.error("❌ MongoDB Connection Error:", error);
+      process.exit(1);
   }
 };
-
-
-
 connectDB();
 
 app.get('/debug-session', (req, res) => {
@@ -249,39 +249,36 @@ app.get("/api/debug-session", (req, res) => {
 // Sign-Up Route
 
 
-app.post('/api/auth/signup', async (req, res) => {  // ✅ Matches frontend request
+// ✅ Sign-Up Route (Matches Updated `signup.js`)
+app.post("/api/auth/signup", async (req, res) => {
   const { name, email, password, country } = req.body;
 
   try {
-      // Check if the user is from India
-      if (!country || country.toLowerCase() !== 'india') {
-          return res.status(400).json({ message: 'This platform is only available for users in India.' });
+      if (!country || country.toLowerCase() !== "india") {
+          return res.status(400).json({ message: "This platform is only available for users in India." });
       }
 
-      // Check if the user already exists
       const existingUser = await User.findOne({ email: email.trim() });
       if (existingUser) {
-          return res.status(409).json({ message: 'User already exists.' });
+          return res.status(409).json({ message: "User already exists." });
       }
 
-      // Hash the password and create the user
       const hashedPassword = await bcrypt.hash(password.trim(), 10);
       const newUser = new User({
           name,
           email: email.trim(),
           password: hashedPassword,
           country: country.toLowerCase(),
-          authMethod: 'email' 
+          authMethod: "email"
       });
 
       await newUser.save();
-      res.status(201).json({ message: 'User created successfully!' });
+      res.status(201).json({ message: "User created successfully!" });
   } catch (error) {
-      console.error('Error during sign-up:', error);
-      res.status(500).json({ message: 'Something went wrong. Please try again.' });
+      console.error("❌ Error during sign-up:", error);
+      res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 });
-
 
 
 // ✅ Nodemailer Transporter Setup
@@ -413,145 +410,94 @@ app.post('/reset-password', async (req, res) => {
 
 
 
-// Google Strategy
-// Passport.js Google Strategy 
-// Google Strategy
+// ✅ Google OAuth Strategy
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'https://www.swarize.in/auth/google/callback' // Adjust for localhost
-}, async (accessToken, refreshToken, profile, done) => {
-  try {
-    // Check if user already exists
-    const existingUser = await User.findOne({ email: profile.emails[0].value });
-    if (existingUser) {
-      return done(null, existingUser);
-    }
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "https://www.swarize.in/auth/google/callback",
+    passReqToCallback: true
+}, async (req, accessToken, refreshToken, profile, done) => {
+    try {
+        let user = await User.findOne({ googleId: profile.id });
 
-    // Create a new user if not found
-    const newUser = new User({
-      email: profile.emails[0].value,
-      name: profile.displayName,
-      authMethod: 'google'
-    });
-
-    await newUser.save();
-    return done(null, newUser);
-  } catch (error) {
-    console.error('Error in Google strategy:', error);
-    return done(error, null);
-  }
-}));
-
-// Serialize and deserialize user
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
-});
-
-// Routes
-// Home route
-app.get('/', (req, res) => {
-  res.send('<h1>Welcome</h1><a href="/auth/google">Sign in with Google</a>');
-});
-
-// Google Login route
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: 'https://www.swarize.in/signin' }),
-  (req, res) => {
-      const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-      res.cookie("token", token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "Strict"
-      });
-
-      res.redirect('https://www.swarize.in');
-  }
-);
-
-
-
-
-
-// Profile route (optional, you can remove this if not needed)
-app.get('/profile', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.send(`<h1>Hello, ${req.user.name}</h1><p>Email: ${req.user.email}</p><a href="/logout">Logout</a>`);
-  } else {
-    res.redirect('/');
-  }
-});
-
-
-
-
-
-
-
-// Sign-In Route
-// Handle sign-in logic
-app.post('/api/auth/signin', async (req, res) => {  // ✅ Matches frontend request
-  const { email, password } = req.body;
-
-  try {
-      const user = await User.findOne({ email: email.trim() });
-
-      if (!user) {
-          return res.status(404).json({ success: false, message: 'User not found. Please sign up first.' });
-      }
-
-      const isMatch = await bcrypt.compare(password.trim(), user.password); // ✅ Correct password check
-
-      if (!isMatch) {
-        return res.status(401).json({ success: false, message: 'Invalid email or password.' });
-    }
-
-      // ✅ Regenerate the session before setting new user data
-      req.session.regenerate((err) => {
-        if (err) {
-            console.error("Session regeneration failed:", err);
-            return res.status(500).json({ success: false, message: "Session error" });
+        if (!user) {
+            user = new User({
+                googleId: profile.id,
+                email: profile.emails[0].value,
+                name: profile.displayName,
+                authMethod: "google"
+            });
+            await user.save();
         }
 
         req.session.userId = user._id;
-        req.session.userName = user.name || "User";
-
-        req.session.save((err) => {
-            if (err) {
-                console.error("Session save error:", err);
-                return res.status(500).json({ success: false, message: "Session save error" });
-            }
-
-      console.log("🔹 User Logged In - Session:", req.session);
-
-      console.log("🔹 User Logged In - Session:", req.session);
-              res.json({
-                  success: true,
-                  message: 'Login successful!',
-                  userId: user._id,
-                  userName: user.name
-              });
-          });
-      });
+        req.session.save();
+        return done(null, user);
     } catch (error) {
-      console.error('Sign-in error:', error);
-      res.status(500).json({ success: false, message: 'Something went wrong. Please try again.' });
-  }
+        return done(error, null);
+    }
+}));
+
+// ✅ Serialize and Deserialize User
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
 });
 
+// ✅ Google OAuth Routes
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+app.get("/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "https://www.swarize.in/signin" }),
+    (req, res) => {
+        const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Strict"
+        });
+
+        res.redirect("https://www.swarize.in");
+    }
+);
+
+// ✅ Sign-In Route (Matches Updated `signin.js`)
+app.post("/api/auth/signin", async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email: email.trim() });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found. Please sign up first." });
+        }
+
+        const isMatch = await bcrypt.compare(password.trim(), user.password);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, message: "Invalid email or password." });
+        }
+
+        req.session.regenerate((err) => {
+            if (err) return res.status(500).json({ success: false, message: "Session error" });
+
+            req.session.userId = user._id;
+            req.session.userName = user.name;
+            req.session.save((err) => {
+                if (err) return res.status(500).json({ success: false, message: "Session save error" });
+
+                res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name });
+            });
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
+    }
+});
 
 
 
@@ -572,49 +518,15 @@ app.get('/profile', (req, res) => {
 
 
 
-// Logout Route
-// Logout Route
-app.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Logout Error:', err);
-      return res.status(500).json({ success: false, message: 'Logout failed' });
-    }
-    res.clearCookie('connect.sid', { path: '/' }); // ✅ Clears session cookie
-    res.redirect('https://www.swarize.in/signin'); // ✅ Redirects to sign-in page
+// ✅ Logout Route
+app.get("/logout", (req, res) => {
+  req.session.destroy(err => {
+      if (err) return res.status(500).json({ success: false, message: "Logout failed" });
+
+      res.clearCookie("connect.sid");
+      res.redirect("https://www.swarize.in/signin");
   });
 });
-
-
-
-
-//----log out-----//
-app.get('/is-logged-in', async (req, res) => {
-  console.log("🔹 Checking Authentication - Session Data:", req.session);
-
-  if (!req.session.userId && !req.session.passport?.user) {
-      return res.json({ isLoggedIn: false });
-  }
-
-  try {
-      const userId = req.session.userId || req.session.passport.user;
-      const user = await User.findById(userId);
-
-      if (!user) {
-          return res.json({ isLoggedIn: false });
-      }
-
-      res.json({
-          isLoggedIn: true,
-          userId: user._id,
-          userName: user.name || "User"
-      });
-  } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
 
 
 

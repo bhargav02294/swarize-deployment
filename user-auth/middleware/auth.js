@@ -29,8 +29,8 @@ const isAuthenticated = (req, res, next) => {
             }
             return next();
         } catch (err) {
-            console.log("❌ Invalid Token.");
-            return res.status(400).json({ success: false, message: "Invalid Token" });
+            console.log("❌ Invalid or Expired Token.");
+            return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
         }
     }
 

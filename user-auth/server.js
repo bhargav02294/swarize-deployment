@@ -209,9 +209,11 @@ app.get("/api/debug-session", (req, res) => {
 
   res.json({
       success: true,
-      session: req.session
+      sessionID: req.sessionID,
+      sessionData: req.session
   });
 });
+
 
 
 
@@ -437,7 +439,7 @@ app.get('/', (req, res) => {
 });
 
 // Google Login route
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+aapp.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: 'https://www.swarize.in/signin' }),
@@ -445,6 +447,9 @@ app.get('/auth/google/callback',
     res.redirect('https://www.swarize.in'); // ✅ Redirect user to the homepage after login
   }
 );
+
+
+
 
 
 // Profile route (optional, you can remove this if not needed)
@@ -515,13 +520,6 @@ app.post('/api/auth/signin', async (req, res) => {  // ✅ Matches frontend requ
 
 
 
-
-app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: 'https://www.swarize.in/signin' }),
-  (req, res) => {
-    res.redirect('https://www.swarize.in'); // ✅ Redirect user to the homepage after login
-  }
-);
 
 
 

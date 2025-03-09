@@ -131,20 +131,28 @@ app.get('/debug-session', (req, res) => {
 const isAuthenticated = (req, res, next) => {
   console.log("🔹 Checking Authentication - Session Data:", req.session);
 
-  if (!req.session.userId && !req.session?.passport?.user) {
+  if (!req.session || (!req.session.userId && !req.session.passport?.user)) {
     return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
   }
 
-  req.session.userId = req.session.userId || req.session.passport.user;
-
-  req.session.save(err => {
+  req.session.regenerate((err) => {
     if (err) {
-      console.error("Error saving session:", err);
+      console.error("Error regenerating session:", err);
       return res.status(500).json({ success: false, message: "Session error" });
     }
-    next();
+
+    req.session.userId = req.session.userId || req.session.passport?.user;
+    
+    req.session.save((err) => {
+      if (err) {
+        console.error("Session save error:", err);
+        return res.status(500).json({ success: false, message: "Session save error" });
+      }
+      next();
+    });
   });
 };
+
 
 
 app.use(passport.initialize());
@@ -214,8 +222,7 @@ app.get("/api/debug-session", (req, res) => {
 // Sign-Up Route
 
 
-
-app.post('/api/signup', async (req, res) => {
+app.post('/api/auth/signup', async (req, res) => {  // ✅ Matches frontend request
   const { name, email, password, country } = req.body;
 
   try {
@@ -379,27 +386,6 @@ app.post('/reset-password', async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Google Strategy
 // Passport.js Google Strategy 
 // Google Strategy
@@ -478,7 +464,7 @@ app.get('/profile', (req, res) => {
 
 // Sign-In Route
 // Handle sign-in logic
-app.post('/signin', async (req, res) => {
+app.post('/api/auth/signin', async (req, res) => {  // ✅ Matches frontend request
   const { email, password } = req.body;
 
   try {
@@ -494,19 +480,34 @@ app.post('/signin', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
-      req.session.userId = user._id;  // ✅ Store userId in session
-      req.session.userName = user.name || "User";  // ✅ Store userName in session
-      await req.session.save();  // ✅ Ensure session is saved
+      // ✅ Regenerate the session before setting new user data
+      req.session.regenerate((err) => {
+        if (err) {
+            console.error("Session regeneration failed:", err);
+            return res.status(500).json({ success: false, message: "Session error" });
+        }
+
+        req.session.userId = user._id;
+        req.session.userName = user.name || "User";
+
+        req.session.save((err) => {
+            if (err) {
+                console.error("Session save error:", err);
+                return res.status(500).json({ success: false, message: "Session save error" });
+            }
 
       console.log("🔹 User Logged In - Session:", req.session);
 
-      res.json({
-          success: true,
-          message: 'Login successful!',
-          userId: user._id,
-          userName: user.name
+      console.log("🔹 User Logged In - Session:", req.session);
+              res.json({
+                  success: true,
+                  message: 'Login successful!',
+                  userId: user._id,
+                  userName: user.name
+              });
+          });
       });
-  } catch (error) {
+    } catch (error) {
       console.error('Sign-in error:', error);
       res.status(500).json({ success: false, message: 'Something went wrong. Please try again.' });
   }
@@ -548,8 +549,8 @@ app.get('/logout', (req, res) => {
       console.error('Logout Error:', err);
       return res.status(500).json({ success: false, message: 'Logout failed' });
     }
-    res.clearCookie('connect.sid'); // ✅ Clear session cookie
-    res.redirect('https://www.swarize.in/signin'); // ✅ Redirect to sign-in page
+    res.clearCookie('connect.sid', { path: '/' }); // ✅ Clears session cookie
+    res.redirect('https://www.swarize.in/signin'); // ✅ Redirects to sign-in page
   });
 });
 
@@ -560,12 +561,13 @@ app.get('/logout', (req, res) => {
 app.get('/is-logged-in', async (req, res) => {
   console.log("🔹 Checking Authentication - Session Data:", req.session);
 
-  if (!req.session.userId) {
+  if (!req.session.userId && !req.session.passport?.user) {
       return res.json({ isLoggedIn: false });
   }
 
   try {
-      const user = await User.findById(req.session.userId);
+      const userId = req.session.userId || req.session.passport.user;
+      const user = await User.findById(userId);
 
       if (!user) {
           return res.json({ isLoggedIn: false });
@@ -581,6 +583,7 @@ app.get('/is-logged-in', async (req, res) => {
       res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 
 

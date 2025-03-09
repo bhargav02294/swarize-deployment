@@ -20,7 +20,7 @@ document.getElementById('signinForm').addEventListener('submit', async (event) =
             localStorage.setItem("userName", data.userName || "User");
 
             // Redirect to home page
-            window.location.href = 'index.html'; 
+            window.location.href = 'https://www.swarize.in';
         } else {
             // Display error message
             const message = document.getElementById('message');

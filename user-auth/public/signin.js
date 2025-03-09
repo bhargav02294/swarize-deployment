@@ -5,7 +5,7 @@ document.getElementById('signinForm').addEventListener('submit', async (event) =
     const password = event.target.password.value.trim();
 
     try {
-        const response = await fetch('/signin', {
+        const response = await fetch('https://www.swarize.in/api/auth/signin', { // ✅ Correct API path
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),

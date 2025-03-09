@@ -19,13 +19,12 @@ app.use(cookieParser()); // ✅ Ensure cookie-parser is used
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const cors = require("cors");
 
 app.use(cors({
-  origin: ["https://www.swarize.in", "http://www.swarize.in"], // Allow both HTTPS and HTTP
+  origin: "*", // Allow requests from anywhere for now (test)
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const subscribers = []; // Temporary storage (use database in production)
@@ -94,8 +93,8 @@ app.use(session({
   }),
   cookie: {
     httpOnly: true,
-    secure: false,  // Set to `true` if using HTTPS
-    sameSite: "Lax",
+    secure: process.env.NODE_ENV === "production", // ✅ Use secure cookies in production
+    sameSite: "None", // ✅ Ensures cookies work across different domains
     maxAge: 24 * 60 * 60 * 1000 // 1 day
 }
 }));
@@ -105,6 +104,7 @@ app.use("/api/reviews", reviewRoutes);
 
 app.use('/cart', require('./routes/cart'));
 app.use("/api/bank", bankRoutes);
+app.use("/api/auth", require("./routes/authRoutes"));
 
 app.use(flash());
 app.use('/auth', authRoutes);
@@ -134,20 +134,28 @@ app.get('/debug-session', (req, res) => {
 const isAuthenticated = (req, res, next) => {
   console.log("🔹 Checking Authentication - Session Data:", req.session);
 
-  if (!req.session.userId && !req.session?.passport?.user) {
+  if (!req.session || (!req.session.userId && !req.session.passport?.user)) {
     return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
   }
 
-  req.session.userId = req.session.userId || req.session.passport.user;
+  req.session.userId = req.session.userId || req.session.passport?.user;
 
-  req.session.save(err => {
+  req.session.regenerate((err) => {
     if (err) {
-      console.error("Error saving session:", err);
+      console.error("Error regenerating session:", err);
       return res.status(500).json({ success: false, message: "Session error" });
     }
-    next();
+
+    req.session.save((err) => {
+      if (err) {
+        console.error("Session save error:", err);
+        return res.status(500).json({ success: false, message: "Session save error" });
+      }
+      next();
+    });
   });
 };
+
 
 
 app.use(passport.initialize());
@@ -197,14 +205,11 @@ app.get("/api/user/session", async (req, res) => {
 
 app.get("/api/debug-session", (req, res) => {
   console.log("🐛 Debugging Session Data:", req.session);
-  
-  if (!req.session) {
-      return res.status(500).json({ success: false, message: "Session not found!" });
-  }
 
   res.json({
-      success: true,
-      session: req.session
+    success: true,
+    sessionID: req.sessionID,
+    sessionData: req.session
   });
 });
 
@@ -409,7 +414,8 @@ app.post('/reset-password', async (req, res) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'https://www.swarize.in/auth/google/callback' // Adjust for localhost
+  callbackURL: 'https://www.swarize.in/auth/google/callback',
+  passReqToCallback: true
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     // Check if user already exists
@@ -461,7 +467,7 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   (req, res) => {
     console.log('Google Login Success:', req.user); // Debugging
-    res.redirect('/index.html'); // Redirect to index.html page after successful login
+    res.redirect('https://www.swarize.in'); // ✅ Redirect to correct frontend URL
   }
 );
 
@@ -492,11 +498,11 @@ app.post('/signin', async (req, res) => {
           return res.status(404).json({ success: false, message: 'User not found. Please sign up first.' });
       }
 
-      const isMatch = await user.comparePassword(password.trim());
+      const isMatch = await bcrypt.compare(password.trim(), user.password);
 
       if (!isMatch) {
-          return res.status(401).json({ success: false, message: 'Invalid email or password.' });
-      }
+        return res.status(400).json({ message: "Invalid credentials" });
+    }
 
       req.session.userId = user._id;  // ✅ Store userId in session
       req.session.userName = user.name || "User";  // ✅ Store userName in session
@@ -520,9 +526,9 @@ app.post('/signin', async (req, res) => {
 
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/signin' }),
+  passport.authenticate('google', { failureRedirect: 'https://www.swarize.in/signin' }),
   (req, res) => {
-    res.redirect('/index.html');
+    res.redirect('https://www.swarize.in'); // ✅ Correct redirect to hosted homepage
   }
 );
 
@@ -533,11 +539,11 @@ app.get('/forgot-password', (req, res) => {
 });
 
 // Profile Route (After Successful Login)
-app.get('/index.html', (req, res) => {
+app.get('/profile', (req, res) => {
   if (req.isAuthenticated()) {
-      res.send(`<h1>Hello, ${req.user.name}</h1><p>Email: ${req.user.email}</p>`);
+      res.redirect('https://www.swarize.in');
   } else {
-      res.redirect('/signin');
+      res.redirect('https://www.swarize.in/signin'); // ✅ Correct Redirect to hosted sign-in page
   }
 });
 
@@ -551,7 +557,7 @@ app.get('/logout', (req, res) => {
       }
       // Destroy session and redirect to sign-in page
       req.session.destroy(() => {
-          res.redirect('/index.html'); // Redirect to sign-in page
+        res.redirect('https://www.swarize.in'); // ✅ Correct redirect to homepage
       });
   });
 });

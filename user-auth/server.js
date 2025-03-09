@@ -19,10 +19,13 @@ app.use(cookieParser()); // ✅ Ensure cookie-parser is used
 const path = require('path');
 const bodyParser = require('body-parser');
 
+const cors = require("cors");
+
 app.use(cors({
-  origin: ["https://www.swarize.in"], // Allow local and deployed site
+  origin: ["https://www.swarize.in", "http://www.swarize.in"], // Allow both HTTPS and HTTP
   credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const subscribers = []; // Temporary storage (use database in production)

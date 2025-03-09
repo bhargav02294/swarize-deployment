@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Fetch products from the API
     async function fetchProducts(category) {
         try {
-            const response = await fetch(`http://www.swarize.in/api/products/category/${category}`);
+            const response = await fetch(`https://www.swarize.in/api/products/category/${category}`);
             const data = await response.json();
 
             if (data.success && data.products.length > 0) {
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         products.forEach(product => {
             const imagePath = product.thumbnailImage.startsWith("uploads/")
-                ? `http://www.swarize.in/${product.thumbnailImage}`
+                ? `https://www.swarize.in/${product.thumbnailImage}`
                 : product.thumbnailImage;
 
             const productItem = document.createElement("div");
@@ -89,7 +89,7 @@ function viewProduct(productId) {
 // ✅ Function to add product to cart
 async function addToCart(productId) {
     try {
-        const response = await fetch("http://www.swarize.in/cart/add", {
+        const response = await fetch("https://www.swarize.in/cart/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ productId }),
@@ -541,7 +541,7 @@ subcategoryLinks.forEach(link => {
         const subcategory = link.getAttribute('href').split('=')[1]; // Get subcategory from URL
 
         try {
-            const response = await fetch(`http://www.swarize.in/api/products?subcategory=${encodeURIComponent(subcategory)}`);
+            const response = await fetch(`https://www.swarize.in/api/products?subcategory=${encodeURIComponent(subcategory)}`);
             const data = await response.json();
 
             if (data.success) {

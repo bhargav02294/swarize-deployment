@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ✅ Fetch and display products for the selected subcategory
     function loadProducts() {
-        fetch(`http://www.swarize.in/api/products/category/Kids' Store/${selectedSubcategory}`)
+        fetch(`https://www.swarize.in/api/products/category/Kids' Store/${selectedSubcategory}`)
             .then(res => res.json())
             .then(data => {
                 productContainer.innerHTML = ""; // Clear previous products
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         // ✅ Ensure correct path for images
                         const imagePath = product.thumbnailImage.startsWith("uploads/")
-                            ? `http://www.swarize.in/${product.thumbnailImage}`
+                            ? `https://www.swarize.in/${product.thumbnailImage}`
                             : product.thumbnailImage;
 
                         productItem.innerHTML = `
@@ -66,7 +66,7 @@ function viewProduct(productId) {
 // ✅ Function to add product to cart
 async function addToCart(productId) {
     try {
-        const response = await fetch("http://www.swarize.in/cart/add", {
+        const response = await fetch("https://www.swarize.in/cart/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ productId }),

@@ -19,10 +19,14 @@ app.use(cookieParser()); // ✅ Ensure cookie-parser is used
 const path = require('path');
 const bodyParser = require('body-parser');
 
+const cors = require("cors");
 app.use(cors({
-  origin: ["https://www.swarize.in"], // Allow local and deployed site
+  origin: ["https://www.swarize.in"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const subscribers = []; // Temporary storage (use database in production)
@@ -85,17 +89,27 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI, 
+    mongoUrl: process.env.MONGO_URI,
     collectionName: 'sessions',
     autoRemove: 'native'
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // ✅ Enables secure cookies only in production
-    sameSite: "None", // ✅ Ensures cookies work across different domains
+    secure: process.env.NODE_ENV === "production", // ✅ Secure cookies only in production
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ Lax for development
     maxAge: 24 * 60 * 60 * 1000 // 1 day
-}
+  }
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+console.log("✅ Environment Variables:");
+console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
+console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID);
+console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET);
 
 app.use("/api/payment", require("./routes/payment"));
 app.use("/api/reviews", reviewRoutes);
@@ -112,13 +126,21 @@ app.set('view engine', 'ejs');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB connectedddd: ${conn.connection.host}`);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      tls: true, // ✅ Enable TLS for secure connection
+      tlsAllowInvalidCertificates: true // ✅ Allow self-signed certificates (if needed)
+    });
+
+    console.log("✅ MongoDB Connection Successful:", conn.connection.host);
   } catch (error) {
-    console.error(`MongoDB connection error: ${error.message}`);
-    process.exit(1); // Exit process with failure
+    console.error("❌ MongoDB Connection Error:", error);
+    setTimeout(connectDB, 5000); // ✅ Retry connection after 5 seconds
   }
 };
+
+
 
 connectDB();
 
@@ -156,8 +178,7 @@ const isAuthenticated = (req, res, next) => {
 
 
 
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 app.use((req, res, next) => {
   console.log("🔹 Middleware - Session Data:", req.session);
@@ -198,6 +219,9 @@ app.get("/api/user/session", async (req, res) => {
   res.json({ success: true, userId: req.session.userId });
 });
 
+console.log("🔹 Session Debug - Headers:", req.headers);
+console.log("🔹 Session Debug - Cookies:", req.cookies);
+console.log("🔹 Session Debug - Raw Session Data:", req.session);
 
 
 
@@ -1540,5 +1564,5 @@ app.post("/send-message", async (req, res) => {
 
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;  // Use Render-assigned port
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

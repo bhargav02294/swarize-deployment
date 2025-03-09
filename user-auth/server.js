@@ -132,26 +132,27 @@ const isAuthenticated = (req, res, next) => {
   console.log("🔹 Checking Authentication - Session Data:", req.session);
 
   if (!req.session || (!req.session.userId && !req.session.passport?.user)) {
-    return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
+      return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
   }
 
   req.session.regenerate((err) => {
-    if (err) {
-      console.error("Error regenerating session:", err);
-      return res.status(500).json({ success: false, message: "Session error" });
-    }
-
-    req.session.userId = req.session.userId || req.session.passport?.user;
-    
-    req.session.save((err) => {
       if (err) {
-        console.error("Session save error:", err);
-        return res.status(500).json({ success: false, message: "Session save error" });
+          console.error("Error regenerating session:", err);
+          return res.status(500).json({ success: false, message: "Session error" });
       }
-      next();
-    });
+
+      req.session.userId = req.session.userId || req.session.passport?.user;
+      
+      req.session.save((err) => {
+          if (err) {
+              console.error("Session save error:", err);
+              return res.status(500).json({ success: false, message: "Session save error" });
+          }
+          next();
+      });
   });
 };
+
 
 
 
@@ -439,12 +440,20 @@ app.get('/', (req, res) => {
 });
 
 // Google Login route
-aapp.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: 'https://www.swarize.in/signin' }),
   (req, res) => {
-    res.redirect('https://www.swarize.in'); // ✅ Redirect user to the homepage after login
+      const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+      res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "Strict"
+      });
+
+      res.redirect('https://www.swarize.in');
   }
 );
 

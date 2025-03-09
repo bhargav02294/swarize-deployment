@@ -19,10 +19,8 @@ app.use(cookieParser()); // ✅ Ensure cookie-parser is used
 const path = require('path');
 const bodyParser = require('body-parser');
 
-
 app.use(cors({
-  origin: "*", // Allow requests from anywhere for now (test)
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: ["https://www.swarize.in"], // Allow local and deployed site
   credentials: true
 }));
 app.use(express.json());
@@ -93,7 +91,7 @@ app.use(session({
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // ✅ Use secure cookies in production
+    secure: process.env.NODE_ENV === "production", // ✅ Enables secure cookies only in production
     sameSite: "None", // ✅ Ensures cookies work across different domains
     maxAge: 24 * 60 * 60 * 1000 // 1 day
 }
@@ -104,7 +102,6 @@ app.use("/api/reviews", reviewRoutes);
 
 app.use('/cart', require('./routes/cart'));
 app.use("/api/bank", bankRoutes);
-app.use("/api/auth", require("./routes/authRoutes"));
 
 app.use(flash());
 app.use('/auth', authRoutes);
@@ -134,28 +131,20 @@ app.get('/debug-session', (req, res) => {
 const isAuthenticated = (req, res, next) => {
   console.log("🔹 Checking Authentication - Session Data:", req.session);
 
-  if (!req.session || (!req.session.userId && !req.session.passport?.user)) {
+  if (!req.session.userId && !req.session?.passport?.user) {
     return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
   }
 
-  req.session.userId = req.session.userId || req.session.passport?.user;
+  req.session.userId = req.session.userId || req.session.passport.user;
 
-  req.session.regenerate((err) => {
+  req.session.save(err => {
     if (err) {
-      console.error("Error regenerating session:", err);
+      console.error("Error saving session:", err);
       return res.status(500).json({ success: false, message: "Session error" });
     }
-
-    req.session.save((err) => {
-      if (err) {
-        console.error("Session save error:", err);
-        return res.status(500).json({ success: false, message: "Session save error" });
-      }
-      next();
-    });
+    next();
   });
 };
-
 
 
 app.use(passport.initialize());
@@ -205,11 +194,14 @@ app.get("/api/user/session", async (req, res) => {
 
 app.get("/api/debug-session", (req, res) => {
   console.log("🐛 Debugging Session Data:", req.session);
+  
+  if (!req.session) {
+      return res.status(500).json({ success: false, message: "Session not found!" });
+  }
 
   res.json({
-    success: true,
-    sessionID: req.sessionID,
-    sessionData: req.session
+      success: true,
+      session: req.session
   });
 });
 
@@ -414,8 +406,7 @@ app.post('/reset-password', async (req, res) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'https://www.swarize.in/auth/google/callback',
-  passReqToCallback: true
+  callbackURL: 'https://www.swarize.in/auth/google/callback' // Adjust for localhost
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     // Check if user already exists
@@ -462,14 +453,13 @@ app.get('/', (req, res) => {
 // Google Login route
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Google Callback route
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', { failureRedirect: 'https://www.swarize.in/signin' }),
   (req, res) => {
-    console.log('Google Login Success:', req.user); // Debugging
-    res.redirect('https://www.swarize.in'); // ✅ Redirect to correct frontend URL
+    res.redirect('https://www.swarize.in'); // ✅ Redirect user to the homepage after login
   }
 );
+
 
 // Profile route (optional, you can remove this if not needed)
 app.get('/profile', (req, res) => {
@@ -498,10 +488,10 @@ app.post('/signin', async (req, res) => {
           return res.status(404).json({ success: false, message: 'User not found. Please sign up first.' });
       }
 
-      const isMatch = await bcrypt.compare(password.trim(), user.password);
+      const isMatch = await bcrypt.compare(password.trim(), user.password); // ✅ Correct password check
 
       if (!isMatch) {
-        return res.status(400).json({ message: "Invalid credentials" });
+        return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
       req.session.userId = user._id;  // ✅ Store userId in session
@@ -528,9 +518,10 @@ app.post('/signin', async (req, res) => {
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: 'https://www.swarize.in/signin' }),
   (req, res) => {
-    res.redirect('https://www.swarize.in'); // ✅ Correct redirect to hosted homepage
+    res.redirect('https://www.swarize.in'); // ✅ Redirect user to the homepage after login
   }
 );
+
 
 
 // Forgot Password Route
@@ -540,27 +531,28 @@ app.get('/forgot-password', (req, res) => {
 
 // Profile Route (After Successful Login)
 app.get('/profile', (req, res) => {
-  if (req.isAuthenticated()) {
-      res.redirect('https://www.swarize.in');
+  if (req.session.userId) {
+    res.redirect('https://www.swarize.in/profile'); // ✅ Redirect user to profile page
   } else {
-      res.redirect('https://www.swarize.in/signin'); // ✅ Correct Redirect to hosted sign-in page
+    res.redirect('https://www.swarize.in/signin'); // ✅ Redirect unauthenticated users to Sign In page
   }
 });
+
+
 
 // Logout Route
 // Logout Route
 app.get('/logout', (req, res) => {
-  req.logout((err) => {
-      if (err) {
-          console.error('Logout Error:', err);
-          return res.status(500).send('Failed to log out.');
-      }
-      // Destroy session and redirect to sign-in page
-      req.session.destroy(() => {
-        res.redirect('https://www.swarize.in'); // ✅ Correct redirect to homepage
-      });
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Logout Error:', err);
+      return res.status(500).json({ success: false, message: 'Logout failed' });
+    }
+    res.clearCookie('connect.sid'); // ✅ Clear session cookie
+    res.redirect('https://www.swarize.in/signin'); // ✅ Redirect to sign-in page
   });
 });
+
 
 
 

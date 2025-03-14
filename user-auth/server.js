@@ -62,6 +62,18 @@ app.use(cors({
   credentials: true
 }));
 
+// ✅ Connect to MongoDB
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB Connected:", conn.connection.host);
+  } catch (error) {
+    console.error("❌ MongoDB Connection Error:", error);
+    process.exit(1);
+  }
+};
+connectDB();
+
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -81,26 +93,20 @@ app.use(session({
   }
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
+// ✅ Debug API
+app.get("/api/debug-logs", (req, res) => {
+  console.log("📢 Debugging API hit!");
+  res.json({ message: "Debugging logs working!" });
+});
 
 app.use((req, res, next) => {
   console.log("🔹 Middleware - Session Data:", req.session);
   next();
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ MongoDB Connected:", conn.connection.host);
-  } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error);
-    process.exit(1);
-  }
-};
-connectDB();
 
 
 
@@ -210,6 +216,7 @@ app.get("/api/user/session", async (req, res) => {
 
 
 // ✅ Sign-Up Route (Matches Updated `signup.js`)
+// ✅ Sign-Up Route
 app.post("/api/auth/signup", async (req, res) => {
   const { name, email, password, country } = req.body;
 
@@ -233,7 +240,7 @@ app.post("/api/auth/signup", async (req, res) => {
       });
 
       await newUser.save();
-      
+
       // ✅ Fix: Set session after signup
       req.session.userId = newUser._id;
       req.session.userName = newUser.name;
@@ -468,7 +475,6 @@ app.post("/api/auth/signin", async (req, res) => {
           return res.status(401).json({ success: false, message: "Invalid email or password." });
       }
 
-      // ✅ Fix: Regenerate session properly
       req.session.regenerate((err) => {
           if (err) return res.status(500).json({ success: false, message: "Session error" });
 
@@ -541,7 +547,7 @@ app.get('/profile', (req, res) => {
 
 
 // ✅ Logout Route
-app.get("/logout", (req, res) => {
+app.get("/api/auth/logout", (req, res) => {
   req.session.destroy(err => {
       if (err) return res.status(500).json({ success: false, message: "Logout failed" });
 
@@ -1499,5 +1505,5 @@ app.post("/send-message", async (req, res) => {
 
 
 
-const PORT = process.env.PORT || 3000;  // Use Render-assigned port
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

@@ -9,7 +9,6 @@ require('dotenv').config();  // Load environment variables from .env file
 
 
 const passport = require('passport');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 
@@ -22,7 +21,7 @@ const jwt = require("jsonwebtoken");
 
 const cors = require("cors");
 app.use(cors({
-  origin: ["https://www.swarize.in"],
+  origin: ["https://swarize.in"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
@@ -32,7 +31,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const subscribers = []; // Temporary storage (use database in production)
 
-const { isAuthenticated } = require("./middleware/auth");
 
 const User = require('./models/user');
 const Store = require('./models/store');
@@ -103,10 +101,10 @@ app.use(session({
       maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
-
-
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 console.log("✅ Environment Variables:");
 console.log("MONGO_URI:", process.env.MONGO_URI);
 console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
@@ -131,8 +129,8 @@ app.set('view engine', 'ejs');
 const connectDB = async () => {
   try {
       const conn = await mongoose.connect(process.env.MONGO_URI, {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
           tls: true,
           tlsAllowInvalidCertificates: true
       });
@@ -215,13 +213,13 @@ app.get("/api/user/session", async (req, res) => {
   if (!req.session.userId) {
       return res.status(401).json({ success: false, message: "User not logged in." });
   }
+  console.log("🔹 Session Debug - Headers:", req.headers);
+  console.log("🔹 Session Debug - Cookies:", req.cookies);
+  console.log("🔹 Session Debug - Raw Session Data:", req.session);
 
   res.json({ success: true, userId: req.session.userId });
 });
 
-console.log("🔹 Session Debug - Headers:", req.headers);
-console.log("🔹 Session Debug - Cookies:", req.cookies);
-console.log("🔹 Session Debug - Raw Session Data:", req.session);
 
 
 
@@ -295,7 +293,7 @@ transporter.verify((error, success) => {
   if (error) {
       console.error("❌ Email Transporter Error:", error);
   } else {
-      console.log("✅ Email Transporter Ready!");
+      console.log(" Email Transporter Ready!");
   }
 });
 let otpStorage = {}; // ✅ Temporary storage for OTPs
@@ -303,7 +301,7 @@ let otpStorage = {}; // ✅ Temporary storage for OTPs
 
 // ✅ API to Send OTP
 app.post('/api/send-otp', async (req, res) => {
-  console.log("📩 OTP Request Received:", req.body);
+  console.log(" OTP Request Received:", req.body);
 
   const { email } = req.body;
   if (!email) {
@@ -324,7 +322,7 @@ app.post('/api/send-otp', async (req, res) => {
           text: `Your OTP code is ${otp}.`
       });
 
-      console.log("✅ OTP Email Sent Successfully:", info.response);
+      console.log(" OTP Email Sent Successfully:", info.response);
       res.send({ success: true, message: 'OTP sent to your email.' });
   } catch (error) {
       console.error("❌ OTP Email Error:", error);
@@ -411,11 +409,10 @@ app.post('/reset-password', async (req, res) => {
 
 
 // ✅ Google OAuth Strategy
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://www.swarize.in/auth/google/callback",
+    callbackURL: "https://swarize.in/auth/google/callback",
     passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
     try {
@@ -452,8 +449,9 @@ passport.deserializeUser(async (id, done) => {
 
 // ✅ Google OAuth Routes
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
 app.get("/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "https://www.swarize.in/signin" }),
+    passport.authenticate("google", { failureRedirect: "https://swarize.in/signin" }),
     (req, res) => {
         const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -463,9 +461,10 @@ app.get("/auth/google/callback",
             sameSite: "Strict"
         });
 
-        res.redirect("https://www.swarize.in");
+        res.redirect("https://swarize.in");
     }
 );
+
 
 // ✅ Sign-In Route (Matches Updated `signin.js`)
 app.post("/api/auth/signin", async (req, res) => {
@@ -510,9 +509,9 @@ app.get('/forgot-password', (req, res) => {
 // Profile Route (After Successful Login)
 app.get('/profile', (req, res) => {
   if (req.session.userId) {
-    res.redirect('https://www.swarize.in/profile'); // ✅ Redirect user to profile page
+    res.redirect('https://swarize.in/profile'); // ✅ Redirect user to profile page
   } else {
-    res.redirect('https://www.swarize.in/signin'); // ✅ Redirect unauthenticated users to Sign In page
+    res.redirect('https://swarize.in/signin'); // ✅ Redirect unauthenticated users to Sign In page
   }
 });
 
@@ -524,7 +523,7 @@ app.get("/logout", (req, res) => {
       if (err) return res.status(500).json({ success: false, message: "Logout failed" });
 
       res.clearCookie("connect.sid");
-      res.redirect("https://www.swarize.in/signin");
+      res.redirect("https://swarize.in/signin");
   });
 });
 
@@ -786,7 +785,7 @@ app.get('/api/products', async (req, res) => {
           return res.json({ success: true, message: "No products found.", products: [] });
       }
 
-      console.log("✅ Returning products for user:", userId, products);
+      console.log(" Returning products for user:", userId, products);
       res.status(200).json({ success: true, products });
 
   } catch (error) {
@@ -1149,13 +1148,13 @@ app.get("/api/bank/check", isAuthenticated, async (req, res) => {
 
 
 app.post("/api/payment/create-order", async (req, res) => {
-  console.log("✅ Payment route is loaded."); // This must appear in terminal
+  console.log(" Payment route is loaded."); // This must appear in terminal
 
   try {
       let { amount } = req.body;
 
       if (!amount || amount < 1) {
-          console.error("❌ Invalid amount:", amount);
+          console.error(" Invalid amount:", amount);
           return res.status(400).json({ success: false, message: "Minimum order amount must be at least ₹1" });
       }
 
@@ -1167,7 +1166,7 @@ app.post("/api/payment/create-order", async (req, res) => {
           payment_capture: 1 
       });
 
-      console.log("✅ Razorpay Order Created:", order);
+      console.log(" Razorpay Order Created:", order);
       res.json({ success: true, orderId: order.id, amount: order.amount });
 
   } catch (error) {
@@ -1294,7 +1293,7 @@ app.post("/api/orders/create", async (req, res) => {
       console.log("🛒 Sale Data Being Saved:", newSale);
       await newSale.save();
 
-      console.log("✅ Order & Sale Recorded Successfully!");
+      console.log(" Order & Sale Recorded Successfully!");
 
        // ✅ Check and Mark Promo Code as Used if Applied
       if (promoCode) { 
@@ -1305,7 +1304,7 @@ app.post("/api/orders/create", async (req, res) => {
         );
 
         if (expiredPromo) {
-            console.log("✅ Promo Code Expired:", expiredPromo.code);
+            console.log(" Promo Code Expired:", expiredPromo.code);
         } else {
             console.warn("⚠️ Promo Code was already used or not found.");
         }
@@ -1332,9 +1331,9 @@ app.post("/api/orders/create", async (req, res) => {
         const message = `Hello ${buyer.name}, your promo code is: ${newPromoCode}. Use it for a 5% discount on your next purchase!`;
 
         await sendEmail(buyer.email, subject, message);
-        console.log("✅ Promo Code Sent Successfully to:", buyer.email);
+        console.log(" Promo Code Sent Successfully to:", buyer.email);
     } else {
-        console.log("✅ Existing promo code found:", existingPromo.code);
+        console.log("Existing promo code found:", existingPromo.code);
     }
 
     res.json({ success: true, message: "✅ Order & Promo Code Sent Successfully!" });

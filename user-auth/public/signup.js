@@ -31,7 +31,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
 
     try {
         // Send form data to the server
-        const response = await fetch("https://www.swarize.in/api/auth/signup", { // ✅ Correct API path
+        const response = await fetch("https://swarize.in/api/auth/signup", { // ✅ Correct API path
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // ✅ Ensures cookies/sessions work
@@ -45,7 +45,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
             alert(data.message || "Signup successful!"); // ✅ Success message
             localStorage.setItem("signupEmail", email);
 
-            window.location.href = "https://www.swarize.in/otp.html"; // ✅ Absolute path to OTP page
+            window.location.href = "https://swarize.in/otp.html"; // ✅ Absolute path to OTP page
         } else {
             alert(data.message || "Error registering user.");
         }
@@ -69,5 +69,5 @@ fetch("https://ipapi.co/json/")
 
 // ✅ Google OAuth Signup Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://www.swarize.in/auth/google"; // ✅ Redirects to backend for Google OAuth
+    window.location.href = "https://swarize.in/auth/google"; // ✅ Redirects to backend for Google OAuth
 });

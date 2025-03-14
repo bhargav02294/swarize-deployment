@@ -9,7 +9,7 @@ const razorpay = new Razorpay({
 
 // ✅ Create Order Route
 router.post("/create-order", async (req, res) => {
-  console.log("✅ Payment route is loaded.");
+  console.log("Payment route is loaded.");
 
   try {
       let { amount } = req.body;

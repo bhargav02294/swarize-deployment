@@ -106,14 +106,14 @@ router.get('/products', async (req, res) => {
         const products = await Product.find({ ownerId: userId });
 
         if (products.length === 0) {
-            console.log("❌ No products found for user:", userId);
+            console.log(" No products found for user:", userId);
         } else {
-            console.log("✅ Returning products for user:", userId, products);
+            console.log(" Returning products for user:", userId, products);
         }
 
         res.status(200).json({ success: true, products });
     } catch (error) {
-        console.error("❌ Error fetching products:", error);
+        console.error(" Error fetching products:", error);
         res.status(500).json({ success: false, message: "Error fetching products" });
     }
 });
@@ -138,7 +138,7 @@ router.get('/category/:category/:subcategory?', async (req, res) => {
 
         res.status(200).json({ success: true, products });
     } catch (error) {
-        console.error("❌ Error fetching products:", error);
+        console.error(" Error fetching products:", error);
         res.status(500).json({ success: false, message: "Error fetching products", error: error.message });
     }
 });
@@ -161,10 +161,10 @@ router.post('/login', async (req, res) => {
     req.session.userId = user._id.toString();
     req.session.save((err) => {
         if (err) {
-            console.error('❌ Error saving session:', err);
+            console.error(' Error saving session:', err);
             return res.status(500).json({ success: false, message: 'Session error' });
         }
-        console.log('✅ User ID stored in session:', req.session.userId);
+        console.log(' User ID stored in session:', req.session.userId);
         res.json({ success: true, message: 'Login successful' });
     });
 });

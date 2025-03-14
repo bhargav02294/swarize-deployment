@@ -423,6 +423,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
+
+// Handle login and signup form visibility
 // Handle login and signup form visibility
 document.addEventListener('DOMContentLoaded', function() {
     const loginBtn = document.getElementById('login-btn');
@@ -430,94 +435,132 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
 
-    loginBtn.addEventListener('click', function() {
-        loginForm.style.display = 'block';
-        signupForm.style.display = 'none';
-    });
-
-    signupBtn.addEventListener('click', function() {
-        signupForm.style.display = 'block';
-        loginForm.style.display = 'none';
-    });
-
-
-
-    // Handle login form submission
-    loginForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-
-        try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
-            const result = await response.json();
-            alert(result.message);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
-
-    // Handle signup form submission
-    signupForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        // Clear previous errors
-        document.getElementById('name-error').textContent = '';
-        document.getElementById('email-error').textContent = '';
-        document.getElementById('password-error').textContent = '';
-
-        // Get form values
-        const name = document.getElementById('signup-name').value.trim();
-        const email = document.getElementById('signup-email').value.trim();
-        const password = document.getElementById('signup-password').value;
-
-        let valid = true;
-
-        
-    });
-});
-
-
-
-const form = document.getElementById('signinForm');
-const messageContainer = document.getElementById('message');
-
-
-document.getElementById('signinForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent default form submission
-
-    const email = event.target.email.value.trim();
-    const password = event.target.password.value.trim();
-
-    try {
-        const response = await fetch('/signin', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
+    if (loginBtn && signupBtn && loginForm && signupForm) {
+        loginBtn.addEventListener('click', function() {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
         });
 
-        const data = await response.json();
+        signupBtn.addEventListener('click', function() {
+            signupForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        });
+    } else {
+        console.warn("⚠️ Login or Signup elements not found in the DOM!");
+    }
 
-        if (response.ok && data.success) {
-            // Redirect to index.html after successful login
-            window.location.href = 'index.html'; 
-        } else {
-            // Display error message
-            const message = document.getElementById('message');
-            message.textContent = data.message || 'Failed to sign in. Please try again.';
-            message.style.color = 'red';
-        }
-    } catch (error) {
-        console.error('Error during sign-in:', error);
-        const message = document.getElementById('message');
-        message.textContent = 'Something went wrong. Please try again.';
-        message.style.color = 'red';
+    // Handle login form submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            if (!email || !password) {
+                alert('⚠️ Email and password fields cannot be empty!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/signin', { // Updated endpoint
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert('✅ Login successful!');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(result.message || '❌ Invalid credentials!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Something went wrong. Please try again.');
+            }
+        });
+    } else {
+        console.warn("⚠️ Login form not found in the DOM!");
+    }
+
+    // Handle signup form submission
+    if (signupForm) {
+        signupForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Get form values
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+
+            if (!name || !email || !password) {
+                alert('⚠️ All fields are required!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/signup', { // Updated endpoint
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert('✅ Signup successful! You can now log in.');
+                    loginForm.style.display = 'block';
+                    signupForm.style.display = 'none';
+                } else {
+                    alert(result.message || '❌ Signup failed. Try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Something went wrong. Please try again.');
+            }
+        });
+    } else {
+        console.warn("⚠️ Signup form not found in the DOM!");
+    }
+
+    // Handle sign-in form (prevents duplicate event listeners)
+    const signinForm = document.getElementById('signinForm');
+    if (signinForm) {
+        signinForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = event.target.email.value.trim();
+            const password = event.target.password.value.trim();
+
+            if (!email || !password) {
+                alert('⚠️ Please enter both email and password!');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/signin', { // Updated endpoint
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ Sign-in successful!');
+                    window.location.href = 'index.html';
+                } else {
+                    document.getElementById('message').textContent = data.message || '❌ Failed to sign in.';
+                    document.getElementById('message').style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error during sign-in:', error);
+                document.getElementById('message').textContent = '❌ Something went wrong. Please try again.';
+                document.getElementById('message').style.color = 'red';
+            }
+        });
+    } else {
+        console.warn("⚠️ Sign-in form not found in the DOM!");
     }
 });
 

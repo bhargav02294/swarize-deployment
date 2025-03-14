@@ -70,16 +70,17 @@ app.use(session({
   store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
       collectionName: 'sessions',
+      ttl: 24 * 60 * 60, // Expire sessions in 24 hours
       autoRemove: 'native'
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production" ? true : false, 
+    secure: process.env.NODE_ENV === "production", 
     sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000
-}
-
+  }
 }));
+
 app.use((req, res, next) => {
   console.log("🔹 Middleware - Session Data:", req.session);
   next();
@@ -192,7 +193,7 @@ app.get("/api/user/session", async (req, res) => {
 
 app.get("/api/debug-session", (req, res) => {
   console.log("🐛 Debugging Session Data:", req.session);
-  
+
   if (!req.session) {
       return res.status(500).json({ success: false, message: "Session not found!" });
   }
@@ -203,6 +204,7 @@ app.get("/api/debug-session", (req, res) => {
       sessionData: req.session
   });
 });
+
 
 
 console.log("✅ Environment Variables:");
@@ -253,8 +255,8 @@ app.post("/api/auth/signup", async (req, res) => {
       });
 
       await newUser.save();
-      res.status(201).json({ message: "User created successfully!" });
-  } catch (error) {
+      res.status(201).json({ success: true, message: "User created successfully!", userId: newUser._id });
+    } catch (error) {
       console.error("❌ Error during sign-up:", error);
       res.status(500).json({ message: "Something went wrong. Please try again." });
   }
@@ -491,8 +493,14 @@ app.post("/api/auth/signin", async (req, res) => {
                   sameSite: "Strict"
               });
 
-              res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name });
-          });
+              res.cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "None",
+                maxAge: 24 * 60 * 60 * 1000  // 1-day expiration
+              });
+              
+                        });
       });
   } catch (error) {
       res.status(500).json({ success: false, message: "Something went wrong. Please try again." });

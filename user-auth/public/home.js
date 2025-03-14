@@ -3,10 +3,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const signInMessage = document.getElementById('sign-in-message');
     const gridContainer = document.getElementById('grid-container');
     const buttonContainer = document.getElementById('button-container');
+    const signInBtn = document.getElementById('sign-in-btn');
 
     try {
         // ✅ Ensure session cookies are included in the request
-        const response = await fetch('https://swarize.in/is-logged-in', { credentials: 'include' });
+        const response = await fetch('/api/auth/session', { credentials: 'include' });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
 
         if (data.isLoggedIn) {
@@ -24,8 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="logo-container">
                     <span class="logo-text">S</span> <!-- Letter "S" in the circle -->
                 </div>
-                </div>
-
                 <ul class="menu">
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
@@ -51,31 +55,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             signInMessage.style.display = 'flex';
 
             // Redirect to sign-in page when button is clicked
-            document.getElementById('sign-in-btn').onclick = () => {
-                window.location.href = 'https://swarize.in/signin';
-            };
+            if (signInBtn) {
+                signInBtn.onclick = () => {
+                    window.location.href = 'https://swarize.in/signin';
+                };
+            }
         }
     } catch (error) {
-        console.error('Error fetching login status:', error);
+        console.error('❌ Error fetching login status:', error);
         signInMessage.innerHTML += `<p style="color: red;">Failed to load content. Please try again later.</p>`;
     }
 });
 
+// ✅ Safe Event Listener Binding
+function addEventListenerIfExists(selector, event, handler) {
+    const element = document.querySelector(selector);
+    if (element) element.addEventListener(event, handler);
+}
 
-// Button event listeners
-document.getElementById('collections-btn').addEventListener('click', () => {
-    window.location.href = 'collections.html';
+// ✅ Button event listeners
+addEventListenerIfExists('#collections-btn', 'click', () => {
+    window.location.href = 'https://swarize.in/collections.html';
 });
 
-document.getElementById('store-btn').addEventListener('click', () => {
-    window.location.href = 'store.html';
+addEventListenerIfExists('#store-btn', 'click', () => {
+    window.location.href = 'https://swarize.in/store.html';
 });
 
-document.getElementById('profile-btn').addEventListener('click', () => {
-    window.location.href = 'user-profile.html';
+addEventListenerIfExists('#profile-btn', 'click', () => {
+    window.location.href = 'https://swarize.in/user-profile.html';
 });
 
-// Add event listener for the Seller Dashboard button
-document.getElementById('seller-dashboard-btn').addEventListener('click', () => {
-    window.location.href = 'dashboard.html'; // Redirect to the Seller Dashboard page
+addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
+    window.location.href = 'https://swarize.in/dashboard.html';
 });

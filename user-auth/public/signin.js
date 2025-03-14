@@ -5,7 +5,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
     const password = event.target.password.value.trim();
 
     try {
-        const response = await fetch("https://swarize.in/auth/signin", { 
+        const response = await fetch("https://swarize.in/api/auth/signin", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // ✅ Ensures cookies/sessions work

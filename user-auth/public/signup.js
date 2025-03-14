@@ -31,7 +31,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
 
     try {
         // Send form data to the server
-        const response = await fetch("https://swarize.in/auth/signup", { // ✅ Correct API path
+        const response = await fetch("https://swarize.in/api/auth/signup", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // ✅ Ensures cookies/sessions work

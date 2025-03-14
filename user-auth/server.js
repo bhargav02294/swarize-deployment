@@ -2,35 +2,29 @@
 const bcrypt = require('bcryptjs');
 const MongoStore = require('connect-mongo');
 const express = require('express');
-
 const nodemailer = require('nodemailer');
-
 require('dotenv').config();  // Load environment variables from .env file
-
-
 const passport = require('passport');
 const mongoose = require('mongoose');
+const cookieParser = require("cookie-parser"); 
+const path = require('path');
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
+const flash = require('connect-flash');
+const { check, validationResult } = require('express-validator'); // For validation
+const session = require('express-session');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+const axios = require('axios');
+const fs = require('fs');
 const app = express();
 
-const cookieParser = require("cookie-parser"); 
-app.use(cookieParser()); // ✅ Ensure cookie-parser is used
 
-const path = require('path');
-const bodyParser = require('body-parser');
-const jwt = require("jsonwebtoken");
-
-const cors = require("cors");
-app.use(cors({
-  origin: ["https://swarize.in"], // ✅ Ensuring correct domain
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
+app.set('view engine', 'ejs');
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-const subscribers = []; // Temporary storage (use database in production)
+
 
 
 const User = require('./models/user');
@@ -41,50 +35,33 @@ const BankDetail = require("./models/BankDetail");
 const Order = require("./models/order");
 const Sale = require("./models/sale");
 const PromoCode = require("./models/promoCode");
-const Review = require("./models/review"); // Import the Review model
-const sendEmail = require("./utils/sendEmail"); // Utility function for sending emails
+const Review = require("./models/review"); 
 
-const fs = require('fs');
-const router = express.Router();
-const authRoutes = require('./routes/authRoutes');
-const productRoutes = require('./routes/product'); // Import your product routes
-const cartRoutes = require('./routes/cart'); // Import your product routes
-const bankRoutes = require("./routes/bank");
-const reviewRoutes = require("./routes/review");
-
-const flash = require('connect-flash');
-const { check, validationResult } = require('express-validator'); // For validation
-
-const session = require('express-session');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const LocalStrategy = require('passport-local').Strategy;
-
-const Razorpay = require("razorpay");
-
-const EMAIL_OTP = {}; // To store email OTP temporarily
-const PHONE_OTP = {}; // To store phone OTP temporarily
+const sendEmail = require("./utils/sendEmail"); 
 
 
-const axios = require('axios');
 
-// Enable CORS for all routes
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-
-// Serve static files like index.html from the 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-const EMAIL_USER = process.env.EMAIL_USER;
-const EMAIL_PASS = process.env.EMAIL_PASS;
-const SESSION_SECRET = process.env.SESSION_SECRET;
-const MONGO_URI = process.env.MONGO_URI;
-
-
-
+const Razorpay = require("razorpay");
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET
 });
+
+
+
+app.use(cors({
+  origin: ["https://swarize.in"], // ✅ Ensuring correct domain
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -96,60 +73,58 @@ app.use(session({
       autoRemove: 'native'
   }),
   cookie: {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // ✅ Secure in production
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000 // 1 day
-  }
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production" ? true : false, 
+    sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000
+}
+
 }));
+app.use((req, res, next) => {
+  console.log("🔹 Middleware - Session Data:", req.session);
+  next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-console.log("✅ Environment Variables:");
-console.log("MONGO_URI:", process.env.MONGO_URI);
-console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
-console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID);
-console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET);
-
-app.use("/api/payment", require("./routes/payment"));
-app.use("/api/reviews", reviewRoutes);
-
-app.use('/cart', require('./routes/cart'));
-app.use("/api/bank", bankRoutes);
-
-app.use(flash());
-app.use('/auth', authRoutes);
-app.use("/api/products", require("./routes/product"));
-// Set view engine to EJS
-app.set('view engine', 'ejs');
-// Display the sign-in page
-
 const connectDB = async () => {
   try {
-      const conn = await mongoose.connect(process.env.MONGO_URI);
-      console.log("✅ MongoDB Connected:", conn.connection.host);
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB Connected:", conn.connection.host);
   } catch (error) {
-      console.error("❌ MongoDB Connection Error:", error);
-      process.exit(1);
+    console.error("❌ MongoDB Connection Error:", error);
+    process.exit(1);
   }
 };
 connectDB();
 
 
-app.get('/debug-session', (req, res) => {
-  res.json({ session: req.session });
-});
+
+// ✅ Import Routes
+const authRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/product');
+const cartRoutes = require('./routes/cart');
+const bankRoutes = require("./routes/bank");
+const reviewRoutes = require("./routes/review");
+const paymentRoutes = require("./routes/payment");
+
+// ✅ Use Routes
+app.use("/api/auth", authRoutes);  
+app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);  
+app.use("/api/bank", bankRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/payment", paymentRoutes);
 
 
-// Middleware to check if user is authenticated
+
+
 const isAuthenticated = (req, res, next) => {
   console.log("🔍 Checking authentication...");
   console.log("🔹 Session Data:", req.session);
   console.log("🔹 Cookies:", req.cookies);
+  console.log("🔹 Session User ID:", req.session.userId);
 
   if (req.session && req.session.userId) {
       req.user = { id: req.session.userId };
@@ -178,29 +153,16 @@ const isAuthenticated = (req, res, next) => {
 };
 
 
-
-
-
-
-
-app.use((req, res, next) => {
-  console.log("🔹 Middleware - Session Data:", req.session);
-  next();
+app.get('/debug-session', (req, res) => {
+  res.json({ session: req.session });
 });
 
 
-app.get('/store', isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'store.html'));
-});
-
-// Sign-in route
-app.get('/signin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'signin.html'));
-});
-// Root route (serves index.html)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+
 
 function validateIndianUser(req, res, next) {
   if (req.user && req.user.country.toLowerCase() === 'india') {
@@ -209,9 +171,9 @@ function validateIndianUser(req, res, next) {
   return res.status(403).json({ message: 'Access restricted to users in India.' });
 }
 
-// Apply middleware to seller and admin routes
 app.use('/api/seller', validateIndianUser);
 app.use('/api/admin', validateIndianUser);
+
 
 // ✅ Fetch user session (Returns user ID)
 app.get("/api/user/session", async (req, res) => {
@@ -224,7 +186,6 @@ app.get("/api/user/session", async (req, res) => {
 
   res.json({ success: true, userId: req.session.userId });
 });
-app.use("/api/auth", authRoutes); // Ensure this is registered correctly
 
 
 
@@ -242,6 +203,21 @@ app.get("/api/debug-session", (req, res) => {
       sessionData: req.session
   });
 });
+
+
+console.log("✅ Environment Variables:");
+console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
+console.log("RAZORPAY_KEY_ID:", process.env.RAZORPAY_KEY_ID);
+console.log("RAZORPAY_KEY_SECRET:", process.env.RAZORPAY_KEY_SECRET);
+
+
+
+
+
+
 
 
 

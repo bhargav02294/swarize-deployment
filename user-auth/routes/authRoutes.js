@@ -83,19 +83,15 @@ router.post("/signin", async (req, res) => {
 
 // ✅ Google OAuth Authentication
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-// ✅ Google OAuth Callback
-router.get(
-    "/google/callback",
-    passport.authenticate("google", { failureRedirect: "/signin" }),
+router.get("/google/callback", 
+    passport.authenticate("google", { failureRedirect: "/signin" }), 
     (req, res) => {
-        console.log("✅ Google OAuth Success:", req.user);
         req.session.userId = req.user.id;
-        req.session.save(() => {
-            res.redirect("https://swarize.in/profile");
-        });
+        req.session.save();
+        res.redirect("/profile");
     }
 );
+
 
 // ✅ Logout Route
 router.post("/logout", (req, res) => {

@@ -26,7 +26,8 @@ const isAuthenticated = (req, res, next) => {
             // ✅ Ensure `userId` is set in session if not already
             if (!req.session.userId) {
                 req.session.userId = verified.id;
-                console.log("✅ Session userId set:", req.session.userId);
+                req.session.save();
+                                console.log("✅ Session userId set:", req.session.userId);
             }
             return next();
         } catch (err) {

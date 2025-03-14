@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // ✅ Ensure session cookies are included in the request
-        const response = await fetch('/is-logged-in', { credentials: 'include' });
+        const response = await fetch('https://swarize.in/is-logged-in', { credentials: 'include' });
         const data = await response.json();
 
         if (data.isLoggedIn) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Redirect to sign-in page when button is clicked
             document.getElementById('sign-in-btn').onclick = () => {
-                window.location.href = '/signin';
+                window.location.href = 'https://swarize.in/signin';
             };
         }
     } catch (error) {

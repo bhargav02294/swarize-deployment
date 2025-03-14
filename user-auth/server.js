@@ -506,6 +506,18 @@ app.post("/api/auth/signin", async (req, res) => {
 });
 
 
+app.get("/is-logged-in", (req, res) => {
+  console.log("🔍 Checking if user is logged in...");
+  console.log("🔹 Session Data:", req.session);
+  console.log("🔹 Cookies:", req.cookies);
+
+  if (req.session && req.session.userId) {
+      return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
+  }
+
+  // If user is not logged in, return false
+  return res.json({ isLoggedIn: false });
+});
 
 
 

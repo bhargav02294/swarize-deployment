@@ -116,6 +116,18 @@ async function addToCart(productId) {
 
 
 
+document.addEventListener("DOMContentLoaded", async () => {
+    const signinForm = document.getElementById("signinForm");
+    const signupForm = document.getElementById("signup-form");
+
+    if (!signinForm) {
+        console.warn("⚠️ Sign-in form not found, skipping sign-in script.");
+    }
+
+    if (!signupForm) {
+        console.warn("⚠️ Sign-up form not found, skipping sign-up script.");
+    }
+});
 
 
 

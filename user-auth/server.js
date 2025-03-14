@@ -74,7 +74,6 @@ const connectDB = async () => {
 };
 connectDB();
 
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -88,10 +87,11 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", 
-    sameSite: "None",
+    sameSite: "Lax",  // ✅ Allow cross-site requests
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -253,6 +253,7 @@ app.post("/api/auth/signup", async (req, res) => {
       res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
   }
 });
+
 
 
 
@@ -1134,6 +1135,16 @@ router.get('/category/:category', async (req, res) => {
   }
 });
 
+app.get('/api/products/category/:category', async (req, res) => {
+  const category = req.params.category;
+  const products = await Product.find({ category });
+  
+  if (!products || products.length === 0) {
+      return res.status(404).json({ success: false, message: "Category Not Found" });
+  }
+
+  res.json({ success: true, products });
+});
 
 
 

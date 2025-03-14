@@ -210,8 +210,6 @@ app.get("/api/user/session", async (req, res) => {
 
 
 
-
-
 // Sign-Up Route
 
 
@@ -261,13 +259,15 @@ app.post("/api/auth/signup", async (req, res) => {
 
 
 // ✅ Nodemailer Transporter Setup
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-      user: EMAIL_USER,  // ✅ Uses hardcoded credentials
-      pass: EMAIL_PASS
+    user: process.env.EMAIL_USER,  // ✅ Correct!
+    pass: process.env.EMAIL_PASS   // ✅ Correct!
   }
 });
+
 // ✅ Verify transporter setup
 
 transporter.verify((error, success) => {
@@ -316,7 +316,7 @@ app.post('/api/send-otp', async (req, res) => {
 
 console.log("✅ Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
 console.log("✅ MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
-console.log("✅ Email Credentials Loaded:", EMAIL_USER ? "Secure" : "Not Set");
+console.log("✅ Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
 
 
 
@@ -430,7 +430,7 @@ passport.deserializeUser(async (id, done) => {
 
 // ✅ Google OAuth Routes
 
-aapp.get("/auth/google/callback",
+app.get("/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "https://swarize.in/signin" }),
   (req, res) => {
       // ✅ Fix: Ensure session is saved before redirecting
@@ -1119,6 +1119,7 @@ app.get("/api/products/:id", async (req, res) => {
 
 
 
+const router = express.Router();
 
 // Route to fetch all products for all users (signed-in and non-signed-in)
 router.get('/category/:category', async (req, res) => {

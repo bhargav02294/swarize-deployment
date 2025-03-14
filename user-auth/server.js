@@ -21,11 +21,12 @@ const jwt = require("jsonwebtoken");
 
 const cors = require("cors");
 app.use(cors({
-  origin: ["https://swarize.in"],
+  origin: ["https://swarize.in"], // ✅ Ensuring correct domain
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -97,10 +98,11 @@ app.use(session({
   cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // ✅ Secure in production
-      sameSite: "None", // ✅ Fixes cross-origin issues
+      sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -145,29 +147,36 @@ app.get('/debug-session', (req, res) => {
 
 // Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
-  console.log("🔹 Checking Authentication - Session Data:", req.session);
+  console.log("🔍 Checking authentication...");
+  console.log("🔹 Session Data:", req.session);
+  console.log("🔹 Cookies:", req.cookies);
 
-  if (!req.session || (!req.session.userId && !req.session.passport?.user)) {
-      return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
+  if (req.session && req.session.userId) {
+      req.user = { id: req.session.userId };
+      console.log("✅ User Verified via Session:", req.user);
+      return next();
   }
 
-  req.session.regenerate((err) => {
-      if (err) {
-          console.error("Error regenerating session:", err);
-          return res.status(500).json({ success: false, message: "Session error" });
-      }
+  const token = req.cookies.token;
+  console.log("🔹 Token received:", token);
 
-      req.session.userId = req.session.userId || req.session.passport?.user;
-      
-      req.session.save((err) => {
-          if (err) {
-              console.error("Session save error:", err);
-              return res.status(500).json({ success: false, message: "Session save error" });
+  if (token) {
+      try {
+          const verified = jwt.verify(token, process.env.JWT_SECRET);
+          req.user = verified;
+
+          if (!req.session.userId) {
+              req.session.userId = verified.id;
           }
-          next();
-      });
-  });
+          return next();
+      } catch (err) {
+          return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
+      }
+  }
+
+  return res.status(401).json({ success: false, message: "Unauthorized: Please log in." });
 };
+
 
 
 
@@ -215,6 +224,7 @@ app.get("/api/user/session", async (req, res) => {
 
   res.json({ success: true, userId: req.session.userId });
 });
+app.use("/api/auth", authRoutes); // Ensure this is registered correctly
 
 
 
@@ -273,6 +283,7 @@ app.post("/api/auth/signup", async (req, res) => {
       res.status(500).json({ message: "Something went wrong. Please try again." });
   }
 });
+
 
 
 // ✅ Nodemailer Transporter Setup
@@ -406,42 +417,42 @@ app.post('/reset-password', async (req, res) => {
 
 // ✅ Google OAuth Strategy
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://swarize.in/auth/google/callback",
-    passReqToCallback: true
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "https://swarize.in/auth/google/callback",
+  passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
-    try {
-        let user = await User.findOne({ googleId: profile.id });
+  try {
+      let user = await User.findOne({ googleId: profile.id });
 
-        if (!user) {
-            user = new User({
-                googleId: profile.id,
-                email: profile.emails[0].value,
-                name: profile.displayName,
-                authMethod: "google"
-            });
-            await user.save();
-        }
+      if (!user) {
+          user = new User({
+              googleId: profile.id,
+              email: profile.emails[0].value,
+              name: profile.displayName,
+              authMethod: "google"
+          });
+          await user.save();
+      }
 
-        req.session.userId = user._id;
-        req.session.save();
-        return done(null, user);
-    } catch (error) {
-        return done(error, null);
-    }
+      req.session.userId = user._id;
+      req.session.save();
+      return done(null, user);
+  } catch (error) {
+      return done(error, null);
+  }
 }));
 
-// ✅ Serialize and Deserialize User
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await User.findById(id);
-        done(null, user);
-    } catch (error) {
-        done(error, null);
-    }
+  try {
+      const user = await User.findById(id);
+      done(null, user);
+  } catch (error) {
+      done(error, null);
+  }
 });
+
 
 // ✅ Google OAuth Routes
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
@@ -464,35 +475,36 @@ app.get("/auth/google/callback",
 
 // ✅ Sign-In Route (Matches Updated `signin.js`)
 app.post("/api/auth/signin", async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    try {
-        const user = await User.findOne({ email: email.trim() });
+  try {
+      const user = await User.findOne({ email: email.trim() });
 
-        if (!user) {
-            return res.status(404).json({ success: false, message: "User not found. Please sign up first." });
-        }
+      if (!user) {
+          return res.status(404).json({ success: false, message: "User not found. Please sign up first." });
+      }
 
-        const isMatch = await bcrypt.compare(password.trim(), user.password);
-        if (!isMatch) {
-            return res.status(401).json({ success: false, message: "Invalid email or password." });
-        }
+      const isMatch = await bcrypt.compare(password.trim(), user.password);
+      if (!isMatch) {
+          return res.status(401).json({ success: false, message: "Invalid email or password." });
+      }
 
-        req.session.regenerate((err) => {
-            if (err) return res.status(500).json({ success: false, message: "Session error" });
+      req.session.regenerate((err) => {
+          if (err) return res.status(500).json({ success: false, message: "Session error" });
 
-            req.session.userId = user._id;
-            req.session.userName = user.name;
-            req.session.save((err) => {
-                if (err) return res.status(500).json({ success: false, message: "Session save error" });
+          req.session.userId = user._id;
+          req.session.userName = user.name;
+          req.session.save((err) => {
+              if (err) return res.status(500).json({ success: false, message: "Session save error" });
 
-                res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name });
-            });
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
-    }
+              res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name });
+          });
+      });
+  } catch (error) {
+      res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
+  }
 });
+
 
 
 

@@ -1,11 +1,45 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const User = require("../models/user");
 
 const router = express.Router();
 
-// ✅ User Login Route
+// ✅ User Sign Up Route
+router.post("/signup", async (req, res) => {
+    console.log("🔹 Sign Up Attempt:", req.body);
+
+    try {
+        const { name, email, password, country } = req.body;
+
+        // ✅ Validate Email and Password
+        if (!email || !password || !name || !country) {
+            return res.status(400).json({ success: false, message: "All fields are required." });
+        }
+
+        // ✅ Check if user already exists
+        let user = await User.findOne({ email });
+        if (user) {
+            return res.status(400).json({ success: false, message: "User already exists." });
+        }
+
+        // ✅ Hash Password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // ✅ Create User
+        user = new User({ name, email, password: hashedPassword, country });
+        await user.save();
+
+        console.log("✅ User Registered:", user.email);
+        res.json({ success: true, message: "Signup successful! Please log in." });
+    } catch (error) {
+        console.error("❌ Error during signup:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+// ✅ User Sign In Route
 router.post("/signin", async (req, res) => {
     console.log("🔹 Sign In Attempt:", req.body);
 
@@ -33,9 +67,9 @@ router.post("/signin", async (req, res) => {
 
         // ✅ Set Token in Cookies
         res.cookie("token", token, {
-            httpOnly: true, // Security: Prevent XSS attacks
-            secure: process.env.NODE_ENV === "production", // Use secure flag in production
-            sameSite: "Strict",
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None",
             maxAge: 60 * 60 * 1000 // 1 hour
         });
 
@@ -47,10 +81,26 @@ router.post("/signin", async (req, res) => {
     }
 });
 
-// ✅ User Logout Route
+// ✅ Google OAuth Authentication
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+// ✅ Google OAuth Callback
+router.get(
+    "/google/callback",
+    passport.authenticate("google", { failureRedirect: "/signin" }),
+    (req, res) => {
+        console.log("✅ Google OAuth Success:", req.user);
+        req.session.userId = req.user.id;
+        req.session.save(() => {
+            res.redirect("https://swarize.in/profile");
+        });
+    }
+);
+
+// ✅ Logout Route
 router.post("/logout", (req, res) => {
     try {
-        res.clearCookie("token"); // ✅ Remove JWT cookie
+        res.clearCookie("token");
         req.session.destroy(err => {
             if (err) {
                 return res.status(500).json({ success: false, message: "Logout failed" });
@@ -63,7 +113,7 @@ router.post("/logout", (req, res) => {
     }
 });
 
-// ✅ Debug Route to Check Session Data
+// ✅ Debug Session Route
 router.get("/debug-session", (req, res) => {
     res.json({ session: req.session });
 });

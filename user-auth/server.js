@@ -434,19 +434,29 @@ passport.deserializeUser(async (id, done) => {
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 app.get("/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "https://swarize.in/signin" }),
-    (req, res) => {
-        const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  passport.authenticate("google", { failureRedirect: "https://swarize.in/signin" }),
+  (req, res) => {
+      // Ensure session is saved before redirecting
+      req.session.save((err) => {
+          if (err) {
+              console.error("Session save error after Google login:", err);
+              return res.status(500).json({ message: "Session error" });
+          }
 
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "Strict"
-        });
+          // Generate a JWT Token
+          const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-        res.redirect("https://swarize.in");
-    }
+          res.cookie("token", token, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "Strict"
+          });
+
+          res.redirect("https://swarize.in");
+      });
+  }
 );
+
 
 
 // ✅ Sign-In Route (Matches Updated `signin.js`)
@@ -473,6 +483,14 @@ app.post("/api/auth/signin", async (req, res) => {
           req.session.save((err) => {
               if (err) return res.status(500).json({ success: false, message: "Session save error" });
 
+              const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+              res.cookie("token", token, {
+                  httpOnly: true,
+                  secure: process.env.NODE_ENV === "production",
+                  sameSite: "Strict"
+              });
+
               res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name });
           });
       });
@@ -482,18 +500,30 @@ app.post("/api/auth/signin", async (req, res) => {
 });
 
 
+
 app.get("/is-logged-in", (req, res) => {
   console.log("🔍 Checking if user is logged in...");
   console.log("🔹 Session Data:", req.session);
   console.log("🔹 Cookies:", req.cookies);
 
+  const token = req.cookies.token;
+
   if (req.session && req.session.userId) {
       return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
   }
 
-  // If user is not logged in, return false
+  if (token) {
+      try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          return res.json({ isLoggedIn: true, userId: decoded.id });
+      } catch (error) {
+          return res.status(401).json({ isLoggedIn: false, message: "Invalid or expired token." });
+      }
+  }
+
   return res.json({ isLoggedIn: false });
 });
+
 
 
 
@@ -518,6 +548,7 @@ app.get("/logout", (req, res) => {
   req.session.destroy(err => {
       if (err) return res.status(500).json({ success: false, message: "Logout failed" });
 
+      res.clearCookie("token");
       res.clearCookie("connect.sid");
       res.redirect("https://swarize.in/signin");
   });

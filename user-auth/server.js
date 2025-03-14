@@ -128,12 +128,7 @@ app.set('view engine', 'ejs');
 
 const connectDB = async () => {
   try {
-      const conn = await mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-          tls: true,
-          tlsAllowInvalidCertificates: true
-      });
+      const conn = await mongoose.connect(process.env.MONGO_URI);
       console.log("✅ MongoDB Connected:", conn.connection.host);
   } catch (error) {
       console.error("❌ MongoDB Connection Error:", error);
@@ -141,6 +136,7 @@ const connectDB = async () => {
   }
 };
 connectDB();
+
 
 app.get('/debug-session', (req, res) => {
   res.json({ session: req.session });

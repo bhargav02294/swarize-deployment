@@ -70,17 +70,17 @@ app.use(session({
   store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
       collectionName: 'sessions',
-      ttl: 24 * 60 * 60, // 24 hours
+      ttl: 24 * 60 * 60, // Expire sessions in 24 hours
       autoRemove: 'native'
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production", 
     sameSite: "None",
-    domain: ".swarize.in",  // ✅ Set this to match your domain
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
+
 
 
 app.use((req, res, next) => {
@@ -233,12 +233,22 @@ app.post("/api/auth/signup", async (req, res) => {
       });
 
       await newUser.save();
-      res.status(201).json({ success: true, message: "User created successfully!" }); // ✅ Fix: Send response
+      
+      // ✅ Fix: Set session after signup
+      req.session.userId = newUser._id;
+      req.session.userName = newUser.name;
+      req.session.save(err => {
+          if (err) return res.status(500).json({ success: false, message: "Session save error." });
+
+          res.status(201).json({ success: true, message: "User created successfully!", userId: newUser._id });
+      });
+
   } catch (error) {
       console.error("❌ Error during sign-up:", error);
       res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
   }
 });
+
 
 
 
@@ -412,22 +422,31 @@ passport.deserializeUser(async (id, done) => {
 
 
 // ✅ Google OAuth Routes
-app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-app.get("/auth/google/callback",
+aapp.get("/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "https://swarize.in/signin" }),
   (req, res) => {
+      // ✅ Fix: Ensure session is saved before redirecting
       req.session.save((err) => {
           if (err) {
-              console.error("❌ Session save error:", err);
-              return res.status(500).json({ message: "Session save error" });
+              console.error("Session save error after Google login:", err);
+              return res.status(500).json({ message: "Session error" });
           }
 
-          console.log("✅ Google login successful, session saved!");
-          res.redirect("https://swarize.in");
+          // Generate a JWT Token
+          const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+          res.cookie("token", token, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "Strict"
+          });
+
+          res.redirect("https://swarize.in/profile"); // ✅ Redirect user to profile page
       });
   }
 );
+
 
 
 
@@ -449,26 +468,21 @@ app.post("/api/auth/signin", async (req, res) => {
           return res.status(401).json({ success: false, message: "Invalid email or password." });
       }
 
+      // ✅ Fix: Regenerate session properly
       req.session.regenerate((err) => {
           if (err) return res.status(500).json({ success: false, message: "Session error" });
 
           req.session.userId = user._id;
           req.session.userName = user.name;
-          req.session.save((err) => {
+          req.session.save(err => {
               if (err) return res.status(500).json({ success: false, message: "Session save error" });
 
-              const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-              res.cookie("token", token, {
-                  httpOnly: true,
-                  secure: process.env.NODE_ENV === "production",
-                  sameSite: "Strict"
-              });
-
-              res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name }); // ✅ Fix: Send response
+              res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name });
           });
       });
+
   } catch (error) {
+      console.error("❌ Error during sign-in:", error);
       res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
   }
 });
@@ -476,35 +490,21 @@ app.post("/api/auth/signin", async (req, res) => {
 
 
 
+
 // ✅ Check if user is logged in
-app.get("/is-logged-in", (req, res) => {
+app.get("/api/auth/is-logged-in", (req, res) => {
   console.log("🔍 Checking if user is logged in...");
   console.log("🔹 Session Data:", req.session);
-  app.get("/is-logged-in", (req, res) => {
-    console.log("🔍 Checking if user is logged in...");
-    console.log("🔹 Session Data:", req.session);
-    console.log("🔹 Cookies:", req.cookies);
+  console.log("🔹 Cookies:", req.cookies);
 
-    const token = req.cookies.token;
+  if (req.session && req.session.userId) {
+      return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
+  }
 
-    if (req.session && req.session.userId) {
-        return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
-    }
-
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.session.userId = decoded.id; // ✅ Ensure session is created
-            req.session.save();  // ✅ Save session
-            return res.json({ isLoggedIn: true, userId: decoded.id });
-        } catch (error) {
-            return res.status(401).json({ isLoggedIn: false, message: "Invalid or expired token." });
-        }
-    }
-
-    return res.json({ isLoggedIn: false });
+  return res.json({ isLoggedIn: false });
 });
-});
+
+
 // ✅ Debug session route
 app.get("/api/debug-session", (req, res) => {
   console.log("🐛 Debugging Session Data:", req.session);

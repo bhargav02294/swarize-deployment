@@ -1134,18 +1134,20 @@ router.get('/category/:category', async (req, res) => {
       res.status(500).json({ success: false, message: "Error fetching products", error: error.message });
   }
 });
+app.get("/api/products/category/:category", async (req, res) => {
+  try {
+      const category = req.params.category;
+      const products = await Product.find({ category: category });
 
-app.get('/api/products/category/:category', async (req, res) => {
-  const category = req.params.category;
-  const products = await Product.find({ category });
-  
-  if (!products || products.length === 0) {
-      return res.status(404).json({ success: false, message: "Category Not Found" });
+      if (products.length === 0) {
+          return res.status(404).json({ error: "No products found in this category" });
+      }
+      res.json(products);
+  } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).json({ error: "Internal Server Error" });
   }
-
-  res.json({ success: true, products });
 });
-
 
 
 app.get("/api/products", async (req, res) => {

@@ -115,20 +115,19 @@ async function addToCart(productId) {
 
 
 
-
-document.addEventListener("DOMContentLoaded", async () => {
-    const signinForm = document.getElementById("signinForm");
-    const signupForm = document.getElementById("signup-form");
-
-    if (!signinForm) {
-        console.warn("⚠️ Sign-in form not found, skipping sign-in script.");
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.getElementById("signup-form")) {
+        console.log("✅ Signup form found. Running signup script.");
+    } else {
+        console.warn("⚠️ Sign-up form not found, skipping signup script.");
     }
 
-    if (!signupForm) {
-        console.warn("⚠️ Sign-up form not found, skipping sign-up script.");
+    if (document.getElementById("signin-form")) {
+        console.log("✅ Sign-in form found. Running signin script.");
+    } else {
+        console.warn("⚠️ Sign-in form not found, skipping signin script.");
     }
 });
-
 
 
 

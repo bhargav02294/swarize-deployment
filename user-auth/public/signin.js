@@ -31,6 +31,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
 });
 
 
+// Google OAuth Login Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize.in/auth/google";
+    window.location.href = "https://swarize.in/auth/google"; // Redirects to backend OAuth route
 });

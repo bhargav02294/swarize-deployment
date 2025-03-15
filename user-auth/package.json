@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-        "start": "cd user-auth && node server.js",
+        "start": "node server.js",
         "dev": "nodemon server.js"
     },
     "keywords": [],
@@ -16,10 +16,10 @@
         "cloudinary": "^1.41.3",
         "connect-flash": "^0.1.1",
         "connect-mongo": "^5.1.0",
+        "cookie": "^1.0.2",
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
-        "crypto": "^1.0.1",
-        "csurf": "^1.2.2",
+        "csurf": "^1.11.0",
         "dotenv": "^16.4.7",
         "ejs": "^3.1.10",
         "express": "^4.21.2",
@@ -42,8 +42,7 @@
         "passport-twitter": "^0.1.5",
         "razorpay": "^2.9.5",
         "stripe": "^17.2.1",
-        "twilio": "^5.4.2",
-        "user-auth": "file:"
+        "twilio": "^5.4.2"
     },
     "devDependencies": {
         "nodemon": "^3.1.4"

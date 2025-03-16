@@ -167,10 +167,12 @@ app.get('/debug-session', (req, res) => {
 });
 
 
-app.get('/', (req, res) => {
+app.get('/signin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
+app.get("/signup", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "signup.html"));
+});
 
 
 function validateIndianUser(req, res, next) {
@@ -530,7 +532,6 @@ app.get("/api/debug-session", (req, res) => {
 
 
 
-
 // Forgot Password Route
 app.get('/forgot-password', (req, res) => {
   res.send('<h1>Forgot Password Page (Implementation Pending)</h1>');
@@ -539,15 +540,12 @@ app.get('/forgot-password', (req, res) => {
 // Profile Route (After Successful Login)
 app.get('/profile', (req, res) => {
   if (req.session.userId) {
-    res.redirect('/profile'); // ✅ Redirect user to profile page
+    res.redirect("https://swarize.in/index.html"); // Use frontend domain, not backend
   } else {
-    res.redirect('/signin'); // ✅ Redirect unauthenticated users to Sign In page
+    res.redirect("https://swarize.in/profile"); // Use frontend domain, not backend
   }
 });
 
-
-
-// ✅ Logout Route
 // ✅ Logout Route - Clears cookies from both frontend & backend
 app.get("/api/auth/logout", (req, res) => {
   req.session.destroy(err => {
@@ -560,8 +558,6 @@ app.get("/api/auth/logout", (req, res) => {
     res.redirect("/signin"); // ✅ Use relative URL
   });
 });
-
-
 
 
 

@@ -25,11 +25,19 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
     }
 
     try {
+        const signupData = {
+            name,
+            email,
+            password,
+            country,
+            authMethod: "email"  // ✅ Ensuring authMethod is included
+        };
+
         const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // Ensures cookies/sessions work
-            body: JSON.stringify({ name, email, password, country })
+            body: JSON.stringify(signupData)
         });
 
         const data = await response.json();
@@ -46,7 +54,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
         alert("❌ Something went wrong. Please try again later.");
     }
 });
-
+s
 // Fetch user country and set it in the hidden input field
 fetch("https://ipapi.co/json")
     .then(response => response.json())

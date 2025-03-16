@@ -11,12 +11,11 @@ router.post("/signup", async (req, res) => {
     console.log("🔹 Sign Up Attempt:", req.body);
 
     try {
-        const { name, email, password, country } = req.body;
+        const { name, email, password, country, authMethod } = req.body;
 
-        // ✅ Validate Email and Password
-        if (!email || !password || !name || !country) {
-            return res.status(400).json({ success: false, message: "All fields are required." });
-        }
+if (!email || !password || !name || !country || !authMethod) {
+    return res.status(400).json({ success: false, message: "All fields are required." });
+}
 
         // ✅ Check if user already exists
         let user = await User.findOne({ email });
@@ -28,8 +27,8 @@ router.post("/signup", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // ✅ Create User
-        user = new User({ name, email, password: hashedPassword, country });
-        await user.save();
+        user = new User({ name, email, password: hashedPassword, country, authMethod });
+await user.save();
 
         console.log("✅ User Registered:", user.email);
         res.json({ success: true, message: "Signup successful! Please log in." });

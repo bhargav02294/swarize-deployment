@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         // Fetch Cart Items
-        const cartResponse = await fetch("https://swarize.in/cart", { credentials: "include" });
+        const cartResponse = await fetch("https://swarize-deployment.onrender.com/cart", { credentials: "include" });
         const cartData = await cartResponse.json();
 
         console.log("🛒 Cart Data from Backend:", cartData); // Debugging Log
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const productDiv = document.createElement("div");
             productDiv.classList.add("cart-item");
             productDiv.innerHTML = `
-                <img src="https://swarize.in/${product.thumbnailImage}" alt="${product.name}" class="cart-product-thumbnail">
+                <img src="https://swarize-deployment.onrender.com/${product.thumbnailImage}" alt="${product.name}" class="cart-product-thumbnail">
                 <h2 class="cart-product-name">${product.name}</h2>
                 <p class="cart-product-price">₹${product.price}</p>
                 <p class="cart-product-description">${product.description}</p>

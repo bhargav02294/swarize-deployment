@@ -296,7 +296,7 @@ document.getElementById("add-product-form").addEventListener("submit", async (ev
   });
 
   try {
-    const response = await fetch("https://swarize.in/api/products/add", {
+    const response = await fetch("https://swarize-deployment.onrender.com/api/products/add", {
       method: "POST",
       body: formData,
       credentials: "include"

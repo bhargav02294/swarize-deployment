@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    fetch(`https://swarize.in/api/products/${productId}`)
+    fetch(`https://swarize-deployment.onrender.com/api/products/${productId}`)
         .then(response => response.json())
         .then(product => {
             if (!product || Object.keys(product).length === 0) {
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Handle Add to Cart Button
             document.querySelector(".add-to-cart").addEventListener("click", async () => {
                 try {
-                    const response = await fetch("https://swarize.in/cart/add", {
+                    const response = await fetch("https://swarize-deployment.onrender.com/cart/add", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ productId }),
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    fetch(`https://swarize.in/api/products/${productId}`)
+    fetch(`https://swarize-deployment.onrender.com/api/products/${productId}`)
         .then(response => response.json())
         .then(product => {
             if (!product || Object.keys(product).length === 0) {
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         // ✅ Fetch product details
-        const productResponse = await fetch(`http://www.swarize.in/api/products/${productId}`);
+        const productResponse = await fetch(`http://swarize-deployment.onrender.com/api/products/${productId}`);
         const product = await productResponse.json();
 
         if (!product || Object.keys(product).length === 0) {
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ✅ Fetch and display reviews
     async function fetchReviews() {
         try {
-            const response = await fetch(`http://www.swarize.in/api/reviews/${productId}`);
+            const response = await fetch(`http://swarize-deployment.onrender.com/api/reviews/${productId}`);
             const data = await response.json();
 
             const reviewsContainer = document.getElementById("reviews-container");
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const userId = userData.userId;
 
             // ✅ Submit the review
-            const response = await fetch("http://www.swarize.in/api/reviews/add", {
+            const response = await fetch("http://swarize-deployment.onrender.com/api/reviews/add", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ productId, rating, comment, userId })

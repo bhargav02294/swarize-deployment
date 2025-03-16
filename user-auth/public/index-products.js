@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Fetch products from the API
     async function fetchProducts(category) {
         try {
-            const response = await fetch(`https://swarize.in/api/products/category/${category}`);
+            const response = await fetch(`https://swarize-deployment.onrender.com/api/products/category/${category}`);
             const data = await response.json();
 
             if (data.success && data.products.length > 0) {
@@ -89,7 +89,7 @@ function viewProduct(productId) {
 // ✅ Function to add product to cart
 async function addToCart(productId) {
     try {
-        const response = await fetch("https://swarize.in/cart/add", {
+        const response = await fetch("https://swarize-deployment.onrender.com/cart/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ productId }),

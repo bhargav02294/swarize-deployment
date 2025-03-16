@@ -6,7 +6,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
     const message = document.getElementById("message");
 
     try {
-        const response = await fetch("https://swarize.in/api/auth/signin", { 
+        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signin", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // Ensures cookies/sessions work
@@ -18,7 +18,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
         const data = await response.json();
         if (data.success) {
             alert("✅ Login Successful! Redirecting...");
-            window.location.href = "https://swarize.in/profile"; 
+            window.location.href = "https://swarize-deployment.onrender.com/profile"; 
         } else {
             message.textContent = `❌ ${data.message || "Failed to sign in. Please try again."}`;
             message.style.color = "red";
@@ -33,5 +33,5 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
 
 // Google OAuth Login Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize.in/auth/google"; // Redirects to backend OAuth route
+    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // Redirects to backend OAuth route
 });

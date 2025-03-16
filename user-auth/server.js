@@ -56,7 +56,7 @@ const razorpay = new Razorpay({
 
 
 app.use(cors({
-  origin: ["https://swarize.in"], // ✅ Ensuring correct domain
+  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow both frontend and backend domains
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
@@ -394,7 +394,7 @@ app.post('/reset-password', async (req, res) => {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://swarize.in/auth/google/callback",
+  callbackURL: "https://swarize-deployment.onrender.com/auth/google/callback",
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
   try {
@@ -432,7 +432,7 @@ passport.deserializeUser(async (id, done) => {
 // ✅ Google OAuth Routes
 
 app.get("/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "https://swarize.in/signin" }),
+  passport.authenticate("google", { failureRedirect: "https://swarize-deployment.onrender.com/signin" }),
   (req, res) => {
       // ✅ Fix: Ensure session is saved before redirecting
       req.session.save((err) => {
@@ -450,7 +450,7 @@ app.get("/auth/google/callback",
               sameSite: "Strict"
           });
 
-          res.redirect("https://swarize.in/profile"); // ✅ Redirect user to profile page
+          res.redirect("https://swarize-deployment.onrender.com/profile"); // ✅ Redirect user to profile page
       });
   }
 );
@@ -539,22 +539,25 @@ app.get('/forgot-password', (req, res) => {
 // Profile Route (After Successful Login)
 app.get('/profile', (req, res) => {
   if (req.session.userId) {
-    res.redirect('https://swarize.in/profile'); // ✅ Redirect user to profile page
+    res.redirect('/profile'); // ✅ Redirect user to profile page
   } else {
-    res.redirect('https://swarize.in/signin'); // ✅ Redirect unauthenticated users to Sign In page
+    res.redirect('/signin'); // ✅ Redirect unauthenticated users to Sign In page
   }
 });
 
 
 
 // ✅ Logout Route
+// ✅ Logout Route - Clears cookies from both frontend & backend
 app.get("/api/auth/logout", (req, res) => {
   req.session.destroy(err => {
-      if (err) return res.status(500).json({ success: false, message: "Logout failed" });
+    if (err) return res.status(500).json({ success: false, message: "Logout failed" });
 
-      res.clearCookie("token");
-      res.clearCookie("connect.sid");
-      res.redirect("https://swarize.in/signin");
+    // Clear cookies properly
+    res.clearCookie("token", { domain: ".swarize.in", path: "/" }); 
+    res.clearCookie("connect.sid", { domain: ".swarize.in", path: "/" }); 
+
+    res.redirect("/signin"); // ✅ Use relative URL
   });
 });
 

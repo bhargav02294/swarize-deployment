@@ -1120,31 +1120,21 @@ app.get("/api/products/:id", async (req, res) => {
 
 
 const router = express.Router();
-
-// Route to fetch all products for all users (signed-in and non-signed-in)
-router.get('/category/:category', async (req, res) => {
-  try {
-      const { category } = req.params;
-      const products = await Product.find({ category }).limit(3); // Limit to 3 per category
-
-      res.status(200).json({ success: true, products });
-  } catch (error) {
-      console.error("❌ Error fetching products:", error);
-      res.status(500).json({ success: false, message: "Error fetching products", error: error.message });
-  }
-});
 app.get("/api/products/category/:category", async (req, res) => {
   try {
-      const category = req.params.category;
-      const products = await Product.find({ category: category });
+      const category = decodeURIComponent(req.params.category); // Fix encoding issue
+      console.log("Fetching products for category:", category);
+
+      const products = await Product.find({ category });
 
       if (products.length === 0) {
-          return res.status(404).json({ error: "No products found in this category" });
+          return res.status(200).json({ success: true, message: "No products available yet.", products: [] });
       }
-      res.json(products);
+
+      res.json({ success: true, products });
   } catch (error) {
-      console.error("Error fetching products:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error("❌ Error fetching products:", error);
+      res.status(500).json({ success: false, message: "Server error." });
   }
 });
 

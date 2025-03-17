@@ -115,19 +115,7 @@ async function addToCart(productId) {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    if (document.getElementById("signup-form")) {
-        console.log("✅ Signup form found. Running signup script.");
-    } else {
-        console.warn("⚠️ Sign-up form not found, skipping signup script.");
-    }
 
-    if (document.getElementById("signin-form")) {
-        console.log("✅ Sign-in form found. Running signin script.");
-    } else {
-        console.warn("⚠️ Sign-in form not found, skipping signin script.");
-    }
-});
 
 
 
@@ -435,143 +423,85 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("✅ JavaScript loaded!");
 
-
-
-// Handle login and signup form visibility
-// Handle login and signup form visibility
-document.addEventListener('DOMContentLoaded', function() {
-    const loginBtn = document.getElementById('login-btn');
-    const signupBtn = document.getElementById('signup-btn');
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
-
-    if (loginBtn && signupBtn && loginForm && signupForm) {
-        loginBtn.addEventListener('click', function() {
-            loginForm.style.display = 'block';
-            signupForm.style.display = 'none';
-        });
-
-        signupBtn.addEventListener('click', function() {
-            signupForm.style.display = 'block';
-            loginForm.style.display = 'none';
-        });
-    } else {
-        console.warn("⚠️ Login or Signup elements not found in the DOM!");
-    }
-
-    // Handle login form submission
-    if (loginForm) {
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value.trim();
-
-            if (!email || !password) {
-                alert('⚠️ Email and password fields cannot be empty!');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/auth/signin', { // Updated endpoint
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    alert('✅ Login successful!');
-                    window.location.href = 'index.html';
-                } else {
-                    alert(result.message || '❌ Invalid credentials!');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Something went wrong. Please try again.');
-            }
-        });
-    } else {
-        console.warn("⚠️ Login form not found in the DOM!");
-    }
-
-    // Handle signup form submission
+    // Check if on the signup page
+    const signupForm = document.getElementById("signup-form");
     if (signupForm) {
-        signupForm.addEventListener('submit', async function(event) {
+        console.log("✅ Signup form found. Running signup script.");
+        signupForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            // Get form values
-            const name = document.getElementById('signup-name').value.trim();
-            const email = document.getElementById('signup-email').value.trim();
-            const password = document.getElementById('signup-password').value;
+            const name = document.getElementById("signup-name").value.trim();
+            const email = document.getElementById("signup-email").value.trim();
+            const password = document.getElementById("signup-password").value.trim();
 
             if (!name || !email || !password) {
-                alert('⚠️ All fields are required!');
+                alert("⚠️ All fields are required!");
                 return;
             }
 
             try {
-                const response = await fetch('/api/auth/signup', { // Updated endpoint
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, password })
+                const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", { 
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password, authMethod: "email" })
                 });
-                const result = await response.json();
 
+                const result = await response.json();
                 if (response.ok && result.success) {
-                    alert('✅ Signup successful! You can now log in.');
-                    loginForm.style.display = 'block';
-                    signupForm.style.display = 'none';
+                    alert("✅ Signup successful! Redirecting...");
+                    window.location.href = "signin.html";
                 } else {
-                    alert(result.message || '❌ Signup failed. Try again.');
+                    alert(result.message || "❌ Signup failed. Try again.");
                 }
             } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Something went wrong. Please try again.');
+                console.error("Error during signup:", error);
+                alert("❌ Something went wrong. Please try again.");
             }
         });
-    } else {
-        console.warn("⚠️ Signup form not found in the DOM!");
     }
 
-    // Handle sign-in form (prevents duplicate event listeners)
-    const signinForm = document.getElementById('signinForm');
+    // Check if on the sign-in page
+    const signinForm = document.getElementById("signin-form");
     if (signinForm) {
-        signinForm.addEventListener('submit', async (event) => {
+        console.log("✅ Sign-in form found. Running signin script.");
+        signinForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            const email = event.target.email.value.trim();
-            const password = event.target.password.value.trim();
+            const email = document.getElementById("signin-email").value.trim();
+            const password = document.getElementById("signin-password").value.trim();
 
             if (!email || !password) {
-                alert('⚠️ Please enter both email and password!');
+                alert("⚠️ Please enter both email and password!");
                 return;
             }
 
             try {
-                const response = await fetch('/api/auth/signin', { // Updated endpoint
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signin", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password }),
                 });
 
                 const data = await response.json();
-
                 if (response.ok && data.success) {
-                    alert('✅ Sign-in successful!');
-                    window.location.href = 'index.html';
+                    alert("✅ Sign-in successful!");
+                    window.location.href = "index.html";
                 } else {
-                    document.getElementById('message').textContent = data.message || '❌ Failed to sign in.';
-                    document.getElementById('message').style.color = 'red';
+                    alert(data.message || "❌ Failed to sign in.");
                 }
             } catch (error) {
-                console.error('Error during sign-in:', error);
-                document.getElementById('message').textContent = '❌ Something went wrong. Please try again.';
-                document.getElementById('message').style.color = 'red';
+                console.error("Error during sign-in:", error);
+                alert("❌ Something went wrong. Please try again.");
             }
         });
-    } else {
-        console.warn("⚠️ Sign-in form not found in the DOM!");
+    }
+
+    // Hide unnecessary warnings on pages without forms
+    if (!signupForm && !signinForm) {
+        console.log("✅ No signup or signin forms found. Skipping authentication script.");
     }
 });
 

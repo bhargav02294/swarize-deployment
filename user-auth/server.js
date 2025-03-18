@@ -19,11 +19,12 @@ const axios = require('axios');
 const fs = require('fs');
 const app = express();
 app.use(cors({
-  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow frontend & backend origins
+  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow both frontend & backend
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 
 app.set('view engine', 'ejs');
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
@@ -173,9 +174,6 @@ app.get('/signin', (req, res) => {
 });
 app.get("/signup", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "signup.html"));
-});
-app.get("/otp", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "otp.html"));
 });
 
 

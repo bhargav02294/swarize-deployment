@@ -30,13 +30,13 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
             email,
             password,
             country,
-            authMethod: "email"  // ✅ Ensuring authMethod is included
+            authMethod: "email"
         };
 
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", { 
+        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            credentials: "include", // Ensures cookies/sessions work
+            credentials: "include",
             body: JSON.stringify(signupData)
         });
 
@@ -45,7 +45,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
         if (response.ok && data.success) {
             alert("✅ Signup successful! Redirecting to OTP verification...");
             localStorage.setItem("signupEmail", email);
-            window.location.href = "https://swarize-deployment.onrender.com/otp";
+            window.location.href = "https://swarize.in/otp.html"; // Redirect to frontend OTP page
         } else {
             alert(`❌ ${data.message || "Error registering user. Please try again."}`);
         }
@@ -55,7 +55,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
     }
 });
 
-// Fetch user country and set it in the hidden input field
+// ✅ Fetch user country and set it in the hidden input field
 fetch("https://ipapi.co/json")
     .then(response => response.json())
     .then(data => {
@@ -67,7 +67,7 @@ fetch("https://ipapi.co/json")
     })
     .catch(error => console.error("❌ Error fetching country data:", error));
 
-// Google OAuth Signup Button
+// ✅ Google OAuth Signup Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize.in/auth/google"; // Use swarize.in instead of Render's backend URL
+    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // Redirect to backend OAuth
 });

@@ -441,20 +441,12 @@ passport.deserializeUser(async (id, done) => {
 app.get("/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-
 app.get("/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/signin" }),
   (req, res) => {
-    req.session.save(err => {
-      if (err) {
-        console.error("Session save error after Google login:", err);
-        return res.status(500).json({ message: "Session error" });
-      }
-      res.redirect("https://swarize.in/profile");
-    });
+    res.redirect("https://swarize-deployment.onrender.com/auth/google/callback"); // Redirect users to frontend after login
   }
 );
-
 
 
 

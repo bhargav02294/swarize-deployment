@@ -18,7 +18,12 @@ const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');
 const fs = require('fs');
 const app = express();
-
+app.use(cors({
+  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow frontend & backend origins
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 
 app.set('view engine', 'ejs');
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
@@ -55,12 +60,7 @@ const razorpay = new Razorpay({
 
 
 
-app.use(cors({
-  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow frontend & backend origins
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
+
 
 
 // ✅ Connect to MongoDB
@@ -541,12 +541,11 @@ app.get('/forgot-password', (req, res) => {
 // Profile Route (After Successful Login)
 app.get('/profile', (req, res) => {
   if (req.session.userId) {
-    res.redirect("https://swarize.in/index.html"); // ✅ Use correct frontend path
+    res.redirect("https://swarize.in/index.html"); // Use frontend domain, not backend
   } else {
-    res.redirect("https://swarize.in/signin.html"); // ✅ Redirect to frontend signin
+    res.redirect("https://swarize.in/profile"); // Use frontend domain, not backend
   }
 });
-
 
 // ✅ Logout Route - Clears cookies from both frontend & backend
 app.get("/api/auth/logout", (req, res) => {
@@ -1120,20 +1119,18 @@ app.get("/api/products/:id", async (req, res) => {
 });
 
 
-
+// Route to fetch products by category
 app.get("/api/products/category/:category", async (req, res) => {
   try {
-      const category = req.params.category.replace(/%20/g, ' '); // Fix URL encoding issue
-      console.log("🔍 Fetching products for category:", category);
-      
+      const category = req.params.category;
       const products = await Product.find({ category: category });
 
       if (products.length === 0) {
-          return res.status(200).json({ success: true, products: [] }); // Return empty array instead of 404
+          return res.status(200).json({ success: true, products: [] }); // ✅ Return empty array instead of 404
       }
       res.json({ success: true, products });
   } catch (error) {
-      console.error("❌ Error fetching products:", error);
+      console.error("Error fetching products:", error);
       res.status(500).json({ error: "Internal Server Error" });
   }
 });

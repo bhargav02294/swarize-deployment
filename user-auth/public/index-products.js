@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Fetch products from the API
     async function fetchProducts(category) {
         try {
-            const response = await fetch(`https://swarize-deployment.onrender.com/api/products/category/${category}`);
+            const formattedCategory = encodeURIComponent(category);
+            const response = await fetch(`https://swarize-deployment.onrender.com/api/products/category/${formattedCategory}`);
+
             const data = await response.json();
 
             if (data.success && data.products.length > 0) {

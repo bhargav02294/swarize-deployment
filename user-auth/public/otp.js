@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const emailInput = document.getElementById('otp-email');
     const savedEmail = localStorage.getItem('signupEmail');
+    
     if (savedEmail) {
         emailInput.value = savedEmail;
         emailInput.readOnly = true;
@@ -30,7 +31,7 @@ function startTimer() {
     }, 1000);
 }
 
-// ✅ Request OTP
+// Send OTP
 document.getElementById('get-otp').addEventListener('click', async () => {
     const email = document.getElementById('otp-email').value;
 
@@ -48,14 +49,14 @@ document.getElementById('get-otp').addEventListener('click', async () => {
 
         const result = await response.json();
         if (result.success) {
-            alert('✅ OTP sent to your email!');
+            alert("✅ OTP sent successfully!");
             startTimer();
         } else {
-            alert('❌ Error sending OTP: ' + result.message);
+            alert("❌ Error sending OTP: " + result.message);
         }
     } catch (error) {
-        console.error('❌ Error:', error);
-        alert('❌ Failed to send OTP. Please try again.');
+        console.error("❌ Error:", error);
+        alert("❌ Failed to send OTP. Please try again.");
     }
 });
 

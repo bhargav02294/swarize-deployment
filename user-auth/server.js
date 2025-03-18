@@ -16,6 +16,8 @@ const session = require('express-session');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');
+const crypto = require("crypto");
+
 const fs = require('fs');
 const app = express();
 app.use(cors({
@@ -290,33 +292,28 @@ let otpStorage = {}; // ✅ Temporary storage for OTPs
 
 
 // ✅ API to Send OTP
-app.post('/api/send-otp', async (req, res) => {
-  console.log(" OTP Request Received:", req.body);
-
+// Generate & Send OTP
+app.post("/api/send-otp", async (req, res) => {
   const { email } = req.body;
+
   if (!email) {
-      console.log("❌ ERROR: No email provided!");
-      return res.status(400).send({ success: false, message: "Email is required!" });
+      return res.status(400).json({ success: false, message: "Email is required" });
   }
 
-  // ✅ Generate OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  otpStorage[email] = otp;
-  console.log("🔹 Generated OTP:", otp);
+  // Generate 6-digit OTP
+  const otp = crypto.randomInt(100000, 999999).toString();
+  otpStorage.set(email, otp); // Store OTP temporarily
 
   try {
-      let info = await transporter.sendMail({
-          from: EMAIL_USER,
+      await sendEmail({
           to: email,
-          subject: 'Your OTP Code',
-          text: `Your OTP code is ${otp}.`
+          subject: "Your OTP Code",
+          text: `Your OTP code is ${otp}. It is valid for 5 minutes.`
       });
 
-      console.log(" OTP Email Sent Successfully:", info.response);
-      res.send({ success: true, message: 'OTP sent to your email.' });
+      return res.status(200).json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
-      console.error("❌ OTP Email Error:", error);
-      res.status(500).send({ success: false, message: 'Failed to send OTP.', error: error.message });
+      return res.status(500).json({ success: false, message: "Failed to send OTP" });
   }
 });
 

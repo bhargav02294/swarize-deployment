@@ -174,6 +174,9 @@ app.get('/signin', (req, res) => {
 app.get("/signup", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "signup.html"));
 });
+app.get("/otp", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "otp.html"));
+});
 
 
 function validateIndianUser(req, res, next) {

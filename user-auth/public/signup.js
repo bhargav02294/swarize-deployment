@@ -33,7 +33,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
             authMethod: "email"  // ✅ Ensuring authMethod is included
         };
 
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", { 
+        const response = await fetch("https://swarize.in/api/auth/signup", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // Ensures cookies/sessions work
@@ -45,7 +45,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
         if (response.ok && data.success) {
             alert("✅ Signup successful! Redirecting to OTP verification...");
             localStorage.setItem("signupEmail", email);
-            window.location.href = "https://swarize-deployment.onrender.com/otp";
+            window.location.href = "https://swarize.in/otp.html";  // ✅ If hosted on Swarize
         } else {
             alert(`❌ ${data.message || "Error registering user. Please try again."}`);
         }
@@ -54,7 +54,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
         alert("❌ Something went wrong. Please try again later.");
     }
 });
-s
+
 // Fetch user country and set it in the hidden input field
 fetch("https://ipapi.co/json")
     .then(response => response.json())

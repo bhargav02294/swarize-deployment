@@ -56,11 +56,12 @@ const razorpay = new Razorpay({
 
 
 app.use(cors({
-  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow both frontend and backend domains
+  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow frontend & backend origins
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 
 // ✅ Connect to MongoDB
 const connectDB = async () => {
@@ -540,11 +541,12 @@ app.get('/forgot-password', (req, res) => {
 // Profile Route (After Successful Login)
 app.get('/profile', (req, res) => {
   if (req.session.userId) {
-    res.redirect("https://swarize.in/index.html"); // Use frontend domain, not backend
+    res.redirect("https://swarize.in/index.html"); // ✅ Use correct frontend path
   } else {
-    res.redirect("https://swarize.in/profile"); // Use frontend domain, not backend
+    res.redirect("https://swarize.in/signin.html"); // ✅ Redirect to frontend signin
   }
 });
+
 
 // ✅ Logout Route - Clears cookies from both frontend & backend
 app.get("/api/auth/logout", (req, res) => {
@@ -1119,24 +1121,24 @@ app.get("/api/products/:id", async (req, res) => {
 
 
 
-const router = express.Router();
 app.get("/api/products/category/:category", async (req, res) => {
   try {
-      const category = decodeURIComponent(req.params.category); // Fix encoding issue
-      console.log("Fetching products for category:", category);
-
-      const products = await Product.find({ category });
+      const category = req.params.category.replace(/%20/g, ' '); // Fix URL encoding issue
+      console.log("🔍 Fetching products for category:", category);
+      
+      const products = await Product.find({ category: category });
 
       if (products.length === 0) {
-          return res.status(200).json({ success: true, message: "No products available yet.", products: [] });
+          return res.status(200).json({ success: true, products: [] }); // Return empty array instead of 404
       }
-
       res.json({ success: true, products });
   } catch (error) {
       console.error("❌ Error fetching products:", error);
-      res.status(500).json({ success: false, message: "Server error." });
+      res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
 
 
 app.get("/api/products", async (req, res) => {
@@ -1508,5 +1510,5 @@ app.post("/send-message", async (req, res) => {
 
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

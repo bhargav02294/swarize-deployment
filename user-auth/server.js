@@ -167,6 +167,10 @@ const isAuthenticated = (req, res, next) => {
 app.get('/debug-session', (req, res) => {
   res.json({ session: req.session });
 });
+app.get("/verify-otp", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "otp.html"));
+});
+
 
 
 app.get('/signin', (req, res) => {
@@ -434,30 +438,23 @@ passport.deserializeUser(async (id, done) => {
 
 
 // ✅ Google OAuth Routes
+app.get("/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 app.get("/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "https://swarize-deployment.onrender.com/signin" }),
+  passport.authenticate("google", { failureRedirect: "/signin" }),
   (req, res) => {
-      // ✅ Fix: Ensure session is saved before redirecting
-      req.session.save((err) => {
-          if (err) {
-              console.error("Session save error after Google login:", err);
-              return res.status(500).json({ message: "Session error" });
-          }
-
-          // Generate a JWT Token
-          const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-          res.cookie("token", token, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "Strict"
-          });
-
-          res.redirect("https://swarize-deployment.onrender.com/profile"); // ✅ Redirect user to profile page
-      });
+    req.session.save(err => {
+      if (err) {
+        console.error("Session save error after Google login:", err);
+        return res.status(500).json({ message: "Session error" });
+      }
+      res.redirect("https://swarize.in/profile");
+    });
   }
 );
+
 
 
 

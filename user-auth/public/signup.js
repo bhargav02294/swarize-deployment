@@ -69,5 +69,5 @@ fetch("https://ipapi.co/json")
 
 // Google OAuth Signup Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // Redirects to backend for Google OAuth
+    window.location.href = "https://swarize.in/auth/google"; // Use swarize.in instead of Render's backend URL
 });

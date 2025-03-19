@@ -393,13 +393,12 @@ app.post('/reset-password', async (req, res) => {
 
 
 
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
-
-// ✅ Google OAuth Strategy
 passport.use(new GoogleStrategy({
-  const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID,
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET,
-
+  clientID: GOOGLE_CLIENT_ID,  // ✅ Uses environment variable
+  clientSecret: GOOGLE_CLIENT_SECRET,  // ✅ Uses environment variable
   callbackURL: "https://swarize-deployment.onrender.com/auth/google/callback",
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
@@ -423,6 +422,7 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET,
       return done(error, null);
   }
 }));
+
 
 // ✅ Serialize & Deserialize User for Session Management
 passport.serializeUser((user, done) => done(null, user.id));

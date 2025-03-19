@@ -399,8 +399,7 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://swarize-deployment.onrender.com/auth/google/callback",
-  scope: ["profile", "email"], // ✅ Ensure scope is included
+  callbackURL: "https://swarize-deployment.onrender.com/auth/google/callback", // ✅ Must match Google Console
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
   try {
@@ -423,6 +422,7 @@ passport.use(new GoogleStrategy({
       return done(error, null);
   }
 }));
+
 
 
 

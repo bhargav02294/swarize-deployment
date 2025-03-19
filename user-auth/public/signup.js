@@ -69,6 +69,7 @@ fetch("https://ipapi.co/json")
 
 // ✅ Google OAuth Signup Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize-deployment.onrender.com/auth/google";
+    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // ✅ Redirects to backend for OAuth
 });
+
 

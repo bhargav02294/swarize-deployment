@@ -397,9 +397,10 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 passport.use(new GoogleStrategy({
-  clientID: GOOGLE_CLIENT_ID,  // ✅ Uses environment variable
-  clientSecret: GOOGLE_CLIENT_SECRET,  // ✅ Uses environment variable
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "https://swarize-deployment.onrender.com/auth/google/callback",
+  scope: ["profile", "email"], // ✅ Ensure scope is included
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
   try {
@@ -424,6 +425,9 @@ passport.use(new GoogleStrategy({
 }));
 
 
+
+
+
 // ✅ Serialize & Deserialize User for Session Management
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
@@ -437,13 +441,13 @@ passport.deserializeUser(async (id, done) => {
 
 // ✅ Google OAuth Routes
 app.get("/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["profile", "email"] }) // ✅ Scope added
 );
 
 app.get("/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/signin" }),
   (req, res) => {
-      res.redirect("https://swarize.in/dashboard"); // Redirect users to the dashboard after login
+      res.redirect("https://swarize.in/dashboard"); // ✅ Redirects user to dashboard after login
   }
 );
 

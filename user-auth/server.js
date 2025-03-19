@@ -13,7 +13,7 @@ const cors = require("cors");
 const flash = require('connect-flash');
 const { check, validationResult } = require('express-validator'); // For validation
 const session = require('express-session');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');
 const crypto = require("crypto");
@@ -65,7 +65,6 @@ const razorpay = new Razorpay({
 
 
 
-
 // ✅ Connect to MongoDB
 const connectDB = async () => {
   try {
@@ -81,7 +80,7 @@ connectDB();
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
       collectionName: 'sessions',
@@ -395,10 +394,12 @@ app.post('/reset-password', async (req, res) => {
 
 
 
+
 // ✅ Google OAuth Strategy
 passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID,
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET,
+
   callbackURL: "https://swarize-deployment.onrender.com/auth/google/callback",
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
@@ -423,6 +424,7 @@ passport.use(new GoogleStrategy({
   }
 }));
 
+// ✅ Serialize & Deserialize User for Session Management
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
   try {
@@ -433,17 +435,29 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-
 // ✅ Google OAuth Routes
 app.get("/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
+
 app.get("/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/signin" }),
   (req, res) => {
-    res.redirect("https://swarize-deployment.onrender.com/auth/google/callback"); // Redirect users to frontend after login
+      res.redirect("https://swarize.in/dashboard"); // Redirect users to the dashboard after login
   }
 );
+
+// ✅ Logout Route
+app.get("/logout", (req, res) => {
+  req.logout(err => {
+      if (err) {
+          return res.status(500).send("Logout failed.");
+      }
+      req.session.destroy(() => {
+          res.redirect("/");
+      });
+  });
+});
 
 
 

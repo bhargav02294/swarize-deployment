@@ -45,8 +45,9 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
         if (response.ok && data.success) {
             alert("✅ Signup successful! Redirecting to OTP verification...");
             localStorage.setItem("signupEmail", email);
-            window.location.href = "https://swarize.in/otp.html"; // Redirect to frontend OTP page
-        } else {
+            window.location.href = data.redirect; // ✅ Use the redirect from the backend
+        }
+         else {
             alert(`❌ ${data.message || "Error registering user. Please try again."}`);
         }
     } catch (error) {

@@ -252,9 +252,18 @@ app.post("/api/auth/signup", async (req, res) => {
       req.session.userId = newUser._id;
       req.session.userName = newUser.name;
       req.session.save(err => {
-          if (err) return res.status(500).json({ success: false, message: "Session save error." });
+          if (err) {
+              console.error("❌ Error saving session:", err);
+              return res.status(500).json({ success: false, message: "Session save error." });
+          }
 
-          res.status(201).json({ success: true, message: "User created successfully!", userId: newUser._id });
+          console.log("✅ User created and session started:", newUser);
+          res.status(201).json({
+              success: true,
+              message: "User created successfully!",
+              userId: newUser._id,
+              redirect: "https://swarize.in/otp.html" // ✅ Redirect to OTP page
+          });
       });
 
   } catch (error) {
@@ -287,7 +296,7 @@ transporter.verify((error, success) => {
       console.log(" Email Transporter Ready!");
   }
 });
-let otpStorage = {}; // ✅ Temporary storage for OTPs
+let otpStorage = new Map(); // ✅ Use a Map object for proper storage
 
 
 // ✅ API to Send OTP
@@ -301,7 +310,7 @@ app.post("/api/send-otp", async (req, res) => {
 
   // Generate 6-digit OTP
   const otp = crypto.randomInt(100000, 999999).toString();
-  otpStorage.set(email, otp); // Store OTP temporarily
+  otpStorage.set(email, otp); // ✅ Now OTPs are stored correctly
 
   try {
       await sendEmail({
@@ -347,10 +356,10 @@ app.post('/verify-otp', (req, res) => {
     }
 
     if (storedOtp === otp) {
-        // OTP is valid; remove it from storage
-        delete otpStorage[email];
-        res.send({ success: true, message: 'Email OTP verified successfully.' });
-    } else {
+      otpStorage.delete(email); // ✅ Remove OTP after successful verification
+      res.send({ success: true, message: 'Email OTP verified successfully.' });
+  }
+  else {
         res.status(400).send({ success: false, message: 'Invalid OTP.' });
     }
 });

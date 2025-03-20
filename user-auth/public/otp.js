@@ -41,7 +41,7 @@ document.getElementById('get-otp').addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/send-otp", {
+        const response = await fetch("https://swarize.in/api/send-otp", { // ✅ Use correct domain
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),

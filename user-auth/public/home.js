@@ -2,11 +2,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mainContainer = document.getElementById('main-container');
     const signInMessage = document.getElementById('sign-in-message');
     const signInBtn = document.getElementById('sign-in-btn');
-    const gridContainer = document.getElementById('grid-container');
-    const buttonContainer = document.getElementById('button-container');
 
     try {
-        // ✅ Ensure session cookies are included in the request
         const response = await fetch('https://swarize-deployment.onrender.com/api/auth/is-logged-in', {
             credentials: 'include'
         });
@@ -18,15 +15,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (data.isLoggedIn) {
-            // ✅ Store user data in localStorage
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
-            // ✅ Show main content and hide sign-in message
             signInMessage.style.display = 'none';
             mainContainer.style.display = 'flex';
 
-            // ✅ Populate sidebar dynamically
             const sidebar = document.querySelector('.sidebar');
             sidebar.innerHTML = `
                 <div class="logo-container">
@@ -44,12 +38,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             `;
 
-            // ✅ Display welcome message without duplication
-            buttonContainer.innerHTML = `<p>Welcome, ${data.userName || 'User'}!</p>`;
-
-            // ✅ Ensure the grid is visible
-            gridContainer.style.display = 'grid';
-
             // ✅ Logout Button Handling
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
@@ -59,10 +47,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
 
                     if (logoutResponse.ok) {
+                        console.log("✅ Successfully logged out");
+
+                        // ✅ Clear session storage & local storage
+                        sessionStorage.clear();
                         localStorage.removeItem("loggedInUser");
                         localStorage.removeItem("userName");
 
-                        // ✅ Redirect to Home Page After Logout
+                        // ✅ Redirect to index.html
                         window.location.href = 'https://swarize.in/index.html';
                     } else {
                         console.error("❌ Logout failed");
@@ -73,11 +65,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
         } else {
-            // ✅ Show sign-in message if user is NOT logged in
             mainContainer.style.display = 'none';
             signInMessage.style.display = 'flex';
 
-            // ✅ Redirect to sign-in page when button is clicked
             if (signInBtn) {
                 signInBtn.onclick = () => {
                     window.location.href = 'https://swarize.in/signin.html';

@@ -578,6 +578,8 @@ app.get("/profile", (req, res) => {
 });// ✅ Logout Route - Clears session and cookies
 // ✅ Logout Route - Clears session and cookies
 app.get("/api/auth/logout", (req, res) => {
+  console.log("🚀 Logout request received");
+
   req.session.destroy(err => {
       if (err) {
           console.error("❌ Error destroying session:", err);
@@ -586,7 +588,7 @@ app.get("/api/auth/logout", (req, res) => {
 
       console.log("✅ Session destroyed successfully");
 
-      // ✅ Clear cookies properly for both frontend and backend
+      // ✅ Clear cookies for both frontend and backend domains
       res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
       res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
 
@@ -595,8 +597,8 @@ app.get("/api/auth/logout", (req, res) => {
 
       console.log("✅ Cookies cleared");
 
-      // ✅ Redirect to index.html (Homepage) after logout
-      return res.redirect("https://swarize.in/index.html");
+      // ✅ Ensure user is redirected properly
+      res.redirect("https://swarize.in/index.html");
   });
 });
 

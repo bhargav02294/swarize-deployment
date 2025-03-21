@@ -91,7 +91,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", 
-    sameSite: "Lax",  // ✅ Allow cross-site requests
+    sameSite: "None", // ✅ Fixes cross-site session issue
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
@@ -100,14 +100,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ Debug API
-app.get("/api/debug-logs", (req, res) => {
-  console.log("📢 Debugging API hit!");
-  res.json({ message: "Debugging logs working!" });
-});
-
+// ✅ Debugging Middleware (Check Session Data)
 app.use((req, res, next) => {
   console.log("🔹 Middleware - Session Data:", req.session);
+  console.log("🔹 Middleware - Cookies:", req.cookies);
   next();
 });
 
@@ -133,6 +129,7 @@ app.use("/api/payment", paymentRoutes);
 
 
 
+// ✅ Authentication Middleware (Fix for Cart & Protected Routes)
 const isAuthenticated = (req, res, next) => {
   console.log("🔍 Checking authentication...");
   console.log("🔹 Session Data:", req.session);
@@ -140,26 +137,27 @@ const isAuthenticated = (req, res, next) => {
   console.log("🔹 Session User ID:", req.session.userId);
 
   if (req.session && req.session.userId) {
-      req.user = { id: req.session.userId };
-      console.log("✅ User Verified via Session:", req.user);
-      return next();
+    req.user = { id: req.session.userId };
+    console.log("✅ User Verified via Session:", req.user);
+    return next();
   }
 
   const token = req.cookies.token;
   console.log("🔹 Token received:", token);
 
   if (token) {
-      try {
-          const verified = jwt.verify(token, process.env.JWT_SECRET);
-          req.user = verified;
+    try {
+      const verified = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = verified;
 
-          if (!req.session.userId) {
-              req.session.userId = verified.id;
-          }
-          return next();
-      } catch (err) {
-          return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
+      if (!req.session.userId) {
+        req.session.userId = verified.id;
+        req.session.save(); // ✅ Ensure session is saved
       }
+      return next();
+    } catch (err) {
+      return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
+    }
   }
 
   return res.status(401).json({ success: false, message: "Unauthorized: Please log in." });
@@ -535,11 +533,11 @@ app.get('/forgot-password', (req, res) => {
 });
 
 // Profile Route (After Successful Login)
-app.get('/profile', (req, res) => {
+app.get("/profile", (req, res) => {
   if (req.session.userId) {
-    res.redirect("https://swarize.in/index.html"); // Use frontend domain, not backend
+    res.redirect("https://swarize.in/index.html"); // ✅ Correct redirect
   } else {
-    res.redirect("https://swarize.in/profile"); // Use frontend domain, not backend
+    res.redirect("https://swarize.in/signin.html");
   }
 });
 

@@ -11,7 +11,7 @@ const isAuthenticated = (req, res, next) => {
         return next();
     }
 
-    const token = req.cookies.token;
+    const token = req.cookies.token;  // ✅ Fix undefined token
     console.log("🔹 Token received:", token);
 
     if (token) {
@@ -22,7 +22,7 @@ const isAuthenticated = (req, res, next) => {
             if (!req.session.userId) {
                 req.session.userId = verified.id;
                 req.session.save();
-                console.log("✅ Session userId set:", req.session.userId);
+                console.log("✅ Session userId set from token:", req.session.userId);
             }
             return next();
         } catch (err) {

@@ -17,6 +17,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');
 const crypto = require("crypto");
+const dotenv = require("dotenv");
 
 const fs = require('fs');
 const app = express();
@@ -513,22 +514,21 @@ app.post("/api/auth/signin", async (req, res) => {
 
 
 
-
 // ✅ Check if user is logged in
 app.get("/api/auth/is-logged-in", (req, res) => {
-  console.log("🔍 Checking if user is logged in...");
-  console.log("🔹 Session Data:", req.session);
+    console.log("🔍 Checking if user is logged in...");
+    console.log("🔹 Session Data:", req.session);
 
-  if (req.session && req.session.userId) {
-      return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
-  }
-  return res.json({ isLoggedIn: false });
+    if (req.session && req.session.userId) {
+        return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
+    }
+    return res.json({ isLoggedIn: false });
 });
 
 // ✅ Debug Session Route (Use this to debug)
 app.get("/api/debug-session", (req, res) => {
-  console.log("🐛 Debugging Session Data:", req.session);
-  res.json({ success: true, session: req.session });
+    console.log("🐛 Debugging Session Data:", req.session);
+    res.json({ success: true, session: req.session });
 });
 
 

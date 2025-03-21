@@ -512,18 +512,26 @@ app.post("/api/auth/signin", async (req, res) => {
 
 
 
+// ✅ Fetch User Cart API
+app.get("/api/cart", (req, res) => {
+  if (!req.session || !req.session.userId) {
+      return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
+  }
+
+  const userId = req.session.userId;
+  const userCart = cartData[userId] || [];
+
+  res.json({ success: true, cart: userCart });
+});
+
 // ✅ Check if user is logged in
 app.get("/api/auth/is-logged-in", (req, res) => {
-  console.log("🔍 Checking if user is logged in...");
-  console.log("🔹 Session Data:", req.session);
-  console.log("🔹 Cookies:", req.cookies);
-
   if (req.session && req.session.userId) {
       return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
   }
-
   return res.json({ isLoggedIn: false });
 });
+
 
 
 // ✅ Debug session route

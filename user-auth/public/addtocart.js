@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        // ✅ Check if user is signed in
+        // ✅ Correct API for checking login status
         const authResponse = await fetch("https://swarize-deployment.onrender.com/api/auth/is-logged-in", {
             credentials: "include"
         });
@@ -16,11 +16,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
+        console.log("✅ User is logged in:", authData); // ✅ Debugging Log
+
         // ✅ Fetch Cart Items
         const cartResponse = await fetch("https://swarize-deployment.onrender.com/api/cart", { credentials: "include" });
         const cartData = await cartResponse.json();
 
-        console.log("🛒 Cart Data from Backend:", cartData); // Debugging Log
+        console.log("🛒 Cart Data from Backend:", cartData);
 
         if (!cartData.success || cartData.cart.length === 0) {
             document.getElementById("cart-message").textContent = "Your cart is empty.";

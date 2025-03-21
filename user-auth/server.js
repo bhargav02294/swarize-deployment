@@ -526,29 +526,20 @@ app.get("/api/cart", (req, res) => {
 
 // ✅ Check if user is logged in
 app.get("/api/auth/is-logged-in", (req, res) => {
+  console.log("🔍 Checking if user is logged in...");
+  console.log("🔹 Session Data:", req.session);
+
   if (req.session && req.session.userId) {
       return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
   }
   return res.json({ isLoggedIn: false });
 });
 
-
-
-// ✅ Debug session route
+// ✅ Debug Session Route (Use this to debug)
 app.get("/api/debug-session", (req, res) => {
   console.log("🐛 Debugging Session Data:", req.session);
-
-  if (!req.session) {
-      return res.status(500).json({ success: false, message: "Session not found!" });
-  }
-
-  res.json({
-      success: true,
-      sessionID: req.sessionID,
-      sessionData: req.session
-  });
+  res.json({ success: true, session: req.session });
 });
-
 
 
 

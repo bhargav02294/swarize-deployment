@@ -367,34 +367,31 @@ app.post('/verify-otp', (req, res) => {
 
 // Route to reset password
 
-app.post('/reset-password', async (req, res) => {
-    const { email, newPassword } = req.body;
+// ✅ Reset Password API
+app.post("/api/auth/reset-password", async (req, res) => {
+  const { email, newPassword } = req.body;
 
-    try {
-        // Find the user by email
-        const user = await User.findOne({ email: email.trim() });
+  try {
+      const user = await User.findOne({ email: email.trim() });
 
-        if (!user) {
-            console.log(`User not found for email: ${email}`);  // Debugging log
-            return res.status(404).json({ message: 'User not found.' });
-        }
+      if (!user) {
+          return res.status(404).json({ message: "❌ User not found." });
+      }
 
-        // Check if the new password matches the old one
-        const isSamePassword = await bcrypt.compare(newPassword, user.password);
-        if (isSamePassword) {
-            return res.status(409).json({ message: 'New password cannot be the same as the old password.' });
-        }
+      const isSamePassword = await bcrypt.compare(newPassword, user.password);
+      if (isSamePassword) {
+          return res.status(409).json({ message: "❌ New password cannot be the same as the old password." });
+      }
 
-        // Hash the new password and update the user record
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedPassword;
-        await user.save();
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await user.save();
 
-        res.status(200).json({ message: 'Password reset successfully!' });
-    } catch (error) {
-        console.error('Error resetting password:', error);
-        res.status(500).json({ message: 'Failed to reset password. Please try again.' });
-    }
+      res.status(200).json({ message: "✅ Password reset successfully!" });
+  } catch (error) {
+      console.error("❌ Error resetting password:", error);
+      res.status(500).json({ message: "❌ Failed to reset password. Please try again." });
+  }
 });
 
 

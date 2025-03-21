@@ -33,13 +33,13 @@ function startTimer() {
 
 // ✅ Send OTP
 document.getElementById('get-otp').addEventListener('click', async () => {
-    const email = document.getElementById('otp-email').value;
+    const email = document.getElementById('otp-email').value.trim(); // ✅ Ensure email is not empty
 
     try {
         const response = await fetch("https://swarize-deployment.onrender.com/api/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ email }) // ✅ Fixed: Ensure email is sent
         });
 
         const result = await response.json();

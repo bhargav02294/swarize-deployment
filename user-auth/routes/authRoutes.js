@@ -8,35 +8,42 @@ const router = express.Router();
 const otpStorage = new Map(); // ✅ Store OTPs temporarily
 
 // ✅ User Sign Up Route
-router.post("/signup", async (req, res) => {
-    console.log("🔹 Sign Up Attempt:", req.body);
+const nodemailer = require("nodemailer");
 
-    try {
-        const { name, email, password, country, authMethod } = req.body;
-
-        if (!email || !password || !name || !country || !authMethod) {
-            return res.status(400).json({ success: false, message: "All fields are required." });
-        }
-
-        let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ success: false, message: "User already exists." });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        user = new User({ name, email, password: hashedPassword, country, authMethod });
-        await user.save();
-
-        req.session.userId = user._id;
-        req.session.save();
-
-        console.log("✅ User Registered:", user.email);
-        res.json({ success: true, message: "Signup successful!", redirect: "/otp.html" });
-    } catch (error) {
-        console.error("❌ Error during signup:", error);
-        res.status(500).json({ success: false, message: "Server error" });
+const transporter = nodemailer.createTransport({
+    service: "gmail", // Use your email provider (Gmail, Outlook, etc.)
+    auth: {
+        user: process.env.EMAIL_USER, // ✅ Ensure this is set correctly in Render
+        pass: process.env.EMAIL_PASS  // ✅ Ensure this is set correctly in Render
     }
 });
+
+router.post("/send-otp", async (req, res) => {
+    const { email } = req.body;
+    
+    try {
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        otpStorage.set(email, otp);
+
+        console.log(`✅ OTP for ${email}: ${otp}`);
+
+        // ✅ Send OTP Email
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Your Swarize OTP Code",
+            text: `Your OTP code is: ${otp}. It is valid for 10 minutes.`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.json({ success: true, message: "OTP sent successfully to your email!" });
+    } catch (error) {
+        console.error("❌ Error sending OTP via email:", error);
+        res.status(500).json({ success: false, message: "Failed to send OTP. Check email settings." });
+    }
+});
+
 
 // ✅ Send OTP Route
 router.post("/send-otp", async (req, res) => {

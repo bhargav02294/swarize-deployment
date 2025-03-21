@@ -586,16 +586,16 @@ app.get("/api/auth/logout", (req, res) => {
 
     console.log("✅ Session destroyed successfully");
 
-    // ✅ Clear cookies for both frontend and backend domains
-    res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
-    res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
-    
-    res.clearCookie("token", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
-    res.clearCookie("connect.sid", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
+    // ✅ Clear cookies properly for both frontend & backend
+    res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "Lax" });
+    res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "Lax" });
+
+    res.clearCookie("token", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "Lax" });
+    res.clearCookie("connect.sid", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "Lax" });
 
     console.log("✅ Cookies cleared");
 
-    // ✅ Redirect to index.html (Homepage) after logout
+    // ✅ Redirect to homepage after logout
     return res.redirect("https://swarize.in/index.html");
   });
 });

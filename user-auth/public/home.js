@@ -7,10 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // ✅ Ensure session cookies are included in the request
-        const response = await fetch('https://swarize-deployment.onrender.com/api/auth/is-logged-in', {
-            credentials: 'include'
-        });
-
+        const response = await fetch('/api/auth/session', { credentials: 'include' });
+        
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -30,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const sidebar = document.querySelector('.sidebar');
             sidebar.innerHTML = `
                 <div class="logo-container">
-                    <span class="logo-text">S</span>
+                    <span class="logo-text">S</span> <!-- Letter "S" in the circle -->
                 </div>
                 <ul class="menu">
                     <li><a href="/">Home</a></li>
@@ -59,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Redirect to sign-in page when button is clicked
             if (signInBtn) {
                 signInBtn.onclick = () => {
-                    window.location.href = 'https://swarize.in/signin.html';
+                    window.location.href = 'https://swarize-deployment.onrender.com/signin';
                 };
             }
         }
@@ -77,17 +75,17 @@ function addEventListenerIfExists(selector, event, handler) {
 
 // ✅ Button event listeners
 addEventListenerIfExists('#collections-btn', 'click', () => {
-    window.location.href = 'https://swarize.in/collections.html';
+    window.location.href = 'https://swarize-deployment.onrender.com/collections.html';
 });
 
 addEventListenerIfExists('#store-btn', 'click', () => {
-    window.location.href = 'https://swarize.in/store.html';
+    window.location.href = 'https://swarize-deployment.onrender.com/store.html';
 });
 
 addEventListenerIfExists('#profile-btn', 'click', () => {
-    window.location.href = 'https://swarize.in/user-profile.html';
+    window.location.href = 'https://swarize-deployment.onrender.com/user-profile.html';
 });
 
 addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
-    window.location.href = 'https://swarize.in/dashboard.html';
+    window.location.href = 'https://swarize-deployment.onrender.com/dashboard.html';
 });

@@ -11,28 +11,26 @@ const isAuthenticated = (req, res, next) => {
         return next();
     }
 
-    const token = req.cookies.token;
-    console.log("🔹 Token received:", token);
-
-    if (token) {
-        try {
-            const verified = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = verified;
-
-            if (!req.session.userId) {
-                req.session.userId = verified.id;
-                req.session.save();
-                console.log("✅ Session userId set:", req.session.userId);
-            }
-            return next();
-        } catch (err) {
-            console.log("❌ Invalid or Expired Token.");
-            return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
-        }
+    if (!req.cookies.token) {
+        console.log("❌ No valid session or token found.");
+        return res.status(401).json({ success: false, message: "Unauthorized: Please log in." });
     }
 
-    console.log("❌ No valid authentication found.");
-    return res.status(401).json({ success: false, message: "Unauthorized: Please log in." });
-};
+    console.log("🔹 Token received:", token);
 
+    try {
+        const verified = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+        req.user = verified;
+
+        if (!req.session.userId) {
+            req.session.userId = verified.id;
+            req.session.save();
+            console.log("✅ Session userId set from token:", req.session.userId);
+        }
+        return next();
+    } catch (err) {
+        console.log("❌ Invalid or Expired Token.");
+        return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
+    }
+};
 module.exports = { isAuthenticated };

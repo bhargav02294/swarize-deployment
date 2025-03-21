@@ -114,7 +114,7 @@ app.use((req, res, next) => {
 
 
 // ✅ Import Routes
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require("./routes/authRoutes"); // ✅ Import the correct auth route
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
 const bankRoutes = require("./routes/bank");

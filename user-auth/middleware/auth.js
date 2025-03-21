@@ -5,14 +5,12 @@ const isAuthenticated = (req, res, next) => {
     console.log("🔹 Session Data:", req.session);
     console.log("🔹 Cookies:", req.cookies);
 
-    // ✅ Check if user ID exists in the session
     if (req.session && req.session.userId) {
         req.user = { id: req.session.userId };
         console.log("✅ User Verified via Session:", req.user);
         return next();
     }
 
-    // ✅ Check for JWT token in cookies
     const token = req.cookies.token;
     console.log("🔹 Token received:", token);
 
@@ -21,13 +19,10 @@ const isAuthenticated = (req, res, next) => {
             const verified = jwt.verify(token, process.env.JWT_SECRET);
             req.user = verified;
 
-            console.log("✅ User Verified via Token:", req.user);
-
-            // ✅ Ensure `userId` is set in session if not already
             if (!req.session.userId) {
                 req.session.userId = verified.id;
                 req.session.save();
-                                console.log("✅ Session userId set:", req.session.userId);
+                console.log("✅ Session userId set:", req.session.userId);
             }
             return next();
         } catch (err) {

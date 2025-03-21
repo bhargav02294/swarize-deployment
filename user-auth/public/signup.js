@@ -33,7 +33,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
             authMethod: "email"
         };
 
-        const response = await fetch("https://swarize.in/api/auth/signup", {
+        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -47,7 +47,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
             localStorage.setItem("signupEmail", email);
             window.location.href = data.redirect; // ✅ Use the redirect from the backend
         }
-         else {
+        else {
             alert(`❌ ${data.message || "Error registering user. Please try again."}`);
         }
     } catch (error) {
@@ -56,19 +56,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
     }
 });
 
-// ✅ Fetch user country and set it in the hidden input field
-fetch("https://ipapi.co/json")
-    .then(response => response.json())
-    .then(data => {
-        const country = data.country_name || "Unknown";
-        document.getElementById("signup-country").value = country;
-        if (country.toLowerCase() !== "india") {
-            alert("❌ This platform is only available in India.");
-        }
-    })
-    .catch(error => console.error("❌ Error fetching country data:", error));
-
 // ✅ Google OAuth Signup Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://www.swarize.in/auth/google"; // ✅ Uses the correct domain
+    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // ✅ Uses the correct domain
 });

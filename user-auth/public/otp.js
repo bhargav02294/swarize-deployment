@@ -31,17 +31,12 @@ function startTimer() {
     }, 1000);
 }
 
-// Send OTP
+// ✅ Send OTP
 document.getElementById('get-otp').addEventListener('click', async () => {
     const email = document.getElementById('otp-email').value;
 
-    if (!validateEmail(email)) {
-        document.getElementById('email-error').innerText = 'Invalid email address';
-        return;
-    }
-
     try {
-        const response = await fetch("https://swarize.in/api/send-otp", { // ✅ Use correct domain
+        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }),
@@ -59,6 +54,8 @@ document.getElementById('get-otp').addEventListener('click', async () => {
         alert("❌ Failed to send OTP. Please try again.");
     }
 });
+
+
 
 // ✅ Resend OTP
 document.getElementById('resend-otp').addEventListener('click', async () => {
@@ -85,12 +82,13 @@ document.getElementById('resend-otp').addEventListener('click', async () => {
 });
 
 // ✅ Verify OTP
+// ✅ Verify OTP
 document.getElementById('submit-email-otp').addEventListener('click', async () => {
     const otp = document.getElementById('otp-email-input').value;
     const email = document.getElementById('otp-email').value;
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/verify-otp", {
+        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/verify-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, otp }),
@@ -98,18 +96,19 @@ document.getElementById('submit-email-otp').addEventListener('click', async () =
 
         const result = await response.json();
         if (result.success) {
-            showMessage('success', '✅ Email OTP verified successfully!');
+            alert("✅ Email OTP verified successfully!");
             setTimeout(() => {
                 window.location.href = 'index.html'; // Redirect to homepage after success
             }, 2000);
         } else {
-            showMessage('error', result.message || '❌ Failed to verify OTP.');
+            alert("❌ Failed to verify OTP.");
         }
     } catch (error) {
-        showMessage('error', '❌ An unexpected error occurred.');
-        console.error('Error:', error);
+        console.error("❌ Error:", error);
+        alert("❌ An unexpected error occurred.");
     }
 });
+
 
 function validateEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

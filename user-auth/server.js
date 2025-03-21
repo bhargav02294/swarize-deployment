@@ -579,24 +579,24 @@ app.get("/profile", (req, res) => {
 // ✅ Logout Route - Clears session and cookies
 app.get("/api/auth/logout", (req, res) => {
   req.session.destroy(err => {
-    if (err) {
-      console.error("❌ Error destroying session:", err);
-      return res.status(500).json({ success: false, message: "Logout failed" });
-    }
+      if (err) {
+          console.error("❌ Error destroying session:", err);
+          return res.status(500).json({ success: false, message: "Logout failed" });
+      }
 
-    console.log("✅ Session destroyed successfully");
+      console.log("✅ Session destroyed successfully");
 
-    // ✅ Clear cookies properly for both frontend & backend
-    res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "Lax" });
-    res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "Lax" });
+      // ✅ Clear cookies properly for both frontend and backend
+      res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
+      res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
 
-    res.clearCookie("token", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "Lax" });
-    res.clearCookie("connect.sid", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "Lax" });
+      res.clearCookie("token", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
+      res.clearCookie("connect.sid", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
 
-    console.log("✅ Cookies cleared");
+      console.log("✅ Cookies cleared");
 
-    // ✅ Redirect to homepage after logout
-    return res.redirect("https://swarize.in/index.html");
+      // ✅ Redirect to index.html (Homepage) after logout
+      return res.redirect("https://swarize.in/index.html");
   });
 });
 

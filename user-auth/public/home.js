@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (data.isLoggedIn) {
-            // ✅ Store user data in localStorage for fast access
+            // ✅ Store user data in localStorage
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
@@ -44,21 +44,32 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             `;
 
-            // ✅ Display welcome message without duplicating
+            // ✅ Display welcome message without duplication
             buttonContainer.innerHTML = `<p>Welcome, ${data.userName || 'User'}!</p>`;
 
             // ✅ Ensure the grid is visible
             gridContainer.style.display = 'grid';
 
-            // ✅ Handle Logout Functionality
+            // ✅ Logout Button Handling
             document.getElementById('logout-btn').addEventListener('click', async () => {
-                await fetch("https://swarize-deployment.onrender.com/api/auth/logout", {
-                    method: "GET",
-                    credentials: "include"
-                });
-                localStorage.removeItem("loggedInUser");
-                localStorage.removeItem("userName");
-                window.location.href = 'https://swarize.in/index.html'; // ✅ Redirect after logout
+                try {
+                    const logoutResponse = await fetch("https://swarize-deployment.onrender.com/api/auth/logout", {
+                        method: "GET",
+                        credentials: "include"
+                    });
+
+                    if (logoutResponse.ok) {
+                        localStorage.removeItem("loggedInUser");
+                        localStorage.removeItem("userName");
+
+                        // ✅ Redirect to Home Page After Logout
+                        window.location.href = 'https://swarize.in/index.html';
+                    } else {
+                        console.error("❌ Logout failed");
+                    }
+                } catch (error) {
+                    console.error("❌ Error during logout:", error);
+                }
             });
 
         } else {

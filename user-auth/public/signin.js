@@ -23,7 +23,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
 
         if (response.ok && data.success) {
             alert("✅ Login Successful! Redirecting...");
-            window.location.href = "https://swarize.in/profile"; // ✅ Redirect to profile page
+            window.location.href = "https://swarize.in"; // ✅ Redirect to profile page
         } else {
             message.textContent = `❌ ${data.message || "Failed to sign in. Please try again."}`;
             message.style.color = "red";

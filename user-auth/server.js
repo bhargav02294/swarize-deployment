@@ -134,30 +134,28 @@ const isAuthenticated = (req, res, next) => {
   console.log("🔍 Checking authentication...");
   console.log("🔹 Session Data:", req.session);
   console.log("🔹 Cookies:", req.cookies);
-  console.log("🔹 Session User ID:", req.session.userId);
 
   if (req.session && req.session.userId) {
-    req.user = { id: req.session.userId };
-    console.log("✅ User Verified via Session:", req.user);
-    return next();
+      console.log("✅ User Verified via Session:", req.session.userId);
+      return next();
   }
 
   const token = req.cookies.token;
   console.log("🔹 Token received:", token);
 
   if (token) {
-    try {
-      const verified = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = verified;
+      try {
+          const verified = jwt.verify(token, process.env.JWT_SECRET);
+          req.user = verified;
 
-      if (!req.session.userId) {
-        req.session.userId = verified.id;
-        req.session.save(); // ✅ Ensure session is saved
+          if (!req.session.userId) {
+              req.session.userId = verified.id;
+              req.session.save(); // ✅ Ensure session is saved
+          }
+          return next();
+      } catch (err) {
+          return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
       }
-      return next();
-    } catch (err) {
-      return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
-    }
   }
 
   return res.status(401).json({ success: false, message: "Unauthorized: Please log in." });
@@ -168,8 +166,15 @@ const isAuthenticated = (req, res, next) => {
 app.get("/api/debug-session", (req, res) => {
   console.log("🐛 Debugging Session Data:", req.session);
   console.log("🐛 Debugging Cookies:", req.cookies);
-  res.json({ success: true, session: req.session });
+
+  res.json({
+      success: true,
+      session: req.session,
+      userId: req.session.userId || null, // ✅ Check if userId exists
+      userName: req.session.userName || "Unknown"
+  });
 });
+
 app.get("/verify-otp", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "otp.html"));
 });
@@ -477,30 +482,45 @@ app.get("/logout", (req, res) => {
 
 
 // ✅ Sign-In Route (Matches Updated `signin.js`)
+// ✅ Sign-In Route (Ensures `userId` is Saved in Session)
 app.post("/api/auth/signin", async (req, res) => {
-  const { email, password } = req.body;
-
+  console.log("🔹 Sign In Attempt:", req.body);
+  
   try {
-      const user = await User.findOne({ email: email.trim() });
-
+      const user = await User.findOne({ email: req.body.email.trim() });
       if (!user) {
-          return res.status(404).json({ success: false, message: "User not found. Please sign up first." });
+          console.log("❌ User Not Found:", req.body.email);
+          return res.status(400).json({ success: false, message: "Invalid email or password." });
       }
 
-      const isMatch = await bcrypt.compare(password.trim(), user.password);
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
       if (!isMatch) {
-          return res.status(401).json({ success: false, message: "Invalid email or password." });
+          console.log("❌ Invalid Password for:", req.body.email);
+          return res.status(400).json({ success: false, message: "Invalid email or password." });
       }
 
       req.session.regenerate((err) => {
-          if (err) return res.status(500).json({ success: false, message: "Session error" });
+          if (err) return res.status(500).json({ success: false, message: "Session error." });
 
           req.session.userId = user._id;
           req.session.userName = user.name;
-          req.session.save(err => {
-              if (err) return res.status(500).json({ success: false, message: "Session save error" });
 
-              res.json({ success: true, message: "Login successful!", userId: user._id, userName: user.name });
+          // ✅ Force session save to prevent loss
+          req.session.save((err) => {
+              if (err) {
+                  console.error("❌ Error saving session:", err);
+                  return res.status(500).json({ success: false, message: "Session save error." });
+              }
+
+              console.log("✅ User Logged In:", { userId: req.session.userId, userName: req.session.userName });
+              res.cookie("token", jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" }), {
+                  httpOnly: true,
+                  secure: true,
+                  sameSite: "None",
+                  maxAge: 60 * 60 * 1000
+              });
+
+              res.json({ success: true, message: "Login successful!", userId: req.session.userId, userName: req.session.userName });
           });
       });
 
@@ -515,13 +535,29 @@ app.post("/api/auth/signin", async (req, res) => {
 
 // ✅ Check if User is Logged In
 app.get("/api/auth/is-logged-in", (req, res) => {
-  console.log("🔍 Checking if user is logged in...");
-  console.log("🔹 Session Data:", req.session);
+    console.log("🔍 Checking if user is logged in...");
+    console.log("🔹 Session Data:", req.session);
+    console.log("🔹 Cookies:", req.cookies);
 
-  if (req.session && req.session.userId) {
-    return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
-  }
-  return res.json({ isLoggedIn: false });
+    if (req.session && req.session.userId) {
+        return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
+    }
+
+    // 🛑 If session is missing, check JWT token and recover user
+    const token = req.cookies.token;
+    if (token) {
+        try {
+            const verified = jwt.verify(token, process.env.JWT_SECRET);
+            req.session.userId = verified.id;
+            req.session.save();
+            return res.json({ isLoggedIn: true, userId: verified.id, userName: req.session.userName || "User" });
+        } catch (err) {
+            console.log("❌ Invalid or Expired Token.");
+            return res.json({ isLoggedIn: false });
+        }
+    }
+
+    return res.json({ isLoggedIn: false });
 });
 
 

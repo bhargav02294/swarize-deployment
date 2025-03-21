@@ -575,18 +575,27 @@ app.get("/profile", (req, res) => {
   } else {
     res.redirect("https://swarize.in/signin.html");
   }
-});
-
-// ✅ Logout Route - Clears cookies from both frontend & backend
+});// ✅ Logout Route - Clears session and cookies
 app.get("/api/auth/logout", (req, res) => {
   req.session.destroy(err => {
-    if (err) return res.status(500).json({ success: false, message: "Logout failed" });
+    if (err) {
+      console.error("❌ Error destroying session:", err);
+      return res.status(500).json({ success: false, message: "Logout failed" });
+    }
 
-    // Clear cookies properly
-    res.clearCookie("token", { domain: ".swarize.in", path: "/" }); 
-    res.clearCookie("connect.sid", { domain: ".swarize.in", path: "/" }); 
+    console.log("✅ Session destroyed successfully");
 
-    res.redirect("/signin"); // ✅ Use relative URL
+    // ✅ Clear cookies for both frontend and backend domains
+    res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
+    res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
+    
+    res.clearCookie("token", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
+    res.clearCookie("connect.sid", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
+
+    console.log("✅ Cookies cleared");
+
+    // ✅ Redirect to sign-in page
+    return res.redirect("https://swarize.in/signin.html");
   });
 });
 

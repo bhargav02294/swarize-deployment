@@ -57,27 +57,32 @@ document.getElementById('get-otp').addEventListener('click', async () => {
 
 
 
-// ✅ Resend OTP
+// ✅ Resend OTP (Fixed)
 document.getElementById('resend-otp').addEventListener('click', async () => {
-    const email = document.getElementById('otp-email').value;
+    const email = document.getElementById('otp-email').value.trim();
+
+    if (!validateEmail(email)) {
+        alert("❌ Please enter a valid email address.");
+        return;
+    }
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/send-otp", {
+        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ email })
         });
 
         const result = await response.json();
         if (result.success) {
-            showMessage('success', '✅ OTP has been resent to your email!');
+            alert("✅ OTP has been resent to your email!");
             startTimer();
         } else {
-            showMessage('error', result.message || '❌ Failed to resend OTP.');
+            alert("❌ Failed to resend OTP: " + result.message);
         }
     } catch (error) {
-        showMessage('error', '❌ An unexpected error occurred.');
-        console.error('Error:', error);
+        console.error("❌ Error:", error);
+        alert("❌ An unexpected error occurred.");
     }
 });
 

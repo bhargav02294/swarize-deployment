@@ -1,16 +1,8 @@
-const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const Cart = require("../models/cart");
 const Product = require("../models/product");
-
-// ✅ Middleware for authentication
-const isAuthenticated = (req, res, next) => {
-    if (!req.session.userId) {
-        return res.status(401).json({ success: false, message: "Unauthorized: Please sign in" });
-    }
-    next();
-};
+const { isAuthenticated } = require("../middleware/auth");
 
 // ✅ Add product to cart
 router.post("/add", isAuthenticated, async (req, res) => {
@@ -18,8 +10,8 @@ router.post("/add", isAuthenticated, async (req, res) => {
         const { productId } = req.body;
         const userId = req.session.userId;
 
-        if (!mongoose.Types.ObjectId.isValid(productId)) {
-            return res.status(400).json({ success: false, message: "Invalid product ID format" });
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "Unauthorized: Please sign in" });
         }
 
         const product = await Product.findById(productId);
@@ -36,13 +28,12 @@ router.post("/add", isAuthenticated, async (req, res) => {
                 cart.products[productIndex].quantity += 1;
             } else {
                 cart.products.push({
-                    productId: product._id, // Ensure it's stored correctly
+                    productId: product._id,
                     name: product.name,
                     price: product.price,
                     description: product.description,
                     thumbnailImage: product.thumbnailImage,
                 });
-                
             }
 
             await cart.save();
@@ -67,17 +58,23 @@ router.post("/add", isAuthenticated, async (req, res) => {
     }
 });
 
-// ✅ Get all cart items for a user
+// ✅ Fetch Cart Items for Logged-In User
 router.get("/", isAuthenticated, async (req, res) => {
     try {
-        const cart = await Cart.findOne({ userId: req.session.userId }).populate("products.productId");
+        const userId = req.session.userId;
+
+        if (!userId) {
+            return res.status(401).json({ success: false, message: "Unauthorized: Please sign in" });
+        }
+
+        const cart = await Cart.findOne({ userId }).populate("products.productId");
 
         if (!cart) {
             return res.json({ success: true, cart: [] });
         }
 
         const cartProducts = cart.products.map(product => ({
-            productId: product.productId ? product.productId.toString() : "", 
+            productId: product.productId ? product.productId.toString() : "",
             name: product.name,
             price: product.price,
             description: product.description,
@@ -91,8 +88,5 @@ router.get("/", isAuthenticated, async (req, res) => {
         res.status(500).json({ success: false, message: "Error fetching cart" });
     }
 });
-
-
-
 
 module.exports = router;

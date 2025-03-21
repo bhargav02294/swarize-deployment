@@ -5,6 +5,12 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
     const password = event.target.password.value.trim();
     const message = document.getElementById("message");
 
+    if (!email || !password) {
+        message.textContent = "❌ Please enter both email and password.";
+        message.style.color = "red";
+        return;
+    }
+
     try {
         const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signin", { 
             method: "POST",
@@ -13,12 +19,11 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
             body: JSON.stringify({ email, password })
         });
 
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-
         const data = await response.json();
-        if (data.success) {
+
+        if (response.ok && data.success) {
             alert("✅ Login Successful! Redirecting...");
-            window.location.href = "https://swarize-deployment.onrender.com/profile"; 
+            window.location.href = "https://swarize.in/profile"; // ✅ Redirect to profile page
         } else {
             message.textContent = `❌ ${data.message || "Failed to sign in. Please try again."}`;
             message.style.color = "red";
@@ -30,8 +35,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
     }
 });
 
-
-// Google OAuth Login Button
+// ✅ Google OAuth Login Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // Redirects to backend OAuth route
+    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // ✅ Correct Google OAuth redirect
 });

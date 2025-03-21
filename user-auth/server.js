@@ -576,6 +576,7 @@ app.get("/profile", (req, res) => {
     res.redirect("https://swarize.in/signin.html");
   }
 });// ✅ Logout Route - Clears session and cookies
+// ✅ Logout Route - Clears session and cookies
 app.get("/api/auth/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) {
@@ -594,8 +595,8 @@ app.get("/api/auth/logout", (req, res) => {
 
     console.log("✅ Cookies cleared");
 
-    // ✅ Redirect to sign-in page
-    return res.redirect("https://swarize.in/signin.html");
+    // ✅ Redirect to index.html (Homepage) after logout
+    return res.redirect("https://swarize.in/index.html");
   });
 });
 

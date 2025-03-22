@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        // ✅ Correct API for checking login status
+        // ✅ Check login status
         const authResponse = await fetch("https://swarize-deployment.onrender.com/api/auth/is-logged-in", {
             credentials: "include"
         });
+
         const authData = await authResponse.json();
 
         if (!authData.isLoggedIn) {

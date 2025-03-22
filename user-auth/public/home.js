@@ -15,14 +15,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (data.isLoggedIn) {
+            // ✅ Save user info in local storage
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
+            // ✅ Show main content and hide sign-in message
             signInMessage.style.display = 'none';
             mainContainer.style.display = 'flex';
 
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.innerHTML = `
+            // ✅ Populate sidebar dynamically
+            document.querySelector('.sidebar').innerHTML = `
                 <div class="logo-container">
                     <span class="logo-text">S</span>
                 </div>
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         localStorage.removeItem("loggedInUser");
                         localStorage.removeItem("userName");
 
-                        // ✅ Redirect to index.html
+                        // ✅ Redirect to homepage after logout
                         window.location.href = 'https://swarize.in/index.html';
                     } else {
                         console.error("❌ Logout failed");
@@ -65,6 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
         } else {
+            // If user is not logged in, show sign-in message
             mainContainer.style.display = 'none';
             signInMessage.style.display = 'flex';
 
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// ✅ Safe Event Listener Binding
+// ✅ Utility function to add event listeners safely
 function addEventListenerIfExists(selector, event, handler) {
     const element = document.querySelector(selector);
     if (element) element.addEventListener(event, handler);

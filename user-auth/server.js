@@ -764,45 +764,49 @@ app.get("/api/store", async (req, res) => {
 // Save store details
 // Save store details
 app.post("/api/store", upload.single("storeLogo"), async (req, res) => {
-  const { storeName, storeDescription } = req.body;
-  const storeLogo = req.file?.filename;
-
-  if (!req.session.userId) {
+  if (!req.session || !req.session.userId) {
       return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
   }
+
+  const { storeName, storeDescription } = req.body;
+  const storeLogo = req.file ? req.file.filename : null;
 
   if (!storeName || !storeLogo) {
       return res.status(400).json({ success: false, message: "Store name and logo are required." });
   }
 
   try {
-      // ✅ Fetch the user's email from the database
       const user = await User.findById(req.session.userId);
       if (!user) {
           return res.status(404).json({ success: false, message: "User not found." });
       }
 
-      // ✅ Check if the store already exists
-      const existingStore = await Store.findOne({ ownerId: req.session.userId });
-      if (existingStore) {
-          return res.status(400).json({ success: false, message: "Store already exists." });
+      // ✅ Fix: Allow updating existing store instead of returning error
+      let store = await Store.findOne({ ownerId: req.session.userId });
+
+      if (store) {
+          // ✅ Update existing store instead of rejecting
+          store.storeName = storeName;
+          store.storeLogo = storeLogo;
+          store.description = storeDescription;
+          await store.save();
+      } else {
+          // ✅ Create new store
+          store = new Store({
+              ownerId: req.session.userId,
+              ownerEmail: user.email,
+              storeName,
+              storeLogo,
+              description: storeDescription,
+              country: "India",
+          });
+          await store.save();
       }
 
-      // ✅ Create new store with ownerEmail
-      const newStore = new Store({
-          ownerId: req.session.userId,
-          ownerEmail: user.email,  // ✅ Fix: Now ownerEmail is included
-          storeName,
-          storeLogo,
-          description: storeDescription,
-          country: "India",
-      });
+      res.json({ success: true, message: "Store saved successfully!", store });
 
-      await newStore.save();
-
-      res.json({ success: true, message: "Store created successfully!", store: newStore });
   } catch (error) {
-      console.error("Error saving store:", error);
+      console.error("❌ Error saving store:", error);
       res.status(500).json({ success: false, message: "Failed to save store details." });
   }
 });

@@ -102,35 +102,39 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ✅ Handle Store Form Submission
     storeForm.addEventListener("submit", async (event) => {
         event.preventDefault();
+        
+        // ✅ Validate Form Data
+        if (!storeNameInput.value || !storeLogoInput.files[0]) {
+            alert("❌ Store name and logo are required!");
+            return;
+        }
+    
         const formData = new FormData();
         formData.append("storeName", storeNameInput.value);
         formData.append("storeLogo", storeLogoInput.files[0]);
         formData.append("storeDescription", storeDescriptionInput.value);
-
+    
         try {
             const response = await fetch("https://swarize-deployment.onrender.com/api/store", {
                 method: "POST",
                 credentials: "include",
                 body: formData,
             });
-
+    
             const data = await response.json();
-
+    
             if (data.success) {
                 alert("✅ Store details saved successfully!");
-                location.reload();
+                window.location.href = "addproducts.html"; // ✅ Redirect
             } else {
-                alert("❌ Error saving store details: " + data.message);
+                alert("❌ Error: " + data.message);
             }
         } catch (err) {
             console.error("❌ Error saving store details:", err);
+            alert("❌ Failed to save store details. Try again.");
         }
     });
-
-    // ✅ Redirect to Add Product Page
-    addProductBtn.addEventListener("click", () => {
-        window.location.href = "add-product.html";
-    });
-
+    
+   
     loadProducts();
 });

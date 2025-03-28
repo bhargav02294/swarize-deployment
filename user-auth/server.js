@@ -733,10 +733,10 @@ const multer = require("multer");
 // ✅ Ensure uploaded files are saved in `public/uploads/`
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/uploads/');  // ✅ Fix: Move uploads to the public directory
+    cb(null, "public/uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 const upload = multer({ storage });
@@ -744,70 +744,81 @@ const upload = multer({ storage });
 
 // Fetch store details for the logged-in user
 // Fetch store details for the logged-in user
-app.get("/api/store", isAuthenticated, async (req, res) => {
+// ✅ Fetch store details for the logged-in user
+app.get("/api/store", async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
+  }
+
   try {
-      const userId = req.user.id; // ✅ Use authenticated userId
-      const store = await Store.findOne({ ownerId: userId });
+    const store = await Store.findOne({ ownerId: req.session.userId });
+    if (!store) {
+      return res.json({ success: false, message: "Store details not set." });
+    }
 
-      if (!store) {
-          return res.json({ success: false, message: "Store details not set." });
-      }
-
-      res.json({
-          success: true,
-          store: {
-              storeName: store.storeName,
-              storeLogo: store.storeLogo ? `uploads/${store.storeLogo}` : null,
-              description: store.description,
-              country: store.country,
-          },
-      });
+    res.json({
+      success: true,
+      store: {
+        storeName: store.storeName,
+        storeLogo: `uploads/${store.storeLogo}`,
+        description: store.description || "",  // ✅ Ensure description is always a string
+        country: store.country || "Unknown",
+      },
+    });
   } catch (error) {
-      console.error("Error fetching store details:", error);
-      res.status(500).json({ success: false, message: "Error fetching store details." });
+    console.error("❌ Error fetching store details:", error);
+    res.status(500).json({ success: false, message: "Error fetching store details." });
   }
 });
 
 
+// ✅ Save store details
+app.post("/api/store", upload.single("storeLogo"), async (req, res) => {
+  if (!req.session || !req.session.userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
+  }
 
-// Save store details
-// Save store details
-app.post("/api/store", upload.single("storeLogo"), isAuthenticated, async (req, res) => {
   const { storeName, storeDescription } = req.body;
   const storeLogo = req.file ? req.file.filename : null;
 
   if (!storeName || !storeLogo) {
-      return res.status(400).json({ success: false, message: "Store name and logo are required." });
+    return res.status(400).json({ success: false, message: "Store name and logo are required." });
   }
 
   try {
-      const userId = req.user.id; // ✅ Use authenticated userId
-      let store = await Store.findOne({ ownerId: userId });
+    const user = await User.findById(req.session.userId);
+    if (!user || !user.email) {  // ✅ Ensure `user.email` exists
+      return res.status(404).json({ success: false, message: "User not found or email missing." });
+    }
 
-      if (store) {
-          store.storeName = storeName;
-          store.storeLogo = storeLogo;
-          store.description = storeDescription;
-          await store.save();
-      } else {
-          store = new Store({
-              ownerId: userId,
-              storeName,
-              storeLogo,
-              description: storeDescription,
-              country: "India",
-          });
-          await store.save();
-      }
+    let store = await Store.findOne({ ownerId: req.session.userId });
 
-      res.json({ success: true, message: "Store saved successfully!", store });
+    if (store) {
+      // ✅ Update existing store
+      store.storeName = storeName;
+      store.storeLogo = storeLogo;
+      store.description = storeDescription || "";  // ✅ Ensure description is always a string
+      await store.save();
+    } else {
+      // ✅ Create new store
+      store = new Store({
+        ownerId: req.session.userId,
+        ownerEmail: user.email,
+        storeName,
+        storeLogo,
+        description: storeDescription || "",
+        country: "India",
+      });
+      await store.save();
+    }
+
+    res.json({ success: true, message: "Store saved successfully!", store });
+
   } catch (error) {
-      console.error("Error saving store:", error);
-      res.status(500).json({ success: false, message: "Failed to save store details." });
+    console.error("❌ Error saving store:", error);
+    res.status(500).json({ success: false, message: "Failed to save store details." });
   }
 });
-
-
 
 app.delete("/api/products/:id", async (req, res) => {
   const productId = req.params.id;

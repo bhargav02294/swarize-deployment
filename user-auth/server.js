@@ -744,40 +744,35 @@ const upload = multer({ storage });
 
 // Fetch store details for the logged-in user
 // Fetch store details for the logged-in user
-app.get("/api/store", async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
-  }
-
+app.get("/api/store", isAuthenticated, async (req, res) => {
   try {
-    const store = await Store.findOne({ ownerId: req.session.userId });
-    if (!store) {
-      return res.json({ success: false, message: "Store details not set." });
-    }
+      const userId = req.user.id; // ✅ Use authenticated userId
+      const store = await Store.findOne({ ownerId: userId });
 
-    res.json({
-      success: true,
-      store: {
-        storeName: store.storeName,
-        storeLogo: `uploads/${store.storeLogo}`,
-        description: store.description,
-        country: store.country,
-      },
-    });
+      if (!store) {
+          return res.json({ success: false, message: "Store details not set." });
+      }
+
+      res.json({
+          success: true,
+          store: {
+              storeName: store.storeName,
+              storeLogo: store.storeLogo ? `uploads/${store.storeLogo}` : null,
+              description: store.description,
+              country: store.country,
+          },
+      });
   } catch (error) {
-    console.error("Error fetching store details:", error);
-    res.status(500).json({ success: false, message: "Error fetching store details." });
+      console.error("Error fetching store details:", error);
+      res.status(500).json({ success: false, message: "Error fetching store details." });
   }
 });
 
 
-// Save store details
-// Save store details
-app.post("/api/store", upload.single("storeLogo"), async (req, res) => {
-  if (!req.session || !req.session.userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
-  }
 
+// Save store details
+// Save store details
+app.post("/api/store", upload.single("storeLogo"), isAuthenticated, async (req, res) => {
   const { storeName, storeDescription } = req.body;
   const storeLogo = req.file ? req.file.filename : null;
 
@@ -786,25 +781,17 @@ app.post("/api/store", upload.single("storeLogo"), async (req, res) => {
   }
 
   try {
-      const user = await User.findById(req.session.userId);
-      if (!user) {
-          return res.status(404).json({ success: false, message: "User not found." });
-      }
-
-      // ✅ Fix: Allow updating existing store instead of returning error
-      let store = await Store.findOne({ ownerId: req.session.userId });
+      const userId = req.user.id; // ✅ Use authenticated userId
+      let store = await Store.findOne({ ownerId: userId });
 
       if (store) {
-          // ✅ Update existing store instead of rejecting
           store.storeName = storeName;
           store.storeLogo = storeLogo;
           store.description = storeDescription;
           await store.save();
       } else {
-          // ✅ Create new store
           store = new Store({
-              ownerId: req.session.userId,
-              ownerEmail: user.email,
+              ownerId: userId,
               storeName,
               storeLogo,
               description: storeDescription,
@@ -814,9 +801,8 @@ app.post("/api/store", upload.single("storeLogo"), async (req, res) => {
       }
 
       res.json({ success: true, message: "Store saved successfully!", store });
-
   } catch (error) {
-      console.error("❌ Error saving store:", error);
+      console.error("Error saving store:", error);
       res.status(500).json({ success: false, message: "Failed to save store details." });
   }
 });

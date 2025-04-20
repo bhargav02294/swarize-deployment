@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const sellerId = localStorage.getItem("sellerId");
+  if (!sellerId) {
+    console.error("Seller ID not found in localStorage.");
+    return;
+  }
 
+  // Handle store creation (create-store.html)
   const createForm = document.getElementById("store-form");
-  const storeSection = document.getElementById("display-store");
+  const msg = document.getElementById("store-message");
 
   if (createForm) {
-    // On create-store.html
     createForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -15,43 +19,52 @@ document.addEventListener("DOMContentLoaded", async () => {
       formData.append("storeLogo", document.getElementById("storeLogo").files[0]);
       formData.append("sellerId", sellerId);
 
-      const res = await fetch("/api/store", {
-        method: "POST",
-        body: formData,
-      });
+      try {
+        const res = await fetch("/api/store", {
+          method: "POST",
+          body: formData,
+        });
 
-      const data = await res.json();
-      const msg = document.getElementById("store-message");
+        const data = await res.json();
 
-      if (res.ok) {
-        msg.textContent = "Store created! Redirecting...";
-        setTimeout(() => {
-          window.location.href = `store.html?sellerId=${sellerId}`;
-        }, 2000);
-      } else {
-        msg.textContent = data.error || "Failed to create store";
+        if (res.ok) {
+          msg.textContent = "Store created! Redirecting...";
+          setTimeout(() => {
+            window.location.href = `store.html?sellerId=${sellerId}`;
+          }, 2000);
+        } else {
+          msg.textContent = data.error || "Failed to create store.";
+        }
+      } catch (error) {
+        msg.textContent = "An error occurred. Please try again.";
       }
     });
   }
 
+  // Handle store display (store.html)
+  const storeSection = document.getElementById("display-store");
   if (storeSection) {
-    // On store.html
     const urlParams = new URLSearchParams(window.location.search);
     const sellerIdParam = urlParams.get("sellerId");
 
-    const res = await fetch(`/api/store/${sellerIdParam}`);
-    if (!res.ok) return;
+    if (!sellerIdParam) return;
 
-    const store = await res.json();
+    try {
+      const res = await fetch(`/api/store/${sellerIdParam}`);
+      if (!res.ok) return;
 
-    document.getElementById("store-logo").src = store.storeLogo;
-    document.getElementById("store-name").textContent = store.storeName;
-    document.getElementById("store-description-display").textContent = store.storeDescription;
-    document.getElementById("display-store").style.display = "block";
+      const store = await res.json();
 
-    // Add product logic can go here
-    document.getElementById("add-product-btn").addEventListener("click", () => {
-      window.location.href = `add-product.html?sellerId=${sellerIdParam}`;
-    });
+      document.getElementById("store-logo").src = store.storeLogo;
+      document.getElementById("store-name").textContent = store.storeName;
+      document.getElementById("store-description-display").textContent = store.storeDescription;
+      storeSection.style.display = "block";
+
+      document.getElementById("add-product-btn").addEventListener("click", () => {
+        window.location.href = `add-product.html?sellerId=${sellerIdParam}`;
+      });
+    } catch (error) {
+      console.error("Failed to load store data:", error);
+    }
   }
 });

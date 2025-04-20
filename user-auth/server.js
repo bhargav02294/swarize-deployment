@@ -740,6 +740,8 @@ app.get("/api/user/check-profile", async (req, res) => {
 
 
 
+
+
 // Add this middleware definition near the top of your file
 const ensureSeller = (req, res, next) => {
   if (req.user && req.user.role === 'seller') {

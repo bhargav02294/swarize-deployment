@@ -1,25 +1,52 @@
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
-const path = require("path");
-const Store = require("../models/store");
-const Product = require("../models/product");
+const Store = require("../models/store"); // Adjust the path as needed
+const Product = require("../models/product"); // Adjust the path as needed
+const User = require("../models/user"); // Adjust the path as needed
+const { isAuthenticated } = require("../middleware/auth"); // Add authentication middleware if necessary
 
-// Configure multer for uploads
+const router = express.Router();
+
+// =============== Store ===================//
+// Multer setup for handling file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/uploads");
+    cb(null, "public/uploads/"); // Set the directory where files will be saved
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname); // Set the filename as a timestamp followed by the original filename
   },
 });
 const upload = multer({ storage });
 
-// Create or Update Store
-router.post("/", upload.single("storeLogo"), async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
+// Fetch store details for the logged-in user
+router.get("/", isAuthenticated, async (req, res) => {
+  try {
+    const store = await Store.findOne({ ownerId: req.session.userId });
+
+    if (!store) {
+      return res.json({ success: false, message: "No store found." });
+    }
+
+    res.json({
+      success: true,
+      store: {
+        storeName: store.storeName,
+        storeLogo: `uploads/${store.storeLogo}`,
+        description: store.description || "",
+        country: store.country || "India",
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching private store:", error);
+    res.status(500).json({ success: false, message: "Error fetching store." });
+  }
+});
+
+// Save store details (create or update store)
+router.post("/", isAuthenticated, upload.single("storeLogo"), async (req, res) => {
+  if (!req.session || !req.session.userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
   }
 
   const { storeName, storeDescription } = req.body;
@@ -30,14 +57,21 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
   }
 
   try {
+    const user = await User.findById(req.session.userId);
+    if (!user || !user.email) {
+      return res.status(404).json({ success: false, message: "User not found or email missing." });
+    }
+
     let store = await Store.findOne({ ownerId: req.session.userId });
 
     if (store) {
+      // Update existing store
       store.storeName = storeName;
       store.storeLogo = storeLogo;
       store.description = storeDescription || "";
+      await store.save();
     } else {
-      const user = await require("../models/user").findById(req.session.userId);
+      // Create new store
       store = new Store({
         ownerId: req.session.userId,
         ownerEmail: user.email,
@@ -46,51 +80,68 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
         description: storeDescription || "",
         country: "India",
       });
+      await store.save();
     }
 
-    await store.save();
-    res.status(201).json({ success: true, store });
-  } catch (err) {
-    console.error("❌ Error saving store:", err);
-    res.status(500).json({ success: false, message: "Error saving store" });
+    res.json({ success: true, message: "Store saved successfully!", store });
+  } catch (error) {
+    console.error("❌ Error saving store:", error);
+    res.status(500).json({ success: false, message: "Failed to save store details." });
   }
 });
 
-// Get store for logged-in user
-router.get("/", async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
+// Delete a product by its ID (requires user to be logged in)
+router.delete("/products/:id", isAuthenticated, async (req, res) => {
+  const productId = req.params.id;
+  const userId = req.session?.userId || req.session?.passport?.user;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
   }
 
   try {
-    const store = await Store.findOne({ ownerId: req.session.userId });
-    if (!store) return res.json({ success: false, message: "Store not found" });
+    // Find product and check if the logged-in user is the owner
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ success: false, message: "Product not found." });
+    }
 
-    res.json({ success: true, store });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Error fetching store" });
+    if (product.ownerId.toString() !== userId.toString()) {
+      return res.status(403).json({ success: false, message: "Unauthorized: You cannot delete this product." });
+    }
+
+    await Product.findByIdAndDelete(productId);
+    res.json({ success: true, message: "Product deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({ success: false, message: "Error deleting product." });
   }
 });
 
-// Get public store by userId
-router.get("/public/:userId", async (req, res) => {
+// Fetch public store details by sellerId
+router.get("/public/:sellerId", async (req, res) => {
   try {
-    const store = await Store.findOne({ ownerId: req.params.userId });
-    if (!store) return res.json({ success: false, message: "Store not found" });
+    const store = await Store.findOne({ ownerId: req.params.sellerId });
 
-    res.json({ success: true, store });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Error fetching store" });
+    if (!store) {
+      return res.status(404).json({ success: false, message: "Store not found." });
+    }
+
+    res.json({ success: true, store: { storeName: store.storeName, storeLogo: store.storeLogo, description: store.description || "" } });
+  } catch (error) {
+    console.error("❌ Error fetching public store:", error);
+    res.status(500).json({ success: false, message: "Error fetching store." });
   }
 });
 
-// Get products by userId
+// Fetch products for a store (private view)
 router.get("/products/:userId", async (req, res) => {
   try {
     const products = await Product.find({ ownerId: req.params.userId });
     res.json({ success: true, products });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Error fetching products" });
+  } catch (error) {
+    console.error("❌ Error fetching products:", error);
+    res.status(500).json({ success: false, message: "Error fetching products." });
   }
 });
 

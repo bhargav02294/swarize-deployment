@@ -91,15 +91,28 @@ document.addEventListener("DOMContentLoaded", async () => {
       storeForm.style.display = "none";
       displaySection.style.display = "block";
       storeDisplayName.textContent = store.storeName;
-      storeDisplayLogo.src = `https://swarize-deployment.onrender.com/${store.storeLogo}`;
+    
+      // ✅ Handle logo path correctly
+      const logoPath = store.storeLogo.startsWith("uploads/")
+        ? `https://swarize-deployment.onrender.com/${store.storeLogo}`
+        : store.storeLogo;
+      storeDisplayLogo.src = logoPath;
+    
       storeDescriptionDisplay.textContent = store.description;
       storeHeader.style.display = "none";
       editWarning.style.display = "none";
-  
+    
       if (isPrivate) {
+        addProductBtn.style.display = "inline-block";
+        addProductBtn.addEventListener("click", () => {
+          window.location.href = "add-product.html";
+        });
         loadProductsPrivate();
+      } else {
+        addProductBtn.style.display = "none"; // Hide for public view
       }
     }
+    
   
     function loadProductsPublic(userId) {
       fetch(`https://swarize-deployment.onrender.com/api/store/products/${userId}`)

@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
           if (data.success) {
             alert("✅ Store details saved successfully!");
-            window.location.href = "https://swarize.in/addproducts.html"; // Use absolute URL
+            window.location.href = "https://swarize.in/add-product.html"; // Use absolute URL
         } else {
             alert("❌ Error: " + data.message);
           }

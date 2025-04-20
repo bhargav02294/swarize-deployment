@@ -768,7 +768,7 @@ app.get("/api/store/public/:userId", async (req, res) => {
 
 
 // ✅ Save store details
-app.post("/api/store", upload.single("storeLogo"), async (req, res) => {
+app.post("/api/store", isAuthenticated, upload.single("storeLogo"), async (req, res) => {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
   }

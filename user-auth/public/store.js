@@ -1,186 +1,142 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const sellerId = urlParams.get("seller");
+document.addEventListener('DOMContentLoaded', async () => {
+  const storeForm = document.getElementById('storeForm');
+  const storeContainer = document.getElementById('storeContainer');
+  const sellerId = new URLSearchParams(window.location.search).get('sellerId');
+  const loggedInSellerId = localStorage.getItem('sellerId'); // Assuming sellerId is stored on login
 
-  const storeForm = document.getElementById("store-form");
-  const storeNameInput = document.getElementById("storeName");
-  const storeLogoInput = document.getElementById("storeLogo");
-  const storeDescriptionInput = document.getElementById("storeDescription");
+  // Show store creation form only if no sellerId in query
+  if (!sellerId && storeForm) {
+    storeForm.style.display = 'block';
+  }
 
-  const displaySection = document.getElementById("display-store");
-  const storeDisplayName = document.getElementById("store-name");
-  const storeDisplayLogo = document.getElementById("store-logo");
-  const storeMessage = document.getElementById("store-message");
-  const editWarning = document.getElementById("edit-warning");
-  const storeHeader = document.getElementById("store-header");
-  const productsList = document.getElementById("products-list");
-  const addProductBtn = document.getElementById("add-product-btn");
-  const storeDescriptionDisplay = document.getElementById("store-description-display");
+  // Handle store creation form submission
+  if (storeForm) {
+    storeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  if (sellerId) {
-    // Public view (store by sellerId)
-    try {
-      const response = await fetch(`https://swarize-deployment.onrender.com/api/store/public/${sellerId}`);
-      const data = await response.json();
+      const name = document.getElementById('storeName').value;
+      const description = document.getElementById('storeDescription').value;
+      const imageInput = document.getElementById('storeImage');
 
-      if (data.success && data.store) {
-        displayStore(data.store);
-        loadProductsPublic(sellerId);
-      } else {
-        storeMessage.textContent = "❌ Store not found.";
-      }
-    } catch (error) {
-      console.error("❌ Error fetching public store:", error);
-      storeMessage.textContent = "❌ Failed to load store.";
-    }
-  } else {
-    // Private view (logged-in user)
-    try {
-      const response = await fetch("https://swarize-deployment.onrender.com/api/store", {
-        credentials: "include",
-      });
-      const data = await response.json();
-
-      if (data.success && data.store) {
-        displayStore(data.store, true);
-        loadProductsPrivate();
-      } else {
-        storeForm.style.display = "block";
-      }
-    } catch (error) {
-      console.error("❌ Error fetching store details:", error);
-    }
-
-    // Create/submit store form
-    storeForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      if (!storeNameInput.value || !storeLogoInput.files[0]) {
-        alert("❌ Store name and logo are required!");
+      if (!loggedInSellerId) {
+        alert('Please log in to create a store.');
         return;
       }
 
       const formData = new FormData();
-      formData.append("storeName", storeNameInput.value);
-      formData.append("storeLogo", storeLogoInput.files[0]);
-      formData.append("storeDescription", storeDescriptionInput.value);
+      formData.append('name', name);
+      formData.append('description', description);
+      formData.append('sellerId', loggedInSellerId);
+      if (imageInput.files.length > 0) {
+        formData.append('image', imageInput.files[0]);
+      }
 
       try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/store", {
-          method: "POST",
-          credentials: "include",
+        const res = await fetch('/api/store', {
+          method: 'POST',
           body: formData,
         });
 
-        const data = await response.json();
-
-        if (data.success) {
-          alert("✅ Store details saved successfully!");
-          window.location.href = "https://swarize.in/add-product.html";
+        const data = await res.json();
+        if (res.ok) {
+          alert('Store created successfully!');
+          window.location.href = `store.html?sellerId=${loggedInSellerId}`;
         } else {
-          alert("❌ Error: " + data.message);
+          alert(data.error || 'Failed to create store.');
         }
       } catch (err) {
-        console.error("❌ Error saving store details:", err);
-        alert("❌ Failed to save store details.");
+        console.error(err);
+        alert('Error creating store.');
       }
     });
   }
 
-  function displayStore(store, isPrivate = false) {
-    storeForm.style.display = "none";
-    displaySection.style.display = "block";
-    storeDisplayName.textContent = store.storeName;
+  // Fetch and display store if sellerId is present
+  if (sellerId) {
+    try {
+      const storeRes = await fetch(`/api/store/${sellerId}`);
+      const storeData = await storeRes.json();
 
-    const logoPath = store.storeLogo.startsWith("uploads/")
-      ? `https://swarize-deployment.onrender.com/${store.storeLogo}`
-      : store.storeLogo;
-    storeDisplayLogo.src = logoPath;
+      if (!storeRes.ok) {
+        throw new Error(storeData.error || 'Failed to fetch store');
+      }
 
-    storeDescriptionDisplay.textContent = store.description;
-    storeHeader.style.display = "none";
-    editWarning.style.display = "none";
+      const { name, description, image } = storeData;
+      const isOwner = loggedInSellerId === sellerId;
 
-    if (isPrivate) {
-      addProductBtn.style.display = "inline-block";
-      addProductBtn.addEventListener("click", () => {
-        window.location.href = "add-product.html";
-      });
-      loadProductsPrivate();
-    } else {
-      addProductBtn.style.display = "none";
-    }
-  }
+      const logoURL = image ? `/uploads/${image}` : 'default-store-logo.png';
 
-  function loadProductsPublic(userId) {
-    fetch(`https://swarize-deployment.onrender.com/api/store/products/${userId}`)
-      .then(res => res.json())
-      .then(data => displayProducts(data.products || []))
-      .catch(err => console.error("❌ Error loading public products:", err));
-  }
-
-  function loadProductsPrivate() {
-    fetch("https://swarize-deployment.onrender.com/api/products", {
-      method: "GET",
-      credentials: "include",
-    })
-      .then(res => res.json())
-      .then(data => displayProducts(data.products || [], true))
-      .catch(err => console.error("❌ Error loading products:", err));
-  }
-
-  function displayProducts(products, allowDelete = false) {
-    productsList.innerHTML = "";
-    if (products.length === 0) {
-      productsList.innerHTML = "<p>No products listed yet.</p>";
-      return;
-    }
-
-    products.forEach(product => {
-      const productItem = document.createElement("div");
-      productItem.classList.add("product-item");
-
-      const imagePath = product.thumbnailImage.startsWith("uploads/")
-        ? `https://swarize-deployment.onrender.com/${product.thumbnailImage}`
-        : `https://swarize-deployment.onrender.com/uploads/${product.thumbnailImage}`;
-
-      productItem.innerHTML = `
-        <div class="product-card">
-          <img src="${imagePath}" alt="${product.name}" class="product-image">
-          <h4>${product.name}</h4>
-          <p>Price: ₹${product.price}</p>
-          <p>Category: ${product.category}</p>
-          ${allowDelete ? `<button class="delete-btn" data-id="${product._id}">Delete</button>` : ""}
+      const storeHTML = `
+        <div class="store-card">
+          <img src="${logoURL}" alt="${name}" class="store-logo" />
+          <h2>${name}</h2>
+          <p>${description}</p>
+          ${isOwner ? '<button id="addProductBtn">Add Products</button>' : ''}
         </div>
+        <div id="productList" class="product-list"></div>
       `;
 
-      productsList.appendChild(productItem);
-    });
+      storeContainer.innerHTML = storeHTML;
 
-    if (allowDelete) {
-      document.querySelectorAll(".delete-btn").forEach(button => {
-        button.addEventListener("click", deleteProduct);
-      });
-    }
-  }
+      if (isOwner) {
+        const addProductBtn = document.getElementById('addProductBtn');
+        addProductBtn.addEventListener('click', () => {
+          window.location.href = `add-product.html?sellerId=${sellerId}`;
+        });
+      }
 
-  function deleteProduct(event) {
-    const productId = event.target.getAttribute("data-id");
-    if (!confirm("Are you sure you want to delete this product?")) return;
+      // Fetch and display products
+      const productsRes = await fetch(`/api/products?sellerId=${sellerId}`);
+      const products = await productsRes.json();
 
-    fetch(`https://swarize-deployment.onrender.com/api/products/${productId}`, {
-      method: "DELETE",
-      credentials: "include",
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          alert("Product deleted successfully!");
-          loadProductsPrivate();
-        } else {
-          alert("Error deleting product: " + data.message);
+      const productList = document.getElementById('productList');
+
+      if (products.length > 0) {
+        products.forEach(product => {
+          const productCard = document.createElement('div');
+          productCard.classList.add('product-card');
+
+          productCard.innerHTML = `
+            <h4>${product.name}</h4>
+            <p>Price: ₹${product.price}</p>
+            <p>${product.description}</p>
+            ${isOwner ? `<button class="delete-product" data-id="${product._id}">Delete</button>` : ''}
+          `;
+
+          productList.appendChild(productCard);
+        });
+
+        // Handle product deletions
+        if (isOwner) {
+          document.querySelectorAll('.delete-product').forEach(button => {
+            button.addEventListener('click', async () => {
+              const productId = button.getAttribute('data-id');
+              if (confirm('Are you sure you want to delete this product?')) {
+                try {
+                  const res = await fetch(`/api/products/${productId}`, {
+                    method: 'DELETE',
+                  });
+                  if (res.ok) {
+                    button.parentElement.remove();
+                    alert('Product deleted successfully.');
+                  } else {
+                    alert('Failed to delete product.');
+                  }
+                } catch (err) {
+                  console.error(err);
+                  alert('Error deleting product.');
+                }
+              }
+            });
+          });
         }
-      })
-      .catch(err => console.error("❌ Error deleting product:", err));
+      } else {
+        productList.innerHTML = '<p>No products available.</p>';
+      }
+
+    } catch (err) {
+      console.error(err);
+      storeContainer.innerHTML = '<p>Error loading store. Please try again later.</p>';
+    }
   }
 });

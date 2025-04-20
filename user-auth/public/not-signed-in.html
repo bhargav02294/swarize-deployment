@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Not Signed In</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div class="center-message">
+    <h2>You are not signed in!</h2>
+    <button class="btn" id="sign-in-btn">Go to Sign In</button>
+  </div>
+
+  <script>
+    document.getElementById("sign-in-btn").addEventListener("click", () => {
+      window.location.href = "https://swarize.in/signin.html";
+    });
+  </script>
+</body>
+</html>

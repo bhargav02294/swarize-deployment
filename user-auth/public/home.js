@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const mainContainer = document.getElementById('main-container');
-    const signInMessage = document.getElementById('sign-in-message');
-    const signInBtn = document.getElementById('sign-in-btn');
 
     try {
         const response = await fetch('https://swarize-deployment.onrender.com/api/auth/is-logged-in', {
@@ -15,15 +13,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (data.isLoggedIn) {
-            // ✅ Save user info in local storage
+            // ✅ Save user info
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
-            // ✅ Show main content and hide sign-in message
-            signInMessage.style.display = 'none';
+            // ✅ Show dashboard
             mainContainer.style.display = 'flex';
 
-            // ✅ Populate sidebar dynamically
+            // ✅ Add sidebar
             document.querySelector('.sidebar').innerHTML = `
                 <div class="logo-container">
                     <span class="logo-text">S</span>
@@ -40,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             `;
 
-            // ✅ Logout Button Handling
+            // ✅ Logout functionality
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
                     const logoutResponse = await fetch("https://swarize-deployment.onrender.com/api/auth/logout", {
@@ -49,59 +46,43 @@ document.addEventListener('DOMContentLoaded', async () => {
                     });
 
                     if (logoutResponse.ok) {
-                        console.log("✅ Successfully logged out");
-
-                        // ✅ Clear session storage & local storage
                         sessionStorage.clear();
                         localStorage.removeItem("loggedInUser");
                         localStorage.removeItem("userName");
-
-                        // ✅ Redirect to homepage after logout
                         window.location.href = 'https://swarize.in/index.html';
                     } else {
-                        console.error("❌ Logout failed");
+                        console.error("Logout failed");
                     }
                 } catch (error) {
-                    console.error("❌ Error during logout:", error);
+                    console.error("Logout error:", error);
                 }
             });
 
         } else {
-            // If user is not logged in, show sign-in message
-            mainContainer.style.display = 'none';
-            signInMessage.style.display = 'flex';
-
-            if (signInBtn) {
-                signInBtn.onclick = () => {
-                    window.location.href = 'https://swarize.in/signin.html';
-                };
-            }
+            // 🚨 Redirect if not signed in
+            window.location.href = 'https://swarize.in/not-signed-in.html';
         }
     } catch (error) {
-        console.error('❌ Error fetching login status:', error);
-        signInMessage.innerHTML += `<p style="color: red;">Failed to load content. Please try again later.</p>`;
+        console.error('Login check failed:', error);
+        window.location.href = 'https://swarize.in/not-signed-in.html';
     }
 });
 
-// ✅ Utility function to add event listeners safely
+// ✅ Page button links
 function addEventListenerIfExists(selector, event, handler) {
     const element = document.querySelector(selector);
     if (element) element.addEventListener(event, handler);
 }
 
-// ✅ Button event listeners
 addEventListenerIfExists('#collections-btn', 'click', () => {
     window.location.href = 'https://swarize.in/collections.html';
 });
-
 addEventListenerIfExists('#store-btn', 'click', () => {
     window.location.href = 'https://swarize.in/store.html';
 });
-
 addEventListenerIfExists('#profile-btn', 'click', () => {
     window.location.href = 'https://swarize.in/user-profile.html';
 });
-
 addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
     window.location.href = 'https://swarize.in/dashboard.html';
 });

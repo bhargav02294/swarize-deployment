@@ -3,87 +3,94 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const Store = require("../models/store");
+const Product = require("../models/product");
 
 // Configure multer for uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/uploads"); // Save files to /public/uploads
+    cb(null, "public/uploads");
   },
   filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
-
 const upload = multer({ storage });
 
-// POST /api/store - create store with logo
+// Create or Update Store
 router.post("/", upload.single("storeLogo"), async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
+  const { storeName, storeDescription } = req.body;
+  const storeLogo = req.file ? req.file.filename : null;
+
+  if (!storeName || !storeLogo) {
+    return res.status(400).json({ success: false, message: "Store name and logo are required." });
+  }
+
   try {
-    if (!req.session.userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+    let store = await Store.findOne({ ownerId: req.session.userId });
+
+    if (store) {
+      store.storeName = storeName;
+      store.storeLogo = storeLogo;
+      store.description = storeDescription || "";
+    } else {
+      const user = await require("../models/user").findById(req.session.userId);
+      store = new Store({
+        ownerId: req.session.userId,
+        ownerEmail: user.email,
+        storeName,
+        storeLogo,
+        description: storeDescription || "",
+        country: "India",
+      });
     }
-
-    const { storeName, storeDescription } = req.body;
-    const storeLogoPath = `uploads/${req.file.filename}`;
-
-    const store = new Store({
-      user: req.session.userId,
-      storeName,
-      description: storeDescription,
-      storeLogo: storeLogoPath,
-    });
 
     await store.save();
-
-    res.status(201).json({ success: true, message: "Store created", store });
+    res.status(201).json({ success: true, store });
   } catch (err) {
-    console.error("❌ Error creating store:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("❌ Error saving store:", err);
+    res.status(500).json({ success: false, message: "Error saving store" });
   }
 });
 
-// GET /api/store - get store for logged-in user
+// Get store for logged-in user
 router.get("/", async (req, res) => {
-  try {
-    if (!req.session.userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
+  if (!req.session.userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
 
-    const store = await Store.findOne({ user: req.session.userId });
-    if (!store) {
-      return res.json({ success: false, message: "Store not found" });
-    }
+  try {
+    const store = await Store.findOne({ ownerId: req.session.userId });
+    if (!store) return res.json({ success: false, message: "Store not found" });
 
     res.json({ success: true, store });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false, message: "Error fetching store" });
   }
 });
 
-// Public view: GET /api/store/public/:userId
+// Get public store by userId
 router.get("/public/:userId", async (req, res) => {
   try {
-    const store = await Store.findOne({ user: req.params.userId });
-    if (!store) {
-      return res.json({ success: false, message: "Store not found" });
-    }
+    const store = await Store.findOne({ ownerId: req.params.userId });
+    if (!store) return res.json({ success: false, message: "Store not found" });
 
     res.json({ success: true, store });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false, message: "Error fetching store" });
   }
 });
 
-// Get products for a specific store
+// Get products by userId
 router.get("/products/:userId", async (req, res) => {
-  const Product = require("../models/product");
-
   try {
-    const products = await Product.find({ user: req.params.userId });
+    const products = await Product.find({ ownerId: req.params.userId });
     res.json({ success: true, products });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ success: false, message: "Error fetching products" });
   }
 });
 

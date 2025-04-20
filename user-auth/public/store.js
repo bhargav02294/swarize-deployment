@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const sellerId = localStorage.getItem("sellerId");
+  
+  // Check if sellerId is available
   if (!sellerId) {
     console.error("Seller ID not found in localStorage.");
+    window.location.href = "home.html"; // Redirect to homepage if no seller ID is found
     return;
   }
 
@@ -47,14 +50,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const sellerIdParam = urlParams.get("sellerId");
 
-    if (!sellerIdParam) return;
+    // If sellerIdParam is not present, redirect to create-store.html
+    if (!sellerIdParam) {
+      window.location.href = "create-store.html"; // Redirect to store creation page if no storeId
+      return;
+    }
 
     try {
       const res = await fetch(`/api/store/${sellerIdParam}`);
-      if (!res.ok) return;
+      if (!res.ok) {
+        window.location.href = "create-store.html"; // Redirect if store not found
+        return;
+      }
 
       const store = await res.json();
-
       document.getElementById("store-logo").src = store.storeLogo;
       document.getElementById("store-name").textContent = store.storeName;
       document.getElementById("store-description-display").textContent = store.storeDescription;
@@ -65,6 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     } catch (error) {
       console.error("Failed to load store data:", error);
+      window.location.href = "create-store.html"; // If error occurs, redirect to create store page
     }
   }
 });

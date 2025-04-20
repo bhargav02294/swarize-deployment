@@ -20,7 +20,21 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: function (req, file, cb) {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (extname && mimetype) {
+      return cb(null, true);
+    } else {
+      return cb(new Error("Only images are allowed"));
+    }
+  }
+});
 
 // Middleware to check user session
 const isAuthenticated = (req, res, next) => {
@@ -31,36 +45,58 @@ const isAuthenticated = (req, res, next) => {
 // Create Store
 router.post("/", upload.single("storeLogo"), async (req, res) => {
   try {
-    const { storeName, storeDescription } = req.body;
+    const { storeName, storeDescription, country } = req.body;
     const userId = req.session.userId;
+    const userEmail = req.session.userEmail; // Assuming email is saved in session
 
-    if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+    if (!userId || !userEmail) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
 
+    // Check if store already exists for the user
     const existingStore = await Store.findOne({ ownerId: userId });
-    if (existingStore) return res.status(400).json({ success: false, message: "Store already exists" });
+    if (existingStore) {
+      return res.status(400).json({ success: false, message: "Store already exists" });
+    }
 
+    // If no file is uploaded, return an error
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "No file uploaded" });
+    }
+
+    // Store file path
     const storeLogoPath = `uploads/${req.file.filename}`;
 
+    // Create a new store entry
     const store = new Store({
       ownerId: userId,
+      ownerEmail: userEmail,
       storeName,
       storeLogo: storeLogoPath,
       description: storeDescription,
+      country: country || "India",  // Default to India if no country is provided
     });
 
+    // Save the store
     await store.save();
+
+    // Return the created store
     res.status(201).json({ success: true, store });
   } catch (error) {
     console.error("Error creating store:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({ success: false, message: error.message || "Server error" });
   }
 });
 
 // Get seller's store
 router.get('/me', isAuthenticated, async (req, res) => {
   try {
+    // Fetch the store by user ID
     const store = await Store.findOne({ ownerId: req.session.userId });
-    if (!store) return res.status(404).json({ success: false, message: "No store found." });
+
+    if (!store) {
+      return res.status(404).json({ success: false, message: "No store found." });
+    }
 
     return res.json({ success: true, store });
   } catch (err) {

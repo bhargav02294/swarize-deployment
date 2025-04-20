@@ -1,5 +1,0 @@
-[33md829c37[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Fix session storage and authentication APIs
-[33mc71d605[m Fix authentication, sessions, and OAuth integration
-[33m77f8bba[m Fix session persistence and authentication issues
-[33mb22c2f0[m Fix session storage and API responses
-[33m3beb0e4[m Fixed authentication, OTP expiration, and Google OAuth

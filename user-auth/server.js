@@ -743,11 +743,13 @@ const upload = multer({ storage });
 
 
 // Fetch store details for the logged-in user
-app.get("/api/store/public/:userId", async (req, res) => {
+// ✅ GET store for logged-in user (PRIVATE view)
+app.get("/api/store", isAuthenticated, async (req, res) => {
   try {
-    const store = await Store.findOne({ ownerId: req.params.userId });
+    const store = await Store.findOne({ ownerId: req.session.userId });
+
     if (!store) {
-      return res.json({ success: false, message: "Store not found." });
+      return res.json({ success: false, message: "No store found." });
     }
 
     res.json({
@@ -756,11 +758,11 @@ app.get("/api/store/public/:userId", async (req, res) => {
         storeName: store.storeName,
         storeLogo: `uploads/${store.storeLogo}`,
         description: store.description || "",
-        country: store.country || "Unknown",
+        country: store.country || "India",
       },
     });
   } catch (error) {
-    console.error("❌ Error fetching public store:", error);
+    console.error("❌ Error fetching private store:", error);
     res.status(500).json({ success: false, message: "Error fetching store." });
   }
 });

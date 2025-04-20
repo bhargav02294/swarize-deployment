@@ -18,19 +18,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const storeDescriptionDisplay = document.getElementById("store-description-display");
   
     if (sellerId) {
-      // 🔓 Public view for any seller
+      // 🔓 Public view
       try {
         const response = await fetch(`https://swarize-deployment.onrender.com/api/store/public/${sellerId}`);
         const data = await response.json();
   
         if (data.success && data.store) {
-          storeForm.style.display = "none";
-          displaySection.style.display = "block";
-          storeDisplayName.textContent = data.store.storeName;
-          storeDisplayLogo.src = `https://swarize-deployment.onrender.com/${data.store.storeLogo}`;
-          storeDescriptionDisplay.textContent = data.store.description;
-          editWarning.style.display = "none";
-          storeHeader.style.display = "none";
+          displayStore(data.store);
           loadProductsPublic(sellerId);
         } else {
           storeMessage.textContent = "❌ Store not found.";
@@ -40,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         storeMessage.textContent = "❌ Failed to load store.";
       }
     } else {
-      // 🔐 Private view for logged-in seller
+      // 🔐 Private view
       try {
         const response = await fetch("https://swarize-deployment.onrender.com/api/store", {
           credentials: "include",
@@ -48,20 +42,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await response.json();
   
         if (data.success && data.store) {
-          storeForm.style.display = "none";
-          displaySection.style.display = "block";
-          storeDisplayName.textContent = data.store.storeName;
-          storeDisplayLogo.src = data.store.storeLogo;
-          storeDescriptionDisplay.textContent = data.store.description;
-          editWarning.style.display = "none";
-          storeHeader.style.display = "none";
-          loadProductsPrivate(); // with delete buttons
+          displayStore(data.store, true);
+          loadProductsPrivate();
+        } else {
+          storeForm.style.display = "block";
         }
       } catch (error) {
         console.error("❌ Error fetching store details:", error);
       }
   
-      // 🔐 Store submission for logged-in seller
+      // Create/submit store form
       storeForm.addEventListener("submit", async (event) => {
         event.preventDefault();
   
@@ -86,8 +76,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   
           if (data.success) {
             alert("✅ Store details saved successfully!");
-            window.location.href = "https://swarize.in/add-product.html"; // Use absolute URL
-        } else {
+            window.location.href = "https://swarize.in/add-product.html";
+          } else {
             alert("❌ Error: " + data.message);
           }
         } catch (err) {
@@ -97,32 +87,37 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
   
-    // 📦 Load products for public store
+    function displayStore(store, isPrivate = false) {
+      storeForm.style.display = "none";
+      displaySection.style.display = "block";
+      storeDisplayName.textContent = store.storeName;
+      storeDisplayLogo.src = `https://swarize-deployment.onrender.com/${store.storeLogo}`;
+      storeDescriptionDisplay.textContent = store.description;
+      storeHeader.style.display = "none";
+      editWarning.style.display = "none";
+  
+      if (isPrivate) {
+        loadProductsPrivate();
+      }
+    }
+  
     function loadProductsPublic(userId) {
       fetch(`https://swarize-deployment.onrender.com/api/store/products/${userId}`)
         .then(res => res.json())
-        .then(data => {
-          displayProducts(data.products || []);
-        })
-        .catch(err => {
-          console.error("❌ Error loading public products:", err);
-        });
+        .then(data => displayProducts(data.products || []))
+        .catch(err => console.error("❌ Error loading public products:", err));
     }
   
-    // 🛒 Load products for logged-in seller (with delete buttons)
     function loadProductsPrivate() {
       fetch("https://swarize-deployment.onrender.com/api/products", {
         method: "GET",
         credentials: "include",
       })
         .then(res => res.json())
-        .then(data => {
-          displayProducts(data.products || [], true);
-        })
+        .then(data => displayProducts(data.products || [], true))
         .catch(err => console.error("❌ Error loading products:", err));
     }
   
-    // 🧱 Display product cards
     function displayProducts(products, allowDelete = false) {
       productsList.innerHTML = "";
       if (products.length === 0) {
@@ -158,7 +153,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
   
-    // 🗑️ Delete product
     function deleteProduct(event) {
       const productId = event.target.getAttribute("data-id");
       if (!confirm("Are you sure you want to delete this product?")) return;

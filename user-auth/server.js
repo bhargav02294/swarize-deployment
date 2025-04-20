@@ -21,6 +21,8 @@ const dotenv = require("dotenv");
 
 const fs = require('fs');
 const app = express();
+app.use(express.static("public")); // Serve uploaded logos
+
 app.use(cors({
   origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow both frontend & backend
   methods: ["GET", "POST", "PUT", "DELETE"],

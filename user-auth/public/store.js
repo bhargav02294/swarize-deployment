@@ -1,142 +1,75 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const storeForm = document.getElementById('storeForm');
-  const storeContainer = document.getElementById('storeContainer');
-  const sellerId = new URLSearchParams(window.location.search).get('sellerId');
-  const loggedInSellerId = localStorage.getItem('sellerId'); // Assuming sellerId is stored on login
+document.addEventListener('DOMContentLoaded', function () {
+  const storeForm = document.getElementById('store-form');
+  const storeMessage = document.getElementById('store-message');
+  const storeDetailsSection = document.getElementById('store-details-section');
+  const displayStoreSection = document.getElementById('display-store');
+  const storeLogoInput = document.getElementById('storeLogo');
+  const storeNameInput = document.getElementById('storeName');
+  const storeDescriptionInput = document.getElementById('storeDescription');
+  const storeNameDisplay = document.getElementById('store-name');
+  const storeLogoDisplay = document.getElementById('store-logo');
+  const storeDescriptionDisplay = document.getElementById('store-description-display');
+  
+  const addProductButton = document.getElementById('add-product-btn');
 
-  // Show store creation form only if no sellerId in query
-  if (!sellerId && storeForm) {
-    storeForm.style.display = 'block';
-  }
+  // On form submission, send the data to the backend
+  storeForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-  // Handle store creation form submission
-  if (storeForm) {
-    storeForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    const formData = new FormData();
+    formData.append('storeLogo', storeLogoInput.files[0]);
+    formData.append('storeName', storeNameInput.value);
+    formData.append('storeDescription', storeDescriptionInput.value);
 
-      const name = document.getElementById('storeName').value;
-      const description = document.getElementById('storeDescription').value;
-      const imageInput = document.getElementById('storeImage');
-
-      if (!loggedInSellerId) {
-        alert('Please log in to create a store.');
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('description', description);
-      formData.append('sellerId', loggedInSellerId);
-      if (imageInput.files.length > 0) {
-        formData.append('image', imageInput.files[0]);
-      }
-
-      try {
-        const res = await fetch('/api/store', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-          alert('Store created successfully!');
-          window.location.href = `store.html?sellerId=${loggedInSellerId}`;
-        } else {
-          alert(data.error || 'Failed to create store.');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('Error creating store.');
-      }
-    });
-  }
-
-  // Fetch and display store if sellerId is present
-  if (sellerId) {
     try {
-      const storeRes = await fetch(`/api/store/${sellerId}`);
-      const storeData = await storeRes.json();
+      const response = await fetch('/api/store', {
+        method: 'POST',
+        body: formData,
+      });
 
-      if (!storeRes.ok) {
-        throw new Error(storeData.error || 'Failed to fetch store');
-      }
+      const result = await response.json();
 
-      const { name, description, image } = storeData;
-      const isOwner = loggedInSellerId === sellerId;
+      if (result.success) {
+        storeMessage.innerHTML = 'Store created successfully!';
+        storeMessage.style.color = 'green';
+        // Switch sections to display store info
+        storeDetailsSection.style.display = 'none';
+        displayStoreSection.style.display = 'block';
+        storeNameDisplay.innerHTML = result.store.storeName;
+        storeLogoDisplay.src = `/uploads/${result.store.storeLogo}`;
+        storeDescriptionDisplay.innerHTML = result.store.description;
 
-      const logoURL = image ? `/uploads/${image}` : 'default-store-logo.png';
-
-      const storeHTML = `
-        <div class="store-card">
-          <img src="${logoURL}" alt="${name}" class="store-logo" />
-          <h2>${name}</h2>
-          <p>${description}</p>
-          ${isOwner ? '<button id="addProductBtn">Add Products</button>' : ''}
-        </div>
-        <div id="productList" class="product-list"></div>
-      `;
-
-      storeContainer.innerHTML = storeHTML;
-
-      if (isOwner) {
-        const addProductBtn = document.getElementById('addProductBtn');
-        addProductBtn.addEventListener('click', () => {
-          window.location.href = `add-product.html?sellerId=${sellerId}`;
-        });
-      }
-
-      // Fetch and display products
-      const productsRes = await fetch(`/api/products?sellerId=${sellerId}`);
-      const products = await productsRes.json();
-
-      const productList = document.getElementById('productList');
-
-      if (products.length > 0) {
-        products.forEach(product => {
-          const productCard = document.createElement('div');
-          productCard.classList.add('product-card');
-
-          productCard.innerHTML = `
-            <h4>${product.name}</h4>
-            <p>Price: ₹${product.price}</p>
-            <p>${product.description}</p>
-            ${isOwner ? `<button class="delete-product" data-id="${product._id}">Delete</button>` : ''}
-          `;
-
-          productList.appendChild(productCard);
-        });
-
-        // Handle product deletions
-        if (isOwner) {
-          document.querySelectorAll('.delete-product').forEach(button => {
-            button.addEventListener('click', async () => {
-              const productId = button.getAttribute('data-id');
-              if (confirm('Are you sure you want to delete this product?')) {
-                try {
-                  const res = await fetch(`/api/products/${productId}`, {
-                    method: 'DELETE',
-                  });
-                  if (res.ok) {
-                    button.parentElement.remove();
-                    alert('Product deleted successfully.');
-                  } else {
-                    alert('Failed to delete product.');
-                  }
-                } catch (err) {
-                  console.error(err);
-                  alert('Error deleting product.');
-                }
-              }
-            });
-          });
-        }
+        // Enable Add Product button if needed
+        addProductButton.style.display = 'block';
       } else {
-        productList.innerHTML = '<p>No products available.</p>';
+        storeMessage.innerHTML = result.message;
+        storeMessage.style.color = 'red';
       }
+    } catch (error) {
+      console.error('Error creating store:', error);
+      storeMessage.innerHTML = 'Error creating store. Please try again later.';
+      storeMessage.style.color = 'red';
+    }
+  });
 
-    } catch (err) {
-      console.error(err);
-      storeContainer.innerHTML = '<p>Error loading store. Please try again later.</p>';
+  // Fetch and display store details on page load
+  async function loadStoreDetails() {
+    try {
+      const response = await fetch('/api/store/me');
+      const result = await response.json();
+
+      if (result.success) {
+        storeNameDisplay.innerHTML = result.store.storeName;
+        storeLogoDisplay.src = `/uploads/${result.store.storeLogo}`;
+        storeDescriptionDisplay.innerHTML = result.store.description;
+        storeDetailsSection.style.display = 'none';
+        displayStoreSection.style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Error fetching store details:', error);
     }
   }
+
+  // If store exists, load its details when the page is loaded
+  loadStoreDetails();
 });

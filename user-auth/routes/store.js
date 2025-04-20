@@ -1,4 +1,3 @@
-// routes/store.js
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -30,33 +29,33 @@ const isAuthenticated = (req, res, next) => {
 };
 
 // Create Store
-// ✅ Create Store
 router.post("/", upload.single("storeLogo"), async (req, res) => {
-    try {
-      const { storeName, storeDescription } = req.body;
-      const userId = req.session.userId;
-  
-      if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
-  
-      const existingStore = await Store.findOne({ user: userId });
-      if (existingStore) return res.status(400).json({ success: false, message: "Store already exists" });
-  
-      const storeLogoPath = `uploads/${req.file.filename}`;
-  
-      const store = new Store({
-        user: userId,
-        storeName,
-        storeLogo: storeLogoPath,
-        description: storeDescription,
-      });
-  
-      await store.save();
-      res.status(201).json({ success: true, store });
-    } catch (error) {
-      console.error("Error creating store:", error);
-      res.status(500).json({ success: false, message: "Server error" });
-    }
-  });
+  try {
+    const { storeName, storeDescription } = req.body;
+    const userId = req.session.userId;
+
+    if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+
+    const existingStore = await Store.findOne({ ownerId: userId });
+    if (existingStore) return res.status(400).json({ success: false, message: "Store already exists" });
+
+    const storeLogoPath = `uploads/${req.file.filename}`;
+
+    const store = new Store({
+      ownerId: userId,
+      storeName,
+      storeLogo: storeLogoPath,
+      description: storeDescription,
+    });
+
+    await store.save();
+    res.status(201).json({ success: true, store });
+  } catch (error) {
+    console.error("Error creating store:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 // Get seller's store
 router.get('/me', isAuthenticated, async (req, res) => {
   try {

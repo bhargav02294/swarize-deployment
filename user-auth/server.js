@@ -743,17 +743,11 @@ const upload = multer({ storage });
 
 
 // Fetch store details for the logged-in user
-// Fetch store details for the logged-in user
-// ✅ Fetch store details for the logged-in user
-app.get("/api/store", async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
-  }
-
+app.get("/api/store/public/:userId", async (req, res) => {
   try {
-    const store = await Store.findOne({ ownerId: req.session.userId });
+    const store = await Store.findOne({ ownerId: req.params.userId });
     if (!store) {
-      return res.json({ success: false, message: "Store details not set." });
+      return res.json({ success: false, message: "Store not found." });
     }
 
     res.json({
@@ -761,15 +755,16 @@ app.get("/api/store", async (req, res) => {
       store: {
         storeName: store.storeName,
         storeLogo: `uploads/${store.storeLogo}`,
-        description: store.description || "",  // ✅ Ensure description is always a string
+        description: store.description || "",
         country: store.country || "Unknown",
       },
     });
   } catch (error) {
-    console.error("❌ Error fetching store details:", error);
-    res.status(500).json({ success: false, message: "Error fetching store details." });
+    console.error("❌ Error fetching public store:", error);
+    res.status(500).json({ success: false, message: "Error fetching store." });
   }
 });
+
 
 
 // ✅ Save store details
@@ -849,31 +844,16 @@ app.delete("/api/products/:id", async (req, res) => {
 });
 
 
-app.get('/api/products', async (req, res) => {
-  console.log("🔹 Checking Authentication - Session Data:", req.session);
-
-  // ✅ Ensure the user is logged in
-  if (!req.session.userId) {
-      return res.status(401).json({ success: false, message: "Unauthorized: Please sign in first." });
-  }
-
+app.get("/api/store/products/:userId", async (req, res) => {
   try {
-      const userId = req.session.userId;
-      const products = await Product.find({ ownerId: userId }); // ✅ Fetch only products of the logged-in user
-
-      if (products.length === 0) {
-          console.log("❌ No products found for user:", userId);
-          return res.json({ success: true, message: "No products found.", products: [] });
-      }
-
-      console.log(" Returning products for user:", userId, products);
-      res.status(200).json({ success: true, products });
-
+    const products = await Product.find({ ownerId: req.params.userId });
+    res.json({ success: true, products });
   } catch (error) {
-      console.error("❌ Error fetching products:", error);
-      res.status(500).json({ success: false, message: "Error fetching products" });
+    console.error("❌ Error fetching public products:", error);
+    res.status(500).json({ success: false, message: "Error fetching products." });
   }
 });
+
 
 
 

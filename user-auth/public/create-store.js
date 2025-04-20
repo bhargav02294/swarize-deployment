@@ -1,37 +1,35 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('store-form');
-    const message = document.getElementById('store-message');
+document.addEventListener("DOMContentLoaded", () => {
+    const sellerId = localStorage.getItem("sellerId");
+    const createForm = document.getElementById("store-form");
+    const msg = document.getElementById("store-message");
   
-    form.addEventListener('submit', async (e) => {
+    createForm.addEventListener("submit", async (e) => {
       e.preventDefault();
   
       const formData = new FormData();
-      formData.append('storeName', document.getElementById('storeName').value);
-      formData.append('storeLogo', document.getElementById('storeLogo').files[0]);
-      formData.append('storeDescription', document.getElementById('storeDescription').value);
+      formData.append("storeName", document.getElementById("storeName").value);
+      formData.append("storeDescription", document.getElementById("storeDescription").value);
+      formData.append("storeLogo", document.getElementById("storeLogo").files[0]);
+      formData.append("sellerId", sellerId);
   
       try {
-        const res = await fetch('/api/store', {
-          method: 'POST',
-          body: formData
+        const res = await fetch("/api/store", {
+          method: "POST",
+          body: formData,
         });
   
         const data = await res.json();
   
-        if (data.success) {
-          message.textContent = 'Store created!';
-          message.style.color = 'green';
+        if (res.ok) {
+          msg.textContent = "Store created! Redirecting...";
           setTimeout(() => {
-            window.location.href = 'seller-store.html';
-          }, 1500);
+            window.location.href = `store.html?sellerId=${sellerId}`;
+          }, 2000);
         } else {
-          message.textContent = data.message;
-          message.style.color = 'red';
+          msg.textContent = data.error || "Failed to create store.";
         }
-      } catch (err) {
-        console.error(err);
-        message.textContent = 'Error creating store.';
-        message.style.color = 'red';
+      } catch (error) {
+        msg.textContent = "An error occurred. Please try again.";
       }
     });
   });

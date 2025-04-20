@@ -1,26 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Store | Swarize</title>
-  <link rel="stylesheet" href="store.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Setup | swarize</title>
+  <link rel="stylesheet" href="store.css">
 </head>
 <body>
-  <h1>Create Your Store</h1>
-  <form id="store-form">
-    <label for="storeName">Store Name:</label>
-    <input type="text" id="storeName" name="storeName" required>
 
-    <label for="storeLogo">Store Logo:</label>
-    <input type="file" id="storeLogo" name="storeLogo" accept="image/*" required>
+  <nav class="navbar">
+    <div class="navbar-container">
+        <div class="logo-container">
+            <a href="index.html" class="logo-link">
+            <span class="logo-text">S</span> <!-- Swarize logo -->
+            </a>
+        </div>
+        <h1 class="navbar-title">My store</h1>
+    </div>
+</nav>
 
-    <label for="storeDescription">Description:</label>
-    <textarea id="storeDescription" name="storeDescription" required></textarea>
+<!-- Back Button -->
+<button class="back-button" onclick="window.location.href='home.html';">
+    <div class="button-box">
+        <span class="button-elem">
+            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+            </svg>
+        </span>
+        <span class="button-elem">
+            <svg viewBox="0 0 46 40">
+                <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
+            </svg>
+        </span>
+    </div>
+</button>
 
-    <button type="submit">Create Store</button>
-  </form>
-  <p id="store-message"></p>
+
+  <div class="container">
+    <div id="store-details-section">
+      <h1 id="store-header">Set Up Your Store</h1>
+      <p id="edit-warning" class="terms">
+        <strong>Note:</strong> Once the store name, logo, and description are set, they cannot be modified. Please ensure your details are accurate.
+      </p>
+      <form id="store-form">
+        <label for="storeName">Store Name:</label>
+        <input type="text" id="storeName" name="storeName" required>
+
+        <label for="storeLogo">Store Logo:</label>
+        <input type="file" id="storeLogo" name="storeLogo" accept="image/*" required>
+
+        <label for="storeDescription">Store Description:</label>
+        <textarea id="storeDescription" name="storeDescription" required></textarea>
+
+        <button type="submit" id="save-store-btn">Save Store Details</button>
+      </form>
+      <p id="store-message"></p>
+    </div>
+
+
+
+<footer class="footer">
+    <p>&copy; 2025 Swarize. All rights reserved.</p>
+  </footer>
+  
   <script src="create-store.js"></script>
 </body>
-</html>
+  </html>
+  

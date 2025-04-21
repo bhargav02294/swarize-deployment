@@ -1,5 +1,4 @@
 // public/store.js
-
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const ownerId = urlParams.get("ownerId");
@@ -15,19 +14,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await response.json();
 
     if (!data.hasStore) {
+      // Redirect new sellers to create page
       window.location.href = `create-store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
-    } else {
-      displayStore(data.store);
+      return;
     }
+
+    const store = data.store;
+    displayStore(store);
   } catch (error) {
     console.error("Error loading store:", error);
   }
 
   function displayStore(store) {
     if (!store) return;
+
     document.getElementById("display-store").style.display = "block";
     document.getElementById("store-logo").src = `/uploads/${store.storeLogo}`;
     document.getElementById("store-name").textContent = store.storeName;
     document.getElementById("store-description-display").textContent = store.description;
+
+    const addProductBtn = document.getElementById("add-product-btn");
+    addProductBtn.onclick = () => {
+      window.location.href = `add-product.html?storeId=${store._id}`;
+    };
   }
 });

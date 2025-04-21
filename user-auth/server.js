@@ -23,6 +23,7 @@ const fs = require('fs');
 const app = express();
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static("public"));
 
 app.use(cors({
   origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow both frontend & backend

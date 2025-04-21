@@ -1,41 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const storeMessage = document.getElementById("store-message");
-
-  // Check if the user already has a store
+  // Check if store already exists
   fetch("/api/store/check")
-    .then((res) => res.json())
-    .then((data) => {
+    .then(res => res.json())
+    .then(data => {
       if (data.exists) {
-        window.location.href = "store.html"; // Redirect to store page if already has a store
+        window.location.href = "store.html"; // Redirect to store page if store exists
       }
     });
 
   const form = document.getElementById("store-form");
 
   form.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    const formData = new FormData(form);
+    const formData = new FormData(form); // Prepare form data
 
-    try {
-      const response = await fetch("/api/store", {
-        method: "POST",
-        body: formData,
-      });
+    // Send the form data to the backend
+    const response = await fetch("/api/store", {
+      method: "POST",
+      body: formData,
+    });
 
-      const result = await response.json();
+    const result = await response.json(); // Parse the response
 
-      if (result.success) {
-        storeMessage.textContent = "Store created successfully!";
-        storeMessage.style.color = "green";
-        window.location.href = "store.html"; // Redirect to store page after creation
-      } else {
-        storeMessage.textContent = result.message || "Failed to create store.";
-        storeMessage.style.color = "red";
-      }
-    } catch (err) {
-      storeMessage.textContent = "Server error. Please try again later.";
-      storeMessage.style.color = "red";
+    if (result.success) {
+      alert("Store created!");
+      window.location.href = "store.html"; // Redirect to store page on success
+    } else {
+      alert(result.message || "Failed to create store.");
     }
   });
 });

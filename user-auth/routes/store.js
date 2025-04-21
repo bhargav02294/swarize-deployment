@@ -1,10 +1,12 @@
+// routes/store.js
+
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const Store = require("../models/store");
 
-// Multer setup for image upload
+// Multer setup for logo upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/uploads");
@@ -15,66 +17,73 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Check if store exists
+// GET: Check if current session user has a store
 router.get("/check", async (req, res) => {
-  const { ownerId, ownerEmail } = req.query;
-  if (!ownerId || !ownerEmail) {
-    return res.status(400).json({ error: "Missing owner credentials." });
+  if (!req.session.userId || !req.session.email) {
+    return res.status(401).json({ error: "Unauthorized - Missing session" });
   }
 
   try {
-    const store = await Store.findOne({ ownerId, ownerEmail });
-    res.json({ hasStore: !!store, store });
+    const store = await Store.findOne({
+      ownerId: req.session.userId,
+      ownerEmail: req.session.email
+    });
+
+    if (store) {
+      return res.json({ hasStore: true, store });
+    } else {
+      return res.json({ hasStore: false });
+    }
   } catch (error) {
-    console.error("Error checking store:", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Store check error:", error);
+    return res.status(500).json({ error: "Server error" });
   }
 });
 
-// Create new store
-router.post("/", upload.single("storeLogo"), async (req, res) => {
-  const { storeName, storeDescription, ownerId, ownerEmail } = req.body;
-
-  if (!storeName || !storeDescription || !ownerId || !ownerEmail || !req.file) {
-    return res.status(400).json({ error: "All fields are required." });
+// GET: Get store details by session user
+router.get("/by-owner", async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
-    const existingStore = await Store.findOne({ ownerId });
-    if (existingStore) {
-      return res.status(400).json({ error: "Store already exists." });
+    const store = await Store.findOne({ ownerId: req.session.userId });
+    if (!store) return res.status(404).json({ error: "Store not found" });
+    res.json(store);
+  } catch (err) {
+    console.error("Error fetching store:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// POST: Create a new store
+router.post("/", upload.single("storeLogo"), async (req, res) => {
+  const { storeName, storeDescription } = req.body;
+  const { userId, email } = req.session;
+
+  if (!storeName || !storeDescription || !req.file || !userId || !email) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const existing = await Store.findOne({ ownerId: userId });
+    if (existing) {
+      return res.status(400).json({ error: "Store already exists" });
     }
 
     const newStore = new Store({
       storeName,
       description: storeDescription,
       storeLogo: req.file.filename,
-      ownerId,
-      ownerEmail,
+      ownerId: userId,
+      ownerEmail: email
     });
 
     await newStore.save();
-    res.status(201).json({ message: "Store created successfully", store: newStore });
-  } catch (error) {
-    console.error("Error creating store:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Get store by owner ID
-router.get("/by-owner/:id", async (req, res) => {
-  try {
-    const store = await Store.findOne({ ownerId: req.params.id });
-    if (!store) return res.status(404).json({ error: "Store not found" });
-
-    res.json({
-      storeName: store.storeName,
-      description: store.description,
-      storeLogo: store.storeLogo
-    });
-  } catch (error) {
-    console.error("Error fetching store:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(201).json({ message: "Store created", store: newStore });
+  } catch (err) {
+    console.error("Error creating store:", err);
+    res.status(500).json({ error: "Failed to create store" });
   }
 });
 

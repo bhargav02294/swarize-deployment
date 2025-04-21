@@ -1,56 +1,43 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const storeForm = document.getElementById("store-form");
-    const message = document.getElementById("store-message");
-  
-    let ownerId = null;
-    let ownerEmail = null;
-  
-    // Load session first
-    fetch("/api/session")
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.userId && data.email) {
-          ownerId = data.userId;
-          ownerEmail = data.email;
-        } else {
-          message.textContent = "Missing owner credentials.";
-          document.getElementById("save-store-btn").disabled = true;
-        }
-      })
-      .catch(err => {
-        console.error("Error fetching session:", err);
-        message.textContent = "Error fetching user info.";
+// public/create-store.js
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const form = document.getElementById("store-form");
+  const msg = document.getElementById("store-message");
+
+  try {
+    const check = await fetch("/api/store/check");
+    const data = await check.json();
+
+    if (data.hasStore) {
+      window.location.href = "store.html";
+      return;
+    }
+  } catch (err) {
+    console.error("Error checking store:", err);
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch("/api/store", {
+        method: "POST",
+        body: formData
       });
-  
-    storeForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-  
-      if (!ownerId || !ownerEmail) {
-        message.textContent = "Missing owner credentials.";
-        return;
-      }
-  
-      const formData = new FormData(storeForm);
-      formData.append("ownerId", ownerId);
-      formData.append("ownerEmail", ownerEmail);
-  
-      try {
-        const response = await fetch("/api/store", {
-          method: "POST",
-          body: formData
-        });
-  
-        const result = await response.json();
-        if (response.ok) {
-          message.textContent = "Store created successfully!";
+
+      const result = await res.json();
+      if (res.ok) {
+        msg.textContent = "Store created! Redirecting...";
+        setTimeout(() => {
           window.location.href = "store.html";
-        } else {
-          message.textContent = result.error || "Error creating store.";
-        }
-      } catch (error) {
-        console.error("Error submitting store form:", error);
-        message.textContent = "Something went wrong!";
+        }, 1500);
+      } else {
+        msg.textContent = result.error || "Failed to create store.";
       }
-    });
+    } catch (err) {
+      console.error("Error submitting store form:", err);
+      msg.textContent = "Something went wrong.";
+    }
   });
-  
+});

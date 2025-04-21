@@ -1,39 +1,22 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const displayStore = document.getElementById("display-store");
+// public/store.js
 
-  let userId = null;
+document.addEventListener("DOMContentLoaded", async () => {
+  const storeSection = document.getElementById("display-store");
 
-  fetch("/api/session")
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.userId) {
-        userId = data.userId;
-        loadStore(userId);
-      } else {
-        window.location.href = "create-store.html";
-      }
-    })
-    .catch(err => {
-      console.error("Error checking session:", err);
+  try {
+    const res = await fetch("/api/store/by-owner");
+    const store = await res.json();
+
+    if (res.ok && store && store.storeName) {
+      document.getElementById("store-name").textContent = store.storeName;
+      document.getElementById("store-description-display").textContent = store.description;
+      document.getElementById("store-logo").src = `/uploads/${store.storeLogo}`;
+      storeSection.style.display = "block";
+    } else {
       window.location.href = "create-store.html";
-    });
-
-  function loadStore(ownerId) {
-    fetch(`/api/store/by-owner/${ownerId}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.storeName) {
-          displayStore.style.display = "block";
-          document.getElementById("store-name").textContent = data.storeName;
-          document.getElementById("store-description-display").textContent = data.description;
-          document.getElementById("store-logo").src = `/uploads/${data.storeLogo}`;
-        } else {
-          window.location.href = "create-store.html";
-        }
-      })
-      .catch(err => {
-        console.error("Error fetching store:", err);
-        window.location.href = "create-store.html";
-      });
+    }
+  } catch (err) {
+    console.error("Error loading store:", err);
+    window.location.href = "create-store.html";
   }
 });

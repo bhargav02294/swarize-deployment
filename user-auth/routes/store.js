@@ -6,7 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const Store = require("../models/store");
 
-// Multer setup for logo upload
+// Set up multer for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/uploads");
@@ -17,10 +17,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// GET: Check if current session user has a store
+// Check if user already has a store
 router.get("/check", async (req, res) => {
   if (!req.session.userId || !req.session.email) {
-    return res.status(401).json({ error: "Unauthorized - Missing session" });
+    return res.status(401).json({ error: "Unauthorized - missing session" });
   }
 
   try {
@@ -34,13 +34,13 @@ router.get("/check", async (req, res) => {
     } else {
       return res.json({ hasStore: false });
     }
-  } catch (error) {
-    console.error("Store check error:", error);
-    return res.status(500).json({ error: "Server error" });
+  } catch (err) {
+    console.error("Error checking store:", err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-// GET: Get store details by session user
+// Get store by session user
 router.get("/by-owner", async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -56,7 +56,7 @@ router.get("/by-owner", async (req, res) => {
   }
 });
 
-// POST: Create a new store
+// Create store
 router.post("/", upload.single("storeLogo"), async (req, res) => {
   const { storeName, storeDescription } = req.body;
   const { userId, email } = req.session;
@@ -80,7 +80,7 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
     });
 
     await newStore.save();
-    res.status(201).json({ message: "Store created", store: newStore });
+    res.status(201).json({ message: "Store created successfully", store: newStore });
   } catch (err) {
     console.error("Error creating store:", err);
     res.status(500).json({ error: "Failed to create store" });

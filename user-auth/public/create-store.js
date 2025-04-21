@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("store-form");
   const msg = document.getElementById("store-message");
 
+  // Check session and store status
   try {
     const check = await fetch("/api/store/check");
     const data = await check.json();
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error checking store:", err);
   }
 
+  // Submit form
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const formData = new FormData(form);

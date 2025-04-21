@@ -108,6 +108,14 @@ app.use((req, res, next) => {
   console.log("🔹 Middleware - Cookies:", req.cookies);
   next();
 });
+// ✅ TEST: Session Debugging Endpoint
+app.get("/api/test-session", (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ message: "No active session." });
+  }
+  res.json({ userId: req.session.userId, email: req.session.email });
+});
+
 
 
 

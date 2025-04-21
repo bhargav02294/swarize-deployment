@@ -1,34 +1,26 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const storeForm = document.getElementById('store-form');
-  const messagePara = document.getElementById('store-message');
+document.addEventListener("DOMContentLoaded", function () {
+  const storeForm = document.getElementById("store-form");
+  const storeMessage = document.getElementById("store-message");
 
-  storeForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  storeForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('name', document.getElementById('name').value);
-    formData.append('logo', document.getElementById('logo').files[0]);
-    formData.append('description', document.getElementById('description').value);
+      const formData = new FormData(storeForm);
 
-    try {
-      const res = await fetch('/api/store', {
-        method: 'POST',
-        body: formData
+      const response = await fetch("/api/store/create", {
+          method: "POST",
+          body: formData,
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (res.ok) {
-        messagePara.textContent = 'Store created successfully!';
-        setTimeout(() => {
-          window.location.href = 'store.html';
-        }, 1000);
+      if (data.success) {
+          storeMessage.textContent = "Store created successfully!";
+          setTimeout(() => {
+              window.location.href = "/store.html"; // Redirect to the store page
+          }, 2000);
       } else {
-        messagePara.textContent = data.message || 'Something went wrong.';
+          storeMessage.textContent = data.message || "Something went wrong. Please try again.";
       }
-    } catch (err) {
-      console.error(err);
-      messagePara.textContent = 'Something went wrong. Please try again.';
-    }
   });
 });

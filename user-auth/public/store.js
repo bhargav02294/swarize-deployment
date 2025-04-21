@@ -1,32 +1,31 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const storeSection = document.getElementById('display-store');
-  const storeName = document.getElementById('store-name');
-  const storeLogo = document.getElementById('store-logo');
-  const storeDescription = document.getElementById('store-description');
+document.addEventListener("DOMContentLoaded", async function () {
+  const storeHeaderSection = document.getElementById("display-store");
+  const addProductBtn = document.getElementById("add-product-btn");
+  const storeName = document.getElementById("store-name");
+  const storeDescription = document.getElementById("store-description");
+  const storeLogo = document.getElementById("store-logo");
 
-  try {
-    const res = await fetch('/api/store/my-store');
-    const data = await res.json();
+  const userSession = await fetch("/api/user/session");
+  const sessionData = await userSession.json();
 
-    if (res.ok && data.store) {
-      const store = data.store;
-      storeSection.style.display = 'block';
-      storeName.textContent = store.name;
-      storeLogo.src = store.logo;
-      storeDescription.textContent = store.description;
-    } else {
-      // Store not found, redirect to create-store.html
-      window.location.href = 'create-store.html';
-    }
-  } catch (err) {
-    console.error(err);
-    // Error occurred, redirect to create-store.html
-    window.location.href = 'create-store.html';
+  if (!sessionData.userId) {
+      window.location.href = "/create-store.html"; // Redirect to create-store.html if user is not logged in
+      return;
   }
 
-  // Add Products button
-  const addProductBtn = document.getElementById('add-product-btn');
-  addProductBtn.addEventListener('click', () => {
-    window.location.href = 'add-product.html';
-  });
+  const storeResponse = await fetch(`/api/store/${sessionData.userId}`);
+  const storeData = await storeResponse.json();
+
+  if (storeData.success) {
+      storeHeaderSection.style.display = "block";
+      storeName.textContent = storeData.store.name;
+      storeDescription.textContent = storeData.store.description;
+      storeLogo.src = storeData.store.logo;
+
+      addProductBtn.addEventListener("click", function () {
+          window.location.href = "/add-product.html"; // Redirect to add-product page
+      });
+  } else {
+      window.location.href = "/create-store.html"; // Redirect to create-store if no store exists
+  }
 });

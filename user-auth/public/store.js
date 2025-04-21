@@ -26,6 +26,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           window.location.href = "/add-product.html"; // Redirect to add-product page
       });
   } else {
-      window.location.href = "/create-store.html"; // Redirect to create-store if no store exists
+      window.location.href = "/create-store.html"; // Redirect to create-store.html if store doesn't exist
   }
 });

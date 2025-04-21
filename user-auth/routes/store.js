@@ -3,7 +3,6 @@ const router = express.Router();
 const Store = require("../models/store");
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -52,6 +51,29 @@ router.get("/:userId", async (req, res) => {
         }
 
         res.status(200).json({ success: true, store });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
+    }
+});
+
+// Check if the user has a store and redirect appropriately
+router.get("/check-store", async (req, res) => {
+    const userId = req.session.userId;
+    if (!userId) {
+        return res.status(401).json({ success: false, message: "User not logged in" });
+    }
+
+    try {
+        const store = await Store.findOne({ ownerId: userId });
+
+        if (store) {
+            // Redirect to store page if the store exists
+            res.status(200).json({ success: true, redirect: "/store.html" });
+        } else {
+            // Redirect to create-store page if the store doesn't exist
+            res.status(200).json({ success: true, redirect: "/create-store.html" });
+        }
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: "Something went wrong. Please try again." });

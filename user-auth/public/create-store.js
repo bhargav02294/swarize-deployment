@@ -1,26 +1,21 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const storeForm = document.getElementById("store-form");
-  const storeMessage = document.getElementById("store-message");
+document.getElementById('store-form').addEventListener('submit', async function(event) {
+  event.preventDefault();
 
-  storeForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
+  const formData = new FormData();
+  formData.append('name', document.getElementById('name').value);
+  formData.append('logo', document.getElementById('logo').files[0]);
+  formData.append('description', document.getElementById('description').value);
 
-      const formData = new FormData(storeForm);
-
-      const response = await fetch("/api/store/create", {
-          method: "POST",
-          body: formData,
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-          storeMessage.textContent = "Store created successfully!";
-          setTimeout(() => {
-              window.location.href = "/store.html"; // Redirect to the store page
-          }, 2000);
-      } else {
-          storeMessage.textContent = data.message || "Something went wrong. Please try again.";
-      }
+  const response = await fetch('/api/store/create-store', {
+    method: 'POST',
+    body: formData
   });
+
+  const result = await response.json();
+  if (response.status === 201) {
+    document.getElementById('store-message').innerText = 'Store created successfully!';
+    window.location.href = '/store.html';  // Redirect to store page
+  } else {
+    document.getElementById('store-message').innerText = result.message;
+  }
 });

@@ -1,31 +1,25 @@
-document.addEventListener("DOMContentLoaded", async function () {
-  const storeHeaderSection = document.getElementById("display-store");
-  const addProductBtn = document.getElementById("add-product-btn");
-  const storeName = document.getElementById("store-name");
-  const storeDescription = document.getElementById("store-description");
-  const storeLogo = document.getElementById("store-logo");
+window.onload = async function() {
+  const response = await fetch('/api/store/check-store');
+  if (response.status === 200) {
+    const store = await response.json();
+    if (store) {
+      // Display store details
+      document.getElementById('store-logo').src = store.logo;
+      document.getElementById('store-name').innerText = store.name;
+      document.getElementById('store-description').innerText = store.description;
 
-  const userSession = await fetch("/api/user/session");
-  const sessionData = await userSession.json();
-
-  if (!sessionData.userId) {
-      window.location.href = "/create-store.html"; // Redirect to create-store.html if user is not logged in
-      return;
-  }
-
-  const storeResponse = await fetch(`/api/store/${sessionData.userId}`);
-  const storeData = await storeResponse.json();
-
-  if (storeData.success) {
-      storeHeaderSection.style.display = "block";
-      storeName.textContent = storeData.store.name;
-      storeDescription.textContent = storeData.store.description;
-      storeLogo.src = storeData.store.logo;
-
-      addProductBtn.addEventListener("click", function () {
-          window.location.href = "/add-product.html"; // Redirect to add-product page
+      // Fetch and display products (assuming products are fetched from the backend)
+      const productsResponse = await fetch(`/api/store/products/${store._id}`);
+      const products = await productsResponse.json();
+      const productsList = document.getElementById('products-list');
+      products.forEach(product => {
+        const productDiv = document.createElement('div');
+        productDiv.innerHTML = `<p>${product.name}</p>`;
+        productsList.appendChild(productDiv);
       });
+    }
   } else {
-      window.location.href = "/create-store.html"; // Redirect to create-store.html if store doesn't exist
+    // If not logged in or store does not exist, redirect to create store page
+    window.location.href = '/create-store.html';
   }
-});
+};

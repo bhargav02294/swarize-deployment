@@ -1,62 +1,69 @@
-// routes/store.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Store = require('../models/store');
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer");
+const path = require("path");
+const Store = require("../models/store");
 
-// Storage setup
+// Upload storage config
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'public/uploads'),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+  destination: (req, file, cb) => {
+    cb(null, "public/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
 });
+
 const upload = multer({ storage });
 
-// ✅ Check if seller already has a store
-router.get('/check', async (req, res) => {
+// Check if store exists
+router.get("/check", async (req, res) => {
   const { ownerId, ownerEmail } = req.query;
-  if (!ownerId || !ownerEmail) return res.status(400).json({ error: 'Missing credentials' });
+
+  if (!ownerId || !ownerEmail) {
+    return res.status(400).json({ error: "Missing ownerId or ownerEmail." });
+  }
 
   try {
     const store = await Store.findOne({ ownerId, ownerEmail });
     if (store) {
-      return res.json({ hasStore: true, store });
+      res.json({ hasStore: true, store });
     } else {
-      return res.json({ hasStore: false });
+      res.json({ hasStore: false });
     }
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error' });
+    console.error("Error checking store:", err);
+    res.status(500).json({ error: "Server error while checking store." });
   }
 });
 
-// ✅ Create store
-router.post('/', upload.single('storeLogo'), async (req, res) => {
-  const { ownerId, ownerEmail, storeName, storeDescription } = req.body;
+// Create store
+router.post("/", upload.single("storeLogo"), async (req, res) => {
+  const { storeName, storeDescription, ownerId, ownerEmail } = req.body;
 
-  if (!ownerId || !ownerEmail || !storeName || !req.file) {
-    return res.status(400).json({ error: 'Missing fields' });
+  if (!storeName || !storeDescription || !ownerId || !ownerEmail || !req.file) {
+    return res.status(400).json({ error: "All fields including logo are required." });
   }
 
   try {
-    const existingStore = await Store.findOne({ ownerId });
-    if (existingStore) {
-      return res.status(400).json({ error: 'Store already exists' });
+    const exists = await Store.findOne({ ownerId });
+    if (exists) {
+      return res.status(400).json({ error: "Store already exists for this owner." });
     }
 
-    const store = new Store({
+    const newStore = new Store({
+      storeName,
+      description: storeDescription,
       ownerId,
       ownerEmail,
-      storeName,
       storeLogo: req.file.filename,
-      description: storeDescription,
     });
 
-    await store.save();
-    res.status(201).json({ message: 'Store created', store });
+    await newStore.save();
+    res.status(201).json({ message: "Store created", store: newStore });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to create store' });
+    console.error("Error creating store:", err);
+    res.status(500).json({ error: "Server error while creating store." });
   }
 });
 

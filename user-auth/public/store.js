@@ -1,51 +1,70 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const sellerId = localStorage.getItem('sellerId');
-  const isStorePage = window.location.pathname.includes('store.html');
-  const isCreatePage = window.location.pathname.includes('create-store.html');
+// public/store.js
 
-  if (!sellerId) {
-    console.error("Seller ID not found in localStorage.");
-    window.location.href = 'home.html';
+document.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const ownerId = urlParams.get("ownerId");
+  const ownerEmail = urlParams.get("ownerEmail");
+
+  // These must be present in the URL
+  if (!ownerId || !ownerEmail) {
+    console.error("Missing owner credentials in URL.");
     return;
   }
 
+  // Check from backend if store exists
   try {
-    const res = await fetch(`https://swarize-deployment.onrender.com/api/store/${sellerId}`);
+    const res = await fetch(`/api/store/check?ownerId=${ownerId}&ownerEmail=${ownerEmail}`);
     const data = await res.json();
 
-    if (res.ok && data.store) {
-      if (isCreatePage) {
-        // Redirect to store page if store exists and user is on create page
-        window.location.href = 'store.html';
-        return;
+    if (data.hasStore) {
+      if (window.location.pathname.includes("create-store.html")) {
+        // Redirect to store if already created
+        window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+      } else if (window.location.pathname.includes("store.html")) {
+        displayStore(data.store);
       }
-
-      // SHOW EXISTING STORE DETAILS
-      document.getElementById('display-store').style.display = 'block';
-      document.getElementById('store-logo').src = data.store.storeLogo;
-      document.getElementById('store-name').textContent = data.store.storeName;
-      document.getElementById('store-description-display').textContent = data.store.description;
     } else {
-      if (isStorePage) {
-        // Redirect to create page if no store exists and user is on store page
-        window.location.href = 'create-store.html';
-        return;
+      if (!window.location.pathname.includes("create-store.html")) {
+        // Redirect to create page if store doesn't exist
+        window.location.href = `create-store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
       }
-
-      // If you're already on create page and there's no store, stay here.
     }
   } catch (err) {
-    console.error('Error fetching store:', err);
-    if (isStorePage) {
-      window.location.href = 'create-store.html';
-    }
+    console.error("Error checking store:", err);
   }
 
-  // ADD PRODUCT REDIRECT
-  const addProductBtn = document.getElementById('add-product-btn');
-  if (addProductBtn) {
-    addProductBtn.addEventListener('click', () => {
-      window.location.href = 'add-product.html';
+  // Store creation logic
+  const storeForm = document.getElementById("store-form");
+  if (storeForm) {
+    storeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(storeForm);
+      formData.append("ownerId", ownerId);
+      formData.append("ownerEmail", ownerEmail);
+
+      try {
+        const res = await fetch("/api/store", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+        } else {
+          document.getElementById("store-message").textContent = data.error || "Failed to create store.";
+        }
+      } catch (err) {
+        console.error("Error creating store:", err);
+      }
     });
+  }
+
+  async function displayStore(store) {
+    if (!store) return;
+    document.getElementById("display-store").style.display = "block";
+    document.getElementById("store-logo").src = `/uploads/${store.storeLogo}`;
+    document.getElementById("store-name").textContent = store.storeName;
+    document.getElementById("store-description-display").textContent = store.description;
   }
 });

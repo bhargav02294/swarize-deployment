@@ -1,17 +1,16 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const sellerId = localStorage.getItem("sellerId");
+  const sellerEmail = localStorage.getItem("sellerEmail");
 
-  // If no sellerId in localStorage, we can't continue
-  if (!sellerId) {
-    console.error("Seller ID not found. Please login first.");
-    // Optional: you can redirect to login or show a message
+  if (!sellerId || !sellerEmail) {
+    console.error("Seller info missing. Please login first.");
     return;
   }
 
   const createForm = document.getElementById("store-form");
   const msg = document.getElementById("store-message");
 
-  // ========== Handle store creation (create-store.html) ==========
+  // ========== CREATE STORE ==========
   if (createForm) {
     createForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -21,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       formData.append("storeDescription", document.getElementById("storeDescription").value);
       formData.append("storeLogo", document.getElementById("storeLogo").files[0]);
       formData.append("sellerId", sellerId);
+      formData.append("ownerEmail", sellerEmail);
 
       try {
         const res = await fetch("/api/store", {
@@ -31,32 +31,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         const data = await res.json();
 
         if (res.ok) {
-          msg.textContent = "Store created! Redirecting...";
+          msg.textContent = "Store created successfully! Redirecting...";
           setTimeout(() => {
             window.location.href = `store.html?sellerId=${sellerId}`;
-          }, 2000);
+          }, 1500);
         } else {
-          msg.textContent = data.error || "Failed to create store.";
+          msg.textContent = data.error || "Store creation failed.";
         }
       } catch (error) {
-        msg.textContent = "An error occurred. Please try again.";
+        msg.textContent = "Error submitting form. Please try again.";
       }
     });
   }
 
-  // ========== Handle store display (store.html) ==========
+  // ========== DISPLAY STORE ==========
   const storeSection = document.getElementById("display-store");
   if (storeSection) {
     const urlParams = new URLSearchParams(window.location.search);
     const sellerIdParam = urlParams.get("sellerId");
-
-    // If sellerId is not passed in URL, use from localStorage
     const finalSellerId = sellerIdParam || sellerId;
 
     try {
       const res = await fetch(`/api/store/${finalSellerId}`);
       if (!res.ok) {
-        // If store not found, redirect to create page
         window.location.href = "create-store.html";
         return;
       }
@@ -67,30 +64,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("store-description-display").textContent = store.storeDescription;
       storeSection.style.display = "block";
 
-      document.getElementById("add-product-btn").addEventListener("click", () => {
-        window.location.href = `add-product.html?sellerId=${finalSellerId}`;
-      });
+      const addProductBtn = document.getElementById("add-product-btn");
+      if (addProductBtn) {
+        addProductBtn.addEventListener("click", () => {
+          window.location.href = `add-product.html?sellerId=${finalSellerId}`;
+        });
+      }
     } catch (error) {
-      console.error("Failed to load store data:", error);
-      window.location.href = "create-store.html"; // fallback
+      console.error("Failed to fetch store:", error);
+      window.location.href = "create-store.html";
     }
   }
 
-  // ========== Automatic redirection based on store status ==========
-  // If on some neutral page (like dashboard), you can do:
+  // ========== AUTO-REDIRECT TO STORE OR CREATE ==========
   const onNeutralPage = !createForm && !storeSection;
   if (onNeutralPage) {
     try {
       const res = await fetch(`/api/store/${sellerId}`);
       if (!res.ok) {
-        // No store yet → go to creation page
         window.location.href = "create-store.html";
       } else {
-        // Store exists → go to store page
         window.location.href = `store.html?sellerId=${sellerId}`;
       }
-    } catch (err) {
-      console.error("Error checking store:", err);
+    } catch (error) {
+      console.error("Redirect error:", error);
       window.location.href = "create-store.html";
     }
   }

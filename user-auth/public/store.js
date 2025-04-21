@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // If no seller ID, redirect to homepage
   if (!sellerId) {
     console.error("Seller ID not found in localStorage.");
-    window.location.href = "home.html";
+    window.location.href = "create-store.html";
     return;
   }
 

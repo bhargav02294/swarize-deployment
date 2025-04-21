@@ -1,42 +1,32 @@
-// public/create-store.js
 document.addEventListener("DOMContentLoaded", () => {
+  // Check if store already exists
   fetch("/api/store/check")
-    .then((res) => res.json())
-    .then((data) => {
+    .then(res => res.json())
+    .then(data => {
       if (data.exists) {
         window.location.href = "store.html";
       }
     });
 
   const form = document.getElementById("store-form");
-  const messageEl = document.getElementById("store-message");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const formData = new FormData(form);
 
-    try {
-      const response = await fetch("/api/store", {
-        method: "POST",
-        body: formData,
-      });
+    const response = await fetch("/api/store", {
+      method: "POST",
+      body: formData
+    });
 
-      const result = await response.json();
+    const result = await response.json();
 
-      if (response.ok) {
-        messageEl.textContent = result.message;
-        messageEl.style.color = "green";
-        setTimeout(() => {
-          window.location.href = "store.html";
-        }, 1500);
-      } else {
-        messageEl.textContent = result.message;
-        messageEl.style.color = "red";
-      }
-    } catch (error) {
-      messageEl.textContent = "Server error. Try again later.";
-      messageEl.style.color = "red";
+    if (result.success) {
+      alert("Store created!");
+      window.location.href = "store.html";
+    } else {
+      alert(result.message || "Failed to create store.");
     }
   });
 });

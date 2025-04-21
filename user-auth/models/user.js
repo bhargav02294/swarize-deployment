@@ -25,7 +25,6 @@ const userSchema = new mongoose.Schema({
         enum: ['email', 'google'],
         required: true,
       },
-    facebookId: { type: String }, // For Facebook users
     googleId: { type: String },   // For Google users
     country: { type: String, default: 'India' }, // Default country is India
     role: { type: String, enum: ['buyer', 'seller', 'admin'], default: 'buyer' },

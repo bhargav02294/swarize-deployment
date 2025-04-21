@@ -38,23 +38,34 @@ router.get("/check", async (req, res) => {
 });
 
 // Create store
+// Inside POST request for store creation
 router.post("/", upload.single("storeLogo"), async (req, res) => {
   try {
+    // Log session data
+    console.log("🔍 Session Data:", req.session);
+
+    // Check if the session is missing
     if (!req.session.userId || !req.session.email) {
+      console.log("❌ Missing session data.");
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    // Check if store already exists
+    // Log file upload info
+    console.log("📁 Uploaded File Info:", req.file);
+
+    // Log form data from the request body
+    console.log("📝 Request Body:", req.body);
+
     const existingStore = await Store.findOne({
       ownerId: req.session.userId,
       ownerEmail: req.session.email
     });
 
     if (existingStore) {
+      console.log("⚠️ Store already exists for this user.");
       return res.status(400).json({ success: false, message: "Store already exists" });
     }
 
-    // Create new store
     const newStore = new Store({
       ownerId: req.session.userId,
       ownerEmail: req.session.email,
@@ -63,16 +74,18 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
       description: req.body.description
     });
 
-    console.log("New Store Data:", newStore);
+    // ✅ Log the store data being saved
+    console.log("✅ New Store Data:", newStore);
 
     await newStore.save();
     return res.status(201).json({ success: true, message: "Store created successfully" });
 
   } catch (err) {
-    console.error(err);
+    console.error("🔥 Error while creating store:", err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 // Get store details for the logged-in user
 router.get("/my-store", async (req, res) => {

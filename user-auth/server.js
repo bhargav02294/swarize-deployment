@@ -21,7 +21,8 @@ const dotenv = require("dotenv");
 
 const fs = require('fs');
 const app = express();
-app.use(express.static("public")); // Serve uploaded logos
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
   origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow both frontend & backend
@@ -32,8 +33,6 @@ app.use(cors({
 
 
 app.set('view engine', 'ejs');
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-
 
 
 
@@ -57,7 +56,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 const Razorpay = require("razorpay");
 const razorpay = new Razorpay({

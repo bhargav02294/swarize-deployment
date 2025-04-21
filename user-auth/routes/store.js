@@ -1,71 +1,77 @@
+// routes/store.js
 const express = require('express');
-const router = express.Router();
-const Store = require('../models/store');
 const multer = require('multer');
+const Store = require('../models/store');
 const path = require('path');
-const fs = require('fs');
 
-// File upload configuration
+const router = express.Router();
+
+// Configure multer for file uploads
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../public/uploads');
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../public/uploads'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
     }
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const fileName = Date.now() + '-' + file.originalname;
-    cb(null, fileName);
-  }
 });
-
 const upload = multer({ storage });
 
-// Store creation route
+// Create Store Route (Handle form submission and save store data)
 router.post('/create', upload.single('storeLogo'), async (req, res) => {
-  try {
-    const { storeName, storeDescription } = req.body;
-    const storeLogo = req.file ? req.file.filename : null;
+    try {
+        // Validate session data
+        if (!req.session.userId || !req.session.email) {
+            return res.status(400).json({ success: false, message: 'User not logged in' });
+        }
 
-    if (!storeLogo) {
-      return res.status(400).json({ success: false, message: 'Store logo is required.' });
+        const { storeName, storeDescription } = req.body;
+        const storeLogo = req.file ? req.file.filename : null;
+
+        // Check if all required fields are provided
+        if (!storeName || !storeDescription || !storeLogo) {
+            return res.status(400).json({ success: false, message: 'Please provide all required store details.' });
+        }
+
+        // Check if the user already has a store
+        const existingStore = await Store.findOne({ ownerId: req.session.userId });
+        if (existingStore) {
+            return res.status(400).json({ success: false, message: 'You already have a store.' });
+        }
+
+        // Create a new store
+        const newStore = new Store({
+            ownerId: req.session.userId,
+            ownerEmail: req.session.email,
+            storeName,
+            storeLogo,
+            description: storeDescription
+        });
+
+        const store = await newStore.save();
+        res.json({ success: true, store });
+
+    } catch (error) {
+        console.error('Error during store creation:', error);
+        res.status(500).json({ success: false, message: 'Something went wrong. Please try again.' });
     }
-
-    // Check if the user already has a store
-    const existingStore = await Store.findOne({ ownerId: req.session.userId });
-    if (existingStore) {
-      return res.status(400).json({ success: false, message: 'You already have a store.' });
-    }
-
-    const newStore = new Store({
-      ownerId: req.session.userId,
-      ownerEmail: req.session.email,
-      storeName,
-      storeLogo,
-      storeDescription
-    });
-
-    const store = await newStore.save();
-    res.json({ success: true, store });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Something went wrong.' });
-  }
 });
 
-// Fetch store data by ownerId
-router.get('/check', async (req, res) => {
-  try {
-    const store = await Store.findOne({ ownerId: req.session.userId });
-    if (!store) {
-      return res.status(404).json({ success: false, message: 'Store not found.' });
+// Fetch Store by User ID (for displaying store page)
+router.get('/:userId', async (req, res) => {
+    try {
+        const store = await Store.findOne({ ownerId: req.params.userId });
+        
+        if (!store) {
+            return res.status(404).json({ success: false, message: 'Store not found.' });
+        }
+
+        res.json({ success: true, store });
+
+    } catch (error) {
+        console.error('Error fetching store:', error);
+        res.status(500).json({ success: false, message: 'Something went wrong. Please try again.' });
     }
-    res.json({ success: true, store });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Something went wrong.' });
-  }
 });
 
 module.exports = router;

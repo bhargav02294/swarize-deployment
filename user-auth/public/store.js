@@ -1,43 +1,34 @@
-document.addEventListener('DOMContentLoaded', async function () {
-  const storeContainer = document.getElementById('display-store');
-  const storeLogo = document.getElementById('store-logo');
-  const storeName = document.getElementById('store-name');
-  const storeDescriptionDisplay = document.getElementById('store-description-display');
-  const subscriptionStatus = document.getElementById('subscription-status');
-  const addProductBtn = document.getElementById('add-product-btn');
-  const productsList = document.getElementById('products-list');
-
+// public/store.js
+document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch('/api/store/check', {
-      method: 'GET',
-      credentials: 'same-origin'
-    });
+      // Fetch user session and store details
+      const sessionResponse = await fetch('/api/user/session');
+      const sessionData = await sessionResponse.json();
 
-    if (!response.ok) {
-      throw new Error('Store not found.');
-    }
+      if (!sessionData.success) {
+          alert('User session not found. Please log in again.');
+          window.location.href = 'signin.html';
+          return;
+      }
 
-    const data = await response.json();
-    const store = data.store;
+      // Fetch store data
+      const storeResponse = await fetch(`/api/store/${sessionData.userId}`);
+      const storeData = await storeResponse.json();
 
-    // Display store details
-    storeLogo.src = `/uploads/${store.storeLogo}`;
-    storeName.textContent = store.storeName;
-    storeDescriptionDisplay.textContent = store.storeDescription;
+      if (!storeData.success) {
+          alert(storeData.message);
+          return;
+      }
 
-    storeContainer.style.display = 'block';
-
-    // Placeholder: Show the add product button
-    addProductBtn.addEventListener('click', function () {
-      window.location.href = '/add-product.html';
-    });
-
-    productsList.innerHTML = '<p>No products yet.</p>';
-
-    subscriptionStatus.style.display = 'none'; 
-
+      const store = storeData.store;
+      
+      // Populate store details on the page
+      document.getElementById('storeName').innerText = store.storeName;
+      document.getElementById('storeDescription').innerText = store.description;
+      document.getElementById('storeLogo').src = `/uploads/${store.storeLogo}`;
+      document.getElementById('ownerEmail').innerText = store.ownerEmail;
   } catch (error) {
-    console.error('Error fetching store:', error);
-    window.location.href = 'create-store.html';
+      console.error('Error loading store:', error);
+      alert('Something went wrong. Please try again.');
   }
 });

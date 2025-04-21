@@ -1,47 +1,43 @@
+// public/create-store.js
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("store-form");
+  const storeForm = document.getElementById("store-form");
+  const storeMessage = document.getElementById("store-message");
 
-  fetch("/api/store/check")
-    .then(res => res.json())
-    .then(data => {
-      if (data.exists) {
-        window.location.href = "store.html";
-      }
-    });
-
-  form.addEventListener("submit", async (e) => {
+  storeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
     const name = document.getElementById("name").value;
-    const description = document.getElementById("description").value;
     const logo = document.getElementById("logo").files[0];
+    const description = document.getElementById("description").value;
 
-    if (!name || !description || !logo) {
-      alert("All fields are required.");
+    if (!name || !logo || !description) {
+      storeMessage.textContent = "All fields are required.";
       return;
     }
 
-    const formData = new FormData();
     formData.append("name", name);
-    formData.append("description", description);
     formData.append("logo", logo);
+    formData.append("description", description);
 
     try {
-      const response = await fetch("/api/store", {
+      const res = await fetch("/api/store", {
         method: "POST",
+        credentials: "include",
         body: formData
       });
 
-      const result = await response.json();
+      const data = await res.json();
 
-      if (result.success) {
+      if (res.ok) {
+        storeMessage.textContent = "✅ Store created successfully!";
         window.location.href = "store.html";
       } else {
-        alert(result.message || "Something went wrong. Please try again.");
+        storeMessage.textContent = `❌ ${data.message}`;
       }
     } catch (err) {
-      console.error("Store creation failed:", err);
-      alert("Something went wrong. Please try again.");
+      console.error("Store creation error:", err);
+      storeMessage.textContent = "Something went wrong. Please try again.";
     }
   });
 });

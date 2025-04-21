@@ -1,34 +1,30 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const storeSection = document.getElementById('display-store');
-  const storeName = document.getElementById('store-name');
-  const storeLogo = document.getElementById('store-logo');
-  const storeDescription = document.getElementById('store-description');
-  const addProductBtn = document.getElementById('add-product-btn');
-
-  try {
-    const res = await fetch('/api/store/check');
-    const data = await res.json();
-
-    if (!data.exists) {
-      window.location.href = 'create-store.html';
-      return;
-    }
-
-    // Fetch store details if exists
-    const storeRes = await fetch('/api/store');
-    const storeData = await storeRes.json();
-
-    storeSection.style.display = 'block';
-    storeName.textContent = storeData.storeName;
-    storeLogo.src = storeData.storeLogo;
-    storeDescription.textContent = storeData.description;
-
-    addProductBtn.addEventListener('click', () => {
-      window.location.href = `add-product.html?storeId=${storeData._id}`;
+// public/store.js
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("/api/store/check")
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data.exists) {
+        window.location.href = "create-store.html";
+      } else {
+        loadStoreDetails();
+      }
     });
 
-  } catch (err) {
-    console.error('Error loading store:', err);
-    window.location.href = 'create-store.html';
+  function loadStoreDetails() {
+    fetch("/api/store/my-store")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const store = data.store;
+          document.getElementById("store-logo").src = store.storeLogo;
+          document.getElementById("store-name").textContent = store.storeName;
+          document.getElementById("store-description").textContent = store.description;
+          document.getElementById("display-store").style.display = "block";
+        }
+      });
   }
+
+  document.getElementById("add-product-btn").addEventListener("click", () => {
+    window.location.href = "add-product.html";
+  });
 });

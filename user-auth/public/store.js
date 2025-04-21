@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const sellerId = localStorage.getItem("sellerId");
 
-  // If no seller ID, redirect to homepage
+  // If no sellerId in localStorage, we can't continue
   if (!sellerId) {
-    console.error("Seller ID not found in localStorage.");
-    window.location.href = "create-store.html";
+    console.error("Seller ID not found. Please login first.");
+    // Optional: you can redirect to login or show a message
     return;
   }
 
-  // Handle store creation (create-store.html)
   const createForm = document.getElementById("store-form");
   const msg = document.getElementById("store-message");
 
+  // ========== Handle store creation (create-store.html) ==========
   if (createForm) {
     createForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (res.ok) {
           msg.textContent = "Store created! Redirecting...";
           setTimeout(() => {
-            window.location.href = `store.html`;
+            window.location.href = `store.html?sellerId=${sellerId}`;
           }, 2000);
         } else {
           msg.textContent = data.error || "Failed to create store.";
@@ -44,38 +44,53 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Handle store display (store.html)
+  // ========== Handle store display (store.html) ==========
   const storeSection = document.getElementById("display-store");
   if (storeSection) {
-    try {
-      const res = await fetch(`/api/store/${sellerId}`);
+    const urlParams = new URLSearchParams(window.location.search);
+    const sellerIdParam = urlParams.get("sellerId");
 
+    // If sellerId is not passed in URL, use from localStorage
+    const finalSellerId = sellerIdParam || sellerId;
+
+    try {
+      const res = await fetch(`/api/store/${finalSellerId}`);
       if (!res.ok) {
-        // Store not found — redirect to store creation page
+        // If store not found, redirect to create page
         window.location.href = "create-store.html";
         return;
       }
 
       const store = await res.json();
-
-      const logoImg = document.getElementById("store-logo");
-      const nameEl = document.getElementById("store-name");
-      const descEl = document.getElementById("store-description-display");
-
-      if (logoImg) logoImg.src = `https://swarize-deployment.onrender.com${store.storeLogo}`;
-      if (nameEl) nameEl.textContent = store.storeName;
-      if (descEl) descEl.textContent = store.storeDescription;
-
+      document.getElementById("store-logo").src = `https://swarize-deployment.onrender.com${store.storeLogo}`;
+      document.getElementById("store-name").textContent = store.storeName;
+      document.getElementById("store-description-display").textContent = store.storeDescription;
       storeSection.style.display = "block";
 
-      const addProductBtn = document.getElementById("add-product-btn");
-      if (addProductBtn) {
-        addProductBtn.addEventListener("click", () => {
-          window.location.href = `add-product.html?sellerId=${sellerId}`;
-        });
-      }
+      document.getElementById("add-product-btn").addEventListener("click", () => {
+        window.location.href = `add-product.html?sellerId=${finalSellerId}`;
+      });
     } catch (error) {
       console.error("Failed to load store data:", error);
+      window.location.href = "create-store.html"; // fallback
+    }
+  }
+
+  // ========== Automatic redirection based on store status ==========
+  // If on some neutral page (like dashboard), you can do:
+  const onNeutralPage = !createForm && !storeSection;
+  if (onNeutralPage) {
+    try {
+      const res = await fetch(`/api/store/${sellerId}`);
+      if (!res.ok) {
+        // No store yet → go to creation page
+        window.location.href = "create-store.html";
+      } else {
+        // Store exists → go to store page
+        window.location.href = `store.html?sellerId=${sellerId}`;
+      }
+    } catch (err) {
+      console.error("Error checking store:", err);
       window.location.href = "create-store.html";
     }
   }

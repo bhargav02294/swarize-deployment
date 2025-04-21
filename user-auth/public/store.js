@@ -1,65 +1,66 @@
-document.addEventListener('DOMContentLoaded', async () => {
+// public/store.js
+
+document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const ownerId = urlParams.get('ownerId');
-  const ownerEmail = urlParams.get('ownerEmail');
+  const ownerId = urlParams.get("ownerId");
+  const ownerEmail = urlParams.get("ownerEmail");
 
   if (!ownerId || !ownerEmail) {
-    alert("Missing owner credentials.");
+    window.location.href = "create-store.html";
     return;
   }
 
-  const currentPage = window.location.pathname.split('/').pop();
-
   try {
-    const res = await fetch(`/api/store/check/${ownerId}`);
-    const data = await res.json();
+    const response = await fetch(`/api/store/check?ownerId=${ownerId}&ownerEmail=${ownerEmail}`);
+    const data = await response.json();
 
-    if (currentPage === 'store.html') {
-      if (!data.exists) {
-        window.location.href = 'create-store.html?ownerId=' + ownerId + '&ownerEmail=' + ownerEmail;
-        return;
+    if (data.hasStore) {
+      // Redirect to store.html if not already there
+      if (!window.location.href.includes("store.html")) {
+        window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+      } else {
+        displayStore(data.store);
       }
-      // If store exists, show it
-      const store = data.store;
-      document.getElementById('store-logo').src = store.storeLogo;
-      document.getElementById('store-name').textContent = store.storeName;
-      document.getElementById('store-description-display').textContent = store.description;
-      document.getElementById('display-store').style.display = 'block';
+    } else {
+      if (!window.location.href.includes("create-store.html")) {
+        window.location.href = `create-store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+      }
     }
+  } catch (error) {
+    console.error("Error checking store:", error);
+  }
 
-    if (currentPage === 'create-store.html') {
-      if (data.exists) {
-        window.location.href = 'store.html?ownerId=' + ownerId + '&ownerEmail=' + ownerEmail;
-        return;
-      }
+  const storeForm = document.getElementById("store-form");
+  if (storeForm) {
+    storeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(storeForm);
+      formData.append("ownerId", ownerId);
+      formData.append("ownerEmail", ownerEmail);
 
-      // Form submission
-      const storeForm = document.getElementById('store-form');
-      storeForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData();
-        formData.append('ownerId', ownerId);
-        formData.append('ownerEmail', ownerEmail);
-        formData.append('storeName', document.getElementById('storeName').value);
-        formData.append('storeDescription', document.getElementById('storeDescription').value);
-        formData.append('storeLogo', document.getElementById('storeLogo').files[0]);
-
-        const response = await fetch('/api/store', {
-          method: 'POST',
-          body: formData
+      try {
+        const response = await fetch("/api/store", {
+          method: "POST",
+          body: formData,
         });
 
         const result = await response.json();
         if (response.ok) {
-          alert('Store created successfully!');
-          window.location.href = 'store.html?ownerId=' + ownerId + '&ownerEmail=' + ownerEmail;
+          window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
         } else {
-          alert(result.error || 'Error creating store');
+          document.getElementById("store-message").textContent = result.error || "Failed to create store.";
         }
-      });
-    }
-  } catch (error) {
-    console.error('Error:', error);
+      } catch (error) {
+        console.error("Error creating store:", error);
+      }
+    });
+  }
+
+  async function displayStore(store) {
+    if (!store) return;
+    document.getElementById("display-store").style.display = "block";
+    document.getElementById("store-logo").src = `/uploads/${store.storeLogo}`;
+    document.getElementById("store-name").textContent = store.storeName;
+    document.getElementById("store-description-display").textContent = store.description;
   }
 });

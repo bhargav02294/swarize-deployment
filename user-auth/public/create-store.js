@@ -1,48 +1,56 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const ownerId = urlParams.get("ownerId");
-    const ownerEmail = urlParams.get("ownerEmail");
+document.addEventListener("DOMContentLoaded", () => {
+    const storeForm = document.getElementById("store-form");
+    const message = document.getElementById("store-message");
   
-    if (!ownerId || !ownerEmail) {
-      document.getElementById("store-message").textContent = "Missing owner credentials.";
-      return;
-    }
+    let ownerId = null;
+    let ownerEmail = null;
   
-    try {
-      const response = await fetch(`/api/store/check?ownerId=${ownerId}&ownerEmail=${ownerEmail}`);
-      const data = await response.json();
+    // Load session first
+    fetch("/api/session")
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.userId && data.email) {
+          ownerId = data.userId;
+          ownerEmail = data.email;
+        } else {
+          message.textContent = "Missing owner credentials.";
+          document.getElementById("save-store-btn").disabled = true;
+        }
+      })
+      .catch(err => {
+        console.error("Error fetching session:", err);
+        message.textContent = "Error fetching user info.";
+      });
   
-      if (data.hasStore) {
-        window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
-        return;
-      }
-    } catch (err) {
-      console.error("Error checking store", err);
-    }
-  
-    const form = document.getElementById("store-form");
-    form.addEventListener("submit", async (e) => {
+    storeForm.addEventListener("submit", async (e) => {
       e.preventDefault();
   
-      const formData = new FormData(form);
+      if (!ownerId || !ownerEmail) {
+        message.textContent = "Missing owner credentials.";
+        return;
+      }
+  
+      const formData = new FormData(storeForm);
       formData.append("ownerId", ownerId);
       formData.append("ownerEmail", ownerEmail);
-      formData.append("storeDescription", form.storeDescription.value);
   
       try {
-        const res = await fetch("/api/store", {
+        const response = await fetch("/api/store", {
           method: "POST",
-          body: formData,
+          body: formData
         });
   
-        const result = await res.json();
-        if (res.ok) {
-          window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+        const result = await response.json();
+        if (response.ok) {
+          message.textContent = "Store created successfully!";
+          window.location.href = "store.html";
         } else {
-          document.getElementById("store-message").textContent = result.error || "Failed to create store.";
+          message.textContent = result.error || "Error creating store.";
         }
       } catch (error) {
-        console.error("Error creating store:", error);
+        console.error("Error submitting store form:", error);
+        message.textContent = "Something went wrong!";
       }
     });
-});
+  });
+  

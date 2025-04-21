@@ -47,6 +47,7 @@ const Sale = require("./models/sale");
 const PromoCode = require("./models/promoCode");
 const Review = require("./models/review"); 
 const storeRoutes = require("./routes/store");
+const sessionRoutes = require('./routes/session');
 
 const sendEmail = require("./utils/sendEmail"); 
 
@@ -138,6 +139,7 @@ app.use("/api/bank", bankRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/store", storeRoutes);
+app.use('/api', sessionRoutes);
 
 
 

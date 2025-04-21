@@ -1,72 +1,39 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const ownerId = urlParams.get("ownerId");
-  const ownerEmail = urlParams.get("ownerEmail");
+document.addEventListener("DOMContentLoaded", () => {
+  const displayStore = document.getElementById("display-store");
 
-  // Redirect to create-store.html if credentials are missing
-  if (!ownerId || !ownerEmail) {
-    console.error("Missing credentials.");
-    window.location.href = "create-store.html";  // Ensure we're redirecting to the right page
-    return;
-  }
+  let userId = null;
 
-  try {
-    const res = await fetch(`/api/store/check?ownerId=${ownerId}&ownerEmail=${ownerEmail}`);
-    const data = await res.json();
-
-    // If the store exists, show store.html
-    if (data.hasStore) {
-      if (window.location.pathname.includes("create-store.html")) {
-        window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+  fetch("/api/session")
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.userId) {
+        userId = data.userId;
+        loadStore(userId);
       } else {
-        displayStore(data.store); // Show store content if already on store.html
+        window.location.href = "create-store.html";
       }
-    } else {
-      // Store doesn't exist, redirect to create-store.html
-      if (!window.location.pathname.includes("create-store.html")) {
-        window.location.href = `create-store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
-      }
-    }
-  } catch (err) {
-    console.error("Error checking store status:", err);
-    window.location.href = "create-store.html";  // Redirect on error
-  }
-
-  // Form submission for create-store.html
-  const storeForm = document.getElementById("store-form");
-  if (storeForm) {
-    storeForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData(storeForm);
-      formData.append("ownerId", ownerId);
-      formData.append("ownerEmail", ownerEmail);
-
-      try {
-        const res = await fetch("/api/store", {
-          method: "POST",
-          body: formData,
-        });
-        const result = await res.json();
-        if (res.ok) {
-          window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
-        } else {
-          document.getElementById("store-message").textContent = result.error || "Failed to create store.";
-        }
-      } catch (err) {
-        console.error("Error creating store:", err);
-      }
+    })
+    .catch(err => {
+      console.error("Error checking session:", err);
+      window.location.href = "create-store.html";
     });
-  }
 
-  // Display store data
-  function displayStore(store) {
-    if (!store) return;
-    const storeSection = document.getElementById("display-store");
-    if (!storeSection) return;
-
-    document.getElementById("store-logo").src = `/uploads/${store.storeLogo}`;
-    document.getElementById("store-name").textContent = store.storeName;
-    document.getElementById("store-description-display").textContent = store.description;
-    storeSection.style.display = "block";
+  function loadStore(ownerId) {
+    fetch(`/api/store/by-owner/${ownerId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.storeName) {
+          displayStore.style.display = "block";
+          document.getElementById("store-name").textContent = data.storeName;
+          document.getElementById("store-description-display").textContent = data.description;
+          document.getElementById("store-logo").src = `/uploads/${data.storeLogo}`;
+        } else {
+          window.location.href = "create-store.html";
+        }
+      })
+      .catch(err => {
+        console.error("Error fetching store:", err);
+        window.location.href = "create-store.html";
+      });
   }
 });

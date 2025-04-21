@@ -3,18 +3,19 @@ const router = express.Router();
 const multer = require('multer');
 const Store = require('../models/store');
 
+// Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/uploads');
+    cb(null, 'public/uploads'); // Save the files to the "public/uploads" folder
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
+    cb(null, Date.now() + '-' + file.originalname); // Name the file with a timestamp to avoid conflicts
+  },
 });
 const upload = multer({ storage });
 
-// ✅ Check if store exists for the logged-in user
-router.get("/check", async (req, res) => {
+// Check if store exists for the logged-in user
+router.get('/check', async (req, res) => {
   try {
     if (!req.session.userId || !req.session.email) {
       return res.status(401).json({ success: false, message: "Not logged in" });
@@ -22,7 +23,7 @@ router.get("/check", async (req, res) => {
 
     const existingStore = await Store.findOne({
       ownerId: req.session.userId,
-      ownerEmail: req.session.email
+      ownerEmail: req.session.email,
     });
 
     if (existingStore) {
@@ -35,50 +36,46 @@ router.get("/check", async (req, res) => {
   }
 });
 
-// ✅ Create store
-// ✅ Create store
-router.post("/", upload.single("storeLogo"), async (req, res) => {
+// Handle store creation
+router.post('/', upload.single('storeLogo'), async (req, res) => {
   try {
-    console.log("Request Body: ", req.body); // Log form data
-    console.log("Uploaded File: ", req.file); // Log uploaded file info
-
     if (!req.session.userId || !req.session.email) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
+    // Check if the user already has a store
     const existingStore = await Store.findOne({
       ownerId: req.session.userId,
-      ownerEmail: req.session.email
+      ownerEmail: req.session.email,
     });
 
     if (existingStore) {
       return res.status(400).json({ success: false, message: "Store already exists" });
     }
 
+    // Create the new store in the database
     const newStore = new Store({
       ownerId: req.session.userId,
       ownerEmail: req.session.email,
       storeName: req.body.storeName,
-      storeLogo: req.file ? "/uploads/" + req.file.filename : "", // Ensure file exists before using it
-      description: req.body.description
+      storeLogo: "/uploads/" + req.file.filename, // Save the file path in the database
+      description: req.body.description,
     });
 
     await newStore.save();
     return res.status(201).json({ success: true, message: "Store created successfully" });
-
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
-
-// ✅ Get store details
+// Get store details
 router.get("/my-store", async (req, res) => {
   try {
     const store = await Store.findOne({
       ownerId: req.session.userId,
-      ownerEmail: req.session.email
+      ownerEmail: req.session.email,
     });
 
     if (!store) {

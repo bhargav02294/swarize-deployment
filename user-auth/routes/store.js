@@ -26,8 +26,12 @@ const upload = multer({ storage });
 router.post('/create', upload.single('storeLogo'), async (req, res) => {
   try {
     const { storeName, storeDescription } = req.body;
-    const storeLogo = req.file.filename;
-    
+    const storeLogo = req.file ? req.file.filename : null;
+
+    if (!storeLogo) {
+      return res.status(400).json({ success: false, message: 'Store logo is required.' });
+    }
+
     // Check if the user already has a store
     const existingStore = await Store.findOne({ ownerId: req.session.userId });
     if (existingStore) {

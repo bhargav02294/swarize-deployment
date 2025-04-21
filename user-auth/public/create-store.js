@@ -1,4 +1,3 @@
-// Handle the store creation form submission
 document.getElementById('store-form').addEventListener('submit', async function (e) {
   e.preventDefault();
 

@@ -1,4 +1,3 @@
-// Fetch the store information when the page loads
 document.addEventListener('DOMContentLoaded', async function () {
   const storeContainer = document.getElementById('display-store');
   const storeLogo = document.getElementById('store-logo');
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   const addProductBtn = document.getElementById('add-product-btn');
   const productsList = document.getElementById('products-list');
 
-  // Fetch the store data from the backend using session userId
   try {
     const response = await fetch('/api/store/check', {
       method: 'GET',
@@ -31,17 +29,15 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Placeholder: Show the add product button
     addProductBtn.addEventListener('click', function () {
-      window.location.href = '/add-product.html'; // Navigate to the product addition page
+      window.location.href = '/add-product.html';
     });
 
-    // Display the products related to this store (Placeholder)
     productsList.innerHTML = '<p>No products yet.</p>';
 
-    // Add subscription status logic here (optional)
-    subscriptionStatus.style.display = 'none'; // Hide this section initially, add your logic if required
+    subscriptionStatus.style.display = 'none'; 
 
   } catch (error) {
     console.error('Error fetching store:', error);
-    window.location.href = 'create-store.html'; // Redirect to create store page if no store is found
+    window.location.href = 'create-store.html';
   }
 });

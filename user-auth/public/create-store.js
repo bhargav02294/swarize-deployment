@@ -1,45 +1,38 @@
-// public/create-store.js
+// Handle the store creation form submission
+document.getElementById('store-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const form = document.getElementById("store-form");
-  const msg = document.getElementById("store-message");
+  const storeName = document.getElementById('storeName').value;
+  const storeDescription = document.getElementById('storeDescription').value;
+  const storeLogo = document.getElementById('storeLogo').files[0];
 
-  // Check session and store status
-  try {
-    const check = await fetch("/api/store/check");
-    const data = await check.json();
-
-    if (data.hasStore) {
-      window.location.href = "store.html";
-      return;
-    }
-  } catch (err) {
-    console.error("Error checking store:", err);
+  // Validate input fields
+  if (!storeName || !storeDescription || !storeLogo) {
+    alert('All fields are required.');
+    return;
   }
 
-  // Submit form
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
+  const formData = new FormData();
+  formData.append('storeName', storeName);
+  formData.append('storeDescription', storeDescription);
+  formData.append('storeLogo', storeLogo);
 
-    try {
-      const res = await fetch("/api/store", {
-        method: "POST",
-        body: formData
-      });
+  try {
+    const response = await fetch('/api/store/create', {
+      method: 'POST',
+      body: formData,
+      credentials: 'same-origin'
+    });
 
-      const result = await res.json();
-      if (res.ok) {
-        msg.textContent = "Store created! Redirecting...";
-        setTimeout(() => {
-          window.location.href = "store.html";
-        }, 1500);
-      } else {
-        msg.textContent = result.error || "Failed to create store.";
-      }
-    } catch (err) {
-      console.error("Error submitting store form:", err);
-      msg.textContent = "Something went wrong.";
+    const data = await response.json();
+    if (data.success) {
+      alert('Store created successfully!');
+      window.location.href = 'store.html'; // Redirect to store page after creation
+    } else {
+      alert(data.message); // Display error message if the creation failed
     }
-  });
+  } catch (error) {
+    console.error('Error creating store:', error);
+    alert('Something went wrong. Please try again.');
+  }
 });

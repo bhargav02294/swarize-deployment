@@ -120,13 +120,9 @@ app.get("/api/test-session", (req, res) => {
 
 
 const uploadDir = path.join(__dirname, "public/uploads");
-
-// Ensure the upload directory exists
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
-    console.log("✅ Uploads directory created: public/uploads");
-} else {
-    console.log("✅ Uploads directory exists");
+    console.log("✅ Uploads directory created.");
 }
 
 

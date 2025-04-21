@@ -1,94 +1,81 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const sellerId = localStorage.getItem("sellerId");
-  const sellerEmail = localStorage.getItem("sellerEmail");
+// public/store.js
 
-  if (!sellerId || !sellerEmail) {
-    console.error("Seller info missing. Please login first.");
-    return;
-  }
+// Replace this with actual user data from session/localStorage or backend
+const user = JSON.parse(localStorage.getItem('swarizeUser')); // Assume you store signed-in user here
+const ownerId = user?._id;
+const ownerEmail = user?.email;
+const authMethod = user?.authMethod || 'email'; // Optional
 
-  const createForm = document.getElementById("store-form");
-  const msg = document.getElementById("store-message");
+const storeForm = document.getElementById('store-form');
+const storePage = window.location.pathname.includes('store.html');
+const createPage = window.location.pathname.includes('create-store.html');
 
-  // ========== CREATE STORE ==========
-  if (createForm) {
-    createForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+const backendURL = 'https://swarize-deployment.onrender.com';
 
-      const formData = new FormData();
-      formData.append("storeName", document.getElementById("storeName").value);
-      formData.append("storeDescription", document.getElementById("storeDescription").value);
-      formData.append("storeLogo", document.getElementById("storeLogo").files[0]);
-      formData.append("sellerId", sellerId);
-      formData.append("ownerEmail", sellerEmail);
+// Redirect logic (used on both store.html and create-store.html)
+async function checkAndRedirect() {
+  try {
+    const res = await fetch(`${backendURL}/api/store/check/${ownerId}`);
+    const data = await res.json();
 
-      try {
-        const res = await fetch("/api/store", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-          msg.textContent = "Store created successfully! Redirecting...";
-          setTimeout(() => {
-            window.location.href = `store.html?sellerId=${sellerId}`;
-          }, 1500);
-        } else {
-          msg.textContent = data.error || "Store creation failed.";
-        }
-      } catch (error) {
-        msg.textContent = "Error submitting form. Please try again.";
-      }
-    });
-  }
-
-  // ========== DISPLAY STORE ==========
-  const storeSection = document.getElementById("display-store");
-  if (storeSection) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const sellerIdParam = urlParams.get("sellerId");
-    const finalSellerId = sellerIdParam || sellerId;
-
-    try {
-      const res = await fetch(`/api/store/${finalSellerId}`);
-      if (!res.ok) {
-        window.location.href = "create-store.html";
-        return;
-      }
-
-      const store = await res.json();
-      document.getElementById("store-logo").src = `https://swarize-deployment.onrender.com${store.storeLogo}`;
-      document.getElementById("store-name").textContent = store.storeName;
-      document.getElementById("store-description-display").textContent = store.storeDescription;
-      storeSection.style.display = "block";
-
-      const addProductBtn = document.getElementById("add-product-btn");
-      if (addProductBtn) {
-        addProductBtn.addEventListener("click", () => {
-          window.location.href = `add-product.html?sellerId=${finalSellerId}`;
-        });
-      }
-    } catch (error) {
-      console.error("Failed to fetch store:", error);
-      window.location.href = "create-store.html";
+    if (data.hasStore && createPage) {
+      window.location.href = 'store.html'; // redirect to store if already exists
+    } else if (!data.hasStore && storePage) {
+      window.location.href = 'create-store.html'; // redirect to create page if no store
+    } else if (data.hasStore && storePage) {
+      displayStore(data.store);
     }
+  } catch (error) {
+    console.error('Store check error:', error);
   }
+}
 
-  // ========== AUTO-REDIRECT TO STORE OR CREATE ==========
-  const onNeutralPage = !createForm && !storeSection;
-  if (onNeutralPage) {
+// Store creation logic
+if (storeForm) {
+  storeForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('ownerId', ownerId);
+    formData.append('ownerEmail', ownerEmail);
+    formData.append('authMethod', authMethod);
+    formData.append('storeName', document.getElementById('storeName').value);
+    formData.append('storeDescription', document.getElementById('storeDescription').value);
+    formData.append('storeLogo', document.getElementById('storeLogo').files[0]);
+
     try {
-      const res = await fetch(`/api/store/${sellerId}`);
-      if (!res.ok) {
-        window.location.href = "create-store.html";
+      const res = await fetch(`${backendURL}/api/store`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert('Store created successfully!');
+        window.location.href = 'store.html';
       } else {
-        window.location.href = `store.html?sellerId=${sellerId}`;
+        alert(data.message || 'Failed to create store');
       }
-    } catch (error) {
-      console.error("Redirect error:", error);
-      window.location.href = "create-store.html";
+    } catch (err) {
+      console.error('Error:', err);
     }
+  });
+}
+
+// Display store on store.html
+function displayStore(store) {
+  document.getElementById('store-logo').src = backendURL + store.storeLogo;
+  document.getElementById('store-name').textContent = store.storeName;
+  document.getElementById('store-description-display').textContent = store.description;
+  document.getElementById('display-store').style.display = 'block';
+}
+
+// Initial call to check and redirect
+if (storePage || createPage) {
+  if (user && ownerId) {
+    checkAndRedirect();
+  } else {
+    alert('User not found in localStorage. Please sign in again.');
   }
-});
+}

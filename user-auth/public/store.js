@@ -1,15 +1,11 @@
-// public/store.js
-
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const ownerId = urlParams.get("ownerId");
   const ownerEmail = urlParams.get("ownerEmail");
 
-  const currentPage = window.location.pathname;
-
+  // Ensure ownerId and ownerEmail are passed via URL
   if (!ownerId || !ownerEmail) {
-    // Always go to create-store if credentials missing
-    window.location.href = "create-store.html";
+    window.location.href = "create-store.html"; // Redirect to create store if not present
     return;
   }
 
@@ -17,24 +13,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch(`/api/store/check?ownerId=${ownerId}&ownerEmail=${ownerEmail}`);
     const data = await response.json();
 
-    const hasStore = data.hasStore;
-    const store = data.store;
-
-    if (hasStore && currentPage.includes("create-store.html")) {
-      // User has a store but is on create-store page → redirect to store.html
-      window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
-      return;
-    }
-
-    if (!hasStore && currentPage.includes("store.html")) {
-      // User has no store but is on store page → redirect to create-store
-      window.location.href = `create-store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
-      return;
-    }
-
-    // If already on the correct page, proceed:
-    if (hasStore && currentPage.includes("store.html")) {
-      displayStore(store);
+    if (data.hasStore) {
+      // If store exists, display store details
+      if (!window.location.href.includes("store.html")) {
+        window.location.href = `store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+      } else {
+        displayStore(data.store);
+      }
+    } else {
+      // If store doesn't exist, redirect to create-store.html
+      if (!window.location.href.includes("create-store.html")) {
+        window.location.href = `create-store.html?ownerId=${ownerId}&ownerEmail=${ownerEmail}`;
+      }
     }
   } catch (error) {
     console.error("Error checking store:", error);
@@ -66,6 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // Display the store information if store exists
   async function displayStore(store) {
     if (!store) return;
     document.getElementById("display-store").style.display = "block";

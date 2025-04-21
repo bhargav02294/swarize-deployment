@@ -1,58 +1,94 @@
 const express = require('express');
 const router = express.Router();
-const Store = require('../models/store');  // Assuming the store schema is defined in 'models/store.js'
+const multer = require('multer');
+const path = require('path');
+const Store = require('../models/store');
 
-// Check if a store exists for the logged-in user
-router.get('/check-store', async (req, res) => {
+// Multer config for image upload
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
+// Check if store exists for current session user
+router.get('/check', async (req, res) => {
   try {
-    const { userId, email } = req.session;  // Getting userId and email from session
-
-    // Check if the user is logged in
-    if (!userId || !email) {
-      return res.status(400).json({ message: 'User not logged in' });
+    if (!req.session.userId || !req.session.email) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // Check if store exists in the database for this user
-    const store = await Store.findOne({ ownerId: userId, ownerEmail: email });
+    const store = await Store.findOne({
+      ownerId: req.session.userId,
+      ownerEmail: req.session.email
+    });
 
     if (store) {
-      return res.redirect('/store.html');  // Redirect to store page if store exists
+      return res.json({ exists: true, storeId: store._id });
     } else {
-      return res.redirect('/create-store.html');  // Redirect to create store page if store doesn't exist
+      return res.json({ exists: false });
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Something went wrong' });
+  } catch (err) {
+    console.error('Error checking store:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Handle store creation (for new users)
-router.post('/create-store', async (req, res) => {
+// Create store
+router.post('/', upload.single('logo'), async (req, res) => {
   try {
-    const { name, logo, description } = req.body;
-    const { userId, email } = req.session;
+    const { name, description } = req.body;
+    const logo = req.file ? '/uploads/' + req.file.filename : null;
 
-    // Check if the store already exists for this user
-    const existingStore = await Store.findOne({ ownerId: userId, ownerEmail: email });
+    if (!req.session.userId || !req.session.email) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const existingStore = await Store.findOne({ ownerId: req.session.userId });
     if (existingStore) {
       return res.status(400).json({ message: 'Store already exists' });
     }
 
-    // Create a new store document
-    const store = new Store({
-      ownerId: userId,
-      ownerEmail: email,
-      name,
-      logo,  // Save the file path or image URL
+    const newStore = new Store({
+      ownerId: req.session.userId,
+      ownerEmail: req.session.email,
+      storeName: name,
+      storeLogo: logo,
       description
     });
 
-    await store.save();
-
+    await newStore.save();
     res.status(201).json({ message: 'Store created successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error creating store' });
+    console.error('Error creating store:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get store details for current user
+router.get('/', async (req, res) => {
+  try {
+    if (!req.session.userId || !req.session.email) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const store = await Store.findOne({
+      ownerId: req.session.userId,
+      ownerEmail: req.session.email
+    });
+
+    if (!store) {
+      return res.status(404).json({ message: 'Store not found' });
+    }
+
+    res.json(store);
+  } catch (error) {
+    console.error('Error fetching store:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

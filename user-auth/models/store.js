@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 
 const storeSchema = new mongoose.Schema({
-  ownerId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+  ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
   ownerEmail: { type: String, required: true },
-  name: { type: String, required: true },
-  logo: { type: String, required: true },  // Store the logo URL or path
-  description: { type: String, required: true }
+  storeName: { type: String, required: true, unique: true },
+  storeLogo: { type: String, required: true },
+  description: { type: String, default: "" },
+  isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Store', storeSchema);
+const Store = mongoose.model('Store', storeSchema);
+module.exports = Store;

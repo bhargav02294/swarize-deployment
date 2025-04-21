@@ -1,25 +1,34 @@
-window.onload = async function() {
-  const response = await fetch('/api/store/check-store');
-  if (response.status === 200) {
-    const store = await response.json();
-    if (store) {
-      // Display store details
-      document.getElementById('store-logo').src = store.logo;
-      document.getElementById('store-name').innerText = store.name;
-      document.getElementById('store-description').innerText = store.description;
+document.addEventListener('DOMContentLoaded', async () => {
+  const storeSection = document.getElementById('display-store');
+  const storeName = document.getElementById('store-name');
+  const storeLogo = document.getElementById('store-logo');
+  const storeDescription = document.getElementById('store-description');
+  const addProductBtn = document.getElementById('add-product-btn');
 
-      // Fetch and display products (assuming products are fetched from the backend)
-      const productsResponse = await fetch(`/api/store/products/${store._id}`);
-      const products = await productsResponse.json();
-      const productsList = document.getElementById('products-list');
-      products.forEach(product => {
-        const productDiv = document.createElement('div');
-        productDiv.innerHTML = `<p>${product.name}</p>`;
-        productsList.appendChild(productDiv);
-      });
+  try {
+    const res = await fetch('/api/store/check');
+    const data = await res.json();
+
+    if (!data.exists) {
+      window.location.href = 'create-store.html';
+      return;
     }
-  } else {
-    // If not logged in or store does not exist, redirect to create store page
-    window.location.href = '/create-store.html';
+
+    // Fetch store details if exists
+    const storeRes = await fetch('/api/store');
+    const storeData = await storeRes.json();
+
+    storeSection.style.display = 'block';
+    storeName.textContent = storeData.storeName;
+    storeLogo.src = storeData.storeLogo;
+    storeDescription.textContent = storeData.description;
+
+    addProductBtn.addEventListener('click', () => {
+      window.location.href = `add-product.html?storeId=${storeData._id}`;
+    });
+
+  } catch (err) {
+    console.error('Error loading store:', err);
+    window.location.href = 'create-store.html';
   }
-};
+});

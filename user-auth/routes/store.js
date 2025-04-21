@@ -4,7 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const Store = require("../models/store");
 
-// Upload storage config
+// Image upload config
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/uploads");
@@ -16,12 +16,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Check if store exists
+// Route to check if user has a store
 router.get("/check", async (req, res) => {
   const { ownerId, ownerEmail } = req.query;
 
   if (!ownerId || !ownerEmail) {
-    return res.status(400).json({ error: "Missing ownerId or ownerEmail." });
+    return res.status(400).json({ error: "Missing owner credentials." });
   }
 
   try {
@@ -31,39 +31,39 @@ router.get("/check", async (req, res) => {
     } else {
       res.json({ hasStore: false });
     }
-  } catch (err) {
-    console.error("Error checking store:", err);
-    res.status(500).json({ error: "Server error while checking store." });
+  } catch (error) {
+    console.error("Error checking store:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Create store
+// Route to create a store
 router.post("/", upload.single("storeLogo"), async (req, res) => {
   const { storeName, storeDescription, ownerId, ownerEmail } = req.body;
 
   if (!storeName || !storeDescription || !ownerId || !ownerEmail || !req.file) {
-    return res.status(400).json({ error: "All fields including logo are required." });
+    return res.status(400).json({ error: "All fields are required." });
   }
 
   try {
-    const exists = await Store.findOne({ ownerId });
-    if (exists) {
-      return res.status(400).json({ error: "Store already exists for this owner." });
+    const existingStore = await Store.findOne({ ownerId });
+    if (existingStore) {
+      return res.status(400).json({ error: "Store already exists." });
     }
 
     const newStore = new Store({
       storeName,
       description: storeDescription,
+      storeLogo: req.file.filename,
       ownerId,
       ownerEmail,
-      storeLogo: req.file.filename,
     });
 
     await newStore.save();
-    res.status(201).json({ message: "Store created", store: newStore });
-  } catch (err) {
-    console.error("Error creating store:", err);
-    res.status(500).json({ error: "Server error while creating store." });
+    res.status(201).json({ message: "Store created successfully", store: newStore });
+  } catch (error) {
+    console.error("Error creating store:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

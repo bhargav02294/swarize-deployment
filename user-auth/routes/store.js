@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const Store = require('../models/store');
 
-// Set up multer for file uploads
+// Set up storage for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/uploads');
@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
+
 const upload = multer({ storage });
 
 // Check if store exists for the logged-in user
@@ -32,19 +33,18 @@ router.get("/check", async (req, res) => {
       return res.json({ exists: false });
     }
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
-// Create a new store
+// Create store
 router.post("/", upload.single("storeLogo"), async (req, res) => {
   try {
     if (!req.session.userId || !req.session.email) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    // Check if store already exists for the user
+    // Check if store already exists
     const existingStore = await Store.findOne({
       ownerId: req.session.userId,
       ownerEmail: req.session.email
@@ -54,18 +54,17 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
       return res.status(400).json({ success: false, message: "Store already exists" });
     }
 
-    // Create a new store
+    // Create new store
     const newStore = new Store({
       ownerId: req.session.userId,
       ownerEmail: req.session.email,
       storeName: req.body.storeName,
-      storeLogo: "/uploads/" + req.file.filename, // Store the file path
+      storeLogo: "/uploads/" + req.file.filename,
       description: req.body.description
     });
 
-    console.log("New Store Data: ", newStore); // Log the data for debugging
+    console.log("New Store Data:", newStore);
 
-    // Save the new store to the database
     await newStore.save();
     return res.status(201).json({ success: true, message: "Store created successfully" });
 

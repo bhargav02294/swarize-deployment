@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       if (data.exists) {
-        window.location.href = "store.html"; // Redirect to store page if store exists
+        window.location.href = "store.html";
       }
     });
 
@@ -13,21 +13,25 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form); // Prepare form data
+    const formData = new FormData(form);
 
-    // Send the form data to the backend
-    const response = await fetch("/api/store", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetch("/api/store", {
+        method: "POST",
+        body: formData
+      });
 
-    const result = await response.json(); // Parse the response
+      const result = await response.json();
 
-    if (result.success) {
-      alert("Store created!");
-      window.location.href = "store.html"; // Redirect to store page on success
-    } else {
-      alert(result.message || "Failed to create store.");
+      if (result.success) {
+        alert("Store created!");
+        window.location.href = "store.html";
+      } else {
+        alert(result.message || "Failed to create store.");
+      }
+    } catch (err) {
+      console.error("Error while creating store:", err);
+      alert("Server error. Please try again later.");
     }
   });
 });

@@ -1,34 +1,24 @@
-// public/store.js
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-      // Fetch user session and store details
-      const sessionResponse = await fetch('/api/user/session');
-      const sessionData = await sessionResponse.json();
+    const res = await fetch("/api/store");
+    const data = await res.json();
 
-      if (!sessionData.success) {
-          alert('User session not found. Please log in again.');
-          window.location.href = 'signin.html';
-          return;
-      }
+    if (!data.success || !data.store) {
+      window.location.href = "create-store.html";
+      return;
+    }
 
-      // Fetch store data
-      const storeResponse = await fetch(`/api/store/${sessionData.userId}`);
-      const storeData = await storeResponse.json();
+    const store = data.store;
 
-      if (!storeData.success) {
-          alert(storeData.message);
-          return;
-      }
+    document.getElementById("store-name").innerText = store.name;
+    document.getElementById("store-description").innerText = store.description;
 
-      const store = storeData.store;
-      
-      // Populate store details on the page
-      document.getElementById('storeName').innerText = store.storeName;
-      document.getElementById('storeDescription').innerText = store.description;
-      document.getElementById('storeLogo').src = `/uploads/${store.storeLogo}`;
-      document.getElementById('ownerEmail').innerText = store.ownerEmail;
-  } catch (error) {
-      console.error('Error loading store:', error);
-      alert('Something went wrong. Please try again.');
+    const logoImg = document.getElementById("store-logo");
+    if (logoImg) {
+      logoImg.src = store.logoUrl;
+    }
+  } catch (err) {
+    console.error("Error loading store:", err);
+    window.location.href = "create-store.html";
   }
 });

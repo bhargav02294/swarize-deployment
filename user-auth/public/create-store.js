@@ -1,39 +1,47 @@
-// public/create-store.js
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById('create-store-form');
-  
-  form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  const form = document.getElementById("store-form");
 
-      // Get form data
-      const storeName = document.getElementById('storeName').value;
-      const storeDescription = document.getElementById('storeDescription').value;
-      const storeLogo = document.getElementById('storeLogo').files[0];
-
-      const formData = new FormData();
-      formData.append('storeName', storeName);
-      formData.append('storeDescription', storeDescription);
-      formData.append('storeLogo', storeLogo);
-
-      try {
-          // Send POST request to create store
-          const response = await fetch('/api/store/create', {
-              method: 'POST',
-              body: formData,
-              credentials: 'same-origin', // Include session data automatically
-          });
-
-          const data = await response.json();
-
-          if (data.success) {
-              // Redirect to store page if creation is successful
-              window.location.href = 'store.html';
-          } else {
-              alert(data.message);  // Show the error message from the backend
-          }
-      } catch (error) {
-          console.error('Error creating store:', error);
-          alert('Something went wrong. Please try again.');
+  fetch("/api/store/check")
+    .then(res => res.json())
+    .then(data => {
+      if (data.exists) {
+        window.location.href = "store.html";
       }
+    });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const description = document.getElementById("description").value;
+    const logo = document.getElementById("logo").files[0];
+
+    if (!name || !description || !logo) {
+      alert("All fields are required.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("logo", logo);
+
+    try {
+      const response = await fetch("/api/store", {
+        method: "POST",
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        window.location.href = "store.html";
+      } else {
+        alert(result.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error("Store creation failed:", err);
+      alert("Something went wrong. Please try again.");
+    }
   });
 });

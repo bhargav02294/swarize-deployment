@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Redirect to create-store.html if credentials are missing
   if (!ownerId || !ownerEmail) {
     console.error("Missing credentials.");
-    window.location.href = "create-store.html";
+    window.location.href = "create-store.html";  // Ensure we're redirecting to the right page
     return;
   }
 
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   } catch (err) {
     console.error("Error checking store status:", err);
-    window.location.href = "create-store.html";
+    window.location.href = "create-store.html";  // Redirect on error
   }
 
   // Form submission for create-store.html

@@ -1,4 +1,3 @@
-// public/create-store.js
 document.addEventListener("DOMContentLoaded", async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const ownerId = urlParams.get("ownerId");
@@ -46,5 +45,4 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error creating store:", error);
       }
     });
-  });
-  
+});

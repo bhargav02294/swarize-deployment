@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const sellerId = localStorage.getItem("sellerId");
-  
-  // Check if sellerId is available
+
+  // If no seller ID, redirect to homepage
   if (!sellerId) {
     console.error("Seller ID not found in localStorage.");
-    window.location.href = "home.html"; // Redirect to homepage if no seller ID is found
+    window.location.href = "home.html";
     return;
   }
 
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (res.ok) {
           msg.textContent = "Store created! Redirecting...";
           setTimeout(() => {
-            window.location.href = `store.html?sellerId=${sellerId}`;
+            window.location.href = `store.html`;
           }, 2000);
         } else {
           msg.textContent = data.error || "Failed to create store.";
@@ -47,34 +47,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Handle store display (store.html)
   const storeSection = document.getElementById("display-store");
   if (storeSection) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const sellerIdParam = urlParams.get("sellerId");
-
-    // If sellerIdParam is not present, redirect to create-store.html
-    if (!sellerIdParam) {
-      window.location.href = "create-store.html"; // Redirect to store creation page if no storeId
-      return;
-    }
-
     try {
-      const res = await fetch(`/api/store/${sellerIdParam}`);
+      const res = await fetch(`/api/store/${sellerId}`);
+
       if (!res.ok) {
-        window.location.href = "create-store.html"; // Redirect if store not found
+        // Store not found — redirect to store creation page
+        window.location.href = "create-store.html";
         return;
       }
 
       const store = await res.json();
-      document.getElementById("store-logo").src = store.storeLogo;
-      document.getElementById("store-name").textContent = store.storeName;
-      document.getElementById("store-description-display").textContent = store.storeDescription;
+
+      const logoImg = document.getElementById("store-logo");
+      const nameEl = document.getElementById("store-name");
+      const descEl = document.getElementById("store-description-display");
+
+      if (logoImg) logoImg.src = `https://swarize-deployment.onrender.com${store.storeLogo}`;
+      if (nameEl) nameEl.textContent = store.storeName;
+      if (descEl) descEl.textContent = store.storeDescription;
+
       storeSection.style.display = "block";
 
-      document.getElementById("add-product-btn").addEventListener("click", () => {
-        window.location.href = `add-product.html?sellerId=${sellerIdParam}`;
-      });
+      const addProductBtn = document.getElementById("add-product-btn");
+      if (addProductBtn) {
+        addProductBtn.addEventListener("click", () => {
+          window.location.href = `add-product.html?sellerId=${sellerId}`;
+        });
+      }
     } catch (error) {
       console.error("Failed to load store data:", error);
-      window.location.href = "create-store.html"; // If error occurs, redirect to create store page
+      window.location.href = "create-store.html";
     }
   }
 });

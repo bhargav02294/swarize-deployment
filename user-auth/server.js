@@ -119,11 +119,12 @@ app.get("/api/test-session", (req, res) => {
 
 
 
-const uploadDir = path.join(__dirname, "public/uploads");
+const uploadDir = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
-    console.log("✅ Uploads directory created.");
+  fs.mkdirSync(uploadDir, { recursive: true });
+  console.log("✅ Uploads directory created.");
 }
+
 
 
 // ✅ Import Routes

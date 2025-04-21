@@ -36,8 +36,12 @@ router.get("/check", async (req, res) => {
 });
 
 // ✅ Create store
+// ✅ Create store
 router.post("/", upload.single("storeLogo"), async (req, res) => {
   try {
+    console.log("Request Body: ", req.body); // Log form data
+    console.log("Uploaded File: ", req.file); // Log uploaded file info
+
     if (!req.session.userId || !req.session.email) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
@@ -55,7 +59,7 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
       ownerId: req.session.userId,
       ownerEmail: req.session.email,
       storeName: req.body.storeName,
-      storeLogo: "/uploads/" + req.file.filename,
+      storeLogo: req.file ? "/uploads/" + req.file.filename : "", // Ensure file exists before using it
       description: req.body.description
     });
 
@@ -67,6 +71,7 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 // ✅ Get store details
 router.get("/my-store", async (req, res) => {

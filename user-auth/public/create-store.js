@@ -15,6 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
 
+    // Log form data before sending
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
     const response = await fetch("/api/store", {
       method: "POST",
       body: formData

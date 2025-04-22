@@ -1,30 +1,29 @@
-document.getElementById('createStoreForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('createStoreForm');
 
-  const storeName = document.getElementById('storeName').value;
-  const description = document.getElementById('description').value;
-  const storeLogo = document.getElementById('storeLogo').files[0];
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append('storeName', storeName);
-  formData.append('description', description);
-  formData.append('storeLogo', storeLogo);
+    const formData = new FormData();
+    formData.append('storeName', document.getElementById('storeName').value);
+    formData.append('storeDescription', document.getElementById('storeDescription').value);
+    formData.append('storeLogo', document.getElementById('storeLogo').files[0]);
 
-  try {
-    const response = await fetch('/api/store/create-store', {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      const response = await fetch('/api/store', {
+        method: 'POST',
+        body: formData
+      });
 
-    if (response.ok) {
-      // Store was successfully created
-      window.location.href = '/store.html'; // Redirect to store page
-    } else {
-      const errorText = await response.text();
-      alert('Error: ' + errorText);
+      const data = await response.json();
+      if (response.ok) {
+        window.location.href = 'store.html';
+      } else {
+        alert(data.message || 'Failed to create store');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Something went wrong!');
     }
-  } catch (err) {
-    console.error('Error:', err);
-    alert('An error occurred while creating the store');
-  }
+  });
 });

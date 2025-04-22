@@ -1,25 +1,25 @@
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  const storeSection = document.getElementById('display-store');
+  const nameEl = document.getElementById('store-name');
+  const logoEl = document.getElementById('store-logo');
+  const descEl = document.getElementById('store-desc');
+
   try {
-    const sessionRes = await fetch("/api/user/session", { credentials: "include" });
-    const sessionData = await sessionRes.json();
+    const res = await fetch('https://swarize-deployment.onrender.com/api/store', {
+      credentials: 'include'
+    });
+    const store = await res.json();
 
-    if (!sessionData.success) {
-      console.error("User not logged in");
-      return;
-    }
+    nameEl.textContent = store.storeName;
+    logoEl.src = store.storeLogo;
+    descEl.textContent = store.description;
 
-    const res = await fetch("/api/store/check", { credentials: "include" });
-    const data = await res.json();
-
-    if (!data.success || !data.storeExists) {
-      window.location.href = "create-store.html";
-      return;
-    }
-
-    // ✅ Fetch store details if needed here
-    // Example: display store name or logo
-
-  } catch (error) {
-    console.error("Error loading store data:", error);
+    storeSection.style.display = 'block';
+  } catch (err) {
+    console.error('Failed to load store:', err);
   }
+
+  document.getElementById('add-product-btn').addEventListener('click', () => {
+    window.location.href = 'add-product.html';
+  });
 });

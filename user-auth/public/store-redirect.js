@@ -1,24 +1,17 @@
-// public/store-redirect.js
-
-window.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener('DOMContentLoaded', async () => {
     try {
-      const response = await fetch("https://swarize-deployment.onrender.com/api/store/check", {
-        method: "GET",
-        credentials: "include",
+      const res = await fetch('https://swarize-deployment.onrender.com/api/store/check', {
+        credentials: 'include'
       });
+      const data = await res.json();
   
-      const data = await response.json();
-  
-      if (data.exists) {
-        // If store exists, go to store.html
-        window.location.href = "store.html";
+      if (data.storeExists) {
+        window.location.href = 'store.html';
       } else {
-        // If no store found, go to create-store.html
-        window.location.href = "create-store.html";
+        window.location.href = 'create-store.html';
       }
     } catch (err) {
-      console.error("Error checking store existence:", err);
-      alert("Something went wrong while redirecting.");
+      console.error('Redirect check failed:', err);
     }
   });
   

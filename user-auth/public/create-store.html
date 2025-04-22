@@ -34,15 +34,29 @@
         </span>
     </div>
   </button>
-  <h2>Create Your Store</h2>
-  <form id="createStoreForm" enctype="multipart/form-data">
-    <input type="text" id="storeName" placeholder="Store Name" required><br>
-    <textarea id="storeDescription" placeholder="Description" required></textarea><br>
-    <input type="file" id="storeLogo" required><br>
-    <button type="submit">Create Store</button>
-  </form>
 
-
+  <div class="container">
+    <div id="store-details-section">
+      <h1 id="store-header">Set Up Your Store</h1>
+      <p id="edit-warning" class="terms">
+        <strong>Note:</strong> Once the store name, logo, and description are set, they cannot be modified. Please ensure your details are accurate.
+      </p>
+      <form id="store-form" enctype="multipart/form-data">
+        <label for="storeName">Store Name:</label>
+        <input type="text" id="name" name="storeName" placeholder="Store Name" required />
+  
+        <label for="storeLogo">Store Logo:</label>
+        <input type="file" id="logo" name="logo" accept="image/*" required />
+  
+        <label for="storeDescription">Store Description:</label>
+        <textarea id="description" name="description" placeholder="Description" required></textarea>
+  
+        <button type="submit">Create Store</button>
+      </form>
+      <p id="store-message"></p> <!-- JS writes response here -->
+    </div>
+  </div>
+  
   
   <footer class="footer">
     <p>&copy; 2025 Swarize. All rights reserved.</p>

@@ -18,6 +18,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');
 const crypto = require("crypto");
 const dotenv = require("dotenv");
+const multer = require('multer');
 
 const fs = require('fs');
 const app = express();

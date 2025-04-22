@@ -1,13 +1,25 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const sessionRes = await fetch("/api/user/session", { credentials: "include" });
+    const sessionData = await sessionRes.json();
 
-// ✅ File: public/store.js
-document.addEventListener('DOMContentLoaded', async () => {
-  const response = await fetch('/api/store/details');
-  if (response.ok) {
-    const store = await response.json();
-    document.getElementById('storeName').textContent = store.storeName;
-    document.getElementById('storeDescription').textContent = store.description;
-    document.getElementById('storeLogo').src = '/uploads/' + store.storeLogo;
-  } else {
-    console.error('Failed to load store');
+    if (!sessionData.success) {
+      console.error("User not logged in");
+      return;
+    }
+
+    const res = await fetch("/api/store/check", { credentials: "include" });
+    const data = await res.json();
+
+    if (!data.success || !data.storeExists) {
+      window.location.href = "create-store.html";
+      return;
+    }
+
+    // ✅ Fetch store details if needed here
+    // Example: display store name or logo
+
+  } catch (error) {
+    console.error("Error loading store data:", error);
   }
 });

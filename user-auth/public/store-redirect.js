@@ -1,27 +1,24 @@
-// ✅ store-redirect.js
+// public/store-redirect.js
 
-// This script checks if the logged-in user has a store
-// If the store exists → redirect to store.html
-// If not → redirect to create-store.html
-
-fetch("https://swarize-deployment.onrender.com/api/store/check", {
-    credentials: "include" // Important to send session cookie
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log("🔹 Store check result:", data);
+window.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const response = await fetch("https://swarize-deployment.onrender.com/api/store/check", {
+        method: "GET",
+        credentials: "include",
+      });
   
-      if (data.success && data.hasStore) {
-        // Store exists → Redirect to store.html
+      const data = await response.json();
+  
+      if (data.exists) {
+        // If store exists, go to store.html
         window.location.href = "store.html";
       } else {
-        // No store exists → Redirect to create-store.html
+        // If no store found, go to create-store.html
         window.location.href = "create-store.html";
       }
-    })
-    .catch((err) => {
-      console.error("❌ Error checking store existence:", err);
-      // Fallback in case of error
-      window.location.href = "create-store.html";
-    });
+    } catch (err) {
+      console.error("Error checking store existence:", err);
+      alert("Something went wrong while redirecting.");
+    }
+  });
   

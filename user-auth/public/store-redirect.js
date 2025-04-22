@@ -1,16 +1,11 @@
-window.onload = async () => {
-    try {
-      const res = await fetch('/api/store/check-store');
-      const data = await res.json();
-  
-      if (data.exists) {
-        window.location.href = 'store.html';
-      } else {
-        window.location.href = 'create-store.html';
-      }
-    } catch (error) {
-      console.error('Redirect error:', error);
-      alert('Could not determine store status.');
+
+// ✅ File: public/store-redirect.js
+document.addEventListener('DOMContentLoaded', async () => {
+    const response = await fetch('/api/store/check');
+    const result = await response.json();
+    if (result.exists) {
+      window.location.href = 'store.html';
+    } else {
+      window.location.href = 'create-store.html';
     }
-  };
-  
+  });

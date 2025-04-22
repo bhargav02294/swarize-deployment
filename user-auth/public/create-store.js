@@ -36,5 +36,4 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Server error. Please try again later.");
     }
   });
-  
 });

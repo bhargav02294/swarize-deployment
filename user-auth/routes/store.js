@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const Store = require('../models/store');
 
-// Set up storage for file uploads
+// Set up Multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/uploads');
@@ -12,13 +12,13 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
-
 const upload = multer({ storage });
 
-// Check if store exists for the logged-in user
+// ✅ Route: Check if user already has a store
 router.get("/check", async (req, res) => {
   try {
     if (!req.session.userId || !req.session.email) {
+      console.log("🔒 Not logged in");
       return res.status(401).json({ success: false, message: "Not logged in" });
     }
 
@@ -28,33 +28,30 @@ router.get("/check", async (req, res) => {
     });
 
     if (existingStore) {
+      console.log("✅ Store found for user:", req.session.userId);
       return res.json({ exists: true });
     } else {
+      console.log("❌ No store found for user:", req.session.userId);
       return res.json({ exists: false });
     }
   } catch (err) {
+    console.error("🔥 Error in GET /api/store/check:", err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
-// Create store
-// Inside POST request for store creation
-router.post("/", upload.single("storeLogo"), async (req, res) => {
+// ✅ Route: Create a store
+router.post("/", upload.single("logo"), async (req, res) => {
   try {
-    // Log session data
-    console.log("🔍 Session Data:", req.session);
-
-    // Check if the session is missing
     if (!req.session.userId || !req.session.email) {
-      console.log("❌ Missing session data.");
+      console.log("🔒 Unauthorized - No session");
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    // Log file upload info
-    console.log("📁 Uploaded File Info:", req.file);
-
-    // Log form data from the request body
-    console.log("📝 Request Body:", req.body);
+    console.log("📥 Form submission received");
+    console.log("Session userId:", req.session.userId);
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
 
     const existingStore = await Store.findOne({
       ownerId: req.session.userId,
@@ -62,34 +59,37 @@ router.post("/", upload.single("storeLogo"), async (req, res) => {
     });
 
     if (existingStore) {
-      console.log("⚠️ Store already exists for this user.");
+      console.log("⚠️ Store already exists");
       return res.status(400).json({ success: false, message: "Store already exists" });
     }
 
     const newStore = new Store({
       ownerId: req.session.userId,
       ownerEmail: req.session.email,
-      storeName: req.body.storeName,
+      storeName: req.body.name,
       storeLogo: "/uploads/" + req.file.filename,
       description: req.body.description
     });
 
-    // ✅ Log the store data being saved
     console.log("✅ New Store Data:", newStore);
 
     await newStore.save();
+
     return res.status(201).json({ success: true, message: "Store created successfully" });
 
   } catch (err) {
-    console.error("🔥 Error while creating store:", err);
-    return res.status(500).json({ success: false, message: "Server error" });
+    console.error("🔥 Error in POST /api/store:", err);
+    return res.status(500).json({ success: false, message: "Server error. Please try again later." });
   }
 });
 
-
-// Get store details for the logged-in user
+// ✅ Route: Get store details for current user
 router.get("/my-store", async (req, res) => {
   try {
+    if (!req.session.userId || !req.session.email) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
     const store = await Store.findOne({
       ownerId: req.session.userId,
       ownerEmail: req.session.email
@@ -101,7 +101,7 @@ router.get("/my-store", async (req, res) => {
 
     return res.json({ success: true, store });
   } catch (err) {
-    console.error(err);
+    console.error("🔥 Error in GET /api/store/my-store:", err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });

@@ -1,13 +1,20 @@
-fetch("/api/store/check")
-  .then(res => res.json())
-  .then(data => {
-    if (data.hasStore) {
-      window.location.href = "store.html";
-    } else {
-      window.location.href = "create-store.html";
+// Redirect user based on store existence
+async function redirectToStore() {
+    try {
+      const response = await fetch('/api/store/check-store');
+      const data = await response.json();
+      
+      if (data.exists) {
+        window.location.href = '/store.html';
+      } else {
+        window.location.href = '/create-store.html';
+      }
+    } catch (error) {
+      console.error('Error fetching store status:', error);
+      window.location.href = '/create-store.html';
     }
-  })
-  .catch(err => {
-    console.error("Redirect check failed", err);
-    window.location.href = "signin.html";
-  });
+  }
+  
+  // Check the store when page loads
+  window.onload = redirectToStore;
+  

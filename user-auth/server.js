@@ -80,20 +80,21 @@ const connectDB = async () => {
 };
 connectDB();
 
+// Session middleware (already in place in your server.js)
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,
-      collectionName: 'sessions',
-      ttl: 24 * 60 * 60, // Expire sessions in 24 hours
-      autoRemove: 'native'
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: 'sessions',
+    ttl: 24 * 60 * 60, // 1 day
+    autoRemove: 'native'
   }),
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", 
-    sameSite: "None", // ✅ Fixes cross-site session issue
+    sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
@@ -134,6 +135,7 @@ const cartRoutes = require('./routes/cart');
 const bankRoutes = require("./routes/bank");
 const reviewRoutes = require("./routes/review");
 const paymentRoutes = require("./routes/payment");
+const storeRoutes = require('./routes/store'); // Make sure this path is correct
 
 // ✅ Use Routes
 app.use("/api/auth", authRoutes);  
@@ -142,7 +144,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/bank", bankRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/payment", paymentRoutes);
-app.use('/api/store', storeRoutes);
+app.use('/api/store', storeRoutes);  // This should map your routes correctly
 
 
 

@@ -35,12 +35,28 @@
     </div>
 </button>
 
-<h1 id="store-name"></h1>
-  <img id="store-logo" alt="Store Logo" />
-  <p id="store-description"></p>
+<div id="display-store" style="display: none;">
+  <div id="store-header-section">
+    <h1 id="store-name"></h1>
+    <img id="store-logo" src="" alt="Store Logo" width="150" />
+    <p id="store-desc"></p>
+  </div>
 
-  <h2>Your Products</h2>
-  <div id="products-container"></div>
+  <button id="add-product-btn">Add Products</button>
+  <p id="subscription-status" style="display: none;"></p>
+
+  <h3>Your Products</h3>
+  <div id="products-list"></div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="confirm-modal" style="display:none;">
+  <div class="modal-content">
+    <p>Are you sure you want to delete this product?</p>
+    <button id="confirm-delete">Yes</button>
+    <button id="cancel-delete">No</button>
+  </div>
+</div>
 
 
 <footer class="footer">

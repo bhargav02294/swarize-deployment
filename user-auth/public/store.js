@@ -1,24 +1,53 @@
+
 document.addEventListener('DOMContentLoaded', async () => {
+  const storeSection = document.getElementById('display-store');
+  const storeNameElem = document.getElementById('store-name');
+  const storeLogoElem = document.getElementById('store-logo');
+  const storeDescElem = document.getElementById('store-desc');
+  const productsList = document.getElementById('products-list');
+  const addProductBtn = document.getElementById('add-product-btn');
+
   try {
-    const response = await fetch('https://swarize-deployment.onrender.com/api/store/my-store', {
-      credentials: 'include'
-    });
+      // Get session info
+      const sessionRes = await fetch('https://swarize-deployment.onrender.com/api/user/session', {
+          credentials: 'include'
+      });
+      const sessionData = await sessionRes.json();
 
-    if (!response.ok) throw new Error('Failed to fetch store');
+      if (!sessionData.userId) {
+          window.location.href = 'https://swarize.in/not-signed-in.html';
+          return;
+      }
 
-    const store = await response.json();
+      // Get store info for logged-in user
+      const storeRes = await fetch('https://swarize-deployment.onrender.com/api/store/mystore', {
+          credentials: 'include'
+      });
 
-    if (!store || !store.storeName) {
-      window.location.href = 'https://swarize.in/create-store.html';
-      return;
-    }
+      const storeData = await storeRes.json();
 
-    // Populate store details
-    document.getElementById('store-name').textContent = store.storeName;
-    document.getElementById('store-description').textContent = store.description;
-    document.getElementById('store-logo').src = `https://swarize-deployment.onrender.com${store.storeLogo}`;
+      if (storeRes.ok && storeData.store) {
+          const { storeName, storeLogo, description } = storeData.store;
+
+          storeNameElem.textContent = storeName;
+          storeLogoElem.src = `https://swarize-deployment.onrender.com/uploads/${storeLogo}`;
+          storeDescElem.textContent = description;
+
+          storeSection.style.display = 'block';
+
+          // TODO: Fetch and display products here
+          productsList.innerHTML = '<p>No products yet. Use "Add Products" to list your first product.</p>';
+      } else {
+          window.location.href = 'https://swarize.in/create-store.html';
+      }
+
   } catch (err) {
-    console.error('Error loading store:', err);
-    alert('Failed to load store info');
+      console.error("Error loading store:", err);
+      alert("Failed to load store info. Please try again.");
   }
+
+  // Add Products button
+  addProductBtn.addEventListener('click', () => {
+      window.location.href = 'https://swarize.in/add-product.html';
+  });
 });

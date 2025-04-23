@@ -14,44 +14,40 @@ const isAuthenticated = (req, res, next) => {
 };
 
 // Check if store exists for a user
-router.get('/check-store', isAuthenticated, async (req, res) => {
-  try {
+
+// Check if a store exists for the user
+router.get('/check-store', async (req, res) => {
+  if (req.session.userId) {
     const store = await Store.findOne({ ownerId: req.session.userId });
     if (store) {
-      return res.status(200).json({ exists: true, store });
+      return res.json({ exists: true });
     }
-    return res.status(200).json({ exists: false });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: 'Error fetching store.' });
   }
+  return res.json({ exists: false });
 });
 
 // Create a new store
-router.post('/create', isAuthenticated, [
-  check('storeName').not().isEmpty().withMessage('Store name is required'),
-  check('description').not().isEmpty().withMessage('Store description is required')
-], async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+router.post('/create', async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(400).json({ message: 'User not authenticated' });
   }
 
-  const { storeName, description, storeLogo } = req.body;
+  const { storeName, description } = req.body;
+  const storeLogo = req.files.storeLogo; // Assuming you're using file upload middleware like `express-fileupload` or `multer`
 
   try {
-    const newStore = new Store({
+    const store = new Store({
       ownerId: req.session.userId,
       storeName,
       description,
-      storeLogo
+      storeLogo: storeLogo.path, // Save the file path or URL
+      isActive: true,
     });
-
-    await newStore.save();
-    res.status(201).json({ message: 'Store created successfully', store: newStore });
+    
+    await store.save();
+    return res.status(201).json({ message: 'Store created successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error creating store.' });
+    return res.status(500).json({ message: 'Error creating store' });
   }
 });
 

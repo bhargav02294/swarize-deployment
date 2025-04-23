@@ -1,52 +1,24 @@
-// Function to check if a store exists
-async function checkStore() {
+document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const response = await fetch('/api/store/check-store'); // API call to check store existence
-    const data = await response.json();
-
-    if (data.exists) {
-      // If store exists, redirect to store page
-      window.location.href = '/store.html';
-    } else {
-      // If store does not exist, redirect to create-store page
-      window.location.href = '/create-store.html';
-    }
-  } catch (error) {
-    console.error('Error checking store:', error);
-    // Optionally, handle errors by showing a message to the user or redirecting to an error page
-  }
-}
-
-// Event listener for store creation on create-store.html
-document.getElementById('store-form')?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const storeName = document.getElementById('storeName').value;
-  const description = document.getElementById('description').value;
-  const storeLogo = document.getElementById('storeLogo').files[0];
-
-  const formData = new FormData();
-  formData.append('storeName', storeName);
-  formData.append('description', description);
-  formData.append('storeLogo', storeLogo);
-
-  try {
-    const response = await fetch('/api/store/create', {
-      method: 'POST',
-      body: formData,
+    const response = await fetch('https://swarize-deployment.onrender.com/api/store/my-store', {
+      credentials: 'include'
     });
 
-    const data = await response.json();
-    if (response.ok) {
-      alert('Store created successfully');
-      window.location.href = '/store.html'; // Redirect to store page after successful creation
-    } else {
-      alert('Error creating store: ' + data.message);
+    if (!response.ok) throw new Error('Failed to fetch store');
+
+    const store = await response.json();
+
+    if (!store || !store.storeName) {
+      window.location.href = 'https://swarize.in/create-store.html';
+      return;
     }
-  } catch (error) {
-    console.error('Error creating store:', error);
+
+    // Populate store details
+    document.getElementById('store-name').textContent = store.storeName;
+    document.getElementById('store-description').textContent = store.description;
+    document.getElementById('store-logo').src = `https://swarize-deployment.onrender.com${store.storeLogo}`;
+  } catch (err) {
+    console.error('Error loading store:', err);
+    alert('Failed to load store info');
   }
 });
-
-// Check if the user has a store and handle redirection
-checkStore();

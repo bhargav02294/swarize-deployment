@@ -1,32 +1,29 @@
-// public/create-store.js
-document.getElementById('store-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('create-store-form');
 
-  const storeName = document.getElementById('storeName').value;
-  const description = document.getElementById('description').value;
-  const storeLogo = document.getElementById('storeLogo').files[0];
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append('storeName', storeName);
-  formData.append('description', description);
-  formData.append('storeLogo', storeLogo);
+    const formData = new FormData(form);
 
-  try {
-    const response = await fetch('/api/store/create', {
-      method: 'POST',
-      body: formData
-    });
+    try {
+      const response = await fetch('https://swarize-deployment.onrender.com/api/store', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
 
-    const data = await response.json();
+      const result = await response.json();
 
-    if (response.ok) {
-      alert('Store created successfully!');
-      // No redirection to store.html — you can customize what happens next
-    } else {
-      alert('Error creating store: ' + data.message);
+      if (response.ok) {
+        alert('Store created successfully!');
+        window.location.href = 'https://swarize.in/store.html';
+      } else {
+        alert(result.message || 'Failed to create store');
+      }
+    } catch (error) {
+      console.error('Error creating store:', error);
+      alert('Error while creating store');
     }
-  } catch (err) {
-    console.error('Store creation error:', err);
-    alert('Something went wrong. Please try again.');
-  }
+  });
 });

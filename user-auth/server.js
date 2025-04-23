@@ -1,5 +1,7 @@
 
 const bcrypt = require('bcryptjs');
+const session = require('express-session');
+
 const MongoStore = require('connect-mongo');
 const express = require('express');
 const nodemailer = require('nodemailer');
@@ -12,7 +14,6 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const flash = require('connect-flash');
 const { check, validationResult } = require('express-validator'); // For validation
-const session = require('express-session');
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');

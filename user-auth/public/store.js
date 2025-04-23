@@ -1,53 +1,37 @@
+// Handle the form submission and create the store
+const storeForm = document.getElementById('store-form');
+const storeMessage = document.getElementById('store-message');
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const storeSection = document.getElementById('display-store');
-  const storeNameElem = document.getElementById('store-name');
-  const storeLogoElem = document.getElementById('store-logo');
-  const storeDescElem = document.getElementById('store-desc');
-  const productsList = document.getElementById('products-list');
-  const addProductBtn = document.getElementById('add-product-btn');
+storeForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-  try {
-      // Get session info
-      const sessionRes = await fetch('https://swarize-deployment.onrender.com/api/user/session', {
-          credentials: 'include'
-      });
-      const sessionData = await sessionRes.json();
+  // Get form data
+  const storeName = document.getElementById('name').value;
+  const storeLogo = document.getElementById('logo').files[0];
+  const storeDescription = document.getElementById('description').value;
 
-      if (!sessionData.userId) {
-          window.location.href = 'https://swarize.in/not-signed-in.html';
-          return;
-      }
-
-      // Get store info for logged-in user
-      const storeRes = await fetch('https://swarize-deployment.onrender.com/api/store/mystore', {
-          credentials: 'include'
-      });
-
-      const storeData = await storeRes.json();
-
-      if (storeRes.ok && storeData.store) {
-          const { storeName, storeLogo, description } = storeData.store;
-
-          storeNameElem.textContent = storeName;
-          storeLogoElem.src = `https://swarize-deployment.onrender.com/uploads/${storeLogo}`;
-          storeDescElem.textContent = description;
-
-          storeSection.style.display = 'block';
-
-          // TODO: Fetch and display products here
-          productsList.innerHTML = '<p>No products yet. Use "Add Products" to list your first product.</p>';
-      } else {
-          window.location.href = 'https://swarize.in/create-store.html';
-      }
-
-  } catch (err) {
-      console.error("Error loading store:", err);
-      alert("Failed to load store info. Please try again.");
+  const formData = new FormData();
+  formData.append('storeName', storeName);
+  formData.append('description', storeDescription);
+  if (storeLogo) {
+    formData.append('logo', storeLogo);
   }
 
-  // Add Products button
-  addProductBtn.addEventListener('click', () => {
-      window.location.href = 'https://swarize.in/add-product.html';
-  });
+  // Send POST request to create store
+  try {
+    const response = await fetch('/api/store', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include', // Send cookies with the request (for session management)
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      storeMessage.innerHTML = `<p>Store created successfully!</p>`;
+    } else {
+      storeMessage.innerHTML = `<p>${result.message}</p>`;
+    }
+  } catch (err) {
+    storeMessage.innerHTML = `<p>Error creating store. Please try again.</p>`;
+  }
 });

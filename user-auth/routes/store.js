@@ -15,8 +15,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// ✅ Create Store
-router.post('/', upload.single('storeLogo'), async (req, res) => {
+// Create Store (POST request for creating store)
+router.post('/', upload.single('logo'), async (req, res) => {
   try {
     const ownerId = req.session.userId;
     const ownerEmail = req.session.email;
@@ -26,13 +26,16 @@ router.post('/', upload.single('storeLogo'), async (req, res) => {
       return res.status(401).json({ message: 'Not logged in' });
     }
 
+    // Check if store already exists
     const existing = await Store.findOne({ ownerId });
     if (existing) {
       return res.status(400).json({ message: 'Store already exists' });
     }
 
+    // Save store logo path
     const storeLogo = req.file ? `/uploads/${req.file.filename}` : '';
 
+    // Create new store
     const newStore = new Store({
       ownerId,
       ownerEmail,
@@ -42,6 +45,7 @@ router.post('/', upload.single('storeLogo'), async (req, res) => {
       isActive: true
     });
 
+    // Save the store to the database
     await newStore.save();
     res.status(201).json({ message: 'Store created successfully' });
   } catch (error) {
@@ -50,7 +54,7 @@ router.post('/', upload.single('storeLogo'), async (req, res) => {
   }
 });
 
-// ✅ Get Store by Owner
+// Get Store by Owner (GET request for fetching store details)
 router.get('/my-store', async (req, res) => {
   try {
     const ownerId = req.session.userId;
@@ -63,7 +67,7 @@ router.get('/my-store', async (req, res) => {
   }
 });
 
-// ✅ Check if store exists
+// Check if store exists
 router.get('/check-store', async (req, res) => {
   try {
     const ownerId = req.session.userId;

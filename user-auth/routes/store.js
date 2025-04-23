@@ -1,53 +1,69 @@
+// routes/store.js
 const express = require('express');
 const router = express.Router();
 const Store = require('../models/store');
-const { check, validationResult } = require('express-validator');
+const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 
-// Middleware to check user session
-const isAuthenticated = (req, res, next) => {
-  if (req.session && req.session.userId) {
-    return next();
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
   }
-  return res.status(401).json({ success: false, message: 'Unauthorized. Please log in.' });
-};
+});
+const upload = multer({ storage });
 
-// Check if store exists for a user
-
-// Check if a store exists for the user
+// ✅ Check if store exists
 router.get('/check-store', async (req, res) => {
-  if (req.session.userId) {
-    const store = await Store.findOne({ ownerId: req.session.userId });
-    if (store) {
-      return res.json({ exists: true });
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
+
+    const store = await Store.findOne({
+      ownerId: req.session.userId,
+      storeName: { $exists: true, $ne: '' }
+    });
+
+    res.json({ exists: !!store });
+  } catch (err) {
+    console.error('Error checking store:', err);
+    res.status(500).json({ message: 'Server error' });
   }
-  return res.json({ exists: false });
 });
 
-// Create a new store
-router.post('/create', async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(400).json({ message: 'User not authenticated' });
-  }
-
-  const { storeName, description } = req.body;
-  const storeLogo = req.files.storeLogo; // Assuming you're using file upload middleware like `express-fileupload` or `multer`
-
+// ✅ Create store
+router.post('/create', upload.single('storeLogo'), async (req, res) => {
   try {
-    const store = new Store({
+    const { storeName, description } = req.body;
+    const storeLogo = req.file ? `/uploads/${req.file.filename}` : null;
+
+    if (!req.session.userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    // Check if store already exists
+    const existing = await Store.findOne({ ownerId: req.session.userId });
+    if (existing) {
+      return res.status(400).json({ message: 'Store already exists' });
+    }
+
+    const newStore = new Store({
       ownerId: req.session.userId,
       storeName,
       description,
-      storeLogo: storeLogo.path, // Save the file path or URL
-      isActive: true,
+      storeLogo,
+      isActive: true
     });
-    
-    await store.save();
-    return res.status(201).json({ message: 'Store created successfully' });
-  } catch (error) {
-    return res.status(500).json({ message: 'Error creating store' });
+
+    await newStore.save();
+    res.status(201).json({ message: 'Store created successfully' });
+  } catch (err) {
+    console.error('Error creating store:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

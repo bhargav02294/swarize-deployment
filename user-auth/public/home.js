@@ -86,3 +86,23 @@ addEventListenerIfExists('#profile-btn', 'click', () => {
 addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
     window.location.href = 'https://swarize.in/dashboard.html';
 });
+
+
+
+// public/check-store.js
+async function checkIfStoreExistsAndRedirect() {
+    try {
+      const response = await fetch('/api/store/check-store');
+      const data = await response.json();
+  
+      if (!data.exists) {
+        // Redirect to create-store if no store
+        window.location.href = '/create-store.html';
+      }
+    } catch (error) {
+      console.error('Error checking store:', error);
+    }
+  }
+  
+  checkIfStoreExistsAndRedirect();
+  

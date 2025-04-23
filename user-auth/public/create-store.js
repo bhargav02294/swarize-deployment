@@ -1,18 +1,25 @@
 document.getElementById("store-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const formData = new FormData(e.target);
-  const res = await fetch("/api/store", {
-    method: "POST",
-    body: formData,
-  });
+  const formData = new FormData();
+  formData.append("storeName", document.getElementById("name").value);
+  formData.append("description", document.getElementById("description").value);
+  formData.append("logo", document.getElementById("logo").files[0]);
 
-  const data = await res.json();
-  document.getElementById("message").innerText = data.message;
+  try {
+    const response = await fetch("/api/store/create", {
+      method: "POST",
+      body: formData,
+    });
 
-  if (data.success) {
-    setTimeout(() => {
+    const result = await response.json();
+
+    if (result.success) {
       window.location.href = "store.html";
-    }, 1000);
+    } else {
+      document.getElementById("store-message").textContent = result.message;
+    }
+  } catch (err) {
+    document.getElementById("store-message").textContent = "Failed to create store";
   }
 });

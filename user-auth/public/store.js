@@ -1,37 +1,34 @@
-// Handle the form submission and create the store
-const storeForm = document.getElementById('store-form');
-const storeMessage = document.getElementById('store-message');
+document.addEventListener('DOMContentLoaded', async () => {
+  const storeSection = document.getElementById('display-store');
+  const nameEl = document.getElementById('store-name');
+  const descEl = document.getElementById('store-desc');
+  const logoEl = document.getElementById('store-logo');
 
-storeForm.addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  // Get form data
-  const storeName = document.getElementById('name').value;
-  const storeLogo = document.getElementById('logo').files[0];
-  const storeDescription = document.getElementById('description').value;
-
-  const formData = new FormData();
-  formData.append('storeName', storeName);
-  formData.append('description', storeDescription);
-  if (storeLogo) {
-    formData.append('logo', storeLogo);
-  }
-
-  // Send POST request to create store
   try {
-    const response = await fetch('/api/store', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include', // Send cookies with the request (for session management)
+    const res = await fetch('/api/store/my-store', {
+      credentials: 'include'
     });
 
-    const result = await response.json();
-    if (response.ok) {
-      storeMessage.innerHTML = `<p>Store created successfully!</p>`;
+    if (!res.ok) {
+      console.error('Error fetching store');
+      return;
+    }
+
+    const store = await res.json();
+
+    if (store && store.storeName) {
+      nameEl.textContent = store.storeName;
+      descEl.textContent = store.description;
+      logoEl.src = store.storeLogo;
+      storeSection.style.display = 'block';
     } else {
-      storeMessage.innerHTML = `<p>${result.message}</p>`;
+      window.location.href = '/create-store.html';
     }
   } catch (err) {
-    storeMessage.innerHTML = `<p>Error creating store. Please try again.</p>`;
+    console.error('Failed to load store data:', err);
   }
+
+  document.getElementById('add-product-btn').addEventListener('click', () => {
+    window.location.href = '/add-product.html';
+  });
 });

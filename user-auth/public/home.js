@@ -88,19 +88,20 @@ addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
 
 addEventListenerIfExists('#store-btn', 'click', async () => {
     try {
-        const res = await fetch('https://swarize-deployment.onrender.com/api/store/check-store', {
-            credentials: 'include'
-        });
-
-        const data = await res.json();
-
-        if (data.exists) {
-            window.location.href = 'https://swarize.in/store.html';
-        } else {
-            window.location.href = 'https://swarize.in/create-store.html';
-        }
+      const res = await fetch('https://swarize-deployment.onrender.com/api/store/check-store', {
+        credentials: 'include'
+      });
+  
+      const data = await res.json();
+  
+      if (data.exists) {
+        window.location.href = 'https://swarize.in/store.html';
+      } else {
+        window.location.href = 'https://swarize.in/create-store.html';
+      }
     } catch (err) {
-        console.error('Error checking store:', err);
-        alert("Couldn't verify store status. Please try again.");
+      console.error('Error checking store:', err);
+      alert("Couldn't verify store status. Please try again.");
     }
-});
+  });
+  

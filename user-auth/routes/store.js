@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const Store = require('../models/store');
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Setup multer for file uploads
 const storage = multer.diskStorage({

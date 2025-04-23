@@ -46,7 +46,6 @@ const Order = require("./models/order");
 const Sale = require("./models/sale");
 const PromoCode = require("./models/promoCode");
 const Review = require("./models/review"); 
-const storeRoutes = require('./routes/store');
 
 const sendEmail = require("./utils/sendEmail"); 
 

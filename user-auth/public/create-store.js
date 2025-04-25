@@ -3,7 +3,7 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
 
   const form = document.getElementById('store-form');
   const formData = new FormData(form);
-  const messageBox = document.getElementById('store-message');
+  const message = document.getElementById('store-message');
 
   try {
     const response = await fetch('https://swarize-deployment.onrender.com/api/store/create', {
@@ -12,16 +12,29 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
       credentials: 'include'
     });
 
-    const result = await response.json();
+    const contentType = response.headers.get("content-type");
 
-    if (result.success) {
-      messageBox.innerText = "✅ Store created successfully!";
-      window.location.href = `https://swarize.in/store/${result.slug}`;
-    } else {
-      messageBox.innerText = `❌ ${result.message || 'Failed to create store.'}`;
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Server Error Text:", errorText);
+      throw new Error("Store creation failed.");
     }
-  } catch (error) {
-    console.error("Error creating store:", error);
-    messageBox.innerText = "❌ Server error. Please try again.";
+
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error("Invalid JSON returned from server.");
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      message.textContent = "✅ Store created successfully!";
+      window.location.href = `/store.html`;
+    } else {
+      message.textContent = `❌ ${data.message}`;
+    }
+
+  } catch (err) {
+    console.error("Error creating store:", err);
+    message.textContent = "❌ Could not create store. Please try again.";
   }
 });

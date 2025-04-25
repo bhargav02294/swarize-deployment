@@ -1,21 +1,15 @@
 const mongoose = require('mongoose');
 
 const storeSchema = new mongoose.Schema({
-  storeName: { type: String, required: true },
+  storeName: { type: String, required: true, unique: true },
   slug: { type: String, required: true, unique: true },
-  logoUrl: String,
-  bannerUrl: String,
-  description: String,
-  socialLinks: {
-    instagram: String,
-    whatsapp: String,
-  },
+  logoUrl: { type: String, required: true },
+  description: { type: String, required: true },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Store', storeSchema);
-

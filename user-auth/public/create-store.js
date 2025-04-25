@@ -1,38 +1,27 @@
-document.getElementById('storeForm').addEventListener('submit', async (e) => {
+document.getElementById('store-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const form = e.target;
-  const data = {
-    storeName: form.storeName.value,
-    slug: form.slug.value,
-    logoUrl: form.logoUrl.value,
-    bannerUrl: form.bannerUrl.value,
-    description: form.description.value,
-    socialLinks: {
-      instagram: form.instagram.value,
-      whatsapp: form.whatsapp.value
-    }
-  };
+  const form = document.getElementById('store-form');
+  const formData = new FormData(form);
+  const messageBox = document.getElementById('store-message');
 
   try {
-    const response = await fetch('/api/store/create', {
+    const response = await fetch('https://swarize-deployment.onrender.com/api/store/create', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify(data)
+      body: formData,
+      credentials: 'include'
     });
 
     const result = await response.json();
+
     if (result.success) {
-      alert('Store created successfully! Redirecting to your store...');
-      window.location.href = `/store/${result.slug}`;
+      messageBox.innerText = "✅ Store created successfully!";
+      window.location.href = `https://swarize.in/store/${result.slug}`;
     } else {
-      alert('Error: ' + result.message);
+      messageBox.innerText = `❌ ${result.message || 'Failed to create store.'}`;
     }
-  } catch (err) {
-    console.error('Error creating store:', err);
-    alert('Something went wrong.');
+  } catch (error) {
+    console.error("Error creating store:", error);
+    messageBox.innerText = "❌ Server error. Please try again.";
   }
 });

@@ -16,7 +16,9 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
 
     if (result.success) {
       messageBox.innerText = "✅ Store created successfully!";
-      window.location.href = `https://swarize.in/store/${result.slug}`;
+      setTimeout(() => {
+        window.location.href = `https://swarize.in/store/${result.slug}`;
+      }, 800);
     } else {
       messageBox.innerText = `❌ ${result.message || 'Failed to create store.'}`;
     }

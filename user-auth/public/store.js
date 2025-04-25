@@ -1,34 +1,43 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const storeSection = document.getElementById('display-store');
-  const nameEl = document.getElementById('store-name');
-  const descEl = document.getElementById('store-desc');
-  const logoEl = document.getElementById('store-logo');
+  const storeDisplay = document.getElementById('display-store');
+  const storeNameEl = document.getElementById('store-name');
+  const storeLogoEl = document.getElementById('store-logo');
+  const storeDescEl = document.getElementById('store-desc');
+  const addProductBtn = document.getElementById('add-product-btn');
 
   try {
-    const res = await fetch('/api/store/my-store', {
+    const storeRes = await fetch('https://swarize-deployment.onrender.com/api/store/check', {
       credentials: 'include'
     });
+    const storeData = await storeRes.json();
 
-    if (!res.ok) {
-      console.error('Error fetching store');
-      return;
-    }
+    if (storeData.hasStore && storeData.storeSlug) {
+      const slug = storeData.storeSlug;
 
-    const store = await res.json();
+      const storeDetailsRes = await fetch(`https://swarize-deployment.onrender.com/api/store/${slug}`);
+      const storeDetails = await storeDetailsRes.json();
 
-    if (store && store.storeName) {
-      nameEl.textContent = store.storeName;
-      descEl.textContent = store.description;
-      logoEl.src = store.storeLogo;
-      storeSection.style.display = 'block';
+      if (!storeDetails.success || !storeDetails.store) {
+        throw new Error("Store data not found.");
+      }
+
+      // ✅ Show details
+      storeNameEl.textContent = storeDetails.store.storeName;
+      storeLogoEl.src = storeDetails.store.logoUrl;
+      storeDescEl.textContent = storeDetails.store.description;
+
+      storeDisplay.style.display = 'block';
+
     } else {
-      window.location.href = '/create-store.html';
+      window.location.href = "/create-store.html";
     }
+
   } catch (err) {
-    console.error('Failed to load store data:', err);
+    console.error("Error loading store:", err);
+    alert("Failed to load store. Please try again.");
   }
 
-  document.getElementById('add-product-btn').addEventListener('click', () => {
-    window.location.href = '/add-product.html';
+  addProductBtn.addEventListener('click', () => {
+    window.location.href = "/dashboard/add-product.html";
   });
 });

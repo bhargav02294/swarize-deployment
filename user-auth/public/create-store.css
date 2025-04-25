@@ -1,45 +1,56 @@
-/* Basic styling for create-store.html */
 body {
     font-family: Arial, sans-serif;
-    background: #f8f9fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background: #f5f5f5;
   }
   
-  .store-form {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    width: 400px;
+  .container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
   }
   
-  .store-form h2 {
-    margin-bottom: 1rem;
+  #store-header {
+    text-align: center;
+    margin-bottom: 10px;
   }
   
-  .store-form input,
-  .store-form textarea {
+  label {
+    display: block;
+    margin-top: 15px;
+  }
+  
+  input[type="text"],
+  textarea {
     width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
   }
   
-  .store-form button {
+  input[type="file"] {
+    margin-top: 5px;
+  }
+  
+  button {
+    margin-top: 20px;
     width: 100%;
-    padding: 0.8rem;
+    padding: 10px;
     background: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
   }
   
-  .store-form button:hover {
+  button:hover {
     background: #0056b3;
+  }
+  
+  #store-message {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
   }
   

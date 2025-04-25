@@ -80,7 +80,7 @@ const connectDB = async () => {
 };
 connectDB();
 
-// Session middleware (already in place in your server.js)
+// ✅ Session Setup
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -88,12 +88,12 @@ app.use(session({
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
     collectionName: 'sessions',
-    ttl: 24 * 60 * 60, // 1 day
+    ttl: 24 * 60 * 60,
     autoRemove: 'native'
   }),
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", 
+    secure: process.env.NODE_ENV === "production",
     sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000
   }
@@ -138,61 +138,51 @@ const paymentRoutes = require("./routes/payment");
 const storeRoutes = require('./routes/storeRoutes'); // Make sure this path is correct
 
 // ✅ Use Routes
-app.use("/api/authRoutes", authRoutes);  
+app.use("/api/auth", authRoutes);  
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);  
 app.use("/api/bank", bankRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/payment", paymentRoutes);
-app.use('/api/storeRoutes', storeRoutes);  // This should map your routes correctly
+app.use('/api/store', storeRoutes);
 
 
 
 
 
 // ✅ Authentication Middleware (Fix for Cart & Protected Routes)
+// ✅ Authentication Middleware
 const isAuthenticated = (req, res, next) => {
-  console.log("🔍 Checking authentication...");
-  console.log("🔹 Session Data:", req.session);
-  console.log("🔹 Cookies:", req.cookies);
-
   if (req.session && req.session.userId) {
-      console.log("✅ User Verified via Session:", req.session.userId);
-      return next();
+    return next();
   }
 
   const token = req.cookies.token;
-  console.log("🔹 Token received:", token);
-
   if (token) {
-      try {
-          const verified = jwt.verify(token, process.env.JWT_SECRET);
-          req.user = verified;
-
-          if (!req.session.userId) {
-              req.session.userId = verified.id;
-              req.session.save(); // ✅ Ensure session is saved
-          }
-          return next();
-      } catch (err) {
-          return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
+    try {
+      const verified = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = verified;
+      if (!req.session.userId) {
+        req.session.userId = verified.id;
+        req.session.save();
       }
+      return next();
+    } catch (err) {
+      return res.status(401).json({ success: false, message: "Session expired. Please log in again." });
+    }
   }
-
   return res.status(401).json({ success: false, message: "Unauthorized: Please log in." });
 };
 
 
 // ✅ Debug Session Route (Check if Session is Working)
+// ✅ Debug Session
 app.get("/api/debug-session", (req, res) => {
-  console.log("🐛 Debugging Session Data:", req.session);
-  console.log("🐛 Debugging Cookies:", req.cookies);
-
   res.json({
-      success: true,
-      session: req.session,
-      userId: req.session.userId || null, // ✅ Check if userId exists
-      userName: req.session.userName || "Unknown"
+    success: true,
+    session: req.session,
+    userId: req.session.userId || null,
+    userName: req.session.userName || "Unknown"
   });
 });
 
@@ -221,14 +211,11 @@ app.use('/api/seller', validateIndianUser);
 app.use('/api/admin', validateIndianUser);
 
 
-// ✅ Fetch user session (Returns user ID)
+// ✅ Get User ID from Session
 app.get("/api/user/session", async (req, res) => {
   if (!req.session.userId) {
-      return res.status(401).json({ success: false, message: "User not logged in." });
+    return res.status(401).json({ success: false, message: "User not logged in." });
   }
-  console.log("🔹 Session Debug - Headers:", req.headers);
-  console.log("🔹 Session Debug - Cookies:", req.cookies);
-  console.log("🔹 Session Debug - Raw Session Data:", req.session);
 
   res.json({ success: true, userId: req.session.userId });
 });

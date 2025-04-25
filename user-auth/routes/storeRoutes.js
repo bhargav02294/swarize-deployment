@@ -48,22 +48,26 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     const { storeName, description } = req.body;
     const logoFile = req.file;
 
-    console.log("📦 Received store data:", {
-      userId,
-      storeName,
-      description,
-      logoFile
-    });
+    // Debug logs
+    console.log("📦 Incoming Store Creation Request");
+    console.log("🧾 Session User ID:", userId);
+    console.log("📝 storeName:", storeName);
+    console.log("📝 description:", description);
+    console.log("📸 logoFile:", logoFile);
 
-    if (!userId || !storeName || !description || !logoFile) {
-      return res.status(400).json({ success: false, message: "Missing required fields." });
+    // Validate fields
+    if (!userId) return res.status(401).json({ success: false, message: "Not logged in" });
+    if (!storeName || !description || !logoFile) {
+      return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
+    // Check existing store
     const existingStore = await Store.findOne({ ownerId: userId });
     if (existingStore) {
-      return res.status(409).json({ success: false, message: "Store already exists." });
+      return res.status(409).json({ success: false, message: "Store already exists" });
     }
 
+    // Create slug
     const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
 
     const newStore = new Store({
@@ -76,18 +80,20 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
     await newStore.save();
 
+    // Link to user
     await User.findByIdAndUpdate(userId, {
       store: newStore._id,
       role: 'seller'
     });
 
+    console.log("✅ Store created:", slug);
     res.status(201).json({ success: true, slug });
 
   } catch (err) {
-    console.error("❌ Store creation error:", err);
+    console.error("❌ ERROR during store creation:", err);
     res.status(500).json({
       success: false,
-      message: "Server error during store creation: " + err.message
+      message: "Internal Server Error: " + err.message
     });
   }
 });

@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   const addProductBtn = document.getElementById('add-product-btn');
 
   try {
+    const sessionRes = await fetch('https://swarize-deployment.onrender.com/api/user/session', {
+      credentials: 'include'
+    });
+    const sessionData = await sessionRes.json();
+    if (!sessionData.success) throw new Error('Not logged in.');
+
+    const userId = sessionData.userId;
+
     const storeRes = await fetch('https://swarize-deployment.onrender.com/api/store/check', {
       credentials: 'include'
     });
@@ -17,27 +25,26 @@ document.addEventListener('DOMContentLoaded', async () => {
       const storeDetailsRes = await fetch(`https://swarize-deployment.onrender.com/api/store/${slug}`);
       const storeDetails = await storeDetailsRes.json();
 
-      if (!storeDetails.success || !storeDetails.store) {
-        throw new Error("Store data not found.");
-      }
+      if (!storeDetails.store) throw new Error("Store not found");
 
-      // ✅ Show details
-      storeNameEl.textContent = storeDetails.store.storeName;
+      // ✅ Display Store Info
+      storeNameEl.textContent = storeDetails.store.name || storeDetails.store.storeName;
       storeLogoEl.src = storeDetails.store.logoUrl;
       storeDescEl.textContent = storeDetails.store.description;
 
       storeDisplay.style.display = 'block';
 
     } else {
+      alert("No store found. Redirecting to create...");
       window.location.href = "/create-store.html";
     }
-
   } catch (err) {
     console.error("Error loading store:", err);
-    alert("Failed to load store. Please try again.");
+    alert("Failed to load store details.");
   }
 
+  // ✅ Redirect to add product page
   addProductBtn.addEventListener('click', () => {
-    window.location.href = "/dashboard/add-product.html";
+    window.location.href = "/dashboard/add-product.html"; // Update path if needed
   });
 });

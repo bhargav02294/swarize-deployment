@@ -13,16 +13,18 @@ if (!fs.existsSync(uploadDir)) {
   console.log("✅ Upload directory created at:", uploadDir);
 }
 
-// ✅ Multer Setup for Logo Upload
+// Set storage engine
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const uniqueName = `store_${Date.now()}${ext}`;
-    cb(null, uniqueName);
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/'); // Ensure this directory exists
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'store_' + Date.now() + path.extname(file.originalname));
   }
 });
-const upload = multer({ storage });
+
+// Initialize upload
+const upload = multer({ storage: storage });
 
 // ✅ Check Store
 router.get('/check', async (req, res) => {
@@ -42,32 +44,22 @@ router.get('/check', async (req, res) => {
 });
 
 // ✅ Create Store
+
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
     const userId = req.session.userId;
     const { storeName, description } = req.body;
     const logoFile = req.file;
 
-    // Debug logs
-    console.log("📦 Incoming Store Creation Request");
-    console.log("🧾 Session User ID:", userId);
-    console.log("📝 storeName:", storeName);
-    console.log("📝 description:", description);
-    console.log("📸 logoFile:", logoFile);
-
-    // Validate fields
-    if (!userId) return res.status(401).json({ success: false, message: "Not logged in" });
-    if (!storeName || !description || !logoFile) {
+    if (!userId || !storeName || !description || !logoFile) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
-    // Check existing store
     const existingStore = await Store.findOne({ ownerId: userId });
     if (existingStore) {
       return res.status(409).json({ success: false, message: "Store already exists" });
     }
 
-    // Create slug
     const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
 
     const newStore = new Store({
@@ -80,21 +72,12 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
     await newStore.save();
 
-    // Link to user
-    await User.findByIdAndUpdate(userId, {
-      store: newStore._id,
-      role: 'seller'
-    });
+    await User.findByIdAndUpdate(userId, { store: newStore._id, role: 'seller' });
 
-    console.log("✅ Store created:", slug);
     res.status(201).json({ success: true, slug });
-
-  } catch (err) {
-    console.error("❌ ERROR during store creation:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error: " + err.message
-    });
+  } catch (error) {
+    console.error("Error creating store:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 });
 

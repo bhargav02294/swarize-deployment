@@ -135,16 +135,16 @@ const cartRoutes = require('./routes/cart');
 const bankRoutes = require("./routes/bank");
 const reviewRoutes = require("./routes/review");
 const paymentRoutes = require("./routes/payment");
-const storeRoutes = require('./routes/store'); // Make sure this path is correct
+const storeRoutes = require('./routes/storeRoutes'); // Make sure this path is correct
 
 // ✅ Use Routes
-app.use("/api/auth", authRoutes);  
+app.use("/api/authRoutes", authRoutes);  
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);  
 app.use("/api/bank", bankRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/payment", paymentRoutes);
-app.use('/api/store', storeRoutes);  // This should map your routes correctly
+app.use('/api/storeRoutes', storeRoutes);  // This should map your routes correctly
 
 
 

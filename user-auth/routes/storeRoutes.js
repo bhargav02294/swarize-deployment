@@ -51,18 +51,23 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     const { storeName, description } = req.body;
     const logoFile = req.file;
 
-    if (!userId || !storeName || !description || !logoFile) {
+    console.log("▶ Received POST /create");
+    console.log("🧑‍💻 userId:", userId);
+    console.log("🏷️ storeName:", storeName);
+    console.log("📄 description:", description);
+    console.log("🖼️ logoFile:", logoFile);
+
+    if (!userId) return res.status(401).json({ success: false, message: "User not logged in" });
+    if (!storeName || !description || !logoFile) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
     }
 
-    const existingStore = await Store.findOne({ ownerId: userId });
-    if (existingStore) {
-      return res.status(409).json({ success: false, message: "Store already exists" });
-    }
+    const existing = await Store.findOne({ ownerId: userId });
+    if (existing) return res.status(409).json({ success: false, message: "Store already exists." });
 
     const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
 
-    const newStore = new Store({
+    const store = new Store({
       storeName,
       slug,
       description,
@@ -70,16 +75,22 @@ router.post('/create', upload.single('logo'), async (req, res) => {
       ownerId: userId
     });
 
-    await newStore.save();
+    await store.save();
 
-    await User.findByIdAndUpdate(userId, { store: newStore._id, role: 'seller' });
+    await User.findByIdAndUpdate(userId, {
+      store: store._id,
+      role: 'seller'
+    });
 
+    console.log("✅ Store saved successfully!");
     res.status(201).json({ success: true, slug });
-  } catch (error) {
-    console.error("Error creating store:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+
+  } catch (err) {
+    console.error("❌ Store creation failed:", err); // 🔥 THIS WILL SHOW THE REAL ERROR IN TERMINAL
+    res.status(500).json({ success: false, message: "Internal Server Error: " + err.message });
   }
 });
+
 
 // ✅ Get Store by Slug
 router.get('/:slug', async (req, res) => {

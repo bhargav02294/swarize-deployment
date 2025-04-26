@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const mainContainer = document.getElementById('main-container');
+    const API_BASE = "https://swarize-deployment.onrender.com"; // Backend URL
 
     try {
-        const response = await fetch('https://swarize-deployment.onrender.com/api/auth/is-logged-in', {
+        const response = await fetch(`${API_BASE}/api/auth/is-logged-in`, {
             credentials: 'include'
         });
 
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // ✅ Logout functionality
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
-                    const logoutResponse = await fetch("https://swarize-deployment.onrender.com/api/auth/logout", {
+                    const logoutResponse = await fetch(`${API_BASE}/api/auth/logout`, {
                         method: "GET",
                         credentials: "include"
                     });
@@ -89,36 +90,35 @@ addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
 function addEventListenerIfExists(selector, event, handler) {
     const el = document.querySelector(selector);
     if (el) el.addEventListener(event, handler);
-  }
-  
-  // ✅ Store Check and Redirect Logic
-  addEventListenerIfExists('#store-btn', 'click', async () => {
+}
+
+// ✅ Store Check and Redirect Logic
+addEventListenerIfExists('#store-btn', 'click', async () => {
     try {
-      // Step 1: Check if user is logged in
-      const loginRes = await fetch('/api/user/session', { credentials: 'include' });
-      const loginData = await loginRes.json();
-  
-      if (!loginData.success || !loginData.userId) {
-        alert("⚠️ You are not signed in. Please login first.");
-        return window.location.href = '/signin';
-      }
-  
-      // Step 2: Check if store exists
-      const res = await fetch('/api/store/check', {
-        credentials: 'include'
-      });
-  
-      const data = await res.json();
-  
-      if (data.hasStore && data.storeSlug) {
-        window.location.href = `/store.html?slug=${data.storeSlug}`;
-      } else {
-        window.location.href = '/create-store.html';
-      }
-  
+        // Step 1: Check if user is logged in
+        const loginRes = await fetch(`${API_BASE}/api/user/session`, { credentials: 'include' });
+        const loginData = await loginRes.json();
+
+        if (!loginData.success || !loginData.userId) {
+            alert("⚠️ You are not signed in. Please login first.");
+            return window.location.href = '/signin';
+        }
+
+        // Step 2: Check if store exists
+        const res = await fetch(`${API_BASE}/api/store/check`, {
+            credentials: 'include'
+        });
+
+        const data = await res.json();
+
+        if (data.hasStore && data.storeSlug) {
+            window.location.href = `/store.html?slug=${data.storeSlug}`;
+        } else {
+            window.location.href = '/create-store.html';
+        }
+
     } catch (err) {
-      console.error('❌ Error checking store:', err);
-      alert("Couldn't verify store status. Please try again.");
+        console.error('❌ Error checking store:', err);
+        alert("Couldn't verify store status. Please try again.");
     }
-  });
-  
+});

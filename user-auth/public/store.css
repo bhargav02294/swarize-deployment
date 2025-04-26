@@ -1,39 +1,13 @@
-#store-header-section {
+body {
+  font-family: sans-serif;
+  padding: 30px;
+}
+
+#store-container {
   text-align: center;
-  padding: 20px;
 }
 
 #store-logo {
-  border-radius: 8px;
-  margin: 10px 0;
-}
-
-#add-product-btn {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#add-product-btn:hover {
-  background-color: #218838;
-}
-
-#products-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  padding: 10px;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
+  border-radius: 10px;
+  margin: 20px 0;
 }

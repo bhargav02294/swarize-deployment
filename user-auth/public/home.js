@@ -85,24 +85,40 @@ addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
     window.location.href = 'https://swarize.in/dashboard.html';
 });
 
-
-
-// ✅ Store Check and Redirect Logic
-addEventListenerIfExists('#store-btn', 'click', async () => {
+// 🔁 Utility to attach event listener safely
+function addEventListenerIfExists(selector, event, handler) {
+    const el = document.querySelector(selector);
+    if (el) el.addEventListener(event, handler);
+  }
+  
+  // ✅ Store Check and Redirect Logic
+  addEventListenerIfExists('#store-btn', 'click', async () => {
     try {
-        const res = await fetch('https://swarize-deployment.onrender.com/api/store/check', {
-            credentials: 'include'
-        });
-
-        const data = await res.json();
-
-        if (data.hasStore && data.storeSlug) {
-            window.location.href = `https://swarize.in/store/${data.storeSlug}`;
-        } else {
-            window.location.href = 'https://swarize.in/create-store.html';
-        }
+      // Step 1: Check if user is logged in
+      const loginRes = await fetch('/api/user/session', { credentials: 'include' });
+      const loginData = await loginRes.json();
+  
+      if (!loginData.success || !loginData.userId) {
+        alert("⚠️ You are not signed in. Please login first.");
+        return window.location.href = '/signin';
+      }
+  
+      // Step 2: Check if store exists
+      const res = await fetch('/api/store/check', {
+        credentials: 'include'
+      });
+  
+      const data = await res.json();
+  
+      if (data.hasStore && data.storeSlug) {
+        window.location.href = `/store.html?slug=${data.storeSlug}`;
+      } else {
+        window.location.href = '/create-store.html';
+      }
+  
     } catch (err) {
-        console.error('Error checking store status:', err);
-        alert("Couldn't verify store status. Please try again.");
+      console.error('❌ Error checking store:', err);
+      alert("Couldn't verify store status. Please try again.");
     }
-});
+  });
+  

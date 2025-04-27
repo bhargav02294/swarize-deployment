@@ -1,123 +1,56 @@
-/* General Styling */
-* {
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
-}
-
-header {
-  background-color: #2c3e50;
-  padding: 20px;
-  color: white;
-  text-align: center;
-}
-
-header nav {
+  font-family: 'Arial', sans-serif;
+  background: #f5f7fa;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
-header .logo {
-  font-size: 1.5rem;
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
+.form-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  width: 400px;
+  max-width: 90%;
 }
 
-header a {
-  color: white;
-  text-decoration: none;
-  margin-left: 15px;
-}
-
-header a:hover {
-  text-decoration: underline;
-}
-
-/* Form Styling */
-.create-store {
-  width: 80%;
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.create-store h1 {
+.form-container h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
   text-align: center;
-  margin-bottom: 20px;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 5px;
-  color: #555;
-}
-
-.form-group input,
-.form-group textarea {
+form input[type="text"],
+form textarea,
+form input[type="file"] {
   width: 100%;
+  margin-bottom: 15px;
   padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  outline: none;
+  font-size: 16px;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-  border-color: #3498db;
-}
-
-button {
+form button {
   width: 100%;
   padding: 12px;
-  background-color: #3498db;
-  color: white;
+  font-size: 16px;
+  background: #3498db;
+  color: #fff;
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  border-radius: 8px;
 }
 
-button:hover {
-  background-color: #2980b9;
+form button:hover {
+  background: #2980b9;
 }
 
-/* Message Styling */
 #store-message {
-  text-align: center;
   margin-top: 15px;
-  font-size: 1rem;
-  color: #d9534f;
-}
-
-#store-message.success {
-  color: #28a745;
-}
-
-/* Footer Styling */
-footer {
   text-align: center;
-  padding: 20px;
-  background-color: #2c3e50;
-  color: white;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
+  color: red;
+  font-size: 14px;
 }

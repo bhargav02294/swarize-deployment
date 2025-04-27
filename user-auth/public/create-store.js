@@ -1,40 +1,32 @@
 document.getElementById('store-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const form = e.target;
-  const formData = new FormData(form);
-  const message = document.getElementById('store-message');
-  
-  // Check if the message element exists
-  if (!message) {
-    console.error("❌ Message element not found.");
-    return;
-  }
+    const form = e.target;
+    const formData = new FormData(form);
+    const message = document.getElementById('store-message');
 
-  try {
-      const response = await fetch('https://swarize.in/api/store/create', {
-          method: 'POST',
-          body: formData,
-          credentials: 'include'
-      });
+    try {
+        const response = await fetch('https://swarize.in/api/store/create', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        });
 
-      const contentType = response.headers.get("content-type");
+        const result = await response.json();
 
-      if (contentType && contentType.includes("application/json")) {
-          const result = await response.json();
-
-          if (response.ok && result.success) {
-              message.textContent = "✅ Store created successfully!";
-              window.location.href = `/store.html?slug=${result.slug}`;
-          } else {
-              message.textContent = `❌ ${result.message || "Something went wrong"}`;
-          }
-      } else {
-          message.textContent = "❌ Unexpected server response.";
-      }
-
-  } catch (err) {
-      console.error("❌ Error creating store:", err);
-      message.textContent = "❌ Server error. Try again later.";
-  }
+        if (response.ok && result.success) {
+            message.style.color = "green";
+            message.textContent = "✅ Store created successfully!";
+            setTimeout(() => {
+                window.location.href = `/store.html?slug=${result.slug}`;
+            }, 1500);
+        } else {
+            message.style.color = "red";
+            message.textContent = `❌ ${result.message || "Something went wrong"}`;
+        }
+    } catch (error) {
+        console.error('❌ Error creating store:', error);
+        message.style.color = "red";
+        message.textContent = "❌ Unexpected server response.";
+    }
 });

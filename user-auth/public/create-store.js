@@ -12,13 +12,19 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
           credentials: 'include'
       });
 
-      const result = await response.json();
+      const contentType = response.headers.get("content-type");
 
-      if (response.ok && result.success) {
-          message.textContent = "✅ Store created successfully!";
-          window.location.href = `/store.html?slug=${result.slug}`;
+      if (contentType && contentType.includes("application/json")) {
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+              message.textContent = "✅ Store created successfully!";
+              window.location.href = `/store.html?slug=${result.slug}`;
+          } else {
+              message.textContent = `❌ ${result.message || "Something went wrong"}`;
+          }
       } else {
-          message.textContent = `❌ ${result.message}`;
+          message.textContent = "❌ Unexpected server response.";
       }
 
   } catch (err) {

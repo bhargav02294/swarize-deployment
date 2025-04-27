@@ -5,22 +5,39 @@ const User = require('../models/user');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken'); // ADD THIS if missing
 
-
-// ✅ Create uploads folder if not exist
+// ✅ Ensure uploads folder
 const uploadPath = path.join(__dirname, '..', 'public', 'uploads');
-if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+  console.log("✅ Uploads directory created");
+}
 
 // ✅ Multer setup
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadPath),
-  filename: (req, file, cb) => cb(null, `store_${Date.now()}${path.extname(file.originalname)}`)
+  destination: (req, file, cb) => {
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `store_${Date.now()}${path.extname(file.originalname)}`);
+  }
 });
-const upload = multer({ storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // ✅ Max 5MB
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      const error = new Error("Invalid file type. Only JPG, PNG, WEBP allowed.");
+      error.status = 400;
+      return cb(error, false);
+    }
+    cb(null, true);
+  }
+});
 
-// ✅ Create store
-// ✅ Create store (updated for token recovery)
+// ✅ Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
     let userId = req.session.userId;
@@ -28,7 +45,6 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     const logoFile = req.file;
 
     if (!userId) {
-      // 🛑 Try recovering from token if session userId is missing
       const token = req.cookies.token;
       if (token) {
         try {
@@ -36,13 +52,10 @@ router.post('/create', upload.single('logo'), async (req, res) => {
           userId = verified.id;
           req.session.userId = userId;
           await req.session.save();
-          console.log("✅ Recovered userId from token for store creation.");
         } catch (err) {
-          console.error("❌ Invalid token during store creation.");
-          return res.status(401).json({ success: false, message: "Invalid session. Please login again." });
+          return res.status(401).json({ success: false, message: "Invalid token, please login again." });
         }
       } else {
-        console.log("❌ No session or token during store creation.");
         return res.status(401).json({ success: false, message: "Unauthorized. Please login." });
       }
     }
@@ -51,12 +64,14 @@ router.post('/create', upload.single('logo'), async (req, res) => {
       return res.status(400).json({ success: false, message: 'All fields required' });
     }
 
-    const existing = await Store.findOne({ ownerId: userId });
-    if (existing) return res.status(409).json({ success: false, message: 'Store already exists' });
+    const existingStore = await Store.findOne({ ownerId: userId });
+    if (existingStore) {
+      return res.status(409).json({ success: false, message: 'Store already exists' });
+    }
 
     const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
 
-    const store = new Store({
+    const newStore = new Store({
       storeName,
       slug,
       description,
@@ -64,17 +79,18 @@ router.post('/create', upload.single('logo'), async (req, res) => {
       ownerId: userId
     });
 
-    await store.save();
-    await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
+    await newStore.save();
+    await User.findByIdAndUpdate(userId, { store: newStore._id, role: 'seller' });
 
-    console.log(`✅ Store created successfully for user: ${userId}`);
-
+    console.log(`✅ Store created for user: ${userId}`);
     res.status(201).json({ success: true, slug });
+
   } catch (err) {
-    console.error('❌ Store creation failed:', err);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
+    console.error("❌ Store creation server error:", err);
+    res.status(500).json({ success: false, message: err.message || "Internal server error" });
   }
 });
+
 
 // ✅ Check if user has store
 router.get('/check', async (req, res) => {

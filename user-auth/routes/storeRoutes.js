@@ -42,6 +42,7 @@ const upload = multer({
 
 // ✅ Create Store Route
 // ✅ Create Store Route
+// ✅ Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
     console.log("Received data:", req.body);  // Log form data
@@ -49,12 +50,12 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
     let userId = req.session.userId;
     if (!userId) {
-      const token = req.cookies.token;
+      const token = req.cookies.token;  // Check if JWT token is in cookies
       if (token) {
         try {
-          const verified = jwt.verify(token, process.env.JWT_SECRET);
+          const verified = jwt.verify(token, process.env.JWT_SECRET);  // Verify token
           userId = verified.id;
-          req.session.userId = userId;
+          req.session.userId = userId;  // Save userId to session
           await req.session.save();
         } catch (err) {
           console.error("❌ Token Invalid during store creation:", err);
@@ -100,6 +101,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     res.status(500).json({ success: false, message: error.message || "Internal Server Error" });
   }
 });
+
 
 
 

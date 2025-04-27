@@ -95,8 +95,10 @@ addEventListenerIfExists('#store-btn', 'click', async () => {
         const data = await res.json();
 
         if (data.hasStore && data.storeSlug) {
+            // Redirect to the user's store page using the slug
             window.location.href = `/store.html?slug=${data.storeSlug}`;
         } else {
+            // Redirect to create store page if no store is found
             window.location.href = '/create-store.html';
         }
     } catch (err) {

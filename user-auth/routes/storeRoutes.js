@@ -5,7 +5,7 @@ const User = require('../models/user');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const jwt = require('jsonwebtoken'); // ADD THIS if missing
+const jwt = require('jsonwebtoken');
 
 // ✅ Ensure uploads folder
 const uploadPath = path.join(__dirname, '..', 'public', 'uploads');
@@ -39,15 +39,9 @@ const upload = multer({
   }
 });
 
-
-// ✅ Create Store Route
-// ✅ Create Store Route
 // ✅ Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
-    console.log("Received data:", req.body);  // Log form data
-    console.log("Received file:", req.file);  // Log the uploaded file
-
     let userId = req.session.userId;
     if (!userId) {
       const token = req.cookies.token;  // Check if JWT token is in cookies
@@ -58,11 +52,9 @@ router.post('/create', upload.single('logo'), async (req, res) => {
           req.session.userId = userId;  // Save userId to session
           await req.session.save();
         } catch (err) {
-          console.error("❌ Token Invalid during store creation:", err);
           return res.status(401).json({ success: false, message: "Invalid token. Please login again." });
         }
       } else {
-        console.error("❌ No token and no session during store creation.");
         return res.status(401).json({ success: false, message: "Unauthorized. Please login." });
       }
     }
@@ -72,13 +64,12 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
     // Check if data is present
     if (!storeName || !description || !logoFile) {
-      console.error("❌ Missing required fields during store creation.");
       return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
     const existingStore = await Store.findOne({ ownerId: userId });
     if (existingStore) {
-      // Store already exists, redirect to store page
+      // Store already exists, return the existing store slug
       return res.status(200).json({ success: true, slug: existingStore.slug });
     }
 
@@ -94,16 +85,11 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     await store.save();
     await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
 
-    console.log(`✅ Store created successfully! Slug: ${slug}`);
     res.status(201).json({ success: true, slug });
   } catch (error) {
-    console.error("❌ Server Error during store creation:", error);
     res.status(500).json({ success: false, message: error.message || "Internal Server Error" });
   }
 });
-
-
-
 
 // ✅ Check if user has store
 router.get('/check', async (req, res) => {
@@ -118,7 +104,6 @@ router.get('/check', async (req, res) => {
       return res.json({ hasStore: false });
     }
   } catch (error) {
-    console.error("❌ Error checking store:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
@@ -132,7 +117,6 @@ router.get('/:slug', async (req, res) => {
     }
     res.json({ success: true, store });
   } catch (err) {
-    console.error("❌ Error loading store:", err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });

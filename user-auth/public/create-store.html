@@ -5,23 +5,13 @@
   <title>Create Store</title>
   <link rel="stylesheet" href="create-store.css">
 </head>
-<body>
-  <div class="container">
-    <h1>Create Your Store</h1>
-    <form id="store-form" enctype="multipart/form-data">
-      <label>Store Name:</label>
-      <input type="text" name="storeName" required>
+<form id="store-form" action="https://swarize.in/api/store/create" method="POST" enctype="multipart/form-data">
+  <input type="text" name="storeName" required>
+  <textarea name="description" required></textarea>
+  <input type="file" name="logo" accept="image/*" required>
+  <button type="submit">Create Store</button>
+</form>
 
-      <label>Store Logo:</label>
-      <input type="file" name="logo" accept="image/*" required>
-
-      <label>Description:</label>
-      <textarea name="description" required></textarea>
-
-      <button type="submit">Create Store</button>
-    </form>
-    <p id="store-message"></p>
-  </div>
 
   <script src="create-store.js"></script>
 </body>

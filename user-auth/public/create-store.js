@@ -18,6 +18,7 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
             message.style.color = "green";
             message.textContent = "✅ Store created successfully!";
             setTimeout(() => {
+                // Redirect to store page (with slug)
                 window.location.href = `/store.html?slug=${result.slug}`;
             }, 1500);
         } else {

@@ -41,6 +41,7 @@ const upload = multer({
 
 
 // ✅ Create Store Route
+// ✅ Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
     console.log("Received data:", req.body);  // Log form data
@@ -76,7 +77,8 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
     const existingStore = await Store.findOne({ ownerId: userId });
     if (existingStore) {
-      return res.status(409).json({ success: false, message: "Store already exists." });
+      // Store already exists, redirect to store page
+      return res.status(200).json({ success: true, slug: existingStore.slug });
     }
 
     const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
@@ -98,6 +100,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     res.status(500).json({ success: false, message: error.message || "Internal Server Error" });
   }
 });
+
 
 
 // ✅ Check if user has store

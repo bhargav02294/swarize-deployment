@@ -57,7 +57,7 @@ function validateEmail(email) {
 
 // ✅ Send OTP Function
 function sendOtp(email, isResend = false) {
-    fetch("https://swarize-deployment.onrender.com/api/auth/send-otp", {  // ✅ Correct API path
+    fetch("https://swarize.in/api/auth/send-otp", {  // ✅ Correct API path
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, isResend }),
@@ -84,7 +84,7 @@ document.getElementById("otp-form").addEventListener("submit", function (event) 
 
 // ✅ OTP Verification Function
 function verifyOtp(email, otp) {
-    fetch("https://swarize-deployment.onrender.com/api/auth/verify-otp", {  // ✅ Correct API path
+    fetch("https://swarize.in/api/auth/verify-otp", {  // ✅ Correct API path
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),

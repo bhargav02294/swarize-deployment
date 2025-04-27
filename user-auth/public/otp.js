@@ -36,7 +36,7 @@ document.getElementById('get-otp').addEventListener('click', async () => {
     const email = document.getElementById('otp-email').value.trim(); // ✅ Ensure email is not empty
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/send-otp", {
+        const response = await fetch("https://swarize.in/api/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email }) // ✅ Fixed: Ensure email is sent
@@ -67,7 +67,7 @@ document.getElementById('resend-otp').addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/send-otp", {
+        const response = await fetch("https://swarize.in/api/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email })
@@ -93,7 +93,7 @@ document.getElementById('submit-email-otp').addEventListener('click', async () =
     const email = document.getElementById('otp-email').value;
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/verify-otp", {
+        const response = await fetch("https://swarize.in/api/auth/verify-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, otp }),

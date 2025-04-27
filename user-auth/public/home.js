@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const mainContainer = document.getElementById('main-container');
-    const API_BASE = "https://swarize-deployment.onrender.com"; // Define API_BASE here
+    const API_BASE = "https://swarize.in"; // Define API_BASE here
 
     try {
         const response = await fetch(`${API_BASE}/api/auth/is-logged-in`, {

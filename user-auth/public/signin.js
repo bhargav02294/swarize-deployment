@@ -12,7 +12,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
     }
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signin", { 
+        const response = await fetch("https://swarize.in/api/auth/signin", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include", // Ensures cookies/sessions work
@@ -37,5 +37,5 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
 
 // ✅ Google OAuth Login Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // ✅ Correct Google OAuth redirect
+    window.location.href = "https://swarize.in/auth/google"; // ✅ Correct Google OAuth redirect
 });

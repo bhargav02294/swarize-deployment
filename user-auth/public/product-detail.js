@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    fetch(`https://swarize-deployment.onrender.com/api/products/${productId}`)
+    fetch(`https://swarize.in/api/products/${productId}`)
         .then(response => response.json())
         .then(product => {
             if (!product || Object.keys(product).length === 0) {
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Handle Add to Cart Button
             document.querySelector(".add-to-cart").addEventListener("click", async () => {
                 try {
-                    const response = await fetch("https://swarize-deployment.onrender.com/cart/add", {
+                    const response = await fetch("https://swarize.in/cart/add", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ productId }),
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    fetch(`https://swarize-deployment.onrender.com/api/products/${productId}`)
+    fetch(`https://swarize.in/api/products/${productId}`)
         .then(response => response.json())
         .then(product => {
             if (!product || Object.keys(product).length === 0) {

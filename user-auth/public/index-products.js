@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function fetchProducts(category) {
         try {
             const formattedCategory = encodeURIComponent(category);
-            const response = await fetch(`https://swarize-deployment.onrender.com/api/products/category/${formattedCategory}`);
+            const response = await fetch(`https://swarize.in/api/products/category/${formattedCategory}`);
 
             const data = await response.json();
 
@@ -91,7 +91,7 @@ function viewProduct(productId) {
 // ✅ Function to add product to cart
 async function addToCart(productId) {
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/cart/add", {
+        const response = await fetch("https://swarize.in/cart/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ productId }),
@@ -445,7 +445,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             try {
-                const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", { 
+                const response = await fetch("https://swarize.in/api/auth/signup", { 
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ name, email, password, authMethod: "email" })
@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             try {
-                const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signin", {
+                const response = await fetch("https://swarize.in/api/auth/signin", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password }),

@@ -33,7 +33,7 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
             authMethod: "email"
         };
 
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/signup", {
+        const response = await fetch("https://swarize.in/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -58,5 +58,5 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
 
 // ✅ Google OAuth Signup Button
 document.querySelector(".google").addEventListener("click", function () {
-    window.location.href = "https://swarize-deployment.onrender.com/auth/google"; // ✅ Uses the correct domain
+    window.location.href = "https://swarize.in/auth/google"; // ✅ Uses the correct domain
 });

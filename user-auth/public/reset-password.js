@@ -27,7 +27,7 @@ document.getElementById("reset-password-form").addEventListener("submit", async 
     }
 
     try {
-        const response = await fetch("https://swarize-deployment.onrender.com/api/auth/reset-password", {
+        const response = await fetch("https://swarize.in/api/auth/reset-password", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, newPassword })

@@ -26,7 +26,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin: ["https://swarize.in", "https://swarize-deployment.onrender.com"], // ✅ Allow both frontend & backend
+  origin: ["https://swarize.in"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
@@ -420,7 +420,7 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://www.swarize.in/auth/google/callback", // ✅ Must match Google Console
+  callbackURL: "https://swarize.in/auth/google/callback", // ✅ Must match Google Console
   passReqToCallback: true
 }, async (req, accessToken, refreshToken, profile, done) => {
   try {
@@ -597,10 +597,7 @@ app.get("/api/auth/logout", (req, res) => {
       // ✅ Correctly clear cookies
       res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
       res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
-
-      res.clearCookie("token", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
-      res.clearCookie("connect.sid", { path: "/", domain: "swarize-deployment.onrender.com", httpOnly: true, secure: true, sameSite: "None" });
-
+      
       console.log("✅ Cookies cleared");
 
       // ✅ Redirect to homepage after logout
@@ -715,28 +712,6 @@ app.get("/api/user/check-profile", async (req, res) => {
       res.status(500).json({ success: false, message: "Server error. Please try again." });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

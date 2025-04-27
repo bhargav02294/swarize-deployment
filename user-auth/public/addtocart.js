@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         // ✅ Check login status
-        const authResponse = await fetch("https://swarize-deployment.onrender.com/api/auth/is-logged-in", {
+        const authResponse = await fetch("https://swarize.in/api/auth/is-logged-in", {
             credentials: "include"
         });
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log("✅ User is logged in:", authData); // ✅ Debugging Log
 
         // ✅ Fetch Cart Items
-        const cartResponse = await fetch("https://swarize-deployment.onrender.com/api/cart", { credentials: "include" });
+        const cartResponse = await fetch("https://swarize.in/api/cart", { credentials: "include" });
         const cartData = await cartResponse.json();
 
         console.log("🛒 Cart Data from Backend:", cartData);
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const productDiv = document.createElement("div");
             productDiv.classList.add("cart-item");
             productDiv.innerHTML = `
-                <img src="https://swarize-deployment.onrender.com/${product.thumbnailImage}" alt="${product.name}" class="cart-product-thumbnail">
+                <img src="https://swarize.in/${product.thumbnailImage}" alt="${product.name}" class="cart-product-thumbnail">
                 <h2 class="cart-product-name">${product.name}</h2>
                 <p class="cart-product-price">₹${product.price}</p>
                 <p class="cart-product-description">${product.description}</p>

@@ -5,6 +5,8 @@ const User = require('../models/user');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const jwt = require("jsonwebtoken");
+
 
 // ✅ Create uploads folder if not exist
 const uploadPath = path.join(__dirname, '..', 'public', 'uploads');
@@ -18,13 +20,34 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ✅ Create store
+// ✅ Create store (updated for token recovery)
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
-    const userId = req.session.userId;
+    let userId = req.session.userId;
     const { storeName, description } = req.body;
     const logoFile = req.file;
 
-    if (!userId || !storeName || !description || !logoFile) {
+    if (!userId) {
+      // 🛑 Try recovering from token if session userId is missing
+      const token = req.cookies.token;
+      if (token) {
+        try {
+          const verified = jwt.verify(token, process.env.JWT_SECRET);
+          userId = verified.id;
+          req.session.userId = userId;
+          await req.session.save();
+          console.log("✅ Recovered userId from token for store creation.");
+        } catch (err) {
+          console.error("❌ Invalid token during store creation.");
+          return res.status(401).json({ success: false, message: "Invalid session. Please login again." });
+        }
+      } else {
+        console.log("❌ No session or token during store creation.");
+        return res.status(401).json({ success: false, message: "Unauthorized. Please login." });
+      }
+    }
+
+    if (!storeName || !description || !logoFile) {
       return res.status(400).json({ success: false, message: 'All fields required' });
     }
 
@@ -43,6 +66,8 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
     await store.save();
     await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
+
+    console.log(`✅ Store created successfully for user: ${userId}`);
 
     res.status(201).json({ success: true, slug });
   } catch (err) {

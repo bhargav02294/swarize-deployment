@@ -1,27 +1,20 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const mainContainer = document.getElementById('main-container');
-    const API_BASE = "https://swarize.in"; // Define API_BASE here
+    const API_BASE = "https://swarize.in";
 
     try {
         const response = await fetch(`${API_BASE}/api/auth/is-logged-in`, {
             credentials: 'include'
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
         const data = await response.json();
 
-        if (data.isLoggedIn) {
-            // ✅ Save user info
+        if (response.ok && data.isLoggedIn) {
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
-            // ✅ Show dashboard
             mainContainer.style.display = 'flex';
 
-            // ✅ Add sidebar
             document.querySelector('.sidebar').innerHTML = `
                 <div class="logo-container">
                     <span class="logo-text">S</span>
@@ -38,10 +31,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             `;
 
-            // ✅ Logout functionality
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
-                    const logoutResponse = await fetch(`${API_BASE}/api/auth/logout`, {
+                    const logoutResponse = await fetch(`${API_BASE}/logout`, {
                         method: "GET",
                         credentials: "include"
                     });
@@ -60,7 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
         } else {
-            // 🚨 Redirect if not signed in
             window.location.href = 'https://swarize.in/not-signed-in.html';
         }
     } catch (error) {
@@ -69,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// ✅ Page button links
+// Utility Function for buttons
 function addEventListenerIfExists(selector, event, handler) {
     const element = document.querySelector(selector);
     if (element) element.addEventListener(event, handler);
@@ -82,21 +73,14 @@ addEventListenerIfExists('#collections-btn', 'click', () => {
 addEventListenerIfExists('#profile-btn', 'click', () => {
     window.location.href = 'https://swarize.in/user-profile.html';
 });
+
 addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
     window.location.href = 'https://swarize.in/dashboard.html';
 });
 
-// 🔁 Utility to attach event listener safely
-function addEventListenerIfExists(selector, event, handler) {
-    const el = document.querySelector(selector);
-    if (el) el.addEventListener(event, handler);
-}
-
-// ✅ Store Check and Redirect Logic
 addEventListenerIfExists('#store-btn', 'click', async () => {
     try {
-        // Step 1: Check if user is logged in
-        const loginRes = await fetch(`${API_BASE}/api/user/session`, { credentials: 'include' });
+        const loginRes = await fetch("https://swarize.in/api/user/session", { credentials: 'include' });
         const loginData = await loginRes.json();
 
         if (!loginData.success || !loginData.userId) {
@@ -104,8 +88,7 @@ addEventListenerIfExists('#store-btn', 'click', async () => {
             return window.location.href = '/signin';
         }
 
-        // Step 2: Check if store exists
-        const res = await fetch(`${API_BASE}/api/store/check`, {
+        const res = await fetch("https://swarize.in/api/store/check", {
             credentials: 'include'
         });
 
@@ -116,7 +99,6 @@ addEventListenerIfExists('#store-btn', 'click', async () => {
         } else {
             window.location.href = '/create-store.html';
         }
-
     } catch (err) {
         console.error('❌ Error checking store:', err);
         alert("Couldn't verify store status. Please try again.");

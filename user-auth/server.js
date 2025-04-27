@@ -25,12 +25,17 @@ const app = express();
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.options('*', cors({
+  origin: ["https://swarize.in"],
+  credentials: true
+}));
 app.use(cors({
   origin: ["https://swarize.in"],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
 
 
 app.set('view engine', 'ejs');
@@ -597,7 +602,7 @@ app.get("/api/auth/logout", (req, res) => {
       // ✅ Correctly clear cookies
       res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
       res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
-      
+
       console.log("✅ Cookies cleared");
 
       // ✅ Redirect to homepage after logout
@@ -712,6 +717,28 @@ app.get("/api/user/check-profile", async (req, res) => {
       res.status(500).json({ success: false, message: "Server error. Please try again." });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

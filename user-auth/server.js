@@ -18,10 +18,12 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');
 const crypto = require("crypto");
-const dotenv = require("dotenv");
 
 const fs = require('fs');
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -1429,9 +1431,7 @@ app.post("/send-message", async (req, res) => {
 
 
 
-
-
-const PORT = process.env.PORT || 10000;  // pehle ye daal
+const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 })

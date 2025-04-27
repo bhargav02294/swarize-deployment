@@ -23,26 +23,37 @@ const storage = multer.diskStorage({
     cb(null, `store_${Date.now()}${path.extname(file.originalname)}`);
   }
 });
+
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // ✅ Max 5MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // ✅ Max 5MB file size
   fileFilter: (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+    // ✅ Check mime-type first
     if (!allowedTypes.includes(file.mimetype)) {
       const error = new Error("Invalid file type. Only JPG, PNG, WEBP allowed.");
       error.status = 400;
       return cb(error, false);
     }
+
+    // ✅ Double Check extension also
+    if (!file.originalname.match(/\.(jpg|jpeg|png|webp)$/)) {
+      const error = new Error("Only image files are allowed!");
+      error.status = 400;
+      return cb(error, false);
+    }
+
+    // ✅ If all okay, accept the file
     cb(null, true);
   }
 });
+
 
 // ✅ Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
     let userId = req.session.userId;
-    const { storeName, description } = req.body;
-    const logoFile = req.file;
 
     if (!userId) {
       const token = req.cookies.token;
@@ -53,25 +64,31 @@ router.post('/create', upload.single('logo'), async (req, res) => {
           req.session.userId = userId;
           await req.session.save();
         } catch (err) {
-          return res.status(401).json({ success: false, message: "Invalid token, please login again." });
+          console.error("❌ Token Invalid during store creation:", err);
+          return res.status(401).json({ success: false, message: "Invalid token. Please login again." });
         }
       } else {
+        console.error("❌ No token and no session during store creation.");
         return res.status(401).json({ success: false, message: "Unauthorized. Please login." });
       }
     }
 
+    const { storeName, description } = req.body;
+    const logoFile = req.file;
+
     if (!storeName || !description || !logoFile) {
-      return res.status(400).json({ success: false, message: 'All fields required' });
+      console.error("❌ Missing required fields during store creation.");
+      return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
     const existingStore = await Store.findOne({ ownerId: userId });
     if (existingStore) {
-      return res.status(409).json({ success: false, message: 'Store already exists' });
+      return res.status(409).json({ success: false, message: "Store already exists." });
     }
 
+    // ✅ Safe path for logo
     const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
-
-    const newStore = new Store({
+    const store = new Store({
       storeName,
       slug,
       description,
@@ -79,15 +96,14 @@ router.post('/create', upload.single('logo'), async (req, res) => {
       ownerId: userId
     });
 
-    await newStore.save();
-    await User.findByIdAndUpdate(userId, { store: newStore._id, role: 'seller' });
+    await store.save();
+    await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
 
-    console.log(`✅ Store created for user: ${userId}`);
+    console.log(`✅ Store created successfully! Slug: ${slug}`);
     res.status(201).json({ success: true, slug });
-
-  } catch (err) {
-    console.error("❌ Store creation server error:", err);
-    res.status(500).json({ success: false, message: err.message || "Internal server error" });
+  } catch (error) {
+    console.error("❌ Server Error during store creation:", error);
+    res.status(500).json({ success: false, message: error.message || "Internal Server Error" });
   }
 });
 

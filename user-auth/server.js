@@ -217,12 +217,29 @@ app.use('/api/admin', validateIndianUser);
 
 
 // ✅ Get User ID from Session
+// ✅ Get User ID from Session (Updated to fix login issues)
 app.get("/api/user/session", async (req, res) => {
-  if (!req.session.userId) {
-    return res.status(401).json({ success: false, message: "User not logged in." });
+  if (req.session && req.session.userId) {
+    return res.json({ success: true, userId: req.session.userId });
   }
 
-  res.json({ success: true, userId: req.session.userId });
+  // 🛑 If session missing, try token recovery
+  const token = req.cookies.token;
+  if (token) {
+    try {
+      const verified = jwt.verify(token, process.env.JWT_SECRET);
+      req.session.userId = verified.id;
+      await req.session.save();
+      console.log("✅ Session recovered from token!");
+      return res.json({ success: true, userId: verified.id });
+    } catch (err) {
+      console.error("❌ Invalid token at /api/user/session");
+      return res.status(401).json({ success: false, message: "Invalid session." });
+    }
+  }
+
+  console.log("❌ No session or token found at /api/user/session");
+  return res.status(401).json({ success: false, message: "User not logged in." });
 });
 
 

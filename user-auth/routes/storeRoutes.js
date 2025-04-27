@@ -43,6 +43,9 @@ const upload = multer({
 // ✅ Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
+    console.log("Received data:", req.body);  // Log form data
+    console.log("Received file:", req.file);  // Log the uploaded file
+
     let userId = req.session.userId;
     if (!userId) {
       const token = req.cookies.token;
@@ -65,17 +68,17 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     const { storeName, description } = req.body;
     const logoFile = req.file;
 
+    // Check if data is present
     if (!storeName || !description || !logoFile) {
+      console.error("❌ Missing required fields during store creation.");
       return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
-    // Store uniqueness check
     const existingStore = await Store.findOne({ ownerId: userId });
     if (existingStore) {
       return res.status(409).json({ success: false, message: "Store already exists." });
     }
 
-    // Generate unique slug
     const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
     const store = new Store({
       storeName,
@@ -88,6 +91,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     await store.save();
     await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
 
+    console.log(`✅ Store created successfully! Slug: ${slug}`);
     res.status(201).json({ success: true, slug });
   } catch (error) {
     console.error("❌ Server Error during store creation:", error);

@@ -1,18 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Create Store</title>
-  <link rel="stylesheet" href="create-store.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your store on Swarize. No listing fees, start selling your products today!">
+    <title>Create Store - Swarize</title>
+    <link rel="stylesheet" href="create-store.css">
 </head>
-<form id="store-form" action="https://swarize.in/api/store/create" method="POST" enctype="multipart/form-data">
-  <input type="text" name="storeName" required>
-  <textarea name="description" required></textarea>
-  <input type="file" name="logo" accept="image/*" required>
-  <button type="submit">Create Store</button>
-</form>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">Swarize</a>
+            <div>
+                <a href="/login.html">Login</a>
+                <a href="/signup.html">Sign Up</a>
+            </div>
+        </nav>
+    </header>
 
+    <section class="create-store">
+        <h1>Create Your Store</h1>
+        <form id="store-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="store-name">Store Name</label>
+                <input type="text" id="store-name" name="storeName" placeholder="Enter your store name" required>
+            </div>
 
-  <script src="create-store.js"></script>
+            <div class="form-group">
+                <label for="store-description">Store Description</label>
+                <textarea id="store-description" name="description" placeholder="Write a brief description about your store" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="logo">Store Logo</label>
+                <input type="file" id="logo" name="logo" accept="image/jpeg, image/png, image/webp" required>
+            </div>
+
+            <button type="submit">Create Store</button>
+
+            <div id="store-message"></div>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Swarize. All Rights Reserved.</p>
+    </footer>
+
+    <script src="create-store.js"></script>
 </body>
 </html>

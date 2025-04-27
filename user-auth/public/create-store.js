@@ -4,6 +4,12 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
   const form = e.target;
   const formData = new FormData(form);
   const message = document.getElementById('store-message');
+  
+  // Check if the message element exists
+  if (!message) {
+    console.error("❌ Message element not found.");
+    return;
+  }
 
   try {
       const response = await fetch('https://swarize.in/api/store/create', {

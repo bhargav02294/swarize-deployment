@@ -2,31 +2,22 @@ const express = require('express');
 const router = express.Router();
 const Store = require('../models/store');
 const User = require('../models/user');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
 
-// ✅ Ensure uploads folder exists
-const uploadPath = path.join(__dirname, '..', 'public', 'uploads');
-if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true });
-    console.log("✅ Uploads directory created");
-}
-
-// ✅ Multer config for image uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `store_${Date.now()}${path.extname(file.originalname)}`);
-    }
+// ✅ Cloudinary config
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// ✅ Multer config with memory storage (no local file saving)
+const storage = multer.memoryStorage();
 const upload = multer({
-    storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Max 5MB
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
     fileFilter: (req, file, cb) => {
         const allowed = ['image/jpeg', 'image/png', 'image/webp'];
         if (!allowed.includes(file.mimetype)) {
@@ -75,7 +66,7 @@ router.get('/check', async (req, res) => {
     }
 });
 
-// ✅ Create Store Route
+// ✅ Create Store Route with Cloudinary upload
 router.post('/create', upload.single('logo'), async (req, res) => {
     try {
         const userId = await getUserId(req, res);
@@ -93,12 +84,19 @@ router.post('/create', upload.single('logo'), async (req, res) => {
             return res.status(200).json({ success: true, slug: existingStore.slug });
         }
 
+        // ✅ Upload logo to Cloudinary
+        const base64Image = `data:${logoFile.mimetype};base64,${logoFile.buffer.toString('base64')}`;
+        const uploadResult = await cloudinary.uploader.upload(base64Image, {
+            folder: 'swarize/stores',
+            public_id: `store_${Date.now()}`
+        });
+
         const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
         const store = new Store({
             storeName,
             slug,
             description,
-            logoUrl: `/uploads/${logoFile.filename}`,
+            logoUrl: uploadResult.secure_url,
             ownerId: userId
         });
 

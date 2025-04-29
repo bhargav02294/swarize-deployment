@@ -12,10 +12,23 @@
     <p id="store-description"></p>
 
     <div id="product-container" class="product-container"></div>
+    <div id="error-message" style="color:red;"></div>
 
     <button id="add-product-btn" onclick="window.location.href='add-product.html'">+ Add Products</button>
   </div>
 
   <script src="store.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const storeId = urlParams.get("storeId");
+    const storeName = urlParams.get("storeName");
+  
+    if (!storeId || !storeName) {
+      document.getElementById("error-message").textContent = "Invalid store link. Please try again.";
+    } else {
+      // Call your product fetch/render function
+      fetchProductsForStore(storeId);
+    }
+  </script>
 </body>
 </html>

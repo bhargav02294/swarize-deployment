@@ -246,7 +246,7 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 const form = document.getElementById('add-product-form');
 const messageElement = document.getElementById('message');
 
-document.getElementById("add-product-form").addEventListener("submit", async (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const availableInInput = document.getElementById("availableIn");
@@ -301,25 +301,21 @@ document.getElementById("add-product-form").addEventListener("submit", async (ev
       messageElement.textContent = "Product added successfully!";
       messageElement.style.color = "green";
 
-      // ✅ Redirect with storeId or storeName
-      const storeId = sessionStorage.getItem("storeId") || localStorage.getItem("storeId");
-      const storeName = sessionStorage.getItem("storeName") || localStorage.getItem("storeName");
+      const storeId = localStorage.getItem("storeId");
+      const storeName = localStorage.getItem("storeName");
 
-      let redirectUrl = "store.html";
-      if (storeId) {
-        redirectUrl += `?storeId=${encodeURIComponent(storeId)}`;
-      } else if (storeName) {
-        redirectUrl += `?storeName=${encodeURIComponent(storeName)}`;
+      if (!storeId || !storeName) {
+        messageElement.textContent = "Product added but store info not found!";
+        messageElement.style.color = "orange";
+        return;
       }
 
       setTimeout(() => {
-        window.location.href = redirectUrl;
+        window.location.href = `store.html?storeId=${encodeURIComponent(storeId)}&storeName=${encodeURIComponent(storeName)}`;
       }, 2000);
 
     } else {
-      // ✅ Handle API error response clearly
-      console.error("Server responded with error:", result.message);
-      messageElement.textContent = result.message || "Error adding product.";
+      messageElement.textContent = result.message || "Failed to add product.";
       messageElement.style.color = "red";
     }
 
@@ -329,7 +325,6 @@ document.getElementById("add-product-form").addEventListener("submit", async (ev
     messageElement.style.color = "red";
   }
 });
-
 
 
 // Reset live preview (optional)

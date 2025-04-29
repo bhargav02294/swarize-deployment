@@ -60,36 +60,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Store button click handler for checking the store
-document.getElementById('store-btn').addEventListener('click', async () => {
+// ✅ Only one event listener to handle store redirection
+document.getElementById('store-btn')?.addEventListener('click', async () => {
     try {
-        const loginRes = await fetch("https://swarize.in/api/user/session", { credentials: 'include' });
-        const loginData = await loginRes.json();
-
-        if (!loginData.success || !loginData.userId) {
-            alert("⚠️ You are not signed in. Please login first.");
-            return window.location.href = '/signin';
-        }
-
-        const res = await fetch("https://swarize.in/api/store/check", {
+        const res = await fetch("https://swarize.in/api/store/redirect-to-store", {
             credentials: 'include'
         });
 
         const data = await res.json();
 
-        if (data.hasStore && data.storeSlug) {
-            // Redirect to the user's store page using the slug
-            window.location.href = `/store.html?slug=${data.storeSlug}`;
+        if (data.success && data.redirectTo) {
+            window.location.href = data.redirectTo;
         } else {
-            // Redirect to create store page if no store is found
-            window.location.href = '/create-store.html';
+            alert("❌ Couldn't redirect. Try again.");
         }
     } catch (err) {
-        console.error('❌ Error checking store:', err);
-        alert("Couldn't verify store status. Please try again.");
+        console.error("❌ Redirect error:", err);
+        alert("Server error. Try again.");
     }
 });
-
 
 // Utility Function for buttons
 function addEventListenerIfExists(selector, event, handler) {

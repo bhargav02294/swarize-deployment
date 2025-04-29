@@ -41,6 +41,7 @@ app.use(cors({
 
 
 app.set('view engine', 'ejs');
+app.set('trust proxy', 1); // 🛡️ Add this line near the top (before session setup)
 
 
 

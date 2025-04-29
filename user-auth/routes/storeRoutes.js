@@ -39,32 +39,7 @@ const upload = multer({
   }
 });
 
-
-
 // ✅ Redirect to store page if the user has a store, otherwise redirect to create store page
-// ✅ Redirect to store page if the user has a store, otherwise redirect to create store page
-router.get('/redirect-to-store', async (req, res) => {
-  try {
-      if (!req.session.userId) {
-          return res.status(401).json({ success: false, message: "Unauthorized" });
-      }
-
-      // Check if user already has a store
-      const store = await Store.findOne({ ownerId: req.session.userId });
-      if (store) {
-          // If store exists, redirect to the store page with the slug
-          return res.json({ success: true, redirectTo: `/store.html?slug=${store.slug}` });
-      } else {
-          // If store does not exist, redirect to create store page
-          return res.json({ success: true, redirectTo: '/create-store.html' });
-      }
-  } catch (error) {
-      console.error("❌ Error during store redirection:", error);
-      res.status(500).json({ success: false, message: "Internal server error" });
-  }
-});
-
-// ✅ Check if user has store
 router.get('/check', async (req, res) => {
   try {
       if (!req.session.userId) {
@@ -80,9 +55,6 @@ router.get('/check', async (req, res) => {
       res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
-
-
 
 // ✅ Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
@@ -135,7 +107,6 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     res.status(500).json({ success: false, message: error.message || "Internal Server Error" });
   }
 });
-
 
 // ✅ Get store details by slug
 router.get('/:slug', async (req, res) => {

@@ -60,25 +60,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Utility Function for buttons
-function addEventListenerIfExists(selector, event, handler) {
-    const element = document.querySelector(selector);
-    if (element) element.addEventListener(event, handler);
-}
-
-addEventListenerIfExists('#collections-btn', 'click', () => {
-    window.location.href = 'https://swarize.in/collections.html';
-});
-
-addEventListenerIfExists('#profile-btn', 'click', () => {
-    window.location.href = 'https://swarize.in/user-profile.html';
-});
-
-addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
-    window.location.href = 'https://swarize.in/dashboard.html';
-});
-
-addEventListenerIfExists('#store-btn', async () => {
+// Store button click handler for checking the store
+document.getElementById('store-btn').addEventListener('click', async () => {
     try {
         const loginRes = await fetch("https://swarize.in/api/user/session", { credentials: 'include' });
         const loginData = await loginRes.json();
@@ -105,4 +88,23 @@ addEventListenerIfExists('#store-btn', async () => {
         console.error('❌ Error checking store:', err);
         alert("Couldn't verify store status. Please try again.");
     }
+});
+
+
+// Utility Function for buttons
+function addEventListenerIfExists(selector, event, handler) {
+    const element = document.querySelector(selector);
+    if (element) element.addEventListener(event, handler);
+}
+
+addEventListenerIfExists('#collections-btn', 'click', () => {
+    window.location.href = 'https://swarize.in/collections.html';
+});
+
+addEventListenerIfExists('#profile-btn', 'click', () => {
+    window.location.href = 'https://swarize.in/user-profile.html';
+});
+
+addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
+    window.location.href = 'https://swarize.in/dashboard.html';
 });

@@ -242,18 +242,17 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 
 
 
+// Select the form
 const form = document.getElementById('add-product-form');
 const messageElement = document.getElementById('message');
 
-// Handle form submission
-form.addEventListener('submit', async (event) => {
+document.getElementById("add-product-form").addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  // Get "Available In" value
   const availableInInput = document.getElementById("availableIn");
   let availableInValue = availableInInput.value.trim();
   if (!availableInValue) {
-      availableInValue = "All Over India"; // Default if empty
+    availableInValue = "All Over India";
   }
 
   const formData = new FormData();
@@ -270,50 +269,45 @@ form.addEventListener('submit', async (event) => {
   formData.append('modelStyle', document.getElementById("model-style").value);
   formData.append("availableIn", availableInValue);
 
-  // Append Thumbnail Image
   const thumbnail = document.getElementById("thumbnail-image").files[0];
   if (thumbnail) {
-      formData.append('thumbnailImage', thumbnail);
+    formData.append('thumbnailImage', thumbnail);
   }
 
-  // Append Multiple Extra Images
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-      const file = document.getElementById(id).files[0];
-      if (file) {
-          formData.append('extraImages', file);  // Use 'extraImages' for all extra images
-      }
+    const file = document.getElementById(id).files[0];
+    if (file) {
+      formData.append('extraImages', file);
+    }
   });
 
-  // Append Multiple Extra Videos
   ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-      const file = document.getElementById(id).files[0];
-      if (file) {
-          formData.append('extraVideos', file);  // Use 'extraVideos' for all extra videos
-      }
+    const file = document.getElementById(id).files[0];
+    if (file) {
+      formData.append('extraVideos', file);
+    }
   });
 
   try {
-    const response = await fetch("https://swarize.in/api/products/add", {
+    const response = await fetch("/api/products/add", {
       method: "POST",
       body: formData,
       credentials: "include"
     });
-  
+
     const result = await response.json();
+
     if (response.ok && result.success) {
-      // Show success message
       messageElement.textContent = "Product added successfully!";
       messageElement.style.color = "green";
-
-      // Redirect to store page after 2 seconds
       setTimeout(() => {
-        window.location.href = "store.html"; // Redirect to the store page
+        window.location.href = "store.html";
       }, 2000);
     } else {
-      throw new Error(result.message || "Unknown error");
+      throw new Error(result.message || "Unknown error occurred.");
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error adding product:", error);
     messageElement.textContent = "Error adding product.";
     messageElement.style.color = "red";
   }

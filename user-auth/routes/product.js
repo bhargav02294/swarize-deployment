@@ -3,16 +3,15 @@ const multer = require('multer');
 const Product = require('../models/product');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
 
-
-// ✅ Cloudinary config
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-const router = express.Router();
 
+const router = express.Router();
 
 const isAuthenticated = (req, res, next) => {
     if (!req.session.userId && !req.session?.passport?.user) {
@@ -22,9 +21,18 @@ const isAuthenticated = (req, res, next) => {
     next();
 };
 
-// Multer storage setup
-const storage = multer.memoryStorage(); // Store files in memory
-const upload = multer({ storage: storage });
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+function uploadToCloudinary(buffer, options) {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(options, (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+        });
+        streamifier.createReadStream(buffer).pipe(stream);
+    });
+}
 
 router.post('/add', isAuthenticated, upload.fields([
     { name: 'thumbnailImage', maxCount: 1 },
@@ -32,21 +40,34 @@ router.post('/add', isAuthenticated, upload.fields([
     { name: 'extraVideos', maxCount: 3 }
 ]), async (req, res) => {
     try {
-        const { name, price, description, summary, category, subcategory, tags, size, color, material, modelStyle, availableIn } = req.body;
-        const userId = req.session?.userId;
+        const {
+            name, price, description, summary, category, subcategory,
+            tags, size, color, material, modelStyle, availableIn
+        } = req.body;
 
-        // Cloudinary upload for Thumbnail Image
-        const thumbnailResult = req.files['thumbnailImage'] ? await cloudinary.uploader.upload_stream({ folder: 'products/thumbnails' }, (error, result) => result)(req.files['thumbnailImage'][0].buffer) : null;
+        const userId = req.session.userId;
 
-        // Cloudinary upload for Extra Images
-        const extraImagesResult = req.files['extraImages'] ? await Promise.all(req.files['extraImages'].map(file =>
-            cloudinary.uploader.upload_stream({ folder: 'products/extraImages' }, (error, result) => result)(file.buffer)
-        )) : [];
+        let thumbnailResult = null;
+        if (req.files['thumbnailImage']) {
+            const file = req.files['thumbnailImage'][0];
+            thumbnailResult = await uploadToCloudinary(file.buffer, {
+                folder: 'products/thumbnails'
+            });
+        }
 
-        // Cloudinary upload for Extra Videos
-        const extraVideosResult = req.files['extraVideos'] ? await Promise.all(req.files['extraVideos'].map(file =>
-            cloudinary.uploader.upload_stream({ resource_type: 'video', folder: 'products/extraVideos' }, (error, result) => result)(file.buffer)
-        )) : [];
+        let extraImagesResult = [];
+        if (req.files['extraImages']) {
+            extraImagesResult = await Promise.all(req.files['extraImages'].map(file =>
+                uploadToCloudinary(file.buffer, { folder: 'products/extraImages' })
+            ));
+        }
+
+        let extraVideosResult = [];
+        if (req.files['extraVideos']) {
+            extraVideosResult = await Promise.all(req.files['extraVideos'].map(file =>
+                uploadToCloudinary(file.buffer, { folder: 'products/extraVideos', resource_type: 'video' })
+            ));
+        }
 
         const product = new Product({
             ownerId: userId,
@@ -63,18 +84,19 @@ router.post('/add', isAuthenticated, upload.fields([
             modelStyle,
             availableIn: availableIn || 'All Over India',
             thumbnailImage: thumbnailResult ? thumbnailResult.secure_url : null,
-            extraImages: extraImagesResult.map(image => image.secure_url),
-            extraVideos: extraVideosResult.map(video => video.secure_url),
+            extraImages: extraImagesResult.map(img => img.secure_url),
+            extraVideos: extraVideosResult.map(vid => vid.secure_url),
         });
 
         await product.save();
-        res.json({ success: true, message: 'Product added successfully!' });
 
+        return res.status(200).json({ success: true, message: "Product added successfully!" });
     } catch (error) {
-        console.error('Error adding product:', error);
-        res.status(500).json({ success: false, message: 'Failed to add product. Please try again.' });
+        console.error("❌ Error in product add route:", error);
+        return res.status(500).json({ success: false, message: "Failed to add product." });
     }
 });
+
 
 
 

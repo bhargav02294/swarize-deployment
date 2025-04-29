@@ -300,18 +300,36 @@ document.getElementById("add-product-form").addEventListener("submit", async (ev
     if (response.ok && result.success) {
       messageElement.textContent = "Product added successfully!";
       messageElement.style.color = "green";
+
+      // ✅ Redirect with storeId or storeName
+      const storeId = sessionStorage.getItem("storeId") || localStorage.getItem("storeId");
+      const storeName = sessionStorage.getItem("storeName") || localStorage.getItem("storeName");
+
+      let redirectUrl = "store.html";
+      if (storeId) {
+        redirectUrl += `?storeId=${encodeURIComponent(storeId)}`;
+      } else if (storeName) {
+        redirectUrl += `?storeName=${encodeURIComponent(storeName)}`;
+      }
+
       setTimeout(() => {
-        window.location.href = "store.html";
+        window.location.href = redirectUrl;
       }, 2000);
+
     } else {
-      throw new Error(result.message || "Unknown error occurred.");
+      // ✅ Handle API error response clearly
+      console.error("Server responded with error:", result.message);
+      messageElement.textContent = result.message || "Error adding product.";
+      messageElement.style.color = "red";
     }
+
   } catch (error) {
     console.error("Error adding product:", error);
     messageElement.textContent = "Error adding product.";
     messageElement.style.color = "red";
   }
 });
+
 
 
 // Reset live preview (optional)

@@ -242,13 +242,11 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 
 
 
-
-// Select the form
 const form = document.getElementById('add-product-form');
 const messageElement = document.getElementById('message');
 
 // Handle form submission
-document.getElementById("add-product-form").addEventListener("submit", async (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   // Get "Available In" value
@@ -257,7 +255,6 @@ document.getElementById("add-product-form").addEventListener("submit", async (ev
   if (!availableInValue) {
       availableInValue = "All Over India"; // Default if empty
   }
-
 
   const formData = new FormData();
   formData.append('name', document.getElementById("product-name").value);
@@ -271,27 +268,27 @@ document.getElementById("add-product-form").addEventListener("submit", async (ev
   formData.append('color', document.getElementById("color").value);
   formData.append('material', document.getElementById("material").value);
   formData.append('modelStyle', document.getElementById("model-style").value);
-  formData.append("availableIn", availableInValue); // ✅ Correctly captures user input
+  formData.append("availableIn", availableInValue);
 
-  // ✅ Append Thumbnail Image
+  // Append Thumbnail Image
   const thumbnail = document.getElementById("thumbnail-image").files[0];
   if (thumbnail) {
       formData.append('thumbnailImage', thumbnail);
   }
 
-  // ✅ Append Multiple Extra Images
+  // Append Multiple Extra Images
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
       const file = document.getElementById(id).files[0];
       if (file) {
-          formData.append('extraImages', file);  // ✅ Fix: Use 'extraImages' for all extra images
+          formData.append('extraImages', file);  // Use 'extraImages' for all extra images
       }
   });
 
-  // ✅ Append Multiple Extra Videos
+  // Append Multiple Extra Videos
   ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
       const file = document.getElementById(id).files[0];
       if (file) {
-          formData.append('extraVideos', file);  // ✅ Fix: Use 'extraVideos' for all extra videos
+          formData.append('extraVideos', file);  // Use 'extraVideos' for all extra videos
       }
   });
 
@@ -300,24 +297,25 @@ document.getElementById("add-product-form").addEventListener("submit", async (ev
       method: "POST",
       body: formData,
       credentials: "include"
-  });
+    });
   
-  const result = await response.json();
-  if (response.ok && result.success) {
-      console.log("✅ Product added successfully:", result);
-      document.getElementById("message").textContent = "Product added successfully!";
-      document.getElementById("message").style.color = "green";
-      
-      // ✅ Redirect to the correct page
-      setTimeout(() => window.location.href = "store.html", 2000);
-  } else {
+    const result = await response.json();
+    if (response.ok && result.success) {
+      // Show success message
+      messageElement.textContent = "Product added successfully!";
+      messageElement.style.color = "green";
+
+      // Redirect to store page after 2 seconds
+      setTimeout(() => {
+        window.location.href = "store.html"; // Redirect to the store page
+      }, 2000);
+    } else {
       throw new Error(result.message || "Unknown error");
-  }
-  
+    }
   } catch (error) {
-      console.error("❌ Error:", error);
-      document.getElementById("message").textContent = "Error adding product.";
-      document.getElementById("message").style.color = "red";
+    console.error("Error:", error);
+    messageElement.textContent = "Error adding product.";
+    messageElement.style.color = "red";
   }
 });
 

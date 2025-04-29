@@ -26,3 +26,54 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/home.html';
     }
 });
+
+
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const container = document.getElementById("product-container");
+  
+    try {
+      const res = await fetch("https://swarize.in/api/products/all");
+      const data = await res.json();
+  
+      if (data.success) {
+        const products = data.products;
+  
+        if (products.length === 0) {
+          container.innerHTML = "<p>No products found.</p>";
+          return;
+        }
+  
+        products.forEach(product => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+  
+          card.innerHTML = `
+            <img src="${product.thumbnailImage}" alt="${product.name}" class="product-thumbnail" />
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+            <p>${product.description.slice(0, 60)}...</p>
+            <div class="extra-images">
+              ${product.extraImages?.map(img => `<img src="${img}" class="extra-image" />`).join("") || ""}
+            </div>
+            <div class="extra-videos">
+              ${product.extraVideos?.map(video => `
+                <video src="${video}" controls class="extra-video"></video>
+              `).join("") || ""}
+            </div>
+          `;
+  
+          container.appendChild(card);
+        });
+  
+      } else {
+        container.innerHTML = "<p>Failed to load products.</p>";
+      }
+  
+    } catch (error) {
+      console.error("Error loading products:", error);
+      document.getElementById("product-container").innerHTML = "<p>Error fetching products</p>";
+    }
+  });
+  

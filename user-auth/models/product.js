@@ -1,26 +1,24 @@
+
+
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
+    ownerId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    thumbnailImage: { type: String, required: true },
-    extraImages: { type: [String] },  
-    extraVideos: { type: [String] }, 
     description: { type: String, required: true },
     summary: { type: String },
-    category: { type: String, required: true },
-    subcategory: { type: String, required: true },
-    tags: { type: [String], required: true },
+    category: { type: String },
+    subcategory: { type: String },
+    tags: [{ type: String }],
     size: { type: String },
     color: { type: String },
     material: { type: String },
     modelStyle: { type: String },
-    ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    sellerEarnings: { type: Number, required: false },
-    availableIn: { type: String, default: "All Over India" }, // ✅ Added this field
-    // Default to all states
+    availableIn: { type: String, default: 'All Over India' },
+    thumbnailImage: { type: String },
+    extraImages: [{ type: String }],
+    extraVideos: [{ type: String }],
+}, { timestamps: true });
 
-});
-
-const Product = mongoose.model('Product', productSchema);
-module.exports = Product;
+module.exports = mongoose.model('Product', productSchema);

@@ -78,7 +78,7 @@ addEventListenerIfExists('#seller-dashboard-btn', 'click', () => {
     window.location.href = 'https://swarize.in/dashboard.html';
 });
 
-addEventListenerIfExists('#store-btn', 'click', async () => {
+addEventListenerIfExists('#store-btn', async () => {
     try {
         const loginRes = await fetch("https://swarize.in/api/user/session", { credentials: 'include' });
         const loginData = await loginRes.json();
@@ -104,28 +104,5 @@ addEventListenerIfExists('#store-btn', 'click', async () => {
     } catch (err) {
         console.error('❌ Error checking store:', err);
         alert("Couldn't verify store status. Please try again.");
-    }
-});
-
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const response = await fetch('https://swarize.in/api/store/redirect-to-store', {
-            method: 'GET',
-            credentials: 'include' // Ensure the cookies are sent along with the request
-        });
-
-        const result = await response.json();
-
-        if (response.ok && result.success) {
-            // Redirect user based on whether they have a store or not
-            window.location.href = result.redirectTo;
-        } else {
-            alert(result.message || "An error occurred.");
-        }
-    } catch (error) {
-        console.error('❌ Error checking store:', error);
-        alert("Server error. Try again later.");
     }
 });

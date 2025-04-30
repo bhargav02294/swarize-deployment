@@ -76,8 +76,15 @@ router.post('/create', upload.single('logo'), async (req, res) => {
         const { storeName, description } = req.body;
         const logoFile = req.file;
 
-        if (!storeName || !description || !logoFile) {
-            return res.status(400).json({ success: false, message: "All fields are required." });
+        // Validate storeName and description
+        if (!storeName || storeName.trim() === '') {
+            return res.status(400).json({ success: false, message: "Store name is required." });
+        }
+        if (!description || description.trim() === '') {
+            return res.status(400).json({ success: false, message: "Description is required." });
+        }
+        if (!logoFile) {
+            return res.status(400).json({ success: false, message: "Logo is required." });
         }
 
         const existingStore = await Store.findOne({ ownerId: userId });
@@ -85,18 +92,15 @@ router.post('/create', upload.single('logo'), async (req, res) => {
             return res.status(200).json({ success: true, slug: existingStore.slug });
         }
 
+        // Upload logo to Cloudinary
         const streamUpload = () => {
             return new Promise((resolve, reject) => {
                 const stream = cloudinary.uploader.upload_stream({
                     folder: 'swarize/stores',
                     public_id: `store_${Date.now()}`,
                 }, (error, result) => {
-                    if (error) {
-                        console.error('❌ Cloudinary Upload Error:', error); // Log error
-                        return reject(error);
-                    }
-                    console.log('✅ Cloudinary Upload Success:', result); // Log success
-                    resolve(result);
+                    if (result) resolve(result);
+                    else reject(error);
                 });
                 streamifier.createReadStream(logoFile.buffer).pipe(stream);
             });
@@ -118,10 +122,11 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
         res.status(201).json({ success: true, slug });
     } catch (error) {
-        console.error("❌ /create error:", error);  // Log server errors
+        console.error("❌ /create error:", error);
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
+
 
 
 // ✅ Smart redirection based on store availability

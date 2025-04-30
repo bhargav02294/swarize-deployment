@@ -7,6 +7,7 @@ const streamifier = require('streamifier');
 const Product = require('../models/product');
 const Store = require('../models/store');
 const User = require('../models/user');
+const mongoose = require('mongoose'); // Import mongoose for validation
 
 const router = express.Router();
 
@@ -55,7 +56,11 @@ router.post('/add', isAuthenticated, upload.fields([
 
         const userId = req.session.userId;
 
-        // 🔍 Find store
+        // 🔍 Validate and find store
+        if (!mongoose.Types.ObjectId.isValid(storeId)) {
+            return res.status(400).json({ success: false, message: "Invalid store ID" });
+        }
+
         const store = await Store.findOne({ _id: storeId, owner: userId });
         if (!store) {
             return res.status(400).json({ success: false, message: "Store not found or unauthorized" });

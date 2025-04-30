@@ -243,7 +243,6 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 
 
 
-
 async function fetchStoreDetails() {
   const slug = localStorage.getItem("storeSlug");
   const messageElement = document.getElementById('message');
@@ -269,6 +268,8 @@ async function fetchStoreDetails() {
     }
   } catch (err) {
     console.error("Error fetching store:", err);
+    messageElement.textContent = "Error fetching store details.";
+    messageElement.style.color = "red";
     return null;
   }
 }
@@ -279,6 +280,12 @@ const messageElement = document.getElementById('message');
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  // Fetch store details before form submission
+  const store = await fetchStoreDetails();
+  if (!store) {
+    return; // Stop form submission if store is not found
+  }
 
   const availableInInput = document.getElementById("availableIn");
   let availableInValue = availableInInput.value.trim();
@@ -352,6 +359,7 @@ form.addEventListener("submit", async (event) => {
     messageElement.style.color = "red";
   }
 });
+
 
 
 

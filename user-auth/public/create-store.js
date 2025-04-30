@@ -5,6 +5,14 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
     const formData = new FormData(form);
     const message = document.getElementById('store-message');
 
+    // Check if storeName is missing or empty before sending
+    const storeName = formData.get('storeName').trim();
+    if (!storeName) {
+        message.style.color = "red";
+        message.textContent = "❌ Store name is required.";
+        return;
+    }
+
     try {
         const response = await fetch('https://swarize.in/api/store/create', {
             method: 'POST',
@@ -17,7 +25,7 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
         if (response.ok && result.success) {
             message.style.color = "green";
             message.textContent = "✅ Store created successfully!";
-            
+
             // Slug store karo for future use (like add-product)
             localStorage.setItem("storeSlug", result.slug);
 

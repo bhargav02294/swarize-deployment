@@ -77,16 +77,25 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
         // Validate inputs
         if (!storeName || !description || !logoFile) {
+            console.log('Missing data:', { storeName, description, logoFile });
             return res.status(400).json({ success: false, message: "All fields are required." });
         }
 
-        console.log('Received store data:', storeName, description);
+        // Debugging: Check what's received
+        console.log('Received store data:', { storeName, description });
 
         // Make sure storeName is not empty or null
         if (!storeName.trim()) {
             return res.status(400).json({ success: false, message: "Store name cannot be empty." });
         }
 
+        // Ensure storeName is sanitized (no extra spaces or invalid characters)
+        const sanitizedStoreName = storeName.trim();
+        if (!sanitizedStoreName) {
+            return res.status(400).json({ success: false, message: "Store name cannot be just spaces." });
+        }
+
+        // Check if the store already exists for this user
         const existingStore = await Store.findOne({ ownerId: userId });
         if (existingStore) {
             return res.status(200).json({ success: true, slug: existingStore.slug });
@@ -99,16 +108,22 @@ router.post('/create', upload.single('logo'), async (req, res) => {
             public_id: `store_${Date.now()}`
         });
 
-        const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+        // Generate slug from sanitized store name
+        const slug = sanitizedStoreName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+        
+        // Create the store
         const store = new Store({
-            storeName,
+            storeName: sanitizedStoreName,
             slug,
             description,
             logoUrl: uploadResult.secure_url,
             ownerId: userId
         });
 
+        // Save store to database
         await store.save();
+        
+        // Update user role and associate store
         await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
 
         res.status(201).json({ success: true, slug });
@@ -117,7 +132,6 @@ router.post('/create', upload.single('logo'), async (req, res) => {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
-
 
 
 // ✅ Smart redirection based on store availability

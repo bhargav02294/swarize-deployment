@@ -1,3 +1,4 @@
+// routes/storeRoutes.js
 const express = require('express');
 const router = express.Router();
 const Store = require('../models/store');
@@ -5,6 +6,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
+const streamifier = require('streamifier'); // ✅ ADD THIS LINE
 
 // Cloudinary configuration
 cloudinary.config({
@@ -13,7 +15,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Multer configuration
+// Multer config: memory storage to access file buffer
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
@@ -27,14 +29,12 @@ const upload = multer({
   }
 });
 
-// Utility function to get user ID from JWT
+// Get user ID from session or token
 async function getUserId(req, res) {
   let userId = req.session.userId;
-
   if (!userId) {
     const token = req.cookies.token;
     if (!token) return null;
-
     try {
       const verified = jwt.verify(token, process.env.JWT_SECRET);
       userId = verified.id;
@@ -44,10 +44,8 @@ async function getUserId(req, res) {
       return null;
     }
   }
-
   return userId;
 }
-
 // ✅ Check store existence route
 router.get('/check', async (req, res) => {
     try {
@@ -87,12 +85,21 @@ router.post('/create', upload.single('logo'), async (req, res) => {
         return res.status(200).json({ success: true, slug: existingStore.slug });
       }
   
-      // Upload logo to Cloudinary
-      const base64Image = `data:${logoFile.mimetype};base64,${logoFile.buffer.toString('base64')}`;
-      const uploadResult = await cloudinary.uploader.upload(base64Image, {
-        folder: 'swarize/stores',
-        public_id: `store_${Date.now()}`
-      });
+      // ✅ Upload using stream
+      const streamUpload = () => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream({
+            folder: 'swarize/stores',
+            public_id: `store_${Date.now()}`,
+          }, (error, result) => {
+            if (result) resolve(result);
+            else reject(error);
+          });
+          streamifier.createReadStream(logoFile.buffer).pipe(stream);
+        });
+      };
+  
+      const uploadResult = await streamUpload();
   
       const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
       const store = new Store({
@@ -112,6 +119,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
       res.status(500).json({ success: false, message: "Internal Server Error" });
     }
   });
+  
 
 // ✅ Smart redirection based on store availability
 router.get('/redirect-to-store', async (req, res) => {

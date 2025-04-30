@@ -515,60 +515,64 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
+// File: public/js/index-products.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Products display by subcategory on index.html
+    // Sirf un pages par run karo jahan <div id="product-container"> ho
+    const productContainer = document.getElementById('product-container');
+    if (!productContainer) return;  // Agar container na mile, script skip karo
+  
+    // Subcategory links ko select karo
     const subcategoryLinks = document.querySelectorAll('.subcategory-list a');
   
     subcategoryLinks.forEach(link => {
-      link.addEventListener('click', async (event) => {
+      link.addEventListener('click', async event => {
         event.preventDefault();
   
-        // Get subcategory from ?subcategory=xxx
-        const subcategory = new URL(link.href).searchParams.get('subcategory');
-        // Hardcode or derive current main category if needed:
-        const category = "Women's Store"; 
+        // URL se subcategory value lo
+        const subcategory = new URL(link.href, location.href).searchParams.get('subcategory');
+        // Filhaal women's store hardcode kiya hai; agar multiple categories ho, 
+        // tab dynamic mapping laga sakte ho
+        const category = "Women's Store";
   
         try {
-          const res = await fetch(`/api/products/category/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`);
+          // Correct backend route hit karna
+          const res = await fetch(
+            `/api/products/category/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`
+          );
           const data = await res.json();
   
           if (data.success) {
-            displayProducts(data.products);
+            renderProducts(data.products);
           } else {
-            alert('No products found in this subcategory.');
+            productContainer.innerHTML = '<p>No products found.</p>';
           }
         } catch (err) {
           console.error('Error fetching products:', err);
-          alert('Error fetching products. Please try again later.');
+          productContainer.innerHTML = '<p>Error fetching products. Please try again later.</p>';
         }
       });
     });
   
-    function displayProducts(products) {
-      const productContainer = document.getElementById('product-container');
-      if (!productContainer) {
-        console.error("❌ Error: #product-container not found");
-        return;
-      }
+    // Products ko page par render karne wali function
+    function renderProducts(products) {
+      productContainer.innerHTML = '';  // Clear previous content
   
-      productContainer.innerHTML = '';
-      if (products.length === 0) {
+      if (!products.length) {
         productContainer.innerHTML = '<p>No products found.</p>';
         return;
       }
   
       products.forEach(p => {
-        const div = document.createElement('div');
-        div.classList.add('product');
-        div.innerHTML = `
-          <img src="${p.thumbnailImage}" alt="${p.name}" style="max-width:100%;height:auto;">
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${p.thumbnailImage}" alt="${p.name}" class="product-image">
           <h3>${p.name}</h3>
           <p>₹${p.price}</p>
-          <p>${p.description.slice(0, 60)}...</p>
+          <p>${p.description.slice(0, 60)}…</p>
         `;
-        productContainer.appendChild(div);
+        productContainer.appendChild(card);
       });
     }
   });

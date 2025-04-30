@@ -14,17 +14,19 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
 
         const result = await response.json();
 
-        // ✅ After successful store creation response
         if (response.ok && result.success) {
+            // Save storeId and storeName to localStorage
             localStorage.setItem("storeId", result.store._id);
             localStorage.setItem("storeName", result.store.name);
 
-            message.textContent = "Store created successfully!";
+            // Show success message
             message.style.color = "green";
+            message.textContent = "✅ Store created successfully!";
 
+            // Redirect with storeId and storeName in the URL
             setTimeout(() => {
-                window.location.href = `store.html?storeId=${encodeURIComponent(result.store._id)}&storeName=${encodeURIComponent(result.store.name)}`;
-            }, 2000);
+                window.location.href = `/store.html?storeId=${encodeURIComponent(result.store._id)}&storeName=${encodeURIComponent(result.store.name)}`;
+            }, 1500);
         } else {
             message.style.color = "red";
             message.textContent = `❌ ${result.message || "Something went wrong"}`;

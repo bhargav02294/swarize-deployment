@@ -6,7 +6,6 @@ const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
 const Store = require('../models/store');  
 const User = require('../models/user');    
-const bcrypt = require('bcrypt');    
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -122,7 +121,6 @@ router.get('/by-store/:slug', async (req, res) => {
     }
 });
 
-module.exports = router;
 
 
 

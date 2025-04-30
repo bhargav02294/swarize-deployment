@@ -336,17 +336,8 @@ form.addEventListener("submit", async (event) => {
       messageElement.textContent = "Product added successfully!";
       messageElement.style.color = "green";
 
-      const storeId = localStorage.getItem("storeId");
-      const storeName = localStorage.getItem("storeName");
-
-      if (!storeId || !storeName) {
-        messageElement.textContent = "Product added but store info not found!";
-        messageElement.style.color = "orange";
-        return;
-      }
-
       setTimeout(() => {
-        window.location.href = `store.html?slug=${encodeURIComponent(storeId)}`;
+        window.location.href = `/store.html?slug=${encodeURIComponent(storeId)}`;
       }, 2000);
 
     } else {
@@ -360,7 +351,6 @@ form.addEventListener("submit", async (event) => {
     messageElement.style.color = "red";
   }
 });
-
 
 
 

@@ -335,12 +335,13 @@ form.addEventListener("submit", async (event) => {
     if (response.ok && result.success) {
       messageElement.textContent = "Product added successfully!";
       messageElement.style.color = "green";
-
+    
       setTimeout(() => {
-        window.location.href = `/store.html?slug=${encodeURIComponent(storeId)}`;
+        const storeSlug = localStorage.getItem("storeSlug");
+        window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
       }, 2000);
-
-    } else {
+    }
+    else {
       messageElement.textContent = result.message || "Failed to add product.";
       messageElement.style.color = "red";
     }

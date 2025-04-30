@@ -67,12 +67,13 @@ router.get('/check', async (req, res) => {
 });
 
 // ✅ Create Store Route with Cloudinary upload
+// ✅ Create Store Route with Cloudinary upload
 router.post('/create', upload.single('logo'), async (req, res) => {
     try {
         const userId = await getUserId(req, res);
         if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
 
-        const { storeName, description } = req.body;
+        const { storeName, description } = req.body; // 👈 fixed: "storeName", not "name"
         const logoFile = req.file;
 
         if (!storeName || !description || !logoFile) {
@@ -93,7 +94,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
         const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
         const store = new Store({
-            storeName,
+            storeName, // ✅ Correct field name
             slug,
             description,
             logoUrl: uploadResult.secure_url,

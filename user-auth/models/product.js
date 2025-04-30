@@ -1,9 +1,8 @@
-
-
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
     ownerId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+    store: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true }, // Ensure link to Store
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String, required: true },

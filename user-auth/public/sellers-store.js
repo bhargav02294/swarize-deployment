@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
           div.classList.add("product-card");
   
           div.innerHTML = `
-            <img src="${product.thumbnailUrl}" alt="${product.name}" />
-            <div class="product-title">${product.name}</div>
-            <p>Price: ₹${product.price}</p>
-            <p>${product.description}</p>
+            <img src="${product.thumbnailImage}" alt="${product.name}" class="product-thumbnail" />
+                    <h3>${product.name}</h3>
+                    <p>₹${product.price}</p>
+                    <p>${product.description.slice(0, 60)}...</p>
           `;
   
           container.appendChild(div);

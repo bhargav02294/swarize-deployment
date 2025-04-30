@@ -37,77 +37,96 @@ function uploadToCloudinary(buffer, options) {
 }
 
 router.post('/add', isAuthenticated, upload.fields([
-    { name: 'thumbnailImage', maxCount: 1 },
+    { name: 'thumbnail', maxCount: 1 },
     { name: 'extraImages', maxCount: 5 },
-    { name: 'extraVideos', maxCount: 3 }
-]), async (req, res) => {
+    { name: 'extraVideos', maxCount: 2 }
+  ]), async (req, res) => {
     try {
-        const { name, price, description, summary, category, subcategory,
-            tags, size, color, material, modelStyle, availableIn } = req.body;
-
-        const userId = req.session.userId;
-
-        // Find the store
-        const storeId = req.body.storeId;
-        const store = await Store.findOne({ _id: storeId, owner: userId });
-        if (!store) {
-            return res.status(400).json({ success: false, message: "Store not found or does not belong to this user" });
+      const userId = req.session.userId;
+      const store = await Store.findOne({ owner: userId });
+  
+      if (!store) {
+        return res.status(404).json({ success: false, message: 'Store not found' });
+      }
+  
+      const { name, description, price, category } = req.body;
+      const thumbnailFile = req.files['thumbnail']?.[0];
+      const extraImageFiles = req.files['extraImages'] || [];
+      const extraVideoFiles = req.files['extraVideos'] || [];
+  
+      if (!thumbnailFile) {
+        return res.status(400).json({ success: false, message: 'Thumbnail is required' });
+      }
+  
+      const thumbnailUpload = await cloudinary.uploader.upload_stream({
+        resource_type: 'image',
+        folder: 'product-thumbnails'
+      }, async (error, result) => {
+        if (error) {
+          console.error("Thumbnail upload error:", error);
+          return res.status(500).json({ success: false, message: 'Thumbnail upload failed' });
         }
-        
-        // Upload thumbnail
-        let thumbnailResult = null;
-        if (req.files['thumbnailImage']) {
-            const file = req.files['thumbnailImage'][0];
-            thumbnailResult = await uploadToCloudinary(file.buffer, {
-                folder: 'products/thumbnails'
-            });
+  
+        const thumbnailUrl = result.secure_url;
+  
+        const extraImageUrls = [];
+        for (const file of extraImageFiles) {
+          const imgResult = await new Promise((resolve, reject) => {
+            cloudinary.uploader.upload_stream({
+              resource_type: 'image',
+              folder: 'product-extra-images'
+            }, (error, result) => {
+              if (error) {
+                console.error("Extra image upload error:", error);
+                return reject(error);
+              }
+              resolve(result.secure_url);
+            }).end(file.buffer);
+          });
+          extraImageUrls.push(imgResult);
         }
-
-        // Upload extra images
-        let extraImagesResult = [];
-        if (req.files['extraImages']) {
-            extraImagesResult = await Promise.all(req.files['extraImages'].map(file =>
-                uploadToCloudinary(file.buffer, { folder: 'products/extraImages' })
-            ));
+  
+        const extraVideoUrls = [];
+        for (const file of extraVideoFiles) {
+          const videoResult = await new Promise((resolve, reject) => {
+            cloudinary.uploader.upload_stream({
+              resource_type: 'video',
+              folder: 'product-extra-videos'
+            }, (error, result) => {
+              if (error) {
+                console.error("Extra video upload error:", error);
+                return reject(error);
+              }
+              resolve(result.secure_url);
+            }).end(file.buffer);
+          });
+          extraVideoUrls.push(videoResult);
         }
-
-        // Upload extra videos
-        let extraVideosResult = [];
-        if (req.files['extraVideos']) {
-            extraVideosResult = await Promise.all(req.files['extraVideos'].map(file =>
-                uploadToCloudinary(file.buffer, { folder: 'products/extraVideos', resource_type: 'video' })
-            ));
-        }
-
-        // Create new product
-        const product = new Product({
-            ownerId: userId,
-            store: store._id,
-            name,
-            price,
-            description,
-            summary,
-            category,
-            subcategory,
-            tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
-            size,
-            color,
-            material,
-            modelStyle,
-            availableIn: availableIn || 'All Over India',
-            thumbnailImage: thumbnailResult ? thumbnailResult.secure_url : null,
-            extraImages: extraImagesResult.map(img => img.secure_url),
-            extraVideos: extraVideosResult.map(vid => vid.secure_url),
+  
+        const newProduct = new Product({
+          name,
+          description,
+          price,
+          category,
+          thumbnail: thumbnailUrl,
+          extraImages: extraImageUrls,
+          extraVideos: extraVideoUrls,
+          store: store._id
         });
-
-        await product.save();
-
-        return res.status(200).json({ success: true, message: "Product added successfully!" });
+  
+        await newProduct.save();
+  
+        res.json({ success: true, product: newProduct });
+      });
+  
+      thumbnailUpload.end(thumbnailFile.buffer);
+  
     } catch (error) {
-        console.error("❌ Error in product add route:", error);
-        return res.status(500).json({ success: false, message: "Failed to add product." });
+      console.error("Product creation error:", error);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-});
+  });
+  
 
 router.get('/by-store/:slug', async (req, res) => {
     try {

@@ -6,17 +6,14 @@ const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 
-
-// ✅ Cloudinary config
-
-// Cloudinary config
+// Cloudinary configuration
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Multer config with memory storage
+// Multer configuration
 const storage = multer.memoryStorage();
 const upload = multer({
     storage,
@@ -50,7 +47,6 @@ async function getUserId(req, res) {
 
     return userId;
 }
-
 // ✅ Check store existence route
 router.get('/check', async (req, res) => {
     try {
@@ -110,8 +106,8 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
         res.status(201).json({ success: true, slug });
     } catch (error) {
-        console.error("Error creating store:", error);
-        res.status(500).json({ success: false, message: error.message || "Internal Server Error" });
+        console.error("❌ /create error:", error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
 

@@ -1,4 +1,3 @@
-// routes/storeRoutes.js
 const express = require('express');
 const router = express.Router();
 const Store = require('../models/store');
@@ -6,46 +5,49 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-const streamifier = require('streamifier'); // ✅ ADD THIS LINE
 
-// Cloudinary configuration
+// ✅ Cloudinary config
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Multer config: memory storage to access file buffer
+// ✅ Multer config with memory storage (no local file saving)
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-  fileFilter: (req, file, cb) => {
-    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!allowed.includes(file.mimetype)) {
-      return cb(new Error("Only JPG, PNG, WEBP images are allowed"), false);
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: (req, file, cb) => {
+        const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!allowed.includes(file.mimetype)) {
+            return cb(new Error("Only JPG, PNG, WEBP images are allowed"), false);
+        }
+        cb(null, true);
     }
-    cb(null, true);
-  }
 });
 
-// Get user ID from session or token
+// ✅ Utility to extract or restore session userId from JWT
 async function getUserId(req, res) {
-  let userId = req.session.userId;
-  if (!userId) {
-    const token = req.cookies.token;
-    if (!token) return null;
-    try {
-      const verified = jwt.verify(token, process.env.JWT_SECRET);
-      userId = verified.id;
-      req.session.userId = userId;
-      await req.session.save();
-    } catch (err) {
-      return null;
+    let userId = req.session.userId;
+
+    if (!userId) {
+        const token = req.cookies.token;
+        if (!token) return null;
+
+        try {
+            const verified = jwt.verify(token, process.env.JWT_SECRET);
+            userId = verified.id;
+            req.session.userId = userId;
+            await req.session.save();
+        } catch (err) {
+            return null;
+        }
     }
-  }
-  return userId;
+
+    return userId;
 }
+
 // ✅ Check store existence route
 router.get('/check', async (req, res) => {
     try {
@@ -65,9 +67,6 @@ router.get('/check', async (req, res) => {
 });
 
 // ✅ Create Store Route with Cloudinary upload
-
-// Create Store Route with Cloudinary upload
-// Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
     try {
         const userId = await getUserId(req, res);
@@ -76,15 +75,8 @@ router.post('/create', upload.single('logo'), async (req, res) => {
         const { storeName, description } = req.body;
         const logoFile = req.file;
 
-        // Validate storeName and description
-        if (!storeName || storeName.trim() === '') {
-            return res.status(400).json({ success: false, message: "Store name is required." });
-        }
-        if (!description || description.trim() === '') {
-            return res.status(400).json({ success: false, message: "Description is required." });
-        }
-        if (!logoFile) {
-            return res.status(400).json({ success: false, message: "Logo is required." });
+        if (!storeName || !description || !logoFile) {
+            return res.status(400).json({ success: false, message: "All fields are required." });
         }
 
         const existingStore = await Store.findOne({ ownerId: userId });
@@ -92,21 +84,12 @@ router.post('/create', upload.single('logo'), async (req, res) => {
             return res.status(200).json({ success: true, slug: existingStore.slug });
         }
 
-        // Upload logo to Cloudinary
-        const streamUpload = () => {
-            return new Promise((resolve, reject) => {
-                const stream = cloudinary.uploader.upload_stream({
-                    folder: 'swarize/stores',
-                    public_id: `store_${Date.now()}`,
-                }, (error, result) => {
-                    if (result) resolve(result);
-                    else reject(error);
-                });
-                streamifier.createReadStream(logoFile.buffer).pipe(stream);
-            });
-        };
-
-        const uploadResult = await streamUpload();
+        // ✅ Upload logo to Cloudinary
+        const base64Image = `data:${logoFile.mimetype};base64,${logoFile.buffer.toString('base64')}`;
+        const uploadResult = await cloudinary.uploader.upload(base64Image, {
+            folder: 'swarize/stores',
+            public_id: `store_${Date.now()}`
+        });
 
         const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
         const store = new Store({
@@ -126,8 +109,6 @@ router.post('/create', upload.single('logo'), async (req, res) => {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
-
-
 
 // ✅ Smart redirection based on store availability
 router.get('/redirect-to-store', async (req, res) => {

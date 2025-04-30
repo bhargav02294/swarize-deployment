@@ -1,4 +1,3 @@
-// public/create-store.js
 document.getElementById('store-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -10,7 +9,7 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
         const response = await fetch('https://swarize.in/api/store/create', {
             method: 'POST',
             body: formData,
-            credentials: 'include'
+            credentials: 'include'  // login session ke liye
         });
 
         const result = await response.json();
@@ -18,7 +17,10 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
         if (response.ok && result.success) {
             message.style.color = "green";
             message.textContent = "✅ Store created successfully!";
+            
+            // Slug store karo for future use (like add-product)
             localStorage.setItem("storeSlug", result.slug);
+
             setTimeout(() => {
                 window.location.href = `/store.html?slug=${result.slug}`;
             }, 1500);

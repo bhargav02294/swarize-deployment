@@ -517,65 +517,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-//============products display by subcategory================//
-
-//============products display by subcategory================//
-
-const subcategoryLinks = document.querySelectorAll('.subcategory-list a');
-
-subcategoryLinks.forEach(link => {
-    link.addEventListener('click', async (event) => {
-        event.preventDefault(); // Prevent default link behavior
-        const subcategory = link.getAttribute('href').split('=')[1]; // Get subcategory from URL
-
+document.addEventListener('DOMContentLoaded', () => {
+    // Products display by subcategory on index.html
+    const subcategoryLinks = document.querySelectorAll('.subcategory-list a');
+  
+    subcategoryLinks.forEach(link => {
+      link.addEventListener('click', async (event) => {
+        event.preventDefault();
+  
+        // Get subcategory from ?subcategory=xxx
+        const subcategory = new URL(link.href).searchParams.get('subcategory');
+        // Hardcode or derive current main category if needed:
+        const category = "Women's Store"; 
+  
         try {
-            const response = await fetch(`https://swarize.in/api/products?subcategory=${encodeURIComponent(subcategory)}`);
-            const data = await response.json();
-
-            if (data.success) {
-                displayProducts(data.products); // Call a function to display products
-            } else {
-                alert('No products found in this subcategory.');
-            }
-        } catch (error) {
-            console.error('Error fetching products:', error);
-            alert('Error fetching products. Please try again later.');
+          const res = await fetch(`/api/products/category/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}`);
+          const data = await res.json();
+  
+          if (data.success) {
+            displayProducts(data.products);
+          } else {
+            alert('No products found in this subcategory.');
+          }
+        } catch (err) {
+          console.error('Error fetching products:', err);
+          alert('Error fetching products. Please try again later.');
         }
+      });
     });
-});
-
-
-// ✅ Fixed displayProducts function (with error check)
-function displayProducts(products) {
-    const productContainer = document.getElementById('product-container');
-
-    if (!productContainer) {
-        console.error("❌ Error: <div id='product-container'></div> not found in HTML.");
-        alert("Something went wrong. Product display container not found.");
+  
+    function displayProducts(products) {
+      const productContainer = document.getElementById('product-container');
+      if (!productContainer) {
+        console.error("❌ Error: #product-container not found");
         return;
-    }
-
-    productContainer.innerHTML = ''; // Clear previous products
-
-    if (products.length === 0) {
+      }
+  
+      productContainer.innerHTML = '';
+      if (products.length === 0) {
         productContainer.innerHTML = '<p>No products found.</p>';
         return;
-    }
-
-    products.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('product');
-        productElement.innerHTML = `
-            <img src="${product.thumbnailImage}" alt="${product.name}" style="max-width:100%; height:auto;">
-            <h3>${product.name}</h3>
-            <p>Price: ₹${product.price}</p>
-            <p>${product.description}</p>
+      }
+  
+      products.forEach(p => {
+        const div = document.createElement('div');
+        div.classList.add('product');
+        div.innerHTML = `
+          <img src="${p.thumbnailImage}" alt="${p.name}" style="max-width:100%;height:auto;">
+          <h3>${p.name}</h3>
+          <p>₹${p.price}</p>
+          <p>${p.description.slice(0, 60)}...</p>
         `;
-        productContainer.appendChild(productElement);
-    });
-}
-
-
-
+        productContainer.appendChild(div);
+      });
+    }
+  });
+  

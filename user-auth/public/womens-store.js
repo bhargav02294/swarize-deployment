@@ -1,87 +1,64 @@
 document.addEventListener("DOMContentLoaded", () => {
     const productContainer = document.getElementById("product-container");
     const subcategoryTitle = document.getElementById("subcategory-title");
-
-    // ✅ Get selected subcategory from URL
+  
+    // Read ?subcategory=<name>
     const urlParams = new URLSearchParams(window.location.search);
     const selectedSubcategory = urlParams.get("subcategory") || "All";
-
-    // ✅ Update page title based on selected subcategory
+  
+    // Show it in heading
     subcategoryTitle.textContent = selectedSubcategory;
-
-    // ✅ Fetch and display products for the selected subcategory
-    function loadProducts() {
-        fetch(`https://swarize.in/api/products/category/Women's Store/${selectedSubcategory}`)
-            .then(res => res.json())
-            .then(data => {
-                productContainer.innerHTML = ""; // Clear previous products
-                
-                if (data.success && data.products.length > 0) {
-                    console.log("✅ Displaying Products:", data.products);
-                    
-                    data.products.forEach(product => {
-                        const productItem = document.createElement("div");
-                        productItem.classList.add("product-card");
-
-                        // ✅ Ensure correct path for images
-                        const imagePath = product.thumbnailImage.startsWith("uploads/")
-                            ? `https://swarize.in/${product.thumbnailImage}`
-                            : product.thumbnailImage;
-
-                        productItem.innerHTML = `
-                            <div class="product-card">
-                                <img src="${imagePath}" alt="${product.name}" class="product-image" onclick="viewProduct('${product._id}')">
-                                <h4>${product.name}</h4>
-                                <p class="product-price">₹${product.price}</p>
-
-                                <!-- Star Rating -->
-                                <div class="star-rating">
-                                    ★★★★★
-                                </div>
-
-                                <!-- Add to Cart Button -->
-                                <button class="cart-button" onclick="addToCart('${product._id}')">🛒</button>
-                            </div>
-                        `;
-
-                        productContainer.appendChild(productItem);
-                    });
-
-                } else {
-                    productContainer.innerHTML = `<p>No products found in ${selectedSubcategory}.</p>`;
-                }
-            })
-            .catch(err => console.error("❌ Error loading products:", err));
-    }
-
-    // ✅ Load products when the page loads
-    loadProducts();
-});
-
-// ✅ Function to view product details
-function viewProduct(productId) {
-    window.location.href = `product-detail.html?id=${productId}`;
-}
-
-// ✅ Function to add product to cart
-async function addToCart(productId) {
-    try {
-        const response = await fetch("https://swarize.in/cart/add", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId }),
-            credentials: "include"
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            console.log("✅ Product added to cart");
-            window.location.href = `addtocart.html?id=${productId}`;
+  
+    // Fetch & render
+    fetch(`/api/products/category/${encodeURIComponent("Women's Store")}/${encodeURIComponent(selectedSubcategory)}`)
+      .then(res => res.json())
+      .then(data => {
+        productContainer.innerHTML = "";
+  
+        if (data.success && data.products.length) {
+          data.products.forEach(product => {
+            const item = document.createElement("div");
+            item.classList.add("product-card");
+  
+            const img = product.thumbnailImage.startsWith("uploads/")
+              ? `https://swarize.in/${product.thumbnailImage}`
+              : product.thumbnailImage;
+  
+            item.innerHTML = `
+              <img src="${img}" alt="${product.name}" class="product-image" onclick="viewProduct('${product._id}')">
+              <h4>${product.name}</h4>
+              <p class="product-price">₹${product.price}</p>
+              <button onclick="addToCart('${product._id}')">🛒 Add to Cart</button>
+            `;
+            productContainer.appendChild(item);
+          });
         } else {
-            alert("❌ Failed to add product to cart: " + data.message);
+          productContainer.innerHTML = `<p>No products found in ${selectedSubcategory}.</p>`;
         }
-    } catch (error) {
-        console.error("❌ Error adding to cart:", error);
-        alert("❌ Error adding product to cart.");
+      })
+      .catch(err => {
+        console.error("❌ Error loading products:", err);
+        productContainer.innerHTML = "<p>Error loading products.</p>";
+      });
+  });
+  
+  // View & Cart functions (as before)
+  function viewProduct(id) {
+    window.location.href = `product-detail.html?id=${id}`;
+  }
+  async function addToCart(id) {
+    try {
+      const res = await fetch("/cart/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: id }),
+        credentials: "include"
+      });
+      const data = await res.json();
+      if (data.success) window.location.href = `addtocart.html?id=${id}`;
+      else alert("Failed to add to cart: " + data.message);
+    } catch {
+      alert("Error adding to cart.");
     }
-}
+  }
+  

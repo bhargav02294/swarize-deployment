@@ -56,7 +56,7 @@ router.post('/add', isAuthenticated, upload.fields([
         const userId = req.session.userId;
 
         // 🔍 Find store by storeId and userId
-        const store = await Store.findOne({ _id: storeId, owner: userId });
+        const store = await Store.findOne({ _id: storeId, ownerId: userId });
         if (!store) {
             console.log("Store not found or unauthorized access");
             return res.status(400).json({ success: false, message: "Store not found or unauthorized" });

@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
           // Save storeSlug to localStorage for add-product page
           localStorage.setItem("storeSlug", store.slug);
+          localStorage.setItem("storeId", store._id);
+
 
           // ✅ Load products for this store
           loadProducts(store.slug);

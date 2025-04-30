@@ -4,9 +4,10 @@ const Product = require('../models/product');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
-const Store = require('../models/store');  // 👈 Required for /by-store/:slug
-const User = require('../models/user');    // 👈 Required for /login
+const Store = require('../models/store');  
+const User = require('../models/user');    
 const bcrypt = require('bcrypt');    
+
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -23,7 +24,6 @@ const isAuthenticated = (req, res, next) => {
     next();
 };
 
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -37,27 +37,25 @@ function uploadToCloudinary(buffer, options) {
     });
 }
 
-
 router.post('/add', isAuthenticated, upload.fields([
     { name: 'thumbnailImage', maxCount: 1 },
     { name: 'extraImages', maxCount: 5 },
     { name: 'extraVideos', maxCount: 3 }
 ]), async (req, res) => {
     try {
-        const {
-            name, price, description, summary, category, subcategory,
-            tags, size, color, material, modelStyle, availableIn
-        } = req.body;
+        const { name, price, description, summary, category, subcategory,
+            tags, size, color, material, modelStyle, availableIn } = req.body;
 
         const userId = req.session.userId;
 
-        // संबंधित स्टोर प्राप्त करें
-        const store = await Store.findOne({ owner: userId });
+        // Find the store
+        const storeId = req.body.storeId;
+        const store = await Store.findOne({ _id: storeId, owner: userId });
         if (!store) {
-            return res.status(400).json({ success: false, message: "Store not found for this user" });
+            return res.status(400).json({ success: false, message: "Store not found or does not belong to this user" });
         }
-
-        // थंबनेल इमेज अपलोड करें
+        
+        // Upload thumbnail
         let thumbnailResult = null;
         if (req.files['thumbnailImage']) {
             const file = req.files['thumbnailImage'][0];
@@ -66,7 +64,7 @@ router.post('/add', isAuthenticated, upload.fields([
             });
         }
 
-        // अतिरिक्त इमेज अपलोड करें
+        // Upload extra images
         let extraImagesResult = [];
         if (req.files['extraImages']) {
             extraImagesResult = await Promise.all(req.files['extraImages'].map(file =>
@@ -74,7 +72,7 @@ router.post('/add', isAuthenticated, upload.fields([
             ));
         }
 
-        // अतिरिक्त वीडियो अपलोड करें
+        // Upload extra videos
         let extraVideosResult = [];
         if (req.files['extraVideos']) {
             extraVideosResult = await Promise.all(req.files['extraVideos'].map(file =>
@@ -82,7 +80,7 @@ router.post('/add', isAuthenticated, upload.fields([
             ));
         }
 
-        // नया उत्पाद बनाएं
+        // Create new product
         const product = new Product({
             ownerId: userId,
             store: store._id,
@@ -112,6 +110,20 @@ router.post('/add', isAuthenticated, upload.fields([
     }
 });
 
+router.get('/by-store/:slug', async (req, res) => {
+    try {
+        const store = await Store.findOne({ slug: req.params.slug });
+        if (!store) return res.status(404).json({ success: false, message: "Store not found" });
+
+        const products = await Product.find({ store: store._id });
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+module.exports = router;
+
 
 
 
@@ -127,18 +139,7 @@ router.get('/all', async (req, res) => {
 
 
 
-  // ✅ Get products by store slug
-  router.get('/by-store/:slug', async (req, res) => {
-    try {
-        const store = await Store.findOne({ slug: req.params.slug });
-        if (!store) return res.status(404).json({ success: false, message: "Store not found" });
-
-        const products = await Product.find({ store: store._id });
-        res.json({ success: true, products });
-    } catch (err) {
-        res.status(500).json({ success: false, message: "Server error" });
-    }
-});
+ 
 
 
   

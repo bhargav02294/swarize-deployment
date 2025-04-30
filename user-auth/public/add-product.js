@@ -242,6 +242,37 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 
 
 
+
+
+async function fetchStoreDetails() {
+  const slug = localStorage.getItem("storeSlug");
+  const messageElement = document.getElementById('message');
+  
+  if (!slug) {
+    messageElement.textContent = "Store info missing. Please open your store first.";
+    messageElement.style.color = "red";
+    return null;
+  }
+
+  try {
+    const res = await fetch(`/api/store/${slug}`);
+    const data = await res.json();
+    if (data.success) {
+      localStorage.setItem("storeId", data.store._id);  // Save storeId
+      localStorage.setItem("storeName", data.store.storeName);
+      localStorage.setItem("storeSlug", data.store.slug);  // Save storeSlug
+      return data.store;
+    } else {
+      messageElement.textContent = "Store not found.";
+      messageElement.style.color = "red";
+      return null;
+    }
+  } catch (err) {
+    console.error("Error fetching store:", err);
+    return null;
+  }
+}
+
 // Select the form
 const form = document.getElementById('add-product-form');
 const messageElement = document.getElementById('message');
@@ -288,6 +319,10 @@ form.addEventListener("submit", async (event) => {
     }
   });
 
+  // Add storeId to form data (required for backend)
+  const storeId = localStorage.getItem("storeId");
+  formData.append("storeId", storeId);
+
   try {
     const response = await fetch("/api/products/add", {
       method: "POST",
@@ -311,7 +346,7 @@ form.addEventListener("submit", async (event) => {
       }
 
       setTimeout(() => {
-        window.location.href = `store.html?storeId=${encodeURIComponent(storeId)}&storeName=${encodeURIComponent(storeName)}`;
+        window.location.href = `store.html?slug=${encodeURIComponent(storeId)}`;
       }, 2000);
 
     } else {
@@ -325,6 +360,8 @@ form.addEventListener("submit", async (event) => {
     messageElement.style.color = "red";
   }
 });
+
+
 
 
 // Reset live preview (optional)

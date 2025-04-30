@@ -70,56 +70,59 @@ router.get('/check', async (req, res) => {
 // Create Store Route
 router.post('/create', upload.single('logo'), async (req, res) => {
     try {
-      const userId = await getUserId(req, res);
-      if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
-  
-      const { storeName, description } = req.body;
-      const logoFile = req.file;
-  
-      if (!storeName || !description || !logoFile) {
-        return res.status(400).json({ success: false, message: "All fields are required." });
-      }
-  
-      const existingStore = await Store.findOne({ ownerId: userId });
-      if (existingStore) {
-        return res.status(200).json({ success: true, slug: existingStore.slug });
-      }
-  
-      // ✅ Upload using stream
-      const streamUpload = () => {
-        return new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream({
-            folder: 'swarize/stores',
-            public_id: `store_${Date.now()}`,
-          }, (error, result) => {
-            if (result) resolve(result);
-            else reject(error);
-          });
-          streamifier.createReadStream(logoFile.buffer).pipe(stream);
+        const userId = await getUserId(req, res);
+        if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+
+        const { storeName, description } = req.body;
+        const logoFile = req.file;
+
+        if (!storeName || !description || !logoFile) {
+            return res.status(400).json({ success: false, message: "All fields are required." });
+        }
+
+        const existingStore = await Store.findOne({ ownerId: userId });
+        if (existingStore) {
+            return res.status(200).json({ success: true, slug: existingStore.slug });
+        }
+
+        const streamUpload = () => {
+            return new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream({
+                    folder: 'swarize/stores',
+                    public_id: `store_${Date.now()}`,
+                }, (error, result) => {
+                    if (error) {
+                        console.error('❌ Cloudinary Upload Error:', error); // Log error
+                        return reject(error);
+                    }
+                    console.log('✅ Cloudinary Upload Success:', result); // Log success
+                    resolve(result);
+                });
+                streamifier.createReadStream(logoFile.buffer).pipe(stream);
+            });
+        };
+
+        const uploadResult = await streamUpload();
+
+        const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+        const store = new Store({
+            storeName,
+            slug,
+            description,
+            logoUrl: uploadResult.secure_url,
+            ownerId: userId
         });
-      };
-  
-      const uploadResult = await streamUpload();
-  
-      const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
-      const store = new Store({
-        storeName,
-        slug,
-        description,
-        logoUrl: uploadResult.secure_url,
-        ownerId: userId
-      });
-  
-      await store.save();
-      await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
-  
-      res.status(201).json({ success: true, slug });
+
+        await store.save();
+        await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
+
+        res.status(201).json({ success: true, slug });
     } catch (error) {
-      console.error("❌ /create error:", error);
-      res.status(500).json({ success: false, message: "Internal Server Error" });
+        console.error("❌ /create error:", error);  // Log server errors
+        res.status(500).json({ success: false, message: "Internal Server Error" });
     }
-  });
-  
+});
+
 
 // ✅ Smart redirection based on store availability
 router.get('/redirect-to-store', async (req, res) => {

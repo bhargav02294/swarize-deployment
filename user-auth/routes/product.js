@@ -118,16 +118,18 @@ router.post('/add', isAuthenticated, upload.fields([
 });
 
 
-// ✅ Get all products
+
+// All Sellers' Products
 router.get('/all', async (req, res) => {
     try {
-        const products = await Product.find({}).sort({ createdAt: -1 });
-        res.json({ success: true, products });
-    } catch (error) {
-        console.error("❌ Error fetching all products:", error);
-        res.status(500).json({ success: false, message: "Failed to fetch products" });
+      const products = await Product.find().sort({ createdAt: -1 }).limit(100);
+      res.json({ products });
+    } catch (err) {
+      console.error("Error fetching all products:", err);
+      res.status(500).json({ error: 'Failed to fetch products' });
     }
-});
+  });
+  
 
 // ✅ Get products by store slug
 // ✅ Get products by store slug

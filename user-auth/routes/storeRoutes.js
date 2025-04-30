@@ -72,12 +72,19 @@ router.post('/create', upload.single('logo'), async (req, res) => {
         const userId = await getUserId(req, res);
         if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
 
-        const { storeName, description } = req.body; // 👈 fixed: "storeName", not "name"
+        const { storeName, description } = req.body; // storeName from form
         const logoFile = req.file;
 
-        // Validate if storeName is empty
+        // Validate inputs
         if (!storeName || !description || !logoFile) {
             return res.status(400).json({ success: false, message: "All fields are required." });
+        }
+
+        console.log('Received store data:', storeName, description);
+
+        // Make sure storeName is not empty or null
+        if (!storeName.trim()) {
+            return res.status(400).json({ success: false, message: "Store name cannot be empty." });
         }
 
         const existingStore = await Store.findOne({ ownerId: userId });
@@ -110,6 +117,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
         res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 });
+
 
 
 // ✅ Smart redirection based on store availability

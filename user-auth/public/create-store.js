@@ -3,10 +3,10 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
 
     const form = e.target;
     const formData = new FormData(form);
-    const message = document.getElementById('store-message');
+    const storeName = formData.get('storeName').trim(); // Ensure no spaces in storeName
 
-    // Store name ka validation
-    const storeName = formData.get('storeName').trim();
+    // Validate if storeName is empty
+    const message = document.getElementById('store-message');
     if (!storeName) {
         message.style.color = "red";
         message.textContent = "❌ Store name is required.";
@@ -14,10 +14,13 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
     }
 
     try {
+        // Logging to check formData before submission
+        console.log('Form data being submitted:', storeName);
+
         const response = await fetch('https://swarize.in/api/store/create', {
             method: 'POST',
             body: formData,
-            credentials: 'include'  // login session ke liye
+            credentials: 'include' // Ensure session/cookie is sent
         });
 
         const result = await response.json();
@@ -26,7 +29,7 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
             message.style.color = "green";
             message.textContent = "✅ Store created successfully!";
 
-            // Slug store karo for future use (like add-product)
+            // Save the store slug
             localStorage.setItem("storeSlug", result.slug);
 
             setTimeout(() => {

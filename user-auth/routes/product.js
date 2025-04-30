@@ -130,11 +130,13 @@ router.get('/all', async (req, res) => {
 });
 
 // ✅ Get products by store slug
+// ✅ Get products by store slug
 router.get('/by-store/:slug', async (req, res) => {
     try {
         const store = await Store.findOne({ slug: req.params.slug });
         if (!store) return res.status(404).json({ success: false, message: "Store not found" });
 
+        // Fetch products for that store using storeId
         const products = await Product.find({ store: store._id });
         res.json({ success: true, products });
     } catch (err) {
@@ -142,6 +144,7 @@ router.get('/by-store/:slug', async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
 
 
   

@@ -44,6 +44,8 @@ async function loadProducts(slug) {
 
       if (data.success) {
           const products = data.products;
+          console.log("🔍 Products fetched:", products); // 🧪 Add this line
+
 
           if (products.length === 0) {
               container.innerHTML = "<p>No products found.</p>";

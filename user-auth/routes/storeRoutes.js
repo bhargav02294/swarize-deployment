@@ -1,13 +1,10 @@
-// routes/storeRoutes.js
 const express = require('express');
 const router = express.Router();
 const Store = require('../models/store');
 const User = require('../models/user');
-const { isAuthenticated } = require('../middleware/auth');
-const multer = require('multer');
+const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
-const streamifier = require('streamifier');
-
+const multer = require('multer');
 
 // ✅ Cloudinary config
 cloudinary.config({
@@ -70,68 +67,48 @@ router.get('/check', async (req, res) => {
 });
 
 // ✅ Create Store Route with Cloudinary upload
-// ✅ Create Store Route with Cloudinary upload
-router.post('/create', isAuthenticated, upload.single('logo'), async (req, res) => {
+router.post('/create', upload.single('logo'), async (req, res) => {
     try {
-      const userId = req.session.userId;
-      const { storeName, description } = req.body;
-      const logoFile = req.file;
-  
-      if (!storeName || !description || !logoFile) {
-        return res.status(400).json({ success: false, message: 'All fields are required' });
-      }
-  
-      // Upload logo to Cloudinary via stream
-      const streamUpload = (buffer) => {
-        return new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            {
-              folder: 'swarize/stores',
-              public_id: `store_${Date.now()}`,
-              resource_type: 'image'
-            },
-            (error, result) => {
-              if (result) {
-                resolve(result);
-              } else {
-                reject(error);
-              }
-            }
-          );
-          streamifier.createReadStream(buffer).pipe(stream);
+        const userId = await getUserId(req, res);
+        if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+
+        const { storeName, description } = req.body;
+        const logoFile = req.file;
+
+        if (!storeName || !description || !logoFile) {
+            return res.status(400).json({ success: false, message: "All fields are required." });
+        }
+
+        const existingStore = await Store.findOne({ ownerId: userId });
+        if (existingStore) {
+            return res.status(200).json({ success: true, slug: existingStore.slug });
+        }
+
+        // ✅ Upload logo to Cloudinary
+        const base64Image = `data:${logoFile.mimetype};base64,${logoFile.buffer.toString('base64')}`;
+        const uploadResult = await cloudinary.uploader.upload(base64Image, {
+            folder: 'swarize/stores',
+            public_id: `store_${Date.now()}`
         });
-      };
-  
-      const uploadResult = await streamUpload(logoFile.buffer);
-  
-      // Slug generate
-      const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
-  
-      // Create store document
-      const store = new Store({
-        storeName,
-        slug,
-        description,
-        logoUrl: uploadResult.secure_url,
-        ownerId: userId
-      });
-  
-      await store.save();
-  
-      // Update user with store reference and role
-      await User.findByIdAndUpdate(userId, {
-        store: store._id,
-        role: 'seller'
-      });
-  
-      res.status(201).json({ success: true, slug });
-  
+
+        const slug = storeName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+        const store = new Store({
+            storeName,
+            slug,
+            description,
+            logoUrl: uploadResult.secure_url,
+            ownerId: userId
+        });
+
+        await store.save();
+        await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
+
+        res.status(201).json({ success: true, slug });
     } catch (error) {
-      console.error("❌ Store creation error:", error);
-      res.status(500).json({ success: false, message: 'Internal Server Error' });
+        console.error("❌ /create error:", error);
+        res.status(500).json({ success: false, message: "Internal Server Error" });
     }
-  });
-  
+});
 
 // ✅ Smart redirection based on store availability
 router.get('/redirect-to-store', async (req, res) => {

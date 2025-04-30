@@ -8,13 +8,13 @@
 <body>
     <div class="form-container">
         <h1>Create Your Store</h1>
-            <form id="store-form" enctype="multipart/form-data">
-                <input type="text" name="storeName" required>
-                <textarea name="description" required></textarea>
-                <input type="file" name="logo" accept="image/*" required>
-                <button type="submit">Create Store</button>
-                <p id="store-message"></p>
-            </form>
+        <form id="store-form">
+            <input type="text" name="storeName" placeholder="Store Name" required>
+            <textarea name="description" placeholder="Store Description" required></textarea>
+            <input type="file" name="logo" accept="image/*" required>
+            <button type="submit">Create Store</button>
+            <p id="store-message"></p>
+        </form>
     </div>
     <script src="create-store.js"></script>
 </body>

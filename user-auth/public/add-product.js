@@ -268,8 +268,6 @@ async function fetchStoreDetails() {
     }
   } catch (err) {
     console.error("Error fetching store:", err);
-    messageElement.textContent = "Error fetching store details.";
-    messageElement.style.color = "red";
     return null;
   }
 }
@@ -280,12 +278,6 @@ const messageElement = document.getElementById('message');
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-
-  // Fetch store details before form submission
-  const store = await fetchStoreDetails();
-  if (!store) {
-    return; // Stop form submission if store is not found
-  }
 
   const availableInInput = document.getElementById("availableIn");
   let availableInValue = availableInInput.value.trim();
@@ -328,6 +320,12 @@ form.addEventListener("submit", async (event) => {
 
   // Add storeId to form data (required for backend)
   const storeId = localStorage.getItem("storeId");
+  if (!storeId) {
+    messageElement.textContent = "Store ID not found. Please create your store first.";
+    messageElement.style.color = "red";
+    return;  // Stop form submission
+  }
+
   formData.append("storeId", storeId);
 
   try {

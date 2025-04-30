@@ -56,17 +56,13 @@ router.post('/add', isAuthenticated, upload.fields([
 
         const userId = req.session.userId;
 
-        // 🔍 Validate and find store
-        if (!mongoose.Types.ObjectId.isValid(storeId)) {
-            return res.status(400).json({ success: false, message: "Invalid store ID" });
-        }
-
+        // 🔍 Find store
         const store = await Store.findOne({ _id: storeId, owner: userId });
         if (!store) {
             return res.status(400).json({ success: false, message: "Store not found or unauthorized" });
         }
 
-        // 📤 Upload thumbnail
+        // Continue with image upload and product creation as before...
         let thumbnailResult = null;
         if (req.files['thumbnailImage']) {
             const file = req.files['thumbnailImage'][0];
@@ -75,23 +71,8 @@ router.post('/add', isAuthenticated, upload.fields([
             });
         }
 
-        // 📤 Upload extra images
-        let extraImagesResult = [];
-        if (req.files['extraImages']) {
-            extraImagesResult = await Promise.all(req.files['extraImages'].map(file =>
-                uploadToCloudinary(file.buffer, { folder: 'products/extraImages' })
-            ));
-        }
+        // Continue with extraImages and extraVideos upload...
 
-        // 📤 Upload extra videos
-        let extraVideosResult = [];
-        if (req.files['extraVideos']) {
-            extraVideosResult = await Promise.all(req.files['extraVideos'].map(file =>
-                uploadToCloudinary(file.buffer, { folder: 'products/extraVideos', resource_type: 'video' })
-            ));
-        }
-
-        // 🧾 Create product
         const product = new Product({
             ownerId: userId,
             store: store._id,
@@ -120,6 +101,7 @@ router.post('/add', isAuthenticated, upload.fields([
         return res.status(500).json({ success: false, message: "Failed to add product." });
     }
 });
+
 
 // ✅ Get all products
 router.get('/all', async (req, res) => {

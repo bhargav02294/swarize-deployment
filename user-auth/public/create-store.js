@@ -17,7 +17,8 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
         if (response.ok && result.success) {
             message.style.color = "green";
             message.textContent = "✅ Store created successfully!";
-            
+            console.log("Redirecting to existing/new store:", result.slug);
+
             // Slug store karo for future use (like add-product)
             localStorage.setItem("storeSlug", result.slug);
 

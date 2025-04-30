@@ -5,7 +5,7 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
     const formData = new FormData(form);
     const message = document.getElementById('store-message');
 
-    // Check if storeName is missing or empty before sending
+    // Store name ka validation
     const storeName = formData.get('storeName').trim();
     if (!storeName) {
         message.style.color = "red";

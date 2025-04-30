@@ -111,6 +111,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     }
 });
 
+
 // ✅ Smart redirection based on store availability
 router.get('/redirect-to-store', async (req, res) => {
     try {

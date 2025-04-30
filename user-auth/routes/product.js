@@ -7,7 +7,6 @@ const streamifier = require('streamifier');
 const Product = require('../models/product');
 const Store = require('../models/store');
 const User = require('../models/user');
-const mongoose = require('mongoose'); // Import mongoose for validation
 
 const router = express.Router();
 
@@ -56,13 +55,14 @@ router.post('/add', isAuthenticated, upload.fields([
 
         const userId = req.session.userId;
 
-        // 🔍 Find store
+        // 🔍 Find store by storeId and userId
         const store = await Store.findOne({ _id: storeId, owner: userId });
         if (!store) {
+            console.log("Store not found or unauthorized access");
             return res.status(400).json({ success: false, message: "Store not found or unauthorized" });
         }
 
-        // Continue with image upload and product creation as before...
+        // 📤 Upload thumbnail
         let thumbnailResult = null;
         if (req.files['thumbnailImage']) {
             const file = req.files['thumbnailImage'][0];
@@ -71,8 +71,23 @@ router.post('/add', isAuthenticated, upload.fields([
             });
         }
 
-        // Continue with extraImages and extraVideos upload...
+        // 📤 Upload extra images
+        let extraImagesResult = [];
+        if (req.files['extraImages']) {
+            extraImagesResult = await Promise.all(req.files['extraImages'].map(file =>
+                uploadToCloudinary(file.buffer, { folder: 'products/extraImages' })
+            ));
+        }
 
+        // 📤 Upload extra videos
+        let extraVideosResult = [];
+        if (req.files['extraVideos']) {
+            extraVideosResult = await Promise.all(req.files['extraVideos'].map(file =>
+                uploadToCloudinary(file.buffer, { folder: 'products/extraVideos', resource_type: 'video' })
+            ));
+        }
+
+        // 🧾 Create product
         const product = new Product({
             ownerId: userId,
             store: store._id,

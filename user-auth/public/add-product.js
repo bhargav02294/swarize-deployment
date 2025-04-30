@@ -246,29 +246,29 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 async function fetchStoreDetails() {
   const slug = localStorage.getItem("storeSlug");
   const messageElement = document.getElementById('message');
-  
+
   if (!slug) {
-    messageElement.textContent = "Store info missing. Please open your store first.";
-    messageElement.style.color = "red";
-    return null;
+      messageElement.textContent = "Store info missing. Please open your store first.";
+      messageElement.style.color = "red";
+      return null;
   }
 
   try {
-    const res = await fetch(`/api/store/${slug}`);
-    const data = await res.json();
-    if (data.success) {
-      localStorage.setItem("storeId", data.store._id);  // Save storeId
-      localStorage.setItem("storeName", data.store.storeName);
-      localStorage.setItem("storeSlug", data.store.slug);  // Save storeSlug
-      return data.store;
-    } else {
-      messageElement.textContent = "Store not found.";
-      messageElement.style.color = "red";
-      return null;
-    }
+      const res = await fetch(`/api/store/${slug}`);
+      const data = await res.json();
+      if (data.success) {
+          localStorage.setItem("storeId", data.store._id);  // Save storeId
+          localStorage.setItem("storeName", data.store.storeName);
+          localStorage.setItem("storeSlug", data.store.slug);  // Save storeSlug
+          return data.store;
+      } else {
+          messageElement.textContent = "Store not found.";
+          messageElement.style.color = "red";
+          return null;
+      }
   } catch (err) {
-    console.error("Error fetching store:", err);
-    return null;
+      console.error("Error fetching store:", err);
+      return null;
   }
 }
 
@@ -282,7 +282,7 @@ form.addEventListener("submit", async (event) => {
   const availableInInput = document.getElementById("availableIn");
   let availableInValue = availableInInput.value.trim();
   if (!availableInValue) {
-    availableInValue = "All Over India";
+      availableInValue = "All Over India";
   }
 
   const formData = new FormData();
@@ -301,60 +301,54 @@ form.addEventListener("submit", async (event) => {
 
   const thumbnail = document.getElementById("thumbnail-image").files[0];
   if (thumbnail) {
-    formData.append('thumbnailImage', thumbnail);
+      formData.append('thumbnailImage', thumbnail);
   }
 
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-    const file = document.getElementById(id).files[0];
-    if (file) {
-      formData.append('extraImages', file);
-    }
+      const file = document.getElementById(id).files[0];
+      if (file) {
+          formData.append('extraImages', file);
+      }
   });
 
   ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-    const file = document.getElementById(id).files[0];
-    if (file) {
-      formData.append('extraVideos', file);
-    }
+      const file = document.getElementById(id).files[0];
+      if (file) {
+          formData.append('extraVideos', file);
+      }
   });
 
   // Add storeId to form data (required for backend)
   const storeId = localStorage.getItem("storeId");
-  if (!storeId) {
-    messageElement.textContent = "Store ID not found. Please create your store first.";
-    messageElement.style.color = "red";
-    return;  // Stop form submission
-  }
-
   formData.append("storeId", storeId);
 
   try {
-    const response = await fetch("/api/products/add", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
-    });
+      const response = await fetch("/api/products/add", {
+          method: "POST",
+          body: formData,
+          credentials: "include"
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    if (response.ok && result.success) {
-      messageElement.textContent = "Product added successfully!";
-      messageElement.style.color = "green";
-    
-      setTimeout(() => {
-        const storeSlug = localStorage.getItem("storeSlug");
-        window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
-      }, 2000);
-    }
-    else {
-      messageElement.textContent = result.message || "Failed to add product.";
-      messageElement.style.color = "red";
-    }
+      if (response.ok && result.success) {
+          messageElement.textContent = "Product added successfully!";
+          messageElement.style.color = "green";
+      
+          setTimeout(() => {
+              const storeSlug = localStorage.getItem("storeSlug");
+              window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
+          }, 2000);
+      }
+      else {
+          messageElement.textContent = result.message || "Failed to add product.";
+          messageElement.style.color = "red";
+      }
 
   } catch (error) {
-    console.error("Error adding product:", error);
-    messageElement.textContent = "Error adding product.";
-    messageElement.style.color = "red";
+      console.error("Error adding product:", error);
+      messageElement.textContent = "Error adding product.";
+      messageElement.style.color = "red";
   }
 });
 

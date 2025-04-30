@@ -6,14 +6,17 @@ const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 
+
 // ✅ Cloudinary config
+
+// Cloudinary config
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// ✅ Multer config with memory storage (no local file saving)
+// Multer config with memory storage
 const storage = multer.memoryStorage();
 const upload = multer({
     storage,
@@ -27,7 +30,7 @@ const upload = multer({
     }
 });
 
-// ✅ Utility to extract or restore session userId from JWT
+// Utility to extract or restore session userId from JWT
 async function getUserId(req, res) {
     let userId = req.session.userId;
 
@@ -67,6 +70,8 @@ router.get('/check', async (req, res) => {
 });
 
 // ✅ Create Store Route with Cloudinary upload
+
+// Create Store Route with Cloudinary upload
 router.post('/create', upload.single('logo'), async (req, res) => {
     try {
         const userId = await getUserId(req, res);
@@ -84,7 +89,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
             return res.status(200).json({ success: true, slug: existingStore.slug });
         }
 
-        // ✅ Upload logo to Cloudinary
+        // Upload logo to Cloudinary
         const base64Image = `data:${logoFile.mimetype};base64,${logoFile.buffer.toString('base64')}`;
         const uploadResult = await cloudinary.uploader.upload(base64Image, {
             folder: 'swarize/stores',
@@ -105,8 +110,8 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 
         res.status(201).json({ success: true, slug });
     } catch (error) {
-        console.error("❌ /create error:", error);
-        res.status(500).json({ success: false, message: "Internal Server Error" });
+        console.error("Error creating store:", error);
+        res.status(500).json({ success: false, message: error.message || "Internal Server Error" });
     }
 });
 

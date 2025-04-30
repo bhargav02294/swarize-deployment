@@ -1084,6 +1084,10 @@ app.get("/api/products", async (req, res) => {
 
 
 
+
+
+
+
 // ✅ Check if User Has Bank Details
 app.get("/api/bank/check", isAuthenticated, async (req, res) => {
   try {

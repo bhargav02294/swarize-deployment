@@ -1,3 +1,6 @@
+//=================   product section    ======================//
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     const productsGrid = document.getElementById("products-grid");
 
@@ -122,8 +125,10 @@ async function addToCart(productId) {
 
 
 
-//=========Search=============//
 
+
+
+//=========      Search   function    =============//
 
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search-input");
@@ -133,10 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("🚨 Search input or button not found! Check your HTML.");
         return;
     }
-
-
-
-
 
     // ✅ Keyword Mapping to normalize search terms
     const keywordMapping = {
@@ -291,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
+//-------------home section image slider-------------------//
 
 document.addEventListener("DOMContentLoaded", function () {
     const slider = document.querySelector(".slider");
@@ -325,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
+//----------------dropdowns--         login country category    -------------------------//
 
 document.addEventListener('click', function (event) {
     const loginDropdown = document.querySelector('.login-dropdown');
@@ -423,7 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
+//==================     sign in sign up CHECK      ==============================//
 
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ JavaScript loaded!");
@@ -519,6 +520,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 //============products display by subcategory================//
+
+
 const subcategoryLinks = document.querySelectorAll('.subcategory-list a');
 
 subcategoryLinks.forEach(link => {

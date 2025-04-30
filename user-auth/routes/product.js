@@ -192,27 +192,23 @@ router.get('/products', async (req, res) => {
 
 
 // ✅ Route to Fetch Products by Category
-router.get('/category/:category/:subcategory?', async (req, res) => {
+// ✅ Route to fetch products by category and subcategory (like Women's Store)
+router.get('/category/:category/:subcategory', async (req, res) => {
     try {
         const { category, subcategory } = req.params;
-        const filter = { category };
 
-        if (subcategory) {
-            filter.subcategory = subcategory; // Filter by subcategory
-        }
+        const products = await Product.find({
+            category: decodeURIComponent(category),
+            subcategory: decodeURIComponent(subcategory)
+        }).sort({ createdAt: -1 });
 
-        const products = await Product.find(filter);
-
-        if (!products.length) {
-            return res.status(404).json({ success: false, message: `No products found in ${subcategory || category}.` });
-        }
-
-        res.status(200).json({ success: true, products });
-    } catch (error) {
-        console.error(" Error fetching products:", error);
-        res.status(500).json({ success: false, message: "Error fetching products", error: error.message });
+        res.json({ success: true, products });
+    } catch (err) {
+        console.error("❌ Error fetching by category/subcategory:", err);
+        res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
 
 
 router.post('/login', async (req, res) => {

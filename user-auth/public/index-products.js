@@ -521,6 +521,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //============products display by subcategory================//
 
+//============products display by subcategory================//
 
 const subcategoryLinks = document.querySelectorAll('.subcategory-list a');
 
@@ -545,22 +546,36 @@ subcategoryLinks.forEach(link => {
     });
 });
 
-// Function to display products (you will need to implement this)
+
+// ✅ Fixed displayProducts function (with error check)
 function displayProducts(products) {
-    const productContainer = document.getElementById('product-container'); // Adjust based on your HTML structure
+    const productContainer = document.getElementById('product-container');
+
+    if (!productContainer) {
+        console.error("❌ Error: <div id='product-container'></div> not found in HTML.");
+        alert("Something went wrong. Product display container not found.");
+        return;
+    }
+
     productContainer.innerHTML = ''; // Clear previous products
+
+    if (products.length === 0) {
+        productContainer.innerHTML = '<p>No products found.</p>';
+        return;
+    }
 
     products.forEach(product => {
         const productElement = document.createElement('div');
         productElement.classList.add('product');
         productElement.innerHTML = `
-            <img src="${product.thumbnailImage}" alt="${product.name}">
+            <img src="${product.thumbnailImage}" alt="${product.name}" style="max-width:100%; height:auto;">
             <h3>${product.name}</h3>
-            <p>Price: ${product.price}</p>
+            <p>Price: ₹${product.price}</p>
             <p>${product.description}</p>
         `;
         productContainer.appendChild(productElement);
     });
 }
+
 
 

@@ -9,23 +9,20 @@ document.getElementById('store-form').addEventListener('submit', async (e) => {
         const response = await fetch('https://swarize.in/api/store/create', {
             method: 'POST',
             body: formData,
-            credentials: 'include'  // Ensure cookies are sent with the request
+            credentials: 'include'  // login session ke liye
         });
 
         const result = await response.json();
 
         if (response.ok && result.success) {
-            // Save storeId and storeName to localStorage
-            localStorage.setItem("storeId", result.store._id);
-            localStorage.setItem("storeName", result.store.name);
-
-            // Show success message
             message.style.color = "green";
             message.textContent = "✅ Store created successfully!";
+            
+            // Slug store karo for future use (like add-product)
+            localStorage.setItem("storeSlug", result.slug);
 
-            // Redirect with storeId and storeName in the URL
             setTimeout(() => {
-                window.location.href = `/store.html?storeId=${encodeURIComponent(result.store._id)}&storeName=${encodeURIComponent(result.store.name)}`;
+                window.location.href = `/store.html?slug=${result.slug}`;
             }, 1500);
         } else {
             message.style.color = "red";

@@ -18,17 +18,5 @@
   </div>
 
   <script src="store.js"></script>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const storeId = urlParams.get("storeId");
-    const storeName = urlParams.get("storeName");
-  
-    if (!storeId || !storeName) {
-      document.getElementById("error-message").textContent = "Invalid store link. Please try again.";
-    } else {
-      // Call your product fetch/render function
-      fetchProductsForStore(storeId);
-    }
-  </script>
 </body>
 </html>

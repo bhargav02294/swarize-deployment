@@ -4,7 +4,9 @@ const Product = require('../models/product');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
-
+const Store = require('../models/store');  // 👈 Required for /by-store/:slug
+const User = require('../models/user');    // 👈 Required for /login
+const bcrypt = require('bcrypt');    
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -21,6 +23,7 @@ const isAuthenticated = (req, res, next) => {
     next();
 };
 
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
@@ -33,6 +36,7 @@ function uploadToCloudinary(buffer, options) {
         streamifier.createReadStream(buffer).pipe(stream);
     });
 }
+
 
 router.post('/add', isAuthenticated, upload.fields([
     { name: 'thumbnailImage', maxCount: 1 },
@@ -47,6 +51,13 @@ router.post('/add', isAuthenticated, upload.fields([
 
         const userId = req.session.userId;
 
+        // संबंधित स्टोर प्राप्त करें
+        const store = await Store.findOne({ owner: userId });
+        if (!store) {
+            return res.status(400).json({ success: false, message: "Store not found for this user" });
+        }
+
+        // थंबनेल इमेज अपलोड करें
         let thumbnailResult = null;
         if (req.files['thumbnailImage']) {
             const file = req.files['thumbnailImage'][0];
@@ -55,6 +66,7 @@ router.post('/add', isAuthenticated, upload.fields([
             });
         }
 
+        // अतिरिक्त इमेज अपलोड करें
         let extraImagesResult = [];
         if (req.files['extraImages']) {
             extraImagesResult = await Promise.all(req.files['extraImages'].map(file =>
@@ -62,6 +74,7 @@ router.post('/add', isAuthenticated, upload.fields([
             ));
         }
 
+        // अतिरिक्त वीडियो अपलोड करें
         let extraVideosResult = [];
         if (req.files['extraVideos']) {
             extraVideosResult = await Promise.all(req.files['extraVideos'].map(file =>
@@ -69,8 +82,10 @@ router.post('/add', isAuthenticated, upload.fields([
             ));
         }
 
+        // नया उत्पाद बनाएं
         const product = new Product({
             ownerId: userId,
+            store: store._id,
             name,
             price,
             description,
@@ -102,20 +117,37 @@ router.post('/add', isAuthenticated, upload.fields([
 
 router.get('/all', async (req, res) => {
     try {
-      const products = await Product.find({}).sort({ createdAt: -1 });
-      res.json({ success: true, products });
+        const products = await Product.find({}).sort({ createdAt: -1 });
+        res.json({ success: true, products });
     } catch (error) {
-      console.error("Error fetching products:", error);
-      res.status(500).json({ success: false, message: "Failed to fetch products" });
+        console.error("Error fetching products:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch products" });
     }
-  });
+});
+
+
+
+  // ✅ Get products by store slug
+  router.get('/by-store/:slug', async (req, res) => {
+    try {
+        const store = await Store.findOne({ slug: req.params.slug });
+        if (!store) return res.status(404).json({ success: false, message: "Store not found" });
+
+        const products = await Product.find({ store: store._id });
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+
   
 
 // Route to fetch all products
 // Fetch products by subcategory
 router.get('/products', async (req, res) => {
     console.log("🔹 Checking Authentication - Session Data:", req.session);
-    
+
     const userId = req.session?.userId || req.session?.passport?.user;
     if (!userId) {
         return res.status(401).json({ success: false, message: 'Unauthorized: User not logged in' });
@@ -125,17 +157,18 @@ router.get('/products', async (req, res) => {
         const products = await Product.find({ ownerId: userId });
 
         if (products.length === 0) {
-            console.log(" No products found for user:", userId);
+            console.log("No products found for user:", userId);
         } else {
-            console.log(" Returning products for user:", userId, products);
+            console.log("Returning products for user:", userId, products);
         }
 
         res.status(200).json({ success: true, products });
     } catch (error) {
-        console.error(" Error fetching products:", error);
+        console.error("Error fetching products:", error);
         res.status(500).json({ success: false, message: "Error fetching products" });
     }
 });
+
 
 
 

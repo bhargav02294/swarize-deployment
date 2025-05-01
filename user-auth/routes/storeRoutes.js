@@ -145,5 +145,20 @@ router.get('/:slug', async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+// Get current user's store slug
+router.get('/my-store-slug', async (req, res) => {
+  try {
+      const userId = req.session.userId;
+      if (!userId) return res.status(401).json({ success: false, message: "Not authenticated" });
+
+      const store = await Store.findOne({ owner: userId });
+      if (!store) return res.status(404).json({ success: false, message: "Store not found" });
+
+      res.json({ success: true, slug: store.slug });
+  } catch (err) {
+      console.error("❌ Error getting store slug:", err);
+      res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 module.exports = router;

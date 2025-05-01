@@ -139,8 +139,6 @@ router.get('/all', async (req, res) => {
   
 
 // ✅ Get products by store slug
-// ✅ Get products by store slug
-// ✅ Get products by store slug
 router.get('/by-store/:slug', async (req, res) => {
     try {
         const store = await Store.findOne({ slug: req.params.slug });

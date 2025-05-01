@@ -1,31 +1,19 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const storeSchema = new mongoose.Schema({
-  storeName: {
-    type: String,
-    required: true
-  },
-  slug: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  logoUrl: {
-    type: String,
-    required: true
-  },
-  ownerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-    unique: true
+  name: { type: String, required: true, unique: true },
+  description: { type: String, required: true },
+  logoUrl: { type: String },
+  slug: { type: String, unique: true },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+}, { timestamps: true });
+
+storeSchema.pre('save', function (next) {
+  if (this.isModified('name')) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
   }
-}, {
-  timestamps: true
+  next();
 });
 
 module.exports = mongoose.model('Store', storeSchema);

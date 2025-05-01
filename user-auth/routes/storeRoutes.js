@@ -67,72 +67,61 @@ router.get('/check', async (req, res) => {
 });
 
 // ✅ Create Store Route with Cloudinary upload
+// ✅ Create Store Route with Cloudinary upload
 router.post('/create', upload.single('logo'), async (req, res) => {
     try {
-        const userId = await getUserId(req, res);
-        if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
-
-        const { storeName, description } = req.body; // storeName from form
-        const logoFile = req.file;
-
-        // Validate inputs
-        if (!storeName || !description || !logoFile) {
-            console.log('Missing data:', { storeName, description, logoFile });
-            return res.status(400).json({ success: false, message: "All fields are required." });
-        }
-
-        // Debugging: Check what's received
-        console.log('Received store data:', { storeName, description });
-
-        // Make sure storeName is not empty or null
-        if (!storeName.trim()) {
-            return res.status(400).json({ success: false, message: "Store name cannot be empty." });
-        }
-
-        // Ensure storeName is sanitized (no extra spaces or invalid characters)
-        const sanitizedStoreName = storeName.trim();
-        if (!sanitizedStoreName) {
-            return res.status(400).json({ success: false, message: "Store name cannot be just spaces." });
-        }
-
-        // Check if the store already exists for this user
-        const existingStore = await Store.findOne({ ownerId: userId });
-        if (existingStore) {
-            return res.status(200).json({ success: true, slug: existingStore.slug });
-        }
-
-        // ✅ Upload logo to Cloudinary
-        const base64Image = `data:${logoFile.mimetype};base64,${logoFile.buffer.toString('base64')}`;
-        const uploadResult = await cloudinary.uploader.upload(base64Image, {
-            folder: 'swarize/stores',
-            public_id: `store_${Date.now()}`
+      const userId = req.session.userId || (req.user && req.user.id);
+      if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+  
+      const storeName = req.body.storeName?.trim();
+      const description = req.body.description?.trim();
+  
+      if (!storeName || !description) {
+        return res.status(400).json({ message: 'Store name and description are required.' });
+      }
+  
+      let logoUrl = '';
+  
+      const saveStore = async () => {
+        const newStore = new Store({
+          name: storeName,
+          description,
+          logoUrl,
+          owner: userId
         });
-
-        // Generate slug from sanitized store name
-        const slug = sanitizedStoreName.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
-        
-        // Create the store
-        const store = new Store({
-            storeName: sanitizedStoreName,
-            slug,
-            description,
-            logoUrl: uploadResult.secure_url,
-            ownerId: userId
-        });
-
-        // Save store to database
-        await store.save();
-        
-        // Update user role and associate store
-        await User.findByIdAndUpdate(userId, { store: store._id, role: 'seller' });
-
-        res.status(201).json({ success: true, slug });
-    } catch (error) {
-        console.error("❌ /create error:", error);
-        res.status(500).json({ success: false, message: "Internal Server Error" });
+  
+        try {
+          const saved = await newStore.save();
+          return res.status(201).json({ message: 'Store created', slug: saved.slug });
+        } catch (err) {
+          console.error('❌ Store save error:', err);
+          return res.status(500).json({ message: 'Error saving store', error: err });
+        }
+      };
+  
+      if (req.file) {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: 'store_logos' },
+          (error, result) => {
+            if (error) {
+              console.error('❌ Cloudinary error:', error);
+              return res.status(500).json({ message: 'Logo upload failed' });
+            }
+            logoUrl = result.secure_url;
+            saveStore();
+          }
+        );
+        streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+      } else {
+        saveStore();
+      }
+  
+    } catch (err) {
+      console.error('❌ /create route error:', err);
+      return res.status(500).json({ message: 'Internal server error' });
     }
-});
-
+  });
+  
 
 // ✅ Smart redirection based on store availability
 router.get('/redirect-to-store', async (req, res) => {

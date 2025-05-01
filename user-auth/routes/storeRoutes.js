@@ -52,20 +52,21 @@ async function getUserId(req, res) {
 
 // ✅ Check store existence route
 router.get('/check', async (req, res) => {
-    try {
-        const userId = await getUserId(req, res);
-        if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
 
-        const store = await Store.findOne({ ownerId: userId });
-        if (store) {
-            return res.json({ hasStore: true, storeSlug: store.slug });
-        } else {
-            return res.json({ hasStore: false });
-        }
-    } catch (err) {
-        console.error("❌ /check error:", err);
-        res.status(500).json({ success: false, message: "Server error" });
+    const store = await Store.findOne({ owner: userId }); // 🔁 NOTE: field is `owner` not `ownerId`
+
+    if (store) {
+      return res.json({ success: true, hasStore: true, storeSlug: store.slug });
+    } else {
+      return res.json({ success: true, hasStore: false });
     }
+  } catch (err) {
+    console.error("❌ /check error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 // ✅ Create Store Route with Cloudinary upload

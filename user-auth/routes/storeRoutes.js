@@ -133,18 +133,7 @@ router.get('/redirect-to-store', async (req, res) => {
   }
 });
 
-// ✅ Get store by slug
-router.get('/:slug', async (req, res) => {
-  try {
-    const store = await Store.findOne({ slug: req.params.slug });
-    if (!store) {
-      return res.status(404).json({ success: false, message: "Store not found" });
-    }
-    res.json({ success: true, store });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
+
 // Get current user's store slug
 router.get('/my-store-slug', async (req, res) => {
   try {
@@ -160,5 +149,19 @@ router.get('/my-store-slug', async (req, res) => {
       res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+// ✅ Get store by slug
+router.get('/:slug', async (req, res) => {
+  try {
+    const store = await Store.findOne({ slug: req.params.slug });
+    if (!store) {
+      return res.status(404).json({ success: false, message: "Store not found" });
+    }
+    res.json({ success: true, store });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 
 module.exports = router;

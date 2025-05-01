@@ -1,115 +1,129 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
-
 const Product = require('../models/product');
 const Store = require('../models/store');
-const User = require('../models/user');
 
 const router = express.Router();
 
-// ☁️ Cloudinary config
+// Cloudinary Config
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// 🧠 Multer memory storage
+// Multer Memory Upload
 const upload = multer({ storage: multer.memoryStorage() });
 
-// 🔐 Middleware
+// Auth Middleware
 const isAuthenticated = (req, res, next) => {
     if (!req.session.userId && !req.session?.passport?.user) {
-        return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
+        return res.status(401).json({ success: false, message: "Unauthorized" });
     }
     req.session.userId = req.session.userId || req.session.passport.user;
     next();
 };
 
+// Utility to upload file buffer to Cloudinary
+const uploadToCloudinary = (buffer, folder, mimetype) => {
+    return new Promise((resolve, reject) => {
+        if (!buffer || buffer.length === 0) return reject(new Error("Empty buffer"));
+
+        const fileType = mimetype?.split('/')[0];
+        if (fileType !== 'image' && fileType !== 'video') {
+            return reject(new Error("Invalid file type"));
+        }
+
+        const stream = cloudinary.uploader.upload_stream(
+            { folder, resource_type: fileType === 'video' ? 'video' : 'image' },
+            (err, result) => {
+                if (err) return reject(err);
+                resolve(result.secure_url);
+            }
+        );
+        streamifier.createReadStream(buffer).pipe(stream);
+    });
+};
+
 // 📦 Add Product Route
-router.post('/add', isAuthenticated, upload.fields([
-    { name: 'thumbnailImage', maxCount: 1 },
-    { name: 'extraImages', maxCount: 5 },
-    { name: 'extraVideos', maxCount: 3 }
-]), async (req, res) => {
-    try {
-        const userId = req.session.userId;
+router.post(
+    '/add',
+    isAuthenticated,
+    upload.fields([
+        { name: 'thumbnailImage', maxCount: 1 },
+        { name: 'extraImages', maxCount: 4 },
+        { name: 'extraVideos', maxCount: 3 },
+    ]),
+    async (req, res) => {
+        try {
+            const userId = req.session.userId;
+            const store = await Store.findOne({ ownerId: userId });
+            if (!store) return res.status(400).json({ success: false, message: 'Store not found' });
 
-        const store = await Store.findOne({ ownerId: userId });
-        if (!store) return res.status(400).json({ success: false, message: 'Store not found' });
+            const {
+                name, price, description, summary,
+                category, subcategory, tags, size,
+                color, material, modelStyle, availableIn
+            } = req.body;
 
-        const {
-            name, description, price, tags, size,
-            color, material, modelStyle, availableIn
-        } = req.body;
+            // 🖼️ Upload thumbnail image
+            const thumbFile = req.files['thumbnailImage']?.[0];
+            if (!thumbFile) return res.status(400).json({ success: false, message: "Thumbnail required" });
 
-        const uploadToCloudinary = (buffer, folder) => {
-            return new Promise((resolve, reject) => {
-                const stream = cloudinary.uploader.upload_stream(
-                    { folder },
-                    (error, result) => {
-                        if (error) return reject(error);
-                        resolve(result.secure_url);
-                    }
-                );
-                streamifier.createReadStream(buffer).pipe(stream);
+            const thumbnailImage = await uploadToCloudinary(thumbFile.buffer, 'swarize/products/thumbnails', thumbFile.mimetype);
+
+            // 🌄 Extra images
+            const extraImages = [];
+            if (req.files['extraImages']) {
+                for (const img of req.files['extraImages']) {
+                    const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
+                    extraImages.push(url);
+                }
+            }
+
+            // 📹 Extra videos
+            const extraVideos = [];
+            if (req.files['extraVideos']) {
+                for (const vid of req.files['extraVideos']) {
+                    const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
+                    extraVideos.push(url);
+                }
+            }
+
+            // 📦 Save product
+            const product = new Product({
+                name,
+                price,
+                description,
+                summary,
+                category,
+                subcategory,
+                tags: tags ? tags.split(',') : [],
+                size,
+                color,
+                material,
+                modelStyle,
+                availableIn,
+                thumbnailImage,
+                extraImages,
+                extraVideos,
+                store: store._id,
+                storeSlug: store.slug,
+                ownerId: userId,
             });
-        };
 
-        // ✅ Upload Thumbnail
-        const thumbnailFile = req.files['thumbnailImage']?.[0];
-        if (!thumbnailFile) return res.status(400).json({ success: false, message: 'Thumbnail image is required' });
+            await product.save();
+            res.status(201).json({ success: true, message: "Product added successfully!" });
 
-        const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails');
-
-        // ✅ Upload Extra Images
-        const extraImages = [];
-        if (req.files['extraImages']) {
-            for (const file of req.files['extraImages']) {
-                const url = await uploadToCloudinary(file.buffer, 'swarize/products/images');
-                extraImages.push(url);
-            }
+        } catch (err) {
+            console.error("❌ Product Add Error:", err);
+            res.status(500).json({ success: false, message: err.message || "Server error" });
         }
-
-        // ✅ Upload Extra Videos
-        const extraVideos = [];
-        if (req.files['extraVideos']) {
-            for (const file of req.files['extraVideos']) {
-                const url = await uploadToCloudinary(file.buffer, 'swarize/products/videos');
-                extraVideos.push(url);
-            }
-        }
-
-        // ✅ Save to MongoDB
-        const newProduct = new Product({
-            name,
-            description,
-            price,
-            store: store._id,
-            storeSlug: store.slug,
-            ownerId: userId,
-            tags: tags?.split(',') || [],
-            size,
-            color,
-            material,
-            modelStyle,
-            availableIn,
-            thumbnailImage,
-            extraImages,
-            extraVideos
-        });
-
-        await newProduct.save();
-        res.status(201).json({ success: true, message: 'Product added' });
-
-    } catch (error) {
-        console.error("❌ Error in product add route:", error);
-        res.status(500).json({ success: false, message: 'Internal server error', error });
     }
-});
+);
+
 
 
 // All Sellers' Products

@@ -10,14 +10,17 @@ const User = require('../models/user');
 
 const router = express.Router();
 
-// 🛠️ Cloudinary config
+// ☁️ Cloudinary config
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// 🔐 Middleware for auth check
+// 🧠 Multer memory storage
+const upload = multer({ storage: multer.memoryStorage() });
+
+// 🔐 Middleware
 const isAuthenticated = (req, res, next) => {
     if (!req.session.userId && !req.session?.passport?.user) {
         return res.status(401).json({ success: false, message: "Unauthorized: User not logged in" });
@@ -26,33 +29,17 @@ const isAuthenticated = (req, res, next) => {
     next();
 };
 
-// 📦 Multer memory storage
-const storage = multer.memoryStorage();
-const upload = multer({ storage: multer.memoryStorage() });
-
-// ☁️ Cloudinary upload helper
-function uploadToCloudinary(buffer, options) {
-    return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(options, (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-        });
-        streamifier.createReadStream(buffer).pipe(stream);
-    });
-}
-
-// ✅ Add product route
-router.post('/add', upload.fields([
+// 📦 Add Product Route
+router.post('/add', isAuthenticated, upload.fields([
     { name: 'thumbnailImage', maxCount: 1 },
     { name: 'extraImages', maxCount: 5 },
     { name: 'extraVideos', maxCount: 3 }
 ]), async (req, res) => {
     try {
         const userId = req.session.userId;
-        if (!userId) return res.status(401).json({ message: 'Unauthorized' });
 
         const store = await Store.findOne({ ownerId: userId });
-        if (!store) return res.status(400).json({ message: 'Store not found' });
+        if (!store) return res.status(400).json({ success: false, message: 'Store not found' });
 
         const {
             name, description, price, tags, size,
@@ -72,11 +59,13 @@ router.post('/add', upload.fields([
             });
         };
 
+        // ✅ Upload Thumbnail
         const thumbnailFile = req.files['thumbnailImage']?.[0];
-        if (!thumbnailFile) return res.status(400).json({ message: 'Thumbnail image is required' });
+        if (!thumbnailFile) return res.status(400).json({ success: false, message: 'Thumbnail image is required' });
 
         const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails');
 
+        // ✅ Upload Extra Images
         const extraImages = [];
         if (req.files['extraImages']) {
             for (const file of req.files['extraImages']) {
@@ -85,6 +74,7 @@ router.post('/add', upload.fields([
             }
         }
 
+        // ✅ Upload Extra Videos
         const extraVideos = [];
         if (req.files['extraVideos']) {
             for (const file of req.files['extraVideos']) {
@@ -93,15 +83,20 @@ router.post('/add', upload.fields([
             }
         }
 
+        // ✅ Save to MongoDB
         const newProduct = new Product({
             name,
             description,
             price,
             store: store._id,
             storeSlug: store.slug,
-            ownerId: userId, // ✅ FIXED: Add ownerId here
+            ownerId: userId,
             tags: tags?.split(',') || [],
-            size, color, material, modelStyle, availableIn,
+            size,
+            color,
+            material,
+            modelStyle,
+            availableIn,
             thumbnailImage,
             extraImages,
             extraVideos
@@ -115,6 +110,7 @@ router.post('/add', upload.fields([
         res.status(500).json({ success: false, message: 'Internal server error', error });
     }
 });
+
 
 // All Sellers' Products
 router.get('/all', async (req, res) => {

@@ -275,13 +275,12 @@ async function fetchStoreDetails() {
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const form = event.target;
   const messageElement = document.getElementById('message');
+  const formData = new FormData();
 
   const availableInInput = document.getElementById("availableIn");
   let availableInValue = availableInInput.value.trim() || "All Over India";
 
-  const formData = new FormData();
   formData.append('name', document.getElementById("product-name").value.trim());
   formData.append('price', document.getElementById("price").value.trim());
   formData.append('description', document.getElementById("description").value.trim());
@@ -293,28 +292,30 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   formData.append('color', document.getElementById("color").value.trim());
   formData.append('material', document.getElementById("material").value.trim());
   formData.append('modelStyle', document.getElementById("model-style").value.trim());
-  formData.append("availableIn", availableInValue);
+  formData.append('availableIn', availableInValue);
 
   const thumbnail = document.getElementById("thumbnail-image").files[0];
   if (thumbnail) {
       formData.append('thumbnailImage', thumbnail);
+  } else {
+      messageElement.textContent = "❌ Thumbnail image is required.";
+      messageElement.style.color = "red";
+      return;
   }
 
-  // Properly handle multiple extraImages
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-    const file = document.getElementById(id)?.files[0];
-    if (file) {
-        formData.append('extraImages', file); // ✅ brackets hatao
-    }
-});
+      const file = document.getElementById(id)?.files[0];
+      if (file) {
+          formData.append('extraImages', file);
+      }
+  });
 
-['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-    const file = document.getElementById(id)?.files[0];
-    if (file) {
-        formData.append('extraVideos', file); // ✅ brackets hatao
-    }
-});
-
+  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
+      const file = document.getElementById(id)?.files[0];
+      if (file) {
+          formData.append('extraVideos', file);
+      }
+  });
 
   const storeId = localStorage.getItem("storeId");
   formData.append("storeId", storeId);
@@ -347,7 +348,6 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       messageElement.style.color = "red";
   }
 });
-
 
 
 

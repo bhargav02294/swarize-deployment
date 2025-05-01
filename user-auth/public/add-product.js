@@ -257,9 +257,9 @@ async function fetchStoreDetails() {
       const res = await fetch(`/api/store/${slug}`);
       const data = await res.json();
       if (data.success) {
-          localStorage.setItem("storeId", data.store._id);  // Save storeId
+          localStorage.setItem("storeId", data.store._id);
           localStorage.setItem("storeName", data.store.storeName);
-          localStorage.setItem("storeSlug", data.store.slug);  // Save storeSlug
+          localStorage.setItem("storeSlug", data.store.slug);
           return data.store;
       } else {
           messageElement.textContent = "Store not found.";
@@ -272,31 +272,27 @@ async function fetchStoreDetails() {
   }
 }
 
-// Select the form
-const form = document.getElementById('add-product-form');
-const messageElement = document.getElementById('message');
-
-form.addEventListener("submit", async (event) => {
+document.getElementById('add-product-form').addEventListener('submit', async (event) => {
   event.preventDefault();
 
+  const form = event.target;
+  const messageElement = document.getElementById('message');
+
   const availableInInput = document.getElementById("availableIn");
-  let availableInValue = availableInInput.value.trim();
-  if (!availableInValue) {
-      availableInValue = "All Over India";
-  }
+  let availableInValue = availableInInput.value.trim() || "All Over India";
 
   const formData = new FormData();
-  formData.append('name', document.getElementById("product-name").value);
-  formData.append('price', document.getElementById("price").value);
-  formData.append('description', document.getElementById("description").value);
-  formData.append('summary', document.getElementById("summary").value);
+  formData.append('name', document.getElementById("product-name").value.trim());
+  formData.append('price', document.getElementById("price").value.trim());
+  formData.append('description', document.getElementById("description").value.trim());
+  formData.append('summary', document.getElementById("summary").value.trim());
   formData.append('category', document.getElementById("category").value);
   formData.append('subcategory', document.getElementById("subcategory").value);
-  formData.append('tags', document.getElementById("tags").value);
-  formData.append('size', document.getElementById("size").value);
-  formData.append('color', document.getElementById("color").value);
-  formData.append('material', document.getElementById("material").value);
-  formData.append('modelStyle', document.getElementById("model-style").value);
+  formData.append('tags', document.getElementById("tags").value.trim());
+  formData.append('size', document.getElementById("size").value.trim());
+  formData.append('color', document.getElementById("color").value.trim());
+  formData.append('material', document.getElementById("material").value.trim());
+  formData.append('modelStyle', document.getElementById("model-style").value.trim());
   formData.append("availableIn", availableInValue);
 
   const thumbnail = document.getElementById("thumbnail-image").files[0];
@@ -304,21 +300,22 @@ form.addEventListener("submit", async (event) => {
       formData.append('thumbnailImage', thumbnail);
   }
 
+  // Properly handle multiple extraImages
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-      const file = document.getElementById(id).files[0];
+      const file = document.getElementById(id)?.files[0];
       if (file) {
-          formData.append('extraImages', file);
+          formData.append('extraImages[]', file); // <-- use `[]` to signify multiple values
       }
   });
 
+  // Handle extraVideos
   ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-      const file = document.getElementById(id).files[0];
+      const file = document.getElementById(id)?.files[0];
       if (file) {
-          formData.append('extraVideos', file);
+          formData.append('extraVideos[]', file);
       }
   });
 
-  // Add storeId to form data (required for backend)
   const storeId = localStorage.getItem("storeId");
   formData.append("storeId", storeId);
 
@@ -332,25 +329,25 @@ form.addEventListener("submit", async (event) => {
       const result = await response.json();
 
       if (response.ok && result.success) {
-          messageElement.textContent = "Product added successfully!";
+          messageElement.textContent = "✅ Product added successfully!";
           messageElement.style.color = "green";
-      
+
           setTimeout(() => {
               const storeSlug = localStorage.getItem("storeSlug");
               window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
           }, 2000);
-      }
-      else {
-          messageElement.textContent = result.message || "Failed to add product.";
+      } else {
+          messageElement.textContent = result.message || "❌ Failed to add product.";
           messageElement.style.color = "red";
       }
 
   } catch (error) {
       console.error("Error adding product:", error);
-      messageElement.textContent = "Error adding product.";
+      messageElement.textContent = "❌ Error adding product.";
       messageElement.style.color = "red";
   }
 });
+
 
 
 

@@ -242,7 +242,6 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 
 
 
-
 async function fetchStoreDetails() {
   const slug = localStorage.getItem("storeSlug");
   const messageElement = document.getElementById('message');
@@ -303,6 +302,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       return;
   }
 
+  // Add extra images to FormData
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
       const file = document.getElementById(id)?.files[0];
       if (file) {
@@ -310,6 +310,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       }
   });
 
+  // Add extra videos to FormData
   ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
       const file = document.getElementById(id)?.files[0];
       if (file) {
@@ -317,6 +318,13 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       }
   });
 
+  // Log FormData before sending to check the contents
+  console.log("Uploading FormData...");
+  for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+  }
+
+  // Get the storeId from localStorage
   const storeId = localStorage.getItem("storeId");
   formData.append("storeId", storeId);
 
@@ -333,6 +341,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
           messageElement.textContent = "✅ Product added successfully!";
           messageElement.style.color = "green";
 
+          // Redirect after success
           setTimeout(() => {
               const storeSlug = localStorage.getItem("storeSlug");
               window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;

@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
-            // Get user's store slug
-            let storeSlug = "";
+            // 👇 Slug logic starts here
+            let storeSlug = null;
             try {
                 const slugRes = await fetch(`${API_BASE}/api/store/my-store-slug`, {
                     credentials: 'include'
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const slugData = await slugRes.json();
                 if (slugData.success) {
                     storeSlug = slugData.slug;
+                    localStorage.setItem("myStoreSlug", storeSlug); // Optional
                 }
             } catch (err) {
                 console.error("Failed to fetch store slug:", err);
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
                     <li><a href="/bank-details.html">Bank Details</a></li>
-<li><a href="${storeSlug ? `/sellers-store.html?slug=${storeSlug}` : '/create-store.html'}">Sellers Store</a></li>
+                    <li><a href="${storeSlug ? `/sellers-store.html?slug=${storeSlug}` : '#'}" id="sellers-store-link">Sellers Store</a></li>
                     <li><a href="/Security.html">Security</a></li>
                     <li><a href="/invite.html">Invite</a></li>
                     <li><a href="/about.html">About</a></li>
@@ -45,6 +46,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="#" id="logout-btn" class="logout">Logout</a></li>
                 </ul>
             `;
+
+            // 👇 Redirect to create-store.html only if storeSlug not found and user clicks the menu
+            const sellerStoreLink = document.getElementById('sellers-store-link');
+            if (sellerStoreLink && !storeSlug) {
+                sellerStoreLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = '/create-store.html';
+                });
+            }
 
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
@@ -90,7 +100,6 @@ document.getElementById('store-btn')?.addEventListener('click', async () => {
     }
 });
 
-// Utility for other buttons
 function addEventListenerIfExists(selector, event, handler) {
     const element = document.querySelector(selector);
     if (element) element.addEventListener(event, handler);

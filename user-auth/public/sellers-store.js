@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const heading = document.getElementById("store-heading");
 
   if (!slug) {
-    container.innerHTML = "<p>Invalid store link. No slug provided.</p>";
+    container.innerHTML = "<p style='color:red;'>Invalid store link. No slug provided.</p>";
     return;
   }
 
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       heading.textContent = `Products from "${slug}"`;
-      
+
       data.products.forEach((product) => {
         const div = document.createElement("div");
         div.classList.add("product-card");
@@ -36,6 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => {
       console.error("Error loading seller products:", err);
-      container.innerHTML = "<p>Failed to load products.</p>";
+      container.innerHTML = "<p style='color:red;'>Failed to load products.</p>";
     });
 });

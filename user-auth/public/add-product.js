@@ -302,19 +302,19 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
   // Properly handle multiple extraImages
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-      const file = document.getElementById(id)?.files[0];
-      if (file) {
-          formData.append('extraImages[]', file); // <-- use `[]` to signify multiple values
-      }
-  });
+    const file = document.getElementById(id)?.files[0];
+    if (file) {
+        formData.append('extraImages', file); // ✅ brackets hatao
+    }
+});
 
-  // Handle extraVideos
-  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-      const file = document.getElementById(id)?.files[0];
-      if (file) {
-          formData.append('extraVideos[]', file);
-      }
-  });
+['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
+    const file = document.getElementById(id)?.files[0];
+    if (file) {
+        formData.append('extraVideos', file); // ✅ brackets hatao
+    }
+});
+
 
   const storeId = localStorage.getItem("storeId");
   formData.append("storeId", storeId);

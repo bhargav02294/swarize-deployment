@@ -5,6 +5,8 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
+const streamifier = require("streamifier");
+const slugify = require("slugify");
 
 // ✅ Cloudinary config
 cloudinary.config({

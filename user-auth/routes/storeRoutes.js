@@ -3,19 +3,18 @@ const router = express.Router();
 const Store = require('../models/store');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
-const streamifier = require("streamifier");
-const slugify = require("slugify");
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
+const slugify = require('slugify');
 
-// ✅ Cloudinary config
+// Cloudinary config
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// ✅ Multer config with memory storage (no local file saving)
 const storage = multer.memoryStorage();
 const upload = multer({
     storage,
@@ -50,111 +49,78 @@ async function getUserId(req, res) {
     return userId;
 }
 
-// ✅ Check store existence route
+// ✅ Check store existence
 router.get('/check', async (req, res) => {
-  try {
-    const userId = req.session.userId;
-    if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
-
-    const store = await Store.findOne({ owner: userId }); // 🔁 NOTE: field is `owner` not `ownerId`
-
-    if (store) {
-      return res.json({ success: true, hasStore: true, storeSlug: store.slug });
-    } else {
-      return res.json({ success: true, hasStore: false });
-    }
-  } catch (err) {
-    console.error("❌ /check error:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+  const userId = await getUserId(req, res);
+  if (!userId) return res.status(401).json({ success: false });
+  const store = await Store.findOne({ ownerId: userId });
+  if (store) {
+    return res.json({ hasStore: true, storeSlug: store.slug });
+  } else {
+    return res.json({ hasStore: false });
   }
 });
 
-// ✅ Create Store Route with Cloudinary upload
-// ✅ Create Store Route with Cloudinary upload
+// ✅ Create store
 router.post('/create', upload.single('logo'), async (req, res) => {
-    try {
-      const userId = req.session.userId || (req.user && req.user.id);
-      if (!userId) return res.status(401).json({ message: 'Unauthorized' });
-  
-      const storeName = req.body.storeName?.trim();
-      const description = req.body.description?.trim();
-  
-      if (!storeName || !description) {
-        return res.status(400).json({ message: 'Store name and description are required.' });
-      }
-  
-      let logoUrl = '';
-  
-      const saveStore = async () => {
-        const newStore = new Store({
-          name: storeName,
-          description,
-          logoUrl,
-          owner: userId
-        });
-  
-        try {
-          const saved = await newStore.save();
-          return res.status(201).json({ message: 'Store created', slug: saved.slug });
-        } catch (err) {
-          console.error('❌ Store save error:', err);
-          return res.status(500).json({ message: 'Error saving store', error: err });
-        }
-      };
-  
-      if (req.file) {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          { folder: 'store_logos' },
-          (error, result) => {
-            if (error) {
-              console.error('❌ Cloudinary error:', error);
-              return res.status(500).json({ message: 'Logo upload failed' });
-            }
-            logoUrl = result.secure_url;
-            saveStore();
-          }
-        );
-        streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
-      } else {
-        saveStore();
-      }
-  
-    } catch (err) {
-      console.error('❌ /create route error:', err);
-      return res.status(500).json({ message: 'Internal server error' });
-    }
-  });
-  
+  try {
+    const userId = await getUserId(req, res);
+    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
 
-// ✅ Smart redirection based on store availability
+    const { storeName, description } = req.body;
+    if (!storeName || !description || !req.file) {
+      return res.status(400).json({ success: false, message: 'Missing fields' });
+    }
+
+    const existing = await Store.findOne({ ownerId: userId });
+    if (existing) return res.status(200).json({ success: true, slug: existing.slug });
+
+    const logoResult = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream({ folder: 'store_logos' }, (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      });
+      streamifier.createReadStream(req.file.buffer).pipe(stream);
+    });
+
+    const slug = slugify(storeName, { lower: true }) + '-' + Date.now();
+    const newStore = new Store({
+      storeName,
+      description,
+      slug,
+      logoUrl: logoResult.secure_url,
+      ownerId: userId
+    });
+
+    await newStore.save();
+    await User.findByIdAndUpdate(userId, { store: newStore._id, role: 'seller' });
+
+    res.status(201).json({ success: true, slug });
+  } catch (err) {
+    console.error("❌ /create error:", err);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+
+// ✅ Redirect logic
 router.get('/redirect-to-store', async (req, res) => {
-    try {
-        const userId = await getUserId(req, res);
-        if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
-
-        const store = await Store.findOne({ ownerId: userId });
-        if (store) {
-            return res.json({ success: true, redirectTo: `/store.html?slug=${store.slug}` });
-        } else {
-            return res.json({ success: true, redirectTo: "/create-store.html" });
-        }
-    } catch (error) {
-        console.error("❌ redirect-to-store error:", error);
-        res.status(500).json({ success: false, message: "Server error" });
-    }
+  const userId = await getUserId(req, res);
+  if (!userId) return res.status(401).json({ success: false });
+  const store = await Store.findOne({ ownerId: userId });
+  if (store) {
+    return res.json({ success: true, redirectTo: `/store.html?slug=${store.slug}` });
+  } else {
+    return res.json({ success: true, redirectTo: '/create-store.html' });
+  }
 });
 
 // ✅ Get store by slug
 router.get('/:slug', async (req, res) => {
-    try {
-        const store = await Store.findOne({ slug: req.params.slug });
-        if (!store) {
-            return res.status(404).json({ success: false, message: 'Store not found' });
-        }
-        res.json({ success: true, store });
-    } catch (err) {
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
+  const store = await Store.findOne({ slug: req.params.slug });
+  if (!store) {
+    return res.status(404).json({ success: false, message: 'Store not found' });
+  }
+  res.json({ success: true, store });
 });
 
 module.exports = router;

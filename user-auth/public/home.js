@@ -61,26 +61,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// ✅ Only one event listener to handle store redirection
-// public/home.js
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const response = await fetch('/api/store/check', {
-        credentials: 'include'
-      });
-      const data = await response.json();
+
   
-      if (response.ok && data.success) {
-        if (data.hasStore) {
-          window.location.href = `/store.html?slug=${data.storeSlug}`;
-        } else {
-          window.location.href = `/create-store.html`;
-        }
+  document.getElementById('store-btn')?.addEventListener('click', async () => {
+    try {
+      const res = await fetch('/api/store/redirect-to-store', { credentials: 'include' });
+      const data = await res.json();
+      if (data.success && data.redirectTo) {
+        window.location.href = data.redirectTo;
       } else {
-        console.log("❌ Store check failed", data.message);
+        alert("❌ Store redirection failed");
       }
-    } catch (error) {
-      console.error("❌ Error checking store status:", error);
+    } catch (err) {
+      console.error("❌ Store redirect error:", err);
+      alert("Server error");
     }
   });
   

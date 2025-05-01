@@ -13,20 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
-            // Get user's store slug
-            let storeSlug = "";
-            try {
-                const slugRes = await fetch(`${API_BASE}/api/store/my-store-slug`, {
-                    credentials: 'include'
-                });
-                const slugData = await slugRes.json();
-                if (slugData.success) {
-                    storeSlug = slugData.slug;
-                }
-            } catch (err) {
-                console.error("Failed to fetch store slug:", err);
-            }
-
             mainContainer.style.display = 'flex';
 
             document.querySelector('.sidebar').innerHTML = `
@@ -76,22 +62,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-document.getElementById('store-btn')?.addEventListener('click', async () => {
-    try {
-        const res = await fetch('/api/store/redirect-to-store', { credentials: 'include' });
-        const data = await res.json();
-        if (data.success && data.redirectTo) {
-            window.location.href = data.redirectTo;
-        } else {
-            alert("❌ Store redirection failed");
-        }
-    } catch (err) {
-        console.error("❌ Store redirect error:", err);
-        alert("Server error");
-    }
-});
 
-// Utility for other buttons
+  
+  document.getElementById('store-btn')?.addEventListener('click', async () => {
+    try {
+      const res = await fetch('/api/store/redirect-to-store', { credentials: 'include' });
+      const data = await res.json();
+      if (data.success && data.redirectTo) {
+        window.location.href = data.redirectTo;
+      } else {
+        alert("❌ Store redirection failed");
+      }
+    } catch (err) {
+      console.error("❌ Store redirect error:", err);
+      alert("Server error");
+    }
+  });
+  
+
+// Utility Function for buttons
 function addEventListenerIfExists(selector, event, handler) {
     const element = document.querySelector(selector);
     if (element) element.addEventListener(event, handler);

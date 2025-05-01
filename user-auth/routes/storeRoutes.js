@@ -135,6 +135,7 @@ router.get('/redirect-to-store', async (req, res) => {
 
 
 // ✅ Route to get current user's store slug
+// 👇 is route ko top me daalo, slug wale route se pehle
 router.get('/my-store-slug', async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -149,6 +150,7 @@ router.get('/my-store-slug', async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 // ✅ Route to get store by slug (MUST be last)
 router.get('/:slug', async (req, res) => {

@@ -3,87 +3,77 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_BASE = "https://swarize.in";
 
     try {
-        const response = await fetch(`${API_BASE}/api/auth/is-logged-in`, {
-            credentials: 'include'
-        });
+        const res = await fetch(`${API_BASE}/api/auth/is-logged-in`, { credentials: 'include' });
+        const data = await res.json();
 
-        const data = await response.json();
+        if (!res.ok || !data.isLoggedIn) {
+            return window.location.href = '/not-signed-in.html';
+        }
 
-        if (response.ok && data.isLoggedIn) {
-            localStorage.setItem("loggedInUser", data.userId);
-            localStorage.setItem("userName", data.userName);
+        localStorage.setItem("loggedInUser", data.userId);
+        localStorage.setItem("userName", data.userName);
 
-            // 👇 Slug logic starts here
-            let storeSlug = null;
-            try {
-                const slugRes = await fetch(`${API_BASE}/api/store/my-store-slug`, {
-                    credentials: 'include'
-                });
-                const slugData = await slugRes.json();
-                if (slugData.success) {
-                    storeSlug = slugData.slug;
-                    localStorage.setItem("myStoreSlug", storeSlug); // Optional
-                }
-            } catch (err) {
-                console.error("Failed to fetch store slug:", err);
+        let storeSlug = null;
+        try {
+            const slugRes = await fetch(`${API_BASE}/api/store/my-store-slug`, {
+                credentials: 'include'
+            });
+            const slugData = await slugRes.json();
+            if (slugData.success) {
+                storeSlug = slugData.slug;
+                localStorage.setItem("myStoreSlug", storeSlug);
             }
+        } catch (e) {
+            console.error("Error fetching store slug:", e);
+        }
 
-            mainContainer.style.display = 'flex';
+        mainContainer.style.display = 'flex';
 
-            document.querySelector('.sidebar').innerHTML = `
-                <div class="logo-container">
-                    <span class="logo-text">S</span>
-                </div>
-                <ul class="menu">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/resetpassotp.html">Change Password</a></li>
-                    <li><a href="/bank-details.html">Bank Details</a></li>
-                    <li><a href="${storeSlug ? `/sellers-store.html?slug=${storeSlug}` : '#'}" id="sellers-store-link">Sellers Store</a></li>
-                    <li><a href="/Security.html">Security</a></li>
-                    <li><a href="/invite.html">Invite</a></li>
-                    <li><a href="/about.html">About</a></li>
-                    <li><a href="/help.html">Help</a></li>
-                    <li><a href="#" id="logout-btn" class="logout">Logout</a></li>
-                </ul>
-            `;
+        document.querySelector('.sidebar').innerHTML = `
+            <div class="logo-container">
+                <span class="logo-text">S</span>
+            </div>
+            <ul class="menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/resetpassotp.html">Change Password</a></li>
+                <li><a href="/bank-details.html">Bank Details</a></li>
+                <li><a href="${storeSlug ? `/sellers-store.html?slug=${storeSlug}` : '#'}" id="sellers-store-link">Sellers Store</a></li>
+                <li><a href="/Security.html">Security</a></li>
+                <li><a href="/invite.html">Invite</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/help.html">Help</a></li>
+                <li><a href="#" id="logout-btn" class="logout">Logout</a></li>
+            </ul>
+        `;
 
-            // 👇 Redirect to create-store.html only if storeSlug not found and user clicks the menu
-            const sellerStoreLink = document.getElementById('sellers-store-link');
-            if (sellerStoreLink && !storeSlug) {
-                sellerStoreLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.location.href = '/create-store.html';
-                });
-            }
+        // 👇 Handle seller store link only if store not found
+        const sellerLink = document.getElementById('sellers-store-link');
+        if (!storeSlug && sellerLink) {
+            sellerLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = '/create-store.html';
+            });
+        }
 
-            document.getElementById('logout-btn').addEventListener('click', async () => {
-                try {
-                    const logoutResponse = await fetch(`${API_BASE}/logout`, {
-                        method: "GET",
-                        credentials: "include"
-                    });
-
-                    if (logoutResponse.ok) {
-                        sessionStorage.clear();
-                        localStorage.removeItem("loggedInUser");
-                        localStorage.removeItem("userName");
-                        window.location.href = 'https://swarize.in/index.html';
-                    } else {
-                        console.error("Logout failed");
-                    }
-                } catch (error) {
-                    console.error("Logout error:", error);
-                }
+        document.getElementById('logout-btn')?.addEventListener('click', async () => {
+            const logoutRes = await fetch(`${API_BASE}/logout`, {
+                method: "GET",
+                credentials: "include"
             });
 
-        } else {
-            window.location.href = 'https://swarize.in/not-signed-in.html';
-        }
-    } catch (error) {
-        console.error('Login check failed:', error);
-        window.location.href = 'https://swarize.in/not-signed-in.html';
+            if (logoutRes.ok) {
+                sessionStorage.clear();
+                localStorage.clear();
+                window.location.href = '/index.html';
+            }
+        });
+
+    } catch (err) {
+        console.error("Error loading home:", err);
+        window.location.href = '/not-signed-in.html';
     }
 });
+
 
 document.getElementById('store-btn')?.addEventListener('click', async () => {
     try {

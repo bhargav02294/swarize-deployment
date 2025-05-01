@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
                     <li><a href="/bank-details.html">Bank Details</a></li>
-                    <li><a href="${storeSlug ? `/sellers-store.html?slug=${storeSlug}` : '/create-store.html'}">Sellers Store</a></li>
-
+                    <li><a href="/sellers-store.html">Sellers Store</a></li>
                     <li><a href="/Security.html">Security</a></li>
                     <li><a href="/invite.html">Invite</a></li>
                     <li><a href="/about.html">About</a></li>

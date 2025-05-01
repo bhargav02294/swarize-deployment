@@ -40,17 +40,19 @@ async function loadProducts(slug, ownerId) {
 
       const loggedInStoreId = localStorage.getItem("storeId");
 
-      data.products.forEach(product => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-          <img src="${product.thumbnailImage}" alt="${product.name}" />
-          <h3>${product.name}</h3>
-          <p>₹${product.price}</p>
-          ${product.store === loggedInStoreId ? `<button class="remove-btn" onclick="removeProduct('${product._id}', this)">Remove</button>` : ''}
-        `;
-        container.appendChild(card);
-      });
+data.products.forEach(product => {
+  const isOwner = product.store.toString() === loggedInStoreId;
+  const card = document.createElement("div");
+  card.className = "product-card";
+  card.innerHTML = `
+    <img src="${product.thumbnailImage}" alt="${product.name}" />
+    <h3>${product.name}</h3>
+    <p>₹${product.price}</p>
+    ${isOwner ? `<button class="remove-btn" onclick="removeProduct('${product._id}', this)">Remove</button>` : ''}
+  `;
+  container.appendChild(card);
+});
+
     } else {
       container.innerHTML = "<p>Could not load products</p>";
     }
@@ -60,25 +62,23 @@ async function loadProducts(slug, ownerId) {
   }
 }
 
-async function removeProduct(productId, buttonElement) {
-  if (!confirm("Are you sure you want to delete this product?")) return;
-
+async function removeProduct(productId) {
   try {
     const res = await fetch(`/api/products/delete/${productId}`, {
       method: "DELETE",
-      credentials: "include"
+      credentials: "include",
     });
 
-    const result = await res.json();
-
-    if (res.ok && result.success) {
-      buttonElement.parentElement.remove(); // Remove the product card from UI
-      alert("✅ Product deleted");
+    if (res.ok) {
+      alert("Product deleted successfully!");
+      location.reload();
     } else {
-      alert("❌ Failed to delete product: " + result.message);
+      const errorData = await res.json();
+      console.error("Delete product failed:", errorData);
+      alert(`❌ Delete failed: ${errorData.error}`);
     }
-  } catch (err) {
-    console.error("Delete product failed:", err);
-    alert("❌ Server error while deleting");
+  } catch (error) {
+    console.error("Delete product error:", error);
+    alert("❌ Error deleting product");
   }
 }

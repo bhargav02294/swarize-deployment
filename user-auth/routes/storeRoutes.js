@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const streamifier = require("streamifier");
-const verifySession = require("../middleware/verifySession"); 
 
 // ✅ Cloudinary config
 cloudinary.config({
@@ -115,25 +114,6 @@ router.post('/create', upload.single('logo'), async (req, res) => {
 });
 
 
-router.delete("/delete/:productId", verifySession, async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.productId);
-
-    if (!product) return res.status(404).json({ success: false, message: "Product not found" });
-
-    const store = await Store.findOne({ ownerId: req.session.userId });
-
-    if (!store || store._id.toString() !== product.store.toString()) {
-      return res.status(403).json({ success: false, message: "Not authorized" });
-    }
-
-    await Product.findByIdAndDelete(req.params.productId);
-    res.json({ success: true, message: "Product deleted" });
-  } catch (err) {
-    console.error("Delete error:", err);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
 
 
 // ✅ Redirect to store

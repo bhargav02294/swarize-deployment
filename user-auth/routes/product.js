@@ -4,6 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
 const Product = require('../models/product');
 const Store = require('../models/store');
+const verifySession = require("../middleware/verifySession"); 
 
 const router = express.Router();
 
@@ -192,6 +193,31 @@ router.get('/products', async (req, res) => {
         console.error("Error fetching products:", error);
         res.status(500).json({ success: false, message: "Error fetching products" });
     }
+});
+
+
+
+// 🔴 DELETE product
+router.delete("/delete/:id", verifySession, async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const userId = req.session.userId;
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    if (product.ownerId.toString() !== userId) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    await Product.findByIdAndDelete(productId);
+    res.json({ message: "Product deleted successfully" });
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).json({ error: "Server error while deleting" });
+  }
 });
 
 

@@ -1,57 +1,63 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const params = new URLSearchParams(window.location.search);
-  const slug = params.get('slug');
+document.addEventListener("DOMContentLoaded", async () => {
+  const API_BASE = "https://swarize.in";
+  const productsContainer = document.getElementById("products-container");
 
-  if (!slug) {
-    document.getElementById("error-message").textContent = "Invalid store link";
-    return;
+  // Step 1: Check if user has a store (optional use for current user context)
+  try {
+      const res = await fetch(`${API_BASE}/api/store/my-store`, {
+          method: 'GET',
+          credentials: 'include'
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success && data.store) {
+          const slug = data.store.slug;
+          localStorage.setItem("myStoreSlug", slug);
+          console.log("✅ User's store slug stored:", slug);
+      } else {
+          console.warn("⚠️ You haven't created a store. Some seller features may be unavailable.");
+          alert("⚠️ You haven't created your own store. Viewing other sellers' products only.");
+      }
+  } catch (err) {
+      console.error("❌ Failed to check user's store info:", err);
+      alert("Server error while checking your store.");
   }
 
+  // Step 2: Fetch all products from all sellers
   try {
-    const storeRes = await fetch(`/api/store/${slug}`);
-    const storeData = await storeRes.json();
+      const response = await fetch(`${API_BASE}/api/products/all`, {
+          method: "GET",
+          credentials: "include"
+      });
 
-    if (storeRes.ok && storeData.success) {
-      const store = storeData.store;
-      document.getElementById("store-logo").src = store.logoUrl;
-      document.getElementById("store-name").textContent = store.storeName;
-      document.getElementById("store-description").textContent = store.description;
+      const result = await response.json();
 
-      loadProducts(slug);
-    } else {
-      document.getElementById("error-message").textContent = storeData.message || "Store not found";
-    }
+      if (response.ok && result.success) {
+          const products = result.products;
+
+          if (products.length === 0) {
+              productsContainer.innerHTML = "<p>No products found from any sellers.</p>";
+              return;
+          }
+
+          // Render products
+          productsContainer.innerHTML = products.map(product => `
+              <div class="product-card">
+                  <img src="${product.thumbnail}" alt="${product.title}" class="product-thumb">
+                  <h3>${product.title}</h3>
+                  <p>₹${product.price}</p>
+                  <p class="product-desc">${product.description?.substring(0, 100)}...</p>
+                  <p><strong>Seller Store:</strong> ${product.store?.name || "Unknown"}</p>
+              </div>
+          `).join("");
+
+      } else {
+          productsContainer.innerHTML = `<p>❌ Failed to fetch seller products.</p>`;
+      }
+
   } catch (err) {
-    console.error("❌ Store load error:", err);
-    document.getElementById("error-message").textContent = "Server error while loading store.";
+      console.error("❌ Error fetching products:", err);
+      productsContainer.innerHTML = `<p>❌ Server error while loading products.</p>`;
   }
 });
-
-async function loadProducts(slug) {
-  const productContainer = document.getElementById('product-container');
-  productContainer.textContent = 'Loading products...';
-
-  try {
-    const res = await fetch(`/api/products/all?storeSlug=${slug}`);
-    const data = await res.json();
-
-    if (res.ok && data.products && data.products.length > 0) {
-      productContainer.innerHTML = '';
-      data.products.forEach(product => {
-        const productElement = document.createElement('div');
-        productElement.classList.add('product');
-        productElement.innerHTML = `
-          <img src="${product.thumbnail}" alt="${product.name}" />
-          <h3>${product.name}</h3>
-          <p>${product.description}</p>
-        `;
-        productContainer.appendChild(productElement);
-      });
-    } else {
-      productContainer.textContent = 'No products found for this store.';
-    }
-  } catch (err) {
-    console.error("❌ Product fetch error:", err);
-    productContainer.textContent = 'Error fetching products.';
-  }
-}

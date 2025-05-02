@@ -80,17 +80,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   document.getElementById('sellers-store-link')?.addEventListener('click', async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default link action
+
     try {
         const res = await fetch('/api/store/my-store', {
             method: 'GET',
-            credentials: 'include'
+            credentials: 'include' // Ensure credentials (cookies) are included
         });
 
         const data = await res.json();
-        if (res.ok && data.success && data.store.slug) {
+        if (res.ok && data.success && data.store && data.store.slug) {
+            // Construct the URL using the slug
             const slug = data.store.slug;
-            window.location.href = `/sellers-store.html?slug=${slug}`;
+            window.location.href = `/sellers-store.html?slug=${slug}`; // Redirect to the sellers store page
         } else {
             alert("❌ Store not found for this user.");
         }

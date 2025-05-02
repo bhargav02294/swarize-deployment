@@ -5,6 +5,7 @@ const streamifier = require('streamifier');
 const Product = require('../models/product');
 const Store = require('../models/store');
 const verifySession = require("../middleware/verifySession"); 
+const { authenticateToken } = require('../middleware/auth'); // ✅ FIXED: Added this line
 
 const router = express.Router();
 

@@ -58,8 +58,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p>₹${product.price}</p>
             <p class="product-desc">${product.description?.substring(0, 100)}...</p>
             <p><strong>Seller Store:</strong> ${product.store?.name || "Unknown"}</p>
+            <button class="view-product" data-slug="${product.store?.slug}" data-id="${product._id}">View Product</button>
         </div>
       `).join("");
+
+      // Add event listener to "View Product" buttons
+      document.querySelectorAll(".view-product").forEach(button => {
+        button.addEventListener("click", async (event) => {
+          const storeSlug = event.target.getAttribute("data-slug");
+          const productId = event.target.getAttribute("data-id");
+
+          if (storeSlug && productId) {
+            // Redirect to specific product page, pass product details in URL
+            window.location.href = `${API_BASE}/store/${storeSlug}/product/${productId}`;
+          }
+        });
+      });
 
     } else {
       productsContainer.innerHTML = `<p>❌ Failed to fetch seller products.</p>`;

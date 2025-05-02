@@ -126,7 +126,6 @@ router.post(
 
 
 
-// Backend: /api/products/all route
 // Route to fetch products for a specific seller (store)
 router.get('/all', async (req, res) => {
   try {
@@ -141,25 +140,16 @@ router.get('/all', async (req, res) => {
   }
 });
 
-
-  
-
 // ✅ Get products by store slug
 router.get('/by-store/:slug', async (req, res) => {
     try {
         const store = await Store.findOne({ slug: req.params.slug });
         if (!store) return res.status(404).json({ success: false, message: "Store not found" });
 
-        // Debugging log to check if store is found
-        console.log("Store found:", store);
-
         const products = await Product.find({ store: store._id });
         if (products.length === 0) {
-            return res.status(200).json({ success: true, products: [] }); // Ensure empty array if no products found
+            return res.status(200).json({ success: true, products: [] });
         }
-
-        // Debugging log to check if products are fetched
-        console.log("Products found:", products);
 
         res.json({ success: true, products });
     } catch (err) {
@@ -167,7 +157,6 @@ router.get('/by-store/:slug', async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
-
 
 
 

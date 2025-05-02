@@ -127,16 +127,14 @@ router.post(
 
 
 // Route to fetch products for a specific seller (store)
-router.get('/all', async (req, res) => {
+// Fetch all products from all sellers, but filter by store
+router.get('/all', authenticateToken, async (req, res) => {
   try {
-    const products = await Product.find({})
-      .populate('store', 'name slug') // to get store info
-      .sort({ createdAt: -1 });
-
+    const products = await Product.find().populate('store', 'name slug'); // Ensure store details are populated
     res.json({ success: true, products });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ success: false, message: "Failed to fetch products" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to fetch products' });
   }
 });
 

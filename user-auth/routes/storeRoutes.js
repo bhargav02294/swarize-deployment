@@ -138,16 +138,22 @@ router.get('/redirect-to-store', async (req, res) => {
 
 
 
-router.get('/my-store', isAuthenticated, async (req, res) => {
+// Fetch store of the logged-in user
+router.get('/my-store', authenticateToken, async (req, res) => {
   try {
-    const store = await Store.findOne({ owner: req.userId });
-    if (!store) return res.status(404).json({ success: false, message: "No store found" });
+    const userId = req.user.id; // Assuming the JWT contains the user's ID.
+    const store = await Store.findOne({ owner: userId });
+    
+    if (!store) {
+      return res.status(404).json({ success: false, message: 'Store not found' });
+    }
+    
     res.json({ success: true, store });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
-
 
 
 // ✅ Route to get current user's store slug

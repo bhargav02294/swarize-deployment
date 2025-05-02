@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const API_BASE = "https://swarize.in";
   const productsContainer = document.getElementById("products-container");
 
-  // Step 1: Optional check – Does this user have their own store?
+  // Step 1: Check if the user has a store and fetch products based on the store
   try {
     const res = await fetch(`${API_BASE}/api/store/my-store`, {
       method: 'GET',
@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (res.status === 404) {
         console.warn("⚠️ Store not found.");
         alert("⚠️ You haven't created your own store. Viewing other sellers' products only.");
+      } else if (res.status === 401) {
+        alert("⚠️ You are not authenticated. Please log in.");
       } else {
         throw new Error(`HTTP ${res.status}`);
       }
@@ -30,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("Server error while checking your store.");
   }
 
-  // Step 2: Fetch all products
+  // Step 2: Fetch all products from all stores and display them
   try {
     const response = await fetch(`${API_BASE}/api/products/all`, {
       method: "GET",
@@ -58,22 +60,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p>₹${product.price}</p>
             <p class="product-desc">${product.description?.substring(0, 100)}...</p>
             <p><strong>Seller Store:</strong> ${product.store?.name || "Unknown"}</p>
-            <button class="view-product" data-slug="${product.store?.slug}" data-id="${product._id}">View Product</button>
+            <button class="view-product" onclick="window.location.href='/store/${product.store.slug}/product/${product._id}'">View Product</button>
         </div>
       `).join("");
-
-      // Add event listener to "View Product" buttons
-      document.querySelectorAll(".view-product").forEach(button => {
-        button.addEventListener("click", async (event) => {
-          const storeSlug = event.target.getAttribute("data-slug");
-          const productId = event.target.getAttribute("data-id");
-
-          if (storeSlug && productId) {
-            // Redirect to specific product page, pass product details in URL
-            window.location.href = `${API_BASE}/store/${storeSlug}/product/${productId}`;
-          }
-        });
-      });
 
     } else {
       productsContainer.innerHTML = `<p>❌ Failed to fetch seller products.</p>`;

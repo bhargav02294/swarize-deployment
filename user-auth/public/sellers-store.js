@@ -29,33 +29,35 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 // Ensure the DOM is fully loaded before executing JS
+// sellers-store.js
 document.addEventListener('DOMContentLoaded', function() {
-  const storeNameElement = document.getElementById('store-name');
-  if (storeNameElement) {
-    storeNameElement.textContent = "Welcome to Your Store!";
-  } else {
-    console.error("store-name element not found!");
+  const productContainer = document.getElementById('product-container');
+  if (productContainer) {
+      productContainer.textContent = 'Loading products...';
   }
 
-  fetch('/api/products/all')
-    .then((response) => response.json())
-    .then((data) => {
-      const productsContainer = document.getElementById('products-container');
-      if (productsContainer) {
-        data.forEach((product) => {
-          const productElement = document.createElement('div');
-          productElement.classList.add('product');
-          productElement.innerHTML = `
-            <img src="${product.thumbnailUrl}" alt="${product.name}" />
-            <h3>${product.name}</h3>
-            <p>${product.description}</p>
-            <p><strong>Price: </strong>${product.price}</p>
-          `;
-          productsContainer.appendChild(productElement);
-        });
-      } else {
-        console.error("products-container element not found!");
-      }
-    })
-    .catch((error) => console.error('Error fetching products:', error));
+  // Fetch products and display them
+  fetch('/api/products/all?storeSlug=yourStoreSlug') // Replace with actual storeSlug
+      .then(res => res.json())
+      .then(data => {
+          if (data.products && data.products.length > 0) {
+              productContainer.innerHTML = ''; // Clear 'Loading...' text
+              data.products.forEach(product => {
+                  const productElement = document.createElement('div');
+                  productElement.classList.add('product');
+                  productElement.innerHTML = `
+                      <img src="${product.thumbnail}" alt="${product.name}" />
+                      <h3>${product.name}</h3>
+                      <p>${product.description}</p>
+                  `;
+                  productContainer.appendChild(productElement);
+              });
+          } else {
+              productContainer.textContent = 'No products found for this seller.';
+          }
+      })
+      .catch(error => {
+          console.error(error);
+          productContainer.textContent = 'Error fetching products.';
+      });
 });

@@ -1,10 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const mainContainer = document.getElementById('main-container');
-    const messageContainer = document.getElementById('message-container'); // Ensure you have an element with id 'message-container' in your HTML to show the message.
     const API_BASE = "https://swarize.in";
 
     try {
-        // Check if the user is logged in
         const response = await fetch(`${API_BASE}/api/auth/is-logged-in`, {
             credentials: 'include'
         });
@@ -12,14 +10,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (response.ok && data.isLoggedIn) {
-            // Store user info in localStorage
             localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
-            // Show main content
             mainContainer.style.display = 'flex';
 
-            // Populate sidebar menu
             document.querySelector('.sidebar').innerHTML = `
                 <div class="logo-container">
                     <span class="logo-text">S</span>
@@ -37,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             `;
 
-            // Logout functionality
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
                     const logoutResponse = await fetch(`${API_BASE}/logout`, {
@@ -58,32 +52,65 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             });
 
-            // Check if the user has created a store
-            const storeResponse = await fetch("/api/store/my-store-slug", {
-                method: "GET",
-                credentials: "include", // Make sure session cookie is sent
-            });
-
-            const storeData = await storeResponse.json();
-
-            if (storeData.success && storeData.storeExists && storeData.slug) {
-                // Store found, redirect to store.html
-                localStorage.setItem("storeSlug", storeData.slug);
-                window.location.href = `/store.html?slug=${storeData.slug}`;
-            } else {
-                // Store not found, show message
-                mainContainer.style.display = 'none';  // Hide main content
-                messageContainer.style.display = 'block';  // Show the message container
-                messageContainer.innerHTML = "<h2>You haven’t created a store yet.</h2>";
-            }
-
         } else {
-            // If not logged in, redirect to not-signed-in page
             window.location.href = 'https://swarize.in/not-signed-in.html';
         }
     } catch (error) {
         console.error('Login check failed:', error);
         window.location.href = 'https://swarize.in/not-signed-in.html';
+    }
+});
+
+// public/home.js
+document.addEventListener("DOMContentLoaded", async () => {
+    const storeContainer = document.getElementById("store-products");
+    const messageContainer = document.getElementById("message-container");
+
+    try {
+        // Step 1: Check if user is logged in
+        const authRes = await fetch("/api/auth/is-logged-in", {
+            credentials: "include"
+        });
+        const authData = await authRes.json();
+
+        if (!authRes.ok || !authData.isLoggedIn) {
+            window.location.href = "/not-signed-in.html";
+            return;
+        }
+
+        localStorage.setItem("loggedInUser", authData.userId);
+        localStorage.setItem("userName", authData.userName);
+
+        // Step 2: Check if store exists and get products
+        const res = await fetch("/api/products/my-store", {
+            credentials: "include"
+        });
+        const data = await res.json();
+
+        if (data.success && data.storeExists && data.products.length > 0) {
+            messageContainer.style.display = "none";
+            storeContainer.style.display = "grid";
+
+            data.products.forEach(product => {
+                const card = document.createElement("div");
+                card.classList.add("product-card");
+                card.innerHTML = `
+                    <img src="${product.thumbnail}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p><strong>Price:</strong> ₹${product.price}</p>
+                `;
+                storeContainer.appendChild(card);
+            });
+        } else {
+            storeContainer.style.display = "none";
+            messageContainer.style.display = "block";
+            messageContainer.innerHTML = "<h2>You haven’t created a store yet.</h2>";
+        }
+
+    } catch (err) {
+        console.error("❌ Error loading seller store:", err);
+        messageContainer.innerHTML = "<h2>Error loading your store. Please try again later.</h2>";
     }
 });
 

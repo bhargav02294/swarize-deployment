@@ -1,37 +1,41 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("/api/products/my-store")
-    .then((res) => res.json())
-    .then((data) => {
-      const container = document.getElementById("products-container");
-      container.innerHTML = ""; // Clear loading content if any
+document.addEventListener('DOMContentLoaded', async () => {
+  const productsContainer = document.getElementById('products-container');
+  const heading = document.getElementById('store-heading');
 
-      if (!data.storeExists) {
-        container.innerHTML = "<p>You haven’t created a store yet.</p>";
-        return;
-      }
+  try {
+    const res = await fetch('/api/products/my-store');
+    const data = await res.json();
 
-      if (data.products.length === 0) {
-        container.innerHTML = "<p>No products listed yet.</p>";
-        return;
-      }
+    if (!data.success) {
+      heading.innerText = "Error: Could not fetch store.";
+      return;
+    }
 
-      data.products.forEach((product) => {
-        const div = document.createElement("div");
-        div.classList.add("product-card");
+    if (!data.storeExists) {
+      heading.innerText = "❌ You haven’t created a store yet.";
+      return;
+    }
 
-        div.innerHTML = `
-          <img src="${product.thumbnailImage}" alt="${product.name}" class="product-thumbnail" />
-          <h3>${product.name}</h3>
-          <p>₹${product.price}</p>
-          <p>${product.description.slice(0, 60)}...</p>
-        `;
+    if (data.products.length === 0) {
+      heading.innerText = "📦 No products added to your store yet.";
+      return;
+    }
 
-        container.appendChild(div);
-      });
-    })
-    .catch((err) => {
-      console.error("Error loading seller products:", err);
-      document.getElementById("products-container").innerHTML =
-        "<p>Failed to load your products. Please try again later.</p>";
+    heading.innerText = "🛍️ Your Store Products:";
+
+    data.products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${product.thumbnail}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <p><strong>₹${product.price}</strong></p>
+      `;
+      productsContainer.appendChild(card);
     });
+  } catch (err) {
+    console.error('Error fetching products:', err);
+    heading.innerText = "❌ Server Error: Unable to load store.";
+  }
 });

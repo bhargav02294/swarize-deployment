@@ -127,20 +127,32 @@ router.post(
 
 
 // Backend: /api/products/all route
+// Route to fetch products for a specific seller (store)
 router.get('/all', async (req, res) => {
   try {
-      // Assuming we pass storeSlug in query params to fetch products for a specific seller
       const { storeSlug } = req.query;
-      const store = await Store.findOne({ slug: storeSlug }); // Find the store by slug
+
+      if (!storeSlug) {
+          return res.status(400).json({ message: 'StoreSlug is required' });
+      }
+
+      // Fetch the store by its slug
+      const store = await Store.findOne({ slug: storeSlug });
+
       if (!store) {
           return res.status(404).json({ message: 'Store not found' });
       }
 
-      // Fetch products for that specific store
-      const products = await Product.find({ store: store._id }); // Assuming store field in Product model
+      // Fetch products related to this store
+      const products = await Product.find({ store: store._id });
+
+      if (!products.length) {
+          return res.status(404).json({ message: 'No products found for this store' });
+      }
+
       res.status(200).json({ products });
   } catch (error) {
-      console.error(error);
+      console.error("Error fetching products:", error);
       res.status(500).json({ message: 'Server error' });
   }
 });

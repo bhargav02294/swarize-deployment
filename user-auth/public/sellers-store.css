@@ -30,3 +30,35 @@ body {
   max-width: 100%;
   height: auto;
 }
+
+
+.product {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.product-thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.product-description {
+  font-size: 14px;
+  color: #555;
+}
+
+.view-product-btn {
+  padding: 10px 15px;
+  background-color: #007BFF;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}

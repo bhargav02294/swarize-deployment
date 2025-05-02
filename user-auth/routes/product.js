@@ -130,29 +130,17 @@ router.post(
 // Route to fetch products for a specific seller (store)
 router.get('/all', async (req, res) => {
   try {
-      // Fetch the storeSlug from query params
-      const { storeSlug } = req.query;
+    const products = await Product.find({})
+      .populate('store', 'name slug') // to get store info
+      .sort({ createdAt: -1 });
 
-      if (!storeSlug) {
-          return res.status(400).json({ message: 'StoreSlug is required' });
-      }
-
-      // Find the store by storeSlug
-      const store = await Store.findOne({ slug: storeSlug });
-
-      if (!store) {
-          return res.status(404).json({ message: 'Store not found' });
-      }
-
-      // Fetch products related to this store
-      const products = await Product.find({ store: store._id });
-
-      res.status(200).json({ products });
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
+    res.json({ success: true, products });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ success: false, message: "Failed to fetch products" });
   }
 });
+
 
   
 

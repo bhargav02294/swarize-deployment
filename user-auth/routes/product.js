@@ -267,46 +267,4 @@ router.post('/login', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-// ✅ Route to get all products of logged-in user's store (must come BEFORE /:id)
-router.get('/my-store', async (req, res) => {
-  try {
-    const userId = req.session?.userId || req.session?.passport?.user;
-    if (!userId) {
-      return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
-
-    const store = await Store.findOne({ owner: userId });
-    if (!store) {
-      return res.status(200).json({ success: true, storeExists: false, products: [] });
-    }
-
-    const products = await Product.find({ store: store._id }).sort({ createdAt: -1 });
-    return res.status(200).json({ success: true, storeExists: true, products });
-  } catch (err) {
-    console.error("❌ Error in /my-store route:", err);
-    return res.status(500).json({ success: false, message: "Server error in /my-store" });
-  }
-});
-
-
-// ✅ Specific product by ID (must be AFTER /my-store)
-router.get('/:id', async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) {
-      return res.status(404).json({ success: false, message: "Product not found" });
-    }
-    return res.status(200).json({ success: true, product });
-  } catch (err) {
-    console.error("❌ Error in /:id route:", err);
-    return res.status(500).json({ success: false, message: "Server error in /:id" });
-  }
-});
-
 module.exports = router;

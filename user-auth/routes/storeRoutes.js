@@ -61,30 +61,6 @@ router.get('/check', async (req, res) => {
   }
 });
 
-
-
-// ✅ Get store slug of logged-in user
-router.get('/my-store-slug', async (req, res) => {
-  try {
-    const userId = req.session?.userId || req.session?.passport?.user;
-    if (!userId) {
-      return res.status(401).json({ success: false, message: "Not authenticated" });
-    }
-
-    const store = await Store.findOne({ owner: userId });
-    if (!store) {
-      return res.status(200).json({ success: true, storeExists: false });
-    }
-
-    return res.status(200).json({ success: true, storeExists: true, slug: store.slug });
-  } catch (err) {
-    console.error("❌ Error in /my-store-slug route:", err);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-
-
 // ✅ Create store
 router.post('/create', upload.single('logo'), async (req, res) => {
   try {
@@ -160,9 +136,23 @@ router.get('/redirect-to-store', async (req, res) => {
 
 // ✅ Route to get current user's store slug
 // 👇 is route ko top me daalo, slug wale route se pehle
+router.get('/my-store-slug', async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ success: false, message: "Not authenticated" });
+
+    const store = await Store.findOne({ owner: userId });
+    if (!store) return res.status(404).json({ success: false, message: "Store not found" });
+
+    res.json({ success: true, slug: store.slug });
+  } catch (err) {
+    console.error("❌ Error getting store slug:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 
-// ✅ Get store by slug (last route)
+// ✅ Route to get store by slug (MUST be last)
 router.get('/:slug', async (req, res) => {
   try {
     const store = await Store.findOne({ slug: req.params.slug });
@@ -174,5 +164,6 @@ router.get('/:slug', async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 module.exports = router;

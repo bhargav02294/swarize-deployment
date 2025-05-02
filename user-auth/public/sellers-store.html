@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Seller's Store</title>
+  <title>All Seller Products | Swarize</title>
   <link rel="stylesheet" href="sellers-store.css" />
 </head>
 <body>
-  <div id="message-container" style="display: none;"></div>
+  <header>
+    <h1>Swarize Marketplace</h1>
+    <p>Explore products from all sellers</p>
+  </header>
 
-<div id="store-products" class="product-grid" style="display: none;">
-  <!-- Products will be appended here -->
-</div>
-
-  <div class="container">
-    <h1 id="store-heading">Loading your store...</h1>
-    <div id="products-container" class="products-grid"></div>
-  </div>
+  <main>
+    <div id="product-list" class="product-grid"></div>
+  </main>
 
   <script src="sellers-store.js"></script>
 </body>

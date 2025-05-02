@@ -1,41 +1,34 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const productsContainer = document.getElementById('products-container');
-  const heading = document.getElementById('store-heading');
+document.addEventListener("DOMContentLoaded", async () => {
+  const productList = document.getElementById("product-list");
 
   try {
-    const res = await fetch('/api/products/my-store');
-    const data = await res.json();
+    const response = await fetch("/api/products/all");
+    const data = await response.json();
 
-    if (!data.success) {
-      heading.innerText = "Error: Could not fetch store.";
-      return;
+    if (response.ok && Array.isArray(data)) {
+      if (data.length === 0) {
+        productList.innerHTML = "<p>No products available yet.</p>";
+        return;
+      }
+
+      data.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        card.innerHTML = `
+          <img src="${product.thumbnail}" alt="${product.title}" />
+          <h3>${product.title}</h3>
+          <p>₹${product.price}</p>
+          <p>${product.category} - ${product.subCategory}</p>
+        `;
+
+        productList.appendChild(card);
+      });
+    } else {
+      productList.innerHTML = "<p>Failed to load products.</p>";
     }
-
-    if (!data.storeExists) {
-      heading.innerText = "❌ You haven’t created a store yet.";
-      return;
-    }
-
-    if (data.products.length === 0) {
-      heading.innerText = "📦 No products added to your store yet.";
-      return;
-    }
-
-    heading.innerText = "🛍️ Your Store Products:";
-
-    data.products.forEach(product => {
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <img src="${product.thumbnail}" alt="${product.name}" />
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <p><strong>₹${product.price}</strong></p>
-      `;
-      productsContainer.appendChild(card);
-    });
   } catch (err) {
-    console.error('Error fetching products:', err);
-    heading.innerText = "❌ Server Error: Unable to load store.";
+    console.error("Error loading products:", err);
+    productList.innerHTML = "<p>Error fetching products.</p>";
   }
 });

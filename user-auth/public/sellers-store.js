@@ -27,9 +27,17 @@ document.addEventListener("DOMContentLoaded", async () => {
           <img src="${store.logoUrl}" alt="${store.name}" class="store-logo">
           <h3>${store.name}</h3>
           <p>${store.description?.substring(0, 100)}...</p>
-          <button class="view-products" onclick="viewStoreProducts('${store.slug}')">View Products</button>
+          <button class="view-products" data-slug="${store.slug}">View Products</button>
       </div>
     `).join("");
+
+    // Add event listeners to buttons dynamically
+    const viewProductButtons = document.querySelectorAll('.view-products');
+    viewProductButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        viewStoreProducts(this.getAttribute('data-slug'));
+      });
+    });
 
   } catch (err) {
     console.error("❌ Error fetching stores:", err);

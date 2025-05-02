@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const streamifier = require("streamifier");
+const { isAuthenticated } = require('../middleware/authMiddleware');
 
 // ✅ Cloudinary config
 cloudinary.config({

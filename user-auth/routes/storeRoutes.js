@@ -138,7 +138,7 @@ router.get('/redirect-to-store', async (req, res) => {
 // 👇 is route ko top me daalo, slug wale route se pehle
 router.get('/my-store-slug', async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const userId = req.session.userId || req.session?.passport?.user;
     if (!userId) return res.status(401).json({ success: false, message: "Not authenticated" });
 
     const store = await Store.findOne({ owner: userId });
@@ -151,6 +151,24 @@ router.get('/my-store-slug', async (req, res) => {
   }
 });
 
+// ✅ Route to get logged-in seller's own store products
+router.get('/my-store', async (req, res) => {
+  try {
+    const userId = req.session.userId || req.session?.passport?.user;
+    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+    const store = await Store.findOne({ owner: userId });
+    if (!store) {
+      return res.status(200).json({ success: true, storeExists: false, products: [] });
+    }
+
+    const products = await Product.find({ store: store._id }).sort({ createdAt: -1 });
+    return res.status(200).json({ success: true, storeExists: true, products });
+  } catch (err) {
+    console.error("❌ Error in /my-store route:", err);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 // ✅ Route to get store by slug (MUST be last)
 router.get('/:slug', async (req, res) => {

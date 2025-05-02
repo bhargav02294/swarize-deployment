@@ -1,24 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const slug = urlParams.get("slug");
-
-  const container = document.getElementById("products-container");
-  const heading = document.getElementById("store-heading");
-
-  if (!slug) {
-    container.innerHTML = "<p style='color:red;'>Invalid store link. No slug provided.</p>";
-    return;
-  }
-
-  fetch(`/api/products/by-store/${slug}`)
+  fetch("/api/products/my-store")
     .then((res) => res.json())
     .then((data) => {
-      if (!data.success || data.products.length === 0) {
-        container.innerHTML = "<p>No products found for this seller.</p>";
+      const container = document.getElementById("products-container");
+      container.innerHTML = ""; // Clear loading content if any
+
+      if (!data.storeExists) {
+        container.innerHTML = "<p>You haven’t created a store yet.</p>";
         return;
       }
 
-      heading.textContent = `Products from "${slug}"`;
+      if (data.products.length === 0) {
+        container.innerHTML = "<p>No products listed yet.</p>";
+        return;
+      }
 
       data.products.forEach((product) => {
         const div = document.createElement("div");
@@ -36,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((err) => {
       console.error("Error loading seller products:", err);
-      container.innerHTML = "<p style='color:red;'>Failed to load products.</p>";
+      document.getElementById("products-container").innerHTML =
+        "<p>Failed to load your products. Please try again later.</p>";
     });
 });

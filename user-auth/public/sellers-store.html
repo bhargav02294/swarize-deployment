@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seller's Store</title>
-    <link rel="stylesheet" href="/sellers-store.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Seller Store</title>
+  <link rel="stylesheet" href="sellers-store.css" />
 </head>
 <body>
-  <!-- Error message element -->
-<div id="error-message"></div>
 
-<!-- Store details -->
-<img id="store-logo" alt="Store Logo" />
-<h1 id="store-name"></h1>
-<p id="store-description"></p>
+  <div class="container">
+    <div id="error-message" class="error-message"></div>
 
-<!-- Product container -->
-<div id="product-container"></div>
+    <section class="store-header">
+      <img id="store-logo" src="" alt="Store Logo" class="store-logo" />
+      <div class="store-info">
+        <h1 id="store-name">Seller's Store</h1>
+        <p id="store-description"></p>
+      </div>
+    </section>
 
-    <h1>Seller's Store</h1>
-    <div id="product-container"></div> <!-- Container to display products -->
-    
-    <script src="/sellers-store.js"></script>
+    <section id="product-container" class="product-container">
+      <!-- Products will be loaded here -->
+    </section>
+  </div>
+
+  <script src="sellers-store.js"></script>
 </body>
 </html>

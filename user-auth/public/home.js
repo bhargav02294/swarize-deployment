@@ -10,24 +10,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (response.ok && data.isLoggedIn) {
-            const userId = data.userId;
-            localStorage.setItem("loggedInUser", userId);
+            localStorage.setItem("loggedInUser", data.userId);
             localStorage.setItem("userName", data.userName);
 
-            // ✅ fetch store info using userId
-            let storeSlug = '';
-            try {
-                const storeRes = await fetch(`/api/store/by-user/${userId}`);
-                const storeData = await storeRes.json();
-                if (storeRes.ok && storeData.success) {
-                    storeSlug = storeData.store.slug;
-                    localStorage.setItem("storeSlug", storeSlug);
-                }
-            } catch (err) {
-                console.warn("Store not found for user");
-            }
-
-            // ✅ render sidebar with storeSlug in link
             mainContainer.style.display = 'flex';
 
             document.querySelector('.sidebar').innerHTML = `
@@ -38,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
                     <li><a href="/bank-details.html">Bank Details</a></li>
-                    <li><a href="/sellers-store.html${storeSlug ? `?slug=${storeSlug}` : ''}">Sellers Store</a></li>
+<li><a href="#" id="sellers-store-link">Sellers Store</a></li>
                     <li><a href="/Security.html">Security</a></li>
                     <li><a href="/invite.html">Invite</a></li>
                     <li><a href="/about.html">About</a></li>
@@ -47,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             `;
 
-            // ✅ logout
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
                     const logoutResponse = await fetch(`${API_BASE}/logout`, {
@@ -77,22 +61,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-document.getElementById('store-btn')?.addEventListener('click', async () => {
+
+  
+  
+  document.getElementById('store-btn')?.addEventListener('click', async () => {
     try {
-        const res = await fetch('/api/store/redirect-to-store', { credentials: 'include' });
+      const res = await fetch('/api/store/redirect-to-store', { credentials: 'include' });
+      const data = await res.json();
+      if (data.success && data.redirectTo) {
+        window.location.href = data.redirectTo;
+      } else {
+        alert("❌ Store redirection failed");
+      }
+    } catch (err) {
+      console.error("❌ Store redirect error:", err);
+      alert("Server error");
+    }
+  });
+
+  document.getElementById('sellers-store-link')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+        const res = await fetch('/api/store/my-store', {
+            method: 'GET',
+            credentials: 'include'
+        });
+
         const data = await res.json();
-        if (data.success && data.redirectTo) {
-            window.location.href = data.redirectTo;
+        if (res.ok && data.success && data.store.slug) {
+            const slug = data.store.slug;
+            window.location.href = `/sellers-store.html?slug=${slug}`;
         } else {
-            alert("❌ Store redirection failed");
+            alert("❌ Store not found for this user.");
         }
     } catch (err) {
-        console.error("❌ Store redirect error:", err);
-        alert("Server error");
+        console.error("❌ Store fetch error:", err);
+        alert("Server error while redirecting to seller store.");
     }
 });
 
-// Utility buttons
+
+  
+
+// Utility Function for buttons
 function addEventListenerIfExists(selector, event, handler) {
     const element = document.querySelector(selector);
     if (element) element.addEventListener(event, handler);

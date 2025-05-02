@@ -126,64 +126,28 @@ router.post(
 
 
 
-// Backend: /api/products/all route
-// Route to fetch products for a specific seller (store)
+
+// Get all products by storeSlug
 router.get('/all', async (req, res) => {
+  const { storeSlug } = req.query;
+
+  if (!storeSlug) {
+    return res.status(400).json({ success: false, message: 'Missing store slug' });
+  }
+
   try {
-      const { storeSlug } = req.query;
+    const store = await Store.findOne({ slug: storeSlug });
+    if (!store) {
+      return res.status(404).json({ success: false, message: 'Store not found' });
+    }
 
-      if (!storeSlug) {
-          return res.status(400).json({ message: 'StoreSlug is required' });
-      }
-
-      // Fetch the store by its slug
-      const store = await Store.findOne({ slug: storeSlug });
-
-      if (!store) {
-          return res.status(404).json({ message: 'Store not found' });
-      }
-
-      // Fetch products related to this store
-      const products = await Product.find({ store: store._id });
-
-      if (!products.length) {
-          return res.status(404).json({ message: 'No products found for this store' });
-      }
-
-      res.status(200).json({ products });
+    const products = await Product.find({ store: store._id });
+    res.json({ success: true, products });
   } catch (error) {
-      console.error("Error fetching products:", error);
-      res.status(500).json({ message: 'Server error' });
+    console.error('❌ Error fetching products:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
-
-
-  
-
-// ✅ Get products by store slug
-router.get('/by-store/:slug', async (req, res) => {
-    try {
-        const store = await Store.findOne({ slug: req.params.slug });
-        if (!store) return res.status(404).json({ success: false, message: "Store not found" });
-
-        // Debugging log to check if store is found
-        console.log("Store found:", store);
-
-        const products = await Product.find({ store: store._id });
-        if (products.length === 0) {
-            return res.status(200).json({ success: true, products: [] }); // Ensure empty array if no products found
-        }
-
-        // Debugging log to check if products are fetched
-        console.log("Products found:", products);
-
-        res.json({ success: true, products });
-    } catch (err) {
-        console.error("❌ Error in by-store route:", err);
-        res.status(500).json({ success: false, message: "Server error" });
-    }
-});
-
 
 
 

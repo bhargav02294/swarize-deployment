@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (res.ok && data.success) {
       const store = data.store;
       document.getElementById("store-logo").src = store.logoUrl;
-      document.getElementById("store-name").textContent = store.storeName;
+      document.getElementById("store-name").textContent = store.storeName;  // Updated
       document.getElementById("store-description").textContent = store.description;
 
-      loadProducts(slug, store._id);
+      loadProducts(slug, store._id);  // Ensure that this function is properly defined
     } else {
       document.getElementById("error-message").textContent = data.message || "Store not found";
     }
@@ -27,33 +27,35 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-async function loadProducts(slug, storeId) {
-  const container = document.getElementById("product-container");
-  try {
-    const res = await fetch(`/api/products/by-store/${slug}`);
-    const data = await res.json();
 
-    if (data.success) {
-      if (data.products.length === 0) {
-        container.innerHTML = "<p>No products found</p>";
-        return;
-      }
-
-      data.products.forEach(product => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `
-          <img src="${product.thumbnailImage}" alt="${product.name}" />
-          <h3>${product.name}</h3>
-          <p>₹${product.price}</p>
-        `;
-        container.appendChild(card);
-      });
-    } else {
-      container.innerHTML = "<p>Could not load products</p>";
-    }
-  } catch (err) {
-    console.error("Product load error:", err);
-    container.innerHTML = "<p>Error loading products</p>";
+// Ensure the DOM is fully loaded before executing JS
+document.addEventListener('DOMContentLoaded', function() {
+  const storeNameElement = document.getElementById('store-name');
+  if (storeNameElement) {
+    storeNameElement.textContent = "Welcome to Your Store!";
+  } else {
+    console.error("store-name element not found!");
   }
-}
+
+  fetch('/api/products/all')
+    .then((response) => response.json())
+    .then((data) => {
+      const productsContainer = document.getElementById('products-container');
+      if (productsContainer) {
+        data.forEach((product) => {
+          const productElement = document.createElement('div');
+          productElement.classList.add('product');
+          productElement.innerHTML = `
+            <img src="${product.thumbnailUrl}" alt="${product.name}" />
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p><strong>Price: </strong>${product.price}</p>
+          `;
+          productsContainer.appendChild(productElement);
+        });
+      } else {
+        console.error("products-container element not found!");
+      }
+    })
+    .catch((error) => console.error('Error fetching products:', error));
+});

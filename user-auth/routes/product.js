@@ -126,13 +126,18 @@ router.post(
 
 
 
-router.get("/all", async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
-    const products = await Product.find().populate("store");
-    res.json({ success: true, products });
+    // Fetch all products from all stores
+    const products = await Product.find({}); // or use a more specific query if needed
+    if (products.length > 0) {
+      res.json(products); // Send products as JSON response
+    } else {
+      res.status(404).json({ message: 'No products found' });
+    }
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false });
+    console.error('Error fetching products:', err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

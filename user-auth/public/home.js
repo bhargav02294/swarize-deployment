@@ -10,9 +10,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
 
         if (response.ok && data.isLoggedIn) {
-            localStorage.setItem("loggedInUser", data.userId);
+            const userId = data.userId;
+            localStorage.setItem("loggedInUser", userId);
             localStorage.setItem("userName", data.userName);
 
+            // ✅ fetch store info using userId
+            let storeSlug = '';
+            try {
+                const storeRes = await fetch(`/api/store/by-user/${userId}`);
+                const storeData = await storeRes.json();
+                if (storeRes.ok && storeData.success) {
+                    storeSlug = storeData.store.slug;
+                    localStorage.setItem("storeSlug", storeSlug);
+                }
+            } catch (err) {
+                console.warn("Store not found for user");
+            }
+
+            // ✅ render sidebar with storeSlug in link
             mainContainer.style.display = 'flex';
 
             document.querySelector('.sidebar').innerHTML = `
@@ -23,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
                     <li><a href="/bank-details.html">Bank Details</a></li>
-                    <li><a href="/sellers-store.html">Sellers Store</a></li>
+                    <li><a href="/sellers-store.html${storeSlug ? `?slug=${storeSlug}` : ''}">Sellers Store</a></li>
                     <li><a href="/Security.html">Security</a></li>
                     <li><a href="/invite.html">Invite</a></li>
                     <li><a href="/about.html">About</a></li>
@@ -32,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             `;
 
+            // ✅ logout
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
                     const logoutResponse = await fetch(`${API_BASE}/logout`, {
@@ -61,26 +77,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-
-  
-  
-  document.getElementById('store-btn')?.addEventListener('click', async () => {
+document.getElementById('store-btn')?.addEventListener('click', async () => {
     try {
-      const res = await fetch('/api/store/redirect-to-store', { credentials: 'include' });
-      const data = await res.json();
-      if (data.success && data.redirectTo) {
-        window.location.href = data.redirectTo;
-      } else {
-        alert("❌ Store redirection failed");
-      }
+        const res = await fetch('/api/store/redirect-to-store', { credentials: 'include' });
+        const data = await res.json();
+        if (data.success && data.redirectTo) {
+            window.location.href = data.redirectTo;
+        } else {
+            alert("❌ Store redirection failed");
+        }
     } catch (err) {
-      console.error("❌ Store redirect error:", err);
-      alert("Server error");
+        console.error("❌ Store redirect error:", err);
+        alert("Server error");
     }
-  });
-  
+});
 
-// Utility Function for buttons
+// Utility buttons
 function addEventListenerIfExists(selector, event, handler) {
     const element = document.querySelector(selector);
     if (element) element.addEventListener(event, handler);

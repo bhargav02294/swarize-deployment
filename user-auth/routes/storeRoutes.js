@@ -7,6 +7,7 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const streamifier = require("streamifier");
 const { isAuthenticated } = require('../middleware/authMiddleware'); // ✅ FIXED
+const { authenticateToken } = require('../middleware/auth');
 
 // ✅ Cloudinary config
 cloudinary.config({

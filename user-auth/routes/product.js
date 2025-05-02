@@ -274,7 +274,7 @@ router.post('/login', async (req, res) => {
 
 
 // ✅ Route to get all products of logged-in user's store (must come BEFORE /:id)
-rrouter.get('/my-store', async (req, res) => {
+router.get('/my-store', async (req, res) => {
   try {
     const userId = req.session?.userId || req.session?.passport?.user;
     if (!userId) {

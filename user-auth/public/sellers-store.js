@@ -1,55 +1,58 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const API_BASE = "https://swarize.in";
+  const storesContainer = document.getElementById("stores-container");
   const productsContainer = document.getElementById("products-container");
 
-  // Step 1: Check if the user has a store and fetch products based on the store
+  // Step 1: Fetch all stores and display them
   try {
-    const res = await fetch(`${API_BASE}/api/store/my-store`, {
+    const storesRes = await fetch(`${API_BASE}/api/store/public`, {
       method: 'GET',
       credentials: 'include'
     });
 
-    if (!res.ok) {
-      if (res.status === 404) {
-        console.warn("⚠️ Store not found.");
-        alert("⚠️ You haven't created your own store. Viewing other sellers' products only.");
-      } else if (res.status === 401) {
-        alert("⚠️ You are not authenticated. Please log in.");
-      } else {
-        throw new Error(`HTTP ${res.status}`);
-      }
-    } else {
-      const data = await res.json();
-      if (data.success && data.store) {
-        const slug = data.store.slug;
-        localStorage.setItem("myStoreSlug", slug);
-        console.log("✅ User's store slug stored:", slug);
-      }
+    if (!storesRes.ok) {
+      throw new Error(`HTTP ${storesRes.status}`);
     }
+
+    const storesData = await storesRes.json();
+    const stores = storesData.stores;
+
+    if (!stores || stores.length === 0) {
+      storesContainer.innerHTML = "<p>No stores found.</p>";
+      return;
+    }
+
+    storesContainer.innerHTML = stores.map(store => `
+      <div class="store-card" data-slug="${store.slug}">
+          <img src="${store.logoUrl}" alt="${store.name}" class="store-logo">
+          <h3>${store.name}</h3>
+          <p>${store.description?.substring(0, 100)}...</p>
+          <button class="view-products" onclick="viewStoreProducts('${store.slug}')">View Products</button>
+      </div>
+    `).join("");
 
   } catch (err) {
-    console.error("❌ Failed to check user's store info:", err);
-    alert("Server error while checking your store.");
+    console.error("❌ Error fetching stores:", err);
+    storesContainer.innerHTML = `<p>❌ Failed to fetch stores.</p>`;
   }
 
-  // Step 2: Fetch all products from all stores and display them
-  try {
-    const response = await fetch(`${API_BASE}/api/products/all`, {
-      method: "GET",
-      credentials: "include"
-    });
+  // Step 2: Function to fetch products of a store
+  async function viewStoreProducts(slug) {
+    try {
+      const res = await fetch(`${API_BASE}/api/products/by-store/${slug}`, {
+        method: 'GET',
+        credentials: 'include'
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
 
-    const result = await response.json();
-
-    if (result.success) {
-      const products = result.products;
+      const data = await res.json();
+      const products = data.products;
 
       if (!products || products.length === 0) {
-        productsContainer.innerHTML = "<p>No products found from any sellers.</p>";
+        productsContainer.innerHTML = "<p>No products found for this store.</p>";
         return;
       }
 
@@ -64,12 +67,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       `).join("");
 
-    } else {
-      productsContainer.innerHTML = `<p>❌ Failed to fetch seller products.</p>`;
+    } catch (err) {
+      console.error("❌ Error fetching products:", err);
+      productsContainer.innerHTML = `<p>❌ Failed to fetch products.</p>`;
     }
-
-  } catch (err) {
-    console.error("❌ Error fetching products:", err);
-    productsContainer.innerHTML = `<p>❌ Server error while loading products.</p>`;
   }
 });

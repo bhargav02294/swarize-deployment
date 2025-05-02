@@ -142,20 +142,20 @@ router.get('/all', async (req, res) => {
 
 // ✅ Get products by store slug
 router.get('/by-store/:slug', async (req, res) => {
-    try {
-        const store = await Store.findOne({ slug: req.params.slug });
-        if (!store) return res.status(404).json({ success: false, message: "Store not found" });
+  const { slug } = req.params;
 
-        const products = await Product.find({ store: store._id });
-        if (products.length === 0) {
-            return res.status(200).json({ success: true, products: [] });
-        }
-
-        res.json({ success: true, products });
-    } catch (err) {
-        console.error("❌ Error in by-store route:", err);
-        res.status(500).json({ success: false, message: "Server error" });
+  try {
+    const store = await Store.findOne({ slug });
+    if (!store) {
+      return res.status(404).json({ success: false, message: "Store not found" });
     }
+
+    const products = await Product.find({ store: store._id });
+    res.json({ success: true, products });
+  } catch (err) {
+    console.error("❌ Error fetching products:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 

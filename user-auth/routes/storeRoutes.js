@@ -140,15 +140,12 @@ router.get('/redirect-to-store', async (req, res) => {
 
 
 // Fetch store of the logged-in user
-router.get('/my-store', isAuthenticated, async (req, res) => {
+router.get('/public', async (req, res) => {
   try {
-    const store = await Store.findOne({ owner: req.user.id });
-    if (!store) {
-      return res.status(404).json({ success: false, message: "Store not found" });
-    }
-    res.json({ success: true, store });
+    const stores = await Store.find().select("name slug logoUrl description");
+    res.json({ success: true, stores });
   } catch (err) {
-    console.error("❌ Error fetching store:", err);
+    console.error("❌ Error fetching stores:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

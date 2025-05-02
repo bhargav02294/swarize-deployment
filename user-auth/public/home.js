@@ -61,58 +61,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// public/home.js
-document.addEventListener("DOMContentLoaded", async () => {
-    const storeContainer = document.getElementById("store-products");
-    const messageContainer = document.getElementById("message-container");
-
-    try {
-        // Step 1: Check if user is logged in
-        const authRes = await fetch("/api/auth/is-logged-in", {
-            credentials: "include"
-        });
-        const authData = await authRes.json();
-
-        if (!authRes.ok || !authData.isLoggedIn) {
-            window.location.href = "/not-signed-in.html";
-            return;
-        }
-
-        localStorage.setItem("loggedInUser", authData.userId);
-        localStorage.setItem("userName", authData.userName);
-
-        // Step 2: Check if store exists and get products
-        const res = await fetch("/api/products/my-store", {
-            credentials: "include"
-        });
-        const data = await res.json();
-
-        if (data.success && data.storeExists && data.products.length > 0) {
-            messageContainer.style.display = "none";
-            storeContainer.style.display = "grid";
-
-            data.products.forEach(product => {
-                const card = document.createElement("div");
-                card.classList.add("product-card");
-                card.innerHTML = `
-                    <img src="${product.thumbnail}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p><strong>Price:</strong> ₹${product.price}</p>
-                `;
-                storeContainer.appendChild(card);
-            });
-        } else {
-            storeContainer.style.display = "none";
-            messageContainer.style.display = "block";
-            messageContainer.innerHTML = "<h2>You haven’t created a store yet.</h2>";
-        }
-
-    } catch (err) {
-        console.error("❌ Error loading seller store:", err);
-        messageContainer.innerHTML = "<h2>Error loading your store. Please try again later.</h2>";
-    }
-});
 
   
   

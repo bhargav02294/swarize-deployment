@@ -156,11 +156,10 @@ router.get('/my-store-slug', async (req, res) => {
 router.get('/:slug', async (req, res) => {
   try {
     const store = await Store.findOne({ slug: req.params.slug });
-    if (!store) {
-      return res.status(404).json({ success: false, message: "Store not found" });
-    }
+    if (!store) return res.status(404).json({ success: false, message: "Store not found" });
     res.json({ success: true, store });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

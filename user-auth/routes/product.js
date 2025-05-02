@@ -126,16 +126,16 @@ router.post(
 
 
 
-// All Sellers' Products
-router.get('/all', async (req, res) => {
-    try {
-      const products = await Product.find().sort({ createdAt: -1 }).limit(100);
-      res.json({ products });
-    } catch (err) {
-      console.error("Error fetching all products:", err);
-      res.status(500).json({ error: 'Failed to fetch products' });
-    }
-  });
+router.get("/all", async (req, res) => {
+  try {
+    const products = await Product.find().populate("store");
+    res.json({ success: true, products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
+});
+
   
 
 // ✅ Get products by store slug

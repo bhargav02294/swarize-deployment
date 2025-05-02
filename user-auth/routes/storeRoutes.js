@@ -134,37 +134,36 @@ router.get('/redirect-to-store', async (req, res) => {
 });
 
 
-
-// ✅ Place this BEFORE any /:id or similar param route
-router.get('/my-store', async (req, res) => {
+// ✅ Route to get current user's store slug
+// 👇 is route ko top me daalo, slug wale route se pehle
+router.get('/my-store-slug', async (req, res) => {
   try {
-    const userId = req.session?.userId || req.session?.passport?.user;
-    if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ success: false, message: "Not authenticated" });
 
-    const store = await Store.findOne({ owner: userId }); // 👈 FIXED: owner, not ownerId
-    if (!store) {
-      return res.status(200).json({ success: true, storeExists: false, products: [] });
-    }
+    const store = await Store.findOne({ owner: userId });
+    if (!store) return res.status(404).json({ success: false, message: "Store not found" });
 
-    const products = await Product.find({ store: store._id }).sort({ createdAt: -1 });
-    return res.status(200).json({ success: true, storeExists: true, products });
+    res.json({ success: true, slug: store.slug });
   } catch (err) {
-    console.error("❌ Error fetching product:", err);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-// 👇 Make sure this is AFTER /my-store route
-router.get('/:id', async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
-    res.json({ success: true, product });
-  } catch (err) {
+    console.error("❌ Error getting store slug:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
+
+// ✅ Route to get store by slug (MUST be last)
+router.get('/:slug', async (req, res) => {
+  try {
+    const store = await Store.findOne({ slug: req.params.slug });
+    if (!store) {
+      return res.status(404).json({ success: false, message: "Store not found" });
+    }
+    res.json({ success: true, store });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 
 module.exports = router;

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
                     <li><a href="/bank-details.html">Bank Details</a></li>
-<li><a href="#" id="sellers-store-link">Sellers Store</a></li>
+                    <li><a href="/sellers-store.html">Sellers Store</a></li>
                     <li><a href="/Security.html">Security</a></li>
                     <li><a href="/invite.html">Invite</a></li>
                     <li><a href="/about.html">About</a></li>
@@ -80,28 +80,31 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   document.getElementById('sellers-store-link')?.addEventListener('click', async (e) => {
-    e.preventDefault(); // Prevent default link action
-
+    e.preventDefault();
     try {
-        const res = await fetch('/api/store/my-store', {
+        const customHeaders = {
+            'Content-Type': 'application/json',
+            'X-Custom-Source': 'sellers-store-access' // optional header if needed for distinction
+        };
+
+        const res = await fetch('https://swarize.in/api/store/my-store', {
             method: 'GET',
-            credentials: 'include' // Ensure credentials (cookies) are included
+            credentials: 'include', // you can keep this to maintain session cookies
+            headers: customHeaders
         });
 
         const data = await res.json();
-        if (res.ok && data.success && data.store && data.store.slug) {
-            // Construct the URL using the slug
+        if (res.ok && data.success) {
             const slug = data.store.slug;
-            window.location.href = `/sellers-store.html?slug=${slug}`; // Redirect to the sellers store page
+            window.location.href = `/sellers-store.html?slug=${slug}`;
         } else {
-            alert("❌ Store not found for this user.");
+            alert("⚠️ You haven't created a store yet.");
         }
     } catch (err) {
-        console.error("❌ Store fetch error:", err);
-        alert("Server error while redirecting to seller store.");
+        console.error("❌ Failed to fetch store info", err);
+        alert("Server error");
     }
 });
-
 
   
 

@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const streamifier = require("streamifier");
-const { isAuthenticated } = require('../middleware/authMiddleware');
 
 // ✅ Cloudinary config
 cloudinary.config({
@@ -139,22 +138,18 @@ router.get('/redirect-to-store', async (req, res) => {
 
 
 
-// Get store info of logged-in user
-// routes/storeRoutes.js
-router.get('/my-store', isAuthenticated, async (req, res) => {
+// GET /api/store/by-user/:userId
+router.get("/by-user/:userId", async (req, res) => {
   try {
-    const store = await Store.findOne({ owner: req.user._id }); // Find store based on user
+    const store = await Store.findOne({ owner: req.params.userId });
     if (!store) {
-      return res.status(404).json({ success: false, message: 'Store not found' });
+      return res.status(404).json({ success: false, message: "Store not found" });
     }
     res.json({ success: true, store });
   } catch (err) {
-    console.error("Error fetching store:", err);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
-
-
 
 
 // ✅ Route to get current user's store slug

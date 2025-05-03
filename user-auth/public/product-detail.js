@@ -30,8 +30,19 @@ const product = (await productResponse.json()).product;
         // Set basic product text info
         setText("preview-name", product.name || "Product Name");
         setText("preview-price", `₹${product.price || "0.00"}`);
-        const storeName = product.store?.storeName || "Unknown Store";
-        setText("preview-store-name", `Sold by: ${storeName}`);
+       // Set store name and add redirection
+const storeSlug = product.store?.slug;
+
+const storeLinkEl = document.getElementById("store-link");
+if (storeLinkEl && storeName) {
+    storeLinkEl.textContent = storeName;
+    if (storeSlug) {
+        storeLinkEl.addEventListener("click", () => {
+            window.location.href = `sellers-products.html?slug=${storeSlug}`;
+        });
+    }
+}
+
 
         setText("preview-description", product.description || "No description.");
         setText("preview-summary", `Summary: ${product.summary || "-"}`);

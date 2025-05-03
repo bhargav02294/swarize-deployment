@@ -173,19 +173,22 @@ router.get('/my-store-slug', async (req, res) => {
 
 
 // ✅ Route to get store by slug (MUST be last)
+// ✅ Route to get store by slug (MUST be last)
 router.get('/:slug', async (req, res) => {
   try {
     const store = await Store.findOne({ slug: req.params.slug });
     if (!store) return res.status(404).json({ success: false, message: "Store not found" });
     
-    // Return the correct store data
+    // ✅ Add ownerId to response so store.js can compare it
     res.json({ 
       success: true, 
       store: {
-        storeName: store.storeName, // Ensure you return storeName here
+        storeName: store.storeName,
         logoUrl: store.logoUrl,
         description: store.description,
-        slug: store.slug
+        slug: store.slug,
+        _id: store._id,          // ✅ important: used to compare for isOwner check
+        ownerId: store.ownerId   // optional if needed later
       } 
     });
   } catch (err) {
@@ -193,6 +196,7 @@ router.get('/:slug', async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 
 

@@ -17,31 +17,7 @@ cloudinary.config({
 });
 
 // 🧠 Multer - memoryStorage
-const storage = multer.memoryStorage(); // Ensure 'storage' is defined
-
-
-
-// File size limit and file type check
-const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 },  // 5MB limit for file size
-  fileFilter: (req, file, cb) => {
-    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    const allowedVideoTypes = ['video/mp4', 'video/avi', 'video/mkv'];
-
-    // Check file type
-    if (allowedImageTypes.includes(file.mimetype)) {
-      return cb(null, true); // Image file types are allowed
-    }
-    if (allowedVideoTypes.includes(file.mimetype)) {
-      return cb(null, true); // Video file types are allowed
-    }
-
-    return cb(new Error("Only JPG, PNG, WEBP images and MP4, AVI, MKV videos are allowed"), false); // Reject other types
-  }
-});
-
-
+const upload = multer({ storage: multer.memoryStorage() });
 
 // 🧠 Session middleware
 const isAuthenticated = (req, res, next) => {
@@ -56,16 +32,14 @@ const isAuthenticated = (req, res, next) => {
 
 
 // ✅ Safe cloudinary upload helper
-// Upload file to Cloudinary
 const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
     if (!buffer || buffer.length === 0) return reject(new Error("File buffer empty"));
 
-    const type = mimetype?.split('/')[0];
-    if (type !== 'image' && type !== 'video') return reject(new Error("Invalid file type: " + mimetype));
+    let resource_type = 'auto'; // ✅ Always auto — Cloudinary handles it smartly
 
     const stream = cloudinary.uploader.upload_stream(
-      { folder, resource_type: type },
+      { folder, resource_type },
       (error, result) => {
         if (error) return reject(error);
         resolve(result.secure_url);
@@ -75,6 +49,8 @@ const uploadToCloudinary = (buffer, folder, mimetype) => {
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };
+
+
 
 // ✅ Add Product Route
 router.post(
@@ -107,27 +83,27 @@ router.post(
       const extraImages = [];
       if (req.files['extraImages']) {
         for (const img of req.files['extraImages']) {
-          const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
-          extraImages.push(url);
+          try {
+            const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
+            extraImages.push(url);
+          } catch (err) {
+            console.warn("Skipping invalid extra image:", img.originalname, err.message);
+          }
         }
       }
-
-      // 📹 Optional extra videos
+      
       const extraVideos = [];
       if (req.files['extraVideos']) {
         for (const vid of req.files['extraVideos']) {
-          const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
-          extraVideos.push(url);
+          try {
+            const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
+            extraVideos.push(url);
+          } catch (err) {
+            console.warn("Skipping invalid extra video:", vid.originalname, err.message);
+          }
         }
       }
-
-      // ✅ Validate inputs
-      if (!name || !price || !category || !subcategory) {
-        return res.status(400).json({ success: false, message: "Name, price, category, and subcategory are required" });
-      }
-
-      // ✅ Sanitize tags and ensure it's an array
-      const tagsArray = tags ? tags.split(',').map(tag => tag.trim()) : [];
+      
 
       // ✅ Save to DB
       const product = new Product({
@@ -137,7 +113,7 @@ router.post(
         summary,
         category,
         subcategory,
-        tags: tagsArray,
+        tags: tags ? tags.split(',') : [],
         size,
         color,
         material,

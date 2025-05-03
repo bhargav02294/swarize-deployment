@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     <h3>${product.name}</h3>
           <p>₹${product.price}</p>
           <p class="product-desc">${product.description?.substring(0, 100)}...</p>
-          <p><strong>Seller Store:</strong> ${product.storName || "Unknown"}</p>
+            <p><strong>Seller Store:</strong> ${product.store?.storeName || "Unknown"}</p>
+
           <button onclick="window.location.href='/store/${product.store.slug}/product/${product._id}'">View Product</button>
         </div>
       `).join("");

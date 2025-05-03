@@ -1,74 +1,83 @@
 body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f2f2f2;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background-color: #f4f6f8;
     color: #333;
   }
   
-  #store-info {
+  header {
+    background-color: #0a3d62;
+    color: white;
+    padding: 1rem 2rem;
     text-align: center;
-    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
   
-  #store-info img {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-  }
-  
-  #store-info h2 {
-    margin: 5px 0;
-    font-size: 24px;
-    color: #111;
-  }
-  
-  #store-info p {
-    font-size: 15px;
-    color: #666;
-  }
-  
-  #product-list {
+  #products-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    padding: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
   }
   
   .product-card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    background-color: white;
+    border-radius: 14px;
+    padding: 1.2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
   }
   
   .product-card img {
     width: 100%;
-    height: 160px;
+    height: 180px;
     object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
   }
   
-  .product-card .details {
-    padding: 15px;
+  .product-card h3 {
+    margin: 0.3rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
     text-align: center;
   }
   
-  .product-card h4 {
-    font-size: 18px;
-    margin: 5px 0;
-    color: #222;
+  .product-price {
+    font-weight: bold;
+    color: #27ae60;
+    margin: 0.3rem 0;
   }
   
-  .product-card p {
-    font-size: 15px;
-    color: #444;
+  .product-desc {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0.4rem 0 0.8rem;
+    text-align: center;
+  }
+  
+  .product-card button {
+    background-color: #0a3d62;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: auto;
+    transition: background-color 0.2s ease;
+  }
+  
+  .product-card button:hover {
+    background-color: #145374;
   }
   

@@ -40,18 +40,20 @@ async function loadProducts(slug, ownerId) {
 
       const loggedInStoreId = localStorage.getItem("storeId");
 
-data.products.forEach(product => {
-  const isOwner = (product.store && product.store._id ? product.store._id : product.store) === loggedInStoreId;
-  const card = document.createElement("div");
-  card.className = "product-card";
-  card.innerHTML = `
-    <img src="${product.thumbnailImage}" alt="${product.name}" />
-    <h3>${product.name}</h3>
-    <p>₹${product.price}</p>
-    ${isOwner ? `<button class="remove-btn" onclick="removeProduct('${product._id}', this)">Remove</button>` : ''}
-  `;
-  container.appendChild(card);
-});
+      data.products.forEach(product => {
+        const productStoreId = product.store?._id || product.store;
+        const isOwner = String(productStoreId) === String(loggedInStoreId);
+
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${product.thumbnailImage}" alt="${product.name}" />
+          <h3>${product.name}</h3>
+          <p>₹${product.price}</p>
+          ${isOwner ? `<button class="remove-btn" onclick="removeProduct('${product._id}', this)">Remove</button>` : ''}
+        `;
+        container.appendChild(card);
+      });
 
     } else {
       container.innerHTML = "<p>Could not load products</p>";

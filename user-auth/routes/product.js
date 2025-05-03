@@ -35,7 +35,7 @@ const isAuthenticated = (req, res, next) => {
 const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
     if (!buffer || buffer.length === 0) {
-      return reject(new Error("File buffer is empty"));
+      return reject(new Error("Empty file buffer"));
     }
 
     const type = mimetype?.split('/')[0];
@@ -84,22 +84,34 @@ router.post(
       const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails', thumbnailFile.mimetype);
 
       // Extra Images
-      const extraImages = [];
-      if (req.files['extraImages']) {
-        for (const img of req.files['extraImages']) {
-          const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
-          extraImages.push(url);
-        }
-      }
+    // Extra Images
+const extraImages = [];
+if (req.files['extraImages']) {
+  for (const img of req.files['extraImages']) {
+    if (!img || !img.buffer || img.buffer.length === 0) {
+      console.warn("Skipping invalid image");
+      continue; // skip this invalid file
+    }
+    const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
+    extraImages.push(url);
+  }
+}
+
 
       // Extra Videos
-      const extraVideos = [];
-      if (req.files['extraVideos']) {
-        for (const vid of req.files['extraVideos']) {
-          const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
-          extraVideos.push(url);
-        }
-      }
+     // Extra Videos
+const extraVideos = [];
+if (req.files['extraVideos']) {
+  for (const vid of req.files['extraVideos']) {
+    if (!vid || !vid.buffer || vid.buffer.length === 0) {
+      console.warn("Skipping invalid video");
+      continue;
+    }
+    const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
+    extraVideos.push(url);
+  }
+}
+
 
       // Save to DB
       const product = new Product({

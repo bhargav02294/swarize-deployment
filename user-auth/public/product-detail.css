@@ -65,76 +65,65 @@
     fill: #000;
   }
   
-  /* Product Container */
-  .product-container {
-    max-width: 1100px;
-    margin: 30px auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  }
+
+
+
+
+
   
-  @media (max-width: 768px) {
-    .product-container {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  /* Product Media */
   .product-image-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  #preview-thumbnail {
-    width: 80%;
-    max-width: 500px;
-    border: 1px solid #ccc;
-    padding: 10px;
+    max-width: 600px;
+    margin: auto;
   }
   
   .slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .slider-track {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+    transition: transform 0.5s ease;
+    width: 100%;
+  }
+  
+  .slider-track img,
+  .slider-track video {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    flex: 0 0 100%;
+    display: block;
   }
   
   .slider-btn {
-    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
     color: white;
-    font-size: 24px;
     border: none;
-    padding: 10px;
+    font-size: 2rem;
+    padding: 8px 12px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 4px;
+    z-index: 10;
   }
   
-  .slider-btn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+  .slider-btn.prev {
+    left: 10px;
   }
   
-  #media-slider {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
+  .slider-btn.next {
+    right: 10px;
   }
+
   
-  #media-slider img,
-  #media-slider video {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
+
+
+
+
+
   
   /* Product Info */
   .product-info {

@@ -15,21 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const extraVideosEl = document.getElementById('extra-videos');
     const tagsEl = document.getElementById('product-tags');
     const storeNameEl = document.getElementById('store-name');
-    const previewNameEl = document.getElementById('preview-name');
-    const previewPriceEl = document.getElementById('preview-price');
-    const previewDescriptionEl = document.getElementById('preview-description');
-    const previewSummaryEl = document.getElementById('preview-summary');
-    const previewCategoryEl = document.getElementById('preview-category');
-    const previewSubcategoryEl = document.getElementById('preview-subcategory');
-    const previewTagsEl = document.getElementById('preview-tags');
-    const previewSizeEl = document.getElementById('preview-size');
-    const previewColorEl = document.getElementById('preview-color');
-    const previewMaterialEl = document.getElementById('preview-material');
-    const previewModelStyleEl = document.getElementById('preview-model-style');
-    const previewAvailableInEl = document.getElementById('preview-available-in');
-    const previewThumbnailEl = document.getElementById('preview-thumbnail');
-    const extraImagesContainer = document.getElementById('extra-images-container');
-    const extraVideosContainer = document.getElementById('extra-videos-container');
   
     fetch(`/api/products/${productId}`)
       .then(res => res.json())
@@ -47,63 +32,44 @@ document.addEventListener('DOMContentLoaded', () => {
   
         imageEl.src = imgUrl;
         imageEl.alt = p.name;
-        previewThumbnailEl.src = imgUrl;
   
         // Title and price
-        titleEl.textContent = p.name;
-        previewNameEl.textContent = p.name;
-        priceEl.textContent = `₹${p.price}`;
-        previewPriceEl.textContent = `₹${p.price}`;
+        titleEl.textContent = p.name || 'Product Name';
+        priceEl.textContent = `₹${p.price || '0.00'}`;
         descEl.textContent = p.description || 'No description available';
-        previewDescriptionEl.textContent = p.description || 'Product description will appear here.';
-        
-        // Summary, category, subcategory
-        previewSummaryEl.textContent = `Summary: ${p.summary || '-'}`;
-        previewCategoryEl.textContent = `Category: ${p.category || '-'}`;
-        previewSubcategoryEl.textContent = `Subcategory: ${p.subcategory || '-'}`;
-  
-        // Tags
-        tagsEl.textContent = `Tags: ${p.tags ? p.tags.join(', ') : '-'}`;
-        previewTagsEl.textContent = `Tags: ${p.tags ? p.tags.join(', ') : '-'}`;
-  
-        // Additional product details
-        previewSizeEl.textContent = `Size: ${p.size || '-'}`;
-        previewColorEl.textContent = `Color: ${p.color || '-'}`;
-        previewMaterialEl.textContent = `Material: ${p.material || '-'}`;
-        previewModelStyleEl.textContent = `Model Style: ${p.modelStyle || '-'}`;
-        previewAvailableInEl.textContent = `Available In: ${p.availableIn || 'All over India'}`;
   
         // Store name
         storeNameEl.textContent = p.store?.storeName || 'Unknown Store';
   
         // Extra images
-        extraImagesContainer.innerHTML = '';
+        extraImagesEl.innerHTML = '';
         if (Array.isArray(p.extraImages) && p.extraImages.length > 0) {
           p.extraImages.forEach(img => {
             const imgTag = document.createElement('img');
             imgTag.src = img.startsWith('uploads/') ? `https://swarize.in/${img}` : img;
             imgTag.alt = 'Extra image';
             imgTag.className = 'extra-thumb';
-            extraImagesContainer.appendChild(imgTag);
+            extraImagesEl.appendChild(imgTag);
           });
-        } else {
-          extraImagesContainer.innerHTML = 'No extra images available';
         }
   
         // Extra videos
-        extraVideosContainer.innerHTML = '';
+        extraVideosEl.innerHTML = '';
         if (Array.isArray(p.extraVideos) && p.extraVideos.length > 0) {
           p.extraVideos.forEach(vid => {
             const video = document.createElement('video');
             video.src = vid;
             video.controls = true;
             video.className = 'extra-video';
-            extraVideosContainer.appendChild(video);
+            extraVideosEl.appendChild(video);
           });
-        } else {
-          extraVideosContainer.innerHTML = 'No extra videos available';
         }
   
+        // Tags
+        tagsEl.innerHTML = '';
+        if (Array.isArray(p.tags) && p.tags.length > 0) {
+          tagsEl.textContent = `Tags: ${p.tags.join(', ')}`;
+        }
       })
       .catch(err => {
         console.error('❌ Error fetching product:', err);

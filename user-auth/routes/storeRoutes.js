@@ -140,15 +140,17 @@ router.get('/redirect-to-store', async (req, res) => {
 
 
 // Fetch store of the logged-in user
+// ✅ Route: Get all public stores (sahi field names)
 router.get('/public', async (req, res) => {
   try {
-    const stores = await Store.find({}, 'name slug description logoUrl');
+    const stores = await Store.find({}, 'storeName slug description logoUrl'); // ✅ fixed
     res.json({ success: true, stores });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 
 

@@ -1,33 +1,82 @@
+/* 🔥 Professional shared CSS (store.css or sellers-store.css) */
+
 body {
-  font-family: sans-serif;
-  padding: 20px;
-  background: #f9f9f9;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
 }
-header {
+
+header, .store-info {
   text-align: center;
-  margin-bottom: 20px;
+  padding: 20px;
 }
-.store-card, .product-card {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 10px;
-  background: white;
-  margin: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+header h1, .store-info h2 {
+  margin: 0;
 }
-.store-logo, .product-thumb {
+
+.store-info {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.store-info img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #eee;
+  margin-bottom: 10px;
+}
+
+#product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
   width: 100%;
-  max-height: 200px;
-  object-fit: contain;
+  height: 160px;
+  object-fit: cover;
 }
-button {
-  padding: 8px 16px;
-  background: #007bff;
-  border: none;
+
+.product-card h3 {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.product-card p {
+  color: #444;
+  margin: 0 10px 10px;
+}
+
+.remove-btn {
+  background-color: #ff4d4f;
   color: white;
-  cursor: pointer;
+  border: none;
+  padding: 8px 14px;
+  margin: 10px;
   border-radius: 6px;
+  cursor: pointer;
 }
-button:hover {
-  background: #0056b3;
+
+.remove-btn:hover {
+  background-color: #d9363e;
 }

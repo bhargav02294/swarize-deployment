@@ -29,14 +29,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Set basic product text info
         setText("preview-name", product.name || "Product Name");
         setText("preview-price", `₹${product.price || "0.00"}`);
-// ✅ Store info (via populate)
-if (product.store) {
-    document.getElementById("store-name").textContent = product.store.storeName || "Unknown Store";
-    document.getElementById("store-name").href = `/store.html?slug=${product.store.slug}`;
-    document.getElementById("store-logo").src = product.store.logoUrl || '';
-  } else {
-    document.getElementById("store-info").innerHTML = "<p>Store info not available</p>";
-  }        setText("preview-description", product.description || "No description.");
+        const storeName = product.store?.storeName || "Unknown Store";
+        setText("preview-store-name", `Sold by: ${storeName}`);
+
+        setText("preview-description", product.description || "No description.");
         setText("preview-summary", `Summary: ${product.summary || "-"}`);
         setText("preview-category", `Category: ${product.category || "-"}`);
         setText("preview-subcategory", `Subcategory: ${product.subcategory || "-"}`);

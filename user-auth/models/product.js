@@ -12,6 +12,8 @@ const productSchema = new mongoose.Schema({
     tags: [{ type: String }],
     size: { type: String },
     color: { type: String },
+    store: { type: mongoose.Schema.Types.ObjectId, ref: 'Store' },
+
     material: { type: String },
     modelStyle: { type: String },
     availableIn: { type: String, default: 'All Over India' },

@@ -240,13 +240,16 @@ router.delete("/delete/:id", verifySession, async (req, res) => {
 // routes/product.js (add this route at bottom)
 // GET /api/products/:id
 // routes/productRoutes.js
-router.get('/:id', async (req, res) => {
+
+router.get('/detail/:id', async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ error: 'Product not found' });
-    res.json(product);
+    const product = await Product.findById(req.params.id).populate('store', 'storeName logoUrl slug');
+    if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
+
+    res.json({ success: true, product });
   } catch (err) {
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("❌ Product detail error:", err);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 

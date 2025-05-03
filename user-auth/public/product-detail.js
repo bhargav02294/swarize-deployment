@@ -1,113 +1,144 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get("id");
-
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id');
+  
     if (!productId) {
-        document.body.innerHTML = "<h2>Error: No product ID provided.</h2>";
-        return;
+      console.error('❌ Product ID not found in URL');
+      return;
     }
-
-    // Assuming you have a function to get JWT token from cookies or localStorage
-    const token = localStorage.getItem('authToken');  // or use another method to retrieve token
-
-    fetch(`https://swarize.in/api/products/${productId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`  // Send the token in headers for authorization
-        },
-        credentials: 'include'  // Includes cookies with the request
-    })
-        .then(response => response.json())
-        .then(product => {
-            if (!product || Object.keys(product).length === 0) {
-                document.body.innerHTML = "<h2>Product not found.</h2>";
-                return;
-            }
-
-            // Update Product Details
-            document.getElementById("preview-name").textContent = product.name || "Product Name";
-            document.getElementById("preview-price").textContent = `₹${product.price || "0.00"}`;
-            document.getElementById("preview-description").textContent = product.description || "Product description will appear here.";
-            document.getElementById("preview-summary").textContent = `Summary: ${product.summary || " - "}`;
-            document.getElementById("preview-category").textContent = `Category: ${product.category || " - "}`;
-            document.getElementById("preview-subcategory").textContent = `Subcategory: ${product.subcategory || " - "}`;
-            document.getElementById("preview-tags").textContent = `Tags: ${product.tags ? product.tags.join(", ") : " - "}`;
-            document.getElementById("preview-size").textContent = `Size: ${product.size || " - "}`;
-            document.getElementById("preview-color").textContent = `Color: ${product.color || " - "}`;
-            document.getElementById("preview-material").textContent = `Material: ${product.material || " - "}`;
-            document.getElementById("preview-model-style").textContent = `Model Style: ${product.modelStyle || " - "}`;
-            document.getElementById("preview-available-in").textContent = `Available In: ${product.availableIn || "All over India "}`;
-
-            // Thumbnail Image
-            if (product.thumbnailImage) {
-                document.getElementById("preview-thumbnail").src = product.thumbnailImage;
-            }
-
-            // Extra Images
-            const extraImagesContainer = document.getElementById("extra-images-container");
-            extraImagesContainer.innerHTML = "";
-            if (product.extraImages && product.extraImages.length > 0) {
-                product.extraImages.forEach(extraImages => {
-                    const img = document.createElement("img");
-                    img.src = extraImages;
-                    img.alt = "Extra Image";
-                    img.style.width = "100px";
-                    extraImagesContainer.appendChild(img);
-                });
-            } else {
-                extraImagesContainer.innerHTML = "    ";
-            }
-
-            // Extra Videos
-            const extraVideosContainer = document.getElementById("extra-videos-container");
-            extraVideosContainer.innerHTML = "";
-            if (product.extraVideos && product.extraVideos.length > 0) {
-                product.extraVideos.forEach(videoUrl => {
-                    const video = document.createElement("video");
-                    video.src = videoUrl;
-                    video.controls = true;
-                    video.style.width = "150px";
-                    extraVideosContainer.appendChild(video);
-                });
-            } else {
-                extraVideosContainer.innerHTML = "    ";
-            }
-
-            // Handle Add to Cart Button
-            document.querySelector(".add-to-cart").addEventListener("click", async () => {
-                try {
-                    const response = await fetch("https://swarize.in/cart/add", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`  // Include the token here as well
-                        },
-                        body: JSON.stringify({ productId }),
-                        credentials: "include"
-                    });
-
-                    const data = await response.json();
-                    if (data.success) {
-                        console.log("✅ Product added to cart");
-                        window.location.href = `addtocart.html?id=${productId}`; // Ensure productId is correct
-                    } else {
-                        alert("❌ Failed to add product to cart: " + data.message);
-                    }
-                } catch (error) {
-                    console.error("❌ Error adding to cart:", error);
-                    alert("❌ Error adding product to cart.");
-                }
-            });
-
-        })
-        .catch(error => {
-            console.error("Error fetching product:", error);
-            document.body.innerHTML = "<h2>Error loading product details.</h2>";
-        });
-});
-
-
+  
+    const titleEl = document.getElementById('product-title');
+    const imageEl = document.getElementById('product-image');
+    const priceEl = document.getElementById('product-price');
+    const descEl = document.getElementById('product-description');
+    const extraImagesEl = document.getElementById('extra-images');
+    const extraVideosEl = document.getElementById('extra-videos');
+    const tagsEl = document.getElementById('product-tags');
+    const storeNameEl = document.getElementById('store-name');
+    const previewNameEl = document.getElementById('preview-name');
+    const previewPriceEl = document.getElementById('preview-price');
+    const previewDescriptionEl = document.getElementById('preview-description');
+    const previewSummaryEl = document.getElementById('preview-summary');
+    const previewCategoryEl = document.getElementById('preview-category');
+    const previewSubcategoryEl = document.getElementById('preview-subcategory');
+    const previewTagsEl = document.getElementById('preview-tags');
+    const previewSizeEl = document.getElementById('preview-size');
+    const previewColorEl = document.getElementById('preview-color');
+    const previewMaterialEl = document.getElementById('preview-material');
+    const previewModelStyleEl = document.getElementById('preview-model-style');
+    const previewAvailableInEl = document.getElementById('preview-available-in');
+    const previewThumbnailEl = document.getElementById('preview-thumbnail');
+    const extraImagesContainer = document.getElementById('extra-images-container');
+    const extraVideosContainer = document.getElementById('extra-videos-container');
+  
+    fetch(`/api/products/${productId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success || !data.product) {
+          throw new Error('Product not found');
+        }
+  
+        const p = data.product;
+  
+        // Main image
+        const imgUrl = p.thumbnailImage?.startsWith('uploads/')
+          ? `https://swarize.in/${p.thumbnailImage}`
+          : p.thumbnailImage || 'https://via.placeholder.com/300x300.png?text=No+Image';
+  
+        imageEl.src = imgUrl;
+        imageEl.alt = p.name;
+        previewThumbnailEl.src = imgUrl;
+  
+        // Title and price
+        titleEl.textContent = p.name;
+        previewNameEl.textContent = p.name;
+        priceEl.textContent = `₹${p.price}`;
+        previewPriceEl.textContent = `₹${p.price}`;
+        descEl.textContent = p.description || 'No description available';
+        previewDescriptionEl.textContent = p.description || 'Product description will appear here.';
+        
+        // Summary, category, subcategory
+        previewSummaryEl.textContent = `Summary: ${p.summary || '-'}`;
+        previewCategoryEl.textContent = `Category: ${p.category || '-'}`;
+        previewSubcategoryEl.textContent = `Subcategory: ${p.subcategory || '-'}`;
+  
+        // Tags
+        tagsEl.textContent = `Tags: ${p.tags ? p.tags.join(', ') : '-'}`;
+        previewTagsEl.textContent = `Tags: ${p.tags ? p.tags.join(', ') : '-'}`;
+  
+        // Additional product details
+        previewSizeEl.textContent = `Size: ${p.size || '-'}`;
+        previewColorEl.textContent = `Color: ${p.color || '-'}`;
+        previewMaterialEl.textContent = `Material: ${p.material || '-'}`;
+        previewModelStyleEl.textContent = `Model Style: ${p.modelStyle || '-'}`;
+        previewAvailableInEl.textContent = `Available In: ${p.availableIn || 'All over India'}`;
+  
+        // Store name
+        storeNameEl.textContent = p.store?.storeName || 'Unknown Store';
+  
+        // Extra images
+        extraImagesContainer.innerHTML = '';
+        if (Array.isArray(p.extraImages) && p.extraImages.length > 0) {
+          p.extraImages.forEach(img => {
+            const imgTag = document.createElement('img');
+            imgTag.src = img.startsWith('uploads/') ? `https://swarize.in/${img}` : img;
+            imgTag.alt = 'Extra image';
+            imgTag.className = 'extra-thumb';
+            extraImagesContainer.appendChild(imgTag);
+          });
+        } else {
+          extraImagesContainer.innerHTML = 'No extra images available';
+        }
+  
+        // Extra videos
+        extraVideosContainer.innerHTML = '';
+        if (Array.isArray(p.extraVideos) && p.extraVideos.length > 0) {
+          p.extraVideos.forEach(vid => {
+            const video = document.createElement('video');
+            video.src = vid;
+            video.controls = true;
+            video.className = 'extra-video';
+            extraVideosContainer.appendChild(video);
+          });
+        } else {
+          extraVideosContainer.innerHTML = 'No extra videos available';
+        }
+  
+      })
+      .catch(err => {
+        console.error('❌ Error fetching product:', err);
+        const container = document.getElementById('product-container');
+        if (container) {
+          container.innerHTML = `<p class="error">Error loading product details.</p>`;
+        }
+      });
+  
+    // Add to Cart button
+    const addToCartBtn = document.getElementById('add-to-cart');
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener('click', async () => {
+        try {
+          const res = await fetch('/cart/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ productId })
+          });
+  
+          const json = await res.json();
+          if (json.success) {
+            window.location.href = `addtocart.html?id=${productId}`;
+          } else {
+            alert('❌ Failed to add to cart: ' + json.message);
+          }
+        } catch (e) {
+          console.error('❌ Error adding to cart:', e);
+          alert('Error adding to cart.');
+        }
+      });
+    }
+  });
+  
 
 
 

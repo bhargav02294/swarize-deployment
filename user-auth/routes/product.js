@@ -16,15 +16,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-
-// 🧠 Session middleware
-const isAuthenticated = (req, res, next) => {
-  const userId = req.session?.userId || req.session?.passport?.user;
-  if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
-  req.session.userId = userId;
-  next();
-};
-
+// 🧠 Multer - memoryStorage
+const storage = multer.memoryStorage(); // Ensure 'storage' is defined
 
 
 
@@ -48,6 +41,21 @@ const upload = multer({
   }
 });
 
+
+
+// 🧠 Session middleware
+const isAuthenticated = (req, res, next) => {
+  const userId = req.session?.userId || req.session?.passport?.user;
+  if (!userId) return res.status(401).json({ success: false, message: 'Unauthorized' });
+  req.session.userId = userId;
+  next();
+};
+
+
+
+
+
+// ✅ Safe cloudinary upload helper
 // Upload file to Cloudinary
 const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
@@ -153,6 +161,7 @@ router.post(
     }
   }
 );
+
 
 
 

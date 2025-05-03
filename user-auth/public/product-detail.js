@@ -7,16 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
   
-    const titleEl = document.getElementById('product-title');
-    const imageEl = document.getElementById('product-image');
-    const priceEl = document.getElementById('product-price');
-    const descEl = document.getElementById('product-description');
-    const extraImagesEl = document.getElementById('extra-images');
-    const extraVideosEl = document.getElementById('extra-videos');
-    const tagsEl = document.getElementById('product-tags');
+    const titleEl = document.getElementById('preview-name');
+    const imageEl = document.getElementById('preview-thumbnail');
+    const priceEl = document.getElementById('preview-price');
+    const descEl = document.getElementById('preview-description');
+    const extraImagesEl = document.getElementById('extra-images-container');
+    const extraVideosEl = document.getElementById('extra-videos-container');
+    const tagsEl = document.getElementById('preview-tags');
     const storeNameEl = document.getElementById('store-name');
   
-    fetch(`/api/products/${productId}`)
+    // Make sure the API call is made over HTTPS
+    fetch(`https://swarize-deployment.onrender.com/api/products/${productId}`)
       .then(res => res.json())
       .then(data => {
         if (!data.success || !data.product) {

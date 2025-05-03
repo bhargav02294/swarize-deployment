@@ -142,13 +142,14 @@ router.get('/redirect-to-store', async (req, res) => {
 // Fetch store of the logged-in user
 router.get('/public', async (req, res) => {
   try {
-    const stores = await Store.find().select("name slug logoUrl description");
+    const stores = await Store.find({}, 'name slug description logoUrl');
     res.json({ success: true, stores });
   } catch (err) {
-    console.error("❌ Error fetching stores:", err);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 
 // ✅ Route to get current user's store slug

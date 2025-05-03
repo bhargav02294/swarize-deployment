@@ -1,32 +1,25 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const API_BASE = "https://swarize.in";
-    const params = new URLSearchParams(window.location.search);
-    const storeSlug = params.get("slug");
     const productsContainer = document.getElementById("products-container");
-    const storeTitle = document.getElementById("store-title");
   
-    if (!storeSlug) {
-      storeTitle.innerText = "⚠️ Store not found!";
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get("slug");
+  
+    if (!slug) {
+      productsContainer.innerHTML = "<p>❌ No store selected.</p>";
       return;
     }
   
     try {
-      const res = await fetch(`${API_BASE}/api/store/${storeSlug}`, {
-        method: "GET",
-        credentials: "include"
+      const res = await fetch(`${API_BASE}/api/products/by-store/${slug}`, {
+        method: 'GET',
+        credentials: 'include'
       });
   
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  
       const data = await res.json();
-  
-      if (!data.success) {
-        storeTitle.innerText = "❌ Could not load store.";
-        return;
-      }
-  
-      const store = data.store;
-      storeTitle.innerText = `Products from ${store.name}`;
-  
-      const products = store.products;
+      const products = data.products;
   
       if (!products || products.length === 0) {
         productsContainer.innerHTML = "<p>No products found for this store.</p>";
@@ -35,16 +28,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   
       productsContainer.innerHTML = products.map(product => `
         <div class="product-card">
-    <img src="${product.thumbnailImage}" alt="${product.name}" />
+         <img src="${product.thumbnailImage}" alt="${product.name}" />
     <h3>${product.name}</h3>
           <p>₹${product.price}</p>
-          <p>${product.description?.substring(0, 100)}...</p>
+          <p class="product-desc">${product.description?.substring(0, 100)}...</p>
+          <p><strong>Seller Store:</strong> ${product.store?.name || "Unknown"}</p>
+          <button onclick="window.location.href='/store/${product.store.slug}/product/${product._id}'">View Product</button>
         </div>
       `).join("");
   
     } catch (err) {
-      console.error("❌ Error loading seller products:", err);
-      storeTitle.innerText = "❌ Error loading store products.";
+      console.error("❌ Error fetching products:", err);
+      productsContainer.innerHTML = `<p>❌ Failed to load products.</p>`;
     }
   });
   

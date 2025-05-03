@@ -3,36 +3,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   const storesContainer = document.getElementById("stores-container");
 
   try {
-    const res = await fetch(`${API_BASE}/api/store/all`, {
-      method: "GET",
-      credentials: "include"
+    const res = await fetch(`${API_BASE}/api/store/public`, {
+      method: 'GET',
+      credentials: 'include'
     });
 
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
     const data = await res.json();
+    const stores = data.stores;
 
-    if (data.success) {
-      const stores = data.stores;
-
-      if (!stores.length) {
-        storesContainer.innerHTML = "<p>No sellers found.</p>";
-        return;
-      }
-
-      storesContainer.innerHTML = stores.map(store => `
-        <div class="store-card">
-          <img src="${store.logoUrl}" alt="${store.name}">
-          <h2>${store.name}</h2>
-          <p>${store.description}</p>
-          <button onclick="window.location.href='sellers-products.html?slug=${store.slug}'">View Products</button>
-        </div>
-      `).join("");
-
-    } else {
-      storesContainer.innerHTML = `<p>❌ Failed to fetch sellers.</p>`;
+    if (!stores || stores.length === 0) {
+      storesContainer.innerHTML = "<p>No stores found.</p>";
+      return;
     }
 
+    storesContainer.innerHTML = stores.map(store => `
+      <div class="store-card">
+        <img src="${store.logoUrl}" alt="${store.name}" class="store-logo">
+        <h3>${store.name}</h3>
+        <p>${store.description?.substring(0, 100)}...</p>
+        <button onclick="window.location.href='sellers-products.html?slug=${store.slug}'">View Products</button>
+      </div>
+    `).join("");
+
   } catch (err) {
-    console.error("❌ Error fetching sellers:", err);
-    storesContainer.innerHTML = `<p>❌ Server error loading sellers.</p>`;
+    console.error("❌ Error fetching stores:", err);
+    storesContainer.innerHTML = `<p>❌ Failed to fetch stores.</p>`;
   }
 });

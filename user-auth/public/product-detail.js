@@ -8,8 +8,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const productResponse = await fetch(`https://swarize.in/api/products/${productId}`);
-        const product = await productResponse.json();
+        const productResponse = await fetch(`https://swarize.in/api/products/detail/${productId}`);
+const product = (await productResponse.json()).product;
+
 
         if (!product || Object.keys(product).length === 0) {
             document.body.innerHTML = "<h2>Product not found.</h2>";

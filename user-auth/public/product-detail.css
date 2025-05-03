@@ -68,28 +68,6 @@
 
 
 
-/* public/styles.css */
-.product-detail-page {
-  padding: 2rem;
-  max-width: 600px;
-  margin: auto;
-  font-family: sans-serif;
-}
-.product-detail-page img.main-image {
-  max-width: 100%;
-  border-radius: 8px;
-}
-.store-section {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-}
-.store-section .store-logo {
-  height: 40px;
-  width: 40px;
-  margin-right: 10px;
-  border-radius: 50%;
-}
 
 
 

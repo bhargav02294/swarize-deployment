@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         setText("preview-name", product.name || "Product Name");
         setText("preview-price", `₹${product.price || "0.00"}`);
-        setText("preview-store-name", `Sold by: ${product.storeName || "Unknown Store"}`);
+        setText("preview-store-name", `Sold by: ${storeName || "Unknown Store"}`);
 
         setText("preview-description", product.description || "No description.");
         setText("preview-summary", `Summary: ${product.summary || "-"}`);
@@ -43,43 +43,60 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         setSrc("preview-thumbnail", product.thumbnailImage);
 
+
+
+
+
         const mediaSlider = document.getElementById("media-slider");
         let currentSlide = 0;
-
+        
         if (mediaSlider) {
-            mediaSlider.innerHTML = "";
-
-            if (product.extraImages?.length) {
-                product.extraImages.forEach(url => {
-                    const img = document.createElement("img");
-                    img.src = url;
-                    img.alt = "Extra Image";
-                    mediaSlider.appendChild(img);
-                });
-            }
-
-            if (product.extraVideos?.length) {
-                product.extraVideos.forEach(url => {
-                    const video = document.createElement("video");
-                    video.src = url;
-                    video.controls = true;
-                    mediaSlider.appendChild(video);
-                });
-            }
+          mediaSlider.innerHTML = "";
+        
+          // Assuming the product object is already available with extraImages and extraVideos
+          if (product.extraImages?.length) {
+            product.extraImages.forEach(url => {
+              const img = document.createElement("img");
+              img.src = url;
+              img.alt = "Extra Image";
+              mediaSlider.appendChild(img);
+            });
+          }
+        
+          if (product.extraVideos?.length) {
+            product.extraVideos.forEach(url => {
+              const video = document.createElement("video");
+              video.src = url;
+              video.controls = true;
+              mediaSlider.appendChild(video);
+            });
+          }
+        
+          // Set the first thumbnail image
+          if (product.thumbnail) {
+            const mainImage = document.getElementById("preview-thumbnail");
+            mainImage.src = product.thumbnail;
+          }
         }
+        
+        // Slider scroll function
+        window.moveSlide = function(direction) {
+          const items = mediaSlider.children.length;
+          const itemWidth = mediaSlider.children[0]?.offsetWidth + 10 || 160;
+          currentSlide += direction;
+        
+          if (currentSlide < 0) currentSlide = 0;
+          if (currentSlide >= items) currentSlide = items - 1;
+        
+          const offset = itemWidth * currentSlide;
+          mediaSlider.style.transform = `translateX(-${offset}px)`;
+        };
+        
 
-// Slider scroll function
-window.moveSlide = function(direction) {
-  const items = mediaSlider.children.length;
-  const itemWidth = mediaSlider.children[0]?.offsetWidth + 10 || 160;
-  currentSlide += direction;
 
-  if (currentSlide < 0) currentSlide = 0;
-  if (currentSlide > items - 1) currentSlide = items - 1;
 
-  const offset = itemWidth * currentSlide;
-  mediaSlider.style.transform = `translateX(-${offset}px)`;
-};
+
+        
 
         const addToCartBtn = document.querySelector(".add-to-cart");
         if (addToCartBtn) {

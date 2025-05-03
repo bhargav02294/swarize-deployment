@@ -26,10 +26,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (el && url) el.src = url;
         };
 
+        // Set basic product text info
         setText("preview-name", product.name || "Product Name");
         setText("preview-price", `₹${product.price || "0.00"}`);
         setText("preview-store-name", `Sold by: ${product.storeName || "Unknown Store"}`);
-
         setText("preview-description", product.description || "No description.");
         setText("preview-summary", `Summary: ${product.summary || "-"}`);
         setText("preview-category", `Category: ${product.category || "-"}`);
@@ -41,41 +41,48 @@ document.addEventListener("DOMContentLoaded", async () => {
         setText("preview-model-style", `Model Style: ${product.modelStyle || "-"}`);
         setText("preview-available-in", `Available In: ${product.availableIn || "All over India"}`);
 
-        setSrc("preview-thumbnail", product.thumbnailImage || "path/to/default/thumbnail.jpg");
-
+        // Handle slider media
         const mediaSlider = document.getElementById("media-slider");
         let currentSlide = 0;
 
         if (mediaSlider) {
             mediaSlider.innerHTML = "";
 
-            // Assuming the product object is already available with extraImages and extraVideos
+            // Add thumbnail first
+            if (product.thumbnailImage) {
+                const thumb = document.createElement("img");
+                thumb.src = product.thumbnailImage;
+                thumb.alt = "Main Image";
+                thumb.classList.add("slider-media");
+                mediaSlider.appendChild(thumb);
+
+                setSrc("preview-thumbnail", product.thumbnailImage);
+            }
+
+            // Add extra images
             if (product.extraImages?.length) {
                 product.extraImages.forEach(url => {
                     const img = document.createElement("img");
                     img.src = url;
                     img.alt = "Extra Image";
+                    img.classList.add("slider-media");
                     mediaSlider.appendChild(img);
                 });
             }
 
+            // Add extra videos
             if (product.extraVideos?.length) {
                 product.extraVideos.forEach(url => {
                     const video = document.createElement("video");
                     video.src = url;
                     video.controls = true;
+                    video.classList.add("slider-media");
                     mediaSlider.appendChild(video);
                 });
             }
-
-            // Set the first thumbnail image
-            if (product.thumbnailImage) {
-                const mainImage = document.getElementById("preview-thumbnail");
-                mainImage.src = product.thumbnailImage;
-            }
         }
 
-        // Slider scroll function
+        // Slider movement
         window.moveSlide = function(direction) {
             const items = mediaSlider.children.length;
             const itemWidth = mediaSlider.children[0]?.offsetWidth + 10 || 160;

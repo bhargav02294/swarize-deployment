@@ -213,6 +213,18 @@ router.delete("/delete/:id", verifySession, async (req, res) => {
   }
 });
 
+// routes/product.js (add this route at bottom)
+// GET /api/products/:id
+router.get('/:id', async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.json({ success: false, message: 'Product not found' });
+    res.json({ success: true, product });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 
 
 

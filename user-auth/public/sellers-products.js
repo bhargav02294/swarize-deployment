@@ -21,19 +21,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       const data = await res.json();
       const products = data.products;
   
+      // Log response to see if `store` object is populated
+      console.log(products);
+  
       if (!products || products.length === 0) {
         productsContainer.innerHTML = "<p>No products found for this store.</p>";
         return;
       }
   
-      // ✅ Store name from product.store
-      const storeName = products[0].store?.storeName || "Unknown";
+      // ✅ Ensure store is available
+      const storeName = products[0]?.store?.storeName || "Unknown";  // Add fallback
   
-      // ✅ Optional: Show Store Name on Page
+      // Optional: Show store name in header if available
       const header = document.querySelector("header");
       if (header) header.textContent = `Products from ${storeName}`;
   
-      // ✅ Render Product Cards
+      // Render products with store name check
       productsContainer.innerHTML = products.map(product => `
         <div class="product-card">
           <img src="${product.thumbnailImage}" alt="${product.name}" />

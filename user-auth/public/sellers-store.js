@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     storesContainer.innerHTML = stores.map(store => `
       <div class="store-card">
         <img src="${store.logoUrl}" alt="${store.name}" class="store-logo">
-        <h3>${store.name}</h3>
+        <h3>${store.storeName}</h3>
         <p>${store.description?.substring(0, 100)}...</p>
         <button onclick="window.location.href='sellers-products.html?slug=${store.slug}'">View Products</button>
       </div>

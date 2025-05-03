@@ -109,27 +109,36 @@ const product = (await productResponse.json()).product;
             mediaSlider.style.transform = `translateX(-${offset}px)`;
         };
 
+
+
+
+
         const addToCartBtn = document.querySelector(".add-to-cart");
-        if (addToCartBtn) {
-            addToCartBtn.addEventListener("click", async () => {
-                try {
-                    const res = await fetch("https://swarize.in/cart/add", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ productId }),
-                        credentials: "include"
-                    });
-                    const data = await res.json();
-                    if (data.success) {
-                        window.location.href = `addtocart.html?id=${productId}`;
-                    } else {
-                        alert("❌ " + data.message);
-                    }
-                } catch (err) {
-                    alert("❌ Error adding product to cart.");
-                }
+if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", async () => {
+        try {
+            const res = await fetch("https://swarize.in/api/cart/add", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ productId }),
+                credentials: "include"
             });
+            const data = await res.json();
+            if (data.success) {
+                window.location.href = `addtocart.html?id=${productId}`;
+            } else {
+                alert("❌ " + data.message);
+            }
+        } catch (err) {
+            alert("❌ Error adding product to cart.");
         }
+    });
+}
+
+
+
+
+
 
         const buyNowBtn = document.querySelector(".buy-now");
         if (buyNowBtn) {

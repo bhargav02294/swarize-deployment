@@ -44,29 +44,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         setSrc("preview-thumbnail", product.thumbnailImage);
 
         const mediaSlider = document.getElementById("media-slider");
-let currentSlide = 0;
+        let currentSlide = 0;
 
-if (mediaSlider) {
-  mediaSlider.innerHTML = "";
+        if (mediaSlider) {
+            mediaSlider.innerHTML = "";
 
-  if (product.extraImages?.length) {
-    product.extraImages.forEach(url => {
-      const img = document.createElement("img");
-      img.src = url;
-      img.alt = "Extra Image";
-      mediaSlider.appendChild(img);
-    });
-  }
+            if (product.extraImages?.length) {
+                product.extraImages.forEach(url => {
+                    const img = document.createElement("img");
+                    img.src = url;
+                    img.alt = "Extra Image";
+                    mediaSlider.appendChild(img);
+                });
+            }
 
-  if (product.extraVideos?.length) {
-    product.extraVideos.forEach(url => {
-      const video = document.createElement("video");
-      video.src = url;
-      video.controls = true;
-      mediaSlider.appendChild(video);
-    });
-  }
-}
+            if (product.extraVideos?.length) {
+                product.extraVideos.forEach(url => {
+                    const video = document.createElement("video");
+                    video.src = url;
+                    video.controls = true;
+                    mediaSlider.appendChild(video);
+                });
+            }
+        }
 
 // Slider scroll function
 window.moveSlide = function(direction) {

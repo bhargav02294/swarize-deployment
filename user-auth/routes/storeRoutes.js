@@ -177,12 +177,23 @@ router.get('/:slug', async (req, res) => {
   try {
     const store = await Store.findOne({ slug: req.params.slug });
     if (!store) return res.status(404).json({ success: false, message: "Store not found" });
-    res.json({ success: true, store });
+    
+    // Return the correct store data
+    res.json({ 
+      success: true, 
+      store: {
+        storeName: store.storeName, // Ensure you return storeName here
+        logoUrl: store.logoUrl,
+        description: store.description,
+        slug: store.slug
+      } 
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 
 module.exports = router;

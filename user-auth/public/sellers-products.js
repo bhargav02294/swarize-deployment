@@ -26,14 +26,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
   
+      // ✅ Store name from product.store
+      const storeName = products[0].store?.storeName || "Unknown";
+  
+      // ✅ Optional: Show Store Name on Page
+      const header = document.querySelector("header");
+      if (header) header.textContent = `Products from ${storeName}`;
+  
+      // ✅ Render Product Cards
       productsContainer.innerHTML = products.map(product => `
         <div class="product-card">
-         <img src="${product.thumbnailImage}" alt="${product.name}" />
-    <h3>${product.name}</h3>
-          <p>₹${product.price}</p>
+          <img src="${product.thumbnailImage}" alt="${product.name}" />
+          <h3>${product.name}</h3>
+          <p class="product-price">₹${product.price}</p>
           <p class="product-desc">${product.description?.substring(0, 100)}...</p>
-            <p><strong>Seller Store:</strong>>${store.storeName}</p>
-
+          <p><strong>Seller Store:</strong> ${product.store?.storeName || "Unknown"}</p>
           <button onclick="window.location.href='/store/${product.store.slug}/product/${product._id}'">View Product</button>
         </div>
       `).join("");

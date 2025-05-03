@@ -41,7 +41,7 @@ async function loadProducts(slug, ownerId) {
       const loggedInStoreId = localStorage.getItem("storeId");
 
 data.products.forEach(product => {
-  const isOwner = product.store.toString() === loggedInStoreId;
+  const isOwner = (product.store && product.store._id ? product.store._id : product.store) === loggedInStoreId;
   const card = document.createElement("div");
   card.className = "product-card";
   card.innerHTML = `

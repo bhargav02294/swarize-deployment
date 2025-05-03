@@ -55,7 +55,6 @@ const uploadToCloudinary = (buffer, folder, mimetype) => {
   });
 };
 
-
 // ✅ Add Product Route
 router.post(
   '/add',
@@ -101,6 +100,14 @@ router.post(
         }
       }
 
+      // ✅ Validate inputs
+      if (!name || !price || !category || !subcategory) {
+        return res.status(400).json({ success: false, message: "Name, price, category, and subcategory are required" });
+      }
+
+      // ✅ Sanitize tags and ensure it's an array
+      const tagsArray = tags ? tags.split(',').map(tag => tag.trim()) : [];
+
       // ✅ Save to DB
       const product = new Product({
         name,
@@ -109,7 +116,7 @@ router.post(
         summary,
         category,
         subcategory,
-        tags: tags ? tags.split(',') : [],
+        tags: tagsArray,
         size,
         color,
         material,
@@ -133,6 +140,7 @@ router.post(
     }
   }
 );
+
 
 
 

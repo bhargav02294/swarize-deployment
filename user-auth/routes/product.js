@@ -32,20 +32,29 @@ const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
     if (!buffer || buffer.length === 0) return reject(new Error("File buffer empty"));
 
+    // Extract type from mimetype
     const type = mimetype?.split('/')[0];
-    if (type !== 'image' && type !== 'video') return reject(new Error("Invalid file type: " + mimetype));
+    if (!['image', 'video', 'audio'].includes(type)) {
+      return reject(new Error("Invalid file type: " + mimetype)); // Reject for unsupported types
+    }
 
+    // Check for valid MIME type (image, video, audio, etc.)
+    const resourceType = type === 'image' ? 'image' : type === 'video' ? 'video' : 'auto'; 
+
+    // Upload to Cloudinary
     const stream = cloudinary.uploader.upload_stream(
-      { folder, resource_type: type },
+      { folder, resource_type: resourceType },
       (error, result) => {
         if (error) return reject(error);
         resolve(result.secure_url);
       }
     );
 
+    // Pipe the buffer into Cloudinary's upload stream
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };
+
 
 // ✅ Add Product Route
 router.post(

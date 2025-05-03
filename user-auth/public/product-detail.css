@@ -5,72 +5,63 @@ body {
     margin: 0;
     padding: 0px;
 }
-.product-container {
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+    margin-top: 20px;
+    border-radius: 10px;
+    background: #f7f7f7;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .slider-track {
     display: flex;
-    flex-wrap: wrap;
-    background: #fff;
-    border-radius: 0px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 1500px;
-    margin-top: 70px;
-
-    gap: 20px;
-}
-
-.product-image-section {
-    display: flex;
-    flex-direction: column; /* Aligns items in a row (side by side) */
-    align-items: center;
+    transition: transform 0.5s ease-in-out;
     gap: 10px;
-    
-}
-
-
-/* Extra Images & Videos - Left Side Column */
-#extra-images-container,
-#extra-videos-container {
-    display: flex;
-    flex-direction: column; /* Stack extra images/videos vertically */
-    gap: 55px;
-    margin-right: 15px; /* Space between extra images and thumbnail */
-}
-/* Extra Images & Videos Styling */
-#extra-images-container img,
-#extra-videos-container video {
-    width: 80px;
-    height: 80px;
+    padding: 10px;
+  }
+  
+  .slider-track img,
+  .slider-track video {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .slider-btn {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    background-color: #00000088;
+    color: white;
+    border: none;
+    padding: 8px 12px;
     cursor: pointer;
-    border-radius: 0px;
-    object-fit: contain;
-    transition: transform 0.5s ease, z-index 0.4s ease, box-shadow 0.3s ease;
+    font-size: 18px;
+    border-radius: 50%;
+    z-index: 2;
+  }
+  
+  .slider-btn.prev {
+    left: 10px;
+  }
+  
+  .slider-btn.next {
+    right: 10px;
+  }
 
-}
-#extra-images-container img:hover,
-#extra-videos-container video:hover {
-    transform: scale(2.5); /* Enlarges by 3.3x */
-    border: 0px solid #000000;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-    transform-origin: left center; /* Expands towards the right */
-
-    z-index: 0px;
-    background: white;
-
-}
+  
 
 
-/* Thumbnail Styling */
-#preview-thumbnail {
-    width: 500px;
-    height: 500px;
-    object-fit: contain;
-
-    border-radius: 0px;
-    border: 0px solid #4A403A;
-    transition: opacity 0.3s ease-in-out;
-}
 
 
+  
 
 
 

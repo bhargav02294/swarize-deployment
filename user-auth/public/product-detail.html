@@ -37,19 +37,35 @@
         </div>
     </button>
 
-    <div class="product-container">
-        <div class="product-image-section">
-          <img id="preview-thumbnail" src="placeholder.jpg" alt="Product Image" />
+
+
+
+
+    <div class="product-image-section">
+        <img id="preview-thumbnail" src="placeholder.jpg" alt="Main Product Image" />
       
-          <div id="extra-images-container">No extra images available.</div>
-          <div id="extra-videos-container">No extra videos available.</div>
+        <div class="slider-container">
+          <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+          <div class="slider-track" id="media-slider">
+            <!-- JS will append <img> and <video> elements here -->
+          </div>
+          <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
         </div>
+      </div>
       
+
+
+
+
+
+        
         <div class="product-info">
           <h1 id="preview-name">Product Name</h1>
           <div class="star-rating">
             <span id="rating-count">(0 Reviews)</span>
           </div>
+          <h3 id="preview-store-name">Sold by: Unknown Store</h3>
+
           <h2 id="preview-price">₹0.00</h2>
       
           <div class="action-buttons">

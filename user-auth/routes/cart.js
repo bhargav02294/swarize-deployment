@@ -60,6 +60,7 @@ router.post("/add", isAuthenticated, async (req, res) => {
 
 // ✅ Remove Product from Cart
 // ✅ Remove product from cart
+// ✅ Remove product from cart
 router.post("/remove", isAuthenticated, async (req, res) => {
     try {
         const { productId } = req.body;
@@ -70,7 +71,11 @@ router.post("/remove", isAuthenticated, async (req, res) => {
             return res.status(404).json({ success: false, message: "Cart not found" });
         }
 
-        cart.products = cart.products.filter(p => p.productId.toString() !== productId);
+        cart.products = cart.products.filter(p => {
+            const pid = typeof p.productId === "object" ? p.productId._id.toString() : p.productId.toString();
+            return pid !== productId;
+        });
+
         await cart.save();
 
         res.json({ success: true, message: "Product removed from cart" });
@@ -79,6 +84,7 @@ router.post("/remove", isAuthenticated, async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
 
 
 

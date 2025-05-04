@@ -93,37 +93,58 @@ function viewProduct(productId) {
 
 // ✅ Function to add product to cart
 // ✅ Function to add product to cart
+// ✅ Function to add product to cart (with safe JSON handling)
 async function addToCart(productId) {
     try {
-        // First check if user is logged in by hitting a session check endpoint
+        // Check if user session is active
         const sessionRes = await fetch("https://swarize.in/api/user/session", {
             method: "GET",
             credentials: "include"
         });
 
-        const sessionData = await sessionRes.json();
+        const sessionText = await sessionRes.text();
+        let sessionData;
 
-        if (!sessionData.success) {
-            // Redirect to login if not logged in
+        try {
+            sessionData = JSON.parse(sessionText);
+        } catch {
+            console.error("❌ Invalid session JSON:", sessionText);
+            alert("❌ Login required to add to cart.");
             window.location.href = "login.html";
             return;
         }
 
-        // Add to cart if user is logged in
-        const response = await fetch("https://swarize.in/cart/add", {
+        if (!sessionData.success) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        // Proceed to add to cart
+        const res = await fetch("https://swarize.in/cart/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ productId }),
             credentials: "include"
         });
 
-        const data = await response.json();
+        const text = await res.text();
+        let data;
+
+        try {
+            data = JSON.parse(text);
+        } catch {
+            console.error("❌ Invalid cart response JSON:", text);
+            alert("❌ Unexpected error. Please try again.");
+            return;
+        }
+
         if (data.success) {
             console.log("✅ Product added to cart");
             window.location.href = `addtocart.html?id=${productId}`;
         } else {
             alert("❌ Failed to add product to cart: " + data.message);
         }
+
     } catch (error) {
         console.error("❌ Error adding to cart:", error);
         alert("❌ Error adding product to cart.");

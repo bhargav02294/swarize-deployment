@@ -43,21 +43,21 @@ window.location.href = `product-detail.html?id=${id}`;
 }
 
 async function addToCart(id) {
-try {
-  const res = await fetch('https://swarize.in/cart/add', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ productId: id })
-  });
-  const json = await res.json();
-  if (json.success) {
-    window.location.href = `addtocart.html?id=${id}`;
-  } else {
-    alert('❌ Failed to add to cart: ' + json.message);
+  try {
+    const res = await fetch('https://swarize.in/api/cart/add', { // ✅ Fixed endpoint
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ productId: id })
+    });
+    const json = await res.json();
+    if (json.success) {
+      window.location.href = `addtocart.html?id=${id}`;
+    } else {
+      alert('❌ Failed to add to cart: ' + json.message);
+    }
+  } catch (e) {
+    console.error('❌ Error adding to cart:', e);
+    alert('Error adding to cart.');
   }
-} catch (e) {
-  console.error('❌ Error adding to cart:', e);
-  alert('Error adding to cart.');
-}
 }

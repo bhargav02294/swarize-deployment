@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        // ✅ Check login status
         const authResponse = await fetch("https://swarize.in/api/auth/is-logged-in", {
             credentials: "include"
         });
@@ -17,52 +16,45 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        console.log("✅ User is logged in:", authData);
-
-        // ✅ Fetch Cart Items
         await loadCartItems();
-
     } catch (error) {
         console.error("❌ Error loading cart:", error);
         document.getElementById("cart-message").textContent = "Error loading cart.";
     }
 });
 
-// ✅ Load and display cart items
 async function loadCartItems() {
-    const cartContainer = document.getElementById("cart-container");
-
     const cartResponse = await fetch("https://swarize.in/api/cart", {
         credentials: "include"
     });
     const cartData = await cartResponse.json();
+
+    const cartContainer = document.getElementById("cart-container");
+    cartContainer.innerHTML = "";
 
     if (!cartData.success || cartData.cart.length === 0) {
         document.getElementById("cart-message").textContent = "Your cart is empty.";
         return;
     }
 
-    cartContainer.innerHTML = "";
-    cartContainer.style.display = "block";
-
     cartData.cart.forEach(product => {
+        const productId = product.productId || product._id;
         const productDiv = document.createElement("div");
         productDiv.classList.add("cart-item");
 
-        const imgSrc = product.thumbnailImage.startsWith("http")
+        const imageSrc = product.thumbnailImage.startsWith("http")
             ? product.thumbnailImage
             : "https://swarize.in/" + product.thumbnailImage;
 
         productDiv.innerHTML = `
-            <img src="${imgSrc}" class="cart-product-image">
+            <img src="${imageSrc}" class="cart-product-image">
             <div class="cart-product-details">
                 <h2 class="cart-product-name">${product.name}</h2>
                 <p class="cart-product-price">₹${product.price}</p>
                 <p class="cart-product-description">${product.description}</p>
-                <button class="remove-button" onclick="removeFromCart('${product.productId || product._id}')">🗑️ Remove</button>
+                <button class="remove-button" onclick="removeFromCart('${productId}')">🗑️ Remove</button>
             </div>
         `;
-
         cartContainer.appendChild(productDiv);
     });
 
@@ -70,7 +62,6 @@ async function loadCartItems() {
     document.getElementById("go-to-store").style.display = "block";
 }
 
-// ✅ Remove from cart
 async function removeFromCart(productId) {
     if (!productId) {
         console.error("❌ Invalid productId for removal");
@@ -84,9 +75,10 @@ async function removeFromCart(productId) {
         });
 
         const data = await response.json();
+
         if (data.success) {
             console.log("✅ Product removed from cart");
-            await loadCartItems(); // Reload cart
+            await loadCartItems();
         } else {
             console.error("❌ Failed to remove:", data.message);
             alert("Failed to remove product from cart.");

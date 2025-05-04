@@ -92,8 +92,24 @@ function viewProduct(productId) {
 }
 
 // ✅ Function to add product to cart
+// ✅ Function to add product to cart
 async function addToCart(productId) {
     try {
+        // First check if user is logged in by hitting a session check endpoint
+        const sessionRes = await fetch("https://swarize.in/api/user/session", {
+            method: "GET",
+            credentials: "include"
+        });
+
+        const sessionData = await sessionRes.json();
+
+        if (!sessionData.success) {
+            // Redirect to login if not logged in
+            window.location.href = "login.html";
+            return;
+        }
+
+        // Add to cart if user is logged in
         const response = await fetch("https://swarize.in/cart/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -113,6 +129,7 @@ async function addToCart(productId) {
         alert("❌ Error adding product to cart.");
     }
 }
+
 
 
 

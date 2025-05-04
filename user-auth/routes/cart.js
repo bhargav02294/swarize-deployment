@@ -61,29 +61,39 @@ router.post("/add", isAuthenticated, async (req, res) => {
 // ✅ Remove Product from Cart
 // ✅ Remove product from cart
 // ✅ Remove product from cart
+// ✅ FIXED Remove product from cart
 router.post("/remove", isAuthenticated, async (req, res) => {
     try {
         const { productId } = req.body;
         const userId = req.session.userId;
 
         const cart = await Cart.findOne({ userId });
+
         if (!cart) {
             return res.status(404).json({ success: false, message: "Cart not found" });
         }
 
+        // Debug: Check existing product IDs
+        console.log("Before remove:", cart.products.map(p => p.productId.toString()));
+
+        // Convert all IDs to strings and compare correctly
         cart.products = cart.products.filter(p => {
-            const pid = typeof p.productId === "object" ? p.productId._id.toString() : p.productId.toString();
+            const pid = p.productId && typeof p.productId === "object"
+                ? p.productId._id?.toString()
+                : p.productId?.toString();
             return pid !== productId;
         });
 
         await cart.save();
 
+        console.log("After remove:", cart.products.map(p => p.productId.toString()));
         res.json({ success: true, message: "Product removed from cart" });
     } catch (error) {
         console.error("❌ Error removing from cart:", error);
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
 
 
 

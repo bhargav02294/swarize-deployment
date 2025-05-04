@@ -16,17 +16,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         try {
             const formattedCategory = encodeURIComponent(category);
             const response = await fetch(`https://swarize.in/api/products/category/${formattedCategory}`);
-
+    
             const data = await response.json();
-
+    
             if (data.success && data.products.length > 0) {
-                return data.products.slice(0, 3); // Get only 3 products per category
+                return data.products.reverse().slice(0, 3); // Reverse the order and get the last 3 products
             }
         } catch (error) {
             console.error(`❌ Error fetching products for ${category}:`, error);
         }
         return [];
     }
+    
 
     async function loadProducts() {
         productsGrid.innerHTML = "";

@@ -2,6 +2,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch("/api/orders/seller", { credentials: "include" });
         const data = await response.json();
+// 🔹 Update Summary Metrics
+if (data.summary) {
+    document.getElementById("total-products").textContent = `Total Products: ${data.summary.totalProducts}`;
+    document.getElementById("total-price").textContent = `Total Price: ₹${data.summary.totalPrice}`;
+    document.getElementById("total-earnings").textContent = `Seller Earnings: ₹${data.summary.totalEarnings}`;
+}
 
         console.log("📦 Sales Response:", data);
 

@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             cartContainer.appendChild(productDiv);
         });
 
-        // ✅ Attach event listeners for Remove buttons
+        // Attach remove event
         document.querySelectorAll(".remove-button").forEach(button => {
             button.addEventListener("click", async (e) => {
                 const productId = e.target.getAttribute("data-id");
@@ -59,7 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const data = await res.json();
                     if (data.success) {
                         alert("Product removed from cart.");
-                        window.location.reload();
+                        // Remove from UI without reload
+                        e.target.closest(".cart-item").remove();
                     } else {
                         alert("Failed to remove product.");
                     }

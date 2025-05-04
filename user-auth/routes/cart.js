@@ -5,6 +5,7 @@ const Product = require("../models/product");
 const { isAuthenticated } = require("../middleware/auth");
 
 // ✅ Add product to cart
+// ✅ Add product to cart
 router.post("/add", isAuthenticated, async (req, res) => {
     try {
         const { productId } = req.body;
@@ -22,13 +23,13 @@ router.post("/add", isAuthenticated, async (req, res) => {
         let cart = await Cart.findOne({ userId });
 
         if (cart) {
-            const productIndex = cart.products.findIndex(item => item.productId.toString() === productId);
+            const productIndex = cart.products.findIndex(item => item.productId.toString() === product._id.toString());
 
             if (productIndex > -1) {
                 cart.products[productIndex].quantity += 1;
             } else {
                 cart.products.push({
-                    productId: product._id,
+                    productId: product._id, // ✅ USE THIS — real MongoDB ID
                     name: product.name,
                     price: product.price,
                     description: product.description,
@@ -41,7 +42,7 @@ router.post("/add", isAuthenticated, async (req, res) => {
             cart = new Cart({
                 userId,
                 products: [{
-                    productId,
+                    productId: product._id, // ✅ FIXED here too
                     name: product.name,
                     price: product.price,
                     description: product.description,

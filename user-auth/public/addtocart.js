@@ -19,16 +19,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         console.log("✅ User is logged in:", authData); // ✅ Debugging Log
 
-        // ✅ Fetch Cart Items
-        await loadCartItems();
-
+        await loadCartItems(); // 🔁 Load cart
     } catch (error) {
         console.error("❌ Error loading cart:", error);
         document.getElementById("cart-message").textContent = "Error loading cart.";
     }
 });
 
-// ✅ Load cart items into DOM
+// ✅ Load Cart
 async function loadCartItems() {
     const cartResponse = await fetch("https://swarize.in/api/cart", { credentials: "include" });
     const cartData = await cartResponse.json();
@@ -46,7 +44,7 @@ async function loadCartItems() {
     cartContainer.style.display = "block";
 
     cartData.cart.forEach(product => {
-        const productId = product.productId || product._id;
+        const productId = product.productId;
 
         const productDiv = document.createElement("div");
         productDiv.classList.add("cart-item");
@@ -66,7 +64,7 @@ async function loadCartItems() {
     document.getElementById("go-to-store").style.display = "block";
 }
 
-// ✅ Remove product from cart
+// ✅ Remove Product from Cart
 async function removeFromCart(productId) {
     if (!productId) return;
 
@@ -80,7 +78,7 @@ async function removeFromCart(productId) {
 
         if (data.success) {
             console.log("✅ Product removed");
-            await loadCartItems(); // Reload cart after removal
+            await loadCartItems(); // 🔁 Reload cart
         } else {
             console.error("❌ Failed to remove:", data.message);
             alert("Failed to remove product from cart.");

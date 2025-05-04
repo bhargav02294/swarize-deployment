@@ -1,10 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        // ✅ Check login status
         const authResponse = await fetch("https://swarize.in/api/auth/is-logged-in", {
             credentials: "include"
         });
-
         const authData = await authResponse.json();
 
         if (!authData.isLoggedIn) {
@@ -17,20 +15,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        console.log("✅ User is logged in:", authData); // ✅ Debugging Log
-
-        // ✅ Fetch Cart Items
         const cartResponse = await fetch("https://swarize.in/api/cart", { credentials: "include" });
         const cartData = await cartResponse.json();
-
-        console.log("🛒 Cart Data from Backend:", cartData);
 
         if (!cartData.success || cartData.cart.length === 0) {
             document.getElementById("cart-message").textContent = "Your cart is empty.";
             return;
         }
 
-        // ✅ Display all products in the cart
         const cartContainer = document.getElementById("cart-container");
         cartContainer.innerHTML = "";
         cartContainer.style.display = "block";
@@ -38,14 +30,44 @@ document.addEventListener("DOMContentLoaded", async () => {
         cartData.cart.forEach(product => {
             const productDiv = document.createElement("div");
             productDiv.classList.add("cart-item");
+
             productDiv.innerHTML = `
-                <img src="${product.thumbnailImage.startsWith('http') ? product.thumbnailImage : 'https://swarize.in/' + product.thumbnailImage}" class="cart-product-image" />
+                <img src="${product.thumbnailImage.startsWith('http') ? product.thumbnailImage : 'https://swarize.in/' + product.thumbnailImage}" alt="${product.name}" class="cart-product-image">
                 <h2 class="cart-product-name">${product.name}</h2>
                 <p class="cart-product-price">₹${product.price}</p>
                 <p class="cart-product-description">${product.description}</p>
-                <button class="remove-button" onclick="removeFromCart('${product.productId}')">🗑️ Remove</button>
+                <button class="remove-button" data-id="${product.productId}">Remove</button>
             `;
+
             cartContainer.appendChild(productDiv);
+        });
+
+        // ✅ Attach event listeners for Remove buttons
+        document.querySelectorAll(".remove-button").forEach(button => {
+            button.addEventListener("click", async (e) => {
+                const productId = e.target.getAttribute("data-id");
+                try {
+                    const res = await fetch("https://swarize.in/api/cart/remove", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ productId })
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        alert("Product removed from cart.");
+                        window.location.reload();
+                    } else {
+                        alert("Failed to remove product.");
+                    }
+                } catch (err) {
+                    console.error("❌ Remove error:", err);
+                    alert("Error removing product.");
+                }
+            });
         });
 
         document.getElementById("cart-message").textContent = "";
@@ -56,28 +78,3 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("cart-message").textContent = "Error loading cart.";
     }
 });
-
-// ✅ Remove from Cart Function
-async function removeFromCart(productId) {
-    if (!productId) return;
-
-    try {
-        const response = await fetch(`https://swarize.in/api/cart/${productId}`, {
-            method: "DELETE",
-            credentials: "include"
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            console.log("✅ Product removed");
-            location.reload(); // Reload to update cart
-        } else {
-            console.error("❌ Failed to remove:", data.message);
-            alert("Failed to remove product from cart.");
-        }
-    } catch (err) {
-        console.error("❌ Error removing product:", err);
-        alert("Error removing product.");
-    }
-}

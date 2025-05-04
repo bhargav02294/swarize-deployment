@@ -59,33 +59,27 @@ router.post("/add", isAuthenticated, async (req, res) => {
 });
 
 // ✅ Remove Product from Cart
-router.delete("/:productId", isAuthenticated, async (req, res) => {
+// ✅ Remove product from cart
+router.post("/remove", isAuthenticated, async (req, res) => {
     try {
+        const { productId } = req.body;
         const userId = req.session.userId;
-        const { productId } = req.params;
-
-        if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
-        }
 
         const cart = await Cart.findOne({ userId });
         if (!cart) {
             return res.status(404).json({ success: false, message: "Cart not found" });
         }
 
-        // Filter out the product to be removed
-        cart.products = cart.products.filter(
-            item => item.productId.toString() !== productId
-        );
-
+        cart.products = cart.products.filter(p => p.productId.toString() !== productId);
         await cart.save();
 
         res.json({ success: true, message: "Product removed from cart" });
     } catch (error) {
-        console.error("❌ Error removing product from cart:", error);
-        res.status(500).json({ success: false, message: "Server error while removing product" });
+        console.error("❌ Error removing from cart:", error);
+        res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
 
 
 // ✅ Fetch Cart Items for Logged-In User

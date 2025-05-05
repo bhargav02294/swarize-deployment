@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-//----------------dropdowns--         login country category    -------------------------//
+//----------------dropdowns   --         login country category    -------------------------//
 
 document.addEventListener('click', function (event) {
     const loginDropdown = document.querySelector('.login-dropdown');
@@ -374,9 +374,6 @@ document.querySelectorAll('.dropdown-content').forEach(dropdown => {
         event.stopPropagation();
     });
 });
-
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
     const categoryButtons = document.querySelectorAll(".category-btn");
@@ -534,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
         // URL se subcategory value lo
         const subcategory = new URL(link.href, location.href).searchParams.get('subcategory');
-        // Filhaal women's store hardcode kiya hai; agar multiple categories ho, 
+        // Filhaal women's store hardcode kiya hae catei; agar multiplgories ho, 
         // tab dynamic mapping laga sakte ho
         const category = "Women's Store";
   
@@ -580,3 +577,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
+
+
+
+
+
+
+//=========       product slider          ============//
+
+
+  async function fetchProducts() {
+    try {
+      const res = await fetch('/api/products/all');
+      const products = await res.json();
+  
+      const slider = document.getElementById('productSlider');
+      slider.innerHTML = ''; // Clear existing
+  
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${product.thumbnailImage}" alt="${product.name}">
+          <div style="padding: 10px;">
+            <h4 style="margin: 0;">${product.name}</h4>
+            <p style="margin: 5px 0; color: #888;">₹${product.price}</p>
+          </div>
+        `;
+        slider.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Error loading products:', err);
+    }
+  }
+  fetchProducts();

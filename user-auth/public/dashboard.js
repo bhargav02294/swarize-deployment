@@ -7,6 +7,7 @@ if (data.summary) {
     document.getElementById("total-products").textContent = `Total Products: ${data.summary.totalProducts}`;
     document.getElementById("total-price").textContent = `Total Price: ₹${data.summary.totalPrice}`;
     document.getElementById("total-earnings").textContent = `Seller Earnings: ₹${data.summary.totalEarnings}`;
+
 }
 
         console.log("📦 Sales Response:", data);

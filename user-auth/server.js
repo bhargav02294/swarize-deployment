@@ -1343,25 +1343,43 @@ app.get("/api/orders/buyer", async (req, res) => {
 // ✅ Fetch sales for a logged-in seller
 app.get("/api/orders/seller", async (req, res) => {
   try {
-      const sellerId = req.session.userId;
-      if (!sellerId) {
-          console.log("❌ No sellerId found in session");
-          return res.status(401).json({ success: false, message: "Unauthorized" });
+    const sellerId = req.session.userId;
+    if (!sellerId) {
+      console.log("❌ No sellerId found in session");
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+
+    console.log("🔍 Fetching Sales for Seller ID:", sellerId);
+    const sales = await Sale.find({ sellerId }).sort({ createdAt: -1 });
+
+    if (!sales.length) {
+      return res.json({ success: true, sales: [], summary: {
+        totalProducts: 0,
+        totalPrice: 0,
+        totalEarnings: 0,
+      }});
+    }
+
+    // 🔢 Calculate Summary
+    const totalProducts = sales.length;
+    const totalPrice = sales.reduce((sum, sale) => sum + (sale.productPrice || 0), 0);
+    const totalEarnings = sales.reduce((sum, sale) => sum + (sale.sellerEarnings || 0), 0);
+
+    res.json({
+      success: true,
+      sales,
+      summary: {
+        totalProducts,
+        totalPrice,
+        totalEarnings,
       }
-      console.log("🔍 Fetching Sales for Seller ID:", sellerId);
-
-      const sales = await Sale.find({ sellerId }).sort({ createdAt: -1 });
-
-      if (!sales.length) {
-          return res.json({ success: true, sales: [] });
-      }
-
-      res.json({ success: true, sales });
+    });
   } catch (error) {
-      console.error("❌ Error fetching seller sales:", error);
-      res.status(500).json({ success: false, message: "Server error!" });
+    console.error("❌ Error fetching seller sales:", error);
+    res.status(500).json({ success: false, message: "Server error!" });
   }
 });
+
 
 
 

@@ -99,7 +99,7 @@ const product = (await productResponse.json()).product;
         // Slider movement
         window.moveSlide = function(direction) {
             const items = mediaSlider.children.length;
-            const itemWidth = mediaSlider.children[0]?.offsetWidth + 10 || 160;
+            const itemWidth = mediaSlider.children[0] ? mediaSlider.children[0].offsetWidth + 10 : 160;
             currentSlide += direction;
 
             if (currentSlide < 0) currentSlide = 0;
@@ -149,7 +149,32 @@ if (addToCartBtn) {
 
         fetchReviews();
 
-    } catch (err) {
+
+
+        // Update SEO meta dynamically
+document.title = `${product.name} | Swarize`;
+
+document.getElementById("dynamic-title").textContent = `${product.name} | Swarize`;
+
+const desc = product.description?.slice(0, 150) || "Explore this product on Swarize.";
+const keywords = [product.name, product.category, product.subcategory, product.tags?.join(", ") || ""].join(", ");
+
+document.getElementById("meta-description").setAttribute("content", desc);
+document.getElementById("meta-keywords").setAttribute("content", keywords);
+
+document.getElementById("og-title").setAttribute("content", product.name);
+document.getElementById("og-description").setAttribute("content", desc);
+document.getElementById("og-image").setAttribute("content", product.thumbnailImage || "/default-thumbnail.jpg");
+document.getElementById("og-url").setAttribute("content", window.location.href);
+
+document.getElementById("twitter-title").setAttribute("content", product.name);
+document.getElementById("twitter-description").setAttribute("content", desc);
+document.getElementById("twitter-image").setAttribute("content", product.thumbnailImage || "/default-thumbnail.jpg");
+
+    } 
+    
+    
+    catch (err) {
         console.error("❌ Error fetching product:", err);
         document.body.innerHTML = "<h2>Error loading product details.</h2>";
     }

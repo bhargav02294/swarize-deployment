@@ -213,7 +213,7 @@ header h1, header h2 {
         border-radius: 50%;
         display: flex;
 
-        margin-bottom: 10px;
+        margin-bottom: 20px;
 
         align-items: center;
         justify-content: center;
@@ -222,6 +222,8 @@ header h1, header h2 {
     .logo-text,
     .brand-name {
         font-size: 18px;
+        margin-bottom: 20px;
+
         margin: 0;
     }
 
@@ -229,15 +231,16 @@ header h1, header h2 {
     .navbar-bottom-row {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: static;
+        margin-bottom: 20px;
+
         width: 100%;
     }
 
     .search-container {
         position: static;
-        margin-left: 10px;
+        margin-left: 30px;
         width: 50px;
-        max-width: 600px;
         display: flex;
         align-items: center;
     }
@@ -259,9 +262,9 @@ header h1, header h2 {
 
     .menu {
         position: static;
-        flex-direction: row;
+        flex-direction: column-reverse;
         margin-bottom: 10px;
-        margin-top: 15px;
+        margin-bottom: 25px;
         justify-content: flex-end;
         align-items: center;
         gap: 16px;

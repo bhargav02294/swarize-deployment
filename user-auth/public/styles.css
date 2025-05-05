@@ -1,49 +1,36 @@
+/* ======== Base Reset ======== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
 body {
-    background: #fbf9f7; /* Very light warm beige */
+    background: #fbf9f7;
 }
 
-
-/* From Uiverse.io by @satyamchaudharydev */
-/* Removing default button styles */
-.search-container button {
-    border: none;
-    background: none;
-    color: #8b8ba7;
-    cursor: pointer;
-}
-
-/* Styling the whole input container */
+/* ======== Search Bar ======== */
 .search-container {
     --timing: 0.3s;
     --width-of-input: 320px;
     --height-of-input: 40px;
-    --border-height: 2px;
+    --border-color: #4A403A;
     --input-bg: #fff;
-    --border-color:  #4A403A ; 
-    --border-radius: 30px;
-    --after-border-radius: 1px;
 
     position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     width: var(--width-of-input);
     height: var(--height-of-input);
     display: flex;
-    left: 40%;
     align-items: center;
     padding-inline: 0.8em;
-    border-radius: var(--border-radius);
+    border-radius: 30px;
     transition: border-radius 0.5s ease;
-    background: var(--input-bg, #fff);
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
 }
 
-/* Styling the input */
 #search-input {
     font-size: 0.9rem;
     background-color: transparent;
@@ -52,9 +39,9 @@ body {
     padding-inline: 0.5em;
     padding-block: 0.7em;
     border: none;
+    outline: none;
 }
 
-/* Styling of animated border */
 .search-container:before {
     content: "";
     position: absolute;
@@ -62,57 +49,39 @@ body {
     transform: scaleX(0);
     transform-origin: center;
     width: 100%;
-    height: var(--border-height);
+    height: 2px;
     left: 0;
     bottom: 0;
     border-radius: 1px;
     transition: transform var(--timing) ease;
 }
 
-/* Hover effect */
-.search-container:focus-within {
-    border-radius: var(--after-border-radius);
-}
-
-/* Input focus effect */
-#search-input:focus {
-    outline: none;
-}
-
-/* Animated border effect */
 .search-container:focus-within:before {
-    transform: scale(1);
+    transform: scaleX(1);
 }
 
-/* Styling the search button */
 #search-button {
     background: none;
     border: none;
+    color: #8b8ba7;
     cursor: pointer;
     font-size: 1rem;
     padding: 0 10px;
-    transition: color 0.3s ease;
 }
 
 #search-button:hover {
     color: var(--border-color);
 }
 
-
-
-
-
-
-/* Navbar Container */
+/* ======== Navbar ======== */
 .navbar {
     background-color: #F4D1AE;
-    padding: 50px 20px;
+    padding: 10px 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: fixed;
-    top: -10px;
+    top: 0;
     width: 100%;
-    height: 60px; /* Premium look */
-
+    height: 60px;
     z-index: 1000;
 }
 
@@ -121,48 +90,43 @@ body {
     justify-content: space-between;
     align-items: center;
     max-width: 1200px;
-    margin: 10px auto;
+    margin: 0 auto;
+    position: relative;
 }
 
-
-
-/* Navbar Menu */
+/* ======== Menu ======== */
 .menu {
     display: flex;
     align-items: center;
     list-style-type: none;
     gap: 20px;
     position: absolute;
-    left: 80%;
+    right: 20px;
 }
 
 .menu-item {
-    color: #4A403A   ; /* Soft White */
+    color: #4A403A;
     text-decoration: none;
-    font-family: 'Poppins', sans-serif; /* Replace with your preferred font */
-
+    font-family: 'Poppins', sans-serif;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .menu-item:hover {
-    color: #520101   ; /* Gold */
+    color: #520101;
 }
 
-/* Dropdowns */
-/* Dropdown Styling */
+/* ======== Dropdowns ======== */
 .dropdown {
     position: relative;
     cursor: pointer;
 }
 
-/* Dropdown Button */
 .dropdown-button {
     background: none;
     border: none;
-    font-family: 'Poppins', sans-serif; /* Use the same font */
-
-    color: #4A403A ; /* Soft White */
+    font-family: 'Poppins', sans-serif;
+    color: #4A403A;
     font-weight: 500;
     font-size: 16px;
     cursor: pointer;
@@ -170,18 +134,16 @@ body {
 }
 
 .dropdown-button:hover {
-    color: #520101    ; /* Gold */
+    color: #520101;
 }
 
-/* Dropdown Content */
 .dropdown-content, .dropdown-contenter {
     display: none;
     position: absolute;
-    background-color: #ffffff; /* Charcoal Gray */
+    background-color: #ffffff;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    border: 1px solid #4A403A ; /* Gold Border */
-
+    border: 1px solid #4A403A;
     overflow: hidden;
     opacity: 0;
     transform: translateY(10px);
@@ -190,7 +152,6 @@ body {
     min-width: 180px;
 }
 
-/* Show Dropdown when Active */
 .dropdown.active .dropdown-content,
 .dropdown.active .dropdown-contenter {
     display: block;
@@ -198,66 +159,115 @@ body {
     transform: translateY(0);
 }
 
-/* Login Dropdown Content Links */
 .login-content a {
     padding: 12px 20px;
     display: block;
     font-size: 15px;
-    color: #121212; /* Light Gray */
+    color: #121212;
     text-decoration: none;
     transition: background-color 0.3s ease;
 }
 
 .login-content a:hover {
-    background-color: #f4d1ae77; /* Gold */
-    color: #000000; /* Pure Black */
-
+    background-color: #f4d1ae77;
+    color: #000000;
 }
 
-
-
-
-/* Logo and Brand Name Styling */
-/* Logo and Brand Name Alignment */
+/* ======== Logo ======== */
 .container {
     display: flex;
-    align-items: center; /* Ensures both are on the same line */
-    gap: 30px; /* Adjust spacing between logo and brand name */
+    align-items: center;
+    gap: 30px;
     position: absolute;
-    left: 40px; /* Positions it at the left corner */
+    left: 20px;
     top: 50%;
-    transform: translateY(-50%); /* Ensures perfect vertical centering */
+    transform: translateY(-50%);
 }
 
-/* Logo Styling */
 .logo-container {
     width: 60px;
     height: 60px;
-    background-color: #8C4A32; /* White */
+    background-color: #8C4A32;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Logo Text */
 .logo-text {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 600;
-    color: #F4D1AE; /* Black */
+    color: #F4D1AE;
     font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
 }
 
-/* Brand Name */
 .brand-name {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 500;
-    color: #8C4A32; /* Soft White */
+    color: #8C4A32;
     font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
+}
+
+/* ======== Responsive View ======== */
+@media (max-width: 768px) {
+    .navbar {
+        height: auto;
+        padding: 10px;
+    }
+
+    .navbar-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .container {
+        position: static;
+        transform: none;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .logo-container {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo-text {
+        font-size: 26px;
+    }
+
+    .brand-name {
+        font-size: 26px;
+    }
+
+    .search-container {
+        width: 90%;
+        max-width: 90%;
+        position: static;
+        transform: none;
+    }
+
+    .menu {
+        position: static;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .menu-item,
+    .dropdown-button {
+        font-size: 14px;
+    }
+
+    .dropdown-content, .dropdown-contenter {
+        min-width: 150px;
+    }
+
+    .login-content a {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
 }
 
 
@@ -572,7 +582,7 @@ body {
   }
   
   .product-card {
-    width: 30px; /* 🔧 Was likely much wider */
+    width: 30%; /* 🔧 Was likely much wider */
     background: white;
     border-radius: 8px;
     overflow: hidden;

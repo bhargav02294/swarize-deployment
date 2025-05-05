@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="/invite.html">Invite</a></li>
                     <li><a href="/about.html">About</a></li>
                     <li><a href="/help.html">Help</a></li>
-                    <li><a href="#" id="logout-btn" class="logout">Logout</a></li>
+                    <li><a href="#" id="logout-btn" class="logout"> </a></li>
                 </ul>
             `;
 

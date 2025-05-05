@@ -231,7 +231,7 @@ header h1, header h2 {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: -50px;
+        margin-top: -40px;
         width: 100%;
     }
 
@@ -262,7 +262,7 @@ header h1, header h2 {
     .menu {
         position: static;
         flex-direction: row;
-        margin-top: -70px;
+        margin-top: -50px;
         justify-content: flex-end;
         align-items: center;
         gap: 16px;

@@ -184,14 +184,15 @@ header h1, header h2 {
 /* ======== Mobile View Adjustments ======== */
 /* ======== Mobile View Adjustments ======== */
 /* ======== Mobile View Adjustments ======== */
+/* ======== Mobile View Adjustments ======== */
 @media (max-width: 768px) {
     .navbar-container {
         flex-direction: column;
-        align-items: flex-start; /* Align items to the start */
-        padding: 10px;
+        align-items: flex-start;
+        padding: 5px 10px; /* Reduce padding */
         gap: 8px;
         position: relative;
-        height: 100%; /* Ensure full height to position elements correctly */
+        height: 33%; /* 1/3 of the height */
     }
 
     .container {

@@ -619,14 +619,14 @@ app.get("/api/auth/logout", (req, res) => {
 
       console.log("✅ Session destroyed successfully");
 
-      // ✅ Correctly clear cookies
+      // Clear cookies
       res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
       res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
 
       console.log("✅ Cookies cleared");
 
-      // ✅ Redirect to homepage after logout
-      return res.redirect("https://swarize.in");
+      // Redirect to logout confirmation page
+      return res.redirect("https://swarize.in/logout.html");
   });
 });
 

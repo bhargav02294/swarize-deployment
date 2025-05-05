@@ -2,11 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Logged Out | Swarize</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logged Out | swarize</title>
     <link rel="stylesheet" href="/homeopt.css">
+    <style>
+        body {
+            text-align: center;
+            font-family: sans-serif;
+            padding: 40px;
+        }
+        .content {
+            margin-top: 50px;
+        }
+        .content a {
+            color: #0077cc;
+            text-decoration: none;
+        }
+    </style>
     <script>
-        // Automatically redirect to the sign-in page after 3 seconds
+        // Automatically redirect to sign-in page
         setTimeout(() => {
             window.location.href = '/index.html';
         }, 3000);
@@ -17,7 +31,8 @@
         <h1>You have been logged out</h1>
     </header>
     <main class="content">
-        <p>Thank you for visiting! You will be redirected to the Sign-In page shortly.</p>
+        <p>Thank you for visiting Swarize.</p>
+        <p>Redirecting you to the Sign-In page...</p>
         <p>If not redirected, <a href="/index.html">click here</a>.</p>
     </main>
 </body>

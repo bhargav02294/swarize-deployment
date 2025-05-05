@@ -506,8 +506,8 @@ header h1, header h2 {
         cursor: pointer;
         transition: all 0.3s ease;
         border-radius: 50%; /* Circular button */
-        width: 60px; /* Smaller size */
-        height: 60px; /* Same height and width for circle */
+        width: 30px; /* Smaller size */
+        height: 30px; /* Same height and width for circle */
         display: flex;
         justify-content: center;
         align-items: center;

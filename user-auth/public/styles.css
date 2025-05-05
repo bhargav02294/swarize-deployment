@@ -88,7 +88,7 @@ html, body {
 /* ========== Navbar Styles ========== */
 .navbar {
     background-color: #F4D1AE;
-    padding: 30px 5px;
+    padding: 35px 0px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: absolute; /* 👈 Use absolute instead of fixed */
     top: 0;
@@ -107,25 +107,6 @@ html, body {
 }
 
 /* ========== Responsive Height for Mobile View ========== */
-@media (max-width: 768px) {
-    .navbar {
-        height: 50px; /* Shorter height for mobile */
-        padding: 8px 15px;
-    }
-
-    .logo-text {
-        font-size: 30px !important;
-    }
-
-    .brand-name {
-        font-size: 30px !important;
-    }
-
-    .logo-container {
-        width: 40px;
-        height: 40px;
-    }
-}
 
 /* ======== Menu ======== */
 .menu {
@@ -242,79 +223,80 @@ html, body {
 }
 
 /* ======== Responsive View ======== */
-/* ======== Mobile-Specific Navbar Layout ======== */
+/* ========== Existing Mobile View Responsive Changes ========== */
 @media (max-width: 768px) {
     .navbar {
+        position: static !important; /* 👈 Ensures navbar scrolls with page */
         height: auto;
-        padding: 10px 15px;
+        padding: 10px;
     }
 
     .navbar-container {
         display: flex;
         flex-direction: column;
+        align-items: flex-start; /* Align everything to the left */
         gap: 10px;
-    }
-
-    .top-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         width: 100%;
+        padding: 0 10px;
     }
 
     .container {
-        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
         align-items: center;
         gap: 10px;
-    }
-
-    .logo-container {
-        width: 35px;
-        height: 35px;
-    }
-
-    .logo-text {
-        font-size: 20px;
-    }
-
-    .brand-name {
-        font-size: 20px;
-    }
-
-    .search-container {
-        width: 55%;
-        height: 35px;
-        margin-top: 0;
-        position: static;
-        transform: none;
-    }
-
-    .bottom-row {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
         width: 100%;
     }
 
-    .menu {
-        position: static;
-        flex-direction: row;
-        gap: 15px;
-        justify-content: center;
-        flex-wrap: wrap;
+    .logo-container {
+        width: 40px;
+        height: 40px;
     }
 
-    .menu-item, .dropdown-button {
+    .logo-text {
+        font-size: 26px;
+    }
+
+    .brand-name {
+        font-size: 26px;
+    }
+
+    .search-container {
+        order: 1;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 55%;
+        max-width: 60%;
+        height: 36px;
+        padding: 5px 10px;
+        transform: none;
+    }
+
+    .menu {
+        order: 2;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 15px;
+        margin-top: 55px;
+    }
+
+    .menu-item,
+    .dropdown-button {
         font-size: 14px;
     }
 
     .dropdown-content, .dropdown-contenter {
-        min-width: 140px;
+        min-width: 150px;
     }
 
     .login-content a {
         font-size: 14px;
-        padding: 8px 12px;
+        padding: 10px 15px;
     }
 }
 

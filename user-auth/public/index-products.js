@@ -71,7 +71,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             const productItem = document.createElement("div");
             productItem.classList.add("product-card");
             productItem.innerHTML = `
-                <img src="${imagePath}" alt="${product.name}" class="product-image" onclick="viewProduct('${product._id}')">
                 <img src="${imagePath}" alt="${product.name} - Buy online at Swarize" class="product-image" onclick="viewProduct('${product._id}')">
 
                 <h4>${product.name}</h4>

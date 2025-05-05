@@ -228,103 +228,123 @@ html, body {
 /* ======================= MOBILE VIEW ONLY ======================= */
 @media (max-width: 768px) {
 
-    /* ===== Header Banner Styling ===== */
-    header {
+    /* Top Header Styling */
+    header:first-of-type {
         background-color: #520101;
-        padding: 8px 10px;
         text-align: center;
+        padding: 8px 10px;
     }
 
-    header h1 {
+    header:first-of-type h1, 
+    header:first-of-type h2 {
         color: #F4D1AE;
-        font-size: 14px;  /* smaller */
-        margin: 3px 0;
+        font-size: 12px; /* Smaller font for mobile */
+        margin: 2px 0;
     }
 
-    header h2 {
-        color: #F4D1AE;
-        font-size: 12px;  /* smaller */
-        margin: 3px 0;
-    }
-
-    /* ===== Navbar Wrapper ===== */
+    /* Navbar Compact */
     .navbar {
-        position: static !important;
         background-color: #F4D1AE;
         padding: 5px 10px;
-        height: auto;
     }
 
     .navbar-container {
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 8px;
         width: 100%;
-        gap: 5px;
     }
 
-    /* ===== Logo Row (Top Center) ===== */
+    /* Logo top center */
     .container {
-        flex-direction: row;
-        justify-content: center;
+        display: flex;
         align-items: center;
-        gap: 8px;
-        margin-bottom: 5px;
-        position: static;
-        transform: none;
+        justify-content: center;
+        gap: 6px;
     }
 
     .logo-container {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
+        background-color: #520101;
+        color: #F4D1AE;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 16px;
     }
 
     .logo-text,
     .brand-name {
-        font-size: 18px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #520101;
     }
 
-    /* ===== Bottom Row: Search + Icons ===== */
-    .bottom-row {
+    /* Search + Icons wrapper */
+    .search-icons-wrapper {
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
-        gap: 10px;
+        gap: 8px;
     }
 
+    /* Search container adjust */
     .search-container {
         flex: 2;
-        height: 34px;
-        padding: 0 10px;
-        border-radius: 20px;
+        display: flex;
+        align-items: center;
         width: 100%;
-        box-sizing: border-box;
+        gap: 5px;
     }
 
+    .search-container input {
+        flex: 1;
+        padding: 4px 10px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        font-size: 12px;
+    }
+
+    .search-container button {
+        padding: 4px 10px;
+        border-radius: 15px;
+        background-color: #520101;
+        color: #F4D1AE;
+        border: none;
+        font-size: 12px;
+    }
+
+    /* Menu icons row */
     .menu {
         flex: 1;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
     }
 
-    /* ===== Icons Setup ===== */
     .menu-item,
     .dropdown-button {
-        font-size: 0;
-        padding: 0;
+        font-size: 0; /* Hide text */
         background: none;
         border: none;
+        cursor: pointer;
     }
 
     .menu-item::before,
     .dropdown-button::before {
-        font-size: 18px;
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
+        font-size: 18px;
         color: #4A403A;
     }
 
@@ -336,17 +356,10 @@ html, body {
         content: "\f015"; /* home */
     }
 
-    .login-dropdown > .dropdown-button::before {
+    .dropdown-button::before {
         content: "\f007"; /* user */
     }
 
-    /* Hide menu text */
-    .menu-item,
-    .dropdown-button {
-        color: transparent;
-    }
-
-    /* Dropdown content adjust */
     .dropdown-content {
         font-size: 14px;
     }
@@ -357,24 +370,31 @@ html, body {
 
 header {
     background-color: #520101;
-    padding: 10px 15px;
+    padding: 6px 10px; /* reduced height */
     text-align: center;
 }
 
-header h1, header h2 {
+header h1,
+header h2 {
     color: #F4D1AE;
     font-family: 'Poppins', sans-serif;
-    margin: 5px 0;
-    font-size: 16px;
+    margin: 2px 0; /* tighter spacing */
+    font-size: 14px;
 }
 
 @media (max-width: 768px) {
+    header {
+        padding: 4px 8px; /* even smaller padding on mobile */
+    }
+
     header h1 {
-        font-size: 16px;
+        font-size: 12px;
+        margin: 1px 0;
     }
 
     header h2 {
-        font-size: 14px;
+        font-size: 10px;
+        margin: 1px 0;
     }
 }
 

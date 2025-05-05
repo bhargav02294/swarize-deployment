@@ -224,79 +224,166 @@ html, body {
 
 /* ======== Responsive View ======== */
 /* ========== Existing Mobile View Responsive Changes ========== */
+/* ======================= MOBILE VIEW ONLY ======================= */
 @media (max-width: 768px) {
+
+    /* ===== Navbar Layout Fix ===== */
     .navbar {
-        position: static !important; /* 👈 Ensures navbar scrolls with page */
+        position: static !important;
+        background-color: #F4D1AE;
+        padding: 5px 10px;
         height: auto;
-        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .navbar-container {
         display: flex;
         flex-direction: column;
-        align-items: flex-start; /* Align everything to the left */
-        gap: 10px;
+        align-items: center;
         width: 100%;
-        padding: 0 10px;
     }
 
+    /* ===== Top Center Logo + Name ===== */
     .container {
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
         gap: 10px;
-        width: 100%;
-    }
-
-    .logo-container {
-        width: 40px;
-        height: 40px;
-    }
-
-    .logo-text {
-        font-size: 26px;
-    }
-
-    .brand-name {
-        font-size: 26px;
-    }
-
-    .search-container {
-        order: 1;
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        width: 55%;
-        max-width: 60%;
-        height: 36px;
-        padding: 5px 10px;
+        margin-bottom: 8px;
+        position: static;
         transform: none;
     }
 
+    .logo-container {
+        width: 35px;
+        height: 35px;
+    }
+
+    .logo-text {
+        font-size: 22px;
+    }
+
+    .brand-name {
+        font-size: 22px;
+    }
+
+    /* ===== Search + Icons Row ===== */
+    .search-container {
+        order: 1;
+        position: static;
+        width: 55%;
+        height: 34px;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        border-radius: 20px;
+    }
+
+    /* ===== Menu Icons Right Side ===== */
     .menu {
         order: 2;
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
-        width: 100%;
         gap: 15px;
-        margin-top: 55px;
+        width: 100%;
+        padding-right: 10px;
     }
 
     .menu-item,
     .dropdown-button {
-        font-size: 14px;
+        font-size: 0;
+        padding: 0;
     }
 
-    .dropdown-content, .dropdown-contenter {
-        min-width: 150px;
+    .menu-item::before,
+    .dropdown-button::before {
+        font-size: 20px;
+        display: inline-block;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: #4A403A;
+        margin-right: 5px;
+    }
+
+    /* Replace text with icons */
+    .menu-item[href*="addtocart"]::before {
+        content: "\f07a"; /* FontAwesome cart */
+    }
+
+    .menu-item[href*="home"]::before {
+        content: "\f015"; /* FontAwesome home */
+    }
+
+    .login-dropdown > .dropdown-button::before {
+        content: "\f007"; /* FontAwesome user */
+    }
+
+    /* Hide dropdown text visually */
+    .menu-item,
+    .dropdown-button {
+        color: transparent;
+    }
+
+    /* Fix dropdown visibility */
+    .dropdown-content {
+        left: auto;
+        right: 0;
+        font-size: 14px;
     }
 
     .login-content a {
         font-size: 14px;
-        padding: 10px 15px;
+    }
+}
+
+/* ======================= HEADER BANNER STYLING (Mobile & Global) ======================= */
+header {
+    background-color: #520101;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+header h1, header h2 {
+    color: #F4D1AE;
+    font-family: 'Poppins', sans-serif;
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 16px;
+    }
+
+    header h2 {
+        font-size: 14px;
+    }
+}
+
+
+
+
+header {
+    background-color: #520101;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+header h1, header h2 {
+    color: #F4D1AE;
+    font-family: 'Poppins', sans-serif;
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 16px;
+    }
+
+    header h2 {
+        font-size: 14px;
     }
 }
 

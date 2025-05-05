@@ -193,7 +193,7 @@ header h1, header h2 {
         padding: 5px 8px;
         gap: 6px;
         position: relative;
-        height: auto;
+        height: 60px;
     }
 
     /* Row 1: Logo + Brand Name */
@@ -232,9 +232,9 @@ header h1, header h2 {
 
     .search-container {
         position: static;
-        margin: 0;
-        width: 60%;
-        max-width: 200px;
+        margin-left: 3px;
+        width: 50px;
+        max-width: 600px;
         display: flex;
         align-items: center;
     }

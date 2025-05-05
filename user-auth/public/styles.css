@@ -276,7 +276,7 @@ header h1, header h2 {
         font-size: 0;
         position: relative;
     }
-
+    
     .menu-item::before,
     .dropdown-button::before {
         font-family: "Font Awesome 5 Free";
@@ -284,18 +284,39 @@ header h1, header h2 {
         font-size: 18px;
         color: #4A403A;
     }
-
+    
     .menu-item[href*="addtocart"]::before {
         content: "\f07a";
     }
-
+    
     .menu-item[href*="home"]::before {
         content: "\f015";
     }
-
+    
     .dropdown-button::before {
         content: "\f007";
     }
+    .dropdown-content {
+        top: -5px;
+        right: 110%; /* Left side of icon */
+        min-width: 90px;
+        font-size: 12px;
+        padding: 4px 0;
+        border-radius: 6px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+    }
+    
+    .dropdown-content a {
+        padding: 6px 8px;
+        font-size: 12px;
+        line-height: 1.2;
+    }
+    
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+    
 }
 
 

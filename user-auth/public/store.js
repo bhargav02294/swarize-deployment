@@ -26,6 +26,44 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+
+if (res.ok && data.success) {
+  const store = data.store;
+  document.getElementById("store-logo").src = store.logoUrl;
+  document.getElementById("store-name").textContent = store.storeName;
+  document.getElementById("store-description").textContent = store.description;
+  localStorage.setItem("storeSlug", store.slug);
+  localStorage.setItem("storeId", store._id);
+
+  // Dynamic SEO Meta Updates
+  document.title = `${store.storeName} | Online Store`;
+  document.getElementById("meta-description").content = store.description || "Visit our store";
+  document.getElementById("og-title").content = store.storeName;
+  document.getElementById("og-desc").content = store.description || "";
+  document.getElementById("og-image").content = store.logoUrl || "/default-logo.png";
+  document.getElementById("og-url").content = window.location.href;
+  document.getElementById("twitter-title").content = store.storeName;
+  document.getElementById("twitter-desc").content = store.description || "";
+  document.getElementById("twitter-image").content = store.logoUrl || "/default-logo.png";
+
+  // Add JSON-LD Structured Data
+  const storeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": store.storeName,
+    "url": window.location.href,
+    "image": store.logoUrl,
+    "description": store.description,
+    "identifier": store._id
+  };
+  document.getElementById("json-ld-store").textContent = JSON.stringify(storeSchema);
+
+  loadProducts(slug, store._id);
+}
+
+
+
+
 async function loadProducts(slug, ownerId) {
   const container = document.getElementById("product-container");
   try {

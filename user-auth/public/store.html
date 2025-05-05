@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Store</title>
-  <link rel="stylesheet" href="/store.css">
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title id="dynamic-title">My Store</title>
+    <meta name="description" id="meta-description" content="Browse products from our store.">
+  
+    <!-- Open Graph -->
+    <meta property="og:title" id="og-title" content="My Store">
+    <meta property="og:description" id="og-desc" content="Find amazing products at great prices.">
+    <meta property="og:image" id="og-image" content="/default-logo.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="" id="og-url">
+  
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="My Store">
+    <meta name="twitter:description" id="twitter-desc" content="Browse our store collection.">
+    <meta name="twitter:image" id="twitter-image" content="/default-logo.png">
+  
+    <!-- Schema placeholder -->
+    <script type="application/ld+json" id="json-ld-store"></script>
+  
+    <link rel="stylesheet" href="/store.css">
+  </head>
+  
 <body>
   <div id="store-container">
     <h1 id="store-name"></h1>

@@ -598,12 +598,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-          <img src="${product.thumbnailImage}" alt="${product.name}">
-          <div style="padding: 10px;">
-            <h4 style="margin: 0;">${product.name}</h4>
-            <p style="margin: 5px 0; color: #888;">₹${product.price}</p>
-          </div>
-        `;
+  <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
+    <img src="${product.thumbnailImage}" alt="${product.name}">
+    <div style="padding: 10px;">
+      <h4 style="margin: 0;">${product.name}</h4>
+      <p style="margin: 5px 0; color: #888;">₹${product.price}</p>
+    </div>
+  </a>
+`;
+
         slider.appendChild(card);
       });
     } catch (err) {

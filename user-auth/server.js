@@ -608,26 +608,6 @@ app.get("/profile", (req, res) => {
   } else {
     res.redirect("https://swarize.in/signin.html");
   }
-});// ✅ Logout Route - Clears session and cookies
-// ✅ Logout Route - Clears session and cookies
-app.get("/api/auth/logout", (req, res) => {
-  req.session.destroy(err => {
-      if (err) {
-          console.error("❌ Error destroying session:", err);
-          return res.status(500).json({ success: false, message: "Logout failed" });
-      }
-
-      console.log("✅ Session destroyed successfully");
-
-      // Clear cookies
-      res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
-      res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
-
-      console.log("✅ Cookies cleared");
-
-      // Redirect to logout confirmation page
-      return res.redirect("https://swarize.in/logout.html");
-  });
 });
 
 

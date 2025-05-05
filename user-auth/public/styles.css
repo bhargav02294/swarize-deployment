@@ -187,42 +187,54 @@ header h1, header h2 {
 /* ======== Mobile View Adjustments ======== */
 @media (max-width: 768px) {
     .navbar-container {
+        display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        padding: 5px 8px; /* Reduce padding */
-        gap: 8px;
+        align-items: stretch;
+        padding: 5px 8px;
+        gap: 6px;
         position: relative;
-        height: 40px; 
+        height: auto;
     }
 
+    /* Row 1: Logo + Brand Name */
     .container {
-        justify-content: center;
-        gap: 8px;
+        display: flex;
+        flex-direction: row;
         align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
     }
 
     .logo-container {
         width: 32px;
         height: 32px;
-        margin-top: 4px;
         font-size: 18px;
+        background-color: #8C4A32;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .logo-text,
     .brand-name {
-        font-size: 22px;
-        margin-top: 5px;
+        font-size: 18px;
+        margin: 0;
     }
 
-    /* Move search bar to bottom left */
+    /* Row 2: Search + Menu */
+    .navbar-bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
     .search-container {
-        position: absolute;
-        bottom: 10px;
-        margin-left: 3px;
-        margin-top: 10px;
-        transform: none;
-        width: 50%;
-        max-width: 180px;
+        position: static;
+        margin: 0;
+        width: 60%;
+        max-width: 200px;
         display: flex;
         align-items: center;
     }
@@ -242,15 +254,11 @@ header h1, header h2 {
         cursor: pointer;
     }
 
-    /* Make menu icons horizontal and bottom right */
     .menu {
-        position: absolute;
-        bottom: 10px;
-        margin-right: 3px;
-        margin-top: 10px;
-        flex-direction: column;
+        position: static;
+        flex-direction: row;
         justify-content: flex-end;
-        width: auto;
+        align-items: center;
         gap: 16px;
     }
 
@@ -269,18 +277,17 @@ header h1, header h2 {
     }
 
     .menu-item[href*="addtocart"]::before {
-        content: "\f07a"; /* cart icon */
+        content: "\f07a";
     }
 
     .menu-item[href*="home"]::before {
-        content: "\f015"; /* home icon */
+        content: "\f015";
     }
 
     .dropdown-button::before {
-        content: "\f007"; /* user icon */
+        content: "\f007";
     }
 }
-
 
 
 

@@ -183,16 +183,17 @@ header h1, header h2 {
 
 /* ======== Mobile View Adjustments ======== */
 @media (max-width: 768px) {
-
     .navbar-container {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         padding: 10px;
         gap: 8px;
+        position: relative;
     }
 
     .container {
-        justify-content: flex-start;
+        justify-content: center;
+        gap: 8px;
     }
 
     .logo-container {
@@ -206,10 +207,14 @@ header h1, header h2 {
         font-size: 16px;
     }
 
+    /* Move search bar to bottom left */
     .search-container {
-        position: relative;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
         transform: none;
-        width: 100%;
+        width: 60%;
+        max-width: 240px;
     }
 
     #search-input {
@@ -221,10 +226,15 @@ header h1, header h2 {
         font-size: 12px;
     }
 
+    /* Make menu icons horizontal and bottom right */
     .menu {
-        width: 100%;
-        justify-content: space-around;
-        padding-top: 5px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: auto;
+        gap: 16px;
     }
 
     .menu-item,
@@ -242,18 +252,17 @@ header h1, header h2 {
     }
 
     .menu-item[href*="addtocart"]::before {
-        content: "\f07a";
+        content: "\f07a"; /* cart icon */
     }
 
     .menu-item[href*="home"]::before {
-        content: "\f015";
+        content: "\f015"; /* home icon */
     }
 
     .dropdown-button::before {
-        content: "\f007";
+        content: "\f007"; /* user icon */
     }
 }
-
 
 
 

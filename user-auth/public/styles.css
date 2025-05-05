@@ -213,7 +213,7 @@ header h1, header h2 {
         border-radius: 50%;
         display: flex;
 
-        margin-top: -5px;
+        margin-top: -15px;
 
         align-items: center;
         justify-content: center;
@@ -230,12 +230,13 @@ header h1, header h2 {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-top: -40px;
         width: 100%;
     }
 
     .search-container {
         position: static;
-        margin-left: 60px;
+        margin-left: 90px;
         width: 50px;
         max-width: 600px;
         display: flex;

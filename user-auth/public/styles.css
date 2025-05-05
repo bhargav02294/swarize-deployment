@@ -182,6 +182,7 @@ header h1, header h2 {
 }
 
 /* ======== Mobile View Adjustments ======== */
+/* ======== Mobile View Adjustments ======== */
 @media (max-width: 768px) {
     .navbar-container {
         flex-direction: column;
@@ -215,15 +216,23 @@ header h1, header h2 {
         transform: none;
         width: 60%;
         max-width: 240px;
+        display: flex;
+        align-items: center;
     }
 
     #search-input {
         font-size: 12px;
         padding: 4px 8px;
+        width: 100%;
     }
 
     #search-button {
         font-size: 12px;
+        padding: 5px;
+        background-color: #F4D1AE;
+        border: none;
+        color: #520101;
+        cursor: pointer;
     }
 
     /* Make menu icons horizontal and bottom right */
@@ -263,6 +272,7 @@ header h1, header h2 {
         content: "\f007"; /* user icon */
     }
 }
+
 
 
 

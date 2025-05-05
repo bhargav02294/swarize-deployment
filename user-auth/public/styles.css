@@ -13,6 +13,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: hidden; /* 🔒 Prevent horizontal scroll */
+
     background-color: white;
 }
   
@@ -86,7 +88,7 @@ html, body {
 /* ========== Navbar Styles ========== */
 .navbar {
     background-color: #F4D1AE;
-    padding: 25px 10px;
+    padding: 30px 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: absolute; /* 👈 Use absolute instead of fixed */
     top: 0;
@@ -240,66 +242,82 @@ html, body {
 }
 
 /* ======== Responsive View ======== */
+/* ======== Mobile-Specific Navbar Layout ======== */
 @media (max-width: 768px) {
     .navbar {
         height: auto;
-        padding: 10px;
+        padding: 10px 15px;
     }
 
     .navbar-container {
+        display: flex;
         flex-direction: column;
+        gap: 10px;
+    }
+
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .container {
+        display: flex;
         align-items: center;
         gap: 10px;
     }
 
-    .container {
-        position: static;
-        transform: none;
-        justify-content: center;
-        gap: 15px;
-    }
-
     .logo-container {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
     }
 
     .logo-text {
-        font-size: 26px;
+        font-size: 20px;
     }
 
     .brand-name {
-        font-size: 26px;
+        font-size: 20px;
     }
 
     .search-container {
-        width: 90%;
-        max-width: 90%;
+        width: 55%;
+        height: 35px;
+        margin-top: 0;
         position: static;
         transform: none;
+    }
+
+    .bottom-row {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
     }
 
     .menu {
         position: static;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-direction: row;
         gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
-    .menu-item,
-    .dropdown-button {
+    .menu-item, .dropdown-button {
         font-size: 14px;
     }
 
     .dropdown-content, .dropdown-contenter {
-        min-width: 150px;
+        min-width: 140px;
     }
 
     .login-content a {
         font-size: 14px;
-        padding: 10px 15px;
+        padding: 8px 12px;
     }
 }
+
 
 
 

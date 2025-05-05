@@ -193,7 +193,7 @@ header h1, header h2 {
         padding: 5px 8px;
         gap: 6px;
         position: relative;
-        height: 70px;
+        height: 75px;
     }
 
     /* Row 1: Logo + Brand Name */
@@ -213,7 +213,7 @@ header h1, header h2 {
         border-radius: 50%;
         display: flex;
 
-        margin-top: -15px;
+        margin-top: -20px;
 
         align-items: center;
         justify-content: center;
@@ -222,7 +222,8 @@ header h1, header h2 {
     .logo-text,
     .brand-name {
         font-size: 18px;
-        margin: 0;
+        margin-top: -5px;
+
     }
 
     /* Row 2: Search + Menu */
@@ -230,13 +231,13 @@ header h1, header h2 {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: -40px;
+        margin-top: -50px;
         width: 100%;
     }
 
     .search-container {
         position: static;
-        margin-left: 90px;
+        margin-left: 100px;
         width: 50px;
         max-width: 600px;
         display: flex;
@@ -261,7 +262,7 @@ header h1, header h2 {
     .menu {
         position: static;
         flex-direction: row;
-        margin-top: 35px;
+        margin-top: -70px;
         justify-content: flex-end;
         align-items: center;
         gap: 16px;

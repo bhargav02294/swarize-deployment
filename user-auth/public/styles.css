@@ -260,9 +260,11 @@ header h1, header h2 {
     }
 
     .menu {
+        display: flex; /* ← Yeh add karo */
+
         position: static;
         flex-direction: row;
-        margin-top: -30px;
+        margin-top: -35px;
         margin-right: 20px;
         justify-content: flex-end;
         align-items: center;

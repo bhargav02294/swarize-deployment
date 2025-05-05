@@ -1,390 +1,33 @@
-/* ======== Base Reset ======== */
+/* ======== Reset & Base ======== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    background-color: white;
-  }
-
-html, body {
+body, html {
     height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden; /* 🔒 Prevent horizontal scroll */
-
+    overflow-x: hidden;
     background-color: white;
 }
-  
 
-/* ======== Search Bar ======== */
-.search-container {
-    --timing: 0.3s;
-    --width-of-input: 320px;
-    --height-of-input: 40px;
-    --border-color: #4A403A;
-    --input-bg: #fff;
-
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: var(--width-of-input);
-    height: var(--height-of-input);
-    display: flex;
-    align-items: center;
-    padding-inline: 0.8em;
-    margin-top: 5px;
-    border-radius: 30px;
-    transition: border-radius 0.5s ease;
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-}
-
-#search-input {
-    font-size: 0.9rem;
-    background-color: transparent;
-    width: 100%;
-    height: 100%;
-    padding-inline: 0.5em;
-    padding-block: 0.7em;
-    border: none;
-    outline: none;
-}
-
-.search-container:before {
-    content: "";
-    position: absolute;
-    background: var(--border-color);
-    transform: scaleX(0);
-    transform-origin: center;
-    width: 100%;
-    height: 2px;
-    left: 0;
-    bottom: 0;
-    border-radius: 1px;
-    transition: transform var(--timing) ease;
-}
-
-.search-container:focus-within:before {
-    transform: scaleX(1);
-}
-
-#search-button {
-    background: none;
-    border: none;
-    color: #8b8ba7;
-    cursor: pointer;
-    font-size: 1rem;
-    padding: 0 10px;
-}
-
-#search-button:hover {
-    color: var(--border-color);
-}
-
-/* ======== Navbar ======== */
-/* ========== Navbar Styles ========== */
-.navbar {
-    background-color: #F4D1AE;
-    padding: 35px 0px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: absolute; /* 👈 Use absolute instead of fixed */
-    top: 0;
-    width: 100%;
-    height: 80px; /* Default height for PC */
-    z-index: 10; /* Keep it above content, but not always floating */
-}
-
-.navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 100%;
-    margin: 0 auto;
-    position: relative;
-}
-
-/* ========== Responsive Height for Mobile View ========== */
-
-/* ======== Menu ======== */
-.menu {
-    display: flex;
-    align-items: center;
-    list-style-type: none;
-    gap: 20px;
-    position: absolute;
-    right: 20px;
-}
-
-.menu-item {
-    color: #4A403A;
-    text-decoration: none;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.menu-item:hover {
-    color: #520101;
-}
-
-/* ======== Dropdowns ======== */
-.dropdown {
-    position: relative;
-    cursor: pointer;
-}
-
-.dropdown-button {
-    background: none;
-    border: none;
-    font-family: 'Poppins', sans-serif;
-    color: #4A403A;
-    font-weight: 500;
-    font-size: 16px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.dropdown-button:hover {
-    color: #520101;
-}
-
-.dropdown-content, .dropdown-contenter {
-    display: none;
-    position: absolute;
-    background-color: #ffffff;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    border: 1px solid #4A403A;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1000;
-    min-width: 180px;
-}
-
-.dropdown.active .dropdown-content,
-.dropdown.active .dropdown-contenter {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.login-content a {
-    padding: 12px 20px;
-    display: block;
-    font-size: 15px;
-    color: #121212;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.login-content a:hover {
-    background-color: #f4d1ae77;
-    color: #000000;
-}
-
-/* ======== Logo ======== */
-.container {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #8C4A32;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-text {
-    font-size: 40px;
-    font-weight: 600;
-    color: #F4D1AE;
-    font-family: 'Times New Roman';
-}
-
-.brand-name {
-    font-size: 40px;
-    font-weight: 500;
-    color: #8C4A32;
-    font-family: 'Times New Roman';
-}
-
-/* ======== Responsive View ======== */
-/* ========== Existing Mobile View Responsive Changes ========== */
-/* ======================= MOBILE VIEW ONLY ======================= */
-/* ======================= MOBILE VIEW ONLY ======================= */
-@media (max-width: 768px) {
-
-    /* Top Header Styling */
-    header:first-of-type {
-        background-color: #520101;
-        text-align: center;
-        padding: 8px 10px;
-    }
-
-    header:first-of-type h1, 
-    header:first-of-type h2 {
-        color: #F4D1AE;
-        font-size: 12px; /* Smaller font for mobile */
-        margin: 2px 0;
-    }
-
-    /* Navbar Compact */
-    .navbar {
-        background-color: #F4D1AE;
-        padding: 5px 10px;
-    }
-
-    .navbar-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        width: 100%;
-    }
-
-    /* Logo top center */
-    .container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-    }
-
-    .logo-container {
-        width: 28px;
-        height: 28px;
-        background-color: #520101;
-        color: #F4D1AE;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        font-weight: bold;
-        font-size: 16px;
-    }
-
-    .logo-text,
-    .brand-name {
-        font-size: 16px;
-        font-weight: bold;
-        color: #520101;
-    }
-
-    /* Search + Icons wrapper */
-    .search-icons-wrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        gap: 8px;
-    }
-
-    /* Search container adjust */
-    .search-container {
-        flex: 2;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        gap: 5px;
-    }
-
-    .search-container input {
-        flex: 1;
-        padding: 4px 10px;
-        border-radius: 20px;
-        border: 1px solid #ccc;
-        font-size: 12px;
-    }
-
-    .search-container button {
-        padding: 4px 10px;
-        border-radius: 15px;
-        background-color: #520101;
-        color: #F4D1AE;
-        border: none;
-        font-size: 12px;
-    }
-
-    /* Menu icons row */
-    .menu {
-        flex: 1;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .menu-item,
-    .dropdown-button {
-        font-size: 0; /* Hide text */
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .menu-item::before,
-    .dropdown-button::before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        font-size: 18px;
-        color: #4A403A;
-    }
-
-    .menu-item[href*="addtocart"]::before {
-        content: "\f07a"; /* cart */
-    }
-
-    .menu-item[href*="home"]::before {
-        content: "\f015"; /* home */
-    }
-
-    .dropdown-button::before {
-        content: "\f007"; /* user */
-    }
-
-    .dropdown-content {
-        font-size: 14px;
-    }
-}
-
-
-
-
+/* ======== Header (Top Bar) ======== */
 header {
     background-color: #520101;
-    padding: 6px 10px; /* reduced height */
+    padding: 6px 10px;
     text-align: center;
 }
 
-header h1,
-header h2 {
+header h1, header h2 {
     color: #F4D1AE;
     font-family: 'Poppins', sans-serif;
-    margin: 2px 0; /* tighter spacing */
+    margin: 2px 0;
     font-size: 14px;
 }
 
 @media (max-width: 768px) {
     header {
-        padding: 4px 8px; /* even smaller padding on mobile */
+        padding: 4px 8px;
     }
 
     header h1 {
@@ -397,6 +40,220 @@ header h2 {
         margin: 1px 0;
     }
 }
+
+/* ======== Navbar ======== */
+.navbar {
+    background-color: #F4D1AE;
+    padding: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%;
+    z-index: 10;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ======== Logo & Brand ======== */
+.container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-container {
+    width: 40px;
+    height: 40px;
+    background-color: #8C4A32;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #F4D1AE;
+    font-family: 'Times New Roman';
+}
+
+.brand-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #8C4A32;
+    font-family: 'Times New Roman';
+}
+
+/* ======== Search ======== */
+.search-container {
+    --timing: 0.3s;
+    --border-color: #4A403A;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    width: 320px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    padding: 5px 10px;
+    background: transparent;
+}
+
+#search-button {
+    background: none;
+    border: none;
+    color: #4A403A;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* ======== Menu ======== */
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style-type: none;
+}
+
+.menu-item,
+.dropdown-button {
+    color: #4A403A;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover,
+.dropdown-button:hover {
+    color: #520101;
+}
+
+/* ======== Dropdown (Login) ======== */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px solid #4A403A;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 1000;
+}
+
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 14px;
+    color: #000;
+}
+
+.dropdown-content a:hover {
+    background-color: #f4d1ae77;
+}
+
+/* ======== Mobile View Adjustments ======== */
+@media (max-width: 768px) {
+
+    .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .container {
+        justify-content: flex-start;
+    }
+
+    .logo-container {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .logo-text,
+    .brand-name {
+        font-size: 16px;
+    }
+
+    .search-container {
+        position: relative;
+        transform: none;
+        width: 100%;
+    }
+
+    #search-input {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    #search-button {
+        font-size: 12px;
+    }
+
+    .menu {
+        width: 100%;
+        justify-content: space-around;
+        padding-top: 5px;
+    }
+
+    .menu-item,
+    .dropdown-button {
+        font-size: 0;
+        position: relative;
+    }
+
+    .menu-item::before,
+    .dropdown-button::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 18px;
+        color: #4A403A;
+    }
+
+    .menu-item[href*="addtocart"]::before {
+        content: "\f07a";
+    }
+
+    .menu-item[href*="home"]::before {
+        content: "\f015";
+    }
+
+    .dropdown-button::before {
+        content: "\f007";
+    }
+}
+
 
 
 

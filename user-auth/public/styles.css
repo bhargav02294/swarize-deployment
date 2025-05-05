@@ -225,15 +225,34 @@ html, body {
 /* ======== Responsive View ======== */
 /* ========== Existing Mobile View Responsive Changes ========== */
 /* ======================= MOBILE VIEW ONLY ======================= */
+/* ======================= MOBILE VIEW ONLY ======================= */
 @media (max-width: 768px) {
 
-    /* ===== Navbar Layout Fix ===== */
+    /* ===== Header Banner Styling ===== */
+    header {
+        background-color: #520101;
+        padding: 8px 10px;
+        text-align: center;
+    }
+
+    header h1 {
+        color: #F4D1AE;
+        font-size: 14px;  /* smaller */
+        margin: 3px 0;
+    }
+
+    header h2 {
+        color: #F4D1AE;
+        font-size: 12px;  /* smaller */
+        margin: 3px 0;
+    }
+
+    /* ===== Navbar Wrapper ===== */
     .navbar {
         position: static !important;
         background-color: #F4D1AE;
         padding: 5px 10px;
         height: auto;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .navbar-container {
@@ -241,122 +260,94 @@ html, body {
         flex-direction: column;
         align-items: center;
         width: 100%;
+        gap: 5px;
     }
 
-    /* ===== Top Center Logo + Name ===== */
+    /* ===== Logo Row (Top Center) ===== */
     .container {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 10px;
-        margin-bottom: 8px;
+        gap: 8px;
+        margin-bottom: 5px;
         position: static;
         transform: none;
     }
 
     .logo-container {
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
     }
 
-    .logo-text {
-        font-size: 22px;
-    }
-
+    .logo-text,
     .brand-name {
-        font-size: 22px;
+        font-size: 18px;
     }
 
-    /* ===== Search + Icons Row ===== */
-    .search-container {
-        order: 1;
-        position: static;
-        width: 55%;
-        height: 34px;
-        padding: 5px 10px;
-        margin-bottom: 5px;
-        border-radius: 20px;
-    }
-
-    /* ===== Menu Icons Right Side ===== */
-    .menu {
-        order: 2;
+    /* ===== Bottom Row: Search + Icons ===== */
+    .bottom-row {
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
         align-items: center;
-        gap: 15px;
+        justify-content: space-between;
         width: 100%;
-        padding-right: 10px;
+        gap: 10px;
     }
 
+    .search-container {
+        flex: 2;
+        height: 34px;
+        padding: 0 10px;
+        border-radius: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .menu {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    /* ===== Icons Setup ===== */
     .menu-item,
     .dropdown-button {
         font-size: 0;
         padding: 0;
+        background: none;
+        border: none;
     }
 
     .menu-item::before,
     .dropdown-button::before {
-        font-size: 20px;
-        display: inline-block;
+        font-size: 18px;
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
         color: #4A403A;
-        margin-right: 5px;
     }
 
-    /* Replace text with icons */
     .menu-item[href*="addtocart"]::before {
-        content: "\f07a"; /* FontAwesome cart */
+        content: "\f07a"; /* cart */
     }
 
     .menu-item[href*="home"]::before {
-        content: "\f015"; /* FontAwesome home */
+        content: "\f015"; /* home */
     }
 
     .login-dropdown > .dropdown-button::before {
-        content: "\f007"; /* FontAwesome user */
+        content: "\f007"; /* user */
     }
 
-    /* Hide dropdown text visually */
+    /* Hide menu text */
     .menu-item,
     .dropdown-button {
         color: transparent;
     }
 
-    /* Fix dropdown visibility */
+    /* Dropdown content adjust */
     .dropdown-content {
-        left: auto;
-        right: 0;
-        font-size: 14px;
-    }
-
-    .login-content a {
-        font-size: 14px;
-    }
-}
-
-/* ======================= HEADER BANNER STYLING (Mobile & Global) ======================= */
-header {
-    background-color: #520101;
-    padding: 10px 15px;
-    text-align: center;
-}
-
-header h1, header h2 {
-    color: #F4D1AE;
-    font-family: 'Poppins', sans-serif;
-    margin: 5px 0;
-    font-size: 16px;
-}
-
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 16px;
-    }
-
-    header h2 {
         font-size: 14px;
     }
 }

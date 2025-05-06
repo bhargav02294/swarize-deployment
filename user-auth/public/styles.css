@@ -103,9 +103,9 @@ header h1, header h2 {
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    width: 320px;
+    width: 420px;
     position: absolute;
-    left: 50%;
+    left: 40%;
     transform: translateX(-50%);
 }
 
@@ -130,6 +130,7 @@ header h1, header h2 {
 .menu {
     display: flex;
     align-items: center;
+    margin-top: -50;
     gap: 20px;
     list-style-type: none;
 }

@@ -484,10 +484,10 @@ header h1, header h2 {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 4px;
+      gap: 3px;
       width: 100%;
       height: 60px;
-      padding: 10px 5px;
+      padding: 10px 3px;
       background: #F7E6D5;
     }
   
@@ -500,14 +500,14 @@ header h1, header h2 {
       background: #f0ebe5;
       color: rgb(0, 0, 0);
       font-weight: 600;
-      font-size: 3px;
+      font-size: 5px;
       border: none;
       padding: 0px;
       cursor: pointer;
       transition: all 0.3s ease;
-      border-radius: 50%;
-      width: 17px;
-      height: 17px;
+      border-radius: 10px;
+      width: 15px;
+      height: 20px;
       display: flex;
       flex-direction: column;
       justify-content: center;

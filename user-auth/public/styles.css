@@ -500,19 +500,19 @@ header h1, header h2 {
       background: #f0ebe5;
       color: rgb(0, 0, 0);
       font-weight: 600;
-      font-size: 5px;
+      font-size: 3px;
       border: none;
-      padding: 0px;
+      padding: -5px;
       cursor: pointer;
       transition: all 0.3s ease;
       border-radius: 10px;
-      width: 6px;
+      width: 10px;
       height: 10px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: -10px;
+      gap: 1px;
       box-shadow: 0 3px 6px rgba(76, 45, 24, 0.2);
     }
   
@@ -523,8 +523,8 @@ header h1, header h2 {
     }
   
     .category-icon {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 10%;
       object-fit: cover;
     }

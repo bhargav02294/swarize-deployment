@@ -540,15 +540,15 @@ header h1, header h2 {
         list-style: none;
         padding: 4px;
         border-radius: 8px;
-        width: 250px; /* Smaller width */
+        width: 100px; /* Smaller width */
         top: 100%; /* Slightly more space below button */
-        left: 50%;
+        left: 100%;
         transform: translateX(-50%);
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
         z-index: 10;
         opacity: 0;
         transition: opacity 0.3s ease, transform 0.3s ease;
-        flex-direction: column;
+        flex-direction: row;
         gap: 6px;
       }
       
@@ -558,22 +558,25 @@ header h1, header h2 {
         opacity: 1;
         transform: translateX(-50%) translateY(5px);
       }
-      .subcategory-column {
-        width: 50%; /* Split into two equal columns */
-        padding: 5px;
-      }
+      
 
 
       /* Leftmost 2 categories: align dropdown to left */
 .category-dropdown:nth-child(1) .subcategory-list,
-.category-dropdown:nth-child(2) .subcategory-list {
+.category-dropdown:nth-child(2) .subcategory-list,
+.category-dropdown:nth-child(3) .subcategory-list,
+.category-dropdown:nth-child(4) .subcategory-list,
+.category-dropdown:nth-child(5) .subcategory-list {
   left: 0;
   transform: translateX(0);
 }
 
 /* Rightmost 2 categories: align dropdown to right */
 .category-dropdown:nth-child(9) .subcategory-list,
-.category-dropdown:nth-child(10) .subcategory-list {
+.category-dropdown:nth-child(10) .subcategory-list,
+.category-dropdown:nth-child(8) .subcategory-list,
+.category-dropdown:nth-child(7) .subcategory-list,
+.category-dropdown:nth-child(6) .subcategory-list {
   left: auto;
   right: 0;
   transform: translateX(0);

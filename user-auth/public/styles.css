@@ -540,7 +540,7 @@ header h1, header h2 {
         list-style: none;
         padding: 4px;
         border-radius: 8px;
-        width: 100%; /* Smaller width */
+        width: 250px; /* Smaller width */
         top: 100%; /* Slightly more space below button */
         left: 100%;
         transform: translateX(-50%);

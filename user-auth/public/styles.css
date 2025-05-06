@@ -15,7 +15,7 @@ body, html {
 header {
     background-color: #520101;
     padding: 6px 10px;
-    height: 40px;
+    height: 35px;
     text-align: center;
 }
 
@@ -49,7 +49,7 @@ header h1, header h2 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 100%;
-    height: 60px;
+    height: 65px;
     z-index: 10;
 }
 
@@ -485,7 +485,8 @@ header h1, header h2 {
       flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
-      width: 15px;
+      width: 100%;
+      height: 25px;
       padding: 15px 10px;
       background: #F7E6D5;
     }
@@ -523,8 +524,8 @@ header h1, header h2 {
     }
   
     .category-icon {
-      width: 10px;
-      height: 10px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       object-fit: cover;
     }

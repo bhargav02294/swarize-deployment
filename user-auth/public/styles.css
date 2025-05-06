@@ -103,9 +103,9 @@ header h1, header h2 {
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    width: 420px;
+    width: 400px;
     position: absolute;
-    left: 40%;
+    left: 50%;
     transform: translateX(-50%);
 }
 
@@ -130,7 +130,6 @@ header h1, header h2 {
 .menu {
     display: flex;
     align-items: center;
-    margin-top: -50;
     gap: 20px;
     list-style-type: none;
 }
@@ -240,8 +239,8 @@ header h1, header h2 {
 
     .search-container {
         position: static;
-        margin-left: 110px;
-        width: 30px;
+        margin-left: 150px;
+        width: 40px;
         max-width: 600px;
         display: flex;
         align-items: center;
@@ -257,7 +256,7 @@ header h1, header h2 {
         font-size: 12px;
         padding: 5px;
         background-color: #F4D1AE;
-        border: none;
+        border: 40px;
         color: #520101;
         cursor: pointer;
     }
@@ -267,7 +266,7 @@ header h1, header h2 {
 
         position: static;
         flex-direction: row;
-        margin-top: -35px;
+        margin-top: -50px;
         margin-right: 20px;
         justify-content: flex-end;
         align-items: center;
@@ -506,11 +505,11 @@ header h1, header h2 {
       padding: 0px;
       cursor: pointer;
       transition: all 0.3s ease;
-      border-radius: 10px;
+      border-radius: 10%;
       width: 15px;
-      height: 20px;
+      height: 15px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: center;
       align-items: center;
       gap: 1px;
@@ -526,8 +525,8 @@ header h1, header h2 {
     }
   
     .category-icon {
-      width: 18px;
-      height: 18px;
+      width: 15px;
+      height: 15px;
       border-radius: 10%;
       object-fit: cover;
     }

@@ -15,14 +15,15 @@ body, html {
 header {
     background-color: #520101;
     padding: 6px 10px;
+    height: 10px;
     text-align: center;
 }
 
 header h1, header h2 {
     color: #F4D1AE;
     font-family: 'Poppins', sans-serif;
-    margin: 2px 0;
-    font-size: 14px;
+    margin: 0 0;
+    font-size: 12px;
 }
 
 @media (max-width: 768px) {
@@ -478,134 +479,115 @@ header h1, header h2 {
 
 /* Mobile View - Category Section */
 @media (max-width: 768px) {
-    /* Category Section - Keep the section in flex */
     .category-section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
-        padding: 20px 10px;
-        background: #F7E6D5; /* Light peach tone */
-        flex-wrap: wrap; /* Allow items to wrap */
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 10px;
+      background: #F7E6D5;
     }
-
-    /* Category Dropdown Container */
+  
     .category-dropdown {
-        position: relative;
-        text-align: center;
+      position: relative;
+      text-align: center;
     }
-
-    /* Category Button - Small Circle (icon + text) */
+  
     .category-btn {
-        background: #f0ebe5; /* Solid background */
-        color: rgb(0, 0, 0);
-        font-weight: bold;
-        font-size: 8px;
-        border: none;
-        padding: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border-radius: 10px; /* Circular button */
-        width: 10px; /* Smaller size */
-        height: 18px; /* Same height and width for circle */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-        box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
-        text-align: center;
-        margin: 0;
+      background: #f0ebe5;
+      color: rgb(0, 0, 0);
+      font-weight: 600;
+      font-size: 10px;
+      border: none;
+      padding: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      width: 70px;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 6px rgba(76, 45, 24, 0.2);
+      margin: 0;
     }
-    
-
-    /* Hover Effect for Category Button */
+  
     .category-btn:hover {
-        background: #F2C6A0;
-        transform: scale(1.05);
-        box-shadow: 0 6px 12px rgba(80, 30, 10, 0.4);
+      background: #F2C6A0;
+      transform: scale(1.05);
+      box-shadow: 0 5px 10px rgba(80, 30, 10, 0.3);
     }
-
-    /* Category Icons inside Circle */
+  
     .category-icon {
-        width: 10px;
-        height: 17px;
-        border-radius: 50%;
-        object-fit: cover;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
     }
-
-    /* Subcategory List - dropdown under each category */
+  
     .subcategory-list {
-        display: none;
-        position: absolute;
-        background: #FFFFFF;
-        border: 1px solid #F4D1AE; /* Gold Border */
-        list-style: none;
-        padding: 10px;
-        border-radius: 10px;
-        width: 250px; /* Adjust width */
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        gap: 8px;
+      display: none;
+      position: absolute;
+      background: #ffffff;
+      border: 1px solid #F4D1AE;
+      list-style: none;
+      padding: 10px;
+      border-radius: 10px;
+      width: 250px;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      gap: 8px;
+      flex-direction: column;
     }
-
-    /* Show Dropdown on Hover */
+  
     .category-dropdown:hover .subcategory-list {
-        display: flex;
-        opacity: 1;
-        transform: translateX(-50%) translateY(5px);
+      display: flex;
+      opacity: 1;
+      transform: translateX(-50%) translateY(5px);
     }
-
-    /* Subcategory Items */
+  
     .subcategory-list li {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-radius: 8px;
-        background: white;
-        transition: all 0.3s ease;
-        font-size: 13px;
-        margin-top: 5px;
-        font-weight: 500;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: white;
+      font-size: 13px;
+      margin-top: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
-
-    /* Subcategory Icons */
+  
     .subcategory-list li img {
-        width: 18px;
-        height: 18px;
-        margin-right: 10px;
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
     }
-
-    /* Last Item - No Bottom Border */
-    .subcategory-list li:last-child {
-        border-bottom: none;
-    }
-
-    /* Subcategory Links */
+  
     .subcategory-list li a {
-        text-decoration: none;
-        color: #333;
-        display: block;
-        width: 100%;
-        transition: color 0.3s ease;
+      text-decoration: none;
+      color: #333;
+      display: block;
+      width: 100%;
+      transition: color 0.3s ease;
     }
-
-    /* Hover Effect for Subcategory Items */
+  
     .subcategory-list li:hover {
-        background: #e4e7e8;
-        color: white;
-        transform: scale(1.05);
-        border: 1px solid #8C4A32; /* Gold Border */
+      background: #e4e7e8;
+      color: white;
+      transform: scale(1.05);
+      border: 1px solid #8C4A32;
     }
-}
-
+  }
+  
 
 
 

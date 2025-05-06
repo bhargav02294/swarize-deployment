@@ -15,7 +15,7 @@ body, html {
 header {
     background-color: #520101;
     padding: 6px 10px;
-    height: 10px;
+    height: 30px;
     text-align: center;
 }
 
@@ -103,6 +103,7 @@ header h1, header h2 {
     align-items: center;
     padding: 5px 10px;
     width: 320px;
+    height: 60px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -497,19 +498,19 @@ header h1, header h2 {
       background: #f0ebe5;
       color: rgb(0, 0, 0);
       font-weight: 600;
-      font-size: 10px;
+      font-size: 8px;
       border: none;
-      padding: 6px;
+      padding: 3px;
       cursor: pointer;
       transition: all 0.3s ease;
-      border-radius: 12px;
-      width: 70px;
-      height: 80px;
+      border-radius: 10px;
+      width: 25px;
+      height: 18px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 6px;
+      gap: 3px;
       box-shadow: 0 3px 6px rgba(76, 45, 24, 0.2);
       margin: 0;
     }
@@ -521,8 +522,8 @@ header h1, header h2 {
     }
   
     .category-icon {
-      width: 35px;
-      height: 35px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       object-fit: cover;
     }

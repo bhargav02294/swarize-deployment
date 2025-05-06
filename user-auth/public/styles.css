@@ -15,7 +15,7 @@ body, html {
 header {
     background-color: #520101;
     padding: 6px 10px;
-    height: 30px;
+    height: 40px;
     text-align: center;
 }
 
@@ -49,6 +49,7 @@ header h1, header h2 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 100%;
+    height: 65px;
     z-index: 10;
 }
 
@@ -103,7 +104,6 @@ header h1, header h2 {
     align-items: center;
     padding: 5px 10px;
     width: 320px;
-    height: 60px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -497,14 +497,14 @@ header h1, header h2 {
     .category-btn {
       background: #f0ebe5;
       color: rgb(0, 0, 0);
-      font-weight: 600;
+      font-weight: 300;
       font-size: 8px;
       border: none;
       padding: 3px;
       cursor: pointer;
       transition: all 0.3s ease;
       border-radius: 10px;
-      width: 25px;
+      width: 18px;
       height: 18px;
       display: flex;
       flex-direction: column;

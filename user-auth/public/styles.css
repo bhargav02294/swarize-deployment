@@ -49,7 +49,7 @@ header h1, header h2 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     width: 100%;
-    height: 65px;
+    height: 60px;
     z-index: 10;
 }
 
@@ -485,6 +485,7 @@ header h1, header h2 {
       flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
+      width: 15px;
       padding: 15px 10px;
       background: #F7E6D5;
     }
@@ -497,17 +498,17 @@ header h1, header h2 {
     .category-btn {
       background: #f0ebe5;
       color: rgb(0, 0, 0);
-      font-weight: 300;
+      font-weight: 600;
       font-size: 8px;
       border: none;
       padding: 3px;
       cursor: pointer;
       transition: all 0.3s ease;
       border-radius: 10px;
-      width: 18px;
+      width: 10px;
       height: 18px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: center;
       align-items: center;
       gap: 3px;

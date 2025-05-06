@@ -540,7 +540,10 @@ header h1, header h2 {
         list-style: none;
         padding: 4px;
         border-radius: 8px;
-        width: 250px; /* Smaller width */
+        width: 230px; 
+        max-height: 380px; /* Set max visible height */
+        overflow-y: auto;  /* Enable vertical scroll if needed */
+
         top: 100%; /* Slightly more space below button */
         left: 100%;
         transform: translateX(-50%);

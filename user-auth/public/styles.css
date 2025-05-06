@@ -561,8 +561,25 @@ header h1, header h2 {
       .subcategory-column {
         width: 50%; /* Split into two equal columns */
         padding: 5px;
-        
-    }
+      }
+
+
+      /* Leftmost 2 categories: align dropdown to left */
+.category-dropdown:nth-child(1) .subcategory-list,
+.category-dropdown:nth-child(2) .subcategory-list {
+  left: 0;
+  transform: translateX(0);
+}
+
+/* Rightmost 2 categories: align dropdown to right */
+.category-dropdown:nth-child(9) .subcategory-list,
+.category-dropdown:nth-child(10) .subcategory-list {
+  left: auto;
+  right: 0;
+  transform: translateX(0);
+}
+
+
       /* Subcategory Items */
       .subcategory-list li {
         display: flex;

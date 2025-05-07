@@ -239,7 +239,8 @@ header h1, header h2 {
     .search-container {
         position: static;
         margin-left: 170px;
-        margin-top: -10px;
+        margin-top: 10px;
+        height: 30px;
         width: 1200px;
         display: flex;
         align-items: center;
@@ -252,7 +253,7 @@ header h1, header h2 {
     }
 
     #search-button {
-        font-size: 12px;
+        font-size: 8px;
         padding: 5px;
         background-color: #F4D1AE;
         border: 40px;

@@ -299,15 +299,20 @@ header h1, header h2 {
         content: "\f007";
     }
     .dropdown-content {
-        top: -5px;
-        right: 110%; /* Left side of icon */
+        top: 100%; /* place it below the icon */
+        left: 50%; /* center it horizontally */
+        transform: translateX(-50%); /* truly center it */
         min-width: 90px;
         font-size: 12px;
         padding: 4px 0;
         border-radius: 6px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         z-index: 999;
+        position: absolute;
+        display: none; /* hide by default */
+        background-color: white;
     }
+    
     
     .dropdown-content a {
         padding: 6px 8px;

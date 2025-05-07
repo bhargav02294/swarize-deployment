@@ -254,26 +254,97 @@ hr {
 }
 
 
+@media (max-width: 600px) {
 
-@media (max-width: 768px) {
+  /* Sign-In Container */
   .container {
-      width: 90%;
-      padding: 20px;
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
   }
 
-  input {
-      width: 100%;
-      font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-      width: 100%;
-      padding: 15px;
+  h2 {
+    font-size: 20px;
   }
 
-  input {
-      font-size: 12px;
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .btn,
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .btn {
+    margin-top: 10px;
+  }
+
+  .forgot-password,
+  p,
+  p a {
+    font-size: 13px;
+  }
+
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  /* Logo */
+  .logo-container {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-text {
+    font-size: 26px;
+  }
+
+  /* Back Button */
+  .back-button {
+    top: 15px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .back-button:before,
+  .back-button:after {
+    inset: 5px;
+    border-width: 2px;
+  }
+
+  .button-elem {
+    width: 16px;
+    height: 16px;
+    margin: 10px;
+  }
+
+  .footer-bottom {
+    font-size: 12px;
+  }
+
+  /* Hide some complex hover effects on mobile for simplicity */
+  .back-button:hover:before,
+  .back-button:hover:after,
+  .back-button:hover .button-box {
+    transition: none;
+    transform: none;
   }
 }

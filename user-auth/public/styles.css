@@ -1247,19 +1247,6 @@ header h1, header h2 {
     color: #dc9d1f; /* Gold */
 }
 
-/* 🇮🇳 India Map Styling */
-.india-map {
-    width: 300px;
-    height: auto;
-    opacity: 0.8;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-/* 🎯 Hover Effect */
-.india-map:hover {
-    transform: scale(1.1);
-    opacity: 1;
-}
 
 
 @media (max-width: 768px) {
@@ -1271,10 +1258,15 @@ header h1, header h2 {
     }
   
     .buy-india-overlay {
-      flex-direction: column;
-      text-align: center;
-      padding: 20px 10px;
-      background: rgba(30, 20, 5, 0.7);
+
+      background: rgba(41, 29, 5, 0.558); /* Dark semi-transparent overlay */
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 50px;
+      color: rgb(255, 255, 255);
     }
   
     .buy-india-overlay h2 {
@@ -1288,11 +1280,7 @@ header h1, header h2 {
       color: #f5c242;
     }
   
-    .india-map {
-      width: 180px;
-      height: auto;
-      margin-top: 20px;
-    }
+  
   }
   
 
@@ -1444,135 +1432,3 @@ header h1, header h2 {
 }
 
 
-
-/* Responsive Adjustments */
-
-/* Mobile & Tablet View (Up to 1024px) */
-@media (max-width: 1024px) {
-    /* Adjust Navbar */
-    .navbar {
-        padding: 20px 10px;
-        height: auto;
-    }
-    .navbar-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .menu {
-        flex-direction: column;
-        left: auto;
-        position: static;
-    }
-    
-    /* Adjust Search Bar */
-    .search-container {
-        left: 10%;
-        width: 80%;
-    }
-    
-    /* Adjust Category Section */
-    .category-section {
-        flex-direction: column;
-        padding: 20px;
-    }
-    .category-btn {
-        width: 80%;
-        height: auto;
-    }
-    
-    /* Adjust Hero Section */
-    .hero-section {
-        flex-direction: column;
-        height: auto;
-        padding: 20px;
-    }
-    .hero-column-center {
-        width: 100%;
-    }
-    
-    /* Adjust Product Grid */
-    #products-grid {
-        flex-direction: column;
-    }
-    .product-row {
-        flex-direction: column;
-        align-items: center;
-    }
-    .product-card {
-        width: 90%;
-    }
-    
-    /* Adjust Footer */
-    .footer-container {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-}
-
-/* Mobile View (Up to 768px) */
-@media (max-width: 768px) {
-    /* Adjust Navbar */
-    .navbar-container {
-        flex-direction: column;
-        text-align: center;
-    }
-    .menu {
-        flex-direction: column;
-        left: auto;
-        gap: 10px;
-    }
-    
-    /* Adjust Logo */
-    .container {
-        flex-direction: column;
-        gap: 10px;
-        left: auto;
-        position: static;
-        text-align: center;
-    }
-    
-    /* Adjust Hero Section */
-    .hero-column-center {
-        width: 100%;
-    }
-    
-    /* Adjust Product Grid */
-    .product-row {
-        flex-direction: column;
-        align-items: center;
-    }
-    .product-card {
-        width: 100%;
-    }
-    
-    /* Adjust Footer */
-    .footer-container {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-}
-
-/* Small Mobile View (Up to 480px) */
-@media (max-width: 480px) {
-    /* Adjust Search Bar */
-    .search-container {
-        width: 90%;
-        left: 5%;
-    }
-    
-    /* Adjust Hero Section */
-    .hero-section {
-        padding: 10px;
-    }
-    
-    /* Adjust Product Grid */
-    .product-card {
-        width: 100%;
-        padding: 10px;
-    }
-    
-    /* Adjust Footer */
-    .footer-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-}

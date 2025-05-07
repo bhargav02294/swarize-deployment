@@ -215,7 +215,7 @@ header h1, header h2 {
         border-radius: 50%;
         display: center;
 
-        margin-top: -20px;
+        margin-top: 20px;
 
         align-items: center;
         justify-content: center;
@@ -224,7 +224,7 @@ header h1, header h2 {
     .logo-text,
     .brand-name {
         font-size: 18px;
-        margin-top: -5px;
+        margin-top: 15px;
 
     }
 
@@ -233,14 +233,15 @@ header h1, header h2 {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: -5px;
+        margin-top: 5px;
         width: 100%;
     }
 
     .search-container {
         position: static;
         margin-left: 170px;
-        width: 450px;
+        margin-top: 20px;
+        width: 650px;
         display: flex;
         align-items: center;
     }
@@ -483,7 +484,7 @@ header h1, header h2 {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1px;
+      gap: 4px;
       width: 100%;
       height: 60px;
       padding: 8px 4px;
@@ -499,7 +500,7 @@ header h1, header h2 {
       background: #f0ebe5;
       color: rgb(0, 0, 0);
       font-weight: 600;
-      font-size: 4px;
+      font-size: 6px;
       border: none;
       padding: 0;
       cursor: pointer;
@@ -511,9 +512,9 @@ header h1, header h2 {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 1px;
+      gap: 5px;
       box-shadow: 0 3px 6px rgba(76, 45, 24, 0.2);
-      margin: 0;
+      margin: 2;
 
     }
   

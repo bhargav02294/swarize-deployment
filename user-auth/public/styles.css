@@ -228,19 +228,11 @@ header h1, header h2 {
 
     }
 
-    /* Row 2: Search + Menu */
-    .navbar-bottom-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
     .search-container {
         position: static;
         margin-left: 170px;
         margin-top: -10px;
-        height: 20px;
+        height: 30px;
         width: 1200px;
         display: flex;
         align-items: center;
@@ -270,7 +262,7 @@ header h1, header h2 {
         margin-right: 20px;
         justify-content: flex-end;
         align-items: center;
-        gap: 16px;
+        gap: 15px;
     }
 
     .menu-item,

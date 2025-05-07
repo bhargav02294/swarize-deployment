@@ -210,23 +210,23 @@ header h1, header h2 {
     .logo-container {
         width: 32px;
         height: 32px;
-        font-size: 22px;
+        font-size: 18px;
         background-color: #8C4A32;
         border-radius: 50%;
-        display: center;
-
+        display: flex; /* ✅ flex for centering */
+        align-items: center; /* ✅ vertical centering */
+        justify-content: center; /* ✅ horizontal centering */
+        color: white; /* optional: text visible on dark background */
+        font-weight: bold;
         margin-top: -10px;
-
-        align-items: center;
-        justify-content: center;
     }
-
+    
     .logo-text,
     .brand-name {
-        font-size: 22px;
-        margin-top: -10px;
-
+        font-size: 18px;
+        margin-top: 0; /* better: remove negative margin */
     }
+    
 
     /* Row 2: Search + Menu */
     .navbar-bottom-row {

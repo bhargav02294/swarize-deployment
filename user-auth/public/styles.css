@@ -215,7 +215,7 @@ header h1, header h2 {
         border-radius: 50%;
         display: center;
 
-        margin-top: 20px;
+        margin-top: 10px;
 
         align-items: center;
         justify-content: center;
@@ -223,8 +223,7 @@ header h1, header h2 {
 
     .logo-text,
     .brand-name {
-        font-size: 18px;
-        margin-top: 15px;
+        font-size: 20px;
 
     }
 
@@ -233,15 +232,14 @@ header h1, header h2 {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 5px;
+        margin-top: -5px;
         width: 100%;
     }
 
     .search-container {
         position: static;
         margin-left: 170px;
-        margin-top: 20px;
-        width: 650px;
+        width: 450px;
         display: flex;
         align-items: center;
     }
@@ -484,10 +482,10 @@ header h1, header h2 {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 4px;
+      gap: 5px;
       width: 100%;
       height: 60px;
-      padding: 8px 4px;
+      padding: 10px 5px;
       background: #F7E6D5;
     }
   
@@ -506,15 +504,15 @@ header h1, header h2 {
       cursor: pointer;
       transition: all 0.3s ease;
       border-radius: none;
-      width: 15px;
-      height: 15px;
+      width: 17px;
+      height: 17px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 5px;
       box-shadow: 0 3px 6px rgba(76, 45, 24, 0.2);
-      margin: 2;
+      margin: 5px;
 
     }
   
@@ -1435,76 +1433,75 @@ header h1, header h2 {
 
 
 @media (max-width: 768px) {
-    .footer {
-      padding: 30px 15px;
-      font-size: 13px;
-      text-align: center;
-    }
-  
-    .footer-container {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-  
-    .about-section h3,
-    .footer-section h3 {
-      font-size: 16px;
-      text-align: center;
-    }
-  
-    .about-text {
-      font-size: 13px;
-      text-align: center;
-    }
-  
-    .social-icons {
-      justify-content: center;
-      gap: 12px;
-    }
-  
-    .social-icons a img {
-      width: 26px;
-      height: 26px;
-    }
-  
-    .footer-section ul li {
-      margin-bottom: 8px;
-    }
-  
-    .footer-section ul li a {
-      font-size: 13px;
-    }
-  
-    .contact-info {
-      text-align: center;
-    }
-  
-    .contact-item {
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-  
-    .contact-icon {
-      width: 18px;
-      height: 18px;
-    }
-  
-    .footer-bottom {
-      font-size: 11px;
-      padding-top: 15px;
-      margin-top: 20px;
-    }
-  
-    .footer-bottom-right {
-      flex-direction: column;
-      gap: 5px;
-      font-size: 11px;
-    }
-  
-    .footer-bottom-right .india-flag {
-      width: 24px;
-      height: 24px;
-    }
+  .footer {
+    padding: 30px 15px;
+    font-size: 13px;
+    text-align: center;
   }
-  
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .about-section h3,
+  .footer-section h3 {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .about-text {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .social-icons a img {
+    width: 26px;
+    height: 26px;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 8px;
+  }
+
+  .footer-section ul li a {
+    font-size: 13px;
+  }
+
+  .contact-info {
+    text-align: center;
+  }
+
+  .contact-item {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .contact-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .footer-bottom {
+    font-size: 11px;
+    padding-top: 15px;
+    margin-top: 20px;
+  }
+
+  .footer-bottom-right {
+    flex-direction: column;
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  .footer-bottom-right .india-flag {
+    width: 24px;
+    height: 24px;
+  }
+}

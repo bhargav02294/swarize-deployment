@@ -215,7 +215,7 @@ header h1, header h2 {
         border-radius: 50%;
         display: center;
 
-        margin-top: -70px;
+        margin-top: -40px;
 
         align-items: center;
         justify-content: center;
@@ -224,7 +224,7 @@ header h1, header h2 {
     .logo-text,
     .brand-name {
         font-size: 20px;
-        margin-top: -15px;
+        margin-top: -12px;
 
     }
 
@@ -233,14 +233,14 @@ header h1, header h2 {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: -20px;
+        margin-top: -30px;
         width: 100%;
     }
 
     .search-container {
         position: static;
         margin-left: 170px;
-        max-width: 650px;
+        max-width: 800px;
         display: flex;
         align-items: center;
     }

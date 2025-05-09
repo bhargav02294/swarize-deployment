@@ -32,14 +32,24 @@ const isAuthenticated = (req, res, next) => {
 
 
 // ✅ Safe cloudinary upload helper
+// ✅ Smart cloudinary upload helper
 const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
     if (!buffer || buffer.length === 0) {
       return reject(new Error("Empty file buffer"));
     }
 
-    const type = mimetype?.split('/')[0];
+    const type = mimetype?.split('/')[0]; // e.g., 'image', 'video'
     const resourceType = (type === 'image' || type === 'video') ? type : 'auto';
+
+    const allowedMimeTypes = {
+      image: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+      video: ['video/mp4', 'video/webm', 'video/ogg'],
+    };
+
+    if (resourceType !== 'auto' && !allowedMimeTypes[resourceType].includes(mimetype)) {
+      return reject(new Error(`Invalid file type: ${mimetype}`));
+    }
 
     const stream = cloudinary.uploader.upload_stream(
       { folder, resource_type: resourceType },
@@ -52,6 +62,7 @@ const uploadToCloudinary = (buffer, folder, mimetype) => {
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };
+
 
 
 
@@ -78,39 +89,41 @@ router.post(
       } = req.body;
 
       // Thumbnail Image
-      const thumbnailFile = req.files['thumbnailImage']?.[0];
-      if (!thumbnailFile) return res.status(400).json({ success: false, message: "Thumbnail is required" });
+      // Upload thumbnail image
+const thumbnailFile = req.files['thumbnailImage']?.[0];
+if (!thumbnailFile) {
+  return res.status(400).json({ success: false, message: "Thumbnail is required" });
+}
+const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails', thumbnailFile.mimetype);
 
-      const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails', thumbnailFile.mimetype);
-
-      // Extra Images
-    // Extra Images
+// Upload extra images
 const extraImages = [];
 if (req.files['extraImages']) {
   for (const img of req.files['extraImages']) {
-    if (!img || !img.buffer || img.buffer.length === 0) {
-      console.warn("Skipping invalid image");
-      continue; // skip this invalid file
+    if (!img || !img.buffer || img.buffer.length === 0) continue;
+    try {
+      const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
+      extraImages.push(url);
+    } catch (err) {
+      console.warn(`Skipping invalid image: ${err.message}`);
     }
-    const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
-    extraImages.push(url);
   }
 }
 
-
-      // Extra Videos
-     // Extra Videos
+// Upload extra videos
 const extraVideos = [];
 if (req.files['extraVideos']) {
   for (const vid of req.files['extraVideos']) {
-    if (!vid || !vid.buffer || vid.buffer.length === 0) {
-      console.warn("Skipping invalid video");
-      continue;
+    if (!vid || !vid.buffer || vid.buffer.length === 0) continue;
+    try {
+      const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
+      extraVideos.push(url);
+    } catch (err) {
+      console.warn(`Skipping invalid video: ${err.message}`);
     }
-    const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
-    extraVideos.push(url);
   }
 }
+
 
 
       // Save to DB

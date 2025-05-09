@@ -10,10 +10,27 @@
 .navbar {
   background-color: #F4D1AE;
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 20px;
+  padding: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #8C4A32;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .logo-container {
@@ -27,19 +44,18 @@
 }
 
 .logo-text {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 30px;
+  font-weight: 600;
   color: #F4D1AE;
   font-family: 'Times New Roman';
 }
 
-.navbar-title {
-  font-size: 26px;
-  font-weight: 700;
-  color: #8C4A32;
-  flex-grow: 1;
-  text-align: center;
+.logo-link {
+  text-decoration: none;
 }
+
+
+
 
 /* Subcategory Title */
 #subcategory-title {
@@ -140,22 +156,23 @@
   transform: scale(1.05);
 }
 
-/* Star Rating */
+/* Star rating */
 .star-rating {
   font-size: 16px;
   color: #FF9900;
   margin-bottom: 5px;
 }
 
-/* Add to Cart Button */
+/* Add to cart button */
 .cart-button {
   position: absolute;
   bottom: 10px;
   right: 10px;
   width: 35px;
   height: 35px;
-  background-color: #ffd500;
+  background-color: #ffd500   ;
   color: #ffffff;
+  
   border: none;
   border-radius: 50%;
   font-size: 20px;
@@ -163,13 +180,15 @@
 }
 
 .cart-button:hover {
-  background-color: #ff9100;
+  background-color: #ff9100  ;
 }
 
+/* 🛒 Icon Styling */
 .add-to-cart-btn .cart-icon {
   font-size: 20px;
-  color: #000000;
+  color: #000000; /* Gunmetal Gray */
 }
+
 
 /* Footer */
 .footer {
@@ -250,24 +269,22 @@
 /* ----------------- Responsive for Mobile ----------------- */
 @media (max-width: 768px) {
   .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 10px 15px;
-  }
-
-  .navbar-title {
-      font-size: 22px;
-      text-align: left;
-      margin-top: 8px;
+    flex-direction: column;
+    padding: 10px;
   }
 
   .logo-container {
-      width: 45px;
-      height: 45px;
+    width: 45px;
+    height: 45px;
   }
 
   .logo-text {
-      font-size: 26px;
+    font-size: 26px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    margin-top: 8px;
   }
 
   #subcategory-title {

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="${imgUrl}" alt="${p.name}" class="product-image" onclick="viewProduct('${p._id}')">
           <h4>${p.name}</h4>
           <p class="product-price">₹${p.price}</p>
-          <button class="cart-button" onclick="addToCart('${p._id}')">🛒 Add to Cart</button>
+          <button class="cart-button" onclick="addToCart('${p._id}')">🛒</button>
         `;
         productContainer.appendChild(card);
       });

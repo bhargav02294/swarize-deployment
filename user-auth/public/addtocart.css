@@ -104,36 +104,32 @@ h1 {
 .navbar {
   background-color: #F4D1AE;
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 15px;
-  height: 80px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-container {
   display: flex;
   align-items: center;
-  width: 100%;
-  max-width: 1200px;
   justify-content: space-between;
+  width: 100%;
 }
 
 .navbar-title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: #8C4A32;
   flex-grow: 1;
   text-align: center;
-  margin-left: -60px;
 }
 
-/* Logo Styling */
 .logo-container {
   width: 50px;
   height: 50px;
-  left: 20px;
-
   background-color: #8C4A32;
   border-radius: 50%;
   display: flex;
@@ -142,7 +138,7 @@ h1 {
 }
 
 .logo-text {
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 600;
   color: #F4D1AE;
   font-family: 'Times New Roman';
@@ -307,7 +303,8 @@ h1 {
   }
 
   .cart-item {
-      width: 80%;
+    top: 90px;
+      width: 70%;
       margin: 10px 0;
   }
 

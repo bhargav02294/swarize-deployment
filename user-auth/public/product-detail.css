@@ -161,7 +161,7 @@ img, video {
 
 /* Slider Container */
 .slider-container {
-  position: contain;
+  position: relative;
   overflow: hidden;
   width: 100%;
   height: 400px;

@@ -22,7 +22,6 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  height: auto;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -34,7 +33,7 @@ body {
 }
 
 .navbar-title {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
   color: #8C4A32;
   flex-grow: 1;
@@ -42,8 +41,8 @@ body {
 }
 
 .logo-container {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-color: #8C4A32;
   border-radius: 50%;
   display: flex;
@@ -52,7 +51,7 @@ body {
 }
 
 .logo-text {
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 600;
   color: #F4D1AE;
   font-family: 'Times New Roman';
@@ -63,142 +62,17 @@ body {
 }
 
 
-/* =================== Sign-Up Container =================== */
-.container {
-  background-color: white;
-  padding: 30px;
-  max-width: 400px;
-  width: 90%;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  margin: 50px auto;
-}
-
-h2 {
-  font-size: 24px;
-  color: #4A403A;
-  margin-bottom: 20px;
-}
-
-.message {
-  color: red;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  transition: 0.3s ease-in-out;
-}
-
-input:focus {
-  border-color: #8C4A32;
-  outline: none;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #502c1e;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-button:hover {
-  color: #e5ff00;
-}
-
-.btn {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  text-decoration: none;
-  color: white;
-  display: block;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-.google {
-  background-color: #dd4b39;
-}
-
-.facebook {
-  background-color: #3b5998;
-}
-
-.google:hover,
-.facebook:hover {
-  opacity: 0.8;
-}
-
-.terms {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #4A403A;
-}
-
-.terms a {
-  color: #8C4A32;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.terms a:hover {
-  text-decoration: underline;
-}
-
-.login-link {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #4A403A;
-}
-
-.login-link a {
-  color: #8C4A32;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.login-link a:hover {
-  text-decoration: underline;
-}
-
-hr {
-  margin: 20px 0;
-  border: 0;
-  height: 1px;
-  background-color: #ccc;
-}
-
-
 /* =================== Back Button =================== */
 .back-button {
   display: block;
   position: absolute;
-  top: 100px;
+  top: 140px;
   left: 20px;
   width: 56px;
   height: 56px;
-  margin: 0;
-  overflow: hidden;
-  outline: none;
   background-color: transparent;
+  border: none;
   cursor: pointer;
-  border: 0;
 }
 
 .back-button:before,
@@ -253,80 +127,208 @@ hr {
 }
 
 
-/* =================== Responsive =================== */
-@media (max-width: 600px) {
+/* =================== Modal Sign-Up Section =================== */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background-color: #fff;
+  max-width: 420px;
+  width: 100%;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  margin-top: 40px;
+}
+
+.form-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #8C4A32;
+  margin-bottom: 20px;
+}
+
+/* =================== Form Fields =================== */
+.signup-container {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #4A403A;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #8C4A32;
+}
+
+.error {
+  font-size: 13px;
+  color: red;
+}
+
+/* =================== Buttons =================== */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #502c1e;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #6e3c2a;
+  color: #e5ff00;
+}
+
+/* =================== Social Buttons =================== */
+.social-login {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.social-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.google {
+  background-color: #dd4b39;
+}
+
+.google:hover {
+  background-color: #c64431;
+}
+
+.or-divider {
+  text-align: center;
+  font-size: 14px;
+  margin: 10px 0;
+  color: #4A403A;
+}
+
+/* =================== Terms & Redirects =================== */
+.signup-container p {
+  font-size: 13px;
+  color: #4A403A;
+  margin-top: 15px;
+}
+
+.signup-container p a {
+  color: #8C4A32;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.signup-container p a:hover {
+  text-decoration: underline;
+}
+
+.login-link {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #4A403A;
+  text-align: center;
+}
+
+.login-link a {
+  color: #8C4A32;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+
+/* =================== Responsive Design =================== */
+@media (max-width: 768px) {
   .navbar {
     flex-direction: column;
-    align-items: center;
     padding: 10px;
-    height: auto;
-  }
-
-  .navbar-title {
-    font-size: 20px;
-    margin-top: 10px;
   }
 
   .logo-container {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
   }
 
   .logo-text {
     font-size: 26px;
   }
 
-  .container {
-    width: 90%;
-    padding: 20px;
-    margin: 20px auto;
-  }
-
-  h2 {
+  .navbar-title {
     font-size: 20px;
+    margin-top: 8px;
   }
 
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  .btn,
-  button {
+  .modal-content {
+    padding: 20px 15px;
+    margin-top: 30px;
+    border-radius: 10px;
+  }
+
+  .form-title {
+    font-size: 22px;
+  }
+
+  .form-group input {
     font-size: 14px;
-    padding: 12px;
-    width: 100%;
   }
 
-  .terms,
-  .login-link,
-  .terms a,
-  .login-link a {
-    font-size: 13px;
-    text-align: center;
+  button[type="submit"],
+  .social-btn {
+    font-size: 15px;
+  }
+
+  .signup-container p,
+  .login-link {
+    font-size: 12px;
   }
 
   .back-button {
-    top: 45px;
+    top: 80px;
     left: 15px;
-    width: 36px;
-    height: 36px;
-  }
-
-  .back-button:before,
-  .back-button:after {
-    inset: 5px;
-    border-width: 2px;
+    width: 48px;
+    height: 48px;
   }
 
   .button-elem {
     width: 16px;
     height: 16px;
-    margin: 10px;
-  }
-
-  .back-button:hover:before,
-  .back-button:hover:after,
-  .back-button:hover .button-box {
-    transition: none;
-    transform: none;
+    margin: 16px 16px 0 16px;
   }
 }

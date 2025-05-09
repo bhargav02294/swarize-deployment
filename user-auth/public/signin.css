@@ -1,15 +1,78 @@
+/* =================== Base Styling =================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f6f2;
+  width: 100%;
+  min-height: 100vh;
+}
 
 
-/* Sign-In Container */
+/* =================== Navbar =================== */
+.navbar {
+  background-color: #F4D1AE;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  height: auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #8C4A32;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.logo-container {
+  width: 60px;
+  height: 60px;
+  background-color: #8C4A32;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 50px;
+  font-weight: 600;
+  color: #F4D1AE;
+  font-family: 'Times New Roman';
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+
+/* =================== Sign-In Container =================== */
 .container {
   background-color: white;
   padding: 30px;
-  width: 380px;
+  max-width: 400px;
+  width: 90%;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-top: 50px;
-  margin-left: 37%;
+  margin: 50px auto;
 }
 
 h2 {
@@ -18,17 +81,15 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Message Container */
 .message {
   color: red;
   font-size: 14px;
   margin-bottom: 10px;
 }
 
-/* Input Fields */
 input[type="email"],
 input[type="password"] {
-  width: 356px;
+  width: 100%;
   padding: 12px;
   margin: 10px 0;
   border-radius: 6px;
@@ -43,9 +104,8 @@ input[type="password"]:focus {
   outline: none;
 }
 
-/* Sign-In Button */
 button {
-  width: 50%;
+  width: 100%;
   padding: 12px;
   background-color: #502c1e;
   border: none;
@@ -57,14 +117,11 @@ button {
 }
 
 button:hover {
-  
   color: #e5ff00;
-
 }
 
-/* Social Login Buttons */
 .btn {
-  width: 356px;
+  width: 100%;
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 6px;
@@ -88,7 +145,6 @@ button:hover {
   opacity: 0.8;
 }
 
-/* Forgot Password & Signup */
 .forgot-password {
   display: block;
   margin-top: 15px;
@@ -117,7 +173,6 @@ p a:hover {
   text-decoration: underline;
 }
 
-/* Divider */
 hr {
   margin: 20px 0;
   border: 0;
@@ -126,67 +181,7 @@ hr {
 }
 
 
-
-
-
-
-
-
-/* Navbar */
-.navbar {
-  background-color: #F4D1AE;
-  display: flex;
-  width: 1520px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  height: 60px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.navbar-title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #8C4A32;
-  flex-grow: 1;
-  text-align: center;
-}
-
-
-
-
-/* Logo Styling */
-.logo-container {
-  width: 60px;
-  height: 60px;
-  background-color: #8C4A32;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-text {
-  font-size: 50px;
-  font-weight: 600;
-  color: #F4D1AE;
-  font-family: 'Times New Roman';
-  display: flex;
-  align-items: center;
-}
-
-.logo-link {
-  text-decoration: none;
-}
-
-/* --- Custom Animated Back Button --- */
+/* =================== Back Button =================== */
 .back-button {
   display: block;
   position: absolute;
@@ -254,58 +249,13 @@ hr {
 }
 
 
+/* =================== Responsive =================== */
 @media (max-width: 600px) {
-
-  /* Sign-In Container */
-
-  .navbar {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-  
-  .container {
-    width: 90%;
-    margin: 20px auto;
-    padding: 20px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  .btn,
-  button {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  .btn {
-    margin-top: 10px;
-  }
-
-  .forgot-password,
-  p,
-  p a {
-    font-size: 13px;
-  }
-
-  /* Navbar */
   .navbar {
     flex-direction: column;
-    width: 100%;
-    height: auto;
+    align-items: center;
     padding: 10px;
-    text-align: center;
+    height: auto;
   }
 
   .navbar-title {
@@ -313,7 +263,6 @@ hr {
     margin-top: 10px;
   }
 
-  /* Logo */
   .logo-container {
     width: 40px;
     height: 40px;
@@ -323,7 +272,31 @@ hr {
     font-size: 26px;
   }
 
-  /* Back Button */
+  .container {
+    width: 90%;
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  .btn,
+  button {
+    font-size: 14px;
+    padding: 12px;
+    width: 100%;
+  }
+
+  .forgot-password,
+  p,
+  p a {
+    font-size: 13px;
+  }
+
   .back-button {
     top: 45px;
     left: 15px;
@@ -343,11 +316,6 @@ hr {
     margin: 10px;
   }
 
-  .footer-bottom {
-    font-size: 12px;
-  }
-
-  /* Hide some complex hover effects on mobile for simplicity */
   .back-button:hover:before,
   .back-button:hover:after,
   .back-button:hover .button-box {

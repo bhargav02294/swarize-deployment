@@ -277,39 +277,34 @@ h1 {
 /* Mobile View */
 @media (max-width: 600px) {
   .navbar {
-      flex-direction: column;
-      height: auto;
-      padding: 10px;
-  }
-
-  .navbar-container {
-      flex-direction: row;
-      justify-content: space-between;
-  }
-
-  .navbar-title {
-      font-size: 20px;
-      margin-left: 0;
-      text-align: center;
+    flex-direction: column;
+    padding: 10px;
   }
 
   .logo-container {
-      width: 40px;
-      height: 40px;
+    width: 45px;
+    height: 45px;
   }
 
   .logo-text {
-      font-size: 28px;
+    font-size: 26px;
   }
 
+  .navbar-title {
+    font-size: 20px;
+    margin-top: 8px;
+  }
+
+
+
   .cart-item {
-    top: 90px;
+    margin-top: 90px;
       width: 70%;
-      margin: 10px 0;
+      margin: 15px 0;
   }
 
   #cart-container {
-      padding: 10px;
+      padding: 15px;
   }
 
   .remove-button {

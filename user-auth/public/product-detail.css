@@ -1,257 +1,403 @@
-/* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
-    padding-bottom: 50px;
-  }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  img, video {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
+
   
   /* Navbar */
-  .navbar {
-    background-color: #111;
-    padding: 1rem;
-    color: #fff;
-  }
+.navbar {
+  background-color: #F4D1AE;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navbar-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #8C4A32;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.logo-container {
+  width: 50px;
+  height: 50px;
+  background-color: #8C4A32;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 30px;
+  font-weight: 600;
+  color: #F4D1AE;
+  font-family: 'Times New Roman';
+}
+
+.logo-link {
+  text-decoration: none;
+}
   
-  .navbar-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  /* Footer */
+.footer {
+  background-color: #F4D1AE;
+  text-align: center;
+  padding: 25px;
+  color: #4A403A;
+  margin-top: 40px;
+}
+
+/* Back Button */
+.back-button {
+  display: block;
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+}
+
+.back-button:before,
+.back-button:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  inset: 7px;
+}
+
+.back-button:before {
+  border: 4px solid #4A403A;
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.back-button:after {
+  border: 4px solid #8C4A32;
+  transform: scale(1.3);
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.back-button:hover:before {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.back-button:hover:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.button-box {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.button-elem {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 17px 18px 0 18px;
+  transform: rotate(180deg);
+  fill: #4A403A;
+}
+
+.back-button:hover .button-box {
+  transition: 0.4s;
+  transform: translateX(-56px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  padding-bottom: 50px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Product Image Section */
+.product-image-section {
+  max-width: 600px;
+  margin: 20px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+}
+
+/* Slider */
+.slider-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 360px;
+  border-bottom: 1px solid #eee;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+}
+
+.slider-track img,
+.slider-track video {
+  flex: 0 0 100%;
+  max-height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Slider Buttons */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
+  border: none;
+  font-size: 1.8rem;
+  padding: 6px 12px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.slider-btn.prev {
+  left: 10px;
+}
+
+.slider-btn.next {
+  right: 10px;
+}
+
+/* Product Info Section */
+.product-info {
+  padding: 20px;
+  background: #fff;
+  margin: 20px auto;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-info h2 {
+  font-size: 26px;
+  color: #222;
+}
+
+.product-info .price {
+  font-size: 22px;
+  color: #e60023;
+  font-weight: bold;
+}
+
+.product-info p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.action-buttons button {
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1;
+  min-width: 140px;
+}
+
+.add-to-cart {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+.add-to-cart:hover {
+  background-color: #e68900;
+}
+
+.buy-now {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.buy-now:hover {
+  background-color: #3d8b40;
+}
+
+/* Review Section */
+.review-section {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.review-section h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+#rating-count {
+  font-size: 16px;
+  color: #f39c12;
+  margin-bottom: 15px;
+}
+
+/* Individual Reviews */
+.review {
+  border-top: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.review:first-child {
+  border-top: none;
+}
+
+.review p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Review Form */
+.review-form {
+  margin-top: 20px;
+}
+
+.review-form textarea {
+  width: 100%;
+  height: 80px;
+  resize: vertical;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.review-form select,
+.review-form button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.review-form button {
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.review-form button:hover {
+  background-color: #1976d2;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .product-info h2 {
+    font-size: 22px;
   }
-  
-  .logo-container .logo-text {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-  }
-  
-  .navbar-title {
+
+  .product-info .price {
     font-size: 20px;
   }
-  
-  /* Back Button */
-  .back-button {
-    margin: 20px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
   }
-  
-  .back-button svg {
-    width: 30px;
-    fill: #444;
-    transition: fill 0.3s;
-  }
-  
-  .back-button:hover svg {
-    fill: #000;
-  }
-  
 
-
-
-
-
-
-
-
-
-
-  
-  .product-image-section {
-    max-width: 600px;
-    margin: auto;
-  }
-  
   .slider-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
+    height: 250px;
   }
-  
-  .slider-track {
-    display: flex;
-    transition: transform 0.5s ease;
-    width: 100%;
-  }
-  
+
   .slider-track img,
   .slider-track video {
-    max-width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    flex: 0 0 100%;
-    display: block;
+    max-height: 250px;
   }
-  
-  .slider-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    font-size: 2rem;
-    padding: 8px 12px;
-    cursor: pointer;
-    z-index: 10;
-  }
-  
-  .slider-btn.prev {
-    left: 10px;
-  }
-  
-  .slider-btn.next {
-    right: 10px;
-  }
+}
 
-  
-
-
-
-
-
-  
-  /* Product Info */
-  .product-info {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .product-info h2 {
-    font-size: 28px;
-    color: #222;
-  }
-  
-  .product-info .price {
-    font-size: 24px;
-    color: #e60023;
-    font-weight: bold;
-  }
-  
-  .product-info p {
-    font-size: 16px;
-  }
-  
-  /* Buttons */
-  .action-buttons {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-  }
-  
-  .action-buttons button {
-    padding: 12px 25px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-to-cart {
-    background-color: #ff9800;
-    color: #fff;
-  }
-  
-  .add-to-cart:hover {
-    background-color: #e68900;
-  }
-  
-  .buy-now {
-    background-color: #4caf50;
-    color: #fff;
-  }
-  
-  .buy-now:hover {
-    background-color: #3d8b40;
-  }
-  
-  /* Reviews Section */
+@media (max-width: 480px) {
+  .product-info,
   .review-section {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 25px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 15px;
   }
-  
-  .review-section h3 {
-    font-size: 22px;
-    margin-bottom: 15px;
-  }
-  
-  #rating-count {
-    font-size: 18px;
-    color: #f39c12;
-    margin-bottom: 20px;
-  }
-  
-  .review {
-    border-top: 1px solid #eee;
-    padding: 15px 0;
-  }
-  
-  .review:first-child {
-    border-top: none;
-  }
-  
-  .review p {
-    margin: 5px 0;
-  }
-  
-  /* Review Form */
-  .review-form {
-    margin-top: 30px;
-  }
-  
-  .review-form textarea {
-    width: 100%;
-    height: 80px;
-    resize: vertical;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  
+
   .review-form select,
   .review-form button {
-    padding: 10px 15px;
-    font-size: 14px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 10px;
   }
-  
-  .review-form button {
-    background-color: #2196f3;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .review-form button:hover {
-    background-color: #1976d2;
-  }
-  
+}

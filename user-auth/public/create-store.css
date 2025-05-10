@@ -31,7 +31,7 @@ body {
   padding: 40px 30px;
   border-radius: 16px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  width: 450px;
+  width: 420px;
   max-width: 90%;
   margin: 50px auto;
   display: flex;
@@ -111,7 +111,7 @@ form button:hover {
 .back-button {
   display: block;
   position: absolute;
-  top: 100px;
+  top: 110px;
   left: 20px;
   width: 56px;
   height: 56px;

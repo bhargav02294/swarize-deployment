@@ -133,35 +133,35 @@
 
 
 
-
-/* General Reset and Styling */
+/* General Reset */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #000000;
+  color: #000;
+  background-color: #f9f9f9;
 }
 
-/* Container to hold the product details */
+/* Main Container for Product Page */
 .product-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   max-width: 1200px;
   margin: auto;
   padding: 20px;
-  background-color: rgb(255, 255, 255);
+  background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Image slider on the left */
+/* Product Image Section */
 .product-image-section {
-  flex: 1 1 45%;
-  max-width: 550px;
-  margin-right: 30px;
+  flex: 1 1 40%;
+  max-width: 600px;
   position: relative;
+  margin-right: 20px;
 }
 
 .slider-container {
@@ -175,18 +175,14 @@ html, body {
 .slider-track {
   display: flex;
   transition: transform 0.5s ease;
-  width: 100%;
-  height: 400px;
 }
 
 .slider-track img,
 .slider-track video {
   width: 100%;
-  height: 100%;
+  height: 450px;
   object-fit: contain;
   flex-shrink: 0;
-  border-radius: 10px;
-  margin: 0 auto; /* Center images */
 }
 
 .slider-btn {
@@ -202,10 +198,6 @@ html, body {
   border-radius: 50%;
 }
 
-.slider-btn:hover {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
 .prev {
   left: 10px;
 }
@@ -214,27 +206,37 @@ html, body {
   right: 10px;
 }
 
-/* Product info section on the right */
+/* Product Info Section */
 .product-info {
-  flex: 1 1 50%;
-  padding: 10px;
-  position: relative;
+  flex: 1 1 55%;
+  padding: 20px;
 }
 
 .product-info h1 {
   font-size: 28px;
-  margin-bottom: 10px;
+  font-weight: bold;
   color: #222;
+  margin-bottom: 10px;
 }
 
 .star-rating {
-  margin: 10px 0;
-  font-size: 16px;
+  font-size: 18px;
   color: #ff9800;
 }
 
 #rating-count {
   color: #555;
+}
+
+#preview-store-name {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+#store-link {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .product-info h2 {
@@ -244,9 +246,9 @@ html, body {
 }
 
 .action-buttons {
-  margin: 15px 0;
+  margin-top: 20px;
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 
 .action-buttons button {
@@ -254,7 +256,7 @@ html, body {
   font-size: 16px;
   border: none;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 .buy-now {
@@ -267,27 +269,18 @@ html, body {
   color: #111;
 }
 
-/* Store name below the slider */
-#preview-store-name {
-  margin-top: 15px;
-  font-size: 18px;
-}
-
-#store-link {
-  color: blue;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-/* Product details */
+/* Product Details Section */
 .product-details {
   margin-top: 20px;
   font-size: 14px;
-  line-height: 1.6;
 }
 
 .product-details p {
-  margin: 6px 0;
+  margin: 10px 0;
+}
+
+.product-details strong {
+  font-weight: bold;
 }
 
 /* Review Section */
@@ -297,7 +290,6 @@ html, body {
   background-color: #fff;
   padding: 20px;
   border-top: 1px solid #ddd;
-  font-size: 15px;
 }
 
 .review-section h3 {
@@ -307,18 +299,18 @@ html, body {
 
 .review-section textarea {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   resize: vertical;
   min-height: 100px;
   margin: 10px 0;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 .review-section select,
 .review-section button {
-  padding: 10px;
-  font-size: 14px;
+  padding: 12px;
+  font-size: 16px;
   margin: 5px 0;
 }
 
@@ -329,46 +321,36 @@ html, body {
   border-radius: 5px;
 }
 
-/* Layout adjustments for centering and ensuring proper spacing */
-.product-info {
-  position: relative;
-  margin-left: 10px;
-  margin-top: -10px;
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .product-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-image-section {
+    flex: 1 1 100%;
+    margin-right: 0;
+  }
+
+  .product-info {
+    flex: 1 1 100%;
+    margin-top: 20px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .review-section {
+    text-align: center;
+    width: 100%;
+  }
+
+  .review-section select,
+  .review-section button,
+  .review-section textarea {
+    width: 80%;
+  }
 }
-
-.product-info h1,
-.product-info h2,
-.product-info h3,
-.product-info .action-buttons {
-  position: absolute;
-  top: 20px; /* Adjusted for a higher position */
-  right: 10px;
-  max-width: 350px; /* Control width to avoid overflow */
-}
-
-.product-info .action-buttons {
-  top: 160px; /* Adjusted for positioning below the price */
-}
-
-.product-details {
-  margin-top: 100px; /* Moves the product details below the main content */
-  margin-left: 10px;
-}
-
-/* Review section centered horizontally */
-.review-section {
-  text-align: center;
-  margin-top: 40px;
-}
-
-.review-section select,
-.review-section button,
-.review-section textarea {
-  width: 60%; /* Adjust width for input fields */
-  margin: 10px auto;
-}
-
-
-
-
-

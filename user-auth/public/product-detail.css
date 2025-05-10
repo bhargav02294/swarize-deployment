@@ -179,6 +179,7 @@ html, body {
   display: flex;
   transition: transform 0.5s ease;
   width: 100%;
+  height: 100%; /* Ensure track takes full height */
 }
 
 .slider-track img,

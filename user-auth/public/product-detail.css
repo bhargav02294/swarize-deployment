@@ -160,12 +160,14 @@ html, body {
   max-width: 600px;
   position: relative;
   margin-right: 20px;
+  overflow: hidden; /* Ensure no content spills out */
 }
 
 .slider-container {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  height: 450px; /* Fixed height for consistent display */
+  overflow: hidden; /* Prevent images/videos from spilling over */
   border: 1px solid #ddd;
   border-radius: 10px;
 }
@@ -173,14 +175,16 @@ html, body {
 .slider-track {
   display: flex;
   transition: transform 0.5s ease;
+  width: 100%;
 }
 
 .slider-track img,
 .slider-track video {
   width: 100%;
-  height: 450px;
-  object-fit: contain;
-  flex-shrink: 0;
+  height: 100%; /* Ensure image/video takes full height */
+  object-fit: contain; /* Maintain aspect ratio, and avoid cropping */
+  flex-shrink: 0; /* Prevent shrinking of images */
+  display: block; /* Ensure no space below images/videos */
 }
 
 .slider-btn {
@@ -203,6 +207,7 @@ html, body {
 .next {
   right: 10px;
 }
+
 
 /* Product Info Section (Top-right Corner) */
 .product-info {

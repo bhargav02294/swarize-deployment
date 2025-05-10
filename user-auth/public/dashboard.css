@@ -143,6 +143,7 @@
 
 /* Container */
 .container {
+  top: 50px;
   padding: 20px;
   max-width: 1200px;
   margin: auto;

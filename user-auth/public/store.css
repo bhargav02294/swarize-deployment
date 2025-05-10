@@ -72,6 +72,7 @@ body {
 /* Product Grid */
 .product-container {
   display: grid;
+  top: 20px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   padding-bottom: 40px; /* Optional: extra space above footer */
@@ -275,6 +276,7 @@ body {
 @media (max-width: 768px) {
   #store-container {
     padding: 15px;
+    top: 50px;
   }
 
   .store-header {
@@ -297,6 +299,7 @@ body {
 
   .product-container {
     grid-template-columns: 1fr;
+    top: 20px;
   }
 
   .navbar {

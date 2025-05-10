@@ -69,7 +69,9 @@
     document.addEventListener('DOMContentLoaded', () => {
     const toggleBtn = document.querySelector(".menu-toggle");
     const slideMenu = document.querySelector(".mobile-slide-menu");
-
+function toggleMobileMenu() {
+    document.querySelector('.mobile-slide-menu').classList.toggle('visible');
+}
     if (toggleBtn && slideMenu) {
         toggleBtn.addEventListener("click", () => {
             slideMenu.classList.toggle("visible");

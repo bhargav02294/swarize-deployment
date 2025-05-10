@@ -202,38 +202,6 @@ body {
 
 
 
-.top-navbar {
-    width: 100%;
-    background-color: #f1d8bf;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 999;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    height: 40px;
-}
-
-.logo-img {
-    height: 40px;
-    width: auto;
-}
-
-.dashboard-title {
-    flex-grow: 1;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-}
-
 /* Show toggle only on small screens */
 .menu-toggle {
     position: fixed;
@@ -288,14 +256,33 @@ body {
     text-align: center;
 }
 
+/* Mobile Header */
+.mobile-header {
+    display: none;
+    width: 100%;
+    background-color: #c78972;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1002;
+    position: sticky;
+    top: 0;
+}
+
 
 
 
 
 
 /* Mobile View Styles */
-@media (max-width: 768px) {
+@media (max-width: 768px) 
 
+
+    {
+    .mobile-header {
+        display: flex;
+    }
     body {
         flex-direction: column;
         align-items: flex-start;

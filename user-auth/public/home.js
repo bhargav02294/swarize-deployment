@@ -17,14 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
            if (window.innerWidth > 768) {
     document.querySelector('.sidebar').innerHTML = `
-                <div class="top-navbar">
-                    <div class="logo-container">
-                       <img src="logo.png" alt="Logo" class="logo-img" />
-                    </div>
-                <div class="dashboard-title">Welcome to Your Dashboard</div>
-                    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+                <div class="logo-container">
+                    <span class="logo-text">S</span>
                 </div>
-
                 <ul class="menu">
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
@@ -37,7 +32,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="#" id="logout-btn" class="logout"> </a></li>
                 </ul>
             `;
-        }
+        }else {
+        // Inject mobile header
+        const mobileHeader = document.createElement('div');
+        mobileHeader.className = 'mobile-header';
+        mobileHeader.innerHTML = `
+            <div class="logo-container">
+                <span class="logo-text">S</span>
+            </div>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        `;
+        document.body.prepend(mobileHeader); // Add to top
+    }
+
 
 
             document.getElementById('logout-btn').addEventListener('click', async () => {

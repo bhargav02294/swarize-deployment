@@ -252,9 +252,9 @@ html, body {
 }
 
 .product-info h1 {
-  font-size: 32px;
+  font-size: 38px;
   font-weight: bold;
-  color: #222;
+  color: #000000;
   margin-bottom: 12px;
 }
 
@@ -318,7 +318,7 @@ html, body {
 
 
 .product-details {
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 14px;
 }
 
@@ -377,7 +377,7 @@ html, body {
   padding: 12px 16px;
   font-size: 16px;
   border-radius: 6px;
-  border: 1px solid #aa8b00;
+  border: 1px solid #312a0a;
   background-color: #fff8e1;
   color: #e8af05; /* dark golden color */
   font-weight: bold;
@@ -391,7 +391,7 @@ html, body {
 
 .review-section select:hover {
   background-color: #fff3cd;
-  border-color: #7a5c00;
+  border-color: #d6c89d;
 }
 
 
@@ -581,7 +581,7 @@ html, body {
   }
 
   .product-info h1 {
-    font-size: 22px;
+    font-size: 28px;
   }
 
   .star-rating {
@@ -589,7 +589,7 @@ html, body {
   }
 
   .product-info h2 {
-    font-size: 18px;
+    font-size: 25px;
   }
 
   .action-buttons {

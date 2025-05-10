@@ -166,25 +166,29 @@ html, body {
 .slider-container {
   position: relative;
   width: 100%;
-  height: 450px; /* Fixed height for consistent display */
-  overflow: hidden; /* Prevent images/videos from spilling over */
+  height: 450px;
+  overflow: hidden;
   border: 1px solid #ddd;
   border-radius: 10px;
+  display: flex;
+  align-items: center;       /* Vertically center content */
+  justify-content: center;   /* Horizontally center if needed */
 }
 
 .slider-track {
   display: flex;
   transition: transform 0.5s ease;
-  width: 100%;
+  height: 100%;              /* Make sure track fills container height */
 }
 
 .slider-track img,
 .slider-track video {
-  width: 100%;
-  height: 100%; /* Ensure image/video takes full height */
-  object-fit: contain; /* Maintain aspect ratio, and avoid cropping */
-  flex-shrink: 0; /* Prevent shrinking of images */
-  display: block; /* Ensure no space below images/videos */
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
 }
 
 .slider-btn {

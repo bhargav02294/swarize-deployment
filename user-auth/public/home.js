@@ -35,18 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
 
-        // Always inject mobile header
-            const mobileHeader = document.createElement('div');
-            mobileHeader.className = 'mobile-header';
-            mobileHeader.innerHTML = `
-                <div class="logo-container">
-                    <span class="logo-text">S</span>
-                </div>
-                <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
-            `;
-            document.body.prepend(mobileHeader);
-        
-
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
                     const logoutResponse = await fetch(`${API_BASE}/logout`, {

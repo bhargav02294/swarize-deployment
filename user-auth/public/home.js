@@ -15,15 +15,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             mainContainer.style.display = 'flex';
 
-            document.querySelector('.sidebar').innerHTML = `
+           if (window.innerWidth > 768) {
+    document.querySelector('.sidebar').innerHTML = `
                 <div class="logo-container">
                     <span class="logo-text">S</span>
-        
-                    
-
-            <button class="menu-toggle">&#9776;</button>
-            <div class="mobile-slide-menu hidden">
-                <ul>    
+                </div>
+                <ul class="menu">
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>
                     <li><a href="/bank-details.html">Bank Details</a></li>
@@ -33,15 +30,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <li><a href="/about.html">About</a></li>
                     <li><a href="/help.html">Help</a></li>
                     <li><a href="#" id="logout-btn" class="logout"> </a></li>
-                 </ul>
-            </div>
+                </ul>
             `;
-  const toggleBtn = document.querySelector(".menu-toggle");
-    const slideMenu = document.querySelector(".mobile-slide-menu");
+        }
 
-    toggleBtn.addEventListener("click", () => {
-        slideMenu.classList.toggle("visible");
-    });
+
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 try {
                     const logoutResponse = await fetch(`${API_BASE}/logout`, {

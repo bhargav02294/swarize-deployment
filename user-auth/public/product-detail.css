@@ -213,6 +213,28 @@ html, body {
 }
 
 
+
+
+
+/* Store name section below slider */
+.store-name {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}
+
+#store-link {
+  color: rgb(252, 8, 236);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+
+
+
+
 /* Product Info Section (Top-right Corner) */
 .product-info {
   flex: 1 1 55%;
@@ -232,12 +254,12 @@ html, body {
 }
 
 #rating-count {
-  color: #555;
+  color: #e74949;
 }
 
 .product-info h2 {
   font-size: 24px;
-  color: #b12704;
+  color: #0af635;
   margin: 10px 0;
 }
 
@@ -265,10 +287,7 @@ html, body {
   color: #111;
 }
 
-/* Store Name and Product Details Section */
-.product-info h3 {
-  margin-top: 20px;
-}
+
 
 .product-details {
   margin-top: 20px;

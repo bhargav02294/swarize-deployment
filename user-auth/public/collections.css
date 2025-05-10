@@ -144,7 +144,7 @@
 .container {
     padding: 20px;
     max-width: 1200px;
-    margin: auto;
+    margin-top: 50px;
 }
 
 /* Orders Grid */
@@ -152,7 +152,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 /* Order Card */

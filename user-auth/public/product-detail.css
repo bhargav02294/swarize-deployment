@@ -7,8 +7,9 @@
   flex-wrap: wrap;
   width: 100%;
   align-items: center;
+  height: 30px;
   justify-content: space-between;
-  padding: 15px;
+  padding: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -302,9 +303,12 @@ html, body {
   font-weight: bold;
 }
 
+
+
+
 /* Review Section */
 .review-section {
-  width: 100%;
+  width: 1200px;
   margin-top: 30px;
   background-color: #fff;
   padding: 20px;

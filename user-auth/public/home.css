@@ -277,12 +277,19 @@ body {
 
 /* Mobile View Styles */
 @media (max-width: 768px) 
-
-
     {
-    .mobile-header {
+    
+    .main-content h1 {
+        font-size: 24px;
+        text-align: center;
+        margin-top: 80px; /* Space below mobile header */
+        margin-bottom: 30px;
+    }
+
+        .mobile-header {
         display: flex;
     }
+
     body {
         flex-direction: column;
         align-items: flex-start;

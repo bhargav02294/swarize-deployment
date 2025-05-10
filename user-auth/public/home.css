@@ -204,7 +204,7 @@ body {
 
 
 
-/* MOBILE SLIDE MENU - Only for mobile */
+/* Show toggle only on small screens */
 .menu-toggle {
     position: fixed;
     top: 20px;
@@ -219,7 +219,6 @@ body {
     cursor: pointer;
     display: none;
 }
-
 /* Slide Menu Styling */
 .mobile-slide-menu {
     position: fixed;
@@ -258,39 +257,51 @@ body {
     font-size: 18px;
     text-align: center;
 }
-/* ===== MOBILE VIEW STYLING ===== */
+
+
+
+
+
+
+/* Mobile View Styles */
 @media (max-width: 768px) {
 
     body {
         flex-direction: column;
-        align-items: stretch;
-        height: auto;
-        overflow-y: auto;
+        align-items: flex-start;
+        overflow: auto;
     }
 
     .container {
         flex-direction: column;
-        height: auto;
         width: 100%;
+        height: auto;
         border-radius: 0;
         box-shadow: none;
     }
 
-    .sidebar {
-        display: none;
+    .menu-toggle {
+        display: block; /* Show hamburger */
     }
 
-    .menu-toggle {
-        display: block;
+    .sidebar {
+        display: none; /* Hide sidebar in mobile */
     }
 
     .main-content {
+        width: 100%;
         padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .main-content h1 {
+        font-size: 24px;
         text-align: center;
+        margin-bottom: 30px;
     }
 
     .grid-container {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: 1fr; /* Single column in mobile */
         gap: 20px;
         margin-top: 20px;
         padding: 10px;
@@ -298,7 +309,7 @@ body {
 
     .grid-item {
         height: auto;
-        padding: 25px 20px;
+        padding: 25px;
     }
 
     .grid-item h2 {
@@ -306,29 +317,14 @@ body {
     }
 
     .grid-item button {
+        width: 100%;
         font-size: 16px;
-        padding: 10px 16px;
+        padding: 10px;
     }
 
-    .center-message {
-        width: 90%;
-        height: auto;
-        padding: 30px 20px;
-    }
-
-    .center-message h2 {
-        font-size: 22px;
-    }
-
-    .btn {
-        padding: 12px 25px;
-        font-size: 16px;
-    }
-
-    /* Slide-in mobile menu adjustments */
     .mobile-slide-menu {
-        width: 50%; /* half screen */
-        padding-top: 80px;
+        width: 75%;
+        padding: 30px 20px;
     }
 
     .mobile-slide-menu ul li a {
@@ -337,11 +333,25 @@ body {
     }
 
     .logo-container {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
     }
 
     .logo-text {
-        font-size: 30px;
+        font-size: 36px;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+
+    .center-message {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .center-message h2 {
+        font-size: 22px;
     }
 }

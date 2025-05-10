@@ -67,15 +67,23 @@
 <script defer src="home.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const toggleBtn = document.querySelector(".menu-toggle");
-        const slideMenu = document.querySelector(".mobile-slide-menu");
+    const toggleBtn = document.querySelector(".menu-toggle");
+    const slideMenu = document.querySelector(".mobile-slide-menu");
 
-        if (toggleBtn) {
-            toggleBtn.addEventListener("click", () => {
-                slideMenu.classList.toggle("visible");
-            });
-        }
-    });
+    if (toggleBtn && slideMenu) {
+        toggleBtn.addEventListener("click", () => {
+            slideMenu.classList.toggle("visible");
+
+            // Remove .hidden if visible
+            if (slideMenu.classList.contains("visible")) {
+                slideMenu.classList.remove("hidden");
+            } else {
+                slideMenu.classList.add("hidden");
+            }
+        });
+    }
+});
+
 </script>
 
 </html>

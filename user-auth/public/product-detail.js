@@ -97,17 +97,17 @@ const product = (await productResponse.json()).product;
         }
 
         // Slider movement
-        window.moveSlide = function(direction) {
-            const items = mediaSlider.children.length;
-            const itemWidth = mediaSlider.children[0] ? mediaSlider.children[0].offsetWidth + 10 : 160;
-            currentSlide += direction;
+window.moveSlide = function(direction) {
+    const items = mediaSlider.children.length;
+    const itemWidth = mediaSlider.children[0] ? mediaSlider.children[0].offsetWidth : 160; // removed +10
+    currentSlide += direction;
 
-            if (currentSlide < 0) currentSlide = 0;
-            if (currentSlide >= items) currentSlide = items - 1;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide >= items) currentSlide = items - 1;
 
-            const offset = itemWidth * currentSlide;
-            mediaSlider.style.transform = `translateX(-${offset}px)`;
-        };
+    const offset = itemWidth * currentSlide;
+    mediaSlider.style.transform = `translateX(-${offset}px)`;
+};
 
 
 

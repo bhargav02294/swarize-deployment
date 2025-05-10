@@ -239,7 +239,7 @@ html, body {
 }
 
 #store-link:hover {
-  color: #390f53;
+  color: #4d0f74;
 }
 
 
@@ -379,7 +379,7 @@ html, body {
   border-radius: 6px;
   border: 1px solid #aa8b00;
   background-color: #fff8e1;
-  color: #7a5c00; /* dark golden color */
+  color: #e8af05; /* dark golden color */
   font-weight: bold;
   margin-top: 10px;
   appearance: none;
@@ -435,7 +435,7 @@ html, body {
 }
 
 .review-item h4 {
-  margin: 0;
+  margin: 5px;
   font-size: 16px;
   font-weight: bold;
   color: #444;
@@ -558,53 +558,34 @@ html, body {
   }
   
 
-  /* Main Product Container */
-  .product-container {
+
+
+
+
+   .product-container {
     flex-direction: column;
     padding: 10px;
-    width: 100%;
   }
 
-  /* Image Section */
   .product-image-section {
-    width: 100%;
+    max-width: 100%;
     margin-right: 0;
-    margin-bottom: 15px;
   }
 
   .slider-container {
-    height: 280px;
+    height: 300px;
   }
 
-  .slider-btn {
-    font-size: 18px;
-    padding: 8px;
-  }
-
-  /* Store Name */
-  .store-name {
-    font-size: 9px;
-    margin-top: 5px;
-    text-align: center;
-  }
-
-  /* Product Info */
   .product-info {
-    width: 100%;
     padding: 10px;
   }
 
   .product-info h1 {
-    font-size: 20px;
-    margin-bottom: 8px;
+    font-size: 22px;
   }
 
   .star-rating {
     font-size: 16px;
-  }
-
-  #rating-count {
-    font-size: 14px;
   }
 
   .product-info h2 {
@@ -614,24 +595,18 @@ html, body {
   .action-buttons {
     flex-direction: column;
     gap: 10px;
-    margin-top: 15px;
   }
 
   .action-buttons button {
     width: 100%;
-    font-size: 15px;
+    font-size: 14px;
+    padding: 10px;
   }
 
-  /* Product Details */
   .product-details {
     font-size: 13px;
   }
 
-  .product-details p {
-    margin: 8px 0;
-  }
-
-  /* Review Section */
   .review-section {
     padding: 15px;
     margin-top: 20px;
@@ -642,25 +617,37 @@ html, body {
   }
 
   .review-section textarea {
-    min-height: 80px;
     font-size: 14px;
+    min-height: 100px;
   }
 
-  .review-section select,
-  .review-section button {
-    font-size: 14px;
+  .review-section select {
     width: 100%;
-  }
-
-  #reviews-container {
+    font-size: 15px;
     padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .review-section button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .review-item {
+    padding: 12px;
+  }
+
+  .review-item h4 {
+    font-size: 15px;
+  }
+
+  .review-item p {
     font-size: 13px;
   }
 
-  /* Footer */
   .footer {
-    font-size: 13px;
     padding: 15px;
-    margin-top: 30px;
+    font-size: 14px;
   }
 }

@@ -39,7 +39,11 @@ app.use(cors({
 }));
 
 
-
+// 🔄 Log every incoming route (for debugging loops/refreshes)
+app.use((req, res, next) => {
+  console.log(`🔄 ${req.method} ${req.originalUrl}`);
+  next();
+});
 app.set('view engine', 'ejs');
 app.set('trust proxy', 1); // 🛡️ Add this line near the top (before session setup)
 
@@ -117,6 +121,8 @@ app.use((req, res, next) => {
   console.log("🔹 Middleware - Cookies:", req.cookies);
   next();
 });
+
+
 // ✅ TEST: Session Debugging Endpoint
 app.get("/api/test-session", (req, res) => {
   if (!req.session.userId) {

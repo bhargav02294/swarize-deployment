@@ -149,7 +149,7 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  max-width: 1200px;
+  max-width: 100%;
   margin: auto;
   padding: 20px;
   background-color: #ffffff;
@@ -159,9 +159,10 @@ html, body {
 /* Product Image Section */
 .product-image-section {
   flex: 1 1 40%;
+  margin-top: 70px;
   max-width: 600px;
   position: relative;
-  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .slider-container {
@@ -225,19 +226,9 @@ html, body {
 }
 
 #rating-count {
-  color: #555;
+  color: #ba2222;
 }
 
-#preview-store-name {
-  margin-top: 15px;
-  font-size: 18px;
-}
-
-#store-link {
-  color: blue;
-  cursor: pointer;
-  text-decoration: underline;
-}
 
 .product-info h2 {
   font-size: 24px;
@@ -268,6 +259,20 @@ html, body {
   background-color: #ffd814;
   color: #111;
 }
+
+
+
+#preview-store-name {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+#store-link {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 
 /* Product Details Section */
 .product-details {

@@ -210,7 +210,7 @@ body {
     font-size: 25px;
     background-color: #000000;
     color: white;
-    padding: 8px 12px;
+    padding: 12px 12px;
     border: none;
     border-radius: 8px;
     z-index: 1001;
@@ -220,7 +220,7 @@ body {
 /* Slide Menu Styling */
 .mobile-slide-menu {
     position: fixed;
-    top: 110px;
+    top: 125px;
     right: -100%;
     height: 100vh;
     width: 60%;

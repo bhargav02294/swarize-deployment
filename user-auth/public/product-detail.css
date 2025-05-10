@@ -80,6 +80,9 @@ html, body {
   left: 20px;
   width: 56px;
   height: 56px;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
   background-color: transparent;
   cursor: pointer;
   border: 0;
@@ -123,6 +126,7 @@ html, body {
 }
 
 .button-elem {
+  display: block;
   width: 20px;
   height: 20px;
   margin: 17px 18px 0 18px;
@@ -135,10 +139,19 @@ html, body {
   transform: translateX(-56px);
 }
 
+
+
+
+
+
+
+
+
+
+
 /* Main Container for Product Page */
 .product-container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   max-width: 1200px;
   margin: auto;
@@ -149,37 +162,39 @@ html, body {
 
 /* Product Image Section */
 .product-image-section {
-  flex: 1 1 100%;
-  max-width: 100%;
-  margin-bottom: 20px;
+  flex: 1 1 40%;
+  max-width: 600px;
+  position: relative;
+  margin-right: 20px;
+  overflow: hidden; /* Ensure no content spills out */
 }
 
 .slider-container {
   position: relative;
   width: 100%;
-  height: 450px;
-  overflow: hidden;
+  height: 450px; /* Fixed height for consistent display */
+  overflow: hidden; /* Prevent images/videos from spilling over */
   border: 1px solid #ddd;
   border-radius: 10px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center;       /* Vertically center content */
+  justify-content: center;  
 }
 
 .slider-track {
   display: flex;
   transition: transform 0.5s ease;
   width: 100%;
-  height: 100%;
+  height: 100%; /* Ensure track takes full height */
 }
 
 .slider-track img,
 .slider-track video {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  flex-shrink: 0;
-  display: block;
+  height: 100%; /* Ensure image/video takes full height */
+  object-fit: contain; /* Maintain aspect ratio, and avoid cropping */
+  flex-shrink: 0; /* Prevent shrinking of images */
+  display: block; /* Ensure no space below images/videos */
 }
 
 .slider-btn {
@@ -203,6 +218,10 @@ html, body {
   right: 10px;
 }
 
+
+
+
+
 /* Store name section below slider */
 .store-name {
   margin-top: 10px;
@@ -217,21 +236,26 @@ html, body {
   text-decoration: underline;
 }
 
-/* Product Info Section */
+
+
+
+
+
+/* Product Info Section (Top-right Corner) */
 .product-info {
-  flex: 1 1 100%;
+  flex: 1 1 55%;
   padding: 20px;
 }
 
 .product-info h1 {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
   color: #222;
   margin-bottom: 10px;
 }
 
 .star-rating {
-  font-size: 16px;
+  font-size: 18px;
   color: #ff9800;
 }
 
@@ -240,7 +264,7 @@ html, body {
 }
 
 .product-info h2 {
-  font-size: 22px;
+  font-size: 24px;
   color: #0af635;
   margin: 10px 0;
 }
@@ -249,7 +273,6 @@ html, body {
   margin-top: 20px;
   display: flex;
   gap: 15px;
-  flex-wrap: wrap;
 }
 
 .action-buttons button {
@@ -270,6 +293,8 @@ html, body {
   color: #111;
 }
 
+
+
 .product-details {
   margin-top: 20px;
   font-size: 14px;
@@ -283,6 +308,10 @@ html, body {
   font-weight: bold;
 }
 
+
+
+
+/* Review Section */
 /* Review Section */
 .review-section {
   width: 100%;
@@ -321,10 +350,31 @@ html, body {
   border-radius: 5px;
 }
 
-/* Responsive Styles */
+
+
+
+
+
+
+
+
 @media screen and (max-width: 768px) {
-  .navbar-title {
-    font-size: 20px;
+
+  /* General Reset */
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .logo-container {
@@ -336,31 +386,129 @@ html, body {
     font-size: 24px;
   }
 
+  .navbar-title {
+    font-size: 18px;
+    margin-top: 5px;
+    text-align: left;
+  }
+
+  /* Back Button */
+  .back-button {
+    top: 80px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .button-elem {
+    width: 16px;
+    height: 16px;
+    margin: 12px 12px 0 12px;
+  }
+
+  /* Main Product Container */
+  .product-container {
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+  }
+
+  /* Image Section */
+  .product-image-section {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .slider-container {
+    height: 280px;
+  }
+
+  .slider-btn {
+    font-size: 18px;
+    padding: 8px;
+  }
+
+  /* Store Name */
+  .store-name {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* Product Info */
+  .product-info {
+    width: 100%;
+    padding: 10px;
+  }
+
   .product-info h1 {
     font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .star-rating {
+    font-size: 16px;
+  }
+
+  #rating-count {
+    font-size: 14px;
   }
 
   .product-info h2 {
     font-size: 18px;
   }
 
-  .slider-container {
-    height: 300px;
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
   }
 
   .action-buttons button {
-    font-size: 14px;
-    padding: 10px 16px;
+    width: 100%;
+    font-size: 15px;
+  }
+
+  /* Product Details */
+  .product-details {
+    font-size: 13px;
+  }
+
+  .product-details p {
+    margin: 8px 0;
+  }
+
+  /* Review Section */
+  .review-section {
+    padding: 15px;
+    margin-top: 20px;
   }
 
   .review-section h3 {
     font-size: 18px;
   }
 
-  .review-section textarea,
+  .review-section textarea {
+    min-height: 80px;
+    font-size: 14px;
+  }
+
   .review-section select,
   .review-section button {
     font-size: 14px;
+    width: 100%;
+  }
+
+  #reviews-container {
     padding: 10px;
+    font-size: 13px;
+  }
+
+  /* Footer */
+  .footer {
+    font-size: 13px;
+    padding: 15px;
+    margin-top: 30px;
   }
 }

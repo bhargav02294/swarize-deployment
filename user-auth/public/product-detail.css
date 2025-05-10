@@ -230,6 +230,7 @@ html, body {
   text-align: center;
 }
 
+/* Store Link Styling */
 #store-link {
   color: #3e2f35;
   cursor: pointer;
@@ -238,9 +239,8 @@ html, body {
 }
 
 #store-link:hover {
-  color: #b23cfd; /* Soft purple-pink for premium feel */
+  color: #390f53;
 }
-
 
 
 
@@ -260,11 +260,11 @@ html, body {
 
 .star-rating {
   font-size: 18px;
-  color: #ffd500;
+  color: #ffc107;
 }
 
 #rating-count {
-  color: #ffd500;
+  color: #ffc107;
 }
 
 .product-info h2 {
@@ -332,6 +332,8 @@ html, body {
 
 
 
+
+/* Review Section Styling */
 .review-section {
   width: 100%;
   margin-top: 30px;
@@ -349,6 +351,13 @@ html, body {
   color: #333;
 }
 
+/* Review Message */
+#review-message {
+  color: #d35400; /* orange-brown tone for alerts */
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
 /* Textarea Styling */
 .review-section textarea {
   width: 100%;
@@ -362,21 +371,40 @@ html, body {
   background-color: #fcfcfc;
 }
 
-/* Select and Button Styling */
-.review-section select,
-.review-section button {
+
+/* Select & Button Styling */
+.review-section select {
   padding: 12px 16px;
-  font-size: 15px;
+  font-size: 16px;
   border-radius: 6px;
-  border: 1px solid #aaa;
+  border: 1px solid #aa8b00;
+  background-color: #fff8e1;
+  color: #7a5c00; /* dark golden color */
+  font-weight: bold;
   margin-top: 10px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg fill='%237a5c00' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
 }
 
+.review-section select:hover {
+  background-color: #fff3cd;
+  border-color: #7a5c00;
+}
+
+
+/* Submit Button */
 .review-section button {
+  padding: 12px 18px;
+  font-size: 15px;
+  border-radius: 6px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
+  margin-top: 10px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -385,7 +413,8 @@ html, body {
   transform: scale(1.02);
 }
 
-/* Reviews Display Container */
+
+/* Reviews Display */
 .review-section #reviews-container {
   margin-top: 20px;
   background-color: #f4f6f8;
@@ -394,7 +423,8 @@ html, body {
   border: 1px solid #ddd;
 }
 
-/* Individual Review Style */
+
+/* Individual Review Box */
 .review-item {
   background-color: #fff;
   padding: 15px;
@@ -417,9 +447,10 @@ html, body {
   color: #555;
 }
 
-/* Star Rating Styling */
+
+/* Golden Stars for Ratings */
 .review-stars {
-  color: #FFD700; /* Golden stars */
+  color: #FFD700;
   font-size: 18px;
   margin-bottom: 6px;
 }

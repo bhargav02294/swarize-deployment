@@ -132,7 +132,6 @@
 
 
 
-
 /* General Reset */
 html, body {
   margin: 0;
@@ -147,9 +146,8 @@ html, body {
 /* Main Container for Product Page */
 .product-container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  max-width: 100%;
+  max-width: 1200px;
   margin: auto;
   padding: 20px;
   background-color: #ffffff;
@@ -159,10 +157,9 @@ html, body {
 /* Product Image Section */
 .product-image-section {
   flex: 1 1 40%;
-  margin-top: 70px;
   max-width: 600px;
   position: relative;
-  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .slider-container {
@@ -207,7 +204,7 @@ html, body {
   right: 10px;
 }
 
-/* Product Info Section */
+/* Product Info Section (Top-right Corner) */
 .product-info {
   flex: 1 1 55%;
   padding: 20px;
@@ -226,9 +223,8 @@ html, body {
 }
 
 #rating-count {
-  color: #ba2222;
+  color: #555;
 }
-
 
 .product-info h2 {
   font-size: 24px;
@@ -260,21 +256,11 @@ html, body {
   color: #111;
 }
 
-
-
-#preview-store-name {
-  margin-top: 15px;
-  font-size: 18px;
+/* Store Name and Product Details Section */
+.product-info h3 {
+  margin-top: 20px;
 }
 
-#store-link {
-  color: blue;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-
-/* Product Details Section */
 .product-details {
   margin-top: 20px;
   font-size: 14px;

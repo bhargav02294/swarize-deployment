@@ -59,56 +59,74 @@
 
 
 
-    <div class="product-image-section">
-        <div class="slider-container">
-          <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-      
-          <div class="slider-track" id="media-slider">
-            <!-- JS will dynamically insert <img> and <video> elements here -->
-          </div>
-      
-          <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
-        </div>
+<div class="product-container">
+  <!-- Product Image Section -->
+  <div class="product-image-section">
+    <div class="slider-container">
+      <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
+
+      <div class="slider-track" id="media-slider">
+        <!-- JS will dynamically insert <img> and <video> elements here -->
       </div>
-      
 
+      <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+  </div>
 
-        <h1 id="preview-name">Product Name</h1>
+  <!-- Product Info Section (Top-right Corner) -->
+  <div class="product-info">
+    <h1 id="preview-name">Product Name</h1>
 
+    <div class="star-rating">
+      <span id="rating-count">(0 Reviews)</span>
+    </div>
 
-        <div class="star-rating">
-          <span id="rating-count">(0 Reviews)</span>
-        </div>
-        
-                
-        <h2 id="preview-price">₹0.00</h2>
-      
-        <div class="action-buttons">
-          <button class="buy-now">Buy Now</button>
-          <button class="add-to-cart">Add to Cart</button>
-        </div>
-      
+    <h2 id="preview-price">₹0.00</h2>
 
-        <h3 id="preview-store-name">
-            Sold by: <span id="store-link" style="color:blue; cursor:pointer; text-decoration:underline;">Unknown Store</span>
-        </h3>
+    <div class="action-buttons">
+      <button class="buy-now">Buy Now</button>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
 
+    <!-- Store Name Section -->
+    <h3 id="preview-store-name">
+      Sold by: <span id="store-link" style="color:blue; cursor:pointer; text-decoration:underline;">Unknown Store</span>
+    </h3>
 
+    <!-- Product Details -->
+    <div class="product-details">
+      <p id="preview-description">Product description will appear here.</p>
+      <p id="preview-summary"><strong>Summary:</strong> Not available.</p>
+      <p id="preview-available-in"><strong>Available In:</strong> Not specified</p>
+      <p id="preview-category"><strong>Category:</strong> Not specified</p>
+      <p id="preview-subcategory"><strong>Subcategory:</strong> Not specified</p>
+      <p id="preview-tags"><strong>Tags:</strong> None</p>
+      <p id="preview-size"><strong>Size:</strong> Not specified</p>
+      <p id="preview-color"><strong>Color:</strong> Not specified</p>
+      <p id="preview-material"><strong>Material:</strong> Not specified</p>
+      <p id="preview-model-style"><strong>Model Style:</strong> Not specified</p>
+    </div>
+  </div>
 
-        <div class="product-details">
-          <p id="preview-description">Product description will appear here.</p>
-          <p id="preview-summary"><strong>Summary:</strong> Not available.</p>
-          <p id="preview-available-in"><strong>Available In:</strong> Not specified</p>
-          <p id="preview-category"><strong>Category:</strong> Not specified</p>
-          <p id="preview-subcategory"><strong>Subcategory:</strong> Not specified</p>
-          <p id="preview-tags"><strong>Tags:</strong> None</p>
-          <p id="preview-size"><strong>Size:</strong> Not specified</p>
-          <p id="preview-color"><strong>Color:</strong> Not specified</p>
-          <p id="preview-material"><strong>Material:</strong> Not specified</p>
-          <p id="preview-model-style"><strong>Model Style:</strong> Not specified</p>
-        </div>
-      
-      
+  <!-- Review Section -->
+  <div class="review-section">
+    <h3>Submit Your Review</h3>
+    <p id="review-message"></p>
+    <select id="rating">
+      <option value="5">★★★★★ (5 Stars)</option>
+      <option value="4">★★★★☆ (4 Stars)</option>
+      <option value="3">★★★☆☆ (3 Stars)</option>
+      <option value="2">★★☆☆☆ (2 Stars)</option>
+      <option value="1">★☆☆☆☆ (1 Star)</option>
+    </select>
+    <textarea id="comment" placeholder="Write your review here..."></textarea>
+    <button id="submit-review">Submit Review</button>
+
+    <h3>Customer Reviews</h3>
+    <div id="reviews-container">No reviews yet.</div>
+  </div>
+</div>
+
 
 
       

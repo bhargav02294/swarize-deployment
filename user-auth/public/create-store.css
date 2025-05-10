@@ -1,51 +1,194 @@
+/* -------------------- Base Styles -------------------- */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
   background: #f5f7fa;
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  flex-direction: column;
 }
 
+/* -------------------- Navbar -------------------- */
+.navbar {
+  background-color: #F4D1AE;
+  display: flex;
+  width: 100%;
+  max-width: 1520px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.navbar-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #8C4A32;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* -------------------- Logo -------------------- */
+.logo-container {
+  width: 60px;
+  height: 60px;
+  background-color: #8C4A32;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 50px;
+  font-weight: 600;
+  color: #F4D1AE;
+  font-family: 'Times New Roman';
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+/* -------------------- Back Button -------------------- */
+.back-button {
+  display: block;
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  width: 56px;
+  height: 56px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.back-button:before,
+.back-button:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  inset: 7px;
+}
+
+.back-button:before {
+  border: 4px solid #4A403A;
+  transition: opacity 0.4s, transform 0.5s;
+}
+
+.back-button:after {
+  border: 4px solid #8C4A32;
+  transform: scale(1.3);
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.5s;
+}
+
+.back-button:hover:before {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.back-button:hover:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.button-box {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.button-elem {
+  width: 20px;
+  height: 20px;
+  margin: 17px 18px 0 18px;
+  transform: rotate(180deg);
+  fill: #4A403A;
+}
+
+.back-button:hover .button-box {
+  transition: 0.4s;
+  transform: translateX(-56px);
+}
+
+/* -------------------- Form Container -------------------- */
 .form-container {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  width: 400px;
+  background: #fff5ec;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  width: 450px;
   max-width: 90%;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-container h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #8C4A32;
   text-align: center;
+}
+
+/* -------------------- Form Inputs -------------------- */
+form {
+  width: 100%;
 }
 
 form input[type="text"],
 form textarea,
 form input[type="file"] {
   width: 100%;
-  margin-bottom: 15px;
-  padding: 10px;
+  margin-bottom: 18px;
+  padding: 12px 14px;
   font-size: 16px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  transition: border 0.3s;
 }
 
+form input:focus,
+form textarea:focus {
+  border-color: #8C4A32;
+  outline: none;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* -------------------- Submit Button -------------------- */
 form button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   font-size: 16px;
-  background: #3498db;
+  font-weight: bold;
+  background: #8C4A32;
   color: #fff;
   border: none;
   cursor: pointer;
   border-radius: 8px;
+  transition: background 0.3s;
 }
 
 form button:hover {
-  background: #2980b9;
+  background: #6f3928;
 }
 
 #store-message {
@@ -53,4 +196,54 @@ form button:hover {
   text-align: center;
   color: red;
   font-size: 14px;
+}
+
+/* -------------------- Footer -------------------- */
+.footer {
+  background-color: #F4D1AE;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+  color: #4A403A;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+}
+
+/* -------------------- Responsive (Mobile View) -------------------- */
+@media (max-width: 768px) {
+  .navbar-title {
+    font-size: 22px;
+  }
+
+  .form-container {
+    margin: 30px 16px;
+    padding: 30px 20px;
+  }
+
+  form input[type="text"],
+  form textarea,
+  form input[type="file"] {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+
+  form button {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .logo-container {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-text {
+    font-size: 40px;
+  }
+
+  .back-button {
+    top: 80px;
+    left: 10px;
+  }
 }

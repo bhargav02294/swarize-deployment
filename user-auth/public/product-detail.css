@@ -1,15 +1,29 @@
+/* General Reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #000;
+  background-color: #f9f9f9;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  box-sizing: border-box;
+}
 
-  
-  /* Navbar */
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Navbar */
 .navbar {
   background-color: #F4D1AE;
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   align-items: center;
-  height: 30px;
   justify-content: space-between;
-  padding: 10px;
+  padding: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -48,8 +62,8 @@
 .logo-link {
   text-decoration: none;
 }
-  
-  /* Footer */
+
+/* Footer */
 .footer {
   background-color: #F4D1AE;
   text-align: center;
@@ -66,9 +80,6 @@
   left: 20px;
   width: 56px;
   height: 56px;
-  margin: 0;
-  overflow: hidden;
-  outline: none;
   background-color: transparent;
   cursor: pointer;
   border: 0;
@@ -112,7 +123,6 @@
 }
 
 .button-elem {
-  display: block;
   width: 20px;
   height: 20px;
   margin: 17px 18px 0 18px;
@@ -125,28 +135,10 @@
   transform: translateX(-56px);
 }
 
-
-
-
-
-
-
-
-
-/* General Reset */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #000;
-  background-color: #f9f9f9;
-}
-
 /* Main Container for Product Page */
 .product-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   max-width: 1200px;
   margin: auto;
@@ -157,39 +149,37 @@ html, body {
 
 /* Product Image Section */
 .product-image-section {
-  flex: 1 1 40%;
-  max-width: 600px;
-  position: relative;
-  margin-right: 20px;
-  overflow: hidden; /* Ensure no content spills out */
+  flex: 1 1 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
 }
 
 .slider-container {
   position: relative;
   width: 100%;
-  height: 450px; /* Fixed height for consistent display */
-  overflow: hidden; /* Prevent images/videos from spilling over */
+  height: 450px;
+  overflow: hidden;
   border: 1px solid #ddd;
   border-radius: 10px;
   display: flex;
-  align-items: center;       /* Vertically center content */
-  justify-content: center;  
+  align-items: center;
+  justify-content: center;
 }
 
 .slider-track {
   display: flex;
   transition: transform 0.5s ease;
   width: 100%;
-  height: 100%; /* Ensure track takes full height */
+  height: 100%;
 }
 
 .slider-track img,
 .slider-track video {
   width: 100%;
-  height: 100%; /* Ensure image/video takes full height */
-  object-fit: contain; /* Maintain aspect ratio, and avoid cropping */
-  flex-shrink: 0; /* Prevent shrinking of images */
-  display: block; /* Ensure no space below images/videos */
+  height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
 }
 
 .slider-btn {
@@ -213,10 +203,6 @@ html, body {
   right: 10px;
 }
 
-
-
-
-
 /* Store name section below slider */
 .store-name {
   margin-top: 10px;
@@ -231,26 +217,21 @@ html, body {
   text-decoration: underline;
 }
 
-
-
-
-
-
-/* Product Info Section (Top-right Corner) */
+/* Product Info Section */
 .product-info {
-  flex: 1 1 55%;
+  flex: 1 1 100%;
   padding: 20px;
 }
 
 .product-info h1 {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: #222;
   margin-bottom: 10px;
 }
 
 .star-rating {
-  font-size: 18px;
+  font-size: 16px;
   color: #ff9800;
 }
 
@@ -259,7 +240,7 @@ html, body {
 }
 
 .product-info h2 {
-  font-size: 24px;
+  font-size: 22px;
   color: #0af635;
   margin: 10px 0;
 }
@@ -268,6 +249,7 @@ html, body {
   margin-top: 20px;
   display: flex;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .action-buttons button {
@@ -288,8 +270,6 @@ html, body {
   color: #111;
 }
 
-
-
 .product-details {
   margin-top: 20px;
   font-size: 14px;
@@ -303,12 +283,9 @@ html, body {
   font-weight: bold;
 }
 
-
-
-
 /* Review Section */
 .review-section {
-  width: 1200px;
+  width: 100%;
   margin-top: 30px;
   background-color: #fff;
   padding: 20px;
@@ -344,36 +321,46 @@ html, body {
   border-radius: 5px;
 }
 
-/* Media Queries for Mobile View */
-@media (max-width: 768px) {
-  .product-container {
-    flex-direction: column;
-    align-items: center;
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .navbar-title {
+    font-size: 20px;
   }
 
-  .product-image-section {
-    flex: 1 1 100%;
-    margin-right: 0;
+  .logo-container {
+    width: 40px;
+    height: 40px;
   }
 
-  .product-info {
-    flex: 1 1 100%;
-    margin-top: 20px;
+  .logo-text {
+    font-size: 24px;
   }
 
-  .action-buttons {
-    flex-direction: column;
-    gap: 10px;
+  .product-info h1 {
+    font-size: 20px;
   }
 
-  .review-section {
-    text-align: center;
-    width: 100%;
+  .product-info h2 {
+    font-size: 18px;
   }
 
+  .slider-container {
+    height: 300px;
+  }
+
+  .action-buttons button {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .review-section h3 {
+    font-size: 18px;
+  }
+
+  .review-section textarea,
   .review-section select,
-  .review-section button,
-  .review-section textarea {
-    width: 80%;
+  .review-section button {
+    font-size: 14px;
+    padding: 10px;
   }
 }

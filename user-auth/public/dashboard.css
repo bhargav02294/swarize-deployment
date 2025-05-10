@@ -279,4 +279,9 @@
     font-size: 14px;
     padding: 12px;
   }
+
+  .container {
+    margin-top: 130px; /* So back button doesn't overlap */
+    padding: 15px;
+  }
 }

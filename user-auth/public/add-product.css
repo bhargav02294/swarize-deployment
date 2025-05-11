@@ -71,7 +71,6 @@ button {
 
 /* Hover Effect */
 button:hover {
-  background-color: #8C4A32;
   transform: scale(1.03);
 }
 

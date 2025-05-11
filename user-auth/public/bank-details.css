@@ -1,3 +1,10 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* Navbar */
 .navbar {
   background-color: #F4D1AE;
@@ -198,99 +205,72 @@ input {
 }
 
 
+/* Responsive Styles for Mobile */
+@media (max-width: 600px) {
 
-
-/* Responsive Styling */
-
-/* Tablet View (Up to 1024px) */
-@media (max-width: 1024px) {
-  .navbar-title {
-      font-size: 28px;
-  }
-
-  .footer {
-      padding: 15px;
-      margin-top: 50px;
-  }
-
-  .bank-details-container {
-      width: 80%;
-      padding: 20px;
-  }
-
-  .save-btn {
-      font-size: 14px;
-      padding: 8px;
-  }
-}
-
-/* Mobile View (Up to 768px) */
-@media (max-width: 768px) {
+  /* Navbar */
   .navbar {
-      flex-direction: column;
-      text-align: center;
-      height: auto;
-      padding: 10px;
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
   }
 
   .navbar-title {
-      font-size: 24px;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 5px;
   }
 
   .logo-container {
-      width: 50px;
-      height: 50px;
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
   }
 
   .logo-text {
-      font-size: 40px;
+    font-size: 36px;
   }
 
-  .footer {
-      padding: 10px;
-      font-size: 14px;
-  }
-
+  /* Container */
   .bank-details-container {
-      width: 90%;
-      padding: 15px;
+    width: 90%;
+    padding: 20px;
+    margin-top: 20px;
   }
 
-  .save-btn {
-      font-size: 14px;
-      padding: 8px;
-  }
-}
-
-/* Small Mobile View (Up to 480px) */
-@media (max-width: 480px) {
-  .navbar-title {
-      font-size: 20px;
+  .bank-details-container h2 {
+    font-size: 20px;
   }
 
-  .bank-details-container {
-      width: 100%;
-      padding: 10px;
-  }
-
+  /* Form Elements */
   input {
-      font-size: 14px;
-      padding: 8px;
+    font-size: 15px;
+    padding: 8px;
   }
 
   .save-btn {
-      font-size: 13px;
-      padding: 7px;
+    font-size: 15px;
+    padding: 10px;
   }
 
+  /* Back Button */
   .back-button {
-      width: 40px;
-      height: 40px;
-      top: 80px;
+    top: 80px;
+    left: 10px;
+    width: 46px;
+    height: 46px;
   }
 
-  .back-button .button-elem {
-      width: 15px;
-      height: 15px;
+  .button-elem {
+    width: 16px;
+    height: 16px;
+    margin: 14px 15px 0 15px;
+  }
+
+  /* Footer */
+  .footer {
+    font-size: 14px;
+    padding: 8px;
+    margin-top: 50px;
   }
 }

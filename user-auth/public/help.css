@@ -7,7 +7,12 @@ body {
     color: #333;
 }
 
-
+/* Global Reset and Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 /* Main Container */
 .container {
@@ -220,28 +225,116 @@ button {
   
 
 
-  @media (max-width: 1024px) {
-    .help-section {
-        width: 90%;
-    }
-}
-
+  /* -------- MOBILE VIEW CSS -------- */
 @media (max-width: 768px) {
-    .help-section {
-        width: 95%;
-    }
 
-    h2 {
-        font-size: 18px;
-    }
-}
+  /* General adjustments */
+  body {
+    font-size: 14px;
+  }
 
-@media (max-width: 480px) {
-    .help-section {
-        width: 100%;
-    }
+  .container {
+    width: 90%;
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: none;
+  }
 
-    h2 {
-        font-size: 16px;
-    }
+  /* Navbar */
+  .navbar {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    height: auto;
+  }
+
+  .navbar-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .navbar-title {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .logo-container {
+    width: 45px;
+    height: 45px;
+  }
+
+  .logo-text {
+    font-size: 30px;
+  }
+
+  /* Headings */
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-top: 12px;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  /* Help Section */
+  .help-section {
+    padding: 10px;
+    margin: 12px 0;
+    border-radius: 8px;
+  }
+
+  .help-section h3 a {
+    font-size: 16px;
+  }
+
+  /* Paragraph */
+  p {
+    font-size: 14px;
+  }
+
+  /* Buttons */
+  button {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+
+  /* Back Button */
+  .back-button {
+    width: 44px;
+    height: 44px;
+    top: 80px;
+    left: 15px;
+  }
+
+  .back-button:before,
+  .back-button:after {
+    inset: 6px;
+    border-width: 3px;
+  }
+
+  .button-box {
+    transform: scale(0.8);
+  }
+
+  .button-elem {
+    width: 16px;
+    height: 16px;
+    margin: 13px 14px 0 14px;
+  }
+
+  /* Footer */
+  .footer {
+    font-size: 14px;
+    padding: 10px;
+    margin-top: 30px;
+    width: 100%;
+  }
 }

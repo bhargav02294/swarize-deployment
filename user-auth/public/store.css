@@ -277,12 +277,12 @@ body {
 @media (max-width: 768px) {
   #store-container {
     padding: 15px;
-    top: 50px;
+    top: 60px;
   }
 
   .store-header {
     padding: 40px 10px;
-    margin-top: 80px; 
+    margin-top: 110px; 
   }
 
   #store-name {
@@ -345,7 +345,5 @@ body {
     font-size: 14px;
     padding: 16px;
   }
-  .back-button {
-  z-index: 10;
-}
+ 
 }

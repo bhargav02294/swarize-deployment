@@ -228,10 +228,7 @@ button {
   /* -------- MOBILE VIEW CSS -------- */
 @media (max-width: 768px) {
 
-  /* General adjustments */
-  body {
-    font-size: 14px;
-  }
+  
 
   .container {
     width: 90%;
@@ -241,34 +238,38 @@ button {
     box-shadow: none;
   }
 
+   /* General body adjustments */
+  body {
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+  }
+
   /* Navbar */
   .navbar {
+    flex-direction: column;
     width: 100%;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
     height: auto;
-  }
-
-  .navbar-container {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .navbar-title {
-    font-size: 22px;
-    text-align: center;
+    padding: 10px;
+    align-items: flex-start;
   }
 
   .logo-container {
     width: 45px;
     height: 45px;
+    margin-left: 0;
   }
 
   .logo-text {
     font-size: 30px;
   }
 
+  .navbar-title {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
+  }
   /* Headings */
   h2 {
     font-size: 20px;

@@ -214,15 +214,41 @@ button {
 
 @media screen and (max-width: 768px) {
 
+   /* General body adjustments */
   body {
-    font-family: Arial, sans-serif;
-    margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
-    text-align: center;
+    margin: 0;
+    font-size: 15px;
   }
 
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
+  }
+
+  .logo-text {
+    font-size: 30px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
+  }
   main {
+
+
     padding: 15px;
   }
 
@@ -272,35 +298,7 @@ button {
     margin-top: 10px;
   }
 
-  /* Navbar */
-  .navbar {
-    width: 100%;
-    height: auto;
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  .navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .navbar-title {
-    font-size: 24px;
-    text-align: center;
-    width: 100%;
-    margin-top: 5px;
-  }
-
-  /* Logo */
-  .logo-container {
-    width: 50px;
-    height: 50px;
-  }
-
-  .logo-text {
-    font-size: 34px;
-  }
+  
 
   /* Footer */
   .footer {

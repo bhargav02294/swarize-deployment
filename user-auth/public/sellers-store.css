@@ -40,26 +40,6 @@ h1 {
   width: 100%;
 }
 
-.logo-container {
-  width: 50px;
-  height: 50px;
-  background-color: #8C4A32;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-text {
-  font-size: 30px;
-  font-weight: 600;
-  color: #F4D1AE;
-  font-family: 'Times New Roman';
-}
-
-.logo-link {
-  text-decoration: none;
-}
 
 .navbar-title {
   font-size: 24px;
@@ -70,19 +50,21 @@ h1 {
   margin-right: 50px;
 }
 
-/* Back Button */
+
+/* --- Custom Animated Back Button --- */
 .back-button {
   display: block;
   position: absolute;
-  top: 90px;
+  top: 100px;
   left: 20px;
   width: 56px;
   height: 56px;
-  background-color: transparent;
-  border: none;
+  margin: 0;
+  overflow: hidden;
   outline: none;
+  background-color: transparent;
   cursor: pointer;
-  z-index: 10;
+  border: 0;
 }
 
 .back-button:before,
@@ -136,17 +118,45 @@ h1 {
   transform: translateX(-56px);
 }
 
+
+
+
+/* Logo Styling */
+.logo-container {
+  width: 60px;
+  height: 60px;
+  background-color: #8C4A32;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 50px;
+  font-weight: 600;
+  color: #F4D1AE;
+  font-family: 'Times New Roman';
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+
 /* Stores Container */
 #stores-container {
-  max-width: 1200px;
+  max-width: 1000px; /* slightly narrower */
   margin: 140px auto 40px;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 #store-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* slightly narrower cards */
+  gap: 20px;
   margin-top: 30px;
 }
 
@@ -165,10 +175,10 @@ h1 {
 }
 
 .store-card img {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain; /* ensures full image is visible inside the circle */
   margin-bottom: 15px;
 }
 
@@ -248,16 +258,16 @@ h1 {
   }
 
   #stores-container {
-    margin-top: 130px;
-    padding: 0 10px;
-  }
-
-  #store-list {
-    grid-template-columns: 1fr;
+    padding: 0 12px;
   }
 
   .store-card {
     padding: 16px;
+  }
+
+  .store-card img {
+    width: 100px;
+    height: 100px;
   }
 
   .store-card h3 {
@@ -269,8 +279,8 @@ h1 {
   }
 
   .store-card button {
+    padding: 8px 16px;
     font-size: 14px;
-    padding: 8px 14px;
   }
 
   .footer {

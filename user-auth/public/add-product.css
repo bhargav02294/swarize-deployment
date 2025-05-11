@@ -207,8 +207,8 @@ button {
 
 /* Logo Styling */
 .logo-container {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background-color: #8C4A32;
   border-radius: 50%;
   display: flex;
@@ -217,7 +217,7 @@ button {
 }
 
 .logo-text {
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 600;
   color: #F4D1AE;
   font-family: 'Times New Roman';
@@ -233,7 +233,7 @@ button {
 .back-button {
   display: block;
   position: absolute;
-  top: 100px;
+  top: 70px;
   left: 20px;
   width: 56px;
   height: 56px;

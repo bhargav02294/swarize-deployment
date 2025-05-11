@@ -239,54 +239,93 @@ button {
 
 
 
-
-/* ✅ Responsive Mobile View */
+/* Responsive Mobile View */
 @media (max-width: 600px) {
+
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    padding: 10px;
+  }
+
   .navbar-title {
-    font-size: 20px;
+    font-size: 24px;
+    margin-top: 5px;
+    text-align: center;
   }
 
   .logo-container {
     width: 45px;
     height: 45px;
-    margin-left: 10px;
+    margin-left: 0;
   }
 
   .logo-text {
-    font-size: 30px;
+    font-size: 36px;
   }
 
+  /* OTP Container */
   .otp-container {
-    margin: 20px;
+    width: 90%;
     padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .otp-container h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  /* Inputs */
+  input {
+    font-size: 15px;
+    padding: 8px;
   }
 
   button {
-    font-size: 14px;
+    font-size: 15px;
     padding: 10px;
   }
 
-  input {
-    font-size: 14px;
-    padding: 8px;
+  .form-group {
+    margin-bottom: 12px;
   }
 
-  .footer {
-    font-size: 14px;
-    padding: 8px;
-    margin-top: 100px;
+  .error {
+    font-size: 13px;
   }
 
+  .timer {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  #resend-otp {
+    font-size: 13px;
+  }
+
+  /* Back Button */
   .back-button {
     top: 80px;
     left: 10px;
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
   }
 
   .button-elem {
     width: 16px;
     height: 16px;
-    margin: 14px 14px 0 14px;
+    margin: 14px 15px 0 15px;
+  }
+
+  /* Footer */
+  .footer {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+    margin-top: 60px;
   }
 }

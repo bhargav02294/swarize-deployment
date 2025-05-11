@@ -221,26 +221,98 @@ body {
   }
   
 
+/* ================= MOBILE VIEW ================= */
+@media (max-width: 768px) {
 
-  @media (max-width: 768px) {
-    .container {
-        width: 90%;
-        padding: 15px;
-    }
+  /* General body adjustments */
+  body {
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+  }
 
-    .faq-question {
-        font-size: 14px;
-        padding: 10px;
-    }
-}
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    align-items: flex-start;
+  }
 
-@media (max-width: 480px) {
-    .container {
-        width: 100%;
-        padding: 10px;
-    }
+  .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
+  }
 
-    .faq-answer {
-        font-size: 14px;
-    }
+  .logo-text {
+    font-size: 30px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  /* Footer */
+  .footer {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  /* Container Styling */
+  .container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px 15px;
+  }
+
+  .container h2 {
+    font-size: 20px;
+  }
+
+  .container p,
+  .container ul li {
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+
+  .container ul li {
+    background-size: 16px;
+    padding-left: 24px;
+  }
+
+  /* FAQ Section */
+  .faq-question {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .faq-answer {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  /* Back Button */
+  .back-button {
+    top: 70px;
+    left: 10px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .button-elem {
+    width: 16px;
+    height: 16px;
+    margin: 13px 15px 0 15px;
+  }
+
+  /* Prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+  }
 }

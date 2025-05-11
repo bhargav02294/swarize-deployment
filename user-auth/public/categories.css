@@ -1,16 +1,29 @@
 
-/* Reset & Base */
-* {
-  margin: 0;
-  padding: 0;
+/* -------------------- Base Styles -------------------- */
+
+/* -------------------- Fix for Page Overflow -------------------- */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #f9f9f9;
-  color: #333;
+/* Ensure all elements respect box-sizing */
+*, *::before, *::after {
+  box-sizing: inherit;
 }
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 
 
 
@@ -226,53 +239,96 @@ body {
   
   /* Responsive Styling */
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+
+/* -------------------- Mobile View Styling -------------------- */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
   .navbar {
+    width: 100%;
     flex-direction: column;
-    height: auto;
+    align-items: flex-start;
     padding: 10px;
-    gap: 8px;
-    text-align: center;
+    height: auto;
+  }
+
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
   }
 
   .logo-container {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-text {
+    font-size: 30px;
+  }
+
+  .navbar-title {
+    font-size: 24px;
+    text-align: left;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+
+  .back-button {
+    top: 70px;
+    left: 10px;
     width: 45px;
     height: 45px;
   }
 
-  .logo-text {
-    font-size: 26px;
+  .button-box {
+    transform: scale(0.8);
   }
 
-  .navbar-title {
-    font-size: 18px;
+  .categories-container {
+    grid-template-columns: 1fr;
+    padding: 15px 10px;
+    margin-top: 100px;
+    gap: 15px;
   }
 
   .category-card {
     flex-direction: column;
     align-items: flex-start;
+    padding: 15px;
+    gap: 10px;
   }
 
   .category-icon {
     width: 60px;
     height: 60px;
-    margin: 0 0 10px 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .category-content h2 {
+    font-size: 18px;
+  }
+
+  .category-content p {
+    font-size: 13px;
+  }
+
+  .tags {
+    gap: 6px;
   }
 
   .tag-btn {
     font-size: 12px;
-    padding: 5px 10px;
-  }
-
-  .back-button {
-    top: 70px;
-    left: 15px;
-    width: 44px;
-    height: 44px;
+    padding: 6px 10px;
   }
 
   .footer {
     font-size: 14px;
+    padding: 10px;
   }
 }
+

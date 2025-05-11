@@ -178,7 +178,7 @@ h1 {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  object-fit: contain; /* ensures full image is visible inside the circle */
+  object-fit: cover; /* ensures full image is visible inside the circle */
   margin-bottom: 15px;
 }
 

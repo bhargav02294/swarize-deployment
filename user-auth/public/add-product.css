@@ -59,14 +59,22 @@ select {
 }
 
 button {
-  padding: 10px;
+  padding: 10px 20px;
   background-color: #4A403A;
-  color: white;
+  color: #FFFFFF;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+/* Hover Effect */
+button:hover {
+  background-color: #8C4A32;
+  transform: scale(1.03);
+}
+
 /* Live Preview Section */
 .live-preview {
   width: 30%;
@@ -322,9 +330,9 @@ button {
     font-size: 15px;
   }
 
-  button {
-    font-size: 15px;
-    padding: 10px;
+    button {
+    font-size: 14px;
+    padding: 10px 16px;
   }
 
   .preview-thumbnail {

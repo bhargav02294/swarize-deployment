@@ -17,7 +17,7 @@ body {
 /* Header */
 h1 {
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     color: #4A403A;
     margin: 30px 10px 20px 10px;
     font-weight: 600;
@@ -36,7 +36,7 @@ h1 {
 
 /* Headings */
 h2 {
-    font-size: 22px;
+    font-size: 20px;
     color: #8C4A32;
     border-bottom: 2px solid #8C4A32;
     padding-bottom: 6px;
@@ -306,16 +306,16 @@ th {
 
   /* Headings */
   header h1 {
-    font-size: 10px;
+    font-size: 16px;
     padding: 10px;
   }
 
   h2 {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   h3 {
-    font-size: 14px;
+    font-size: 16px;
     margin-top: 10px;
   }
 
@@ -335,7 +335,7 @@ th {
 
   /* Tables */
   table, th, td {
-    font-size: 11px;
+    font-size: 13px;
     padding: 8px;
   }
 

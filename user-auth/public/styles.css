@@ -29,6 +29,7 @@ header h1, header h2 {
 @media (max-width: 768px) {
     header {
         padding: 4px 8px;
+        height: 38px;
     }
 
     header h1 {

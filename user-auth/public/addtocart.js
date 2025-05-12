@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         document.getElementById("cart-message").textContent = "";
-        document.getElementById("go-to-store").style.display = "block";
 
     } catch (error) {
         console.error("❌ Error loading cart:", error);

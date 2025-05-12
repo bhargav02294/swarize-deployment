@@ -77,28 +77,7 @@ h1 {
   background-color: darkred;
 }
 
-/* Continue Shopping Button */
-#go-to-store {
-  display: inline-block;
-  position: fixed;
-  top: 90px;
-  right: 30px;
-  padding: 14px 24px;
-  background: #4A403A;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: background 0.3s ease-in-out;
-  z-index: 1000;
-}
 
-#go-to-store:hover {
-  background: #520101;
-}
 
 /* Navbar */
 .navbar {

@@ -249,10 +249,10 @@ header h1, header h2 {
 
     .search-container {
       position: static;
-      margin-left: 180px;
+      margin-left: 200px;
       margin-top: -85px;
       height: 30px;
-      width: 170px;
+      width: 200px;
       display: flex;
       align-items: center;
       background: #fff;

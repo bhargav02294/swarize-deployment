@@ -301,8 +301,12 @@ header h1, header h2 {
 
     .menu-item,
     .dropdown-button {
-        font-size: 0;
+        font-size: 18px;
         position: relative;
+                font-family: "Font Awesome 5 Free";
+
+                font-weight: 900;
+
     }
     
     .menu-item::before,

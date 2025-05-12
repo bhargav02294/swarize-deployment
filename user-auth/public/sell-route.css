@@ -26,11 +26,12 @@ body {
 
 
 
+
 .diagram-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .step {
@@ -221,7 +222,7 @@ body {
   /* -------------------- Mobile View Responsive Styles -------------------- */
 @media (max-width: 768px) {
   .diagram-container {
-    margin-top: 20px;
+    margin-top: 50px;
   }
 
   .step {
@@ -287,10 +288,10 @@ body {
   }
 
   .back-button {
-    top: 80px;
+    top: 95px;
     left: 10px;
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
   }
 
   .back-button:before,

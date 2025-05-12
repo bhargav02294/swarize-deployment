@@ -331,9 +331,6 @@ p strong {
     transition: background 0.3s;
   }
 
-  button:hover {
-    background-color: #A95A3D;
-  }
 
   /* Adjust logo and layout stacking */
   .navbar-container,

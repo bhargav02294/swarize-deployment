@@ -15,7 +15,7 @@ body, html {
 header {
     background-color: #8C4A32;
     padding: 6px 10px;
-    height: 35px;
+    height: 38px;
     text-align: center;
 }
 
@@ -70,8 +70,8 @@ header h1, header h2 {
 }
 
 .logo-container {
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
     background-color: #8C4A32;
     border-radius: 50%;
     display: flex;
@@ -80,14 +80,14 @@ header h1, header h2 {
 }
 
 .logo-text {
-    font-size: 28px;
+    font-size: 31px;
     font-weight: bold;
     color: #F4D1AE;
     font-family: 'Times New Roman';
 }
 
 .brand-name {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
     color: #8C4A32;
     font-family: 'Times New Roman';

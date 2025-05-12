@@ -286,6 +286,23 @@ body {
     height: 56px;
   }
 
+  .back-button:before,
+  .back-button:after {
+    inset: 6px;
+    border-width: 3px;
+  }
+
+  .button-box {
+    top: 0;
+    left: 0;
+  }
+
+  .button-elem {
+    width: 16px;
+    height: 16px;
+    margin: 15px;
+  }
+
   .button-box {
     transform: scale(0.8);
   }

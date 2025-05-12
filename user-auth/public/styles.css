@@ -147,7 +147,7 @@ header h1, header h2 {
 .dropdown-button {
     color: #4A403A;
     font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    font-weight: 800;
     text-decoration: none;
     background: none;
     border: none;
@@ -252,7 +252,7 @@ header h1, header h2 {
       margin-left: 200px;
       margin-top: -85px;
       height: 30px;
-      width: 200px;
+      width: 190px;
       display: flex;
       align-items: center;
       background: #fff;
@@ -301,10 +301,8 @@ header h1, header h2 {
 
     .menu-item,
     .dropdown-button {
-        font-size: 18px;
+        font-size: 0;
         position: relative;
-               
-
     }
     
     .menu-item::before,

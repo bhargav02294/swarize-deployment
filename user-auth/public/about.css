@@ -265,6 +265,7 @@ p strong {
   .container {
     width: 90%;
     margin: 20px auto;
+    top: 60px;
     padding: 20px;
     border-radius: 10px;
   }

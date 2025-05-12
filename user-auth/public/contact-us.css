@@ -312,6 +312,7 @@ body {
  .container {
     width: 92%;
     margin: 20px auto;
+    top: 60px;
     padding: 15px;
     border-radius: 8px;
   }

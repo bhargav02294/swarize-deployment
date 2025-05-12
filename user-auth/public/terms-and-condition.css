@@ -301,6 +301,17 @@ ul {
     height: 18px;
   }
 
+
+   .container {
+    width: 95%;
+    padding: 15px;
+    margin: 10px auto;
+    box-shadow: none;
+    top: 60px;
+    border-radius: 5px;
+  }
+
+  
  h1 {
     font-size: 22px;
     text-align: center;

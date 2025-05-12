@@ -7,6 +7,14 @@ body {
     color: #333;
 }
 
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
 /* Header Styling */
 header {
     background-color: #8C4A32;
@@ -235,18 +243,61 @@ th {
 
 
 
-  @media (max-width: 768px) {
-    table {
-        font-size: 14px;
-    }
-}
 
-@media (max-width: 480px) {
-    table {
-        font-size: 12px;
-    }
+/* Responsive Adjustments for all pages */
+@media (max-width: 768px) {
 
-    th, td {
-        padding: 8px;
-    }
+  /* Navbar adjustments */
+ /* Navbar */
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
+  }
+
+  .logo-text {
+    font-size: 30px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+ 
+
+  /* Footer adjustments */
+  .footer {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Back button positioning */
+  .back-button {
+    top: 80px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .button-elem {
+    margin: 15px 15px 0 15px;
+    width: 18px;
+    height: 18px;
+  }
+
+
+
+
 }

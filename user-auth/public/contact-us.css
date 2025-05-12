@@ -6,7 +6,13 @@ body {
     text-align: center;
 }
 
-
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
 
 /* Contact Section */
@@ -247,32 +253,62 @@ body {
   }
   
 
-  @media (max-width: 1024px) {
-    .contact-form {
-        width: 90%;
-        padding: 15px;
-    }
-}
+ 
 
+/* Responsive Adjustments for all pages */
 @media (max-width: 768px) {
-    .contact-form {
-        width: 95%;
-        padding: 10px;
-    }
 
-    input,
-    textarea {
-        font-size: 14px;
-    }
-}
+  /* Navbar adjustments */
+ /* Navbar */
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    align-items: flex-start;
+  }
 
-@media (max-width: 480px) {
-    .contact-form {
-        width: 100%;
-        padding: 8px;
-    }
+  .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
+  }
 
-    h2 {
-        font-size: 18px;
-    }
+  .logo-text {
+    font-size: 30px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+ 
+
+  /* Footer adjustments */
+  .footer {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Back button positioning */
+  .back-button {
+    top: 80px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .button-elem {
+    margin: 15px 15px 0 15px;
+    width: 18px;
+    height: 18px;
+  }
+
+
+
+
 }

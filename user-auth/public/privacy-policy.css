@@ -228,100 +228,61 @@ footer {
 
   /* Responsive Adjustments for all pages */
 
-/* Mobile & Tablet View (Up to 1024px) */
-@media (max-width: 1024px) {
-  .navbar, .footer {
-      width: 100%;
-      padding: 15px;
-  }
-  .navbar-container, .footer {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-  }
-  
-  main, .container, .product-container, .terms-container {
-      width: 90%;
-      padding: 20px;
-  }
-  
-  .product-image-section, .diagram-container, .review-section {
-      flex-direction: column;
-      align-items: center;
-  }
-  
-  .step, .faq, .sell-button {
-      width: 80%;
-  }
-}
 
-/* Mobile View (Up to 768px) */
+/* Responsive Adjustments for all pages */
 @media (max-width: 768px) {
-  .navbar-container {
-      flex-direction: column;
-      text-align: center;
+
+  /* Navbar adjustments */
+ /* Navbar */
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    align-items: flex-start;
   }
+
+  .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
+  }
+
+  .logo-text {
+    font-size: 30px;
+  }
+
   .navbar-title {
-      font-size: 24px;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
   }
+
+ 
+
+  /* Footer adjustments */
   .footer {
-      padding: 10px;
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
   }
-  
-  main, .container, .product-container, .terms-container {
-      width: 95%;
-      padding: 15px;
-  }
-  
-  .product-image-section, .review-section, .diagram-container {
-      flex-direction: column;
-      align-items: center;
-  }
-  
-  .step, .faq, .sell-button {
-      width: 90%;
-  }
-}
 
-/* Small Mobile View (Up to 480px) */
-@media (max-width: 480px) {
-  .navbar-title {
-      font-size: 20px;
+  /* Back button positioning */
+  .back-button {
+    top: 80px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
   }
-  main, .container, .product-container, .terms-container {
-      width: 100%;
-      padding: 10px;
-  }
-  
-  .product-image-section, .review-section, .diagram-container {
-      flex-direction: column;
-      align-items: center;
-  }
-  
-  .step, .faq, .sell-button {
-      width: 100%;
-      padding: 15px;
-  }
-  
-  .faq-question, .faq-answer {
-      font-size: 14px;
-      padding: 10px;
-  }
-  
-  .product-info, .review-section {
-      max-width: 100%;
-      text-align: center;
-  }
-  
-  #preview-thumbnail {
-      width: 100%;
-      height: auto;
-  }
-  
-  .action-buttons {
-      flex-direction: column;
-      gap: 10px;
-  }
-}
 
-  
+  .button-elem {
+    margin: 15px 15px 0 15px;
+    width: 18px;
+    height: 18px;
+  }
+
+
+
+
+}

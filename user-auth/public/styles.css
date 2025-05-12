@@ -80,7 +80,7 @@ header h1, header h2 {
 }
 
 .logo-text {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: bold;
     color: #F4D1AE;
     font-family: 'Times New Roman';
@@ -210,7 +210,7 @@ header h1, header h2 {
     .logo-container {
         width: 32px;
         height: 32px;
-        font-size: 20px;
+        font-size: 22px;
         background-color: #8C4A32;
         border-radius: 50%;
         display: flex; /* ✅ flex for centering */
@@ -223,7 +223,7 @@ header h1, header h2 {
     
     .logo-text,
     .brand-name {
-        font-size: 18px;
+        font-size: 20px;
         margin-top: -10px; /* better: remove negative margin */
     }
     

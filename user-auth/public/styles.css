@@ -249,16 +249,16 @@ header h1, header h2 {
 
     .search-container {
       position: static;
-      margin-left: 180px;
+      margin-left: 190px;
       margin-top: -85px;
-      height: 30px;
-      width: 220px;
+      height: 25px;
+      width: 150px;
       display: flex;
       align-items: center;
       background: #fff;
       border: 1px solid #4A403A;
       border-radius: 30px;
-      padding: 3px 5px;
+      padding: 3px 3px;
   }
 
   #search-input {

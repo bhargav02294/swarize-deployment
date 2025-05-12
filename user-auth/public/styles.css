@@ -223,7 +223,7 @@ header h1, header h2 {
 }
 
 .brand-name {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: #8C4A32;
     font-family: 'Times New Roman';
@@ -240,8 +240,8 @@ header h1, header h2 {
 
     .search-container {
         position: static;
-        margin-left: 170px;
-        margin-top: -70px;
+        margin-left: 200px;
+        margin-top: -60px;
         height: 30px;
         width: 120px;
         display: flex;
@@ -268,7 +268,7 @@ header h1, header h2 {
 
         position: static;
         flex-direction: row;
-        margin-top: -70px;
+        margin-top: -60px;
         margin-right: 20px;
         justify-content: flex-end;
         align-items: center;

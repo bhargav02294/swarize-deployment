@@ -219,33 +219,30 @@ ul li {
 @media (max-width: 768px) {
 
   /* Navbar adjustments */
+ /* Navbar */
   .navbar {
     flex-direction: column;
-    align-items: flex-start;
+    width: 100%;
     height: auto;
-    width: 100%;
     padding: 10px;
-  }
-
-  .navbar-container {
-    flex-direction: column;
     align-items: flex-start;
-    width: 100%;
-  }
-
-  .navbar-title {
-    font-size: 24px;
-    text-align: left;
-    margin-top: 10px;
   }
 
   .logo-container {
     width: 45px;
     height: 45px;
+    margin-left: 0;
   }
 
   .logo-text {
-    font-size: 34px;
+    font-size: 30px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
   }
 
   /* Main content adjustments */

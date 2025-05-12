@@ -306,16 +306,16 @@ th {
 
   /* Headings */
   header h1 {
-    font-size: 16px;
+    font-size: 10px;
     padding: 10px;
   }
 
   h2 {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   h3 {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 10px;
   }
 
@@ -335,7 +335,7 @@ th {
 
   /* Tables */
   table, th, td {
-    font-size: 13px;
+    font-size: 11px;
     padding: 8px;
   }
 

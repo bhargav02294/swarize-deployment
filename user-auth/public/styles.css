@@ -200,32 +200,34 @@ header h1, header h2 {
 
     /* Row 1: Logo + Brand Name */
     .container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 8px;
-    }
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    .logo-container {
-        width: 32px;
-        height: 32px;
-        font-size: 22px;
-        background-color: #8C4A32;
-        border-radius: 50%;
-        display: flex; /* ✅ flex for centering */
-        align-items: center; /* ✅ vertical centering */
-        justify-content: center; /* ✅ horizontal centering */
-        color: white; /* optional: text visible on dark background */
-        font-weight: bold;
-        margin-top: -10px;
-    }
-    
-    .logo-text,
-    .brand-name {
-        font-size: 20px;
-        margin-top: -10px; /* better: remove negative margin */
-    }
+.logo-container {
+    width: 40px;
+    height: 40px;
+    background-color: #8C4A32;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: bold;
+    color: #F4D1AE;
+    font-family: 'Times New Roman';
+}
+
+.brand-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #8C4A32;
+    font-family: 'Times New Roman';
+}
     
 
     /* Row 2: Search + Menu */

@@ -1006,13 +1006,24 @@ header h1, header h2 {
     padding-left: 10px;
 }
 
-/* Products Layout (3 Products Per Category) */
+/* Product grid within category */
 .category-products {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
+/* Individual Product Card */
+.product-card {
+  background: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  width: 32%;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
 .product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);

@@ -111,7 +111,7 @@ body {
 .navbar {
     background-color: #F4D1AE;
     display: flex;
-    width: 1470px;
+    width: 1520px;
     align-items: center;
     justify-content: space-between;
     padding: 15px;
@@ -240,7 +240,8 @@ body {
   /* Responsive Styling */
 
 
-/* -------------------- Mobile View Styling -------------------- */
+
+  /* -------------------- Mobile View Styling -------------------- */
 @media (max-width: 768px) {
   body {
     font-size: 14px;

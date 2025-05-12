@@ -278,24 +278,101 @@ table th {
   }
   
 
-  @media (max-width: 768px) {
-    .benefit-box {
-        width: 90%;
-    }
+ /* Responsive Adjustments for all pages */
+@media (max-width: 768px) {
 
-    .how-to-sell ol {
-        max-width: 100%;
-    }
+  /* Navbar adjustments */
+ /* Navbar */
+  .navbar {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
+  }
+
+  .logo-text {
+    font-size: 30px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 8px;
+    width: 100%;
+  }
+
+ 
+
+  /* Footer adjustments */
+  .footer {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Back button positioning */
+  .back-button {
+    top: 80px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .button-elem {
+    margin: 15px 15px 0 15px;
+    width: 18px;
+    height: 18px;
+  }
+
+ body {
+    padding: 0 10px;
+  }
+
+  main {
+    margin: 20px 0;
+    padding: 15px 10px;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .intro,
+  .benefits,
+  .seller-profit,
+  .how-to-sell {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .benefit-box,
+  .seller-profit ul li,
+  .how-to-sell li {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .sell-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  table {
+    font-size: 13px;
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+
+
 }
 
-@media (max-width: 480px) {
-    .benefit-box {
-        width: 100%;
-        padding: 10px;
-    }
-
-    .sell-button {
-        font-size: 14px;
-        padding: 8px;
-    }
-}

@@ -244,5 +244,37 @@ h2 {
 
 
 
+  /* FAQ Container */
+  .faq-container {
+    width: 95%;
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 8px;
+  }
+
+  h2 {
+    font-size: 18px;
+    padding-bottom: 4px;
+    margin-top: 15px;
+  }
+
+  .faq-item h3 {
+    font-size: 16px;
+  }
+
+  .faq-item p {
+    font-size: 14px;
+  }
+  /* Reduce padding in benefit or box items if reused */
+  .benefit-box {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .agreement {
+    font-size: 14px;
+  }
+
+
 
 }

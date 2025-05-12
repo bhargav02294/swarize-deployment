@@ -283,6 +283,57 @@ footer {
   }
 
 
+/* Main Container */
+  .container {
+    width: 92%;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+  }
 
+  /* Section Headings */
+  h2 {
+    font-size: 18px;
+    padding-left: 8px;
+    border-left-width: 4px;
+    margin-bottom: 8px;
+  }
+
+  /* Lists */
+  ul {
+    padding-left: 18px;
+  }
+
+  ul li {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  /* Paragraph Text */
+  section p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Links */
+  a {
+    font-size: 14px;
+  }
+
+  /* Table */
+  table {
+    font-size: 13px;
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  th {
+    font-size: 14px;
+  }
 
 }

@@ -309,6 +309,45 @@ body {
   }
 
 
+ .container {
+    width: 92%;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 8px;
+  }
 
+  .container h2 {
+    font-size: 20px;
+  }
+
+  .container p {
+    font-size: 14px;
+  }
+
+  /* Contact Form */
+  #contactForm {
+    gap: 12px;
+  }
+
+  #contactForm label {
+    font-size: 14px;
+  }
+
+  #contactForm input,
+  #contactForm textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  #contactForm textarea {
+    height: 100px;
+  }
+
+  #contactForm button {
+    padding: 10px;
+    font-size: 15px;
+    width: 100%;
+  }
 
 }

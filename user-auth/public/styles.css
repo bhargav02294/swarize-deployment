@@ -94,6 +94,7 @@ header h1, header h2 {
 }
 
 /* ======== Search ======== */
+/* PC View */
 .search-container {
     --timing: 0.3s;
     --border-color: #4A403A;
@@ -110,36 +111,29 @@ header h1, header h2 {
 }
 
 #search-input {
-  flex: 1;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition: border 0.3s;
-}
-
-#search-input:focus {
-  border-color: #ff9100;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    padding: 5px 10px;
+    background: transparent;
 }
 
 #search-button {
-  padding: 10px 14px;
-  font-size: 1.1rem;
-  background-color: #ff9100;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: none;
+    border: none;
+    color: #4A403A;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#search-button:hover {
-  background-color: #ff7300;
+#search-button i {
+    font-size: 16px;
 }
+
 
 /* ======== Menu ======== */
 .menu {
@@ -254,28 +248,43 @@ header h1, header h2 {
     }
 
     .search-container {
-        position: static;
-        margin-left: 180px;
-        margin-top: -85px;
-        height: 30px;
-        width: 170px;
-        display: flex;
-        align-items: center;
-    }
+      position: static;
+      margin-left: 180px;
+      margin-top: -85px;
+      height: 30px;
+      width: 170px;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #4A403A;
+      border-radius: 30px;
+      padding: 3px 8px;
+  }
 
-    #search-input {
-    font-size: 0.95rem;
-    padding: 8px 12px;
+  #search-input {
+      font-size: 10px;
+      padding: 4px 8px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
   }
 
   #search-button {
-    padding: 8px 10px;
-    font-size: 1rem;
-    border-radius: 6px;
+      font-size: 8px;
+      padding: 5px;
+      background-color: #F4D1AE;
+      border: none;
+      color: #520101;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
   }
 
   #search-button i {
-    font-size: 1rem;
+      font-size: 10px;
   }
 
     .menu {

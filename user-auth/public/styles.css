@@ -110,20 +110,35 @@ header h1, header h2 {
 }
 
 #search-input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 14px;
-    padding: 5px 10px;
-    background: transparent;
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+#search-input:focus {
+  border-color: #ff9100;
 }
 
 #search-button {
-    background: none;
-    border: none;
-    color: #4A403A;
-    cursor: pointer;
-    font-size: 16px;
+  padding: 10px 14px;
+  font-size: 1.1rem;
+  background-color: #ff9100;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#search-button:hover {
+  background-color: #ff7300;
 }
 
 /* ======== Menu ======== */
@@ -240,35 +255,35 @@ header h1, header h2 {
 
     .search-container {
         position: static;
-        margin-left: 210px;
-        margin-top: -80px;
+        margin-left: 180px;
+        margin-top: -85px;
         height: 30px;
-        width: 120px;
+        width: 170px;
         display: flex;
         align-items: center;
     }
 
     #search-input {
-        font-size: 10px;
-        padding: 4px 8px;
-        width: 100%;
-    }
+    font-size: 0.95rem;
+    padding: 8px 12px;
+  }
 
-    #search-button {
-        font-size: 8px;
-        padding: 5px;
-        background-color: #F4D1AE;
-        border: 40px;
-        color: #520101;
-        cursor: pointer;
-    }
+  #search-button {
+    padding: 8px 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+  }
+
+  #search-button i {
+    font-size: 1rem;
+  }
 
     .menu {
         display: flex; /* ← Yeh add karo */
 
         position: static;
         flex-direction: row;
-        margin-top: -80px;
+        margin-top: -85px;
         margin-right: 20px;
         justify-content: flex-end;
         align-items: center;

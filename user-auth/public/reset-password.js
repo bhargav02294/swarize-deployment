@@ -17,12 +17,12 @@ document.getElementById("reset-password-form").addEventListener("submit", async 
     const message = document.getElementById("message");
 
     if (!email) {
-        message.textContent = "❌ Error: Email not found. Please restart the password reset process.";
+        message.textContent = " Error: Email not found. Please restart the password reset process.";
         return;
     }
 
     if (newPassword !== confirmPassword) {
-        message.textContent = "❌ Passwords do not match!";
+        message.textContent = " Passwords do not match!";
         return;
     }
 
@@ -38,13 +38,13 @@ document.getElementById("reset-password-form").addEventListener("submit", async 
         if (response.status === 409) {
             message.textContent = result.message;  // ❌ If password matches the old one
         } else if (response.ok) {
-            alert("✅ Password reset successfully! Redirecting to sign-in...");
+            alert(" Password reset successfully! Redirecting to sign-in...");
             window.location.href = "/signin.html";
         } else {
-            throw new Error(result.message || "❌ Failed to reset password.");
+            throw new Error(result.message || " Failed to reset password.");
         }
     } catch (error) {
-        console.error("❌ Error:", error);
+        console.error(" Error:", error);
         message.textContent = error.message;
     }
 });

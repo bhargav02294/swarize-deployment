@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById("error-message").textContent = data.message;
     }
   } catch (err) {
-    console.error("❌ Load store failed:", err);
+    console.error(" Load store failed:", err);
     document.getElementById("error-message").textContent = "Server error";
   }
 });
@@ -115,10 +115,10 @@ async function removeProduct(productId) {
     } else {
       const errorData = await res.json();
       console.error("Delete product failed:", errorData);
-      alert(`❌ Delete failed: ${errorData.error}`);
+      alert(` Delete failed: ${errorData.error}`);
     }
   } catch (error) {
     console.error("Delete product error:", error);
-    alert("❌ Error deleting product");
+    alert(" Error deleting product");
   }
 }

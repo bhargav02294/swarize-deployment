@@ -38,7 +38,7 @@ router.post("/add", isAuthenticated, async (req, res) => {
         res.json({ success: true, message: "Product added to cart" });
 
     } catch (error) {
-        console.error("❌ Error adding to cart:", error);
+        console.error(" Error adding to cart:", error);
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
@@ -66,7 +66,7 @@ router.post("/remove", isAuthenticated, async (req, res) => {
         res.json({ success: true, message: "Product removed from cart" });
 
     } catch (error) {
-        console.error("❌ Error removing from cart:", error);
+        console.error(" Error removing from cart:", error);
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
@@ -92,7 +92,7 @@ router.get("/", isAuthenticated, async (req, res) => {
         res.json({ success: true, cart: cartProducts });
 
     } catch (error) {
-        console.error("❌ Error fetching cart:", error);
+        console.error(" Error fetching cart:", error);
         res.status(500).json({ success: false, message: "Error fetching cart" });
     }
 });

@@ -25,8 +25,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const userData = await userResponse.json();
 
         if (!userResponse.ok || !userData.success || !userData.userId) {
-            console.error("❌ User Session Error:", userData.message);
-            messageBox.textContent = "❌ Please log in before proceeding.";
+            console.error(" User Session Error:", userData.message);
+            messageBox.textContent = " Please log in before proceeding.";
             messageBox.style.color = "red";
             return;
         }
@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const profileData = await profileResponse.json();
 
         if (!profileResponse.ok || !profileData.success) {
-            console.error("❌ Profile Check Failed:", profileData.message);
-            messageBox.innerHTML = `❌ Profile incomplete. Please complete your profile before proceeding.<br>`;
+            console.error(" Profile Check Failed:", profileData.message);
+            messageBox.innerHTML = ` Profile incomplete. Please complete your profile before proceeding.<br>`;
             messageBox.style.color = "red";
 
             const completeProfileBtn = document.createElement("button");
@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const bankData = await bankResponse.json();
 
         if (!bankResponse.ok || !bankData.success) {
-            console.error("❌ Bank Check Failed:", bankData.message);
-            messageBox.innerHTML = `❌ No bank details found. Please add your bank details first.<br>`;
+            console.error(" Bank Check Failed:", bankData.message);
+            messageBox.innerHTML = ` No bank details found. Please add your bank details first.<br>`;
             messageBox.style.color = "red";
 
             addBankBtn.classList.remove("hidden");
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               const promoMessage = document.getElementById("promo-message");
   
               if (!promoCode) {
-                  promoMessage.textContent = "❌ Please enter a promo code.";
+                  promoMessage.textContent = " Please enter a promo code.";
                   promoMessage.style.color = "red";
                   return;
               }
@@ -93,10 +93,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                   });
   
                   const promoData = await promoResponse.json();
-                  console.log("🎟️ Promo Code Response:", promoData);
+                  console.log(" Promo Code Response:", promoData);
   
                   if (!promoData.success) {
-                      promoMessage.textContent = `❌ ${promoData.message}`;
+                      promoMessage.textContent = ` ${promoData.message}`;
                       promoMessage.style.color = "red";
                       return;
                   }
@@ -104,12 +104,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                   // ✅ Apply 5% Discount
                   finalPrice = parseFloat(promoData.finalAmount);
                   document.getElementById("final-price").textContent = `₹${finalPrice}`;
-                  promoMessage.textContent = `✅ Promo Code Applied! Discounted Price: ₹${finalPrice}`;
+                  promoMessage.textContent = ` Promo Code Applied! Discounted Price: ₹${finalPrice}`;
                   promoMessage.style.color = "green";
   
               } catch (error) {
-                  console.error("❌ Error verifying promo code:", error);
-                  promoMessage.textContent = "❌ Failed to verify promo code. Please try again.";
+                  console.error(" Error verifying promo code:", error);
+                  promoMessage.textContent = " Failed to verify promo code. Please try again.";
                   promoMessage.style.color = "red";
               }
           });
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ✅ Handle Razorpay Payment on Click
         payNowBtn.addEventListener("click", async () => {
             try {
-                console.log("🛒 Creating Razorpay order...");
+                console.log("Creating Razorpay order...");
                 const orderResponse = await fetch("/api/payment/create-order", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     throw new Error(order.message || "Order creation failed.");
                 }
 
-                console.log("✅ Razorpay Order Created:", order);
+                console.log(" Razorpay Order Created:", order);
 
                 var options = {
                     key: "rzp_live_zWGkMsnbOyIT0L", // ✅ Replace with your Razorpay Live Key  
@@ -141,8 +141,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     description: productName,
                     order_id: order.orderId,
                     handler: async function (response) {
-                        alert("✅ Payment Successful! Recording Order...");
-                        console.log("✅ Razorpay Payment ID:", response.razorpay_payment_id);
+                        alert(" Payment Successful! Recording Order...");
+                        console.log(" Razorpay Payment ID:", response.razorpay_payment_id);
                         const appliedPromoCode = document.getElementById("promo-code")?.value.trim() || null;
 
                         // ✅ Save Order in Database
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         });
 
                         const saveOrderData = await saveOrder.json();
-                        console.log("📦 Order Save Response:", saveOrderData);
+                        console.log(" Order Save Response:", saveOrderData);
 
                         if (!saveOrderData.success) {
                             throw new Error(saveOrderData.message || "Failed to save order.");
@@ -180,15 +180,15 @@ document.addEventListener("DOMContentLoaded", async () => {
                 var rzp = new Razorpay(options);
                 rzp.open();
             } catch (error) {
-                console.error("❌ Error processing payment:", error);
-                messageBox.innerHTML = "❌ Payment processing failed. Please try again.";
+                console.error(" Error processing payment:", error);
+                messageBox.innerHTML = "Payment processing failed. Please try again.";
                 messageBox.style.color = "red";
             }
         });
 
     } catch (error) {
-        console.error("❌ Error checking user session/profile/bank details:", error);
-        messageBox.textContent = "❌ Error checking user information.";
+        console.error(" Error checking user session/profile/bank details:", error);
+        messageBox.textContent = " Error checking user information.";
         messageBox.style.color = "red";
     }
 });

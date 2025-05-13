@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     `).join("");
 
   } catch (err) {
-    console.error("❌ Error fetching stores:", err);
-    storesContainer.innerHTML = `<p>❌ Failed to fetch stores.</p>`;
+    console.error(" Error fetching stores:", err);
+    storesContainer.innerHTML = `<p> Failed to fetch stores.</p>`;
   }
 });

@@ -110,7 +110,7 @@ router.post('/create', upload.single('logo'), async (req, res) => {
     res.status(201).json({ success: true, slug: saved.slug });
 
   } catch (err) {
-    console.error("❌ Store Create Error:", err);
+    console.error(" Store Create Error:", err);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
@@ -166,7 +166,7 @@ router.get('/my-store-slug', async (req, res) => {
 
     res.json({ success: true, slug: store.slug });
   } catch (err) {
-    console.error("❌ Error getting store slug:", err);
+    console.error(" Error getting store slug:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

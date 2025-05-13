@@ -41,7 +41,7 @@ app.use(cors({
 
 // 🔄 Log every incoming route (for debugging loops/refreshes)
 app.use((req, res, next) => {
-  console.log(`🔄 ${req.method} ${req.originalUrl}`);
+  console.log(` ${req.method} ${req.originalUrl}`);
   next();
 });
 app.set('view engine', 'ejs');
@@ -84,9 +84,9 @@ const razorpay = new Razorpay({
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ MongoDB Connected:", conn.connection.host);
+    console.log(" MongoDB Connected:", conn.connection.host);
   } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error);
+    console.error(" MongoDB Connection Error:", error);
     process.exit(1);
   }
 };
@@ -137,7 +137,7 @@ app.get("/api/test-session", (req, res) => {
 const uploadDir = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
-  console.log("✅ Uploads directory created.");
+  console.log(" Uploads directory created.");
 }
 
 
@@ -239,15 +239,15 @@ app.get("/api/user/session", async (req, res) => {
       const verified = jwt.verify(token, process.env.JWT_SECRET);
       req.session.userId = verified.id;
       await req.session.save();
-      console.log("✅ Session recovered from token!");
+      console.log(" Session recovered from token!");
       return res.json({ success: true, userId: verified.id });
     } catch (err) {
-      console.error("❌ Invalid token at /api/user/session");
+      console.error(" Invalid token at /api/user/session");
       return res.status(401).json({ success: false, message: "Invalid session." });
     }
   }
 
-  console.log("❌ No session or token found at /api/user/session");
+  console.log(" No session or token found at /api/user/session");
   return res.status(401).json({ success: false, message: "User not logged in." });
 });
 
@@ -299,11 +299,11 @@ app.post("/api/auth/signup", async (req, res) => {
       req.session.userName = newUser.name;
       req.session.save(err => {
           if (err) {
-              console.error("❌ Error saving session:", err);
+              console.error(" Error saving session:", err);
               return res.status(500).json({ success: false, message: "Session save error." });
           }
 
-          console.log("✅ User created and session started:", newUser);
+          console.log(" User created and session started:", newUser);
           res.status(201).json({
               success: true,
               message: "User created successfully!",
@@ -313,7 +313,7 @@ app.post("/api/auth/signup", async (req, res) => {
       });
 
   } catch (error) {
-      console.error("❌ Error during sign-up:", error);
+      console.error(" Error during sign-up:", error);
       res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
   }
 });
@@ -337,7 +337,7 @@ const transporter = nodemailer.createTransport({
 
 transporter.verify((error, success) => {
   if (error) {
-      console.error("❌ Email Transporter Error:", error);
+      console.error(" Email Transporter Error:", error);
   } else {
       console.log(" Email Transporter Ready!");
   }
@@ -374,9 +374,9 @@ app.post("/api/send-otp", async (req, res) => {
 
 
 
-console.log("✅ Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
-console.log("✅ MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
-console.log("✅ Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
+console.log(" Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
+console.log(" MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
+console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
 
 
 
@@ -421,22 +421,22 @@ app.post("/api/auth/reset-password", async (req, res) => {
       const user = await User.findOne({ email: email.trim() });
 
       if (!user) {
-          return res.status(404).json({ message: "❌ User not found." });
+          return res.status(404).json({ message: " User not found." });
       }
 
       const isSamePassword = await bcrypt.compare(newPassword, user.password);
       if (isSamePassword) {
-          return res.status(409).json({ message: "❌ New password cannot be the same as the old password." });
+          return res.status(409).json({ message: " New password cannot be the same as the old password." });
       }
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
       await user.save();
 
-      res.status(200).json({ message: "✅ Password reset successfully!" });
+      res.status(200).json({ message: " Password reset successfully!" });
   } catch (error) {
-      console.error("❌ Error resetting password:", error);
-      res.status(500).json({ message: "❌ Failed to reset password. Please try again." });
+      console.error(" Error resetting password:", error);
+      res.status(500).json({ message: " Failed to reset password. Please try again." });
   }
 });
 
@@ -528,13 +528,13 @@ app.post("/api/auth/signin", async (req, res) => {
   try {
       const user = await User.findOne({ email: req.body.email.trim() });
       if (!user) {
-          console.log("❌ User Not Found:", req.body.email);
+          console.log(" User Not Found:", req.body.email);
           return res.status(400).json({ success: false, message: "Invalid email or password." });
       }
 
       const isMatch = await bcrypt.compare(req.body.password, user.password);
       if (!isMatch) {
-          console.log("❌ Invalid Password for:", req.body.email);
+          console.log(" Invalid Password for:", req.body.email);
           return res.status(400).json({ success: false, message: "Invalid email or password." });
       }
 
@@ -547,11 +547,11 @@ app.post("/api/auth/signin", async (req, res) => {
           // ✅ Force session save to prevent loss
           req.session.save((err) => {
               if (err) {
-                  console.error("❌ Error saving session:", err);
+                  console.error(" Error saving session:", err);
                   return res.status(500).json({ success: false, message: "Session save error." });
               }
 
-              console.log("✅ User Logged In:", { userId: req.session.userId, userName: req.session.userName });
+              console.log(" User Logged In:", { userId: req.session.userId, userName: req.session.userName });
               res.cookie("token", jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" }), {
                   httpOnly: true,
                   secure: true,
@@ -564,7 +564,7 @@ app.post("/api/auth/signin", async (req, res) => {
       });
 
   } catch (error) {
-      console.error("❌ Error during sign-in:", error);
+      console.error(" Error during sign-in:", error);
       res.status(500).json({ success: false, message: "Something went wrong. Please try again." });
   }
 });
@@ -574,9 +574,9 @@ app.post("/api/auth/signin", async (req, res) => {
 
 // ✅ Check if User is Logged In
 app.get("/api/auth/is-logged-in", (req, res) => {
-    console.log("🔍 Checking if user is logged in...");
-    console.log("🔹 Session Data:", req.session);
-    console.log("🔹 Cookies:", req.cookies);
+    console.log(" Checking if user is logged in...");
+    console.log(" Session Data:", req.session);
+    console.log(" Cookies:", req.cookies);
 
     if (req.session && req.session.userId) {
         return res.json({ isLoggedIn: true, userId: req.session.userId, userName: req.session.userName || "User" });
@@ -591,7 +591,7 @@ app.get("/api/auth/is-logged-in", (req, res) => {
             req.session.save();
             return res.json({ isLoggedIn: true, userId: verified.id, userName: req.session.userName || "User" });
         } catch (err) {
-            console.log("❌ Invalid or Expired Token.");
+            console.log(" Invalid or Expired Token.");
             return res.json({ isLoggedIn: false });
         }
     }
@@ -619,17 +619,17 @@ app.get("/profile", (req, res) => {
 app.get("/api/auth/logout", (req, res) => {
   req.session.destroy(err => {
       if (err) {
-          console.error("❌ Error destroying session:", err);
+          console.error(" Error destroying session:", err);
           return res.status(500).json({ success: false, message: "Logout failed" });
       }
 
-      console.log("✅ Session destroyed successfully");
+      console.log(" Session destroyed successfully");
 
       // ✅ Correctly clear cookies
       res.clearCookie("token", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
       res.clearCookie("connect.sid", { path: "/", domain: "swarize.in", httpOnly: true, secure: true, sameSite: "None" });
 
-      console.log("✅ Cookies cleared");
+      console.log(" Cookies cleared");
 
       // ✅ Redirect to homepage after logout
       return res.redirect("https://swarize.in");
@@ -739,7 +739,7 @@ app.get("/api/user/check-profile", async (req, res) => {
 
       res.json({ success: true, message: "Profile is complete." });
   } catch (error) {
-      console.error("❌ Error checking user profile:", error);
+      console.error(" Error checking user profile:", error);
       res.status(500).json({ success: false, message: "Server error. Please try again." });
   }
 });
@@ -1076,7 +1076,7 @@ app.get("/api/products", async (req, res) => {
       const products = await Product.find({});
       res.json({ success: true, products });
   } catch (error) {
-      console.error("❌ Error fetching products:", error);
+      console.error(" Error fetching products:", error);
       res.status(500).json({ success: false, message: "Error fetching products" });
   }
 });
@@ -1104,7 +1104,7 @@ app.get("/api/bank/check", isAuthenticated, async (req, res) => {
           return res.json({ success: false });
       }
   } catch (error) {
-      console.error("❌ Error checking bank details:", error);
+      console.error(" Error checking bank details:", error);
       res.status(500).json({ success: false, message: "Error checking bank details." });
   }
 });
@@ -1139,7 +1139,7 @@ app.post("/api/payment/create-order", async (req, res) => {
       res.json({ success: true, orderId: order.id, amount: order.amount });
 
   } catch (error) {
-      console.error("❌ Razorpay Order Error:", error);
+      console.error(" Razorpay Order Error:", error);
       res.status(500).json({ success: false, message: "Payment order creation failed." });
   }
 });
@@ -1160,21 +1160,21 @@ app.post("/api/orders/create", async (req, res) => {
       const buyerBank = await BankDetail.findOne({ userId: buyerId });
       let sellerBank = seller ? await BankDetail.findOne({ userId: seller._id }).lean() : null;
 
-      console.log("🔍 Seller Bank Found:", sellerBank);
-      console.log("✅ Buyer:", buyer);
-      console.log("✅ Product:", product);
-      console.log("✅ Seller:", seller);
-      console.log("✅ Store:", store);
-      console.log("✅ Buyer Bank:", buyerBank);
+      console.log(" Seller Bank Found:", sellerBank);
+      console.log(" Buyer:", buyer);
+      console.log(" Product:", product);
+      console.log(" Seller:", seller);
+      console.log(" Store:", store);
+      console.log(" Buyer Bank:", buyerBank);
 
       // ✅ Check if any required data is missing
       if (!buyer || !product || !seller || !buyerBank) {
-          console.log("❌ Invalid transaction details: Some data is missing");
+          console.log(" Invalid transaction details: Some data is missing");
           return res.status(400).json({ success: false, message: "❌ Invalid transaction details." });
       }
 
       if (!sellerBank) {
-        console.warn("⚠️ Warning: Seller Bank details missing. Proceeding with default values...");
+        console.warn(" Warning: Seller Bank details missing. Proceeding with default values...");
         sellerBank = {
             bankName: "Not Provided",
             accountHolder: "Not Provided",
@@ -1183,9 +1183,9 @@ app.post("/api/orders/create", async (req, res) => {
         };
       }
 
-      // ✅ Validate store before saving anything
+      //  Validate store before saving anything
       if (!store) {
-          console.error("❌ Error: Seller's store not found!");
+          console.error(" Error: Seller's store not found!");
           return res.status(400).json({ success: false, message: "Seller's store not found." });
       }
 
@@ -1259,7 +1259,7 @@ app.post("/api/orders/create", async (req, res) => {
 
       });
 
-      console.log("🛒 Sale Data Being Saved:", newSale);
+      console.log(" Sale Data Being Saved:", newSale);
       await newSale.save();
 
       console.log(" Order & Sale Recorded Successfully!");
@@ -1275,7 +1275,7 @@ app.post("/api/orders/create", async (req, res) => {
         if (expiredPromo) {
             console.log(" Promo Code Expired:", expiredPromo.code);
         } else {
-            console.warn("⚠️ Promo Code was already used or not found.");
+            console.warn(" Promo Code was already used or not found.");
         }
     }
 
@@ -1305,12 +1305,12 @@ app.post("/api/orders/create", async (req, res) => {
         console.log("Existing promo code found:", existingPromo.code);
     }
 
-    res.json({ success: true, message: "✅ Order & Promo Code Sent Successfully!" });
+    res.json({ success: true, message: " Order & Promo Code Sent Successfully!" });
 
 
   } catch (error) {
-      console.error("❌ Error saving order:", error);
-      res.status(500).json({ success: false, message: "❌ Failed to save order." });
+      console.error(" Error saving order:", error);
+      res.status(500).json({ success: false, message: " Failed to save order." });
   }
 });
 
@@ -1326,7 +1326,7 @@ app.get("/api/orders/buyer", async (req, res) => {
   try {
       const buyerId = req.session.userId;
       if (!buyerId) {
-          console.log("❌ No buyerId found in session");
+          console.log(" No buyerId found in session");
           return res.status(401).json({ success: false, message: "Unauthorized" });
       }
 
@@ -1338,7 +1338,7 @@ app.get("/api/orders/buyer", async (req, res) => {
 
       res.json({ success: true, orders });
   } catch (error) {
-      console.error("❌ Error fetching buyer orders:", error);
+      console.error(" Error fetching buyer orders:", error);
       res.status(500).json({ success: false, message: "Server error!" });
   }
 });
@@ -1351,11 +1351,11 @@ app.get("/api/orders/seller", async (req, res) => {
   try {
     const sellerId = req.session.userId;
     if (!sellerId) {
-      console.log("❌ No sellerId found in session");
+      console.log(" No sellerId found in session");
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
-    console.log("🔍 Fetching Sales for Seller ID:", sellerId);
+    console.log(" Fetching Sales for Seller ID:", sellerId);
     const sales = await Sale.find({ sellerId }).sort({ createdAt: -1 });
 
     if (!sales.length) {
@@ -1381,7 +1381,7 @@ app.get("/api/orders/seller", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error("❌ Error fetching seller sales:", error);
+    console.error(" Error fetching seller sales:", error);
     res.status(500).json({ success: false, message: "Server error!" });
   }
 });
@@ -1413,7 +1413,7 @@ app.post("/api/promocode/apply", async (req, res) => {
       res.json({ success: true, discount, finalAmount, message: "Promo code applied successfully!" });
 
   } catch (error) {
-      console.error("❌ Error applying promo code:", error);
+      console.error(" Error applying promo code:", error);
       res.status(500).json({ success: false, message: "Server error." });
   }
 });

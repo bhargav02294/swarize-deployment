@@ -106,7 +106,7 @@ async function addToCart(productId) {
         const data = await response.json();
 
         if (data.success) {
-            console.log("✅ Product added to cart");
+            console.log(" Product added to cart");
             window.location.href = `addtocart.html?id=${productId}`;
         } else {
             alert(" Failed to add product to cart: " + data.message);

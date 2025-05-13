@@ -34,7 +34,7 @@ router.post("/save", isAuthenticated, async (req, res) => {
                 return res.status(400).json({ success: false, message: "Invalid IFSC Code: Please check and enter a valid code." });
             }
         } catch (error) {
-            console.error("❌ IFSC API Error:", error.response?.status, error.response?.data);
+            console.error(" IFSC API Error:", error.response?.status, error.response?.data);
 
             if (error.response?.status === 404) {
                 return res.status(400).json({ success: false, message: "Invalid IFSC Code: Not found in the database. Try a different one." });
@@ -60,10 +60,10 @@ router.post("/save", isAuthenticated, async (req, res) => {
         });
 
         await newBankDetail.save();
-        res.json({ success: true, message: "✅ Bank details saved successfully." });
+        res.json({ success: true, message: " Bank details saved successfully." });
 
     } catch (error) {
-        console.error("❌ Error saving bank details:", error);
+        console.error(" Error saving bank details:", error);
         res.status(500).json({ success: false, message: "Server error. Try again later." });
     }
 });

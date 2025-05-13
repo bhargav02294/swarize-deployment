@@ -25,7 +25,7 @@ router.post("/send-otp", async (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000);
         otpStorage.set(email, otp);
 
-        console.log(`✅ OTP for ${email}: ${otp}`);
+        console.log(` OTP for ${email}: ${otp}`);
 
         // ✅ Send OTP Email
         const mailOptions = {
@@ -66,13 +66,13 @@ router.post("/signin", async (req, res) => {
         const user = await User.findOne({ email: req.body.email.trim() });
 
         if (!user) {
-            console.log("❌ User Not Found:", req.body.email);
+            console.log(" User Not Found:", req.body.email);
             return res.status(400).json({ success: false, message: "Invalid email or password." });
         }
 
         const isMatch = await bcrypt.compare(req.body.password, user.password);
         if (!isMatch) {
-            console.log("❌ Invalid Password for:", req.body.email);
+            console.log(" Invalid Password for:", req.body.email);
             return res.status(400).json({ success: false, message: "Invalid email or password." });
         }
 
@@ -84,11 +84,11 @@ router.post("/signin", async (req, res) => {
         req.session.role = user.role;
         req.session.save(err => {
             if (err) {
-                console.error("❌ Error saving session:", err);
+                console.error(" Error saving session:", err);
                 return res.status(500).json({ success: false, message: "Session error." });
             }
 
-            console.log("✅ User logged in:", { userId: req.session.userId, role: req.session.role });
+            console.log(" User logged in:", { userId: req.session.userId, role: req.session.role });
             res.cookie("token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
@@ -100,7 +100,7 @@ router.post("/signin", async (req, res) => {
         });
 
     } catch (error) {
-        console.error("❌ Error during login:", error);
+        console.error(" Error during login:", error);
         res.status(500).json({ success: false, message: "Server error" });
     }
 });
@@ -130,7 +130,7 @@ router.post("/logout", (req, res) => {
             res.json({ success: true, message: "Logout successful" });
         });
     } catch (error) {
-        console.error("❌ Logout error:", error);
+        console.error(" Logout error:", error);
         res.status(500).json({ success: false, message: "Logout error" });
     }
 });

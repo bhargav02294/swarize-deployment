@@ -26,11 +26,11 @@ router.post("/create-order", async (req, res) => {
           payment_capture: 1 
       });
 
-      console.log("✅ Razorpay Order Created:", order);
+      console.log(" Razorpay Order Created:", order);
       res.json({ success: true, orderId: order.id, amount: order.amount });
 
   } catch (error) {
-      console.error("❌ Razorpay Order Error:", error);
+      console.error(" Razorpay Order Error:", error);
       res.status(500).json({ success: false, message: "Payment order creation failed." });
   }
 });

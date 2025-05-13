@@ -153,7 +153,7 @@ if (req.files['extraVideos']) {
       return res.status(201).json({ success: true, message: "Product added successfully" });
 
     } catch (error) {
-      console.error("❌ Product Add Error:", error);
+      console.error(" Product Add Error:", error);
       return res.status(500).json({ success: false, message: error.message });
     }
   }
@@ -172,7 +172,7 @@ router.get('/all', async (req, res) => {
     const products = await Product.find({}).populate('store');
     res.status(200).json(products);
   } catch (error) {
-    console.error('❌ Failed to fetch products:', error);
+    console.error(' Failed to fetch products:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -190,7 +190,7 @@ router.get('/by-store/:slug', async (req, res) => {
     const products = await Product.find({ store: store._id });
     res.json({ success: true, products });
   } catch (err) {
-    console.error("❌ Error fetching products:", err);
+    console.error(" Error fetching products:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
@@ -269,7 +269,7 @@ router.get('/detail/:id', async (req, res) => {
 
     res.json({ success: true, product });
   } catch (err) {
-    console.error("❌ Product detail error:", err);
+    console.error(" Product detail error:", err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
@@ -289,7 +289,7 @@ router.get('/category/:category/:subcategory', async (req, res) => {
 
         res.json({ success: true, products });
     } catch (err) {
-        console.error("❌ Error fetching by category/subcategory:", err);
+        console.error(" Error fetching by category/subcategory:", err);
         res.status(500).json({ success: false, message: "Server error" });
     }
 });

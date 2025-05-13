@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         alert("Failed to remove product.");
                     }
                 } catch (err) {
-                    console.error("❌ Remove error:", err);
+                    console.error(" Remove error:", err);
                     alert("Error removing product.");
                 }
             });
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("cart-message").textContent = "";
 
     } catch (error) {
-        console.error("❌ Error loading cart:", error);
+        console.error(" Error loading cart:", error);
         document.getElementById("cart-message").textContent = "Error loading cart.";
     }
 });

@@ -74,10 +74,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (data.success && data.redirectTo) {
         window.location.href = data.redirectTo;
       } else {
-        alert("❌ Store redirection failed");
+        alert(" Store redirection failed");
       }
     } catch (err) {
-      console.error("❌ Store redirect error:", err);
+      console.error(" Store redirect error:", err);
       alert("Server error");
     }
   });
@@ -101,10 +101,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             const slug = data.store.slug;
             window.location.href = `/sellers-store.html?slug=${slug}`;
         } else {
-            alert("⚠️ You haven't created a store yet.");
+            alert(" You haven't created a store yet.");
         }
     } catch (err) {
-        console.error("❌ Failed to fetch store info", err);
+        console.error("Failed to fetch store info", err);
         alert("Server error");
     }
 });

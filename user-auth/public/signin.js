@@ -6,7 +6,7 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
     const message = document.getElementById("message");
 
     if (!email || !password) {
-        message.textContent = "❌ Please enter both email and password.";
+        message.textContent = " Please enter both email and password.";
         message.style.color = "red";
         return;
     }
@@ -22,15 +22,15 @@ document.getElementById("signinForm").addEventListener("submit", async (event) =
         const data = await response.json();
 
         if (response.ok && data.success) {
-            alert("✅ Login Successful! Redirecting...");
+            alert("Login Successful! Redirecting...");
             window.location.href = "https://swarize.in"; // ✅ Redirect to profile page
         } else {
-            message.textContent = `❌ ${data.message || "Failed to sign in. Please try again."}`;
+            message.textContent = ` ${data.message || "Failed to sign in. Please try again."}`;
             message.style.color = "red";
         }
     } catch (error) {
-        console.error("❌ Error during sign-in:", error);
-        message.textContent = "❌ Something went wrong. Please try again.";
+        console.error("Error during sign-in:", error);
+        message.textContent = " Something went wrong. Please try again.";
         message.style.color = "red";
     }
 });

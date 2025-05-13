@@ -10,7 +10,7 @@ if (data.summary) {
 
 }
 
-        console.log("📦 Sales Response:", data);
+        console.log(" Sales Response:", data);
 
         if (!data.success || data.sales.length === 0) {
             document.getElementById("sales-container").innerHTML = "<h2>No Sales Found.</h2>";
@@ -40,7 +40,7 @@ if (data.summary) {
             salesContainer.appendChild(saleDiv);
         });
     } catch (error) {
-        console.error("❌ Error fetching sales:", error);
+        console.error(" Error fetching sales:", error);
         document.getElementById("sales-container").innerHTML = "<h2>Error loading sales.</h2>";
     }
 });

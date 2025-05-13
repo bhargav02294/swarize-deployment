@@ -10,17 +10,17 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
     const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
 
     if (!emailRegex.test(email)) {
-        alert("❌ Please enter a valid email address.");
+        alert(" Please enter a valid email address.");
         return;
     }
 
     if (!passwordRegex.test(password)) {
-        alert("❌ Password must be at least 6 characters long, with at least one numeric character and one symbol.");
+        alert(" Password must be at least 6 characters long, with at least one numeric character and one symbol.");
         return;
     }
 
     if (country.toLowerCase() !== "india") {
-        alert("❌ This platform is only available for users in India.");
+        alert(" This platform is only available for users in India.");
         return;
     }
 
@@ -43,16 +43,16 @@ document.getElementById("signup-form").addEventListener("submit", async (event) 
         const data = await response.json();
 
         if (response.ok && data.success) {
-            alert("✅ Signup successful! Redirecting to OTP verification...");
+            alert(" Signup successful! Redirecting to OTP verification...");
             localStorage.setItem("signupEmail", email);
             window.location.href = data.redirect; // ✅ Use the redirect from the backend
         }
         else {
-            alert(`❌ ${data.message || "Error registering user. Please try again."}`);
+            alert(` ${data.message || "Error registering user. Please try again."}`);
         }
     } catch (error) {
-        console.error("❌ Error:", error);
-        alert("❌ Something went wrong. Please try again later.");
+        console.error(" Error:", error);
+        alert(" Something went wrong. Please try again later.");
     }
 });
 

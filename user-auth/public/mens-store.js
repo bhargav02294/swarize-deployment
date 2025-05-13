@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       })
       .catch(err => {
-        console.error('❌ Error loading products:', err);
+        console.error(' Error loading products:', err);
         productContainer.innerHTML = '<p>Error loading products.</p>';
       });
   });
@@ -54,10 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (json.success) {
         window.location.href = `addtocart.html?id=${id}`;
       } else {
-        alert('❌ Failed to add to cart: ' + json.message);
+        alert(' Failed to add to cart: ' + json.message);
       }
     } catch (e) {
-      console.error('❌ Error adding to cart:', e);
+      console.error(' Error adding to cart:', e);
       alert('Error adding to cart.');
     }
   }

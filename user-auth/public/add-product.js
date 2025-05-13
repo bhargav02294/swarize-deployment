@@ -297,7 +297,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   if (thumbnail) {
       formData.append('thumbnailImage', thumbnail);
   } else {
-      messageElement.textContent = "❌ Thumbnail image is required.";
+      messageElement.textContent = " Thumbnail image is required.";
       messageElement.style.color = "red";
       return;
   }
@@ -338,7 +338,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       const result = await response.json();
 
       if (response.ok && result.success) {
-          messageElement.textContent = "✅ Product added successfully!";
+          messageElement.textContent = " Product added successfully!";
           messageElement.style.color = "green";
 
           // Redirect after success
@@ -347,13 +347,13 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
               window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
           }, 2000);
       } else {
-          messageElement.textContent = result.message || "❌ Failed to add product.";
+          messageElement.textContent = result.message || " Failed to add product.";
           messageElement.style.color = "red";
       }
 
   } catch (error) {
       console.error("Error adding product:", error);
-      messageElement.textContent = "❌ Error adding product.";
+      messageElement.textContent = " Error adding product.";
       messageElement.style.color = "red";
   }
 });

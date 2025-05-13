@@ -31,7 +31,7 @@ router.post("/add", async (req, res) => {
         res.json({ success: true, message: "Review added successfully!" });
 
     } catch (error) {
-        console.error("❌ Error adding review:", error);
+        console.error(" Error adding review:", error);
         res.status(500).json({ success: false, message: "Server error." });
     }
 });
@@ -51,7 +51,7 @@ router.get("/:productId", async (req, res) => {
         res.json({ success: true, reviews, avgRating });
 
     } catch (error) {
-        console.error("❌ Error fetching reviews:", error);
+        console.error(" Error fetching reviews:", error);
         res.status(500).json({ success: false, message: "Server error." });
     }
 });

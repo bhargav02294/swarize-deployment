@@ -23,10 +23,10 @@ document.querySelector('form').addEventListener('submit', async (e) => {
       localStorage.setItem("storeSlug", result.slug);
       location.href = `/store.html?slug=${result.slug}`;
     } else {
-      alert(result.message || "❌ Failed to create store");
+      alert(result.message || " Failed to create store");
     }
   } catch (err) {
-    console.error("❌ Store create error:", err);
+    console.error(" Store create error:", err);
     alert("Something went wrong");
   }
 });

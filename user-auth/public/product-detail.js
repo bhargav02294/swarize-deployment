@@ -127,10 +127,10 @@ if (addToCartBtn) {
             if (data.success) {
                 window.location.href = `addtocart.html?id=${productId}`;
             } else {
-                alert("❌ " + data.message);
+                alert(" " + data.message);
             }
         } catch (err) {
-            alert("❌ Error adding product to cart.");
+            alert(" Error adding product to cart.");
         }
     });
 }
@@ -175,7 +175,7 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
     
     
     catch (err) {
-        console.error("❌ Error fetching product:", err);
+        console.error(" Error fetching product:", err);
         document.body.innerHTML = "<h2>Error loading product details.</h2>";
     }
 
@@ -215,7 +215,7 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
             const avgRating = Math.round(data.avgRating);
             ratingCount.innerHTML = `${"★".repeat(avgRating)}${"☆".repeat(5 - avgRating)} (${data.reviews.length} Reviews)`;
         } catch (error) {
-            console.error("❌ Error fetching reviews:", error);
+            console.error(" Error fetching reviews:", error);
         }
     }
 
@@ -228,7 +228,7 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
 
             if (!rating || isNaN(rating) || rating < 1 || rating > 5 || !comment) {
                 if (reviewMessage) {
-                    reviewMessage.textContent = "❌ Please provide a valid rating (1-5) and a comment.";
+                    reviewMessage.textContent = " Please provide a valid rating (1-5) and a comment.";
                     reviewMessage.style.color = "red";
                 }
                 return;
@@ -240,7 +240,7 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
 
                 if (!userData.success || !userData.userId) {
                     if (reviewMessage) {
-                        reviewMessage.textContent = "❌ You must be logged in to submit a review.";
+                        reviewMessage.textContent = " You must be logged in to submit a review.";
                         reviewMessage.style.color = "red";
                     }
                     return;
@@ -256,20 +256,20 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
 
                 if (data.success) {
                     if (reviewMessage) {
-                        reviewMessage.textContent = "✅ Review submitted successfully!";
+                        reviewMessage.textContent = "Review submitted successfully!";
                         reviewMessage.style.color = "green";
                         document.getElementById("comment").value = "";
                     }
                     fetchReviews();
                 } else {
                     if (reviewMessage) {
-                        reviewMessage.textContent = "❌ Failed to submit review.";
+                        reviewMessage.textContent = " Failed to submit review.";
                         reviewMessage.style.color = "red";
                     }
                 }
             } catch (err) {
                 if (reviewMessage) {
-                    reviewMessage.textContent = "❌ Error submitting review.";
+                    reviewMessage.textContent = " Error submitting review.";
                     reviewMessage.style.color = "red";
                 }
             }

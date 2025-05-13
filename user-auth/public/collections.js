@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const response = await fetch("/api/orders/buyer", { credentials: "include" });
         const data = await response.json();
 
-        console.log("📦 Orders Response:", data);
+        console.log(" Orders Response:", data);
 
         if (!data.success || data.orders.length === 0) {
             document.getElementById("orders-container").innerHTML = "<h2>No Orders Found.</h2>";
@@ -89,14 +89,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                         alert(result.message);
                     }
                 } catch (error) {
-                    console.error("❌ Error marking order as received:", error);
+                    console.error(" Error marking order as received:", error);
                     alert("Error confirming receipt. Please try again.");
                 }
             });
         });
 
     } catch (error) {
-        console.error("❌ Error fetching orders:", error);
+        console.error(" Error fetching orders:", error);
         document.getElementById("orders-container").innerHTML = "<h2>Error loading orders.</h2>";
     }
 });

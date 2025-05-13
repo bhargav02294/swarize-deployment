@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const slug = urlParams.get("slug");
   
     if (!slug) {
-      productsContainer.innerHTML = "<p>❌ No store selected.</p>";
+      productsContainer.innerHTML = "<p> No store selected.</p>";
       return;
     }
   
@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       `).join("");
   
     } catch (err) {
-      console.error("❌ Error fetching products:", err);
-      productsContainer.innerHTML = `<p>❌ Failed to load products.</p>`;
+      console.error(" Error fetching products:", err);
+      productsContainer.innerHTML = `<p> Failed to load products.</p>`;
     }
   });
   

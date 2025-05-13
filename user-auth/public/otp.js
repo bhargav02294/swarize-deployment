@@ -47,11 +47,11 @@ document.getElementById('get-otp').addEventListener('click', async () => {
             alert("✅ OTP sent successfully!");
             startTimer();
         } else {
-            alert("❌ Error sending OTP: " + result.message);
+            alert(" Error sending OTP: " + result.message);
         }
     } catch (error) {
-        console.error("❌ Error:", error);
-        alert("❌ Failed to send OTP. Please try again.");
+        console.error(" Error:", error);
+        alert(" Failed to send OTP. Please try again.");
     }
 });
 
@@ -62,7 +62,7 @@ document.getElementById('resend-otp').addEventListener('click', async () => {
     const email = document.getElementById('otp-email').value.trim();
 
     if (!validateEmail(email)) {
-        alert("❌ Please enter a valid email address.");
+        alert(" Please enter a valid email address.");
         return;
     }
 
@@ -75,14 +75,14 @@ document.getElementById('resend-otp').addEventListener('click', async () => {
 
         const result = await response.json();
         if (result.success) {
-            alert("✅ OTP has been resent to your email!");
+            alert(" OTP has been resent to your email!");
             startTimer();
         } else {
-            alert("❌ Failed to resend OTP: " + result.message);
+            alert(" Failed to resend OTP: " + result.message);
         }
     } catch (error) {
-        console.error("❌ Error:", error);
-        alert("❌ An unexpected error occurred.");
+        console.error(" Error:", error);
+        alert(" An unexpected error occurred.");
     }
 });
 
@@ -106,11 +106,11 @@ document.getElementById('submit-email-otp').addEventListener('click', async () =
                 window.location.href = 'index.html'; // Redirect to homepage after success
             }, 2000);
         } else {
-            alert("❌ Failed to verify OTP.");
+            alert(" Failed to verify OTP.");
         }
     } catch (error) {
-        console.error("❌ Error:", error);
-        alert("❌ An unexpected error occurred.");
+        console.error(" Error:", error);
+        alert(" An unexpected error occurred.");
     }
 });
 

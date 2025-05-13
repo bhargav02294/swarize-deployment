@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
               document.getElementById("bank-details-form").reset(); // Clear form on success
           }
       } catch (error) {
-          console.error("❌ Error saving bank details:", error);
-          messageBox.textContent = "❌ Failed to save bank details.";
+          console.error(" Error saving bank details:", error);
+          messageBox.textContent = " Failed to save bank details.";
           messageBox.style.color = "red";
       }
   });

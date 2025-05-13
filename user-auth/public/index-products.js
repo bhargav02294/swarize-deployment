@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return data.products.reverse().slice(0, 3); // Reverse the order and get the last 3 products
             }
         } catch (error) {
-            console.error(`❌ Error fetching products for ${category}:`, error);
+            console.error(` Error fetching products for ${category}:`, error);
         }
         return [];
     }
@@ -109,11 +109,11 @@ async function addToCart(productId) {
             console.log("✅ Product added to cart");
             window.location.href = `addtocart.html?id=${productId}`;
         } else {
-            alert("❌ Failed to add product to cart: " + data.message);
+            alert(" Failed to add product to cart: " + data.message);
         }
     } catch (error) {
-        console.error("❌ Error adding to cart:", error);
-        alert("❌ Error adding product to cart.");
+        console.error("Error adding to cart:", error);
+        alert(" Error adding product to cart.");
     }
 }
 
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchButton = document.getElementById("search-button");
 
     if (!searchInput || !searchButton) {
-        console.error("🚨 Search input or button not found! Check your HTML.");
+        console.error(" Search input or button not found! Check your HTML.");
         return;
     }
 
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("🔍 Searching for:", query);
 
         if (query === "") {
-            alert("❌ Please enter a search term.");
+            alert("Please enter a search term.");
             return;
         }
 
@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ✅ Step 2: Check if subcategory exists in subcategoryPages
         if (subcategoryPages[normalizedSearchTerm]) {
-            console.log(`✅ Redirecting to: ${subcategoryPages[normalizedSearchTerm]}`);
+            console.log(` Redirecting to: ${subcategoryPages[normalizedSearchTerm]}`);
             window.location.href = subcategoryPages[normalizedSearchTerm];
             return;
         }
@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ✅ Redirect to best match if found
         if (bestMatchPage && bestMatchSubcategory) {
-            console.log(`🔄 Redirecting to related match: ${bestMatchPage}?subcategory=${bestMatchSubcategory}`);
+            console.log(` Redirecting to related match: ${bestMatchPage}?subcategory=${bestMatchSubcategory}`);
             window.location.href = `${bestMatchPage}?subcategory=${bestMatchSubcategory}`;
             return;
         }
@@ -428,12 +428,12 @@ document.addEventListener("DOMContentLoaded", () => {
 //==================     sign in sign up CHECK      ==============================//
 
 document.addEventListener("DOMContentLoaded", function () {
-    console.log("✅ JavaScript loaded!");
+    console.log(" JavaScript loaded!");
 
     // Check if on the signup page
     const signupForm = document.getElementById("signup-form");
     if (signupForm) {
-        console.log("✅ Signup form found. Running signup script.");
+        console.log(" Signup form found. Running signup script.");
         signupForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -442,7 +442,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const password = document.getElementById("signup-password").value.trim();
 
             if (!name || !email || !password) {
-                alert("⚠️ All fields are required!");
+                alert(" All fields are required!");
                 return;
             }
 
@@ -455,14 +455,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const result = await response.json();
                 if (response.ok && result.success) {
-                    alert("✅ Signup successful! Redirecting...");
+                    alert(" Signup successful! Redirecting...");
                     window.location.href = "signin.html";
                 } else {
-                    alert(result.message || "❌ Signup failed. Try again.");
+                    alert(result.message || " Signup failed. Try again.");
                 }
             } catch (error) {
                 console.error("Error during signup:", error);
-                alert("❌ Something went wrong. Please try again.");
+                alert("Something went wrong. Please try again.");
             }
         });
     }
@@ -470,7 +470,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Check if on the sign-in page
     const signinForm = document.getElementById("signin-form");
     if (signinForm) {
-        console.log("✅ Sign-in form found. Running signin script.");
+        console.log(" Sign-in form found. Running signin script.");
         signinForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -478,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const password = document.getElementById("signin-password").value.trim();
 
             if (!email || !password) {
-                alert("⚠️ Please enter both email and password!");
+                alert(" Please enter both email and password!");
                 return;
             }
 
@@ -491,21 +491,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert("✅ Sign-in successful!");
+                    alert(" Sign-in successful!");
                     window.location.href = "index.html";
                 } else {
-                    alert(data.message || "❌ Failed to sign in.");
+                    alert(data.message || "Failed to sign in.");
                 }
             } catch (error) {
                 console.error("Error during sign-in:", error);
-                alert("❌ Something went wrong. Please try again.");
+                alert(" Something went wrong. Please try again.");
             }
         });
     }
 
     // Hide unnecessary warnings on pages without forms
     if (!signupForm && !signinForm) {
-        console.log("✅ No signup or signin forms found. Skipping authentication script.");
+        console.log(" No signup or signin forms found. Skipping authentication script.");
     }
 });
 

@@ -17,8 +17,12 @@ cloudinary.config({
 });
 
 // 🧠 Multer - memoryStorage
-const upload = multer({ storage: multer.memoryStorage() });
-
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024 // Max 10MB per file
+  }
+});
 // 🧠 Session middleware
 const isAuthenticated = (req, res, next) => {
   const userId = req.session?.userId || req.session?.passport?.user;

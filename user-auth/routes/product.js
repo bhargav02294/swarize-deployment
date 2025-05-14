@@ -16,6 +16,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 // 🧠 Multer - memoryStorage
+// 🔧 Multer memory storage
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
@@ -28,7 +29,7 @@ const upload = multer({
       cb(null, true);
     } else {
       console.warn(`⛔ Rejected file: ${file.originalname} (${file.mimetype})`);
-      cb(null, false); // Still skip, but log it
+      cb(null, false);
     }
   }
 });
@@ -50,18 +51,22 @@ const isAuthenticated = (req, res, next) => {
 // ✅ Safe cloudinary upload helper
 // ✅ Smart cloudinary upload helper
 // ✅ Cloudinary Upload Helper
-const uploadToCloudinary = (buffer, folder, mimetype) => {
+const uploadToCloudinary = (buffer, folder) => {
   return new Promise((resolve, reject) => {
-    if (!buffer || buffer.length === 0) return reject(new Error("Empty buffer"));
-
-    const type = mimetype?.split('/')[0];
-    let resourceType = (type === 'image' || type === 'video') ? type : 'auto';
+    if (!buffer || buffer.length === 0) {
+      return reject(new Error("Empty buffer passed to Cloudinary"));
+    }
 
     const stream = cloudinary.uploader.upload_stream(
-      { folder, resource_type: resourceType },
+      {
+        folder,
+        resource_type: 'auto',
+        use_filename: true,
+        unique_filename: false,
+      },
       (error, result) => {
         if (error) {
-          console.error("❌ Cloudinary error:", error.message);
+          console.error("❌ Cloudinary error:", error);
           return reject(error);
         }
         resolve(result.secure_url);
@@ -71,7 +76,6 @@ const uploadToCloudinary = (buffer, folder, mimetype) => {
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };
-
 
 
 
@@ -105,8 +109,8 @@ if (!thumbnailFile) {
 }
 const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails', thumbnailFile.mimetype);
 
-// Upload extra images
-const extraImages = [];
+// 📸 Upload Extra Images
+      const extraImages = [];
       if (req.files['extraImages']) {
         for (const img of req.files['extraImages']) {
           if (!img || !img.buffer || img.buffer.length === 0) continue;
@@ -117,8 +121,7 @@ const extraImages = [];
           try {
             const url = await uploadToCloudinary(
               img.buffer,
-              `swarize/products/${store.slug}/images`,
-              img.mimetype
+              `swarize/products/${store.slug}/images`
             );
             extraImages.push(url);
           } catch (err) {
@@ -127,21 +130,22 @@ const extraImages = [];
         }
       }
 
-
-
-// Upload extra videos
-const extraVideos = [];
-if (req.files['extraVideos']) {
-  for (const vid of req.files['extraVideos']) {
-    if (!vid || !vid.buffer || vid.buffer.length === 0) continue;
-    try {
-      const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos', vid.mimetype);
-      extraVideos.push(url);
-    } catch (err) {
-      console.warn(`Skipping invalid video: ${err.message}`);
-    }
-  }
-}
+      // 🎥 Upload Extra Videos
+      const extraVideos = [];
+      if (req.files['extraVideos']) {
+        for (const vid of req.files['extraVideos']) {
+          if (!vid || !vid.buffer || vid.buffer.length === 0) continue;
+          try {
+            const url = await uploadToCloudinary(
+              vid.buffer,
+              'swarize/products/videos'
+            );
+            extraVideos.push(url);
+          } catch (err) {
+            console.warn(`Skipping invalid video: ${err.message}`);
+          }
+        }
+      }
 
 
 

@@ -18,20 +18,23 @@ cloudinary.config({
 // 🧠 Multer - memoryStorage
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 10 * 1024 * 1024 // Max 10MB per file
-  },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   fileFilter: (req, file, cb) => {
-    const mimeType = file.mimetype;
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-    
-    if (allowedMimeTypes.includes(mimeType)) {
-      cb(null, true); // Allow the file
+    const allowedMimeTypes = [
+      'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+      'video/mp4', 'video/webm', 'video/ogg'
+    ];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
     } else {
-      cb(new Error('Invalid file type!'), false); // Reject the file
+      console.warn(`⛔ Rejected file: ${file.originalname} (${file.mimetype})`);
+      cb(null, false); // Still skip, but log it
     }
   }
 });
+
+  
+
 // 🧠 Session middleware
 const isAuthenticated = (req, res, next) => {
   const userId = req.session?.userId || req.session?.passport?.user;
@@ -46,51 +49,29 @@ const isAuthenticated = (req, res, next) => {
 
 // ✅ Safe cloudinary upload helper
 // ✅ Smart cloudinary upload helper
+// ✅ Cloudinary Upload Helper
 const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
-    // Validate buffer
-    if (!buffer || buffer.length === 0) {
-      return reject(new Error("❌ Empty file buffer provided"));
-    }
+    if (!buffer || buffer.length === 0) return reject(new Error("Empty buffer"));
 
-    // Detect resource type from mimetype
-    const type = mimetype?.split('/')[0]; // 'image' or 'video'
+    const type = mimetype?.split('/')[0];
     let resourceType = (type === 'image' || type === 'video') ? type : 'auto';
 
-    // Allowed mime types
-    const allowedMimeTypes = {
-      image: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
-      video: ['video/mp4', 'video/webm', 'video/ogg'],
-    };
-
-    // Validate mimetype against allowed list
-    if (
-      resourceType !== 'auto' &&
-      (!mimetype || !allowedMimeTypes[resourceType].includes(mimetype))
-    ) {
-      console.warn(`⚠️ Unsupported mimetype '${mimetype}'. Falling back to 'auto'`);
-      resourceType = 'auto';
-    }
-
-    // Cloudinary stream upload
     const stream = cloudinary.uploader.upload_stream(
-      {
-        folder,
-        resource_type: resourceType,
-      },
+      { folder, resource_type: resourceType },
       (error, result) => {
         if (error) {
-          console.error("❌ Cloudinary Upload Error:", error);
+          console.error("❌ Cloudinary error:", error.message);
           return reject(error);
         }
-        resolve(result.secure_url); // Return uploaded file URL
+        resolve(result.secure_url);
       }
     );
 
-    // Pipe buffer to Cloudinary
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };
+
 
 
 
@@ -126,18 +107,25 @@ const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/p
 
 // Upload extra images
 const extraImages = [];
-if (req.files['extraImages']) {
-  for (const img of req.files['extraImages']) {
-    if (!img || !img.buffer || img.buffer.length === 0) continue; // Skip empty files
-    try {
-      // Upload image to Cloudinary
-      const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
-      extraImages.push(url); // Add uploaded image URL to array
-    } catch (err) {
-      console.warn(`⚠️ Skipping invalid image: ${err.message}`); // Log invalid image error
-    }
-  }
-}
+      if (req.files['extraImages']) {
+        for (const img of req.files['extraImages']) {
+          if (!img || !img.buffer || img.buffer.length === 0) continue;
+          if (!img.mimetype?.startsWith('image/')) {
+            console.warn(`⚠️ Skipping non-image: ${img.originalname}`);
+            continue;
+          }
+          try {
+            const url = await uploadToCloudinary(
+              img.buffer,
+              `swarize/products/${store.slug}/images`,
+              img.mimetype
+            );
+            extraImages.push(url);
+          } catch (err) {
+            console.warn(`Skipping invalid image: ${err.message}`);
+          }
+        }
+      }
 
 
 

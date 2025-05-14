@@ -15,12 +15,21 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
 // 🧠 Multer - memoryStorage
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
     fileSize: 10 * 1024 * 1024 // Max 10MB per file
+  },
+  fileFilter: (req, file, cb) => {
+    const mimeType = file.mimetype;
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    
+    if (allowedMimeTypes.includes(mimeType)) {
+      cb(null, true); // Allow the file
+    } else {
+      cb(new Error('Invalid file type!'), false); // Reject the file
+    }
   }
 });
 // 🧠 Session middleware
@@ -37,14 +46,6 @@ const isAuthenticated = (req, res, next) => {
 
 // ✅ Safe cloudinary upload helper
 // ✅ Smart cloudinary upload helper
-/**
- * Upload a file buffer to Cloudinary
- *
- * @param {Buffer} buffer - File buffer (required)
- * @param {string} folder - Cloudinary folder path
- * @param {string} mimetype - File mimetype (e.g., image/jpeg)
- * @returns {Promise<string>} - Resolves with Cloudinary secure URL
- */
 const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
     // Validate buffer
@@ -94,7 +95,6 @@ const uploadToCloudinary = (buffer, folder, mimetype) => {
 
 
 
-
 // ✅ Add Product Route
 router.post(
   '/add',
@@ -128,15 +128,18 @@ const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/p
 const extraImages = [];
 if (req.files['extraImages']) {
   for (const img of req.files['extraImages']) {
-    if (!img || !img.buffer || img.buffer.length === 0) continue;
+    if (!img || !img.buffer || img.buffer.length === 0) continue; // Skip empty files
     try {
+      // Upload image to Cloudinary
       const url = await uploadToCloudinary(img.buffer, 'swarize/products/images', img.mimetype);
-      extraImages.push(url);
+      extraImages.push(url); // Add uploaded image URL to array
     } catch (err) {
-      console.warn(`Skipping invalid image: ${err.message}`);
+      console.warn(`⚠️ Skipping invalid image: ${err.message}`); // Log invalid image error
     }
   }
 }
+
+
 
 // Upload extra videos
 const extraVideos = [];

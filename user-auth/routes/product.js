@@ -37,32 +37,56 @@ const isAuthenticated = (req, res, next) => {
 
 // ✅ Safe cloudinary upload helper
 // ✅ Smart cloudinary upload helper
+/**
+ * Upload a file buffer to Cloudinary
+ *
+ * @param {Buffer} buffer - File buffer (required)
+ * @param {string} folder - Cloudinary folder path
+ * @param {string} mimetype - File mimetype (e.g., image/jpeg)
+ * @returns {Promise<string>} - Resolves with Cloudinary secure URL
+ */
 const uploadToCloudinary = (buffer, folder, mimetype) => {
   return new Promise((resolve, reject) => {
+    // Validate buffer
     if (!buffer || buffer.length === 0) {
-      return reject(new Error("Empty file buffer"));
+      return reject(new Error("❌ Empty file buffer provided"));
     }
 
-    const type = mimetype?.split('/')[0]; // e.g., 'image', 'video'
-    const resourceType = (type === 'image' || type === 'video') ? type : 'auto';
+    // Detect resource type from mimetype
+    const type = mimetype?.split('/')[0]; // 'image' or 'video'
+    let resourceType = (type === 'image' || type === 'video') ? type : 'auto';
 
+    // Allowed mime types
     const allowedMimeTypes = {
       image: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
       video: ['video/mp4', 'video/webm', 'video/ogg'],
     };
 
-    if (resourceType !== 'auto' && !allowedMimeTypes[resourceType].includes(mimetype)) {
-      return reject(new Error(`Invalid file type: ${mimetype}`));
+    // Validate mimetype against allowed list
+    if (
+      resourceType !== 'auto' &&
+      (!mimetype || !allowedMimeTypes[resourceType].includes(mimetype))
+    ) {
+      console.warn(`⚠️ Unsupported mimetype '${mimetype}'. Falling back to 'auto'`);
+      resourceType = 'auto';
     }
 
+    // Cloudinary stream upload
     const stream = cloudinary.uploader.upload_stream(
-      { folder, resource_type: resourceType },
+      {
+        folder,
+        resource_type: resourceType,
+      },
       (error, result) => {
-        if (error) return reject(error);
-        resolve(result.secure_url);
+        if (error) {
+          console.error("❌ Cloudinary Upload Error:", error);
+          return reject(error);
+        }
+        resolve(result.secure_url); // Return uploaded file URL
       }
     );
 
+    // Pipe buffer to Cloudinary
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };

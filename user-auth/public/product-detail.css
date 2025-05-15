@@ -459,6 +459,32 @@ html, body {
   margin-bottom: 6px;
 }
 
+.product-info-note {
+  background-color: #f9f9f9;
+  border-left: 5px solid #007BFF;
+  padding: 16px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.product-info-note ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.product-info-note li {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.product-info-note strong {
+  color: #007BFF;
+}
+
 
 
 
@@ -586,5 +612,15 @@ html, body {
   .footer {
     padding: 15px;
     font-size: 14px;
+  }
+
+
+
+  .product-info-note {
+    padding: 14px 16px;
+  }
+
+  .product-info-note li {
+    font-size: 15px;
   }
 }

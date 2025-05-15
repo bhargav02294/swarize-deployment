@@ -882,7 +882,7 @@ header h1, header h2 {
 
 .product-card {
   flex-shrink: 0;
-  width: 220px;
+  width: 70px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -912,15 +912,15 @@ header h1, header h2 {
 }
 
 .product-card-content h4 {
-  font-size: 16px;
+  font-size: 14px;
   color: #333;
   margin: 0 0 6px;
   font-weight: 600;
 }
 
 .product-card-content p {
-  font-size: 14px;
-  color: #666;
+  font-size: 16px;
+  color: #3d0606;
   margin: 0 0 10px;
 }
 
@@ -986,9 +986,8 @@ header h1, header h2 {
 
 
 .product-section {
-  width: 90%;
-  max-width: 1200px;
-  margin: 100px auto;
+  width: 100%;
+  margin: 10px auto;
   text-align: center;
   padding: 0 10px;
 }
@@ -1026,7 +1025,7 @@ header h1, header h2 {
 .category-section {
     flex: 1;
     background: #ffffff;
-    padding: 15px;
+    padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(226, 213, 213, 0.597);
 }
@@ -1050,7 +1049,7 @@ header h1, header h2 {
 /* Individual Product Card */
 .product-card {
   background: #fff;
-  padding: 12px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   width: 32%;
@@ -1098,7 +1097,7 @@ header h1, header h2 {
   background-color: #ffcc00;
   color: #fff;
   border: none;
-  padding: 6px 10px;
+  padding: 5px 5px;
   border-radius: 50%;
   font-size: 1.3rem;
   cursor: pointer;

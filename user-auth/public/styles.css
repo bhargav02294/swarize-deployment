@@ -986,7 +986,8 @@ header h1, header h2 {
 
 
 .product-section {
-  width: 100%;
+  width: 90%;
+  max-width: 1200px;
   margin: 10px auto;
   text-align: center;
   padding: 0 10px;
@@ -1160,14 +1161,19 @@ header h1, header h2 {
     margin-bottom: 15px;
   }
 
+  /* ❌ Remove slider — wrap products instead */
   .category-products {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: unset;
+    justify-content: center;
     gap: 15px;
     padding-bottom: 10px;
-    justify-content: flex-start;
   }
 
   .product-card {
-    width: 220px;
+    width: 45%; /* Fits 2 cards per row approximately */
+    min-width: 160px;
     padding: 8px;
   }
 
@@ -1178,12 +1184,12 @@ header h1, header h2 {
   }
 
   .product-card h4 {
-    font-size: 0.95rem;
+    font-size: 14px;
     margin: 6px 0 4px;
   }
 
   .product-price {
-    font-size: 0.85rem;
+    font-size: 18px;
     margin-bottom: 4px;
   }
 

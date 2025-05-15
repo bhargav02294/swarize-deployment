@@ -45,14 +45,14 @@ const product = (await productResponse.json()).product;
         
 
         setText("preview-description", product.description || "No description.");
-        setText("preview-summary", `Summary: ${product.summary || "-"}`);
-        setText("preview-category", `Category: ${product.category || "-"}`);
-        setText("preview-subcategory", `Subcategory: ${product.subcategory || "-"}`);
-        setText("preview-tags", `Tags: ${product.tags?.join(", ") || "-"}`);
-        setText("preview-size", `Size: ${product.size || "-"}`);
-        setText("preview-color", `Color: ${product.color || "-"}`);
-        setText("preview-material", `Material: ${product.material || "-"}`);
-        setText("preview-model-style", `Model Style: ${product.modelStyle || "-"}`);
+        setText("preview-summary", `Summary: ${product.summary || " "}`);
+        setText("preview-category", `Category: ${product.category || " "}`);
+        setText("preview-subcategory", `Subcategory: ${product.subcategory || " "}`);
+        setText("preview-tags", `Tags: ${product.tags?.join(", ") || " "}`);
+        setText("preview-size", `Size: ${product.size || " "}`);
+        setText("preview-color", `Color: ${product.color || " "}`);
+        setText("preview-material", `Material: ${product.material || " "}`);
+        setText("preview-model-style", `Model Style: ${product.modelStyle || " "}`);
         setText("preview-available-in", `Available In: ${product.availableIn || "All over India"}`);
 
         // Handle slider media

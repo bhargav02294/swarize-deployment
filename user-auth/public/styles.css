@@ -875,7 +875,7 @@ header h1, header h2 {
 .product-slider {
   display: flex;
   gap: 30px;
-  animation: scrollSlider 20s linear infinite;
+  animation: scrollSlider 30s linear infinite;
   width: max-content;
   padding-bottom: 10px;
 }
@@ -949,7 +949,7 @@ header h1, header h2 {
 
   .product-slider {
 
-  animation: scrollSlider 20s linear infinite;
+  animation: scrollSlider 30s linear infinite;
 
 }
 
@@ -1021,31 +1021,33 @@ header h1, header h2 {
 }
 
 
-/* Each Category Section */
+/* Category Section */
 .category-section {
-    flex: 1;
-    background: #ffffff;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(226, 213, 213, 0.597);
+  flex: 1;
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(226, 213, 213, 0.597);
 }
 
+/* Category Heading — now centered and above */
 .category-section h3 {
-    font-size: 1.5rem;
-    color: #555;
-    margin-bottom: 15px;
-    text-align: left;
-    padding-left: 10px;
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 0;
 }
 
-/* Product grid within category */
+/* Category Products — now only show 2 in a row */
 .category-products {
   display: flex;
   overflow-x: auto;
   flex-wrap: nowrap;
-  gap: 15px;
+  gap: 20px;
   padding-bottom: 10px;
   scroll-behavior: smooth;
+  justify-content: center;
 }
 
 .category-products::-webkit-scrollbar {
@@ -1057,10 +1059,21 @@ header h1, header h2 {
   border-radius: 10px;
 }
 
-/* === Product Card Adjustments === */
+/* Product Card — fit for 2 visible in row */
 .product-card {
-  flex: 0 0 auto; /* Don't shrink or grow */
-  width: 160px; /* Consistent width for all cards */
+  flex: 0 0 auto;
+  width: 250px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .product-image {
@@ -1071,7 +1084,6 @@ header h1, header h2 {
   background-color: #f6f6f6;
 }
 
-/* Product Name */
 .product-card h4 {
   font-size: 1.1rem;
   color: #444;
@@ -1079,13 +1091,13 @@ header h1, header h2 {
   font-weight: 500;
 }
 
-/* Price */
 .product-price {
   font-size: 1rem;
   color: #000;
   font-weight: 600;
   margin-bottom: 6px;
 }
+
 
 /* Rating */
 .star-rating {
@@ -1095,6 +1107,7 @@ header h1, header h2 {
 }
 
 /* Cart Button */
+/* Add to Cart — Center Aligned Circle */
 .cart-button {
   background-color: #ffcc00;
   color: #fff;
@@ -1108,12 +1121,12 @@ header h1, header h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 10px auto 0;
 }
 
 .cart-button:hover {
   background-color: #ff9100;
 }
-
 /* =============================
    📱 Responsive for Mobile View
 ============================= */
@@ -1141,49 +1154,36 @@ header h1, header h2 {
     gap: 20px;
   }
 
-  .category-section {
-    padding: 12px;
-    border-radius: 10px;
-  }
-
   .category-section h3 {
     font-size: 1.2rem;
-    padding-left: 5px;
-    margin-bottom: 10px;
+    text-align: center;
+    margin-bottom: 15px;
   }
 
-  /* Display 3 products in a row */
   .category-products {
-    gap: 12px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
+    gap: 15px;
     padding-bottom: 10px;
+    justify-content: flex-start;
   }
 
   .product-card {
-    width: 140px; /* Slightly smaller on mobile */
-    flex: 0 0 auto;
+    width: 220px;
     padding: 8px;
   }
 
   .product-image {
-    width: 100%;
-    height: 110px;
-    object-fit: contain;
+    height: 120px;
     border-radius: 6px;
     background-color: #f9f9f9;
   }
 
   .product-card h4 {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     margin: 6px 0 4px;
-    color: #333;
   }
 
   .product-price {
     font-size: 0.85rem;
-    font-weight: bold;
-    color: #000;
     margin-bottom: 4px;
   }
 
@@ -1197,6 +1197,7 @@ header h1, header h2 {
     height: 36px;
     width: 36px;
     font-size: 1.2rem;
+    margin-top: 10px;
   }
 
   .cart-button:hover {

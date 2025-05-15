@@ -322,16 +322,46 @@ html, body {
 
 
 .product-details {
-  margin-top: 25px;
+  margin-top: 30px;
+  padding: 10px 0;
   font-size: 14px;
+  line-height: 1.6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-top: 1px solid #eee;
 }
 
 .product-details p {
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .product-details strong {
-  font-weight: bold;
+  font-weight: 600;
+}
+
+/* Note Section */
+.product-info-note {
+  background-color: #f9f9f9;
+  border-left: 4px solid #ccc;
+  padding: 16px 20px;
+  margin: 24px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.product-info-note ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.product-info-note li {
+  font-size: 15px;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.product-info-note strong {
+  font-weight: 600;
 }
 
 
@@ -459,33 +489,6 @@ html, body {
   margin-bottom: 6px;
 }
 
-.product-info-note {
-  background-color: #f9f9f9;
-  border-left: 5px solid #007BFF;
-  padding: 16px 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.product-info-note ul {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin: 0;
-}
-
-.product-info-note li {
-  color: #333;
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.product-info-note strong {
-  color: #007BFF;
-}
-
-
 
 
 
@@ -566,9 +569,35 @@ html, body {
     padding: 10px;
   }
 
+  
+
+
+@media (max-width: 768px) {
   .product-details {
     font-size: 13px;
+    margin-top: 20px;
+    padding: 8px 0;
   }
+
+  .product-details p {
+    margin: 6px 0;
+  }
+
+  .product-info-note {
+    padding: 14px 16px;
+    margin: 20px 0;
+  }
+
+  .product-info-note li {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+}
+
+
+
+
+
 
   .review-section {
     padding: 15px;
@@ -616,11 +645,4 @@ html, body {
 
 
 
-  .product-info-note {
-    padding: 14px 16px;
-  }
-
-  .product-info-note li {
-    font-size: 15px;
-  }
 }

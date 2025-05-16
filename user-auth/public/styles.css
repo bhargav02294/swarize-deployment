@@ -875,7 +875,7 @@ header h1, header h2 {
 .product-slider {
   display: flex;
   gap: 30px;
-  animation: scrollSlider 40s linear infinite;
+  animation: scrollSlider 50s linear infinite;
   width: max-content;
   padding-bottom: 10px;
 }
@@ -949,7 +949,7 @@ header h1, header h2 {
 
   .product-slider {
 
-  animation: scrollSlider 40s linear infinite;
+  animation: scrollSlider 45s linear infinite;
 
 }
 

@@ -875,7 +875,7 @@ header h1, header h2 {
 .product-slider {
   display: flex;
   gap: 30px;
-  animation: scrollSlider 20s linear infinite;
+  animation: scrollSlider 40s linear infinite;
   width: max-content;
   padding-bottom: 10px;
 }
@@ -949,7 +949,7 @@ header h1, header h2 {
 
   .product-slider {
 
-  animation: scrollSlider 20s linear infinite;
+  animation: scrollSlider 40s linear infinite;
 
 }
 
@@ -1093,7 +1093,7 @@ header h1, header h2 {
 }
 
 .product-price {
-  font-size: 20px;
+  font-size: 22px;
   color: #000;
   font-weight: 600;
   margin-bottom: 6px;

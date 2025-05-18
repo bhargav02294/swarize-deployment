@@ -671,11 +671,9 @@ header h1, header h2 {
 
 
 
-
-/* Entire slider section takes full width, no margin or background */
+/* Full width, full screen slider with no max-width */
 .slider-section {
-  width: 100%;
-  max-width: 1400px;
+  width: 100vw;
   height: auto;
   margin: 0;
   padding: 0;
@@ -685,35 +683,31 @@ header h1, header h2 {
   position: relative;
 }
 
-/* Wrapper ensures horizontal scrolling area is hidden */
+/* Full width wrapper */
 .slider-wrapper {
-  width: 100%;
-    max-width: 1400px;
-
+  width: 100vw;
   overflow: hidden;
   position: relative;
 }
 
-/* Flex container for horizontal sliding */
+/* Slider for horizontal slide movement */
 .slider {
   display: flex;
   transition: transform 0.8s ease-in-out;
   will-change: transform;
 }
 
-/* Each slide (image) fills screen width and defined height */
+/* Each slide takes full screen width and fixed height */
 .slide {
-  width: 100%;
-    max-width: 1400px;
-
+  width: 100vw;
   object-fit: cover;
   user-select: none;
   pointer-events: none;
-  height: 600px; /* full-height look */
+  height: 600px;
   display: block;
 }
 
-/* RESPONSIVE: Adjust height for tablets and mobile */
+/* Responsive */
 @media (max-width: 1024px) {
   .slide {
     height: 420px;
@@ -729,6 +723,7 @@ header h1, header h2 {
     height: 240px;
   }
 }
+
 
 
 

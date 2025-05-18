@@ -673,51 +673,50 @@ header h1, header h2 {
 
 
 
-
-/* Slider Section Container */
+/* Slider Section - Full width, no background */
 .slider-section {
-  width: 100%;
-  max-width: 900px;       /* Max width for desktop */
-  margin: 40px auto;
-  overflow: hidden;       /* Hide scrollbars and overflow */
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  background: #111;       /* Dark background for aesthetic */
-  padding: 20px 0;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent; /* no background color */
+  overflow: hidden;
 }
 
-/* Wrapper to hide overflow */
+/* Wrapper to control the viewable area */
 .slider-wrapper {
   width: 100%;
   overflow: hidden;
   position: relative;
 }
 
-/* Slider flex container */
+/* Flex container for horizontal image movement */
 .slider {
   display: flex;
   transition: transform 0.8s ease-in-out;
   will-change: transform;
 }
 
-/* Each slide image */
+/* Slide images */
 .slide {
-  min-width: 100%;        /* Show one image at a time */
+  min-width: 100%;
   object-fit: cover;
-  border-radius: 10px;
   user-select: none;
   pointer-events: none;
-  max-height: 400px;      /* Fix height for uniformity */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  height: 550px; /* Increased height for full image feel */
 }
 
-/* Responsive tweaks */
+/* Responsive: adjust height for smaller screens */
 @media (max-width: 768px) {
-  .slider-section {
-    max-width: 100%;
-  }
   .slide {
-    max-height: 250px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide {
+    height: 280px;
   }
 }
 
@@ -729,95 +728,109 @@ header h1, header h2 {
 
 
 
-/* Common section styling */
+/* ---------------- COMMON SECTION BASE ---------------- */
 .section {
   padding: 60px 20px;
   color: #eee;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border-radius: 12px;
-  max-width: 700px;
-  margin: 40px auto;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border-radius: 14px;
+  max-width: 720px;
+  margin: 50px auto;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
 }
 
-/* Categories Section - Dark Purple Background */
+/* ---------------- CATEGORIES SECTION ---------------- */
 .categories-section {
-  background: #2c003e;
+  background: linear-gradient(135deg, #32064f, #4e007a);
 }
 
-/* Sell Route Section - Dark Blue Background */
-.sell-route-section {
-  background: #001f3f;
-}
-
-/* Common Heading Styling */
-.hero-column .content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  font-weight: 700;
+.categories-section .hero-column .content h2 {
+  font-size: 2.6rem;
+  margin-bottom: 22px;
+  font-weight: 800;
   letter-spacing: 1.2px;
+  color: #fff;
 }
 
-/* Paragraph only in sell-route-section */
-.sell-route-section p {
-  font-size: 1.15rem;
-  margin-bottom: 30px;
-  color: #ccc;
-  max-width: 520px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.5;
-}
-
-/* Button Base Styling */
-.hero-column .content a {
+.categories-section .explore-button {
   display: inline-block;
-  padding: 14px 36px;
+  padding: 14px 38px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #fff;
+  color: #ffffff;
+  background: linear-gradient(45deg, #e100ff, #9a00ff);
   text-decoration: none;
-  border-radius: 40px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
-  cursor: pointer;
-  user-select: none;
+  border-radius: 50px;
+  box-shadow: 0 6px 20px rgba(234, 0, 255, 0.35);
+  transition: all 0.3s ease;
 }
 
-/* Explore Categories Button - Gradient Purple */
-.explore-button {
-  background: linear-gradient(45deg, #9a4dff, #6a00ff);
+.categories-section .explore-button:hover,
+.categories-section .explore-button:focus {
+  background: linear-gradient(45deg, #9a00ff, #e100ff);
+  box-shadow: 0 8px 24px rgba(234, 0, 255, 0.6);
 }
 
-.explore-button:hover,
-.explore-button:focus {
-  background: linear-gradient(45deg, #6a00ff, #9a4dff);
-  box-shadow: 0 6px 20px #9a4dff;
+/* ---------------- SELL ROUTE SECTION ---------------- */
+.sell-route-section {
+  background: linear-gradient(135deg, #001b35, #003f73);
 }
 
-/* Get Started Button - Gradient Blue */
-.get-started-button {
-  background: linear-gradient(45deg, #007aff, #0051ba);
+.sell-route-section .hero-column .content h2 {
+  font-size: 2.6rem;
+  margin-bottom: 18px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #fff;
 }
 
-.get-started-button:hover,
-.get-started-button:focus {
-  background: linear-gradient(45deg, #0051ba, #007aff);
-  box-shadow: 0 6px 20px #007aff;
+.sell-route-section .hero-column .content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #d0d0d0;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
-/* Responsive tweaks */
+.sell-route-section .get-started-button {
+  display: inline-block;
+  padding: 14px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(45deg, #00bfff, #0066ff);
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 6px 20px rgba(0, 119, 255, 0.35);
+  transition: all 0.3s ease;
+}
+
+.sell-route-section .get-started-button:hover,
+.sell-route-section .get-started-button:focus {
+  background: linear-gradient(45deg, #0066ff, #00bfff);
+  box-shadow: 0 8px 24px rgba(0, 119, 255, 0.6);
+}
+
+/* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 480px) {
-  .hero-column .content h2 {
-    font-size: 1.8rem;
+  .categories-section .hero-column .content h2,
+  .sell-route-section .hero-column .content h2 {
+    font-size: 2rem;
   }
-  .hero-column .content a {
+
+  .categories-section .explore-button,
+  .sell-route-section .get-started-button {
     padding: 12px 28px;
     font-size: 1rem;
   }
-}
 
+  .sell-route-section .hero-column .content p {
+    font-size: 1rem;
+  }
+}
 
 
 

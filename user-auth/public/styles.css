@@ -669,14 +669,14 @@ header h1, header h2 {
 
 
 
-/* Slider section same as business section: Full screen with image coverage */
+/* 🌄 Slider section full screen */
 .slider-section {
   position: relative;
   width: 100vw;
   overflow: hidden;
 }
 
-/* Full screen wrapper */
+/* Full wrapper */
 .slider-wrapper {
   width: 100vw;
   height: 100%;
@@ -691,15 +691,36 @@ header h1, header h2 {
   will-change: transform;
 }
 
-/* Each slide full screen */
+/* Each slide now wraps image + overlay */
 .slide {
   flex: 0 0 100vw;
   height: 700px;
-  object-fit: cover;
-  display: block;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Mobile responsiveness */
+/* Image fills slide */
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 🔲 Overlay on top of image */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.366); /* adjust to 0.5 or 0.6 if you want darker */
+  z-index: 1;
+}
+
+/* ✅ Responsive Heights */
 @media (max-width: 1024px) {
   .slide {
     height: 420px;
@@ -715,6 +736,7 @@ header h1, header h2 {
     height: 240px;
   }
 }
+
 
 
 

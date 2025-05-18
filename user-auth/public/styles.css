@@ -668,190 +668,155 @@ header h1, header h2 {
 
 
 
-/*hero*/
-/* Reset default styles */
-.hero-section {
-    display: flex;
-    height: 400px; /* Set the height of the hero section */
-    margin: 20px 0; /* Add some margin above and below */
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+
+
+
+
+
+
+/* Slider Section Container */
+.slider-section {
+  width: 100%;
+  max-width: 900px;       /* Max width for desktop */
+  margin: 40px auto;
+  overflow: hidden;       /* Hide scrollbars and overflow */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  background: #111;       /* Dark background for aesthetic */
+  padding: 20px 0;
 }
 
-/* General Column Styling */
-.hero-column {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-    background-color: transparent; /* No background image */
-    position: relative; /* For positioning absolute elements */
-    overflow: hidden; /* Prevent overflow */
-    border-radius: 10px; /* Rounded corners for columns */
-    padding: 20px;
-}
-
-/* Left and Right Columns (Kept Unchanged) */
-.categories-column, 
-.route-column {
-    flex: 0 0 25%; /* Set width for left and right columns */
-    background-color: rgba(255, 255, 255, 0.8); /* Dark background for contrast */
-    border: 2px solid #e7dede; /* Add a distinct border */
-    padding: 40px 20px;
-}
-
-/* Improved Center Column with a Shadow and Gradient */
-.hero-column-center {
-    flex: 0 0 50%;
-    position: relative;
-    height: 100%;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2)); /* Light gradient overlay */
-}
-/* Slider Wrapper */
+/* Wrapper to hide overflow */
 .slider-wrapper {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
-
-/* Smooth Image Slider */
+/* Slider flex container */
 .slider {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transition: transform 1s ease-in-out;
-    display: flex;
-
+  display: flex;
+  transition: transform 0.8s ease-in-out;
+  will-change: transform;
 }
 
-/* More Dynamic Image Styling */
+/* Each slide image */
 .slide {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    flex: 0 0 100%;
-
+  min-width: 100%;        /* Show one image at a time */
+  object-fit: cover;
+  border-radius: 10px;
+  user-select: none;
+  pointer-events: none;
+  max-height: 400px;      /* Fix height for uniformity */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-/* Show Active Slide with Zoom-in Effect */
-.slide.active {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Text Content Styling */
-.content h2 {
-    font-size: 26px;
-    margin-bottom: 15px;
-    color: rgb(40, 15, 15);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.content p {
-    font-size: 16px;
-    margin-bottom: 15px;
-    color: rgb(10, 6, 6);
-    font-weight: 500;
-}
-/* General Button Styling */
-.explore-button,
-.get-started-button {
-    display: inline-block;
-    padding: 10px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    background: #6f5439; /* Matches button color in Swarize */
-}
-
-/* Hover Effect */
-.explore-button:hover,
-.get-started-button:hover {
-    background: #3f260e; /* Button Hover Color */
-    transform: scale(1.05);
-}
-
+/* Responsive tweaks */
 @media (max-width: 768px) {
-
-    .hero-section {
-      flex-direction: column;
-      height: auto;
-      gap: 20px;
-      padding: 20px 10px;
-    }
-  
-    .hero-column {
-      width: 100%;
-      padding: 16px;
-    }
-  
-    .categories-column,
-    .route-column {
-      flex: 0 0 auto;
-      width: 100%;
-      padding: 20px 16px;
-      border-radius: 8px;
-      background-color: rgba(255, 255, 255, 0.95);
-    }
-  
-    .hero-column-center {
-      flex: 0 0 auto;
-      width: 100%;
-      height: 240px;
-      border-radius: 10px;
-    }
-  
-    .slider-wrapper {
-      height: 100%;
-    }
-  
-    .slider {
-      height: 100%;
-    }
-  
-    .slide {
-      height: 100%;
-      object-fit: cover;
-    }
-  
-    .content h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-  
-    .content p {
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-  
-    .explore-button,
-    .get-started-button {
-      padding: 8px 18px;
-      font-size: 14px;
-      border-radius: 6px;
-    }
+  .slider-section {
+    max-width: 100%;
   }
-  
+  .slide {
+    max-height: 250px;
+  }
+}
 
 
 
 
 
 
+
+
+
+/* Common section styling */
+.section {
+  padding: 60px 20px;
+  color: #eee;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 12px;
+  max-width: 700px;
+  margin: 40px auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Categories Section - Dark Purple Background */
+.categories-section {
+  background: #2c003e;
+}
+
+/* Sell Route Section - Dark Blue Background */
+.sell-route-section {
+  background: #001f3f;
+}
+
+/* Common Heading Styling */
+.hero-column .content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+/* Paragraph only in sell-route-section */
+.sell-route-section p {
+  font-size: 1.15rem;
+  margin-bottom: 30px;
+  color: #ccc;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* Button Base Styling */
+.hero-column .content a {
+  display: inline-block;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 40px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Explore Categories Button - Gradient Purple */
+.explore-button {
+  background: linear-gradient(45deg, #9a4dff, #6a00ff);
+}
+
+.explore-button:hover,
+.explore-button:focus {
+  background: linear-gradient(45deg, #6a00ff, #9a4dff);
+  box-shadow: 0 6px 20px #9a4dff;
+}
+
+/* Get Started Button - Gradient Blue */
+.get-started-button {
+  background: linear-gradient(45deg, #007aff, #0051ba);
+}
+
+.get-started-button:hover,
+.get-started-button:focus {
+  background: linear-gradient(45deg, #0051ba, #007aff);
+  box-shadow: 0 6px 20px #007aff;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .hero-column .content h2 {
+    font-size: 1.8rem;
+  }
+  .hero-column .content a {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+}
 
 
 
@@ -861,160 +826,126 @@ header h1, header h2 {
 /*     product slider       */
 /* ==== Product Slider Section ==== */
 
-/* === Slider Section Styling === */
-.slider-section {
-  width: 100%;
-  max-width: 900px;
-  margin: 40px auto;
-  position: relative;
-  overflow: hidden;
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  background: #fff;
+.product-slider-section {
+  padding: 30px 20px;
+  background: #ffffff;
+  border-top: 3px solid #8C4A32;
+  border-bottom: 1px solid #ddd;
 }
 
-.slider-wrapper {
-  position: relative;
-  width: 100%;
-  height: 400px;
-}
-
-.slider {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.slide {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-  border-radius: 15px;
-  pointer-events: none;
-}
-
-.slide.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .slider-wrapper {
-    height: 250px;
-  }
-}
-
-
-  
-  
-
-
-
-
-
-
-.categories-section {
-  background: linear-gradient(135deg, #2c2f33, #23272a);
-  color: #eee;
-  padding: 40px 20px;
-  border-radius: 15px;
-  max-width: 350px;
-  margin: 20px auto;
+.product-slider-section h2 {
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-}
-
-.categories-section h2 {
   font-size: 28px;
-  margin-bottom: 20px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #f0a500;
-}
-
-.categories-section .explore-button {
-  display: inline-block;
-  background-color: #f0a500;
-  color: #222;
-  font-weight: 700;
-  padding: 12px 30px;
-  border-radius: 30px;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 10px rgba(240, 165, 0, 0.5);
-}
-
-.categories-section .explore-button:hover {
-  background-color: #d18e00;
-  box-shadow: 0 6px 15px rgba(209, 142, 0, 0.7);
-  transform: scale(1.05);
-  color: #fff;
-}
-
-
-
-
-
-.sell-route-section {
-  background: linear-gradient(135deg, #1b1e23, #121417);
-  color: #ddd;
-  padding: 40px 20px;
-  border-radius: 15px;
-  max-width: 350px;
-  margin: 20px auto;
-  text-align: center;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.7);
-}
-
-.sell-route-section h2 {
-  font-size: 28px;
-  margin-bottom: 15px;
-  color: #e94560;
-  letter-spacing: 1.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.sell-route-section p {
-  font-size: 16px;
   margin-bottom: 25px;
-  color: #bbb;
-  font-weight: 500;
+  color: #333;
+  font-weight: bold;
 }
 
-.sell-route-section .get-started-button {
-  display: inline-block;
-  background-color: #e94560;
-  color: #fff;
-  font-weight: 700;
-  padding: 12px 30px;
-  border-radius: 30px;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 12px rgba(233, 69, 96, 0.5);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+.product-slider {
+  display: flex;
+  gap: 30px;
+  animation: scrollSlider 50s linear infinite;
+  width: max-content;
+  padding-bottom: 10px;
+}
+
+.product-card {
+  flex-shrink: 0;
+  width: 75px; /* Updated width */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
 }
 
-.sell-route-section .get-started-button:hover {
-  background-color: #c8324e;
-  box-shadow: 0 6px 18px rgba(200, 50, 78, 0.7);
-  transform: scale(1.05);
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
+.product-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+}
 
+.product-card-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
+.product-card-content h4 {
+  font-size: 14px;
+  color: #333;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
 
+.product-card-content p {
+  font-size: 16px;
+  color: #3d0606;
+  margin: 0 0 10px;
+}
 
+.product-price {
+  font-weight: bold;
+  font-size: 16px;
+  color: #8C4A32;
+}
+
+/* ==== Slider Animation ==== */
+@keyframes scrollSlider {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ==== Responsive Mobile View ==== */
+@media (max-width: 768px) {
+  .product-slider-section {
+    padding: 20px 10px;
+  }
+
+  .product-slider-section h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .product-slider {
+
+  animation: scrollSlider 45s linear infinite;
+
+}
+
+   .product-card {
+    width: 75px; /* Consistent width for mobile too */
+    border-radius: 10px;
+  }
+
+  .product-card img {
+    height: 120px;
+  }
+
+  .product-card-content h4 {
+    font-size: 14px;
+  }
+
+  .product-card-content p {
+    font-size: 13px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
+}
+
+  
+  
 
 
 

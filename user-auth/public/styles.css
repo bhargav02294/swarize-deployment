@@ -674,7 +674,8 @@ header h1, header h2 {
 
 /* Entire slider section takes full width, no margin or background */
 .slider-section {
-  width: 100vw;
+  width: 100%;
+  max-width: 1400px;
   height: auto;
   margin: 0;
   padding: 0;
@@ -687,6 +688,8 @@ header h1, header h2 {
 /* Wrapper ensures horizontal scrolling area is hidden */
 .slider-wrapper {
   width: 100%;
+    max-width: 1400px;
+
   overflow: hidden;
   position: relative;
 }
@@ -700,11 +703,13 @@ header h1, header h2 {
 
 /* Each slide (image) fills screen width and defined height */
 .slide {
-  min-width: 100%;
+  width: 100%;
+    max-width: 1400px;
+
   object-fit: cover;
   user-select: none;
   pointer-events: none;
-  height: 550px; /* full-height look */
+  height: 600px; /* full-height look */
   display: block;
 }
 

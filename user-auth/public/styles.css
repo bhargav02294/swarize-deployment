@@ -672,53 +672,59 @@ header h1, header h2 {
 
 
 
-
-/* Slider Section - Full width, no background */
+/* Entire slider section takes full width, no margin or background */
 .slider-section {
   width: 100vw;
+  height: auto;
   margin: 0;
   padding: 0;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent; /* no background color */
+  border: none;
+  background: transparent;
   overflow: hidden;
+  position: relative;
 }
 
-/* Wrapper to control the viewable area */
+/* Wrapper ensures horizontal scrolling area is hidden */
 .slider-wrapper {
   width: 100%;
   overflow: hidden;
   position: relative;
 }
 
-/* Flex container for horizontal image movement */
+/* Flex container for horizontal sliding */
 .slider {
   display: flex;
   transition: transform 0.8s ease-in-out;
   will-change: transform;
 }
 
-/* Slide images */
+/* Each slide (image) fills screen width and defined height */
 .slide {
   min-width: 100%;
   object-fit: cover;
   user-select: none;
   pointer-events: none;
-  height: 550px; /* Increased height for full image feel */
+  height: 550px; /* full-height look */
+  display: block;
 }
 
-/* Responsive: adjust height for smaller screens */
+/* RESPONSIVE: Adjust height for tablets and mobile */
+@media (max-width: 1024px) {
+  .slide {
+    height: 420px;
+  }
+}
 @media (max-width: 768px) {
   .slide {
-    height: 350px;
+    height: 320px;
+  }
+}
+@media (max-width: 480px) {
+  .slide {
+    height: 240px;
   }
 }
 
-@media (max-width: 480px) {
-  .slide {
-    height: 280px;
-  }
-}
 
 
 

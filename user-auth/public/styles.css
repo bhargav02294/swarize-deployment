@@ -669,45 +669,37 @@ header h1, header h2 {
 
 
 
-
-
-/* Full width, full screen slider with no max-width */
+/* Slider section same as business section: Full screen with image coverage */
 .slider-section {
-  width: 100vw;
-  height: auto;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  overflow: hidden;
   position: relative;
+  width: 100vw;
+  overflow: hidden;
 }
 
-/* Full width wrapper */
+/* Full screen wrapper */
 .slider-wrapper {
   width: 100vw;
+  height: 100%;
   overflow: hidden;
   position: relative;
 }
 
-/* Slider for horizontal slide movement */
+/* Horizontal sliding container */
 .slider {
   display: flex;
   transition: transform 0.8s ease-in-out;
   will-change: transform;
 }
 
-/* Each slide takes full screen width and fixed height */
+/* Each slide full screen */
 .slide {
-  width: 100vw;
+  flex: 0 0 100vw;
+  height: 700px;
   object-fit: cover;
-  user-select: none;
-  pointer-events: none;
-  height: 600px;
   display: block;
 }
 
-/* Responsive */
+/* Mobile responsiveness */
 @media (max-width: 1024px) {
   .slide {
     height: 420px;

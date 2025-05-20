@@ -8,19 +8,19 @@
 body, html {
     height: 100%;
     overflow-x: hidden;
-    background-color: #F2F4F8;
+    background-color: #FFF5F7;
 }
 
 /* ======== Header (Top Bar) ======== */
 header {
-    background-color: #2C2C2C;
+    background-color: #B83250;
     padding: 6px 10px;
     height: 40px;
     text-align: center;
 }
 
 header h1, header h2 {
-    color: #F2F4F8;
+    color: #FFF5F7;
     font-family: 'Poppins', sans-serif;
     margin: 1px 0;
     font-size: 12px;
@@ -45,7 +45,7 @@ header h1, header h2 {
 
 /* ======== Navbar ======== */
 .navbar {
-    background-color: #F2F4F8;
+    background-color: #FFF5F7;
     padding: 10px 0;
     position: relative;
     width: 100%;
@@ -72,7 +72,7 @@ header h1, header h2 {
 .logo-container {
     width: 46px;
     height: 46px;
-    background-color: #2C2C2C;
+    background-color: #B83250;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -82,14 +82,14 @@ header h1, header h2 {
 .logo-text {
     font-size: 31px;
     font-weight: bold;
-    color: #F2F4F8;
+    color: #FFF5F7;
     font-family: 'Times New Roman';
 }
 
 .brand-name {
     font-size: 28px;
     font-weight: bold;
-    color: #2C2C2C;
+    color: #B83250;
     font-family: 'Times New Roman';
 }
 
@@ -1517,8 +1517,8 @@ header h1, header h2 {
 
 
 .footer {
-    background-color:#F2F4F8 ;
-    color: #121212 ;
+    background-color:#FFF5F7 ;
+    color: #B83250 ;
     padding: 50px 20px;
     font-family: sans-serif;
 }

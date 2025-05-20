@@ -744,126 +744,77 @@ header h1, header h2 {
 
 
 
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&family=Montserrat&display=swap');
 
 .categories-section {
-  background-color: #f9f9f9; /* subtle background for elegance */
+  background-color: #ffffff; /* Clean white background */
   padding: 60px 20px;
   text-align: center;
 }
 
-.categories-section .content h2 {
-  margin-bottom: 30px;
-  line-height: 1.3;
-}
-
 .categories-section .heading-main {
-  font-family: 'Playfair Display', serif; /* elegant serif, modern but classic */
+  font-family: 'Playfair Display', serif;
   font-weight: 400;
   font-size: 2.8rem;
-  color: #2c3e50; /* dark slate */
+  color: #2c2c2c; /* Dark gray for contrast */
   letter-spacing: 0.05em;
 }
 
 .categories-section .heading-sub {
-  font-family: 'Great Vibes', cursive; /* stylish, flowing script */
+  font-family: 'Great Vibes', cursive;
   font-weight: 400;
   font-size: 1.8rem;
-  color: #34495e; /* softer dark */
+  color: #555555; /* Medium gray for subtlety */
   display: block;
   margin-top: 6px;
 }
 
 .explore-button {
-  font-family: 'Montserrat', sans-serif; /* clean, modern sans-serif */
+  font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 1.1rem;
-  color: #fff;
-  background-color: #2980b9; /* professional blue */
+  color: #ffffff;
+  background-color: #bfa054; /* Soft gold */
   padding: 14px 36px;
   text-decoration: none;
   border-radius: 30px;
-  box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+  box-shadow: 0 4px 12px rgba(191, 160, 84, 0.3);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   display: inline-block;
 }
 
 .explore-button:hover {
-  background-color: #1c5985;
-  box-shadow: 0 6px 16px rgba(28, 89, 133, 0.5);
-}
-
-/* --------------- Responsive --------------- */
-@media (max-width: 768px) {
-  .categories-section {
-    padding: 40px 15px;
-  }
-
-  .categories-section .heading-main {
-    font-size: 2rem;
-    letter-spacing: 0.03em;
-  }
-
-  .categories-section .heading-sub {
-    font-size: 1.4rem;
-    margin-top: 4px;
-  }
-
-  .explore-button {
-    font-size: 1rem;
-    padding: 12px 28px;
-    width: 100%;
-    max-width: 280px;
-    margin: 20px auto 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .categories-section {
-    padding: 30px 12px;
-  }
-
-  .categories-section .heading-main {
-    font-size: 1.7rem;
-  }
-
-  .categories-section .heading-sub {
-    font-size: 1.2rem;
-  }
-
-  .explore-button {
-    font-size: 0.95rem;
-    padding: 10px 24px;
-  }
+  background-color: #927a3b; /* Darker gold on hover */
+  box-shadow: 0 6px 16px rgba(146, 122, 59, 0.5);
 }
 
 
 
 
 
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Dancing+Script&family=Open+Sans&family=Poppins&display=swap');
 
 .sell-route-section {
-  background-color: #f9f9f9;
+  background-color: #fdfcfa; /* Warm off-white */
   padding: 60px 20px;
   text-align: center;
-}
-
-.content {
-  max-width: 700px;
-  margin: auto;
 }
 
 .serif-heading {
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
-  color: #2c2c2c;
+  color: #2d1e6b; /* Deep indigo */
 }
 
 .script-heading {
   font-family: 'Dancing Script', cursive;
   font-size: 2.2rem;
-  color: #555;
+  color: #e07a5f; /* Warm coral */
   display: block;
   margin-top: 5px;
 }
@@ -871,7 +822,7 @@ header h1, header h2 {
 .subtext {
   font-family: 'Open Sans', sans-serif;
   font-size: 1.1rem;
-  color: #666;
+  color: #444444; /* Dark gray */
   margin-top: 20px;
   line-height: 1.6;
 }
@@ -880,8 +831,8 @@ header h1, header h2 {
   display: inline-block;
   margin-top: 30px;
   padding: 12px 30px;
-  background-color: #4a6cf7;
-  color: #fff;
+  background-color: #d1495b; /* Rose */
+  color: #ffffff;
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   border-radius: 30px;
@@ -890,22 +841,23 @@ header h1, header h2 {
 }
 
 .cta-button:hover {
-  background-color: #354fc9;
+  background-color: #a83245; /* Darker rose on hover */
 }
 
-
-/* --------------- Responsive --------------- */
 @media (max-width: 768px) {
+  .categories-section,
   .sell-route-section {
     padding: 40px 15px;
   }
 
+  .categories-section .heading-main,
   .serif-heading {
     font-size: 2rem;
   }
 
+  .categories-section .heading-sub,
   .script-heading {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     margin-top: 4px;
   }
 
@@ -915,30 +867,37 @@ header h1, header h2 {
     line-height: 1.5;
   }
 
+  .explore-button,
   .cta-button {
     font-size: 0.95rem;
     padding: 10px 24px;
     margin-top: 25px;
+    width: 100%;
+    max-width: 280px;
   }
 }
 
 @media (max-width: 480px) {
+  .categories-section,
   .sell-route-section {
     padding: 30px 10px;
   }
 
+  .categories-section .heading-main,
   .serif-heading {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
 
+  .categories-section .heading-sub,
   .script-heading {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .subtext {
     font-size: 0.95rem;
   }
 
+  .explore-button,
   .cta-button {
     font-size: 0.9rem;
     padding: 10px 20px;

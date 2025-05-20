@@ -13,7 +13,7 @@ body, html {
 
 /* ======== Header (Top Bar) ======== */
 header {
-    background-color: #2E2E2E;
+    background-color: #1C3F60;
     padding: 6px 10px;
     height: 40px;
     text-align: center;
@@ -72,7 +72,7 @@ header h1, header h2 {
 .logo-container {
     width: 46px;
     height: 46px;
-    background-color: #2E2E2E;
+    background-color: #1C3F60;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -89,7 +89,7 @@ header h1, header h2 {
 .brand-name {
     font-size: 28px;
     font-weight: bold;
-    color: #2E2E2E;
+    color: #1C3F60;
     font-family: 'Times New Roman';
 }
 
@@ -122,7 +122,7 @@ header h1, header h2 {
 #search-button {
     background: none;
     border: none;
-    color: #4A403A;
+    color: #1C3F60;
     cursor: pointer;
     font-size: 16px;
     display: flex;
@@ -145,7 +145,7 @@ header h1, header h2 {
 
 .menu-item,
 .dropdown-button {
-    color: #4A403A;
+    color: #1C3F60;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     text-decoration: none;

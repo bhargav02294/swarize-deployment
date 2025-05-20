@@ -189,7 +189,7 @@ header h1, header h2 {
 }
 
 .dropdown-content a:hover {
-    background-color: #f4d1ae77;
+    background-color: #f3f1ee77;
 }
 
 /* ======== Mobile View Adjustments ======== */
@@ -409,7 +409,7 @@ header h1, header h2 {
 
 /* Hover Effect */
 .category-btn:hover {
-    background: #FFF5F7  ; /* Solid hover color */
+    background: #ffffff  ; /* Solid hover color */
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(80, 30, 10, 0.4);
 }
@@ -466,7 +466,7 @@ header h1, header h2 {
     align-items: center;
     padding: 10px;
     border-radius: 8px;
-    background: #FFF5F7 ;
+    background: #ffffff ;
     transition: all 0.3s ease;
     font-size: 14px;
     margin-top: 5px;
@@ -1027,7 +1027,7 @@ header h1, header h2 {
 /* Category Section */
 .category-section {
   flex: 1;
-  background: #ffffff ;
+  background: #FFF5F7  ;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(226, 213, 213, 0.597);

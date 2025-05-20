@@ -311,7 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
         slider.style.transform = `translateX(-${currentIndex * 100}%)`; // Move left
     }
 
-    setInterval(showNextSlide, 4000); // Change slide every 3 seconds
+    setInterval(showNextSlide, 5000); // Change slide every 3 seconds
 });
 
 

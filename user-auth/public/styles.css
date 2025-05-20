@@ -255,7 +255,7 @@ header h1, header h2 {
       width: 150px;
       display: flex;
       align-items: center;
-      background: #FFF5F7 ;
+      background: #ffffff ;
       border: 1px solid #4A403A;
       border-radius: 30px;
       padding: 3px 3px;
@@ -368,6 +368,8 @@ header h1, header h2 {
 /* Category Section */
 .category-section {
     display: flex;
+      border-top: 3px solid #2A2B2D;
+
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
@@ -716,7 +718,6 @@ header h1, header h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(250, 250, 250, 0.159); /* adjust to 0.5 or 0.6 if you want darker */
   z-index: 1;
 }
 
@@ -747,18 +748,20 @@ header h1, header h2 {
 
 
 
-
 /* ---------------- CATEGORIES SECTION ---------------- */
 .categories-section {
-  padding: 60px 20px;
+  padding: 160px 40px; /* Increased vertical padding for 3x height */
   color: #FFF5F7;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 14px;
-  max-width: 720px;
+  max-width: 1400px;
   margin: 50px auto;
+  background: 
+    linear-gradient(135deg, #2c0048, #4d0070, #3f005f),
+    repeating-radial-gradient(circle at 20% 20%, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 5px, transparent 6px, transparent 10px);
+  background-blend-mode: overlay;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
-  background: linear-gradient(135deg, #2c0048, #4d0070, #3f005f);
 }
 
 .categories-section .hero-column .content h2 {
@@ -790,6 +793,10 @@ header h1, header h2 {
 
 /* ---------------- RESPONSIVE (Mobile View) ---------------- */
 @media (max-width: 480px) {
+  .categories-section {
+    padding: 100px 20px;
+  }
+
   .categories-section .hero-column .content h2 {
     font-size: 2rem;
   }
@@ -808,15 +815,18 @@ header h1, header h2 {
 
 /* ---------------- SELL ROUTE SECTION ---------------- */
 .sell-route-section {
-  padding: 60px 20px;
+  padding: 160px 40px; /* Height increased via padding */
   color: #EAF6FF;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 14px;
-  max-width: 720px;
+  max-width: 1400px; /* Full width */
   margin: 50px auto;
+  background: 
+    linear-gradient(135deg, #001f3f, #003060, #00254d),
+    repeating-radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02) 4px, transparent 5px, transparent 10px);
+  background-blend-mode: overlay;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
-  background: linear-gradient(135deg, #001f3f, #004080, #003060);
 }
 
 .sell-route-section .hero-column .content h2 {
@@ -858,6 +868,10 @@ header h1, header h2 {
 
 /* ---------------- RESPONSIVE (Mobile View) ---------------- */
 @media (max-width: 480px) {
+  .sell-route-section {
+    padding: 100px 20px;
+  }
+
   .sell-route-section .hero-column .content h2 {
     font-size: 2rem;
   }
@@ -1059,8 +1073,8 @@ header h1, header h2 {
   flex: 1;
   background: #FFF5F7  ;
   padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(27, 26, 26, 0.597);
+  border-radius: 00px;
+box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* Category Heading — now centered and above */
@@ -1551,6 +1565,8 @@ header h1, header h2 {
 
 
 .footer {
+    border-top: 3px solid #2A2B2D;
+
     background-color:#FFF5F7 ;
     color: #2A2B2D;
     padding: 50px 20px;

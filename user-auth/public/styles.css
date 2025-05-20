@@ -82,14 +82,14 @@ header h1, header h2 {
 .logo-text {
     font-size: 31px;
     font-weight: bold;
-    color: #2C2C2C;
+    color: #F2F4F8;
     font-family: 'Times New Roman';
 }
 
 .brand-name {
     font-size: 28px;
     font-weight: bold;
-    color: #F2F4F8;
+    color: #2C2C2C;
     font-family: 'Times New Roman';
 }
 
@@ -362,17 +362,14 @@ header h1, header h2 {
 
 
 
-
-
-
 /* Category Section */
 .category-section {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+      background: #F2F4F8;
     padding: 50px;
-    background: #F2F4F8; /* Light peach tone matching the navbar */
 }
 
 /* Category Dropdown Container */
@@ -777,8 +774,8 @@ header h1, header h2 {
   padding: 14px 38px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(45deg, #e100ff, #9a00ff);
+  background: #F2F4F8;
+    background: linear-gradient(45deg, #e100ff, #9a00ff);
   text-decoration: none;
   border-radius: 50px;
   box-shadow: 0 6px 20px rgba(234, 0, 255, 0.35);

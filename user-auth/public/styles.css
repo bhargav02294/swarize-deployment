@@ -795,20 +795,47 @@ header h1, header h2 {
 }
 
 /* --------------- Responsive --------------- */
-@media (max-width: 480px) {
-  .categories-section h2 {
-    font-size: 2.2rem;
+@media (max-width: 768px) {
+  .categories-section {
+    padding: 40px 15px;
   }
 
-  .categories-section h2 .script {
+  .categories-section .heading-main {
     font-size: 2rem;
+    letter-spacing: 0.03em;
   }
 
-  .categories-section .explore-button {
-    padding: 10px 24px;
+  .categories-section .heading-sub {
+    font-size: 1.4rem;
+    margin-top: 4px;
+  }
+
+  .explore-button {
+    font-size: 1rem;
+    padding: 12px 28px;
+    width: 100%;
+    max-width: 280px;
+    margin: 20px auto 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .categories-section {
+    padding: 30px 12px;
+  }
+
+  .categories-section .heading-main {
+    font-size: 1.7rem;
+  }
+
+  .categories-section .heading-sub {
+    font-size: 1.2rem;
+  }
+
+  .explore-button {
     font-size: 0.95rem;
+    padding: 10px 24px;
   }
-
 }
 
 
@@ -816,94 +843,111 @@ header h1, header h2 {
 
 
 
-/* Import fonts if not already included */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Great+Vibes&display=swap');
-
-/* ----------- SELL ROUTE SECTION (Elegant Fullscreen) ----------- */
 .sell-route-section {
-  height: 100vh;
-  width: 100%;
-  background-color: #181c1f; /* Dark muted blue-black */
-  color: #e2e7ef;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: #f9f9f9;
+  padding: 60px 20px;
   text-align: center;
-  padding: 40px 20px;
+}
+
+.content {
+  max-width: 700px;
+  margin: auto;
+}
+
+.serif-heading {
   font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #2c2c2c;
 }
 
-.sell-route-section .content {
-  max-width: 780px;
-  padding: 0 20px;
-}
-
-.sell-route-section h2 {
-  font-size: 3rem;
-  line-height: 1.3;
-  font-weight: 400;
-  margin-bottom: 24px;
-  color: #cdd9e6;
-}
-
-.sell-route-section h2 .serif {
+.script-heading {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  color: #555;
   display: block;
-  font-family: 'Playfair Display', serif;
-  color: #cbd4e2;
+  margin-top: 5px;
 }
 
-.sell-route-section h2 .script {
-  font-family: 'Great Vibes', cursive;
-  font-size: 2.8rem;
-  color: #97b8d8;
-}
-
-.sell-route-section p {
+.subtext {
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.1rem;
-  margin-bottom: 36px;
-  color: #aab8c8;
+  color: #666;
+  margin-top: 20px;
   line-height: 1.6;
 }
 
-/* Button Styling */
-.sell-route-section .get-started-button {
+.cta-button {
   display: inline-block;
-  padding: 12px 34px;
+  margin-top: 30px;
+  padding: 12px 30px;
+  background-color: #4a6cf7;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
-  font-weight: 500;
-  color: #ffffff;
-  background-color: transparent;
-  border: 2px solid #97b8d8;
-  border-radius: 40px;
+  border-radius: 30px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.sell-route-section .get-started-button:hover {
-  background-color: #97b8d8;
-  color: #181c1f;
-  border-color: #97b8d8;
+.cta-button:hover {
+  background-color: #354fc9;
 }
+
 
 /* --------------- Responsive --------------- */
-@media (max-width: 480px) {
-  .sell-route-section h2 {
-    font-size: 2.2rem;
+@media (max-width: 768px) {
+  .sell-route-section {
+    padding: 40px 15px;
   }
 
-  .sell-route-section h2 .script {
+  .serif-heading {
     font-size: 2rem;
   }
 
-  .sell-route-section p {
-    font-size: 1rem;
+  .script-heading {
+    font-size: 1.8rem;
+    margin-top: 4px;
   }
 
-  .sell-route-section .get-started-button {
-    padding: 10px 24px;
+  .subtext {
+    font-size: 1rem;
+    margin-top: 16px;
+    line-height: 1.5;
+  }
+
+  .cta-button {
     font-size: 0.95rem;
+    padding: 10px 24px;
+    margin-top: 25px;
   }
 }
+
+@media (max-width: 480px) {
+  .sell-route-section {
+    padding: 30px 10px;
+  }
+
+  .serif-heading {
+    font-size: 1.6rem;
+  }
+
+  .script-heading {
+    font-size: 1.4rem;
+  }
+
+  .subtext {
+    font-size: 0.95rem;
+  }
+
+  .cta-button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    width: 100%;
+    max-width: 260px;
+    margin-top: 20px;
+  }
+}
+
 
 
 

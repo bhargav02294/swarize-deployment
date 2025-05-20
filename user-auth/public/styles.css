@@ -273,9 +273,9 @@ header h1, header h2 {
   #search-button {
       font-size: 8px;
       padding: 5px;
-      background-color: #FFF5F7 ;
+      background-color: #ffffff ;
       border: none;
-      color: #520101;
+      color: #2A2B2D;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -529,7 +529,7 @@ header h1, header h2 {
     }
   
     .category-btn {
-      background: #f0ebe5;
+      background: #FFF5F7;
       color: rgb(0, 0, 0);
       font-weight: 600;
       font-size: 6px;
@@ -551,7 +551,7 @@ header h1, header h2 {
     }
   
     .category-btn:hover {
-      background: #F2C6A0;
+      background: #ffffff;
       transform: scale(1.05);
       box-shadow: 0 5px 10px rgba(80, 30, 10, 0.3);
     }
@@ -716,7 +716,7 @@ header h1, header h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.366); /* adjust to 0.5 or 0.6 if you want darker */
+  background: rgba(250, 250, 250, 0.159); /* adjust to 0.5 or 0.6 if you want darker */
   z-index: 1;
 }
 
@@ -748,21 +748,17 @@ header h1, header h2 {
 
 
 
-/* ---------------- COMMON SECTION BASE ---------------- */
-.section {
+/* ---------------- CATEGORIES SECTION ---------------- */
+.categories-section {
   padding: 60px 20px;
-  color: #FFF5F7 ;
+  color: #FFF5F7;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 14px;
   max-width: 720px;
   margin: 50px auto;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
-}
-
-/* ---------------- CATEGORIES SECTION ---------------- */
-.categories-section {
-  background: linear-gradient(135deg, #32064f, #4e007a);
+  background: linear-gradient(135deg, #2c0048, #4d0070, #3f005f);
 }
 
 .categories-section .hero-column .content h2 {
@@ -770,7 +766,7 @@ header h1, header h2 {
   margin-bottom: 22px;
   font-weight: 800;
   letter-spacing: 1.2px;
-  color: #fff;
+  color: #ffffff;
 }
 
 .categories-section .explore-button {
@@ -792,9 +788,35 @@ header h1, header h2 {
   box-shadow: 0 8px 24px rgba(234, 0, 255, 0.6);
 }
 
+/* ---------------- RESPONSIVE (Mobile View) ---------------- */
+@media (max-width: 480px) {
+  .categories-section .hero-column .content h2 {
+    font-size: 2rem;
+  }
+
+  .categories-section .explore-button {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+}
+
+
+
+
+
+
+
 /* ---------------- SELL ROUTE SECTION ---------------- */
 .sell-route-section {
-  background: linear-gradient(135deg, #001b35, #003f73);
+  padding: 60px 20px;
+  color: #EAF6FF;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 14px;
+  max-width: 720px;
+  margin: 50px auto;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #001f3f, #004080, #003060);
 }
 
 .sell-route-section .hero-column .content h2 {
@@ -802,13 +824,13 @@ header h1, header h2 {
   margin-bottom: 18px;
   font-weight: 800;
   letter-spacing: 1.2px;
-  color: #fff;
+  color: #ffffff;
 }
 
 .sell-route-section .hero-column .content p {
   font-size: 1.2rem;
   margin-bottom: 30px;
-  color: #d0d0d0;
+  color: #c8d8f0;
   max-width: 540px;
   margin-left: auto;
   margin-right: auto;
@@ -821,7 +843,7 @@ header h1, header h2 {
   font-size: 1.1rem;
   font-weight: 600;
   color: #ffffff;
-  background: linear-gradient(45deg, #00bfff, #0066ff);
+  background: linear-gradient(45deg, #0099ff, #0066cc);
   text-decoration: none;
   border-radius: 50px;
   box-shadow: 0 6px 20px rgba(0, 119, 255, 0.35);
@@ -830,27 +852,33 @@ header h1, header h2 {
 
 .sell-route-section .get-started-button:hover,
 .sell-route-section .get-started-button:focus {
-  background: linear-gradient(45deg, #0066ff, #00bfff);
+  background: linear-gradient(45deg, #0066cc, #0099ff);
   box-shadow: 0 8px 24px rgba(0, 119, 255, 0.6);
 }
 
-/* ---------------- RESPONSIVE ---------------- */
+/* ---------------- RESPONSIVE (Mobile View) ---------------- */
 @media (max-width: 480px) {
-  .categories-section .hero-column .content h2,
   .sell-route-section .hero-column .content h2 {
     font-size: 2rem;
-  }
-
-  .categories-section .explore-button,
-  .sell-route-section .get-started-button {
-    padding: 12px 28px;
-    font-size: 1rem;
   }
 
   .sell-route-section .hero-column .content p {
     font-size: 1rem;
   }
+
+  .sell-route-section .get-started-button {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -862,7 +890,7 @@ header h1, header h2 {
 .product-slider-section {
   padding: 30px 20px;
   background: #FFF5F7 ;
-  border-top: 3px solid #8C4A32;
+  border-top: 3px solid #2A2B2D;
   border-bottom: 1px solid #ddd;
 }
 
@@ -991,6 +1019,8 @@ header h1, header h2 {
   width: 90%;
   max-width: 1200px;
   margin: 10px auto;
+  color: #ffffff;
+  
   text-align: center;
   padding: 0 10px;
 }
@@ -1030,7 +1060,7 @@ header h1, header h2 {
   background: #FFF5F7  ;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(226, 213, 213, 0.597);
+  box-shadow: 0 2px 8px rgba(27, 26, 26, 0.597);
 }
 
 /* Category Heading — now centered and above */
@@ -1598,7 +1628,7 @@ header h1, header h2 {
 }
 
 .footer-section ul li a:hover {
-    color: #2A2B2D      ; /* Gold */
+    color: #151617      ; /* Gold */
 }
 
 /* Contact Info */

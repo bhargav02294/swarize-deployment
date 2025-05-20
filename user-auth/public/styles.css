@@ -13,7 +13,7 @@ body, html {
 
 /* ======== Header (Top Bar) ======== */
 header {
-    background-color: #B83250;
+    background-color: #2E2E2E;
     padding: 6px 10px;
     height: 40px;
     text-align: center;
@@ -72,7 +72,7 @@ header h1, header h2 {
 .logo-container {
     width: 46px;
     height: 46px;
-    background-color: #B83250;
+    background-color: #2E2E2E;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -89,7 +89,7 @@ header h1, header h2 {
 .brand-name {
     font-size: 28px;
     font-weight: bold;
-    color: #B83250;
+    color: #2E2E2E;
     font-family: 'Times New Roman';
 }
 
@@ -98,7 +98,7 @@ header h1, header h2 {
 .search-container {
     --timing: 0.3s;
     --border-color: #4A403A;
-    background: #F2F4F8;
+    background: #FFF5F7;
     border: 1px solid var(--border-color);
     border-radius: 30px;
     display: flex;
@@ -365,10 +365,11 @@ header h1, header h2 {
 /* Category Section */
 .category-section {
     display: flex;
+    color: #FFF5F7;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-      background: #F2F4F8;
+      background: #FFF5F7;
     padding: 50px;
 }
 
@@ -379,7 +380,7 @@ header h1, header h2 {
 }
 /* Normal State */
 .category-btn {
-    background: #F2F4F8  ; /* Solid background */
+    background: #FFF5F7  ; /* Solid background */
     color: rgb(0, 0, 0);
     font-weight: bold;
     font-size: 14px;
@@ -747,7 +748,7 @@ header h1, header h2 {
 /* ---------------- COMMON SECTION BASE ---------------- */
 .section {
   padding: 60px 20px;
-  color: #F2F4F8;
+  color: #FFF5F7;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 14px;
@@ -758,7 +759,7 @@ header h1, header h2 {
 
 /* ---------------- CATEGORIES SECTION ---------------- */
 .categories-section {
-  background: #F2F4F8;
+  background: #FFF5F7;
 }
 
 .categories-section .hero-column .content h2 {
@@ -766,7 +767,7 @@ header h1, header h2 {
   margin-bottom: 22px;
   font-weight: 800;
   letter-spacing: 1.2px;
-  color: #F2F4F8;
+  color: #FFF5F7;
 }
 
 .categories-section .explore-button {
@@ -774,7 +775,7 @@ header h1, header h2 {
   padding: 14px 38px;
   font-size: 1.1rem;
   font-weight: 600;
-  background: #F2F4F8;
+  background: #FFF5F7;
     background: linear-gradient(45deg, #e100ff, #9a00ff);
   text-decoration: none;
   border-radius: 50px;
@@ -816,7 +817,7 @@ header h1, header h2 {
   padding: 14px 40px;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffffff;
+  color: #FFF5F7;
   background: linear-gradient(45deg, #00bfff, #0066ff);
   text-decoration: none;
   border-radius: 50px;
@@ -857,7 +858,7 @@ header h1, header h2 {
 
 .product-slider-section {
   padding: 30px 20px;
-  background: #F2F4F8;
+  background: #FFF5F7;
   border-top: 3px solid #8C4A32;
   border-bottom: 1px solid #ddd;
 }
@@ -1518,7 +1519,7 @@ header h1, header h2 {
 
 .footer {
     background-color:#FFF5F7 ;
-    color: #B83250 ;
+    color: #2E2E2E ;
     padding: 50px 20px;
     font-family: sans-serif;
 }

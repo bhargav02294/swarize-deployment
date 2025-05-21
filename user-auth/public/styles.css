@@ -666,12 +666,18 @@ header h1, header h2 {
 
 
 
-
 /* Reset & Layout */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
 }
 
 .slider-section {
@@ -705,6 +711,8 @@ header h1, header h2 {
 
 .banner-style {
   background: #ffffff;
+  width: 100%;
+  height: 100%;
   padding: 60px;
   display: flex;
   align-items: center;
@@ -716,7 +724,8 @@ header h1, header h2 {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1200px;
+  height: 100%;
+  max-width: 1400px;
   gap: 40px;
 }
 
@@ -763,12 +772,18 @@ header h1, header h2 {
 .banner-image {
   flex: 1;
   text-align: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .banner-image img {
   width: 100%;
-  max-width: 500px;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover; /* Important for full image fill */
+  border-radius: 16px;
+  max-width: none;
 }
 
 /* Mobile Responsive */
@@ -777,6 +792,7 @@ header h1, header h2 {
     flex-direction: column-reverse;
     text-align: center;
     padding: 20px;
+    height: auto;
   }
 
   .banner-text {
@@ -797,10 +813,12 @@ header h1, header h2 {
   }
 
   .banner-image img {
-    max-width: 80%;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
   }
 }
-
 
 
 

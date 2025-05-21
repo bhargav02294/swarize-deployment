@@ -306,14 +306,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function showNextSlide() {
         currentIndex++;
         if (currentIndex >= slides.length) {
-            currentIndex = 0; // Reset to first slide
+            currentIndex = 0; // Loop back
         }
-        slider.style.transform = `translateX(-${currentIndex * 100}%)`; // Move left
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-    setInterval(showNextSlide, 5000); // Change slide every 3 seconds
+    setInterval(showNextSlide, 5000); // 5 seconds per slide
 });
-
 
 
 

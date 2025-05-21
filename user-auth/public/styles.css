@@ -669,74 +669,94 @@ header h1, header h2 {
 
 
 
-
-/* 🌄 Slider section full screen */
+/* 🌄 Fullscreen Image Slider Section */
 .slider-section {
-  position: contain;
   width: 100vw;
+  height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
-/* Full wrapper */
+/* 🖼️ Wrapper for slider (keeps slides contained) */
 .slider-wrapper {
-  width: 100vw;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   position: relative;
 }
 
-/* Horizontal sliding container */
+/* 🛝 Sliding track container */
 .slider {
   display: flex;
+  height: 100%;
   transition: transform 0.8s ease-in-out;
   will-change: transform;
 }
 
-/* Each slide now wraps image + overlay */
+/* 🔄 Each individual slide */
 .slide {
-  flex: 0 0 100vw;
-  height: 700px;
-  position: contain;
-  overflow: hidden;
+  flex: 0 0 100%;
+  height: 100%;
+  position: relative;
 }
 
-/* Image fills slide */
+/* 🖼️ Slide image style */
 .slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  user-select: none;
   pointer-events: none;
+  user-select: none;
+  filter: brightness(90%);
 }
 
-/* 🔲 Overlay on top of image */
+/* 🧊 Optional dark overlay for text contrast */
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
   z-index: 1;
 }
 
-/* ✅ Responsive Heights */
-@media (max-width: 1024px) {
-  .slide {
-    height: 420px;
-  }
-}
-@media (max-width: 768px) {
-  .slide {
-    height: 320px;
-  }
-}
-@media (max-width: 480px) {
-  .slide {
-    height: 240px;
-  }
+/* ✍️ Optional Text Over Slide */
+.overlay-text {
+  position: absolute;
+  z-index: 2;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #fff;
+  padding: 20px;
 }
 
+.overlay-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.overlay-text p {
+  font-size: 1.2rem;
+}
+
+/* 📱 Responsive tweaks */
+@media (max-width: 768px) {
+  .slide {
+    height: 60vh;
+  }
+
+  .overlay-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .overlay-text p {
+    font-size: 1rem;
+  }
+}
 
 
 

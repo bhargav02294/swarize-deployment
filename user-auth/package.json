@@ -29,7 +29,7 @@
         "libphonenumber-js": "^1.11.12",
         "mongodb": "^6.8.0",
         "mongoose": "^8.9.6",
-        "multer": "1.4.5",
+        "multer": "^1.4.5-lts.1",
         "multer-storage-cloudinary": "^4.0.0",
         "nodemailer": "^6.10.0",
         "passport": "^0.7.0",
@@ -42,7 +42,8 @@
         "slugify": "^1.6.6",
         "streamifier": "^0.1.1",
         "stripe": "^17.2.1",
-        "twilio": "^5.4.2"
+        "twilio": "^5.4.2",
+        "user-auth": "file:"
     },
     "devDependencies": {
         "@types/multer": "^1.4.12",

@@ -672,7 +672,7 @@ header h1, header h2 {
 
 /* 🌄 Slider section full screen */
 .slider-section {
-  position: relative;
+  position: contain;
   width: 100vw;
   overflow: hidden;
 }
@@ -696,7 +696,7 @@ header h1, header h2 {
 .slide {
   flex: 0 0 100vw;
   height: 700px;
-  position: relative;
+  position: contain;
   overflow: hidden;
 }
 

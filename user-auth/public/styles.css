@@ -667,17 +667,21 @@ header h1, header h2 {
 
 
 
+/* Reset & Layout */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-
-/* 🌄 Fullscreen Image Slider Section */
 .slider-section {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   position: relative;
+  background-color: #f9f9f9;
 }
 
-/* Wrapper */
 .slider-wrapper {
   width: 100%;
   height: 100%;
@@ -685,92 +689,69 @@ header h1, header h2 {
   position: relative;
 }
 
-/* Track */
 .slider {
   display: flex;
   height: 100%;
   transition: transform 0.8s ease-in-out;
-  will-change: transform;
 }
 
-/* Individual Slide */
 .slide {
   flex: 0 0 100%;
   height: 100%;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.slide img {
+.banner-style {
+  background: #ffffff;
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-  filter: brightness(85%);
+  max-width: 1200px;
+  gap: 40px;
 }
 
-/* Overlay for dark contrast */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
-  z-index: 1;
+.banner-text {
+  flex: 1;
+  padding-left: 40px;
 }
 
-/* Text on image */
-.overlay-text {
-  position: absolute;
-  z-index: 2;
-  bottom: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: #fff;
-  padding: 20px;
-}
-
-.overlay-text h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  font-weight: 700;
-}
-
-.overlay-text p {
-  font-size: 1.2rem;
-  font-weight: 400;
-}
-
-/* ✨ Overlay Text Styling Inspired by Sample Design */
-
-.hero-title {
+.banner-text h1 {
   font-size: 3rem;
+  line-height: 1.2;
   font-weight: 800;
-  text-transform: uppercase;
+  color: #1f2937;
   margin-bottom: 15px;
-  letter-spacing: 1px;
-  color: #ffffff;
 }
 
-.hero-subtitle {
-  font-size: 1.3rem;
-  font-weight: 400;
-  color: #f5f5f5;
+.banner-text .highlight {
+  color: #d61355;
+}
+
+.banner-text p {
+  font-size: 1.2rem;
+  color: #4b5563;
   margin-bottom: 25px;
 }
 
 .cta-button {
-  background-color: #facc15; /* Yellow */
-  color: #111827; /* Dark text */
+  background-color: #facc15;
+  color: #111827;
   padding: 12px 30px;
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: 8px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
@@ -779,37 +760,47 @@ header h1, header h2 {
   transform: scale(1.05);
 }
 
-/* Responsive */
+.banner-image {
+  flex: 1;
+  text-align: center;
+}
+
+.banner-image img {
+  width: 100%;
+  max-width: 500px;
+  object-fit: contain;
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 1.8rem;
+  .banner-content {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 20px;
   }
 
-  .hero-subtitle {
+  .banner-text {
+    padding: 0;
+  }
+
+  .banner-text h1 {
+    font-size: 2rem;
+  }
+
+  .banner-text p {
     font-size: 1rem;
   }
 
   .cta-button {
+    font-size: 0.95rem;
     padding: 10px 24px;
-    font-size: 0.9rem;
+  }
+
+  .banner-image img {
+    max-width: 80%;
   }
 }
 
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .slide {
-    height: 60vh;
-  }
-
-  .overlay-text h2 {
-    font-size: 1.6rem;
-  }
-
-  .overlay-text p {
-    font-size: 1rem;
-  }
-}
 
 
 

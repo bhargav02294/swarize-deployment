@@ -14,7 +14,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  background: #ffffff;
+  background: #FFF5F7;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -51,14 +51,14 @@ ul li {
 }
 
 .benefits, .promotion {
-    background: #FFF5F7;
+    background: #ffffff;
     padding: 15px;
     border-radius: 5px;
     margin-top: 20px;
 }
 
 .promo-box {
-    background: #FFF5F7;
+    background: #ffffff;
     padding: 15px;
     margin: 10px 0;
     border-left: 5px solid #2A2B2D;
@@ -86,7 +86,7 @@ ul li {
 
 /* Navbar */
 .navbar {
-    background-color: #FFF5F7;
+    background-color: #2A2B2D;
     display: flex;
     width: 1520px;
     align-items: center;
@@ -106,7 +106,7 @@ ul li {
   .navbar-title {
     font-size: 32px;
     font-weight: bold;
-    color: #2A2B2D;
+    color: #FFF5F7;
     flex-grow: 1;
     text-align: center;
   }
@@ -114,19 +114,19 @@ ul li {
   
   /* Footer */
   .footer {
-    background-color: #FFF5F7;
+    background-color: #2A2B2D;
     text-align: center;
     padding: 10px;
     width: 1520px;
     margin-top: 40px;
-    color: #4A403A;
+    color: #FFF5F7;
   }
   
   /* Logo Styling */
   .logo-container {
     width: 60px;
     height: 60px;
-    background-color: #2A2B2D;
+    background-color: #FFF5F7;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -136,7 +136,7 @@ ul li {
   .logo-text {
     font-size: 50px;
     font-weight: 600;
-    color: #FFF5F7;
+    color: #2A2B2D;
     font-family: 'Times New Roman';
     display: flex;
     align-items: center;

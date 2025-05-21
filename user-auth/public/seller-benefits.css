@@ -142,7 +142,7 @@ table th {
 
 /* Navbar */
 .navbar {
-    background-color: #FFF5F7;
+    background-color:  #2A2B2D;
     display: flex;
     width: 100%;
     max-width: 1520px;
@@ -164,18 +164,18 @@ table th {
 .navbar-title {
     font-size: 32px;
     font-weight: bold;
-    color: #2A2B2D;
+    color:  #FFF5F7;
     flex-grow: 1;
     text-align: center;
 }
 
 .footer {
-    background-color: #FFF5F7;
+    background-color:  #2A2B2D;
     text-align: center;
     padding: 15px;
     width: 100%;
     margin-top: 40px;
-    color: #2A2B2D;
+    color: #FFF5F7;
     font-size: 16px;
     font-weight: bold;
 }
@@ -184,7 +184,7 @@ table th {
 .logo-container {
     width: 60px;
     height: 60px;
-    background-color: #2A2B2D;
+    background-color: #FFF5F7;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -194,7 +194,7 @@ table th {
 .logo-text {
     font-size: 50px;
     font-weight: 600;
-    color: #FFF5F7;
+    color:  #2A2B2D;
     font-family: 'Times New Roman';
     display: flex;
     align-items: center;

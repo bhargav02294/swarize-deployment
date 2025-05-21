@@ -71,7 +71,7 @@ body {
 
 /* Navbar */
 .navbar {
-  background-color: #FFF5F7;
+  background-color:  #2A2B2D;
   display: flex;
   width: 100%;
   max-width: 1520px;
@@ -92,18 +92,18 @@ body {
 .navbar-title {
   font-size: 32px;
   font-weight: bold;
-  color: #2A2B2D;
+  color: #FFF5F7;
   flex-grow: 1;
   text-align: center;
 }
 
 /* Footer */
 .footer {
-  background-color: #FFF5F7;
+  background-color:  #2A2B2D;
   text-align: center;
   padding: 15px;
   width: 100%;
-  color: #2A2B2D;
+  color: #FFF5F7;
   margin-top: auto;
 }
 
@@ -111,7 +111,7 @@ body {
 .logo-container {
   width: 60px;
   height: 60px;
-  background-color: #2A2B2D;
+  background-color: #FFF5F7;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -121,7 +121,7 @@ body {
 .logo-text {
   font-size: 50px;
   font-weight: 600;
-  color: #FFF5F7;
+  color:  #2A2B2D;
   font-family: 'Times New Roman';
   display: flex;
   align-items: center;

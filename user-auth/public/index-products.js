@@ -328,7 +328,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 //----------------dropdowns   --         login country category    -------------------------//
 
 document.addEventListener('click', function (event) {

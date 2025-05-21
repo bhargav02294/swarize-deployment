@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #ffffff;
-    color: #4A403A; /* updated from #333 */
+    color: #2A2B2D; /* Changed from #4A403A */
 }
 
 /* Global Styles */
@@ -19,9 +19,9 @@ body {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: #FFF5F7; /* changed from white */
+    background: #FAE8EB; /* Slightly deeper variant of #FFF5F7 */
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(42, 43, 45, 0.1); /* adjusted shadow tone */
+    box-shadow: 0 0 10px rgba(42, 43, 45, 0.1);
 }
 
 h1, h2 {
@@ -45,18 +45,18 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #DDD;
+    border: 1px solid #CCC;
 }
 
 th, td {
     padding: 10px;
     text-align: center;
-    color: #4A403A;
+    color: #2A2B2D;
 }
 
 th {
     background-color: #2A2B2D;
-    color: #ffffff;
+    color: #FFF5F7;
 }
 
 ul {
@@ -85,7 +85,7 @@ ul {
 }
 
 .benefit-box {
-    background: #FFF5F7;
+    background: #FAE8EB;
     padding: 15px;
     border-radius: 10px;
     text-align: center;
@@ -98,20 +98,19 @@ ul {
     font-weight: bold;
     text-align: center;
     margin-top: 20px;
-    color: #4A403A;
+    color: #2A2B2D;
 }
-
 
 /* Navbar */
 .navbar {
-    background-color: #FFF5F7;
+    background-color: #2A2B2D;
     display: flex;
     width: 1520px;
     align-items: center;
     justify-content: space-between;
     padding: 15px;
     height: 80px;
-    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .navbar-container {
@@ -124,18 +123,18 @@ ul {
 .navbar-title {
     font-size: 32px;
     font-weight: bold;
-    color: #2A2B2D;
+    color: #FFF5F7;
     flex-grow: 1;
     text-align: center;
 }
 
 .footer {
-    background-color: #FFF5F7;
+    background-color: #2A2B2D;
     text-align: center;
     padding: 15px;
     width: 100%;
     margin-top: 40px;
-    color: #4A403A;
+    color: #FFF5F7;
     font-size: 16px;
     font-weight: bold;
 }
@@ -143,7 +142,7 @@ ul {
 .logo-container {
     width: 60px;
     height: 60px;
-    background-color: #2A2B2D;
+    background-color: #FFF5F7;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -153,7 +152,7 @@ ul {
 .logo-text {
     font-size: 50px;
     font-weight: 600;
-    color: #FFF5F7;
+    color: #2A2B2D;
     font-family: 'Times New Roman';
 }
 
@@ -183,7 +182,7 @@ ul {
 }
 
 .back-button:before {
-    border: 4px solid #4A403A;
+    border: 4px solid #FFF5F7;
     transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
 }
 
@@ -216,7 +215,7 @@ ul {
     height: 20px;
     margin: 17px 18px 0 18px;
     transform: rotate(180deg);
-    fill: #4A403A;
+    fill: #FFF5F7;
 }
 
 .back-button:hover .button-box {
@@ -248,12 +247,14 @@ ul {
         text-align: center;
         margin-top: 8px;
         width: 100%;
+        color: #FFF5F7;
     }
 
     .footer {
         width: 100%;
         padding: 12px;
         font-size: 14px;
+        color: #FFF5F7;
     }
 
     .back-button {

@@ -7,40 +7,71 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f9fafc;
+  background-color: #FFF5F7;
   color: #2c3e50;
   overflow-x: hidden;
 }
 
+
 /* Navbar */
 .navbar {
-  background-color: #F4D1AE;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 10;
+    background-color: #2A2B2D;
+    display: flex;
+    width: 1520px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    height: 80px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .navbar-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
-
 
 .navbar-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #8C4A32;
-  flex-grow: 1;
-  text-align: center;
-  margin-left: -50px; /* balance center */
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFF5F7;
+    flex-grow: 1;
+    text-align: center;
 }
+
+.footer {
+    background-color: #2A2B2D;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    margin-top: 40px;
+    color: #FFF5F7;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logo-container {
+    width: 60px;
+    height: 60px;
+    background-color: #FFF5F7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text {
+    font-size: 50px;
+    font-weight: 600;
+    color: #2A2B2D;
+    font-family: 'Times New Roman';
+}
+
+.logo-link {
+    text-decoration: none;
+}
+
 
 /* Header Section */
 header {
@@ -134,41 +165,6 @@ header {
 
 
 
-/* Logo Styling */
-.logo-container {
-  width: 60px;
-  height: 60px;
-  background-color: #8C4A32;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-text {
-  font-size: 50px;
-  font-weight: 600;
-  color: #F4D1AE;
-  font-family: 'Times New Roman';
-  display: flex;
-  align-items: center;
-}
-
-.logo-link {
-  text-decoration: none;
-}
-
-
-/* Footer */
-.footer {
-  background-color: #F4D1AE;
-  text-align: center;
-  padding: 20px;
-  margin-top: 40px;
-  color: #4A403A;
-  font-size: 16px;
-  font-weight: 500;
-}
 
 /* Media Queries for Mobile */
 @media (max-width: 768px) {

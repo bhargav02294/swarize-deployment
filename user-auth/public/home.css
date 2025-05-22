@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #2A2B2D;
+    background-color: #FFF5F7;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -168,7 +168,7 @@ body {
 
 /* Button Hover Effect */
 .grid-item button:hover {
-    background-color: #8C4A32;
+    background-color: #727478;
     transform: scale(1.05);
 }
 

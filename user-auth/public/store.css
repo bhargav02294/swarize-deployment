@@ -132,143 +132,127 @@ body {
 
 
 
-/* --- Custom Animated Back Button --- */
+/* Navbar */
+.navbar {
+    background-color: #2A2B2D;
+    display: flex;
+    width: 1520px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    height: 80px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.navbar-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFF5F7;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.footer {
+    background-color: #2A2B2D;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    margin-top: 40px;
+    color: #FFF5F7;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logo-container {
+    width: 60px;
+    height: 60px;
+    background-color: #FFF5F7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text {
+    font-size: 50px;
+    font-weight: 600;
+    color: #2A2B2D;
+    font-family: 'Times New Roman';
+}
+
+.logo-link {
+    text-decoration: none;
+}
+
+/* Back Button */
 .back-button {
-  display: block;
-  position: absolute;
-  top: 100px;
-  left: 20px;
-  width: 56px;
-  height: 56px;
-  margin: 0;
-  overflow: hidden;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  border: 0;
+    display: block;
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    width: 56px;
+    height: 56px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
 }
 
 .back-button:before,
 .back-button:after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  inset: 7px;
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 7px;
 }
 
 .back-button:before {
-  border: 4px solid #4A403A;
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+    border: 4px solid #FFF5F7;
+    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .back-button:after {
-  border: 4px solid #2A2B2D;
-  transform: scale(1.3);
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-  opacity: 0;
+    border: 4px solid #2A2B2D;
+    transform: scale(1.3);
+    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+    opacity: 0;
 }
 
 .back-button:hover:before {
-  opacity: 0;
-  transform: scale(0.7);
+    opacity: 0;
+    transform: scale(0.7);
 }
 
 .back-button:hover:after {
-  opacity: 1;
-  transform: scale(1);
+    opacity: 1;
+    transform: scale(1);
 }
 
 .button-box {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .button-elem {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: 17px 18px 0 18px;
-  transform: rotate(180deg);
-  fill: #4A403A;
+    width: 20px;
+    height: 20px;
+    margin: 17px 18px 0 18px;
+    transform: rotate(180deg);
+    fill: #FFF5F7;
 }
 
 .back-button:hover .button-box {
-  transition: 0.4s;
-  transform: translateX(-56px);
+    transition: 0.4s;
+    transform: translateX(-56px);
 }
-
-
-
-
-/* Logo Styling */
-.logo-container {
-  width: 60px;
-  height: 60px;
-  background-color: #2A2B2D;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-text {
-  font-size: 50px;
-  font-weight: 600;
-  color: #FFF5F7;
-  font-family: 'Times New Roman';
-  display: flex;
-  align-items: center;
-}
-
-.logo-link {
-  text-decoration: none;
-}
-
-
-
-/* Navbar */
-.navbar {
-  background-color: #FFF5F7;
-  display: flex;
-  width: 100%; /* Fix */
-  max-width: 1520px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
-}
-
-.navbar-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.navbar-title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #2A2B2D;
-  flex-grow: 1;
-  text-align: center;
-}
-
-
-
-/* Footer */
-.footer {
-background-color: #FFF5F7;
-  color: #4A403A;
-      text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-    font-size: 16px;
-    font-weight: 500;
-}
-
 
 
 

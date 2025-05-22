@@ -3,7 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #FFF5F7;
     color: #333;
 }
 
@@ -26,7 +26,7 @@ body {
 }
 
 .container h2 {
-    color: #8C4A32;
+    color: #FFF5F7;
     font-size: 22px;
     margin-bottom: 12px;
 }
@@ -57,7 +57,7 @@ body {
 
 .faq-question {
     width: 100%;
-    background: #8C4A32;
+    background: #2A2B2D;
     color: #e7e7e7;
     font-size: 16px;
     font-weight: bold;
@@ -71,14 +71,14 @@ body {
 }
 
 .faq-question:hover {
-    background: #F4D1AE;
+    background: #FFF5F7;
     color: rgb(3, 2, 2);
 }
 
 .faq-answer {
     display: none;
     padding: 10px;
-    border-left: 4px solid #8C4A32;
+    border-left: 4px solid #2A2B2D;
     margin-top: 5px;
     background: #f9f9f9;
     border-radius: 6px;
@@ -100,133 +100,125 @@ body {
 
 /* Navbar */
 .navbar {
-    background-color: #F4D1AE;
+    background-color: #2A2B2D;
     display: flex;
     width: 1520px;
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    height: 60px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar-container {
+    height: 80px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-container {
     display: flex;
     align-items: center;
     width: 100%;
     justify-content: space-between;
-  }
-  
-  .navbar-title {
+}
+
+.navbar-title {
     font-size: 32px;
     font-weight: bold;
-    color: #8C4A32;
+    color: #FFF5F7;
     flex-grow: 1;
     text-align: center;
-  }
-  
-  
-  /* Footer */
-  .footer {
-    background-color: #F4D1AE;
+}
+
+.footer {
+    background-color: #2A2B2D;
     text-align: center;
-    padding: 10px;
-    width: 1520px;
+    padding: 15px;
+    width: 100%;
     margin-top: 40px;
-    color: #4A403A;
-  }
-  
-  /* Logo Styling */
-  .logo-container {
+    color: #FFF5F7;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logo-container {
     width: 60px;
     height: 60px;
-    background-color: #8C4A32;
+    background-color: #FFF5F7;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .logo-text {
+}
+
+.logo-text {
     font-size: 50px;
     font-weight: 600;
-    color: #F4D1AE;
+    color: #2A2B2D;
     font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo-link {
+}
+
+.logo-link {
     text-decoration: none;
-  }
-  
-  /* --- Custom Animated Back Button --- */
-  .back-button {
+}
+
+/* Back Button */
+.back-button {
     display: block;
     position: absolute;
     top: 100px;
     left: 20px;
     width: 56px;
     height: 56px;
-    margin: 0;
-    overflow: hidden;
-    outline: none;
     background-color: transparent;
     cursor: pointer;
     border: 0;
-  }
-  
-  .back-button:before,
-  .back-button:after {
+}
+
+.back-button:before,
+.back-button:after {
     content: "";
     position: absolute;
     border-radius: 50%;
     inset: 7px;
-  }
-  
-  .back-button:before {
-    border: 4px solid #4A403A;
+}
+
+.back-button:before {
+    border: 4px solid #FFF5F7;
     transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-  }
-  
-  .back-button:after {
-    border: 4px solid #8C4A32;
+}
+
+.back-button:after {
+    border: 4px solid #2A2B2D;
     transform: scale(1.3);
     transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
     opacity: 0;
-  }
-  
-  .back-button:hover:before {
+}
+
+.back-button:hover:before {
     opacity: 0;
     transform: scale(0.7);
-  }
-  
-  .back-button:hover:after {
+}
+
+.back-button:hover:after {
     opacity: 1;
     transform: scale(1);
-  }
-  
-  .button-box {
+}
+
+.button-box {
     display: flex;
     position: absolute;
     top: 0;
     left: 0;
-  }
-  
-  .button-elem {
-    display: block;
+}
+
+.button-elem {
     width: 20px;
     height: 20px;
     margin: 17px 18px 0 18px;
     transform: rotate(180deg);
-    fill: #4A403A;
-  }
-  
-  .back-button:hover .button-box {
+    fill: #FFF5F7;
+}
+
+.back-button:hover .button-box {
     transition: 0.4s;
     transform: translateX(-56px);
-  }
-  
+}
 
 /* ================= MOBILE VIEW ================= */
 @media (max-width: 768px) {

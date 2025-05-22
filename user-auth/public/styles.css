@@ -517,18 +517,16 @@ header h1, header h2 {
 @media (max-width: 768px) {
   .category-section {
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    padding: 15px 10px;
+    padding: 20px 10px;
     background: #FFF5F7;
-    white-space: nowrap;
   }
 
   .category-dropdown {
-    flex: 0 0 auto;
-    width: 120px;
-    scroll-snap-align: center;
+    flex: 0 0 18%;
+    max-width: 18%;
     text-align: center;
     position: relative;
   }
@@ -537,35 +535,36 @@ header h1, header h2 {
     background: #ffffff;
     border-radius: 12px;
     border: 1px solid #e0cfcf;
-    padding: 10px;
-    font-size: 12px;
+    padding: 8px 5px;
+    font-size: 10px;
     font-weight: 600;
     color: #4A403A;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    gap: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
     cursor: pointer;
+    width: 100%;
   }
 
   .category-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
     object-fit: cover;
   }
 
   .subcategory-list {
     position: absolute;
-    top: 110%;
+    top: 105%;
     left: 0;
     width: 100vw;
     background: #ffffff;
     border: 1px solid #F4D1AE;
     border-radius: 12px;
-    padding: 15px 10px;
+    padding: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     z-index: 999;
     display: none;
@@ -581,13 +580,13 @@ header h1, header h2 {
   .subcategory-list li {
     background: #FFF5F7;
     border-radius: 6px;
-    margin: 5px;
-    padding: 8px 10px;
-    font-size: 12px;
+    margin: 4px;
+    padding: 6px 8px;
+    font-size: 11px;
     font-weight: 500;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
-    flex: 0 0 45%;
+    flex: 0 0 46%;
     text-align: center;
   }
 
@@ -607,16 +606,6 @@ header h1, header h2 {
     display: none;
   }
 
-  /* Hide scroll bar for horizontal scroll */
-  .category-section::-webkit-scrollbar {
-    display: none;
-  }
-  .category-section {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  /* Add subtle animation to dropdown */
   .subcategory-list {
     animation: fadeSlide 0.3s ease-in-out;
   }
@@ -632,9 +621,6 @@ header h1, header h2 {
     }
   }
 }
-
-
-
 
 
 

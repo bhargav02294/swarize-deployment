@@ -511,10 +511,13 @@ header h1, header h2 {
 }
 
 
+
 /* Mobile View - Category Section */
 /* Mobile View - Category Section */
 /* 🌟 Unique & Professional Mobile View for Category Section 🌟 */
 /* 🌟 Final Mobile View - 5 Categories Per Row + Horizontal Scroll for Subcategories 🌟 */
+@media (max-width: 768px) {
+
 .category-section {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -648,6 +651,13 @@ header h1, header h2 {
   right: 0;
   transform: translateX(0);
 }
+}
+
+
+
+
+
+
 
 
 

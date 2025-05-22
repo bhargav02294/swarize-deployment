@@ -514,69 +514,112 @@ header h1, header h2 {
 /* Mobile View - Category Section */
 /* Mobile View - Category Section */
 /* 🌟 Unique & Professional Mobile View for Category Section 🌟 */
-/* 🌟 Unique & Professional Mobile View - 5 Subcategories Per Row 🌟 */
-@media (max-width: 768px) {
-  .category-section {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    padding: 20px 10px;
-    background: #FFF5F7;
-  }
+/* 🌟 Final Mobile View - 5 Categories Per Row + Horizontal Scroll for Subcategories 🌟 */
+.category-section {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  padding: 20px 10px;
+  background: #FFF5F7;
+}
 
-  .category-dropdown {
-    text-align: center;
-    position: relative;
-  }
+.category-dropdown {
+  text-align: center;
+  position: relative;
+}
 
-  .category-btn {
-    background: #ffffff;
-    border-radius: 10px;
-    border: 1px solid #e0cfcf;
-    padding: 10px 5px;
-    font-size: 10px;
-    font-weight: 600;
-    color: #4A403A;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
-    width: 100%;
-    height: 80px;
-    cursor: pointer;
-  }
+.category-btn {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e0cfcf;
+  padding: 10px 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #4A403A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+  width: 100%;
+  height: 80px;
+  cursor: pointer;
+}
 
-  .category-icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+.category-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-  .subcategory-list {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90vw;
-    background: #ffffff;
-    border: 1px solid #F4D1AE;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    display: none;
-    flex-wrap: wrap;
-    max-height: 400px;
-    overflow-y: auto;
-    margin-top: 10px;
-  }
+/* 🔄 Horizontal Scroll Subcategory List */
+.subcategory-list {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95vw;
+  background: #ffffff;
+  border: 1px solid #F4D1AE;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  display: none;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 10px;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+}
 
+.category-dropdown.active .subcategory-list {
+  display: flex;
+}
 
+/* Subcategory Item Styling */
+.subcategory-list li {
+  flex: 0 0 auto;
+  background: #FFF5F7;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  text-align: center;
+  scroll-snap-align: start;
+  transition: 0.3s ease;
+}
 
-  /* 🔁 Smart Subcategory Positioning on Mobile */
+.subcategory-list li:hover {
+  background: #F4D1AE;
+  transform: scale(1.05);
+}
+
+.subcategory-list li a {
+  text-decoration: none;
+  color: #4A403A;
+  display: block;
+  width: 100%;
+}
+
+/* Optional subcategory icons hidden */
+.subcategory-list li img {
+  display: none;
+}
+
+/* Hide horizontal scrollbar */
+.subcategory-list::-webkit-scrollbar {
+  display: none;
+}
+.subcategory-list {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ✨ Subcategory Alignment Based on Position */
 
 /* Left-aligned dropdowns */
 .category-dropdown:nth-child(1) .subcategory-list,
@@ -604,42 +647,6 @@ header h1, header h2 {
   left: auto;
   right: 0;
   transform: translateX(0);
-}
-
-
-
-  .category-dropdown.active .subcategory-list {
-    display: flex;
-  }
-
-  .subcategory-list li {
-    flex: 0 0 48%;
-    background: #FFF5F7;
-    margin: 6px;
-    padding: 6px 10px;
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    text-align: center;
-    transition: 0.3s ease;
-  }
-
-  .subcategory-list li a {
-    text-decoration: none;
-    color: #4A403A;
-    display: block;
-  }
-
-  .subcategory-list li:hover {
-    background: #F4D1AE;
-    color: #4A403A;
-    transform: scale(1.03);
-  }
-
-  .subcategory-list li img {
-    display: none;
-  }
 }
 
 

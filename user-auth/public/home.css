@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f1d8bf;
+    background-color: #2A2B2D;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -76,7 +76,7 @@ body {
 /* Sidebar Styling */
 .sidebar {
     width: 280px;
-    background-color: #c78972;
+    background-color: #2A2B2D;
     color: white;
     padding: 30px 20px;
     display: flex;
@@ -132,7 +132,7 @@ body {
 
 /* Grid Item Styling */
 .grid-item {
-    background-color: #faf3ec;
+    background-color: #FFF5F7;
     padding: 35px;
     border-radius: 15px;
     height: 250px;
@@ -156,7 +156,7 @@ body {
 
 /* Button Styling */
 .grid-item button {
-    background-color: #c78972;
+    background-color: #2A2B2D;
     color: rgb(255, 255, 255);
     border: none;
     padding: 12px 20px;
@@ -181,7 +181,7 @@ body {
 .logo-container {
     width: 60px;
     height: 60px;
-    background-color: #8C4A32; /* White */
+    background-color: #FFF5F7; /* White */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -192,7 +192,7 @@ body {
 .logo-text {
     font-size: 50px;
     font-weight: 600;
-    color: #F4D1AE; /* Black */
+    color: #2A2B2D; /* Black */
     font-family: 'Times New Roman';
     display: flex;
     align-items: center;

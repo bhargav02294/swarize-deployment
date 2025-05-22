@@ -63,7 +63,7 @@ body {
 
 #contactForm input:focus,
 #contactForm textarea:focus {
-  border-color: #FF6B6B;
+  border-color: #2A2B2D;
   background: #fff;
   box-shadow: 0 0 8px rgba(255, 107, 107, 0.3);
 }
@@ -80,7 +80,7 @@ body {
 }
 
 #contactForm button {
-  background: #FF6B6B;
+  background: #2A2B2D;
   color: #fff;
   padding: 12px;
   border: none;
@@ -102,93 +102,106 @@ body {
 }
 
 /* Navbar */
+/* Navbar */
 .navbar {
-  background-color: #FF6B6B;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  height: 80px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color:  #2A2B2D;
+    display: flex;
+    width: 100%;
+    max-width: 1520px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    height: 90px;
+    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
+    margin: 0 auto;
 }
 
 .navbar-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .navbar-title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #FFF5F7;
-  flex-grow: 1;
-  text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color:  #FFF5F7;
+    flex-grow: 1;
+    text-align: center;
 }
 
-/* Footer */
 .footer {
-  background-color: #FF6B6B;
-  text-align: center;
-  padding: 15px;
-  width: 100%;
-  margin-top: 40px;
-  color: #FFF5F7;
-  font-size: 16px;
-  font-weight: bold;
+    background-color:  #2A2B2D;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    margin-top: 40px;
+    color: #FFF5F7;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-/* Logo */
+/* Logo Styling */
 .logo-container {
-  width: 60px;
-  height: 60px;
-  background-color: #2A2B2D;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #FFF5F7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-text {
-  font-size: 50px;
-  font-weight: 600;
-  color: #FFF5F7;
-  font-family: 'Times New Roman';
-  display: flex;
+    font-size: 50px;
+    font-weight: 600;
+    color:  #2A2B2D;
+    font-family: 'Times New Roman';
+    display: flex;
+    align-items: center;
+}
+
+.logo-link {
+    text-decoration: none;
 }
 
 /* Back Button */
+
+/* --- Custom Animated Back Button --- */
 .back-button {
+  display: block;
   position: absolute;
-  top: 100px;
+  top: 120px;
   left: 20px;
   width: 56px;
   height: 56px;
-  background: transparent;
-  border: none;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
+  background-color: transparent;
   cursor: pointer;
+  border: 0;
 }
 
 .back-button:before,
 .back-button:after {
   content: "";
   position: absolute;
-  inset: 7px;
   border-radius: 50%;
+  inset: 7px;
 }
 
 .back-button:before {
-  border: 4px solid #2A2B2D;
-  transition: 0.5s;
+  border: 4px solid #4A403A;
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .back-button:after {
-  border: 4px solid #FF6B6B;
+  border: 4px solid #2A2B2D;
   transform: scale(1.3);
+  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
   opacity: 0;
-  transition: 0.5s;
 }
 
 .back-button:hover:before {
@@ -214,13 +227,14 @@ body {
   height: 20px;
   margin: 17px 18px 0 18px;
   transform: rotate(180deg);
-  fill: #2A2B2D;
+  fill: #4A403A;
 }
 
 .back-button:hover .button-box {
   transition: 0.4s;
   transform: translateX(-56px);
 }
+  /* Responsive Styling */
 
 /* Responsive Design */
 @media (max-width: 768px) {

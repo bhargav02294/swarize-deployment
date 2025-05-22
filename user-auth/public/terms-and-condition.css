@@ -19,7 +19,7 @@ body {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background: #FAE8EB; /* Slightly deeper variant of #FFF5F7 */
+    background: #FFF5F7; /* Slightly deeper variant of #FFF5F7 */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(42, 43, 45, 0.1);
 }
@@ -56,7 +56,7 @@ th, td {
 
 th {
     background-color: #2A2B2D;
-    color: #FFF5F7;
+    color: #ffffff;
 }
 
 ul {
@@ -85,7 +85,7 @@ ul {
 }
 
 .benefit-box {
-    background: #FAE8EB;
+    background: #ffffff;
     padding: 15px;
     border-radius: 10px;
     text-align: center;

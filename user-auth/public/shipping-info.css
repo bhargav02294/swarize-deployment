@@ -37,8 +37,8 @@ h1 {
 /* Headings */
 h2 {
   font-size: 20px;
-  color: #8C4A32;
-  border-bottom: 2px solid #8C4A32;
+  color:#2A2B2D;
+  border-bottom: 2px solid #2A2B2D;
   padding-bottom: 6px;
   margin-top: 30px;
   margin-bottom: 10px;
@@ -46,7 +46,7 @@ h2 {
 
 h3 {
   font-size: 20px;
-  color: #8C4A32;
+  color: #2A2B2D;
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -97,72 +97,73 @@ th, td {
 }
 
 th {
-  background-color: #8C4A32;
+  background-color: #2A2B2D;
   color: #FFF5F7;
   font-weight: bold;
 }
 
 /* Navbar */
 .navbar {
-  background-color: #2A2B2D;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  height: 80px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color:  #2A2B2D;
+    display: flex;
+    width: 100%;
+    max-width: 1520px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    height: 90px;
+    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
+    margin: 0 auto;
 }
 
 .navbar-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .navbar-title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #FFF5F7;
-  flex-grow: 1;
-  text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color:  #FFF5F7;
+    flex-grow: 1;
+    text-align: center;
 }
 
-/* Footer */
 .footer {
-  background-color: #2A2B2D;
-  text-align: center;
-  padding: 15px;
-  width: 100%;
-  margin-top: 40px;
-  color: #FFF5F7;
-  font-size: 16px;
-  font-weight: bold;
+    background-color:  #2A2B2D;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    margin-top: 40px;
+    color: #FFF5F7;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* Logo Styling */
 .logo-container {
-  width: 60px;
-  height: 60px;
-  background-color: #8C4A32;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #FFF5F7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-text {
-  font-size: 50px;
-  font-weight: 600;
-  color: #FFF5F7;
-  font-family: 'Times New Roman';
-  display: flex;
-  align-items: center;
+    font-size: 50px;
+    font-weight: 600;
+    color:  #2A2B2D;
+    font-family: 'Times New Roman';
+    display: flex;
+    align-items: center;
 }
 
 .logo-link {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 /* --- Custom Animated Back Button --- */

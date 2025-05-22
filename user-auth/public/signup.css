@@ -7,130 +7,131 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f9f6f2;
+  background-color: #FFF5F7;
   width: 100%;
   min-height: 100vh;
 }
 
 
-/* =================== Navbar =================== */
+/* Navbar */
 .navbar {
-  background-color: #F4D1AE;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color:  #2A2B2D;
+    display: flex;
+    width: 100%;
+    max-width: 1520px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    height: 90px;
+    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
+    margin: 0 auto;
 }
 
 .navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .navbar-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #8C4A32;
-  flex-grow: 1;
-  text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color:  #FFF5F7;
+    flex-grow: 1;
+    text-align: center;
 }
 
+
+/* Logo Styling */
 .logo-container {
-  width: 50px;
-  height: 50px;
-  background-color: #8C4A32;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #FFF5F7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo-text {
-  font-size: 30px;
-  font-weight: 600;
-  color: #F4D1AE;
-  font-family: 'Times New Roman';
+    font-size: 50px;
+    font-weight: 600;
+    color:  #2A2B2D;
+    font-family: 'Times New Roman';
+    display: flex;
+    align-items: center;
 }
 
 .logo-link {
-  text-decoration: none;
+    text-decoration: none;
 }
 
-
-/* =================== Back Button =================== */
-
-/* =================== Back Button =================== */
+/* --- Custom Animated Back Button --- */
 .back-button {
-  display: block;
-  position: absolute;
-  top: 100px;
-  left: 20px;
-  width: 56px;
-  height: 56px;
-  margin: 0;
-  overflow: hidden;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  border: 0;
+    display: block;
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    width: 56px;
+    height: 56px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    overflow: hidden;
+    outline: none;
 }
 
 .back-button:before,
 .back-button:after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  inset: 7px;
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 7px;
 }
 
 .back-button:before {
-  border: 4px solid #4A403A;
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+    border: 4px solid #2A2B2D;
+    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .back-button:after {
-  border: 4px solid #8C4A32;
-  transform: scale(1.3);
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-  opacity: 0;
+    border: 4px solid #2A2B2D;
+    transform: scale(1.3);
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .back-button:hover:before {
-  opacity: 0;
-  transform: scale(0.7);
+    opacity: 0;
+    transform: scale(0.7);
 }
 
 .back-button:hover:after {
-  opacity: 1;
-  transform: scale(1);
+    opacity: 1;
+    transform: scale(1);
 }
 
 .button-box {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .button-elem {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: 17px 18px 0 18px;
-  transform: rotate(180deg);
-  fill: #4A403A;
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 17px 18px 0 18px;
+    transform: rotate(180deg);
+    fill: #4A403A;
 }
 
 .back-button:hover .button-box {
-  transition: 0.4s;
-  transform: translateX(-56px);
+    transition: 0.4s;
+    transform: translateX(-56px);
 }
-
 
 
 /* =================== Modal Sign-Up Section =================== */
@@ -155,7 +156,7 @@ body {
 .form-title {
   font-size: 26px;
   font-weight: bold;
-  color: #8C4A32;
+  color: #2A2B2D;
   margin-bottom: 20px;
 }
 
@@ -186,7 +187,7 @@ body {
 
 .form-group input:focus {
   outline: none;
-  border-color: #8C4A32;
+  border-color: #2A2B2D;
 }
 
 .error {
@@ -198,7 +199,7 @@ body {
 button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background-color: #502c1e;
+  background-color: #2A2B2D;
   border: none;
   color: white;
   cursor: pointer;
@@ -213,37 +214,6 @@ button[type="submit"]:hover {
   color: #e5ff00;
 }
 
-/* =================== Social Buttons =================== */
-.social-login {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.social-btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  font-size: 15px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.google {
-  background-color: #dd4b39;
-}
-
-.google:hover {
-  background-color: #c64431;
-}
-
-.or-divider {
-  text-align: center;
-  font-size: 14px;
-  margin: 10px 0;
-  color: #4A403A;
-}
 
 /* =================== Terms & Redirects =================== */
 .signup-container p {
@@ -253,7 +223,7 @@ button[type="submit"]:hover {
 }
 
 .signup-container p a {
-  color: #8C4A32;
+  color: #2A2B2D;
   font-weight: bold;
   text-decoration: none;
 }
@@ -270,7 +240,7 @@ button[type="submit"]:hover {
 }
 
 .login-link a {
-  color: #8C4A32;
+  color: #2A2B2D;
   font-weight: bold;
   text-decoration: none;
 }

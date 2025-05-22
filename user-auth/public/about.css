@@ -27,9 +27,9 @@ body {
 
 /* Headings */
 h2 {
-    color: #C57B57;
+    color: #2A2B2D;
     font-size: 24px;
-    border-bottom: 3px solid #C57B57;
+    border-bottom: 3px solid #2A2B2D;
     padding-bottom: 5px;
     margin-bottom: 20px;
 }
@@ -62,7 +62,7 @@ ul li {
 
 ul li::before {
     content: "✔";
-    color: #C57B57;
+    color: #2A2B2D;
     font-size: 18px;
     font-weight: bold;
     margin-right: 10px;
@@ -70,7 +70,7 @@ ul li::before {
 
 /* Links */
 a {
-    color: #8C4A32;
+    color: #2A2B2D;
     text-decoration: none;
     font-weight: 600;
 }
@@ -90,15 +90,18 @@ p strong {
 }
 
 /* Navbar */
+/* Navbar */
 .navbar {
-    background-color: #FFE3E7;
+    background-color:  #2A2B2D;
     display: flex;
-    width: 1520px;
+    width: 100%;
+    max-width: 1520px;
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    height: 80px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    height: 90px;
+    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
+    margin: 0 auto;
 }
 
 .navbar-container {
@@ -111,27 +114,27 @@ p strong {
 .navbar-title {
     font-size: 32px;
     font-weight: bold;
-    color: #8C4A32;
+    color:  #FFF5F7;
     flex-grow: 1;
     text-align: center;
 }
 
-/* Footer */
 .footer {
-    background-color: #FFE3E7;
+    background-color:  #2A2B2D;
     text-align: center;
-    padding: 10px;
-    width: 1520px;
+    padding: 15px;
+    width: 100%;
     margin-top: 40px;
-    color: #2A2B2D;
-    font-weight: 600;
+    color: #FFF5F7;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* Logo Styling */
 .logo-container {
     width: 60px;
     height: 60px;
-    background-color: #8C4A32;
+    background-color: #FFF5F7;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -141,7 +144,7 @@ p strong {
 .logo-text {
     font-size: 50px;
     font-weight: 600;
-    color: #FFF5F7;
+    color:  #2A2B2D;
     font-family: 'Times New Roman';
     display: flex;
     align-items: center;
@@ -181,7 +184,7 @@ p strong {
 }
 
 .back-button:after {
-    border: 4px solid #8C4A32;
+    border: 4px solid #2A2B2D;
     transform: scale(1.3);
     transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
     opacity: 0;

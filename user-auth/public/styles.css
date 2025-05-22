@@ -574,6 +574,40 @@ header h1, header h2 {
     margin-top: 10px;
   }
 
+
+
+  /* 🔁 Smart Subcategory Positioning on Mobile */
+
+/* Left-aligned dropdowns */
+.category-dropdown:nth-child(1) .subcategory-list,
+.category-dropdown:nth-child(2) .subcategory-list,
+.category-dropdown:nth-child(6) .subcategory-list,
+.category-dropdown:nth-child(7) .subcategory-list {
+  left: 0;
+  right: auto;
+  transform: translateX(0);
+}
+
+/* Center-aligned dropdowns */
+.category-dropdown:nth-child(3) .subcategory-list,
+.category-dropdown:nth-child(8) .subcategory-list {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* Right-aligned dropdowns */
+.category-dropdown:nth-child(4) .subcategory-list,
+.category-dropdown:nth-child(5) .subcategory-list,
+.category-dropdown:nth-child(9) .subcategory-list,
+.category-dropdown:nth-child(10) .subcategory-list {
+  left: auto;
+  right: 0;
+  transform: translateX(0);
+}
+
+
+
   .category-dropdown.active .subcategory-list {
     display: flex;
   }

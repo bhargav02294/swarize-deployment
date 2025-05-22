@@ -364,17 +364,15 @@ header h1, header h2 {
 
 
 
-
 /* Category Section */
 .category-section {
     display: flex;
-
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    color: #FFF5F7 ;
+    color: #FFF5F7;
     padding: 50px;
-    background: #FFF5F7 ; /* Light peach tone matching the navbar */
+    background: #FFF5F7;
 }
 
 /* Category Dropdown Container */
@@ -382,9 +380,10 @@ header h1, header h2 {
     position: relative;
     text-align: center;
 }
+
 /* Normal State */
 .category-btn {
-    background: #FFF5F7   ; /* Solid background */
+    background: #FFF5F7;
     color: rgb(0, 0, 0);
     font-weight: bold;
     font-size: 14px;
@@ -403,18 +402,15 @@ header h1, header h2 {
     box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
     text-align: center;
     margin-top: 30px;
-    box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
- 
     margin-bottom: 10px;
 }
 
 /* Hover Effect */
 .category-btn:hover {
-    background: #ffffff  ; /* Solid hover color */
+    background: #ffffff;
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(80, 30, 10, 0.4);
 }
-
 
 /* Category Icons */
 .category-icon {
@@ -423,18 +419,16 @@ header h1, header h2 {
     border-radius: 50%;
 }
 
-
 /* Styling for Subcategory Dropdown in Two Columns */
 .subcategory-list {
     display: none;
     position: absolute;
-    background: #FFFFFF ;
-    border: 1px solid #F4D1AE; /* Gold Border */
-
+    background: #FFFFFF;
+    border: 1px solid #F4D1AE;
     list-style: none;
     padding: 10px;
     border-radius: 10px;
-    width: 450px; /* Adjust width to fit two columns */
+    width: 450px;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -443,31 +437,25 @@ header h1, header h2 {
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
     gap: 10px;
-
 }
 
-/* Show Dropdown when Active */
 .category-dropdown:hover .subcategory-list {
     display: flex;
     opacity: 1;
-    
     transform: translateX(-50%) translateY(5px);
 }
 
-/* Subcategory Column Styling */
 .subcategory-column {
-    width: 50%; /* Split into two equal columns */
+    width: 50%;
     padding: 5px;
-    
 }
 
-/* 🔹 Subcategory Items */
 .subcategory-list li {
     display: flex;
     align-items: center;
     padding: 10px;
     border-radius: 8px;
-    background: #ffffff ;
+    background: #ffffff;
     transition: all 0.3s ease;
     font-size: 14px;
     margin-top: 5px;
@@ -476,21 +464,16 @@ header h1, header h2 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* 🔹 Subcategory Icons (Optional) */
 .subcategory-list li img {
     width: 18px;
     height: 18px;
     margin-right: 10px;
-    
 }
 
-/* Last item shouldn't have a border */
 .subcategory-list li:last-child {
     border-bottom: none;
-    
 }
 
-/* 🔹 Subcategory Links */
 .subcategory-list li a {
     text-decoration: none;
     color: #333;
@@ -499,20 +482,13 @@ header h1, header h2 {
     transition: color 0.3s ease;
 }
 
-
-/* 🔹 Hover Effects */
 .subcategory-list li:hover {
     background: #e4e7e8;
     color: white;
     transform: scale(1.05);
-    border: 1px solid #8C4A32 ; /* Gold Border */
-
-
+    border: 1px solid #8C4A32;
 }
 
-
-/* Mobile View - Category Section */
-/* Mobile View - Category Section */
 /* 🌟 Unique & Professional Mobile View for Category Section 🌟 */
 @media (max-width: 768px) {
   .category-section {
@@ -621,7 +597,6 @@ header h1, header h2 {
     }
   }
 }
-
 
 
 

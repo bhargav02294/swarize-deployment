@@ -144,6 +144,7 @@ h1 {
 }
 
 /* --- Custom Animated Back Button --- */
+/* --- Custom Animated Back Button --- */
 .back-button {
     display: block;
     position: absolute;
@@ -208,6 +209,7 @@ h1 {
     transition: 0.4s;
     transform: translateX(-56px);
 }
+
 
 /* Centered Sign-In Message (Empty Cart View) */
 .center-message {

@@ -247,7 +247,7 @@ body {
 
 .mobile-slide-menu ul li a {
     display: block;
-    background-color: #8C4A32;
+    background-color: #2A2B2D;
     color: white;
     text-decoration: none;
     padding: 12px;
@@ -260,7 +260,7 @@ body {
 .mobile-header {
     display: none;
     width: 100%;
-    background-color: #c78972;
+    background-color: #FFF5F7;
     padding: 15px 20px;
     display: flex;
     justify-content: space-between;

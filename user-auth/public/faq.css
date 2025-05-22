@@ -122,12 +122,11 @@ h2 {
     left: 20px;
     width: 56px;
     height: 56px;
-    margin: 0;
-    overflow: hidden;
-    outline: none;
     background-color: transparent;
     cursor: pointer;
     border: 0;
+    overflow: hidden;
+    outline: none;
 }
 
 .back-button:before,
@@ -139,15 +138,15 @@ h2 {
 }
 
 .back-button:before {
-    border: 4px solid #FFF5F7;
+    border: 4px solid #2A2B2D;
     transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .back-button:after {
-    border: 4px solid #8C4A32;
+    border: 4px solid #2A2B2D;
     transform: scale(1.3);
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
     opacity: 0;
+    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
 }
 
 .back-button:hover:before {
@@ -173,13 +172,14 @@ h2 {
     height: 20px;
     margin: 17px 18px 0 18px;
     transform: rotate(180deg);
-    fill: #FFF5F7;
+    fill: #4A403A;
 }
 
 .back-button:hover .button-box {
     transition: 0.4s;
     transform: translateX(-56px);
 }
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {

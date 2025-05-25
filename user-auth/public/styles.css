@@ -761,21 +761,26 @@ body, html {
   margin-bottom: 25px;
 }
 
-.cta-button {
-  background-color: #facc15;
-  color: #111827;
-  padding: 12px 30px;
-  font-size: 1rem;
+/* ---------------- Banner Button Styling ---------------- */
+.banner-button {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 24px;
+  background-color: #2A2B2D;
+  color: #FFF5F7;
+  font-size: 16px;
   font-weight: 600;
-  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-  transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.cta-button:hover {
-  background-color: #fbbf24;
-  transform: scale(1.05);
+.banner-button:hover {
+  background-color: #4A403A;
+  transform: translateY(-2px);
 }
 
 .banner-image {

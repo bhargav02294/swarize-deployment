@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const category = urlParams.get("category");
-  const productsGrid = document.getElementById("category-products-grid");
+  const productsGrid = document.getElementById("products-grid");
   const categoryTitle = document.getElementById("category-title");
 
   if (!category) {
-    categoryTitle.textContent = "No category selected!";
+    categoryTitle.textContent = "No category selected";
     return;
   }
 
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await response.json();
 
     if (!data.success || data.products.length === 0) {
-      productsGrid.innerHTML = "<p>No products found for this category.</p>";
+      productsGrid.innerHTML = "<p>No products found in this category.</p>";
       return;
     }
 
@@ -34,12 +34,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="star-rating">★★★★★</div>
         <button class="cart-button" onclick="addToCart('${product._id}')">🛒</button>
       `;
+
       productsGrid.appendChild(productCard);
     });
-
   } catch (error) {
-    console.error("Error fetching category products:", error);
-    productsGrid.innerHTML = "<p>Error loading products. Please try again later.</p>";
+    console.error("Error loading category products:", error);
+    productsGrid.innerHTML = "<p>Error loading products.</p>";
   }
 });
 
@@ -55,6 +55,7 @@ async function addToCart(productId) {
       credentials: "include",
       body: JSON.stringify({ productId })
     });
+
     const data = await response.json();
     if (data.success) {
       window.location.href = "addtocart.html";
@@ -63,6 +64,6 @@ async function addToCart(productId) {
     }
   } catch (err) {
     console.error(err);
-    alert("Something went wrong.");
+    alert("Error adding to cart.");
   }
 }

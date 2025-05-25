@@ -1,8 +1,10 @@
+// File: category-page.js
+
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const category = urlParams.get("category");
-  const productsGrid = document.getElementById("products-grid");
   const categoryTitle = document.getElementById("category-title");
+  const container = document.getElementById("product-container");
 
   if (!category) {
     categoryTitle.textContent = "No category selected";
@@ -12,58 +14,51 @@ document.addEventListener("DOMContentLoaded", async () => {
   categoryTitle.textContent = decodeURIComponent(category);
 
   try {
-    const response = await fetch(`/api/products/category/${encodeURIComponent(category)}/all`);
-    const data = await response.json();
+    const res = await fetch(`/api/products/category/${encodeURIComponent(category)}/all`);
+    const data = await res.json();
 
-    if (!data.success || data.products.length === 0) {
-      productsGrid.innerHTML = "<p>No products found in this category.</p>";
-      return;
+    if (data.success && data.products.length > 0) {
+      container.innerHTML = "";
+      data.products.forEach(product => {
+        const img = product.thumbnailImage.startsWith("uploads/")
+          ? `https://swarize.in/${product.thumbnailImage}`
+          : product.thumbnailImage;
+
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${img}" alt="${product.name}" onclick="window.location.href='product-detail.html?id=${product._id}'">
+          <h3>${product.name}</h3>
+          <p>₹${product.price}</p>
+          <button onclick="addToCart('${product._id}')">Add to Cart</button>
+        `;
+        container.appendChild(card);
+      });
+    } else {
+      container.innerHTML = "<p>No products found in this category.</p>";
     }
-
-    data.products.forEach(product => {
-      const imagePath = product.thumbnailImage.startsWith("uploads/")
-        ? `https://swarize.in/${product.thumbnailImage}`
-        : product.thumbnailImage;
-
-      const productCard = document.createElement("div");
-      productCard.classList.add("product-card");
-      productCard.innerHTML = `
-        <img src="${imagePath}" alt="${product.name}" class="product-image" onclick="viewProduct('${product._id}')">
-        <h4>${product.name}</h4>
-        <p class="product-price">₹${product.price}</p>
-        <div class="star-rating">★★★★★</div>
-        <button class="cart-button" onclick="addToCart('${product._id}')">🛒</button>
-      `;
-
-      productsGrid.appendChild(productCard);
-    });
-  } catch (error) {
-    console.error("Error loading category products:", error);
-    productsGrid.innerHTML = "<p>Error loading products.</p>";
+  } catch (err) {
+    console.error("Error fetching category products:", err);
+    container.innerHTML = "<p>Error loading products. Try again later.</p>";
   }
 });
-
-function viewProduct(id) {
-  window.location.href = `product-detail.html?id=${id}`;
-}
 
 async function addToCart(productId) {
   try {
     const response = await fetch("/api/cart/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ productId })
+      body: JSON.stringify({ productId }),
+      credentials: "include"
     });
 
     const data = await response.json();
     if (data.success) {
-      window.location.href = "addtocart.html";
+      alert("Product added to cart");
     } else {
-      alert("Failed to add to cart.");
+      alert(data.message || "Failed to add to cart");
     }
   } catch (err) {
-    console.error(err);
-    alert("Error adding to cart.");
+    console.error("Error adding to cart:", err);
   }
 }

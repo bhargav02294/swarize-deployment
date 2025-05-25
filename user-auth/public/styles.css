@@ -1338,9 +1338,9 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   }
 
   .product-card {
-    width: 75px; /* Fits 2 cards per row approximately */
-    min-width: 160px;
-    padding: 8px;
+    width: 7px; /* Fits 2 cards per row approximately */
+    min-width: 150px;
+    padding: 6px;
   }
 
   .product-image {

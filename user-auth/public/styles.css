@@ -1034,7 +1034,7 @@ body, html {
 .product-slider {
   display: flex;
   gap: 30px;
-  animation: scrollSlider 0s linear infinite;
+  animation: scrollSlider 65s linear infinite;
   width: max-content;
   padding-bottom: 10px;
 }
@@ -1089,25 +1089,6 @@ body, html {
   color: #8C4A32;
 }
 
-
-.banner-button {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 25px;
-  background-color: #e91e63;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 25px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.banner-button:hover {
-  background-color: #c2185b;
-}
-
-
 /* ==== Slider Animation ==== */
 @keyframes scrollSlider {
   0% { transform: translateX(0); }
@@ -1127,7 +1108,7 @@ body, html {
 
   .product-slider {
 
-  animation: scrollSlider 70s linear infinite;
+  animation: scrollSlider 50s linear infinite;
 
 }
 

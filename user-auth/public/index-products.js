@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function fetchProducts(category) {
         try {
             const formattedCategory = encodeURIComponent(category);
-const response = await fetch(`https://swarize.in/api/products/category/${formattedCategory}/all`);
+            const response = await fetch(`https://swarize.in/api/products/category/${formattedCategory}`);
     
             const data = await response.json();
     

@@ -311,15 +311,20 @@ router.post('/login', async (req, res) => {
 
 
 // Route to fetch products by just category (without subcategory)
+// ✅ Route to fetch products by just category (like "Women's Store")
 router.get('/category/:category/all', async (req, res) => {
   try {
     const { category } = req.params;
-    const products = await Product.find({ category: decodeURIComponent(category) }).sort({ createdAt: -1 });
+    const products = await Product.find({
+      category: decodeURIComponent(category)
+    }).sort({ createdAt: -1 });
+
     res.json({ success: true, products });
   } catch (err) {
     console.error("Error fetching by category:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 module.exports = router;

@@ -306,13 +306,14 @@ router.post('/login', async (req, res) => {
 
 
 // ✅ Route to fetch all products by category (without subcategory)
-router.get('/category/:category/all', async (req, res) => {
+// ✅ GET: Fetch products by category
+router.get('/category/:category', async (req, res) => {
   try {
-    const { category } = req.params;
-    const products = await Product.find({ category: decodeURIComponent(category) }).sort({ createdAt: -1 });
+    const category = decodeURIComponent(req.params.category);
+    const products = await Product.find({ category }).sort({ createdAt: -1 });
     res.json({ success: true, products });
-  } catch (err) {
-    console.error("Error fetching by category:", err);
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

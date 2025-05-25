@@ -304,9 +304,7 @@ router.post('/login', async (req, res) => {
     });
 });
 
-
-// ✅ Route to fetch all products by category (without subcategory)
-// ✅ GET: Fetch products by category
+// ✅ Route to Fetch Products by Category
 router.get('/category/:category', async (req, res) => {
   try {
     const category = decodeURIComponent(req.params.category);

@@ -1034,7 +1034,7 @@ body, html {
 .product-slider {
   display: flex;
   gap: 30px;
-  animation: scrollSlider 65s linear infinite;
+  animation: scrollSlider 70s linear infinite;
   width: max-content;
   padding-bottom: 10px;
 }
@@ -1127,7 +1127,7 @@ body, html {
 
   .product-slider {
 
-  animation: scrollSlider 50s linear infinite;
+  animation: scrollSlider 60s linear infinite;
 
 }
 

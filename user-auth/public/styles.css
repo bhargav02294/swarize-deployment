@@ -518,13 +518,15 @@ header h1, header h2 {
 /* 🌟 Final Mobile View - 5 Categories Per Row + Horizontal Scroll for Subcategories 🌟 */
 @media (max-width: 768px) {
 
-.category-section {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  padding: 20px 10px;
-  background: #FFF5F7;
-}
+.category-section.category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    padding: 15px 10px;
+    background: #FFF5F7;
+    box-shadow: none;
+    border-radius: 0;
+  }
 
 .category-dropdown {
   text-align: center;
@@ -1192,12 +1194,10 @@ body, html {
 .category-section {
   flex: 1;
   background: #FFF5F7  ;
-  padding: 50px;
-justify-content: center;
-    gap: 10px;
+  padding: 10px;
+  border-radius: 00px;
+box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 }
-
-
 
 /* Category Heading — now centered and above */
 .category-section h3 {
@@ -1324,18 +1324,19 @@ justify-content: center;
   }
 
 
-    .category-section {
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
-    background: #FFF5F7;
+   .category-section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 15px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
+    background: #FFF5F7;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-
-
+  
    .category-section h3 {
     font-size: 1.2rem;
     text-align: center;

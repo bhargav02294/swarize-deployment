@@ -1331,8 +1331,9 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   .category-products {
     display: flex;
     flex-wrap: wrap;
+    overflow-x: unset;
     justify-content: center;
-    gap: 12px;
+    gap: 15px;
     padding-bottom: 10px;
   }
 

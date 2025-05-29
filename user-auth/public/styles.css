@@ -1039,7 +1039,7 @@ body, html {
 .product-slider {
   display: flex;
   gap: 30px;
-  animation: scrollSlider 65s linear infinite;
+  animation: scrollSlider 75s linear infinite;
   width: max-content;
   padding-bottom: 10px;
 }
@@ -1113,7 +1113,7 @@ body, html {
 
   .product-slider {
 
-  animation: scrollSlider 50s linear infinite;
+  animation: scrollSlider 70s linear infinite;
 
 }
 
@@ -1327,21 +1327,22 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
     margin-bottom: 15px;
   }
 
-  /* ❌ Remove slider — wrap products instead */
-  .category-products {
+    .category-products {
     display: flex;
-    flex-wrap: wrap;
-    overflow-x: unset;
-    justify-content: center;
+    flex-direction: row;
+    overflow-x: auto;
+    flex-wrap: nowrap;
     gap: 15px;
     padding-bottom: 10px;
+    scroll-behavior: smooth;
   }
 
   .product-card {
-    width: 7px; /* Fits 2 cards per row approximately */
-    min-width: 150px;
+    flex: 0 0 auto;
+    width: 150px;
     padding: 6px;
   }
+
 
   .product-image {
     height: 120px;

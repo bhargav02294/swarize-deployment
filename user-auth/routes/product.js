@@ -152,7 +152,7 @@ const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/p
 // ✅ Show all products (public route, no auth needed)
 router.get('/all', async (req, res) => {
   try {
-    const products = await Product.find({}).populate('store');
+const products = await Product.find({}).sort({ createdAt: -1 }).populate('store');
     res.status(200).json(products);
   } catch (error) {
     console.error(' Failed to fetch products:', error);

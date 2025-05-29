@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const data = await response.json();
     
             if (data.success && data.products.length > 0) {
-                return data.products.reverse().slice(0, 2); // Reverse the order and get the last 2 products
+return data.products.slice(0, 2);
             }
         } catch (error) {
             console.error(` Error fetching products for ${category}:`, error);

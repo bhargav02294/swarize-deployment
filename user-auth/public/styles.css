@@ -1327,21 +1327,21 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
     margin-bottom: 15px;
   }
 
-    .category-products {
+     .category-products {
     display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 15px;
     padding-bottom: 10px;
-    scroll-behavior: smooth;
   }
 
   .product-card {
-    flex: 0 0 auto;
-    width: 150px;
-    padding: 6px;
+    width: calc(50% - 10px);
+    min-width: 160px;
+    padding: 8px;
+    box-sizing: border-box;
   }
+
 
 
   .product-image {

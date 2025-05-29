@@ -1336,16 +1336,17 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   }
 
   /* ✅ Normal grid, no scroll, 2 products in a row */
-  .category-products {
+   .category-products {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 15px;
+    justify-content: center; /* was space-between – causing spacing issues */
+    gap: 12px;
     padding-bottom: 10px;
   }
 
-  .product-card {
-    width: calc(50% - 8px); /* 2 products side-by-side */
+
+    .product-card {
+    width: 48%;
     background: #fff;
     padding: 8px;
     border-radius: 10px;
@@ -1353,6 +1354,7 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
     text-align: center;
     box-sizing: border-box;
   }
+
 
   .product-image {
     width: 100%;

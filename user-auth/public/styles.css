@@ -1106,6 +1106,7 @@ body, html {
 @media (max-width: 768px) {
   .product-slider-section {
     padding: 20px 10px;
+    overflow-x: auto; /* ✅ enables horizontal scrolling if needed */
   }
 
   .product-slider-section h2 {
@@ -1114,18 +1115,26 @@ body, html {
   }
 
   .product-slider {
+    display: flex;
+    gap: 16px;
+    width: auto;
+    animation: none; /* ❌ remove animation for mobile */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
 
-  animation: scrollSlider 70s linear infinite;
-
-}
-
-   .product-card {
-    width: 75px; /* Consistent width for mobile too */
+  .product-card {
+    width: 140px; /* ✅ make it wider for readability */
+    flex-shrink: 0;
+    scroll-snap-align: start;
     border-radius: 10px;
+    background: #FFF5F7;
   }
 
   .product-card img {
     height: 120px;
+    object-fit: contain;
   }
 
   .product-card-content h4 {
@@ -1140,6 +1149,7 @@ body, html {
     font-size: 14px;
   }
 }
+
 
   
   

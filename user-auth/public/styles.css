@@ -1331,14 +1331,14 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   .category-products {
     display: flex;
     flex-wrap: wrap;
-    overflow-x: unset;
+    overflow-y: unset;
     justify-content: center;
     gap: 15px;
     padding-bottom: 10px;
   }
 
   .product-card {
-    width: 45%; /* Fits 2 cards per row approximately */
+    min-width: 120px;
     padding: 6px;
   }
 

@@ -582,22 +582,14 @@ header h1, header h2 {
 
    /* Shift 1st category subcategory slightly right */
   .category-section.category-grid .category-dropdown:nth-child(1) .subcategory-list {
-    transform: translateX(calc(-50% + 25px)); /* moved 15px right */
+    transform: translateX(calc(-50% + 30px)); /* moved 15px right */
   }
 
   /* Shift 4th category subcategory slightly left */
   .category-section.category-grid .category-dropdown:nth-child(4) .subcategory-list {
-    transform: translateX(calc(-50% - 15px)); /* moved 15px left */
+    transform: translateX(calc(-50% - 30px)); /* moved 15px left */
   }
 
-  /* When hovered - adjust transform to keep the vertical shift too */
-  .category-section.category-grid .category-dropdown:nth-child(1):hover .subcategory-list {
-    transform: translateX(calc(-50% + 15px)) translateY(5px);
-  }
-
-  .category-section.category-grid .category-dropdown:nth-child(4):hover .subcategory-list {
-    transform: translateX(calc(-50% - 25px)) translateY(5px);
-  }
 
 }
 

@@ -363,14 +363,11 @@ header h1, header h2 {
 
 
 
-
-
-/* 🌟 Make all 4 categories spread across the width */
 /* 🌟 Make all 4 categories spread across the width */
 .category-section.category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 20px;
   padding: 30px 50px; /* 🔽 Reduced padding */
   background: #FFF5F7;
 }
@@ -386,32 +383,41 @@ header h1, header h2 {
   background: #FFF5F7;
   color: rgb(0, 0, 0);
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   padding: 15px 20px;
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 10px;
   width: 300px; /* 🔼 3x wider */
-  height: 100px; /* 🔽 less height */
+  height: 80px; /* 🔽 less height */
   display: flex;
   flex-direction: row; /* 🔄 Icon left, text right */
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
   box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
-  margin-top: 15px;  /* 🔽 Reduced margins */
-  margin-bottom: 10px;
+  margin-top: 10px;  /* 🔽 Reduced margins */
+  margin-bottom: 5px;
   text-align: left;
 }
 
 /* Category Icons */
 .category-icon {
-  width: 55px;
-  height: 55px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   flex-shrink: 0;
 }
+
+
+/* Hover Effect */
+.category-btn:hover {
+    background: #ffffff  ; /* Solid hover color */
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(80, 30, 10, 0.4);
+}
+
 
 
 /* Subcategory dropdown list - Updated for PC */
@@ -446,6 +452,70 @@ header h1, header h2 {
 
 
 
+/* Show on hover */
+.category-dropdown:hover .subcategory-list {
+  display: flex;
+  opacity: 1;
+  transform: translateX(-50%) translateY(5px);
+}
+
+/* Remove subcategory columns */
+.subcategory-column {
+  width: 100%;
+  padding: 0;
+}
+
+/* 🔹 Subcategory Items */
+.subcategory-list li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background: #ffffff ;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* 🔹 Subcategory Icons (Optional) */
+.subcategory-list li img {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    
+}
+
+/* Last item shouldn't have a border */
+.subcategory-list li:last-child {
+    border-bottom: none;
+    
+}
+
+/* 🔹 Subcategory Links */
+.subcategory-list li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    width: 100%;
+    transition: color 0.3s ease;
+}
+
+
+/* 🔹 Hover Effects */
+.subcategory-list li:hover {
+    background: #e4e7e8;
+    color: white;
+    transform: scale(1.05);
+    border: 1px solid #8C4A32 ; /* Gold Border */
+
+
+}
+
+
+
 /* Mobile View - Category Section */
 /* Mobile View - Category Section */
 /* 🌟 Unique & Professional Mobile View for Category Section 🌟 */
@@ -454,8 +524,8 @@ header h1, header h2 {
 
  .category-section.category-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 per row for 4 total */
-    gap: 15px;
+    grid-template-columns: repeat(4, 1fr); /* 2 per row for 4 total */
+    gap: 10px;
     padding: 20px;
   }
 
@@ -467,14 +537,14 @@ header h1, header h2 {
 
 .category-btn {
     width: 100%;
-    height: 100px;
+    height: 80px;
     font-size: 12px;
-    gap: 8px;
+    gap: 6px;
   }
 
 .category-icon {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 
 /* 🔄 Horizontal Scroll Subcategory List */
@@ -482,7 +552,7 @@ header h1, header h2 {
   .subcategory-list {
     position: absolute;
     width: 90vw;
-    max-height: 300px;
+    max-height: 10px;
     overflow-y: auto;
     overflow-x: hidden;
     flex-direction: column;

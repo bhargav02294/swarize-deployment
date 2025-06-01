@@ -582,7 +582,7 @@ header h1, header h2 {
 
    /* Shift 1st category subcategory slightly right */
   .category-section.category-grid .category-dropdown:nth-child(1) .subcategory-list {
-    transform: translateX(calc(-50% + 15px)); /* moved 15px right */
+    transform: translateX(calc(-50% + 25px)); /* moved 15px right */
   }
 
   /* Shift 4th category subcategory slightly left */
@@ -596,7 +596,7 @@ header h1, header h2 {
   }
 
   .category-section.category-grid .category-dropdown:nth-child(4):hover .subcategory-list {
-    transform: translateX(calc(-50% - 15px)) translateY(5px);
+    transform: translateX(calc(-50% - 25px)) translateY(5px);
   }
 
 }

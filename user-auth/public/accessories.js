@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titleEl.textContent = sub;
 
     // Fetch products by category and subcategory
-    fetch(`https://swarize.in/api/products/category/${encodeURIComponent("Kids' Store")}/${encodeURIComponent(sub)}`)
+    fetch(`https://swarize.in/api/products/category/${encodeURIComponent("Accessories")}/${encodeURIComponent(sub)}`)
         .then(res => res.json())
         .then(data => {
             productContainer.innerHTML = '';
@@ -40,28 +40,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// Optional: Add these helper functions if not defined elsewhere
-
+// View product
 function viewProduct(productId) {
     window.location.href = `product-details.html?id=${productId}`;
 }
-  async function addToCart(id) {
+
+// Add to cart
+async function addToCart(id) {
     try {
-      const res = await fetch('https://swarize.in/api/cart/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ productId: id })
-      });
-      const json = await res.json();
-      if (json.success) {
-        window.location.href = `addtocart.html?id=${id}`;
-      } else {
-        alert(' Failed to add to cart: ' + json.message);
-      }
+        const res = await fetch('https://swarize.in/api/cart/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ productId: id })
+        });
+        const json = await res.json();
+        if (json.success) {
+            window.location.href = `addtocart.html?id=${id}`;
+        } else {
+            alert('Failed to add to cart: ' + json.message);
+        }
     } catch (e) {
-      console.error(' Error adding to cart:', e);
-      alert('Error adding to cart.');
+        console.error('Error adding to cart:', e);
+        alert('Error adding to cart.');
     }
-  }
-  
+}

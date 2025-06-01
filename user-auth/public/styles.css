@@ -1036,14 +1036,15 @@ body, html {
 @media (max-width: 768px) {
   .product-slider-section {
     padding: 20px 10px;
-    overflow: hidden;
+    overflow-x: auto;
+    background: #FFF5F7;
   }
 
   .product-slider {
     display: flex;
     gap: 15px;
     width: max-content;
-    animation: scrollMobileSlider 40s linear infinite;
+    animation: scrollMobileSlider 60s linear infinite;
   }
 
   @keyframes scrollMobileSlider {
@@ -1062,11 +1063,15 @@ body, html {
   .product-card {
     flex-shrink: 0;
     width: 130px;
+    box-sizing: border-box;
     background: white;
     border-radius: 10px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    cursor: pointer;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
   }
 
   .product-card img {
@@ -1077,6 +1082,8 @@ body, html {
 
   .product-card-content {
     padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .product-card-content h4 {
@@ -1091,6 +1098,7 @@ body, html {
     color: #8C4A32;
     text-align: center;
   }
+
 }
 
 

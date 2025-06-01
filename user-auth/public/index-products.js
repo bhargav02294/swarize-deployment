@@ -4,30 +4,27 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const productsGrid = document.getElementById("products-grid");
 
-    // Define the categories (10 total)
+    // ✅ Define NEW 4 Main Categories
     const categories = [
-        "Women's Store", "Men's Store", "Kids' Store", "Bags and Footwear", 
-        "Health and Beauty", "Jewelry and Accessories", "Electronic Accessories", 
-        "Sports and Fitness", "Home Decor and Kitchenware", "Art and Craft"
+        "Women", "Men", "Kids", "Accessories"
     ];
 
-    // Fetch products from the API
+    // ✅ Fetch products from the API
     async function fetchProducts(category) {
         try {
             const formattedCategory = encodeURIComponent(category);
             const response = await fetch(`https://swarize.in/api/products/category/${formattedCategory}`);
-    
+
             const data = await response.json();
-    
+
             if (data.success && data.products.length > 0) {
-return data.products.slice(0, 2);
+                return data.products.slice(0, 2);
             }
         } catch (error) {
-            console.error(` Error fetching products for ${category}:`, error);
+            console.error(`Error fetching products for ${category}:`, error);
         }
         return [];
     }
-    
 
     async function loadProducts() {
         productsGrid.innerHTML = "";
@@ -40,7 +37,6 @@ return data.products.slice(0, 2);
             const category1 = categories[i];
             const products1 = await fetchProducts(category1);
             const categorySection1 = createCategorySection(category1, products1);
-
             row.appendChild(categorySection1);
 
             // Second category (if exists)
@@ -48,7 +44,6 @@ return data.products.slice(0, 2);
                 const category2 = categories[i + 1];
                 const products2 = await fetchProducts(category2);
                 const categorySection2 = createCategorySection(category2, products2);
-
                 row.appendChild(categorySection2);
             }
 
@@ -72,7 +67,6 @@ return data.products.slice(0, 2);
             productItem.classList.add("product-card");
             productItem.innerHTML = `
                 <img src="${imagePath}" alt="${product.name} - Buy online at Swarize" class="product-image" onclick="viewProduct('${product._id}')">
-
                 <h4>${product.name}</h4>
                 <p class="product-price">₹${product.price}</p>
                 <div class="star-rating">★★★★★</div>
@@ -144,95 +138,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ✅ Keyword Mapping to normalize search terms
-    const keywordMapping = {
-        "t shirt": "t-shirts", "t-shirt": "t-shirts", "tees": "t-shirts",
-        "jean": "jeans", "denim": "jeans",
-        "saree": "sarees", "kurti": "kurtis", "lehenga": "lehengas",
-        "watch": "watches", "shoe": "shoes",
-        "wallet": "wallets", "handbag": "handbags"
-    };
+    // ✅ Keyword Mapping to normalize search terms
+const keywordMapping = {
+    "t shirt": "T-Shirts", "tshirt": "T-Shirts", "tees": "T-Shirts",
+    "shirt": "Shirts",
+    "jean": "Jeans", "denim": "Jeans",
+    "saree": "Ethnic Wear", "kurti": "Ethnic Wear", "lehenga": "Ethnic Wear",
+    "watch": "Eyewear & Watches", "watches": "Eyewear & Watches",
+    "shoe": "Footwear", "shoes": "Footwear",
+    "wallet": "Accessories", "handbag": "Bags & Clutches", "bags": "Bags & Travel"
+};
 
-    // ✅ Define subcategory pages with lowercase keys for correct mapping
-    const subcategoryPages = {
-        "t-shirts": "womens-store.html?subcategory=T-Shirts",
-        "jeans": "womens-store.html?subcategory=Jeans",
-        "sarees": "womens-store.html?subcategory=Sarees",
-        "lehengas": "womens-store.html?subcategory=Lehengas",
-        "watches": "womens-store.html?subcategory=Watches",
-        "shoes": "bags-and-footwear.html?subcategory=Shoes",
-        "wallets": "bags-and-footwear.html?subcategory=Wallets",
-        "handbags": "bags-and-footwear.html?subcategory=Handbags"
-    };
+// ✅ Subcategory Page Mapping (New Pages)
+const subcategoryPages = {
+    "T-Shirts": "women.html?subcategory=T-Shirts",
+    "Jeans": "women.html?subcategory=Jeans",
+    "Ethnic Wear": "women.html?subcategory=Ethnic Wear",
+    "Eyewear & Watches": "men.html?subcategory=Eyewear & Watches",
+    "Footwear": "men.html?subcategory=Footwear",
+    "Accessories": "men.html?subcategory=Accessories",
+    "Bags & Clutches": "women.html?subcategory=Bags & Clutches",
+    "Bags & Travel": "accessories.html?subcategory=Bags & Travel"
+};
 
-    // ✅ Full Category & Subcategory Mapping
-     // ✅ Full Category & Subcategory Mapping
-     const categoryMap = {
-        "womens-store.html": ["Sarees", "Kurtis", "Salwar Suits", "Western Dresses", "Tops", 
-            "Leggings", "Palazzo Pants", "Jeans", "T-Shirts", "Nightwear",
-            "Lehengas", "Anarkali Suits", "Dupattas", "Gowns",
-            "Bras", "Panties", "Shapewear", "Camisoles",
-            "Jackets", "Shawls", "Woolen Sweaters", "Scarves",
-            "Heels", "Flats", "Bellies", "Sandals", "Wedges", 
-            "Sneakers", "Ethnic Mojaris", "Boots",
-            "Handbags", "Clutches", "Sunglasses", "Hair Accessories", "Watches"],
-        "mens-store.html": ["Shirts", "T-Shirts", "Formal Suits", "Blazers", "Jeans", 
-            "Trousers", "Track Pants", "Hoodies", "Shorts",
-            "Kurtas", "Sherwanis",
-            "Vests", "Boxers", "Briefs",
-            "Jackets", "Sweaters", "Gloves", "Caps",
-            "Sneakers", "Formal Shoes", "Sandals", "Loafers", 
-            "Flip Flops", "Sports Shoes", "Slippers",
-            "Wallets", "Belts", "Ties", "Cufflinks", "Sunglasses"],
-        "kids-store.html": ["Casual Wear", "Party Wear", "Sleepwear", "School Uniforms", "Ethnic Wear",
-            "Educational Toys", "Action Figures", "Dolls", "Puzzle Games", "Remote-Controlled Toys",
-            "Bags", "Stationery", "Lunch Boxes", "Water Bottles",
-            "Diapers", "Wipes", "Baby Blankets", "Bath Essentials",
-            "Sandals", "Sports Shoes", "Slippers", "Casual Shoes", "School Shoes", "Bellies for Girls"],
-        "bags-and-footwear.html": ["Backpacks", "Handbags", "Wallets", "Laptop Bags", "Duffel Bags", 
-            "Travel Bags", "Sling Bags",
-            "Sneakers", "Sandals", "Loafers", "Flip Flops", "Formal Shoes", 
-            "Boots", "Ethnic Mojaris", "Sports Shoes"],
-        "health-and-beauty.html": ["Moisturizers", "Sunscreens", "Face Wash", "Scrubs", "Face Masks", "Lip Balms",
-            "Shampoos", "Conditioners", "Hair Oils", "Serums", "Hair Masks",
-            "Lipsticks", "Foundations", "Mascaras", "Eyeliners", "Blush", "Nail Paints",
-            "Deodorants", "Perfumes", "Body Wash", "Razors", "Wax Strips",
-            "Vitamins", "Protein Powders", "Herbal Supplements", "First Aid Kits", "Masks", "Sanitizers"],
-        "jewelry-and-accessories.html": ["Gold-Plated Necklaces", "Kundan Necklaces", "Pearl Necklaces", "Chokers",
-            "Stud Earrings", "Danglers", "Chandbalis", "Hoops", "Jhumkas",
-            "Beaded Bracelets", "Cuff Bracelets", "Charm Bracelets",
-            "Metal Bangles", "Glass Bangles", "Designer Bangles",
-            "Adjustable Rings", "Cocktail Rings", "Diamond-Plated Rings",
-            "Oxidized Anklets", "Silver Anklets", "Gold-Plated Anklets",
-            "Single Stone Nose Pins", "Designer Nose Pins", "Hoop Nose Pins",
-            "Watches", "Sunglasses", "Hair Bands", "Hair Clips", "Scarves", "Hats", "Brooches"],
-        "electronic-accessories.html": ["Headphones", "Earphones (Wired & Wireless)", "Bluetooth Speakers",
-            "Power Banks", "Mobile Chargers", "USB Cables", "Mobile Covers", "Tempered Glass",
-            "Mouse", "Keyboards", "Laptop Cooling Pads", "Laptop Bags",
-            "Smart Watches", "Fitness Bands", "Portable Fans", "LED Ring Lights"],
-        "sports-and-fitness.html": ["Cricket Bats", "Footballs", "Badminton Rackets", "Tennis Balls", "Basketballs",
-            "Yoga Mats", "Dumbbells", "Resistance Bands", "Skipping Ropes",
-            "Tracksuits", "Sports Bras", "Gym Shorts", "Jerseys",
-            "Water Bottles", "Gym Bags", "Sweatbands", "Gloves", "Towel Bands"],
-        "home-decor-and-kitchenware.html": ["Paintings", "Wooden Panels", "Posters",
-            "Fairy Lights", "Table Lamps", "LED Strips", "Chandeliers",
-            "Ceramic Vases", "Glass Vases", "Flower Pots",
-            "Figurines", "Mini Statues", "Wall Hangings", "Wind Chimes",
-            "Analog Clocks", "Digital Wall Clocks",
-            "Door Mats", "Area Rugs", "Carpets",
-            "Cushion Covers", "Throw Pillows",
-            "Non-Stick Pans", "Pressure Cookers", "Frying Pans",
-            "Airtight Containers", "Spice Racks", "Glass Jars",
-            "Dinner Sets", "Bowls", "Serving Trays", "Cutlery Sets",
-            "Peelers", "Graters", "Juicers", "Vegetable Choppers"],
-        "art-and-craft.html": ["Canvas Boards", "Easels", "Paint Brushes", "Acrylic Paints", 
-            "Oil Paints", "Watercolors",
-            "Sketch Pens", "Charcoal Pencils", "Colored Pencils", "Markers",
-            "Origami Kits", "Jewelry Making Kits", "Sewing Kits",
-            "Glitter", "Ribbons", "Sequins", "Beads", "Craft Papers",
-            "Embroidery Kits", "Knitting Kits", "Calligraphy Sets",
-            "Miniature Furniture", "Plastic Models",
-            "Silicone Molds", "Pigments", "Resin Mix"]
-    };
+// ✅ Main Category & Subcategory Mapping (4 Main Category URLs)
+const categoryMap = {
+    "women.html": [
+        "Ethnic Wear", "Western Wear", "Bottomwear", "Winterwear", "Innerwear & Loungewear",
+        "Footwear", "Bags & Clutches", "Jewelry & Accessories", "Beauty & Makeup", "Eyewear & Watches"
+    ],
+    "men.html": [
+        "Topwear", "Bottomwear", "Ethnic Wear", "Winterwear", "Innerwear & Sleepwear",
+        "Footwear", "Accessories", "Eyewear & Watches", "Grooming", "Bags & Utility"
+    ],
+    "kids.html": [
+        "Boys Clothing", "Girls Clothing", "Footwear", "Toys & Games", "Remote Toys",
+        "Learning & School", "Baby Essentials", "Winterwear", "Accessories", "Festive Wear"
+    ],
+    "accessories.html": [
+        "Bags & Travel", "Unisex Footwear", "Mobile Accessories", "Gadgets", "Computer Accessories",
+        "Home Decor", "Kitchenware", "Health & Care", "Craft & DIY Kits", "Fashion Accessories"
+    ]
+};
+
 
     // ✅ Combined Search Function
     function handleSearch() {

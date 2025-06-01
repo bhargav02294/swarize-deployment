@@ -920,102 +920,35 @@ app.get('/api/get-product-performance', async (req, res) => {
 // Sample data for categories and subcategories
 const categoriesData = [
   {
-    name: "Women's Store",
-    subcategories: ["Sarees", "Kurtis", "Salwar Suits", "Western Dresses", "Tops", 
-      "Leggings", "Palazzo Pants", "Jeans", "T-Shirts", "Nightwear",
-      "Lehengas", "Anarkali Suits", "Dupattas", "Gowns",
-      "Bras", "Panties", "Shapewear", "Camisoles",
-      "Jackets", "Shawls", "Woolen Sweaters", "Scarves",
-      "Heels", "Flats", "Bellies", "Sandals", "Wedges", 
-      "Sneakers", "Ethnic Mojaris", "Boots",
-      "Handbags", "Clutches", "Sunglasses", "Hair Accessories", "Watches"],
+    name: "Women",
+    subcategories: [
+      "Ethnic Wear", "Western Wear", "Bottomwear", "Winterwear", "Innerwear & Loungewear",
+      "Footwear", "Bags & Clutches", "Jewelry & Accessories", "Beauty & Makeup", "Eyewear & Watches"
+    ]
   },
   {
-    name: "Men's Store",
-    subcategories: [ "Shirts", "T-Shirts", "Formal Suits", "Blazers", "Jeans", 
-      "Trousers", "Track Pants", "Hoodies", "Shorts",
-      "Kurtas", "Sherwanis",
-      "Vests", "Boxers", "Briefs",
-      "Jackets", "Sweaters", "Gloves", "Caps",
-      "Sneakers", "Formal Shoes", "Sandals", "Loafers", 
-      "Flip Flops", "Sports Shoes", "Slippers",
-      "Wallets", "Belts", "Ties", "Cufflinks", "Sunglasses"],
+    name: "Men",
+    subcategories: [
+      "Topwear", "Bottomwear", "Ethnic Wear", "Winterwear", "Innerwear & Sleepwear",
+      "Footwear", "Accessories", "Eyewear & Watches", "Grooming", "Bags & Utility"
+    ]
   },
   {
-    name: "Kids' Store",
-    subcategories: ["Casual Wear", "Party Wear", "Sleepwear", "School Uniforms", "Ethnic Wear",
-      "Educational Toys", "Action Figures", "Dolls", "Puzzle Games", "Remote-Controlled Toys",
-      "Bags", "Stationery", "Lunch Boxes", "Water Bottles",
-      "Diapers", "Wipes", "Baby Blankets", "Bath Essentials",
-      "Sandals", "Sports Shoes", "Slippers", "Casual Shoes", "School Shoes", "Bellies for Girls"],
+    name: "Kids",
+    subcategories: [
+      "Boys Clothing", "Girls Clothing", "Footwear", "Toys & Games", "Remote Toys",
+      "Learning & School", "Baby Essentials", "Winterwear", "Accessories", "Festive Wear"
+    ]
   },
   {
-    name: "Bags and Footwear",
-    subcategories: ["Backpacks", "Handbags", "Wallets", "Laptop Bags", "Duffel Bags", 
-      "Travel Bags", "Sling Bags",
-      "Sneakers", "Sandals", "Loafers", "Flip Flops", "Formal Shoes", 
-      "Boots", "Ethnic Mojaris", "Sports Shoes"],
-  },
-  {
-    name: "Health and Beauty",
-    subcategories: ["Moisturizers", "Sunscreens", "Face Wash", "Scrubs", "Face Masks", "Lip Balms",
-      "Shampoos", "Conditioners", "Hair Oils", "Serums", "Hair Masks",
-      "Lipsticks", "Foundations", "Mascaras", "Eyeliners", "Blush", "Nail Paints",
-      "Deodorants", "Perfumes", "Body Wash", "Razors", "Wax Strips",
-      "Vitamins", "Protein Powders", "Herbal Supplements", "First Aid Kits", "Masks", "Sanitizers",],
-  },
-  {
-    name: "Jewelry and Accessories",
-    subcategories: ["Gold-Plated Necklaces", "Kundan Necklaces", "Pearl Necklaces", "Chokers",
-      "Stud Earrings", "Danglers", "Chandbalis", "Hoops", "Jhumkas",
-      "Beaded Bracelets", "Cuff Bracelets", "Charm Bracelets",
-      "Metal Bangles", "Glass Bangles", "Designer Bangles",
-      "Adjustable Rings", "Cocktail Rings", "Diamond-Plated Rings",
-      "Oxidized Anklets", "Silver Anklets", "Gold-Plated Anklets",
-      "Single Stone Nose Pins", "Designer Nose Pins", "Hoop Nose Pins",
-      "Watches", "Sunglasses", "Hair Bands", "Hair Clips", "Scarves", "Hats", "Brooches",],
-  },
-  {
-    name: "Electronic Accessories",
-    subcategories: ["Headphones", "Earphones (Wired & Wireless)", "Bluetooth Speakers",
-      "Power Banks", "Mobile Chargers", "USB Cables", "Mobile Covers", "Tempered Glass",
-      "Mouse", "Keyboards", "Laptop Cooling Pads", "Laptop Bags",
-      "Smart Watches", "Fitness Bands", "Portable Fans", "LED Ring Lights",],
-  },
-  {
-    name: "Sports and Fitness",
-    subcategories: ["Cricket Bats", "Footballs", "Badminton Rackets", "Tennis Balls", "Basketballs",
-      "Yoga Mats", "Dumbbells", "Resistance Bands", "Skipping Ropes",
-      "Tracksuits", "Sports Bras", "Gym Shorts", "Jerseys",
-      "Water Bottles", "Gym Bags", "Sweatbands", "Gloves", "Towel Bands",],
-  },
-  {
-    name: "Home Decor and Kitchenware",
-    subcategories: [ "Paintings", "Wooden Panels", "Posters",
-      "Fairy Lights", "Table Lamps", "LED Strips", "Chandeliers",
-      "Ceramic Vases", "Glass Vases", "Flower Pots",
-      "Figurines", "Mini Statues", "Wall Hangings", "Wind Chimes",
-      "Analog Clocks", "Digital Wall Clocks",
-      "Door Mats", "Area Rugs", "Carpets",
-      "Cushion Covers", "Throw Pillows",
-      "Non-Stick Pans", "Pressure Cookers", "Frying Pans",
-      "Airtight Containers", "Spice Racks", "Glass Jars",
-      "Dinner Sets", "Bowls", "Serving Trays", "Cutlery Sets",
-      "Peelers", "Graters", "Juicers", "Vegetable Choppers",],
-  },
-  {
-    name: "Art and Craft",
-    subcategories: ["Canvas Boards", "Easels", "Paint Brushes", "Acrylic Paints", 
-      "Oil Paints", "Watercolors",
-      "Sketch Pens", "Charcoal Pencils", "Colored Pencils", "Markers",
-      "Origami Kits", "Jewelry Making Kits", "Sewing Kits",
-      "Glitter", "Ribbons", "Sequins", "Beads", "Craft Papers",
-      "Embroidery Kits", "Knitting Kits", "Calligraphy Sets",
-      "Miniature Furniture", "Plastic Models",
-      "Silicone Molds", "Pigments", "Resin Mix"],
-  },
-  // Add other categories and subcategories here...
+    name: "Accessories",
+    subcategories: [
+      "Bags & Travel", "Unisex Footwear", "Mobile Accessories", "Gadgets", "Computer Accessories",
+      "Home Decor", "Kitchenware", "Health & Care", "Craft & DIY Kits", "Fashion Accessories"
+    ]
+  }
 ];
+
 
 // Endpoint to fetch categories
 app.get('/api/categories', (req, res) => {

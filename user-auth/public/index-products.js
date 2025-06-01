@@ -548,34 +548,36 @@ document.addEventListener('DOMContentLoaded', () => {
 //=========       product slider          ============//
 
 
-  async function fetchProducts() {
-    try {
-      const res = await fetch('/api/products/all');
-      const products = await res.json();
-  
-      const slider = document.getElementById('productSlider');
-      slider.innerHTML = ''; // Clear existing
-  
-      products.forEach(product => {
+  async function fetchReversedProducts() {
+  try {
+    const res = await fetch('/api/products/all');
+    const products = await res.json();
+    const slider = document.getElementById('reversedProductSlider');
+    slider.innerHTML = '';
+
+    const repeatCount = 2; // repeat to enable smooth scroll
+    for (let r = 0; r < repeatCount; r++) {
+      products.reverse().forEach(product => {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-  <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
-    <img src="${product.thumbnailImage}" alt="${product.name}">
-    <div style="padding: 10px;">
-      <h4 style="margin: 0;">${product.name}</h4>
-      <p style="margin: 5px 0; color: #888;">₹${product.price}</p>
-    </div>
-  </a>
-`;
-
+          <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
+            <img src="${product.thumbnailImage}" alt="${product.name}">
+            <div class="product-card-content">
+              <h4>${product.name}</h4>
+              <p class="product-price">₹${product.price}</p>
+            </div>
+          </a>
+        `;
         slider.appendChild(card);
       });
-    } catch (err) {
-      console.error('Error loading products:', err);
     }
+  } catch (err) {
+    console.error('Error loading reversed products:', err);
   }
-  fetchProducts();
+}
+
+fetchReversedProducts();
 
 
 

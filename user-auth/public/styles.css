@@ -366,67 +366,59 @@ header h1, header h2 {
 
 
 /* 🌟 Make all 4 categories spread across the width */
+/* 🌟 Make all 4 categories spread across the width */
 .category-section.category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  padding: 50px 60px;
+  padding: 30px 50px; /* 🔽 Reduced padding */
   background: #FFF5F7;
 }
 
 /* Category Dropdown Container */
 .category-dropdown {
-    position: relative;
-    text-align: center;
+  position: relative;
+  text-align: center;
 }
-/* Normal State */
+
+/* 🌟 Updated Category Button - Wider, shorter, horizontal layout */
 .category-btn {
-    background: #FFF5F7   ; /* Solid background */
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 14px;
-    border: none;
-    padding: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 10px;
-    width: 100px;
-    height: 140px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
-    text-align: center;
-    margin-top: 30px;
-    box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
- 
-    margin-bottom: 10px;
+  background: #FFF5F7;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  width: 300px; /* 🔼 3x wider */
+  height: 100px; /* 🔽 less height */
+  display: flex;
+  flex-direction: row; /* 🔄 Icon left, text right */
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
+  margin-top: 15px;  /* 🔽 Reduced margins */
+  margin-bottom: 10px;
+  text-align: left;
 }
-
-/* Hover Effect */
-.category-btn:hover {
-    background: #ffffff  ; /* Solid hover color */
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(80, 30, 10, 0.4);
-}
-
 
 /* Category Icons */
 .category-icon {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 
-/* 🌟 Subcategory dropdown updated for vertical layout (desktop) */
+/* Subcategory dropdown list - Updated for PC */
 .subcategory-list {
   display: none;
-  flex-direction: column; /* 🔁 One column vertical */
+  flex-direction: column;
   width: 250px;
-  height: auto;
   max-height: 420px;
   overflow-y: auto;
   padding: 10px 12px;
@@ -441,69 +433,16 @@ header h1, header h2 {
   z-index: 99;
   opacity: 0;
   transition: all 0.3s ease;
+
+  /* 🔽 Hide scrollbar but keep scroll functionality */
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
 }
 
-/* Show on hover */
-.category-dropdown:hover .subcategory-list {
-  display: flex;
-  opacity: 1;
-  transform: translateX(-50%) translateY(5px);
+.subcategory-list::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
-/* Remove subcategory columns */
-.subcategory-column {
-  width: 100%;
-  padding: 0;
-}
-
-/* 🔹 Subcategory Items */
-.subcategory-list li {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 8px;
-    background: #ffffff ;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    margin-top: 5px;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-/* 🔹 Subcategory Icons (Optional) */
-.subcategory-list li img {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    
-}
-
-/* Last item shouldn't have a border */
-.subcategory-list li:last-child {
-    border-bottom: none;
-    
-}
-
-/* 🔹 Subcategory Links */
-.subcategory-list li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-    width: 100%;
-    transition: color 0.3s ease;
-}
-
-
-/* 🔹 Hover Effects */
-.subcategory-list li:hover {
-    background: #e4e7e8;
-    color: white;
-    transform: scale(1.05);
-    border: 1px solid #8C4A32 ; /* Gold Border */
-
-
-}
 
 
 
@@ -596,46 +535,6 @@ header h1, header h2 {
   scrollbar-width: none;
 }
 
-/* ✨ Subcategory Alignment Based on Position */
-/* ✅ Standard Left Aligned */
-.category-dropdown:nth-child(1) .subcategory-list,
-.category-dropdown:nth-child(6) .subcategory-list {
-  left: 0;
-  right: auto;
-  transform: translateX(0);
-}
-
-/* ✅ Left Aligned but Shifted More Left */
-.category-dropdown:nth-child(2) .subcategory-list,
-.category-dropdown:nth-child(7) .subcategory-list {
-  left: -80px;
-  right: auto;
-  transform: translateX(0);
-}
-
-/* ✅ Center Aligned */
-.category-dropdown:nth-child(3) .subcategory-list,
-.category-dropdown:nth-child(8) .subcategory-list {
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
-}
-
-/* ✅ Standard Right Aligned */
-.category-dropdown:nth-child(5) .subcategory-list,
-.category-dropdown:nth-child(10) .subcategory-list {
-  left: auto;
-  right: 0;
-  transform: translateX(0);
-}
-
-/* ✅ Right Aligned but Shifted More Right */
-.category-dropdown:nth-child(4) .subcategory-list,
-.category-dropdown:nth-child(9) .subcategory-list {
-  left: auto;
-  right: -80px;
-  transform: translateX(0);
-}
 
 }
 

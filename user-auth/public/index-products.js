@@ -322,16 +322,32 @@ document.querySelectorAll('.dropdown-content').forEach(dropdown => {
     });
 });
 
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const subcategory = params.get("subcategory");
+
+    console.log("Selected subcategory:", subcategory);
+
+    // ❗ Define the buttons and dropdowns correctly
     const categoryButtons = document.querySelectorAll(".category-btn");
     const dropdowns = document.querySelectorAll(".subcategory-list");
 
     categoryButtons.forEach((button) => {
         button.addEventListener("click", (event) => {
-            event.stopPropagation(); // Prevent click from propagating to document
-            const dropdown = button.nextElementSibling; // Get the related dropdown
+            event.stopPropagation();
+            const dropdown = button.nextElementSibling;
 
-            // Close all other dropdowns
+            // Close other dropdowns
             dropdowns.forEach((drop) => {
                 if (drop !== dropdown) {
                     drop.style.display = "none";
@@ -339,7 +355,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Toggle the clicked dropdown
+            // Toggle this dropdown
             if (dropdown.style.display === "flex") {
                 dropdown.style.display = "none";
                 dropdown.style.opacity = "0";
@@ -350,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Close dropdown when clicking outside
+    // Close dropdowns on outside click
     document.addEventListener("click", () => {
         dropdowns.forEach((dropdown) => {
             dropdown.style.display = "none";
@@ -358,14 +374,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Prevent dropdown from closing when clicking inside
+    // Prevent closing when clicking inside the dropdown
     dropdowns.forEach((dropdown) => {
         dropdown.addEventListener("click", (event) => {
             event.stopPropagation();
         });
     });
 });
-
 
 
 

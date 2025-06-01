@@ -14,80 +14,7 @@ body {
     box-sizing: border-box;
 }
 
-/* Container */
-.container {
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 25px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.08);
-    line-height: 1.6;
-}
 
-/* Headings */
-h2 {
-    color: #2A2B2D;
-    font-size: 24px;
-    border-bottom: 3px solid #2A2B2D;
-    padding-bottom: 5px;
-    margin-bottom: 20px;
-}
-
-h3 {
-    color: #2A2B2D;
-    font-size: 20px;
-    margin-top: 20px;
-}
-
-/* Paragraphs */
-p {
-    font-size: 16px;
-    color: #2A2B2D;
-    line-height: 1.6;
-}
-
-/* Lists */
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-ul li {
-    font-size: 16px;
-    padding: 8px 0;
-    display: flex;
-    align-items: center;
-}
-
-ul li::before {
-    content: "✔";
-    color: #2A2B2D;
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-/* Links */
-a {
-    color: #2A2B2D;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Contact Info */
-p a {
-    font-size: 16px;
-    font-weight: 500;
-}
-
-p strong {
-    color: #2A2B2D;
-}
 
 /* Navbar */
 /* Navbar */
@@ -220,6 +147,87 @@ p strong {
     transition: 0.4s;
     transform: translateX(-56px);
 }
+
+
+
+
+
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.08);
+    line-height: 1.6;
+}
+
+/* Headings */
+h2 {
+    color: #2A2B2D;
+    font-size: 24px;
+    border-bottom: 3px solid #2A2B2D;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #2A2B2D;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+/* Paragraphs */
+p {
+    font-size: 16px;
+    color: #2A2B2D;
+    line-height: 1.6;
+}
+
+/* Lists */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    font-size: 16px;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+}
+
+ul li::before {
+    content: "✔";
+    color: #2A2B2D;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Links */
+a {
+    color: #2A2B2D;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Contact Info */
+p a {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+p strong {
+    color: #2A2B2D;
+}
+
 
 /* Media Queries */
 @media only screen and (max-width: 768px) {

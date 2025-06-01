@@ -1,22 +1,17 @@
-/* Base Styles */
-* {
-  box-sizing: border-box;
-}
-
+/* General Page Styling */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #FFF5F7;
-  margin: 0;
-  padding: 0;
-  color: #333;
-  width: 100%;
-  overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFF5F7;
+    color: #333;
 }
 
-h1 {
-  text-align: center;
-  margin: 20px 0;
-  color: #111;
+/* Global Reset and Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
@@ -144,6 +139,8 @@ h1 {
     transition: 0.4s;
     transform: translateX(-56px);
 }
+
+
 
 /* Stores Container */
 #stores-container {

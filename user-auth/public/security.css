@@ -14,89 +14,6 @@ body {
     box-sizing: border-box;
 }
 
-/* Security Section Styling */
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 25px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-}
-
-.container h2 {
-    color: #FFF5F7;
-    font-size: 22px;
-    margin-bottom: 12px;
-}
-
-.container p {
-    color: #4A403A;
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-.container ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.container ul li {
-    background: url('https://img.icons8.com/ios-filled/15/8C4A32/checkmark.png') no-repeat left center;
-    padding-left: 25px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #4A403A;
-}
-
-/* FAQ Section */
-.faq {
-    margin-top: 20px;
-}
-
-.faq-question {
-    width: 100%;
-    background: #2A2B2D;
-    color: #e7e7e7;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    border-radius: 6px;
-    margin-top: 10px;
-    transition: 0.3s;
-}
-
-.faq-question:hover {
-    background: #FFF5F7;
-    color: rgb(3, 2, 2);
-}
-
-.faq-answer {
-    display: none;
-    padding: 10px;
-    border-left: 4px solid #2A2B2D;
-    margin-top: 5px;
-    background: #f9f9f9;
-    border-radius: 6px;
-}
-
-.faq-answer p {
-    font-size: 15px;
-    color: #4A403A;
-    margin: 0;
-}
-
-
-
-
-
-
-
-
 
 /* Navbar */
 .navbar {
@@ -222,6 +139,92 @@ body {
     transition: 0.4s;
     transform: translateX(-56px);
 }
+
+
+/* Security Section Styling */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.container h2 {
+    color: #FFF5F7;
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.container p {
+    color: #4A403A;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.container ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.container ul li {
+    background: url('https://img.icons8.com/ios-filled/15/8C4A32/checkmark.png') no-repeat left center;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #4A403A;
+}
+
+/* FAQ Section */
+.faq {
+    margin-top: 20px;
+}
+
+.faq-question {
+    width: 100%;
+    background: #2A2B2D;
+    color: #e7e7e7;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.faq-question:hover {
+    background: #FFF5F7;
+    color: rgb(3, 2, 2);
+}
+
+.faq-answer {
+    display: none;
+    padding: 10px;
+    border-left: 4px solid #2A2B2D;
+    margin-top: 5px;
+    background: #f9f9f9;
+    border-radius: 6px;
+}
+
+.faq-answer p {
+    font-size: 15px;
+    color: #4A403A;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
 
 /* ================= MOBILE VIEW ================= */
 @media (max-width: 768px) {

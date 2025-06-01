@@ -1,8 +1,17 @@
-/* Global Reset */
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFF5F7;
+    color: #333;
+}
+
+/* Global Reset and Styles */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
@@ -130,7 +139,6 @@
     transition: 0.4s;
     transform: translateX(-56px);
 }
-
 
 /* General Styles */
 body {

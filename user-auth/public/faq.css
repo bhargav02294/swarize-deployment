@@ -1,18 +1,4 @@
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #FFF5F7;
-}
 
-/* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
 
 /* FAQ Container */
 .faq-container {
@@ -50,18 +36,33 @@ h2 {
     color: #4A403A;
 }
 
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFF5F7;
+    color: #333;
+}
+
+/* Global Reset and Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
 /* Navbar */
 .navbar {
-    background-color:  #2A2B2D;
+    background-color: #2A2B2D;
     display: flex;
-    width: 100%;
-    max-width: 1520px;
+    width: 1520px;
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    height: 90px;
-    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
-    margin: 0 auto;
+    height: 80px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .navbar-container {
@@ -74,13 +75,13 @@ h2 {
 .navbar-title {
     font-size: 32px;
     font-weight: bold;
-    color:  #FFF5F7;
+    color: #FFF5F7;
     flex-grow: 1;
     text-align: center;
 }
 
 .footer {
-    background-color:  #2A2B2D;
+    background-color: #2A2B2D;
     text-align: center;
     padding: 15px;
     width: 100%;
@@ -90,7 +91,6 @@ h2 {
     font-weight: bold;
 }
 
-/* Logo Styling */
 .logo-container {
     width: 60px;
     height: 60px;
@@ -104,10 +104,8 @@ h2 {
 .logo-text {
     font-size: 50px;
     font-weight: 600;
-    color:  #2A2B2D;
+    color: #2A2B2D;
     font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
 }
 
 .logo-link {
@@ -179,9 +177,7 @@ h2 {
     transition: 0.4s;
     transform: translateX(-56px);
 }
-
-
-/* Responsive Adjustments */
+/*responsive Adjustments */
 @media (max-width: 768px) {
 
     .navbar {

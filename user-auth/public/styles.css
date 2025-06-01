@@ -1053,7 +1053,7 @@ body, html {
 
   .product-card {
     flex-shrink: 0;
-    width: 130px;
+    width: 10px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 3px 8px rgba(0,0,0,0.1);

@@ -1044,7 +1044,7 @@ body, html {
     display: flex;
     gap: 15px;
     width: max-content;
-    animation: scrollMobileSlider 60s linear infinite;
+    animation: scrollMobileSlider 120s linear infinite;
   }
 
   @keyframes scrollMobileSlider {
@@ -1062,7 +1062,7 @@ body, html {
 
   .product-card {
     flex-shrink: 0;
-    width: 130px;
+    width: 10px;
     box-sizing: border-box;
     background: white;
     border-radius: 10px;
@@ -1075,14 +1075,14 @@ body, html {
   }
 
   .product-card img {
-    width: 100%;
+    width: 20%;
     height: 110px;
     object-fit: contain;
   }
 
   .product-card-content {
     padding: 10px;
-    width: 100%;
+    width: 20%;
     box-sizing: border-box;
   }
 

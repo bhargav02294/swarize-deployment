@@ -945,15 +945,13 @@ body, html {
 
 
 
-
-/*     product slider       */
 /* ==== Product Slider Section ==== */
-
 .product-slider-section {
   padding: 30px 20px;
-  background: #FFF5F7 ;
+  background: #FFF5F7;
   border-top: 3px solid #2A2B2D;
   border-bottom: 1px solid #ddd;
+  overflow: hidden;
 }
 
 .product-slider-section h2 {
@@ -964,6 +962,7 @@ body, html {
   font-weight: bold;
 }
 
+/* ==== Product Slider (Horizontal scroll + animation) ==== */
 .product-slider {
   display: flex;
   gap: 30px;
@@ -972,12 +971,23 @@ body, html {
   padding-bottom: 10px;
 }
 
+/* Animation for desktop auto-scroll */
+@keyframes scrollSlider {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ==== Product Card ==== */
 .product-card {
   flex-shrink: 0;
-  width: 75px; /* Updated width */
-  background: #FFF5F7 ;
+  width: 180px;
+  background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
@@ -987,7 +997,7 @@ body, html {
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .product-card img {
@@ -1022,13 +1032,11 @@ body, html {
   color: #8C4A32;
 }
 
-/* ==== Slider Animation ==== */
-
+/* ==== Mobile View ==== */
 @media (max-width: 768px) {
   .product-slider-section {
     padding: 20px 10px;
     overflow: hidden;
-    background: #FFF5F7;
   }
 
   .product-slider {
@@ -1053,12 +1061,11 @@ body, html {
 
   .product-card {
     flex-shrink: 0;
-    width: 10px;
+    width: 130px;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    cursor: pointer;
     transition: transform 0.3s ease;
   }
 
@@ -1068,21 +1075,23 @@ body, html {
     object-fit: contain;
   }
 
-  .product-card h4 {
-    font-size: 14px;
-    margin: 6px 0 4px;
+  .product-card-content {
+    padding: 10px;
+  }
+
+  .product-card-content h4 {
+    font-size: 13px;
+    margin: 4px 0;
     color: #333;
     text-align: center;
   }
 
-  .product-card p {
+  .product-card-content p {
     font-size: 13px;
     color: #8C4A32;
-    margin-bottom: 8px;
     text-align: center;
   }
 }
-
 
 
 

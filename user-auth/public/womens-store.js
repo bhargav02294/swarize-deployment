@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sub = params.get('subcategory') || 'All';
   titleEl.textContent = sub;
 
-  fetch(`https://swarize.in/api/products/category/${encodeURIComponent("Women's Store")}/${encodeURIComponent(sub)}`)
+fetch(`https://swarize.in/api/products/category/Women/${encodeURIComponent(sub)}`)
     .then(res => res.json())
     .then(data => {
       productContainer.innerHTML = '';

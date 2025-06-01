@@ -368,7 +368,7 @@ header h1, header h2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  padding: 30px 50px; /* 🔽 Reduced padding */
+  padding: 20px 30px; /* 🔽 Reduced padding */
   background: #FFF5F7;
 }
 
@@ -422,11 +422,10 @@ header h1, header h2 {
 
 /* Subcategory dropdown list - Updated for PC */
 .subcategory-list {
-  display: none;
+  display: flex;
   flex-direction: column;
   width: 250px;
-  max-height: 420px;
-  overflow-y: auto;
+  max-height: unset;
   padding: 10px 12px;
   border: 1px solid #F4D1AE;
   border-radius: 10px;
@@ -438,24 +437,14 @@ header h1, header h2 {
   box-shadow: 0 5px 12px rgba(0,0,0,0.15);
   z-index: 99;
   opacity: 0;
+  pointer-events: none;
   transition: all 0.3s ease;
-
-  /* 🔽 Hide scrollbar but keep scroll functionality */
-  -ms-overflow-style: none;  /* IE & Edge */
-  scrollbar-width: none;     /* Firefox */
 }
-
-.subcategory-list::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
-
-
-
 
 /* Show on hover */
 .category-dropdown:hover .subcategory-list {
-  display: flex;
   opacity: 1;
+  pointer-events: auto;
   transform: translateX(-50%) translateY(5px);
 }
 
@@ -467,52 +456,45 @@ header h1, header h2 {
 
 /* 🔹 Subcategory Items */
 .subcategory-list li {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-radius: 8px;
-    background: #ffffff ;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    margin-top: 5px;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* 🔹 Subcategory Icons (Optional) */
-.subcategory-list li img {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    
-}
+
+
+
 
 /* Last item shouldn't have a border */
 .subcategory-list li:last-child {
-    border-bottom: none;
-    
+  border-bottom: none;
 }
 
 /* 🔹 Subcategory Links */
 .subcategory-list li a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-    width: 100%;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: #333;
+  display: block;
+  width: 100%;
+  transition: color 0.3s ease;
 }
-
 
 /* 🔹 Hover Effects */
 .subcategory-list li:hover {
-    background: #e4e7e8;
-    color: white;
-    transform: scale(1.05);
-    border: 1px solid #8C4A32 ; /* Gold Border */
-
-
+  background: #e4e7e8;
+  color: white;
+  transform: scale(1.05);
+  border: 1px solid #8C4A32;
 }
+
 
 
 
@@ -536,7 +518,7 @@ header h1, header h2 {
 }
 
 .category-btn {
-    width: 100%;
+    width: 140px;
     height: 80px;
     font-size: 12px;
     gap: 6px;
@@ -549,61 +531,51 @@ header h1, header h2 {
 
 /* 🔄 Horizontal Scroll Subcategory List */
  /* 📱 Subcategories in vertical scroll list */
+  /* 🔽 Subcategories same as PC */
   .subcategory-list {
     position: absolute;
-    width: 90vw;
-    max-height: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex-direction: column;
-    padding: 10px;
+    width: 250px;
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    white-space: normal;
+    padding: 10px 12px;
+    border: 1px solid #F4D1AE;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+    flex-direction: column;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+
+  .category-dropdown:hover .subcategory-list {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(5px);
   }
 
   .subcategory-list li {
     font-size: 13px;
-    padding: 10px 8px;
-    flex: 1 1 auto;
-    min-width: unset;
-    scroll-snap-align: unset;
+    padding: 8px;
   }
 
-  /* Optional hide scrollbar on mobile */
-  .subcategory-list::-webkit-scrollbar {
+  .subcategory-list li img {
     display: none;
   }
 
+  .subcategory-list li a {
+    color: #4A403A;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+  }
 
-.category-dropdown.active .subcategory-list {
-  display: flex;
-}
-
-
-
-.subcategory-list li:hover {
-  background: #F4D1AE;
-  transform: scale(1.05);
-}
-
-.subcategory-list li a {
-  text-decoration: none;
-  color: #4A403A;
-  display: block;
-  width: 100%;
-}
-
-/* Optional subcategory icons hidden */
-.subcategory-list li img {
-  display: none;
-}
-
-
-.subcategory-list {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+  .subcategory-list li:hover {
+    background: #F4D1AE;
+    transform: scale(1.05);
+  }
 
 
 }

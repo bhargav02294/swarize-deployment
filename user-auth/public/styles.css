@@ -537,7 +537,7 @@ header h1, header h2 {
   /* Subcategory list same as before */
   .subcategory-list {
     position: absolute;
-    width: 150px;
+    width: 180px;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
@@ -579,6 +579,26 @@ header h1, header h2 {
     background: #F4D1AE;
     transform: scale(1.05);
   }
+
+   /* Shift 1st category subcategory slightly right */
+  .category-section.category-grid .category-dropdown:nth-child(1) .subcategory-list {
+    transform: translateX(calc(-50% + 15px)); /* moved 15px right */
+  }
+
+  /* Shift 4th category subcategory slightly left */
+  .category-section.category-grid .category-dropdown:nth-child(4) .subcategory-list {
+    transform: translateX(calc(-50% - 15px)); /* moved 15px left */
+  }
+
+  /* When hovered - adjust transform to keep the vertical shift too */
+  .category-section.category-grid .category-dropdown:nth-child(1):hover .subcategory-list {
+    transform: translateX(calc(-50% + 15px)) translateY(5px);
+  }
+
+  .category-section.category-grid .category-dropdown:nth-child(4):hover .subcategory-list {
+    transform: translateX(calc(-50% - 15px)) translateY(5px);
+  }
+
 }
 
 
@@ -1019,33 +1039,22 @@ body, html {
 @media (max-width: 768px) {
   .product-slider-section {
     padding: 20px 10px;
-    overflow-x: hidden; /* hide any overflow outside container */
-  }
-
-  .product-slider-section h2 {
-    font-size: 22px;
-    margin-bottom: 20px;
+    overflow-x: hidden; /* Hide overflow */
   }
 
   .product-slider {
     display: flex;
     gap: 15px;
-    width: 100%;          /* Full width on mobile */
-    overflow-x: auto;     /* Enable horizontal scroll */
+    width: max-content; /* Make width based on content so it can scroll */
     padding-bottom: 10px;
-    animation: none;      /* Remove auto scroll animation on mobile */
-    scrollbar-width: none; /* Firefox hide scrollbar */
-  }
-  
-  /* Hide scrollbar for WebKit browsers */
-  .product-slider::-webkit-scrollbar {
-    display: none;
+    animation: scrollSlider 75s linear infinite; /* Enable auto scroll */
   }
 
+  /* Same styles as before */
   .product-card {
-    width: 120px; /* Slightly wider for touch */
+    width: 120px;
     border-radius: 10px;
-    flex-shrink: 0; /* prevent shrinking so they line up horizontally */
+    flex-shrink: 0;
   }
 
   .product-card img {
@@ -1065,6 +1074,7 @@ body, html {
     font-size: 14px;
   }
 }
+
 
 
   

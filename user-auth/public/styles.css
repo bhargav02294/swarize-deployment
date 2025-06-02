@@ -1022,24 +1022,26 @@ body, html {
   color: #8C4A32;
 }
 
-/* ==== Slider Animation ==== */
-@keyframes scrollSlider {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
 @media (max-width: 768px) {
   .product-slider-section {
-    padding: 20px 10px;
-    overflow: hidden;
+    padding: 20px 12px;
+    overflow-x: hidden;
     background: #FFF5F7;
+  }
+
+  .product-slider-section h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+    color: #2A2B2D;
   }
 
   .product-slider {
     display: flex;
-    gap: 15px;
+    gap: 14px;
     width: max-content;
-    animation: scrollMobileSlider 40s linear infinite;
+    padding-bottom: 8px;
+    animation: scrollMobileSlider 35s linear infinite;
   }
 
   @keyframes scrollMobileSlider {
@@ -1057,35 +1059,55 @@ body, html {
 
   .product-card {
     flex-shrink: 0;
-    width: 130px;
+    width: 140px;
+    box-sizing: border-box;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
 
   .product-card img {
     width: 100%;
-    height: 110px;
+    height: 120px;
     object-fit: contain;
+    background: #fdfdfd;
   }
 
-  .product-card h4 {
-    font-size: 14px;
+  .product-card-content,
+  .product-card > a > div {
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .product-card-content h4,
+  .product-card > a > div h4 {
+    font-size: 13px;
     margin: 6px 0 4px;
     color: #333;
-    text-align: center;
+    font-weight: 600;
+    line-height: 1.2;
   }
 
-  .product-card p {
+  .product-card-content p,
+  .product-card > a > div p {
     font-size: 13px;
     color: #8C4A32;
-    margin-bottom: 8px;
-    text-align: center;
+    margin-bottom: 4px;
+    font-weight: 500;
   }
 }
+
 
 
 

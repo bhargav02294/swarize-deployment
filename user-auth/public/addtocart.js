@@ -30,12 +30,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         cartData.cart.forEach(product => {
             const productDiv = document.createElement("div");
             productDiv.classList.add("cart-item");
+            // Click pe redirect to product page
+                productDiv.addEventListener("click", () => {
+                    window.location.href = `product-details.html?id=${product.productId}`;
+                });
 
             productDiv.innerHTML = `
                 <img src="${product.thumbnailImage.startsWith('http') ? product.thumbnailImage : 'https://swarize.in/' + product.thumbnailImage}" alt="${product.name}" class="cart-product-image">
                 <h2 class="cart-product-name">${product.name}</h2>
                 <p class="cart-product-price">₹${product.price}</p>
-                <p class="cart-product-description">${product.description}</p>
                 <button class="remove-button" data-id="${product.productId}">Remove</button>
             `;
 

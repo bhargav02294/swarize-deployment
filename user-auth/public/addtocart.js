@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             productDiv.classList.add("cart-item");
             // Click pe redirect to product page
                 productDiv.addEventListener("click", () => {
-                    window.location.href = `product-details.html?id=${product.productId}`;
+                    window.location.href = `product-detail.html?id=${product.productId}`;
                 });
 
             productDiv.innerHTML = `

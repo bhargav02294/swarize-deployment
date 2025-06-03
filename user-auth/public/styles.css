@@ -1052,6 +1052,36 @@ body, html {
   display: none;
 }
 
+@media (max-width: 768px) {
+  .product-slider {
+    animation: scrollSlider 40s linear infinite; /* optional: thoda fast */
+    gap: 16px;
+  }
+
+  .product-card {
+    width: 160px;
+    padding: 8px;
+  }
+
+  .product-card img {
+    width: 130px;
+    height: 110px;
+  }
+
+  .product-card-content h4 {
+    font-size: 13px;
+  }
+
+  .product-card-content p {
+    font-size: 14px;
+  }
+
+  .product-price {
+    font-size: 14px;
+  }
+}
+
+
 
 
 

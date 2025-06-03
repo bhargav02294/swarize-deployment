@@ -948,8 +948,7 @@ body, html {
 
 /*     product slider       */
 /* ==== Product Slider Section ==== */
-
-/* ==== Product Slider Section (Universal for all screen sizes) ==== */
+/* ==== Product Slider Section ==== */
 .product-slider-section {
   padding: 30px 20px;
   background: #FFF5F7;
@@ -1052,32 +1051,19 @@ body, html {
   display: none;
 }
 
+/* ==== Mobile Responsive Fix ==== */
 @media (max-width: 768px) {
-  .product-slider {
-    animation: scrollSlider 40s linear infinite; /* optional: thoda fast */
-    gap: 16px;
-  }
-
   .product-card {
-    width: 160px;
+    width: 46vw;
     padding: 8px;
   }
 
   .product-card img {
-    width: 170px;
     height: 110px;
   }
 
-  .product-card-content h4 {
-    font-size: 13px;
-  }
-
-  .product-card-content p {
-    font-size: 14px;
-  }
-
-  .product-price {
-    font-size: 14px;
+  .product-slider-section h2 {
+    font-size: 1.5rem;
   }
 }
 

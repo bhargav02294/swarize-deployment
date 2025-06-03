@@ -546,37 +546,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 //=========       product slider          ============//
+async function fetchProducts() {
+  try {
+    const res = await fetch('/api/products/all');
+    const products = await res.json();
 
+    const slider = document.getElementById('productSlider');
+    slider.innerHTML = '';
 
-  async function fetchProducts() {
-    try {
-      const res = await fetch('/api/products/all');
-      const products = await res.json();
-  
-      const slider = document.getElementById('productSlider');
-      slider.innerHTML = ''; // Clear existing
-  
-      products.forEach(product => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
       card.innerHTML = `
-  <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
-    <img src="${product.thumbnailImage}" alt="${product.name}">
-    <div class="product-card-content">
-      <h4>${product.name}</h4>
-      <p>₹${product.price}</p>
-    </div>
-  </a>
-`;
-
-
-        slider.appendChild(card);
-      });
-    } catch (err) {
-      console.error('Error loading products:', err);
-    }
+        <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
+          <img src="${product.thumbnailImage}" alt="${product.name}">
+          <div class="product-card-content">
+            <h4>${product.name}</h4>
+            <p>₹${product.price}</p>
+          </div>
+        </a>
+      `;
+      slider.appendChild(card);
+    });
+  } catch (err) {
+    console.error('Error loading products:', err);
   }
-  fetchProducts();
+}
+fetchProducts();
 
 
 
@@ -584,33 +580,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  async function fetchReversedProducts() {
+async function fetchReversedProducts() {
   try {
     const res = await fetch('/api/products/all');
     const products = await res.json();
 
     const slider = document.getElementById('reversedProductSlider');
-    slider.innerHTML = ''; // Clear existing
+    slider.innerHTML = '';
 
-    // Reverse the product list to start with the last item
     products.reverse().forEach(product => {
       const card = document.createElement('div');
       card.className = 'product-card';
       card.innerHTML = `
         <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
           <img src="${product.thumbnailImage}" alt="${product.name}">
-          <div style="padding: 10px;">
-            <h4 style="margin: 0;">${product.name}</h4>
-            <p style="margin: 5px 0; color: #888;">₹${product.price}</p>
+          <div class="product-card-content">
+            <h4>${product.name}</h4>
+            <p>₹${product.price}</p>
           </div>
         </a>
       `;
-
       slider.appendChild(card);
     });
   } catch (err) {
     console.error('Error loading reversed products:', err);
   }
 }
-
 fetchReversedProducts();

@@ -556,16 +556,17 @@ async function fetchProducts() {
 
     products.forEach(product => {
       const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
-          <img src="${product.thumbnailImage}" alt="${product.name}">
-          <div class="product-card-content">
-            <h4>${product.name}</h4>
-            <p>₹${product.price}</p>
-          </div>
-        </a>
-      `;
+      card.className = 'slider-card';
+     card.innerHTML = `
+  <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
+    <img src="${product.thumbnailImage}" alt="${product.name}">
+    <div class="product-card-content">
+      <h4>${product.name}</h4>
+      <p class="product-price">₹${product.price}</p>
+    </div>
+  </a>
+`;
+
       slider.appendChild(card);
     });
   } catch (err) {
@@ -590,16 +591,18 @@ async function fetchReversedProducts() {
 
     products.reverse().forEach(product => {
       const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
-          <img src="${product.thumbnailImage}" alt="${product.name}">
-          <div class="product-card-content">
-            <h4>${product.name}</h4>
-            <p>₹${product.price}</p>
-          </div>
-        </a>
-      `;
+      card.className = 'slider-card';
+      
+       card.innerHTML = `
+  <a href="/product-detail.html?id=${product._id}" style="text-decoration: none; color: inherit;">
+    <img src="${product.thumbnailImage}" alt="${product.name}">
+    <div class="product-card-content">
+      <h4>${product.name}</h4>
+      <p class="product-price">₹${product.price}</p>
+    </div>
+  </a>
+`;
+
       slider.appendChild(card);
     });
   } catch (err) {

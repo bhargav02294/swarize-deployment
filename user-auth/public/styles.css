@@ -987,8 +987,8 @@ body, html {
   }
 }
 
-/* === Product Card === */
-.product-card {
+/* === Product Card (Slider) === */
+.slider-card {
   flex-shrink: 0;
   width: 160px;
   background: #fff;
@@ -1004,10 +1004,14 @@ body, html {
   padding: 10px;
 }
 
-.product-card:hover {
+
+
+
+.slider-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
+
 
 .product-card img {
   width: 100%;
@@ -1053,7 +1057,7 @@ body, html {
 
 /* ==== Mobile Responsive Fix ==== */
 @media (max-width: 768px) {
-  .product-card {
+  .slider-card {
     width: 46vw;
     padding: 8px;
   }

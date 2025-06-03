@@ -9,7 +9,6 @@ const productSchema = new mongoose.Schema({
     summary: { type: String },
     category: { type: String },
     subcategory: { type: String },
-    tags: [{ type: String }],
     size: { type: String },
     color: { type: String },
     store: { type: mongoose.Schema.Types.ObjectId, ref: 'Store' },

@@ -64,7 +64,7 @@ router.post(
 
       const {
         name, price, description, summary,
-        category, subcategory, tags, size,
+        category, subcategory, size,
         color, material, modelStyle, availableIn
       } = req.body;
 
@@ -117,7 +117,6 @@ const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/p
         summary,
         category,
         subcategory,
-        tags: tags ? tags.split(',') : [],
         size,
         color,
         material,

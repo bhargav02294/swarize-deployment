@@ -106,10 +106,7 @@ subcategorySelect.addEventListener("change", (e) => {
   previewSubcategory.textContent = `Subcategory: ${e.target.value}`;
 });
 
-// Update live preview for tags
-document.getElementById("tags").addEventListener("input", (e) => {
-  previewTags.textContent = `Tags: ${e.target.value || "None"}`;
-});
+
 
 // Update live preview for optional fields
 document.getElementById("size").addEventListener("input", (e) => {
@@ -220,7 +217,6 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   formData.append('summary', document.getElementById("summary").value.trim());
   formData.append('category', document.getElementById("category").value);
   formData.append('subcategory', document.getElementById("subcategory").value);
-  formData.append('tags', document.getElementById("tags").value.trim());
   formData.append('size', document.getElementById("size").value.trim());
   formData.append('color', document.getElementById("color").value.trim());
   formData.append('material', document.getElementById("material").value.trim());

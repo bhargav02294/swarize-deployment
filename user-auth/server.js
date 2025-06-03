@@ -750,25 +750,6 @@ app.get("/api/user/check-profile", async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Add this middleware definition near the top of your file
 const ensureSeller = (req, res, next) => {
   if (req.user && req.user.role === 'seller') {
@@ -1130,7 +1111,6 @@ app.post("/api/orders/create", async (req, res) => {
           thumbnailImage: product.thumbnailImage,
           category: product.category,
           subcategory: product.subcategory,
-          tags: product.tags,
           buyerId: buyer._id,
           buyerName: buyer.name,
           buyerEmail: buyer.email,
@@ -1174,7 +1154,6 @@ app.post("/api/orders/create", async (req, res) => {
           thumbnailImage: product.thumbnailImage,
           category: product.category,
           subcategory: product.subcategory,
-          tags: product.tags,
           sellerId: seller._id,
           sellerName: seller.name,
           sellerEmail: seller.email,

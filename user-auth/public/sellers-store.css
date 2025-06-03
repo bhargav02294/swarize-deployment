@@ -152,15 +152,12 @@ body {
 
 
 
-
-/* Stores Container */
+/* === Stores Section === */
 #stores-container {
-  max-width: 1000px; /* slightly narrower */
+  max-width: 1000px;
   margin: 140px auto 40px;
   padding: 0 16px;
 }
-
-
 
 #store-list {
   display: flex;
@@ -168,35 +165,41 @@ body {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 10px;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
+
 #store-list::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none;
 }
 
 .store-card {
-  flex: 0 0 calc(33.33% - 14px); /* PC: 3 in one row */
+  flex: 0 0 calc(33.33% - 14px);
   scroll-snap-align: start;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
 }
-
 
 .store-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .store-card img {
   width: 120px;
   height: 120px;
+  object-fit: cover;
   border-radius: 50%;
-  object-fit: cover; /* ensures full image is visible inside the circle */
   margin-bottom: 15px;
 }
 
 .store-card h3 {
-  margin: 10px 0 5px;
   font-size: 20px;
-  color: #222;
+  margin-bottom: 5px;
+  color: #2A2B2D;
 }
 
 .store-card p {
@@ -208,18 +211,17 @@ body {
 .store-card button {
   background-color: #2A2B2D;
   color: white;
-  padding: 10px 18px;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
+  padding: 10px 18px;
   font-weight: 500;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .store-card button:hover {
   background-color: #080909;
 }
-
 
 /* ----------------- Responsive Styles ----------------- */
 @media (max-width: 768px) {
@@ -272,15 +274,13 @@ body {
 
 
   .button-elem {
-    margin: 15px 16px 0 16px;
+    width: 18px;
+    height: 18px;
+    margin: 15px 15px 0 15px;
   }
 
-  #stores-container {
-    padding: 0 12px;
-  }
-
-   .store-card {
-    flex: 0 0 calc(50% - 10px); /* Mobile: 2 in one row */
+  .store-card {
+    flex: 0 0 calc(50% - 10px);
   }
 
   .store-card img {

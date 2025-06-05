@@ -123,7 +123,27 @@ document.getElementById("preview-name").textContent = data.name || "Product Name
 document.getElementById("preview-price").textContent = `₹${data.price || 0}`;
 document.getElementById("preview-description").textContent = data.description || "";
 
-// ✅ Final Submit
+
+// ✅ Size Chart Modal
+const modal = document.getElementById("size-chart-modal");
+const btn = document.getElementById("show-size-chart");
+const span = document.querySelector(".modal .close");
+btn.onclick = () => modal.style.display = "block";
+span.onclick = () => modal.style.display = "none";
+window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
+
+
+
+
+
+
+
+
+
+
+
+
 document.getElementById("details-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -204,11 +224,3 @@ document.getElementById("details-form").addEventListener("submit", async (e) => 
     message.style.color = "red";
   }
 });
-
-// ✅ Size Chart Modal
-const modal = document.getElementById("size-chart-modal");
-const btn = document.getElementById("show-size-chart");
-const span = document.querySelector(".modal .close");
-btn.onclick = () => modal.style.display = "block";
-span.onclick = () => modal.style.display = "none";
-window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };

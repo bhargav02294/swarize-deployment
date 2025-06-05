@@ -77,7 +77,7 @@ nextBtn.addEventListener("click", () => {
     return;
   }
 
-  const formData = {
+  const metadata = {
     name,
     price,
     description: desc,
@@ -86,31 +86,31 @@ nextBtn.addEventListener("click", () => {
     subcategory,
     storeId: localStorage.getItem("storeId") || ""
   };
+  localStorage.setItem("basicProductData", JSON.stringify(metadata));
 
-  // Handle image and video uploads
+  // Prepare FormData to temporarily hold files
+  const formData = new FormData();
   const thumbnail = document.getElementById("thumbnail-image").files[0];
   if (!thumbnail) {
     alert("Thumbnail image is required.");
     return;
   }
-  formData.thumbnail = thumbnail;
+  formData.append("thumbnailImage", thumbnail);
 
-  formData.extraImages = [];
   ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
     const file = document.getElementById(id)?.files[0];
-    if (file) formData.extraImages.push(file);
+    if (file) formData.append("extraImages", file);
   });
 
-  formData.extraVideos = [];
   ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
     const file = document.getElementById(id)?.files[0];
-    if (file) formData.extraVideos.push(file);
+    if (file) formData.append("extraVideos", file);
   });
 
-  // Save to localStorage (as JSON + base64 for files if needed)
-  localStorage.setItem("basicProductData", JSON.stringify(formData));
+  // Pass files through a global object
+  window.sessionStorage.setItem("uploadBuffer", JSON.stringify(Object.fromEntries(formData.entries())));
 
-  // ✅ Redirect properly to details page
+  // Redirect to next step
   window.location.href = "add-product-details.html";
 });
 

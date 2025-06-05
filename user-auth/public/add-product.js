@@ -58,6 +58,40 @@ categorySelect.addEventListener("change", (e) => {
   }
 });
 
+
+
+
+
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+  const name = document.getElementById("product-name").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const desc = document.getElementById("description").value.trim();
+  const category = document.getElementById("category").value;
+  const subcategory = document.getElementById("subcategory").value;
+
+  if (!name || !price || !desc || !category || !subcategory) {
+    alert("Please fill all required fields.");
+    return;
+  }
+
+  const formData = {
+    name,
+    price,
+    description: desc,
+    summary: document.getElementById("summary").value.trim(),
+    availableIn: document.getElementById("availableIn").value.trim() || "All Over India",
+    category,
+    subcategory
+  };
+
+  localStorage.setItem("basicProductData", JSON.stringify(formData));
+  window.location.href = "add-product-details.html";
+});
+
+
+
+
 // Live preview elements
 const previewThumbnail = document.getElementById("preview-thumbnail");
 const previewName = document.getElementById("preview-name");
@@ -173,6 +207,9 @@ document.getElementById("extraImage4").addEventListener("change", (e) => {
 
 
 
+
+
+
 async function fetchStoreDetails() {
   const slug = localStorage.getItem("storeSlug");
   const messageElement = document.getElementById('message');
@@ -201,6 +238,12 @@ async function fetchStoreDetails() {
       return null;
   }
 }
+
+
+
+
+
+
 
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -287,6 +330,13 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       messageElement.style.color = "red";
   }
 });
+
+
+
+
+
+
+
 
 
 

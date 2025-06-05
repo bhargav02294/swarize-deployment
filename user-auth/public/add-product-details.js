@@ -1,37 +1,75 @@
-// ✅ Enhanced Product Details Form with Subcategory-Based Fields
-
 const data = JSON.parse(localStorage.getItem("basicProductData")) || {};
 const fieldContainer = document.getElementById("dynamic-fields");
 
+// Mapping: subcategory → fields to show
+const subcategoryFieldsMap = {
+  // --- Women ---
+  "Ethnic Wear":        { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Western Wear":       { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Bottomwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Winterwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Innerwear & Loungewear": { size: "standard", color: true, material: true, washCare: true, pattern: false, modelStyle: false },
+  "Footwear":           { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Bags & Clutches":    { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
+  "Jewelry & Accessories": { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
+  "Beauty & Makeup":    { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Eyewear & Watches":  { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+
+  // --- Men ---
+  "Topwear":            { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Bottomwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Ethnic Wear":        { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Winterwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Innerwear & Sleepwear": { size: "standard", color: true, material: true, washCare: true, pattern: false, modelStyle: false },
+  "Footwear":           { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Accessories":        { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
+  "Eyewear & Watches":  { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Grooming":           { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Bags & Utility":     { size: false, color: true, material: true, washCare: false, pattern: false, modelStyle: false },
+
+  // --- Kids ---
+  "Boys Clothing":      { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Girls Clothing":     { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Footwear":           { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Toys & Games":       { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Remote Toys":        { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Learning & School":  { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Baby Essentials":    { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Winterwear":         { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Accessories":        { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
+  "Festive Wear":       { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+
+  // --- Accessories ---
+  "Bags & Travel":      { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
+  "Unisex Footwear":    { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Mobile Accessories": { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Gadgets":            { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Computer Accessories": { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Home Decor":         { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
+  "Kitchenware":        { size: false, color: false, material: true, pattern: false, washCare: false, modelStyle: false },
+  "Health & Care":      { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Craft & DIY Kits":   { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Fashion Accessories": { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false }
+};
+
+
 function createInput(label, id, placeholder = "") {
   const wrapper = document.createElement("div");
-  wrapper.innerHTML = `
-    <label for="${id}">${label}</label>
-    <input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />
-  `;
+  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
   return wrapper;
 }
 
 function createDropdown(label, id, options) {
   const wrapper = document.createElement("div");
-  const selectOptions = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
-  wrapper.innerHTML = `
-    <label for="${id}">${label}</label>
-    <select id="${id}" name="${id}">
-      <option value="" disabled selected>Select ${label}</option>
-      ${selectOptions}
-    </select>
-  `;
+  const optionsHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
+  wrapper.innerHTML = `<label for="${id}">${label}</label><select id="${id}" name="${id}"><option disabled selected>Select ${label}</option>${optionsHTML}</select>`;
   return wrapper;
 }
 
 function createColorPalette() {
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `<label>Color</label>`;
-  const colors = [
-    "#000", "#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff", "#ccc",
-    "#800000", "#FFA500", "#808000", "#800080", "#008080", "#FFD700", "#A52A2A", "#708090"
-  ];
+  const colors = ["#000", "#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff", "#ccc", "#800000", "#FFA500", "#808000", "#800080", "#008080", "#FFD700", "#A52A2A", "#708090"];
   const colorBox = document.createElement("div");
   colorBox.className = "color-palette";
   colors.forEach((hex) => {
@@ -54,244 +92,134 @@ function createColorPalette() {
   return wrapper;
 }
 
-function loadSizeOptions(subcategory) {
-  const sizeWrapper = document.createElement("div");
-  let sizes = [];
-  if (["Topwear", "Bottomwear", "Ethnic Wear", "Winterwear", "Western Wear"].includes(subcategory)) {
-    sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
-  } else if (["Footwear", "Unisex Footwear"].includes(subcategory)) {
-    sizes = ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"];
-  } else if (["Boys Clothing", "Girls Clothing", "Festive Wear"].includes(subcategory)) {
-    sizes = ["0-1 Yr", "1-2 Yr", "2-3 Yr", "3-4 Yr", "4-5 Yr", "6-7 Yr", "8-9 Yr", "10-12 Yr"];
-  } else {
-    return createInput("Size", "size", "Enter size if applicable");
-  }
-  return createDropdown("Size", "size", sizes);
+
+
+function loadSizeField(type) {
+  if (type === "standard") return createDropdown("Size", "size", ["XS", "S", "M", "L", "XL", "XXL", "3XL"]);
+  if (type === "footwear") return createDropdown("Size", "size", ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]);
+  if (type === "kids") return createDropdown("Size", "size", ["0-1 Yr", "1-2 Yr", "2-3 Yr", "3-4 Yr"]);
+  return createInput("Size", "size", "Enter size if applicable");
 }
 
 function loadFields() {
-  const subcategory = data.subcategory || "";
+  const config = subcategoryFieldsMap[data.subcategory] || {};
   fieldContainer.innerHTML = "";
 
-  fieldContainer.appendChild(loadSizeOptions(subcategory));
-  fieldContainer.appendChild(createColorPalette());
-
-  const materialOptions = ["Cotton", "Denim", "Rayon", "Polyester", "Wool", "Silk", "Linen"];
-  const patternOptions = ["Solid", "Striped", "Checked", "Floral", "Printed", "Embroidered"];
-  const washOptions = ["Machine Wash", "Hand Wash", "Dry Clean"];
-
-  fieldContainer.appendChild(createDropdown("Material", "material", materialOptions));
-  fieldContainer.appendChild(createDropdown("Pattern", "pattern", patternOptions));
-  fieldContainer.appendChild(createDropdown("Wash Care", "washCare", washOptions));
+  if (config.size) fieldContainer.appendChild(loadSizeField(config.size));
+  if (config.color) fieldContainer.appendChild(createColorPalette());
+  if (config.material) fieldContainer.appendChild(createDropdown("Material", "material", ["Cotton", "Denim"]));
+  if (config.pattern) fieldContainer.appendChild(createDropdown("Pattern", "pattern", ["Solid", "Striped"]));
+  if (config.washCare) fieldContainer.appendChild(createDropdown("Wash Care", "washCare", ["Machine Wash", "Hand Wash"]));
+  if (config.modelStyle) fieldContainer.appendChild(createInput("Style/Model", "modelStyle"));
 
   fieldContainer.appendChild(createInput("Brand (optional)", "brand"));
-  fieldContainer.appendChild(createInput("Style/Model", "modelStyle"));
 }
 
 loadFields();
 
-document.getElementById("details-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-  const details = {
-    ...data,
-    size: document.getElementById("size")?.value || "",
-    color: document.getElementById("color").value,
-    material: document.getElementById("material").value,
-    pattern: document.getElementById("pattern").value,
-    washCare: document.getElementById("washCare").value,
-    brand: document.getElementById("brand").value,
-    modelStyle: document.getElementById("modelStyle").value
-  };
-
-  console.log("Final Product Data:", details);
-  alert("Product Added (console logged for now)");
-});
 
 
 
 
-// ========== LIVE PREVIEW SETUP ==========
 
-const previewThumbnail = document.getElementById("preview-thumbnail");
-const previewName = document.getElementById("preview-name");
-const previewPrice = document.getElementById("preview-price");
-const previewDescription = document.getElementById("preview-description");
-const previewExtraImages = [
-  document.getElementById("preview-extra-image-1"),
-  document.getElementById("preview-extra-image-2"),
-  document.getElementById("preview-extra-image-3"),
-  document.getElementById("preview-extra-image-4"),
-];
 
-const previewCategory = document.createElement("p");
-const previewSubcategory = document.createElement("p");
-const previewTags = document.createElement("p");
-const previewSize = document.createElement("p");
-const previewColor = document.createElement("p");
-const previewMaterial = document.createElement("p");
-const previewModelStyle = document.createElement("p");
 
-const previewContainer = document.querySelector(".preview-container");
-previewContainer.append(previewCategory, previewSubcategory, previewTags, previewSize, previewColor, previewMaterial, previewModelStyle);
+// ------------------ Preview Setup ------------------
 
-// Live text preview handlers
-document.getElementById("product-name")?.addEventListener("input", (e) => {
-  previewName.textContent = e.target.value || "Product Name";
-});
+function populatePreview() {
+  const previewName = document.getElementById("preview-name");
+  const previewPrice = document.getElementById("preview-price");
+  const previewDesc = document.getElementById("preview-description");
+  const previewThumbnail = document.getElementById("preview-thumbnail");
+  const previewImages = [
+    document.getElementById("preview-extra-image-1"),
+    document.getElementById("preview-extra-image-2"),
+    document.getElementById("preview-extra-image-3"),
+    document.getElementById("preview-extra-image-4")
+  ];
+  const previewVideos = [
+    document.getElementById("preview-extra-video-1"),
+    document.getElementById("preview-extra-video-2"),
+    document.getElementById("preview-extra-video-3")
+  ];
 
-document.getElementById("price")?.addEventListener("input", (e) => {
-  previewPrice.textContent = e.target.value ? `₹${e.target.value}` : "₹0.00";
-});
+  previewName.textContent = data.name || "Product Name";
+  previewPrice.textContent = `₹${data.price || 0}`;
+  previewDesc.textContent = data.description || "";
 
-document.getElementById("description")?.addEventListener("input", (e) => {
-  previewDescription.textContent = e.target.value || "Product description will appear here.";
-});
-
-// Images preview
-function handleImagePreview(fileInput, previewElement) {
-  const file = fileInput.files[0];
-  if (file) {
+  if (data.thumbnail) {
     const reader = new FileReader();
-    reader.onload = (e) => previewElement.src = e.target.result;
-    reader.readAsDataURL(file);
-  } else {
-    previewElement.src = "";
+    reader.onload = e => previewThumbnail.src = e.target.result;
+    reader.readAsDataURL(data.thumbnail);
   }
-}
-
-["extraImage1", "extraImage2", "extraImage3", "extraImage4"].forEach((id, idx) => {
-  const input = document.getElementById(id);
-  if (input) {
-    input.addEventListener("change", (e) => handleImagePreview(e.target, previewExtraImages[idx]));
-  }
-});
-
-["extraVideo1", "extraVideo2", "extraVideo3"].forEach((id, index) => {
-  const input = document.getElementById(id);
-  if (input) {
-    input.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      const video = document.getElementById(`preview-extra-video-${index + 1}`);
-      if (file && video) {
-        video.src = URL.createObjectURL(file);
-        video.style.display = 'block';
-      }
-    });
-  }
-});
-async function fetchStoreDetails() {
-  const slug = localStorage.getItem("storeSlug");
-  const messageElement = document.getElementById('message');
-
-  if (!slug) {
-    messageElement.textContent = "Store info missing. Please open your store first.";
-    messageElement.style.color = "red";
-    return null;
-  }
-
-  try {
-    const res = await fetch(`/api/store/${slug}`);
-    const data = await res.json();
-    if (data.success) {
-      localStorage.setItem("storeId", data.store._id);
-      localStorage.setItem("storeName", data.store.storeName);
-      localStorage.setItem("storeSlug", data.store.slug);
-      return data.store;
-    } else {
-      messageElement.textContent = "Store not found.";
-      messageElement.style.color = "red";
-      return null;
+  (data.extraImages || []).forEach((img, i) => {
+    if (previewImages[i]) {
+      const reader = new FileReader();
+      reader.onload = e => previewImages[i].src = e.target.result;
+      reader.readAsDataURL(img);
     }
-  } catch (err) {
-    console.error("Error fetching store:", err);
-    return null;
-  }
+  });
+  (data.extraVideos || []).forEach((vid, i) => {
+    if (previewVideos[i]) previewVideos[i].src = URL.createObjectURL(vid);
+  });
 }
 
+populatePreview();
 
+// ------------------ Final Submit ------------------
 
+document.getElementById("details-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-
-
-
-document.getElementById('details-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const messageElement = document.getElementById('message') || document.createElement('div');
-  if (!messageElement.id) {
-    messageElement.id = "message";
-    document.body.appendChild(messageElement);
+  const message = document.getElementById("message") || document.createElement("div");
+  if (!message.id) {
+    message.id = "message";
+    document.body.appendChild(message);
   }
 
   const formData = new FormData();
+  formData.append("name", data.name);
+  formData.append("price", data.price);
+  formData.append("description", data.description);
+  formData.append("summary", data.summary);
+  formData.append("category", data.category);
+  formData.append("subcategory", data.subcategory);
+  formData.append("storeId", data.storeId || "");
 
-  const availableInInput = document.getElementById("availableIn");
-  let availableInValue = availableInInput?.value.trim() || "All Over India";
+  formData.append("size", document.getElementById("size")?.value || "");
+  formData.append("color", document.getElementById("color")?.value || "");
+  formData.append("material", document.getElementById("material")?.value || "");
+  formData.append("pattern", document.getElementById("pattern")?.value || "");
+  formData.append("washCare", document.getElementById("washCare")?.value || "");
+  formData.append("modelStyle", document.getElementById("modelStyle")?.value || "");
+  formData.append("brand", document.getElementById("brand")?.value || "");
 
-  formData.append('name', document.getElementById("product-name").value.trim());
-  formData.append('price', document.getElementById("price").value.trim());
-  formData.append('description', document.getElementById("description").value.trim());
-  formData.append('summary', document.getElementById("summary")?.value.trim() || "");
-  formData.append('category', document.getElementById("category").value);
-  formData.append('subcategory', document.getElementById("subcategory").value);
-  formData.append('size', document.getElementById("size")?.value.trim() || "");
-  formData.append('color', document.getElementById("color")?.value.trim());
-  formData.append('material', document.getElementById("material")?.value.trim());
-  formData.append('modelStyle', document.getElementById("modelStyle")?.value.trim());
-  formData.append('availableIn', availableInValue);
-
-  const thumbnail = document.getElementById("thumbnail-image").files[0];
-  if (thumbnail) {
-    formData.append('thumbnailImage', thumbnail);
-  } else {
-    messageElement.textContent = "Thumbnail image is required.";
-    messageElement.style.color = "red";
-    return;
-  }
-
-  ["extraImage1", "extraImage2", "extraImage3", "extraImage4"].forEach(id => {
-    const file = document.getElementById(id)?.files[0];
-    if (file) formData.append('extraImages', file);
-  });
-
-  ["extraVideo1", "extraVideo2", "extraVideo3"].forEach(id => {
-    const file = document.getElementById(id)?.files[0];
-    if (file) formData.append('extraVideos', file);
-  });
-
-  const storeId = localStorage.getItem("storeId");
-  formData.append("storeId", storeId);
-
-  console.log("Uploading FormData...");
-  for (const pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
-  }
+  if (data.thumbnail) formData.append("thumbnailImage", data.thumbnail);
+  (data.extraImages || []).forEach(img => formData.append("extraImages", img));
+  (data.extraVideos || []).forEach(vid => formData.append("extraVideos", vid));
 
   try {
-    const response = await fetch("/api/products/add", {
+    const res = await fetch("/api/products/add", {
       method: "POST",
       body: formData,
       credentials: "include"
     });
 
-    const result = await response.json();
-
-    if (response.ok && result.success) {
-      messageElement.textContent = "Product added successfully!";
-      messageElement.style.color = "green";
-
+    const result = await res.json();
+    if (res.ok && result.success) {
+      message.textContent = "Product added successfully!";
+      message.style.color = "green";
       setTimeout(() => {
-        const storeSlug = localStorage.getItem("storeSlug");
-        window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
+        const slug = localStorage.getItem("storeSlug");
+        window.location.href = `/store.html?slug=${encodeURIComponent(slug)}`;
       }, 2000);
     } else {
-      messageElement.textContent = result.message || "Failed to add product.";
-      messageElement.style.color = "red";
+      message.textContent = result.message || "Failed to add product.";
+      message.style.color = "red";
     }
-
-  } catch (error) {
-    console.error("Error adding product:", error);
-    messageElement.textContent = "Error adding product.";
-    messageElement.style.color = "red";
+  } catch (err) {
+    console.error("Error:", err);
+    message.textContent = "Error adding product.";
+    message.style.color = "red";
   }
 });

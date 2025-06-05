@@ -253,7 +253,6 @@ async function fetchStoreDetails() {
 
 
 
-/*
 
 
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
@@ -341,8 +340,6 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       messageElement.style.color = "red";
   }
 });
-
-*/
 
 
 

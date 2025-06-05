@@ -130,41 +130,20 @@ function populatePreview() {
   const previewName = document.getElementById("preview-name");
   const previewPrice = document.getElementById("preview-price");
   const previewDesc = document.getElementById("preview-description");
-  const previewThumbnail = document.getElementById("preview-thumbnail");
-  const previewImages = [
-    document.getElementById("preview-extra-image-1"),
-    document.getElementById("preview-extra-image-2"),
-    document.getElementById("preview-extra-image-3"),
-    document.getElementById("preview-extra-image-4")
-  ];
-  const previewVideos = [
-    document.getElementById("preview-extra-video-1"),
-    document.getElementById("preview-extra-video-2"),
-    document.getElementById("preview-extra-video-3")
-  ];
+  
 
   previewName.textContent = data.name || "Product Name";
   previewPrice.textContent = `₹${data.price || 0}`;
   previewDesc.textContent = data.description || "";
 
-  if (data.thumbnail) {
-    const reader = new FileReader();
-    reader.onload = e => previewThumbnail.src = e.target.result;
-    reader.readAsDataURL(data.thumbnail);
-  }
-  (data.extraImages || []).forEach((img, i) => {
-    if (previewImages[i]) {
-      const reader = new FileReader();
-      reader.onload = e => previewImages[i].src = e.target.result;
-      reader.readAsDataURL(img);
-    }
-  });
-  (data.extraVideos || []).forEach((vid, i) => {
-    if (previewVideos[i]) previewVideos[i].src = URL.createObjectURL(vid);
-  });
 }
 
 populatePreview();
+
+
+
+
+
 
 // ------------------ Final Submit ------------------
 

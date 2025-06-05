@@ -54,67 +54,58 @@ const subcategoryFieldsMap = {
 
 
 function createInput(label, id, placeholder = "") {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
-  return wrapper;
+  const div = document.createElement("div");
+  div.innerHTML = `<label>${label}</label><input type="text" id="${id}" placeholder="${placeholder}" />`;
+  return div;
 }
 
 function createDropdown(label, id, options) {
-  const wrapper = document.createElement("div");
-  const optionsHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><select id="${id}" name="${id}"><option disabled selected>Select ${label}</option>${optionsHTML}</select>`;
-  return wrapper;
+  const div = document.createElement("div");
+  const opts = options.map(val => `<option value="${val}">${val}</option>`).join("");
+  div.innerHTML = `<label>${label}</label><select id="${id}"><option disabled selected>Select ${label}</option>${opts}</select>`;
+  return div;
 }
 
 function createColorPalette() {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label>Color</label>`;
-  const colors = ["#000", "#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff", "#ccc", "#800000", "#FFA500", "#808000", "#800080", "#008080", "#FFD700", "#A52A2A", "#708090"];
-  const colorBox = document.createElement("div");
-  colorBox.className = "color-palette";
-  colors.forEach((hex) => {
+  const div = document.createElement("div");
+  div.innerHTML = `<label>Color</label>`;
+  const colors = ["#000", "#f00", "#0f0", "#00f", "#ff0", "#ccc"];
+  const palette = document.createElement("div");
+  palette.className = "color-palette";
+  colors.forEach(hex => {
     const swatch = document.createElement("span");
     swatch.className = "color-swatch";
-    swatch.style.backgroundColor = hex;
-    swatch.setAttribute("data-color", hex);
+    swatch.style.background = hex;
     swatch.addEventListener("click", () => {
       document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
       swatch.classList.add("selected");
       document.getElementById("color").value = hex;
     });
-    colorBox.appendChild(swatch);
+    palette.appendChild(swatch);
   });
   const input = document.createElement("input");
-  input.type = "text";
   input.id = "color";
-  input.placeholder = "Or enter custom color name";
-  wrapper.append(colorBox, input);
-  return wrapper;
+  input.placeholder = "Or enter color";
+  div.append(palette, input);
+  return div;
 }
 
-
-
 function loadSizeField(type) {
-  if (type === "standard") return createDropdown("Size", "size", ["XS", "S", "M", "L", "XL", "XXL", "3XL"]);
-  if (type === "footwear") return createDropdown("Size", "size", ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]);
-  if (type === "kids") return createDropdown("Size", "size", ["0-1 Yr", "1-2 Yr", "2-3 Yr", "3-4 Yr"]);
-  return createInput("Size", "size", "Enter size if applicable");
+  if (type === "standard") return createDropdown("Size", "size", ["XS", "S", "M", "L", "XL", "XXL"]);
+  if (type === "footwear") return createDropdown("Size", "size", ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9"]);
+  if (type === "kids") return createDropdown("Size", "size", ["1-2 Yr", "3-4 Yr", "5-6 Yr"]);
+  return createInput("Size", "size");
 }
 
 function loadFields() {
-  const config = subcategoryFieldsMap[data.subcategory] || {};
+  const map = subcategoryFieldsMap[data.subcategory] || {};
   fieldContainer.innerHTML = "";
-
-  if (config.size) fieldContainer.appendChild(loadSizeField(config.size));
-  if (config.color) fieldContainer.appendChild(createColorPalette());
-  if (config.material) fieldContainer.appendChild(createDropdown("Material", "material", ["Cotton", "Denim"]));
-  if (config.pattern) fieldContainer.appendChild(createDropdown("Pattern", "pattern", ["Solid", "Striped"]));
-  if (config.washCare) fieldContainer.appendChild(createDropdown("Wash Care", "washCare", ["Machine Wash", "Hand Wash"]));
-  if (config.modelStyle) fieldContainer.appendChild(createInput("Style/Model", "modelStyle"));
-
-  fieldContainer.appendChild(createInput("Brand (optional)", "brand"));
+  if (map.size) fieldContainer.appendChild(loadSizeField(map.size));
+  if (map.color) fieldContainer.appendChild(createColorPalette());
+  if (map.material) fieldContainer.appendChild(createDropdown("Material", "material", ["Cotton", "Polyester", "Wool"]));
+  if (map.modelStyle) fieldContainer.appendChild(createInput("Model/Style", "modelStyle"));
+  fieldContainer.appendChild(createInput("Brand (Optional)", "brand"));
 }
-
 loadFields();
 
 
@@ -124,20 +115,18 @@ loadFields();
 
 
 
-// ------------------ Preview Setup ------------------
-
 function populatePreview() {
-  const previewName = document.getElementById("preview-name");
-  const previewPrice = document.getElementById("preview-price");
-  const previewDesc = document.getElementById("preview-description");
-  
-
-  previewName.textContent = data.name || "Product Name";
-  previewPrice.textContent = `₹${data.price || 0}`;
-  previewDesc.textContent = data.description || "";
-
+  document.getElementById("preview-name").textContent = data.name || "Product Name";
+  document.getElementById("preview-price").textContent = `₹${data.price || 0}`;
+  document.getElementById("preview-description").textContent = data.description || "";
+  if (data.thumbnail) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById("preview-thumbnail").src = e.target.result;
+    };
+    reader.readAsDataURL(data.thumbnail);
+  }
 }
-
 populatePreview();
 
 
@@ -145,15 +134,21 @@ populatePreview();
 
 
 
-// ------------------ Final Submit ------------------
 
-document.getElementById("details-form").addEventListener("submit", async (e) => {
+
+
+
+
+// Submit Handler
+document.getElementById("details-form").addEventListener("submit", async e => {
   e.preventDefault();
 
-  const message = document.getElementById("message") || document.createElement("div");
-  if (!message.id) {
-    message.id = "message";
-    document.body.appendChild(message);
+  const message = document.getElementById("message");
+  const storeId = localStorage.getItem("storeId");
+  if (!storeId) {
+    message.textContent = "Store not found.";
+    message.style.color = "red";
+    return;
   }
 
   const formData = new FormData();
@@ -163,143 +158,60 @@ document.getElementById("details-form").addEventListener("submit", async (e) => 
   formData.append("summary", data.summary);
   formData.append("category", data.category);
   formData.append("subcategory", data.subcategory);
-  formData.append("storeId", data.storeId || "");
-
-  formData.append("size", document.getElementById("size")?.value || "");
-  formData.append("color", document.getElementById("color")?.value || "");
-  formData.append("material", document.getElementById("material")?.value || "");
-  formData.append("pattern", document.getElementById("pattern")?.value || "");
-  formData.append("washCare", document.getElementById("washCare")?.value || "");
-  formData.append("modelStyle", document.getElementById("modelStyle")?.value || "");
-  formData.append("brand", document.getElementById("brand")?.value || "");
-
-  if (data.thumbnail) formData.append("thumbnailImage", data.thumbnail);
-  (data.extraImages || []).forEach(img => formData.append("extraImages", img));
-  (data.extraVideos || []).forEach(vid => formData.append("extraVideos", vid));
-
-  try {
-    const res = await fetch("/api/products/add", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
-    });
-
-    const result = await res.json();
-    if (res.ok && result.success) {
-      message.textContent = "Product added successfully!";
-      message.style.color = "green";
-      setTimeout(() => {
-        const slug = localStorage.getItem("storeSlug");
-        window.location.href = `/store.html?slug=${encodeURIComponent(slug)}`;
-      }, 2000);
-    } else {
-      message.textContent = result.message || "Failed to add product.";
-      message.style.color = "red";
-    }
-  } catch (err) {
-    console.error("Error:", err);
-    message.textContent = "Error adding product.";
-    message.style.color = "red";
-  }
-});
-
-
-
-
-
-
-
-
-
-document.getElementById("details-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const message = document.getElementById("message") || document.createElement("div");
-  if (!message.id) {
-    message.id = "message";
-    document.body.appendChild(message);
-  }
-
-  // Safety check
-  const storeId = localStorage.getItem("storeId");
-  if (!storeId) {
-    message.textContent = "Store not found. Please set up your store first.";
-    message.style.color = "red";
-    return;
-  }
-
-  const formData = new FormData();
-
-  // Step 1: basic product data from localStorage
-  formData.append("name", data.name || "");
-  formData.append("price", data.price || "");
-  formData.append("description", data.description || "");
-  formData.append("summary", data.summary || "");
-  formData.append("category", data.category || "");
-  formData.append("subcategory", data.subcategory || "");
   formData.append("storeId", storeId);
 
-  // Step 2: subcategory-specific fields
-  formData.append("size", document.getElementById("size")?.value.trim() || "");
-  formData.append("color", document.getElementById("color")?.value.trim() || "");
-  formData.append("material", document.getElementById("material")?.value.trim() || "");
-  formData.append("pattern", document.getElementById("pattern")?.value.trim() || "");
-  formData.append("washCare", document.getElementById("washCare")?.value.trim() || "");
-  formData.append("modelStyle", document.getElementById("modelStyle")?.value.trim() || "");
-  formData.append("brand", document.getElementById("brand")?.value.trim() || "");
-
-  // AvailableIn fallback
-  const availableInInput = document.getElementById("availableIn");
-  const availableInValue = availableInInput?.value.trim() || "All Over India";
-  formData.append("availableIn", availableInValue);
-
-  // Images/videos collected in step 1
-  if (data.thumbnail) {
-    formData.append("thumbnailImage", data.thumbnail);
-  } else {
-    message.textContent = "Thumbnail image is required.";
-    message.style.color = "red";
-    return;
-  }
-
-  (data.extraImages || []).forEach(file => {
-    if (file) formData.append("extraImages", file);
+  // Dynamic fields
+  ["size", "color", "material", "modelStyle", "brand"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) formData.append(id, el.value.trim());
   });
 
-  (data.extraVideos || []).forEach(file => {
-    if (file) formData.append("extraVideos", file);
-  });
+  const availableIn = document.getElementById("availableIn").value.trim() || "All Over India";
+  formData.append("availableIn", availableIn);
 
-  // Optional: Preview log
-  console.log("Submitting product...");
-  for (const pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
-  }
+  // Images/Videos
+  if (data.thumbnail) formData.append("thumbnailImage", data.thumbnail);
+  (data.extraImages || []).forEach(f => f && formData.append("extraImages", f));
+  (data.extraVideos || []).forEach(f => f && formData.append("extraVideos", f));
 
-  // Step 3: Send API request
   try {
     const res = await fetch("/api/products/add", {
       method: "POST",
       body: formData,
       credentials: "include"
     });
-
     const result = await res.json();
     if (res.ok && result.success) {
       message.textContent = "Product added successfully!";
       message.style.color = "green";
       setTimeout(() => {
-        const slug = localStorage.getItem("storeSlug");
-        window.location.href = `/store.html?slug=${encodeURIComponent(slug)}`;
-      }, 2000);
+        window.location.href = `/store.html?slug=${encodeURIComponent(localStorage.getItem("storeSlug"))}`;
+      }, 1500);
     } else {
       message.textContent = result.message || "Failed to add product.";
       message.style.color = "red";
     }
-
   } catch (err) {
-    console.error("Submission error:", err);
-    message.textContent = "An error occurred while submitting.";
+    console.error(err);
+    message.textContent = "Something went wrong.";
     message.style.color = "red";
   }
 });
+
+// Size chart modal
+document.getElementById("show-size-chart").addEventListener("click", () => {
+  document.getElementById("size-chart-modal").style.display = "block";
+});
+document.querySelector(".close").addEventListener("click", () => {
+  document.getElementById("size-chart-modal").style.display = "none";
+});
+
+
+
+
+
+
+
+
+
+

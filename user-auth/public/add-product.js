@@ -63,7 +63,9 @@ categorySelect.addEventListener("change", (e) => {
 
 
 
-document.getElementById("nextBtn").addEventListener("click", () => {
+
+const nextBtn = document.getElementById("nextBtn");
+nextBtn.addEventListener("click", () => {
   const name = document.getElementById("product-name").value.trim();
   const price = document.getElementById("price").value.trim();
   const desc = document.getElementById("description").value.trim();
@@ -80,14 +82,40 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     price,
     description: desc,
     summary: document.getElementById("summary").value.trim(),
-    availableIn: document.getElementById("availableIn").value.trim() || "All Over India",
     category,
-    subcategory
+    subcategory,
+    storeId: localStorage.getItem("storeId") || ""
   };
 
+  // Handle image and video uploads
+  const thumbnail = document.getElementById("thumbnail-image").files[0];
+  if (!thumbnail) {
+    alert("Thumbnail image is required.");
+    return;
+  }
+  formData.thumbnail = thumbnail;
+
+  formData.extraImages = [];
+  ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
+    const file = document.getElementById(id)?.files[0];
+    if (file) formData.extraImages.push(file);
+  });
+
+  formData.extraVideos = [];
+  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
+    const file = document.getElementById(id)?.files[0];
+    if (file) formData.extraVideos.push(file);
+  });
+
+  // Save to localStorage (as JSON + base64 for files if needed)
   localStorage.setItem("basicProductData", JSON.stringify(formData));
+
+  // ✅ Redirect properly to details page
   window.location.href = "add-product-details.html";
 });
+
+
+
 
 
 
@@ -141,23 +169,6 @@ subcategorySelect.addEventListener("change", (e) => {
 });
 
 
-
-// Update live preview for optional fields
-document.getElementById("size").addEventListener("input", (e) => {
-  previewSize.textContent = `Size: ${e.target.value || "Not specified"}`;
-});
-
-document.getElementById("color").addEventListener("input", (e) => {
-  previewColor.textContent = `Color: ${e.target.value || "Not specified"}`;
-});
-
-document.getElementById("material").addEventListener("input", (e) => {
-  previewMaterial.textContent = `Material: ${e.target.value || "Not specified"}`;
-});
-
-document.getElementById("model-style").addEventListener("input", (e) => {
-  previewModelStyle.textContent = `Model/Style: ${e.target.value || "Not specified"}`;
-});
 
 // Update live preview for images
 const handleImagePreview = (fileInput, previewElement) => {
@@ -242,7 +253,7 @@ async function fetchStoreDetails() {
 
 
 
-
+/*
 
 
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
@@ -330,6 +341,8 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       messageElement.style.color = "red";
   }
 });
+
+*/
 
 
 

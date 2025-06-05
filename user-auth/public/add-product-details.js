@@ -125,12 +125,29 @@ document.getElementById("preview-name").textContent = data.name || "Product Name
 document.getElementById("preview-price").textContent = `₹${data.price || 0}`;
 document.getElementById("preview-description").textContent = data.description || "";
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ✅ Handle Submit
 document.getElementById("details-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const message = document.getElementById("message");
   const formData = new FormData();
+
+  
+  const storeId = localStorage.getItem("storeId") || "";
+  const slug = localStorage.getItem("storeSlug") || "";
 
   // Metadata from step 1
   formData.append("name", data.name || "");
@@ -151,26 +168,45 @@ document.getElementById("details-form").addEventListener("submit", async (e) => 
   formData.append("brand", document.getElementById("brand")?.value || "");
   formData.append("availableIn", document.getElementById("availableIn")?.value || "All Over India");
 
-  // Re-fetch real files from file inputs (not from localStorage)
-  const thumbnail = document.getElementById("thumbnail-image")?.files?.[0];
-  if (!thumbnail) {
+ // ✅ Add thumbnail from localStorage data
+  if (!data.thumbnail || !data.thumbnail.name || !data.thumbnail.type || !data.thumbnail.lastModified) {
     message.textContent = "Thumbnail image is required.";
     message.style.color = "red";
     return;
   }
-  formData.append("thumbnailImage", thumbnail);
 
-  ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-    const file = document.getElementById(id)?.files?.[0];
-    if (file) formData.append("extraImages", file);
-  });
+  const thumbnailBlob = new Blob([new Uint8Array(Object.values(data.thumbnail.data))], { type: data.thumbnail.type });
+  const thumbnailFile = new File([thumbnailBlob], data.thumbnail.name, { type: data.thumbnail.type, lastModified: data.thumbnail.lastModified });
+  formData.append("thumbnailImage", thumbnailFile);
 
-  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-    const file = document.getElementById(id)?.files?.[0];
-    if (file) formData.append("extraVideos", file);
-  });
+  // ✅ Extra Images
+  if (Array.isArray(data.extraImages)) {
+    data.extraImages.forEach((img, index) => {
+      if (img && img.name && img.type && img.lastModified) {
+        const imgBlob = new Blob([new Uint8Array(Object.values(img.data))], { type: img.type });
+        const imgFile = new File([imgBlob], img.name, { type: img.type, lastModified: img.lastModified });
+        formData.append("extraImages", imgFile);
+      }
+    });
+  }
 
-  // Submit API
+  // ✅ Extra Videos
+  if (Array.isArray(data.extraVideos)) {
+    data.extraVideos.forEach((vid, index) => {
+      if (vid && vid.name && vid.type && vid.lastModified) {
+        const vidBlob = new Blob([new Uint8Array(Object.values(vid.data))], { type: vid.type });
+        const vidFile = new File([vidBlob], vid.name, { type: vid.type, lastModified: vid.lastModified });
+        formData.append("extraVideos", vidFile);
+      }
+    });
+  }
+   // 🧪 Optional log for debugging
+  console.log("Submitting product...");
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
+
+  // ✅ API Call
   try {
     const response = await fetch("/api/products/add", {
       method: "POST",
@@ -179,17 +215,18 @@ document.getElementById("details-form").addEventListener("submit", async (e) => 
     });
 
     const result = await response.json();
+
     if (response.ok && result.success) {
       message.textContent = "Product added successfully!";
       message.style.color = "green";
       setTimeout(() => {
-        const slug = localStorage.getItem("storeSlug");
         window.location.href = `/store.html?slug=${encodeURIComponent(slug)}`;
       }, 2000);
     } else {
       message.textContent = result.message || "Failed to add product.";
       message.style.color = "red";
     }
+
   } catch (error) {
     console.error("Submit error:", error);
     message.textContent = "Error adding product.";

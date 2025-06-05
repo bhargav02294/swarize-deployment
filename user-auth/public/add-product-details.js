@@ -106,3 +106,116 @@ document.getElementById("details-form").addEventListener("submit", (e) => {
   console.log("Final Product Data:", details);
   alert("Product Added (console logged for now)");
 });
+
+
+
+
+function populatePreview() {
+  const previewThumbnail = document.getElementById("preview-thumbnail");
+  const previewName = document.getElementById("preview-name");
+  const previewPrice = document.getElementById("preview-price");
+  const previewDescription = document.getElementById("preview-description");
+  const previewExtraImages = [
+    document.getElementById("preview-extra-image-1"),
+    document.getElementById("preview-extra-image-2"),
+    document.getElementById("preview-extra-image-3"),
+    document.getElementById("preview-extra-image-4"),
+  ];
+  const previewExtraVideos = [
+    document.getElementById("preview-extra-video-1"),
+    document.getElementById("preview-extra-video-2"),
+    document.getElementById("preview-extra-video-3"),
+  ];
+
+  if (data) {
+    previewName.textContent = data.name || "Product Name";
+    previewPrice.textContent = `₹${data.price || 0}`;
+    previewDescription.textContent = data.description || "";
+
+    // Image files
+    if (data.thumbnail) {
+      const reader = new FileReader();
+      reader.onload = (e) => previewThumbnail.src = e.target.result;
+      reader.readAsDataURL(data.thumbnail);
+    }
+
+    (data.extraImages || []).forEach((file, i) => {
+      if (previewExtraImages[i]) {
+        const reader = new FileReader();
+        reader.onload = (e) => previewExtraImages[i].src = e.target.result;
+        reader.readAsDataURL(file);
+      }
+    });
+
+    (data.extraVideos || []).forEach((file, i) => {
+      if (previewExtraVideos[i]) {
+        previewExtraVideos[i].src = URL.createObjectURL(file);
+      }
+    });
+  }
+}
+
+populatePreview();
+
+
+
+
+
+
+document.getElementById("details-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const messageElement = document.createElement('div');
+  document.body.appendChild(messageElement); // Add message div if needed
+
+  const formData = new FormData();
+  const availableInInput = document.getElementById("availableIn");
+  let availableInValue = availableInInput?.value.trim() || "All Over India";
+
+  formData.append('name', data.name);
+  formData.append('price', data.price);
+  formData.append('description', data.description);
+  formData.append('summary', data.summary);
+  formData.append('category', data.category);
+  formData.append('subcategory', data.subcategory);
+  formData.append('storeId', data.storeId || "");
+
+  formData.append('size', document.getElementById("size")?.value || "");
+  formData.append('color', document.getElementById("color").value);
+  formData.append('material', document.getElementById("material").value);
+  formData.append('pattern', document.getElementById("pattern").value);
+  formData.append('washCare', document.getElementById("washCare").value);
+  formData.append('brand', document.getElementById("brand").value);
+  formData.append('modelStyle', document.getElementById("modelStyle").value);
+  formData.append('availableIn', availableInValue);
+
+  // Images and videos
+  if (data.thumbnail) formData.append('thumbnailImage', data.thumbnail);
+  (data.extraImages || []).forEach(file => formData.append('extraImages', file));
+  (data.extraVideos || []).forEach(file => formData.append('extraVideos', file));
+
+  // Submit to server
+  try {
+    const res = await fetch("/api/products/add", {
+      method: "POST",
+      body: formData,
+      credentials: "include"
+    });
+    const result = await res.json();
+    if (res.ok && result.success) {
+      messageElement.textContent = "Product added successfully!";
+      messageElement.style.color = "green";
+      setTimeout(() => {
+        const storeSlug = localStorage.getItem("storeSlug");
+        window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
+      }, 2000);
+    } else {
+      messageElement.textContent = result.message || "Failed to add product.";
+      messageElement.style.color = "red";
+    }
+  } catch (error) {
+    console.error("Error adding product:", error);
+    messageElement.textContent = "Error adding product.";
+    messageElement.style.color = "red";
+  }
+});

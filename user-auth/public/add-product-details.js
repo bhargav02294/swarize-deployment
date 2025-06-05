@@ -196,3 +196,17 @@ document.getElementById("details-form").addEventListener("submit", async (e) => 
     message.style.color = "red";
   }
 });
+
+
+
+
+// Size chart modal toggle
+const modal = document.getElementById("size-chart-modal");
+const btn = document.getElementById("show-size-chart");
+const span = document.querySelector(".modal .close");
+
+btn.onclick = () => modal.style.display = "block";
+span.onclick = () => modal.style.display = "none";
+window.onclick = (event) => {
+  if (event.target === modal) modal.style.display = "none";
+};

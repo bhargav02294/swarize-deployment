@@ -114,19 +114,21 @@
         <option value="" disabled selected>Select a subcategory</option>
       </select>
 
-     
-    <button type="button" id="nextBtn">Next ➝</button>
+
+  <button id="nextBtn" type="button" style="margin-top:20px;">Next</button>
 
 
 
 
-    <!-- Dynamic Product Detail Fields -->
-<div id="product-details-section" style="display: none;">
-  <h2>Product Details</h2>
-  <div id="dynamic-fields-container"></div>
+<!-- Dynamic Fields Section (Initially Hidden) -->
+<div id="product-details-section" class="hidden">
+  <h3>Product Details</h3>
+  <div id="dynamic-fields"></div>
+</div>
 
-  <!-- Optional Static Fields -->
-  <div>
+
+
+<div>
     <label for="availableIn">Available In</label>
     <input type="text" id="availableIn" name="availableIn" placeholder="Enter delivery locations" />
   </div>

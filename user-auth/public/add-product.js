@@ -62,45 +62,6 @@ categorySelect.addEventListener("change", (e) => {
 
 
 
-const nextBtn = document.getElementById("nextBtn");
-nextBtn.addEventListener("click", () => {
-  const name = document.getElementById("product-name").value.trim();
-  const price = document.getElementById("price").value.trim();
-  const desc = document.getElementById("description").value.trim();
-  const category = document.getElementById("category").value;
-  const subcategory = document.getElementById("subcategory").value;
-
-  if (!name || !price || !desc || !category || !subcategory) {
-    alert("Please fill all required fields.");
-    return;
-  }
-
-  const metadata = {
-    name,
-    price,
-    description: desc,
-    summary: document.getElementById("summary").value.trim(),
-    category,
-    subcategory,
-    storeId: localStorage.getItem("storeId") || ""
-  };
-  localStorage.setItem("basicProductData", JSON.stringify(metadata));
-
-  // Show next section
-  document.getElementById("product-details-section").style.display = "block";
-  nextBtn.style.display = "none"; // Hide next button
-
-  // Load dynamic fields based on subcategory
-  loadFields(subcategory);
-
-  // Update preview values
-  document.getElementById("preview-name").textContent = name;
-  document.getElementById("preview-price").textContent = `₹${price}`;
-  document.getElementById("preview-description").textContent = desc;
-});
-
-
-
 
 
 
@@ -369,8 +330,8 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
 
 
-const data = JSON.parse(localStorage.getItem("basicProductData")) || {};
-const fieldContainer = document.getElementById("dynamic-fields");
+let basicProductData = {};
+
 
 
 // Mapping: subcategory → fields to show
@@ -432,6 +393,14 @@ function createInput(label, id, placeholder = "") {
   return wrapper;
 }
 
+
+// Helpers to create form controls
+function createInput(label, id, placeholder = "") {
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
+  return wrapper;
+}
+
 function createDropdown(label, id, options) {
   const wrapper = document.createElement("div");
   const optionsHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
@@ -442,7 +411,7 @@ function createDropdown(label, id, options) {
 function createColorPalette() {
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `<label>Color</label>`;
-  const colors = ["#000", "#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff", "#ccc"];
+  const colors = ["#000000", "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff", "#cccccc"];
   const colorBox = document.createElement("div");
   colorBox.className = "color-palette";
 
@@ -451,10 +420,20 @@ function createColorPalette() {
     swatch.className = "color-swatch";
     swatch.style.backgroundColor = hex;
     swatch.setAttribute("data-color", hex);
+    swatch.style.border = "1px solid #999";
+    swatch.style.width = "24px";
+    swatch.style.height = "24px";
+    swatch.style.display = "inline-block";
+    swatch.style.cursor = "pointer";
+    swatch.style.marginRight = "6px";
+    swatch.style.borderRadius = "4px";
+
     swatch.addEventListener("click", () => {
       document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
       swatch.classList.add("selected");
-      document.getElementById("color").value = hex;
+      const input = document.getElementById("color");
+      if(input) input.value = hex;
+      updatePreviewField("color", hex);
     });
     colorBox.appendChild(swatch);
   });
@@ -462,8 +441,16 @@ function createColorPalette() {
   const input = document.createElement("input");
   input.type = "text";
   input.id = "color";
+  input.name = "color";
   input.placeholder = "Or enter custom color name";
-  wrapper.append(colorBox, input);
+  input.style.marginTop = "8px";
+  input.addEventListener("input", () => {
+    updatePreviewField("color", input.value);
+  });
+
+  wrapper.appendChild(colorBox);
+  wrapper.appendChild(input);
+
   return wrapper;
 }
 
@@ -474,71 +461,98 @@ function loadSizeOptions(type) {
   return createInput("Size", "size", "Enter size");
 }
 
-// Load fields based on subcategory
-function loadFields() {
-  const config = subcategoryFieldsMap[data.subcategory] || {};
-  fieldContainer.innerHTML = "";
-
-  if (config.size) fieldContainer.appendChild(loadSizeOptions(config.size));
-  if (config.color) fieldContainer.appendChild(createColorPalette());
-  if (config.material) fieldContainer.appendChild(createDropdown("Material", "material", ["Cotton", "Denim", "Polyester", "Rayon"]));
-  if (config.pattern) fieldContainer.appendChild(createDropdown("Pattern", "pattern", ["Solid", "Striped", "Printed", "Checked"]));
-  if (config.washCare) fieldContainer.appendChild(createDropdown("Wash Care", "washCare", ["Machine Wash", "Hand Wash", "Dry Clean"]));
-  if (config.modelStyle) fieldContainer.appendChild(createInput("Style/Model", "modelStyle"));
-  fieldContainer.appendChild(createInput("Brand (optional)", "brand"));
+function updatePreviewField(fieldId, value) {
+  const el = document.getElementById(`preview-${fieldId}`);
+  if(el) el.textContent = value || "-";
 }
-loadFields();
 
-
-
+// Clear and load fields based on subcategory
 function loadFields(subcategory) {
-  const fieldsContainer = document.getElementById("dynamic-fields-container");
-  fieldsContainer.innerHTML = ""; // Clear previous fields
+  const container = document.getElementById("dynamic-fields");
+  container.innerHTML = "";
+  if (!subcategory) return;
 
-  const fields = subcategoryFields[subcategory];
-  if (fields) {
-    fields.forEach(field => {
-      const fieldWrapper = document.createElement("div");
-      fieldWrapper.className = "form-group";
-
-      const label = document.createElement("label");
-      label.setAttribute("for", field.id);
-      label.textContent = field.label;
-
-      const input = document.createElement("input");
-      input.type = field.type;
-      input.id = field.id;
-      input.name = field.id;
-      input.className = "form-control";
-
-      fieldWrapper.appendChild(label);
-      fieldWrapper.appendChild(input);
-      fieldsContainer.appendChild(fieldWrapper);
-    });
+  const config = subcategoryFieldsMap[subcategory] || {};
+  
+  if (config.size) {
+    const sizeField = loadSizeOptions(config.size);
+    container.appendChild(sizeField);
+    sizeField.querySelector("#size").addEventListener("change", e => updatePreviewField("size", e.target.value));
   }
+
+  if (config.color) {
+    const colorField = createColorPalette();
+    container.appendChild(colorField);
+  }
+
+  if (config.material) {
+    const materialField = createDropdown("Material", "material", ["Cotton", "Denim", "Polyester", "Rayon"]);
+    container.appendChild(materialField);
+    materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
+  }
+
+  if (config.pattern) {
+    const patternField = createDropdown("Pattern", "pattern", ["Solid", "Striped", "Printed", "Checked"]);
+    container.appendChild(patternField);
+    patternField.querySelector("#pattern").addEventListener("change", e => updatePreviewField("pattern", e.target.value));
+  }
+
+  if (config.washCare) {
+    const washCareField = createDropdown("Wash Care", "washCare", ["Machine Wash", "Hand Wash", "Dry Clean"]);
+    container.appendChild(washCareField);
+    washCareField.querySelector("#washCare").addEventListener("change", e => updatePreviewField("washCare", e.target.value));
+  }
+
+  if (config.modelStyle) {
+    const modelStyleField = createInput("Style/Model", "modelStyle");
+    container.appendChild(modelStyleField);
+    modelStyleField.querySelector("#modelStyle").addEventListener("input", e => updatePreviewField("modelStyle", e.target.value));
+  }
+
+  // Brand field (optional)
+  const brandField = createInput("Brand (optional)", "brand");
+  container.appendChild(brandField);
+  brandField.querySelector("#brand").addEventListener("input", e => updatePreviewField("brand", e.target.value));
 }
 
 
-// Preview setup
-document.getElementById("preview-name").textContent = data.name || "Product Name";
-document.getElementById("preview-price").textContent = `₹${data.price || 0}`;
-document.getElementById("preview-description").textContent = data.description || "";
 
 
-// ✅ Size Chart Modal
-const modal = document.getElementById("size-chart-modal");
-const btn = document.getElementById("show-size-chart");
-const span = document.querySelector(".modal .close");
-btn.onclick = () => modal.style.display = "block";
-span.onclick = () => modal.style.display = "none";
-window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
 
 
-document.getElementById("dynamic-fields-container").addEventListener("input", (e) => {
-  const targetId = e.target.id;
-  const previewElement = document.getElementById(`preview-${targetId}`);
-  if (previewElement) {
-    previewElement.textContent = e.target.value;
+
+
+
+
+// Next button logic
+document.getElementById("nextBtn").addEventListener("click", () => {
+  const name = document.getElementById("product-name").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const category = document.getElementById("category").value;
+  const subcategory = document.getElementById("subcategory").value;
+
+  if (!name || !price || !description || !category || !subcategory) {
+    alert("Please fill all required fields!");
+    return;
   }
-});
 
+  basicProductData = { name, price, description, category, subcategory };
+
+  // Save to localStorage if needed
+  localStorage.setItem("basicProductData", JSON.stringify(basicProductData));
+
+  // Show detail section
+  document.getElementById("product-details-section").classList.remove("hidden");
+
+  // Hide basic info section and Next button
+  document.getElementById("basic-info-section").style.display = "none";
+
+  // Load detail fields dynamically based on subcategory
+  loadFields(subcategory);
+
+  // Update preview basics
+  updatePreviewField("name", name);
+  updatePreviewField("price", price);
+  updatePreviewField("description", description);
+});

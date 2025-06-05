@@ -1,29 +1,26 @@
-/* ✅ Stylish CSS for Add Product Details Page */
+/* ✅ Stylish CSS for Add Product Details Page with Size Chart and Preview */
 
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f4f6f9;
   margin: 0;
-  padding: 20px;
+  padding: 30px;
   color: #333;
 }
 
 .container {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 960px;
+  margin: auto;
   background: #fff;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
+h1, h2, h3 {
   color: #222;
+  margin-bottom: 20px;
   text-align: center;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
 }
 
 form > div {
@@ -31,22 +28,25 @@ form > div {
 }
 
 label {
-  display: block;
-  margin-bottom: 6px;
   font-weight: 600;
-  color: #444;
+  margin-bottom: 6px;
+  display: block;
+  color: #555;
 }
 
-input[type="text"], select {
+input[type="text"],
+select {
   width: 100%;
   padding: 10px;
+  font-size: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
+  transition: border 0.3s ease;
+  background-color: #fdfdfd;
 }
 
-input[type="text"]:focus, select:focus {
+input[type="text"]:focus,
+select:focus {
   border-color: #007bff;
   outline: none;
 }
@@ -59,8 +59,8 @@ input[type="text"]:focus, select:focus {
 }
 
 .color-swatch {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: 2px solid #fff;
   box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
@@ -69,65 +69,125 @@ input[type="text"]:focus, select:focus {
 }
 
 .color-swatch:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .color-swatch.selected {
   outline: 2px solid #007bff;
+  box-shadow: 0 0 0 2px #007bff;
 }
 
-button[type="submit"] {
+button[type="submit"],
+#show-size-chart {
   background-color: #007bff;
-  color: white;
-  padding: 12px 20px;
+  color: #fff;
+  padding: 12px 24px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  width: 100%;
-  transition: background 0.3s ease;
+  display: inline-block;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover,
+#show-size-chart:hover {
   background-color: #0056b3;
 }
 
 #message {
-  margin-top: 20px;
+  margin-top: 15px;
   font-weight: bold;
   text-align: center;
 }
 
-/* Live Preview */
 .live-preview {
   margin-top: 40px;
-  background: #f9fbfc;
-  border: 1px dashed #ccc;
-  padding: 20px;
-  border-radius: 10px;
+  background: #f0f4f8;
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid #ddd;
 }
 
 .preview-container {
   text-align: center;
 }
 
-.preview-thumbnail img {
-  max-width: 150px;
-  border-radius: 10px;
-  margin-bottom: 15px;
+.preview-thumbnail {
+  max-width: 180px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.preview-extra-images img {
-  width: 80px;
-  margin: 5px;
-  border-radius: 8px;
-}
-
+.preview-extra-images img,
 .preview-extra-videos video {
-  width: 120px;
-  margin: 5px;
+  width: 80px;
+  margin: 6px;
   border-radius: 6px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  border: 1px solid #ccc;
+}
+
+/* ✅ Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.modal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.modal-content th,
+.modal-content td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.modal .close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.modal .close:hover {
+  color: red;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

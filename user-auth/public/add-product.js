@@ -521,9 +521,8 @@ function loadFields(subcategory) {
 
 
 
-
-// Next button logic
 document.getElementById("nextBtn").addEventListener("click", () => {
+  // Validation and storing basic data
   const name = document.getElementById("product-name").value.trim();
   const price = document.getElementById("price").value.trim();
   const description = document.getElementById("description").value.trim();
@@ -535,13 +534,16 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     return;
   }
 
-  const basicProductData = { name, price, description, category, subcategory };
-  localStorage.setItem("basicProductData", JSON.stringify(basicProductData));
+  localStorage.setItem("basicProductData", JSON.stringify({ name, price, description, category, subcategory }));
 
-  document.getElementById("product-details-section").classList.remove("hidden");
+  // UI Changes
   document.getElementById("basic-info-section").style.display = "none";
+  document.getElementById("product-details-section").classList.remove("hidden");
 
-  loadFields(subcategory); // Make sure this is defined
+  loadFields(subcategory);
+
+  document.getElementById("submit").style.display = "inline-block";
+  document.getElementById("nextBtn").style.display = "none";
 
   updatePreviewField("name", name);
   updatePreviewField("price", price);

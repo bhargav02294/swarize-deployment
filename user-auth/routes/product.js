@@ -64,8 +64,12 @@ router.post(
 
       const {
         name, price, description, summary,
-        category, subcategory, size,
-        color, material, modelStyle, availableIn
+        category, subcategory, size, color,
+        material, modelStyle, availableIn,
+        pattern, washCare, fabricType, fitType,
+        occasion, neckStyle, sleeveLength,
+        shape, surfaceStyling, heelType,
+        soleMaterial, closureType
       } = req.body;
 
       // Thumbnail Image
@@ -109,8 +113,10 @@ const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/p
 
 
 
-      // Save to DB
-      const product = new Product({
+     const product = new Product({
+        ownerId: userId,
+        store: store._id,
+        storeSlug: store.slug,
         name,
         price,
         description,
@@ -122,21 +128,29 @@ const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/p
         material,
         modelStyle,
         availableIn,
+        pattern,
+        washCare,
+        fabricType,
+        fitType,
+        occasion,
+        neckStyle,
+        sleeveLength,
+        shape,
+        surfaceStyling,
+        heelType,
+        soleMaterial,
+        closureType,
         thumbnailImage,
         extraImages,
         extraVideos,
-        store: store._id,
-        storeSlug: store.slug,
-        ownerId: userId,
       });
 
       await product.save();
-
-      return res.status(201).json({ success: true, message: "Product added successfully" });
+      res.status(201).json({ success: true, message: "Product added successfully" });
 
     } catch (error) {
-      console.error(" Product Add Error:", error);
-      return res.status(500).json({ success: false, message: error.message });
+      console.error("Product Add Error:", error);
+      res.status(500).json({ success: false, message: error.message });
     }
   }
 );

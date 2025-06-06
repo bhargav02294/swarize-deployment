@@ -78,9 +78,9 @@ const productSchema = new mongoose.Schema({
   },
 
   size: {
-    type: String,
-    default: "",
-  },
+  type: [String],
+  default: [],
+},
 
   color: {
     type: String,
@@ -108,9 +108,9 @@ const productSchema = new mongoose.Schema({
   },
 
   brand: {
-    type: String,
-    default: "",
-  },
+  type: String,
+  default: "",
+},
 
   availableIn: {
     type: String,

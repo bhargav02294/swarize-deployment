@@ -119,11 +119,13 @@ router.post(
         availableIn: req.body.availableIn || "All Over India",
 
         // Optional/Dynamic Fields
-        size: req.body.size,
+size: Array.isArray(req.body.size) ? req.body.size : [req.body.size],
         color: req.body.color,
         material: req.body.material,
         modelStyle: req.body.modelStyle,
         pattern: req.body.pattern,
+        brand: req.body.brand || "",
+
         washCare: req.body.washCare,
         fabricType: req.body.fabricType,
         fitType: req.body.fitType,

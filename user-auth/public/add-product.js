@@ -993,13 +993,28 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   formData.append('availableIn', availableInValue);
 
   // Dynamic Fields (check if present before appending)
-  const optionalFields = ["size", "color", "material", "pattern", "washCare", "modelStyle", "brand"];
-  optionalFields.forEach(fieldId => {
-    const fieldEl = document.getElementById(fieldId);
-    if (fieldEl) {
-      formData.append(fieldId, fieldEl.value.trim());
-    }
-  });
+  // Dynamic Fields (exclude size & brand here)
+const optionalFields = ["color", "material", "pattern", "washCare", "modelStyle"];
+optionalFields.forEach(fieldId => {
+  const fieldEl = document.getElementById(fieldId);
+  if (fieldEl && fieldEl.value.trim()) {
+    formData.append(fieldId, fieldEl.value.trim());
+  }
+});
+
+// ✅ Size (checkbox)
+const sizeCheckboxes = document.querySelectorAll("input[name='size']:checked");
+if (sizeCheckboxes.length > 0) {
+  const sizes = Array.from(sizeCheckboxes).map(cb => cb.value);
+  sizes.forEach(size => formData.append("size", size));
+}
+
+// ✅ Brand
+const brandInput = document.getElementById("brand");
+if (brandInput && brandInput.value.trim()) {
+  formData.append("brand", brandInput.value.trim());
+}
+
 
   // Handle thumbnail image
   const thumbnail = document.getElementById("thumbnail-image").files[0];

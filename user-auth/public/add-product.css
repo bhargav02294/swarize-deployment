@@ -1,11 +1,4 @@
-/* ==== General Reset & Fonts ==== */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #FFF5F7;
-}
-/* Global Styles */
+/* ==== Reset & Font ==== */
 * {
   margin: 0;
   padding: 0;
@@ -13,332 +6,210 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-.container {
-    width: 64%; /* 2/3 of the screen */
-    padding: 20px;
-    background-color: white;
-    float: left;
-
-  gap: 20px;
-}
-
-.live-preview {
-  width: 30%; /* 1/3 of the screen */
-  padding: 15px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  float: right;
-}
-
-h1 {
-  text-align: center;
+body {
+  background: #fef9f9;
   color: #333;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
+/* ==== Container Layout ==== */
+.container {
+  width: 64%;
+  padding: 30px;
+  background-color: #fff;
+  float: left;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  margin: 20px;
+}
+
+.live-preview {
+  width: 30%;
+  padding: 20px;
+  background-color: #ffffff;
+  float: right;
+  border-radius: 16px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
+  margin: 20px 20px 20px 0;
+}
+
+/* ==== Typography ==== */
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2a2b2d;
 }
 
 label {
-  margin: 10px 0 5px;
-  font-weight: bold;
+  margin: 14px 0 6px;
+  font-weight: 600;
+  display: block;
+  color: #2a2b2d;
 }
 
+/* ==== Form Elements ==== */
 input[type="text"],
 input[type="number"],
 input[type="file"],
 textarea,
 select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  width: 900px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin-bottom: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #d69e9e;
+  box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.2);
+}
+
+/* ==== Buttons ==== */
 button {
-  padding: 10px 20px;
-  background-color: #2A2B2D;
-  color: #FFFFFF;
+  background: linear-gradient(135deg, #2A2B2D, #4B4C4F);
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  padding: 12px 24px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
-/* Hover Effect */
 button:hover {
   transform: scale(1.03);
+  background: #3d3e41;
 }
 
-/* Live Preview Section */
-.live-preview {
-  width: 30%;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  float: right;
-  text-align: center;
-}
-
+/* ==== Live Preview ==== */
 .preview-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
+  gap: 8px;
 }
 
-/* Thumbnail Styling */
 .preview-thumbnail {
   width: 100%;
-  max-width: 250px;
-  margin-bottom: 15px;
+  max-width: 280px;
   overflow: hidden;
-  border-radius: 10px;
-  border: 2px solid #ccc;
-  transition: transform 0.3s ease-in-out;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+  transition: transform 0.3s;
 }
 
 .preview-thumbnail img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
 .preview-thumbnail:hover {
-  transform: scale(1.05);
-  border-color: #4A403A;
+  transform: scale(1.04);
+  border-color: #d69e9e;
 }
 
-/* Product Name & Price */
 #preview-name {
   font-size: 20px;
-  font-weight: bold;
-  color: #4A403A;
-  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
 }
 
 #preview-price {
   font-size: 18px;
-  font-weight: bold;
   color: #008000;
+  font-weight: bold;
+}
+
+#preview-description {
+  font-size: 14px;
+  color: #555;
+  text-align: center;
   margin-bottom: 10px;
 }
 
-/* Description */
-#preview-description {
-  font-size: 14px;
-  color: #666;
-  text-align: center;
-  padding: 0 10px;
-  margin-bottom: 15px;
-}
-
-/* Extra Images & Videos */
 .preview-extra-images,
 .preview-extra-videos {
   display: flex;
-  justify-content: center;
-  gap: 8px;
   flex-wrap: wrap;
-  margin-top: 10px;
+  justify-content: center;
+  gap: 10px;
 }
 
 .preview-extra-images img,
 .preview-extra-videos video {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
-  border-radius: 6px;
-  border: 2px solid #ddd;
-  transition: transform 0.3s ease-in-out, border-color 0.3s;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  transition: transform 0.3s, border-color 0.3s;
 }
 
 .preview-extra-images img:hover,
 .preview-extra-videos video:hover {
-  transform: scale(1.1);
-  border-color: #4A403A;
+  transform: scale(1.08);
+  border-color: #d69e9e;
 }
 
-
-
-
-
-
-
-
-
-/* Navbar */
+/* ==== Navbar ==== */
 .navbar {
-    background-color: #2A2B2D;
-    display: flex;
-    width: 1520px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    height: 80px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-.navbar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+  background-color: #2A2B2D;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .navbar-title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #FFF5F7;
-    flex-grow: 1;
-    text-align: center;
+  font-size: 28px;
+  color: #FFF5F7;
+  text-align: center;
+  flex-grow: 1;
 }
 
-
 .logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #FFF5F7;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #FFF5F7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-text {
-    font-size: 50px;
-    font-weight: 600;
-    color: #2A2B2D;
-    font-family: 'Times New Roman';
+  font-size: 40px;
+  font-family: 'Times New Roman', serif;
+  font-weight: 700;
+  color: #2A2B2D;
 }
 
-.logo-link {
-    text-decoration: none;
-}
-
-/* --- Custom Animated Back Button --- */
-.back-button {
-    display: block;
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    width: 56px;
-    height: 56px;
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
-    overflow: hidden;
-    outline: none;
-}
-
-.back-button:before,
-.back-button:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    inset: 7px;
-}
-
-.back-button:before {
-    border: 4px solid #2A2B2D;
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.back-button:after {
-    border: 4px solid #2A2B2D;
-    transform: scale(1.3);
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.back-button:hover:before {
-    opacity: 0;
-    transform: scale(0.7);
-}
-
-.back-button:hover:after {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.button-box {
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.button-elem {
-    display: block;
-    width: 20px;
-    height: 20px;
-    margin: 17px 18px 0 18px;
-    transform: rotate(180deg);
-    fill: #4A403A;
-}
-
-.back-button:hover .button-box {
-    transition: 0.4s;
-    transform: translateX(-56px);
-}
-
-
-/* Responsive Styling */
+/* ==== Responsive ==== */
 @media (max-width: 768px) {
-  /* Container adjustments */
-  .container {
-    width: 100%;
-    float: none;
-    padding: 15px;
-  }
-
+  .container,
   .live-preview {
     width: 100%;
     float: none;
-    margin-top: 20px;
+    margin: 10px;
   }
 
-  input[type="text"],
-  input[type="number"],
-  input[type="file"],
-  textarea,
-  select {
-    width: 100%;
-    font-size: 15px;
-  }
-
-    button {
-    font-size: 14px;
-    padding: 10px 16px;
-  }
-
-  .preview-thumbnail {
-    max-width: 100%;
-  }
-
-  .preview-extra-images img,
-  .preview-extra-videos video {
-    width: 60px;
-    height: 60px;
-  }
-
-  /* Navbar responsiveness */
   .navbar {
-    width: 100%;
     flex-direction: column;
-    height: auto;
-    padding: 10px;
     gap: 10px;
+    height: auto;
+    padding: 15px;
   }
 
   .navbar-title {
     font-size: 24px;
-    text-align: center;
   }
 
   .logo-container {
@@ -350,26 +221,17 @@ button:hover {
     font-size: 32px;
   }
 
-  /* Back button positioning on smaller screens */
-  .back-button {
-    top: 80px;
-    left: 10px;
-    width: 48px;
-    height: 48px;
+  input, textarea, select {
+    font-size: 15px;
   }
 
-  .button-elem {
-    width: 16px;
-    height: 16px;
-    margin: 16px 14px 0 14px;
+  button {
+    width: 100%;
   }
 
-  /* Footer adjustment */
-  .footer {
-    margin-top: 100px;
-    font-size: 14px;
-    position: static;
+  .preview-extra-images img,
+  .preview-extra-videos video {
+    width: 60px;
+    height: 60px;
   }
 }
-
-

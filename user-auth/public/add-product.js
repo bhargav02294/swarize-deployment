@@ -747,17 +747,47 @@ function updatePreviewField(fieldId, value) {
   if (el) el.textContent = value || "-";
 }
 
-// Utility Field Creators
-function createInput(label, id, placeholder = "") {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
-  return wrapper;
-}
+function loadSizeOptions(type) {
+  const sizeOptions = {
+    standard: ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
+    footwear: ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"],
+    kids: ["0-1 Yr", "1-2 Yr", "2-3 Yr", "3-4 Yr", "4-5 Yr", "6-7 Yr"]
+  };
 
-function createDropdown(label, id, options) {
   const wrapper = document.createElement("div");
-  const optionsHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><select id="${id}" name="${id}"><option disabled selected>Select ${label}</option>${optionsHTML}</select>`;
+  wrapper.classList.add("field-group");
+  wrapper.innerHTML = `<label>Available Sizes</label>`;
+
+  const selectedSizesContainer = document.createElement("div");
+  selectedSizesContainer.classList.add("size-options");
+
+  const options = sizeOptions[type] || ["Free Size"];
+  options.forEach(size => {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "size";
+    checkbox.value = size;
+    checkbox.id = `size-${size}`;
+
+    const label = document.createElement("label");
+    label.htmlFor = `size-${size}`;
+    label.textContent = size;
+    label.style.marginRight = "10px";
+
+    selectedSizesContainer.appendChild(checkbox);
+    selectedSizesContainer.appendChild(label);
+  });
+
+  wrapper.appendChild(selectedSizesContainer);
+
+  // Update preview on change
+  selectedSizesContainer.addEventListener("change", () => {
+    const selected = Array.from(selectedSizesContainer.querySelectorAll("input[type='checkbox']:checked"))
+      .map(cb => cb.value)
+      .join(", ");
+    updatePreviewField("size", selected);
+  });
+
   return wrapper;
 }
 
@@ -814,12 +844,6 @@ function createColorPalette() {
   return wrapper;
 }
 
-function loadSizeOptions(type) {
-  if (type === "standard") return createDropdown("Size", "size", ["XS", "S", "M", "L", "XL", "XXL", "3XL"]);
-  if (type === "footwear") return createDropdown("Size", "size", ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"]);
-  if (type === "kids") return createDropdown("Size", "size", ["0-1 Yr", "1-2 Yr", "2-3 Yr", "3-4 Yr", "4-5 Yr", "6-7 Yr"]);
-  return createInput("Size", "size", "Enter size");
-}
 
 
 // Load fields dynamically

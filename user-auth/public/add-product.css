@@ -39,6 +39,20 @@ html, body {
   border-radius: 4px;
 }
 
+
+.size-options {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.size-options input[type="checkbox"] {
+  margin-right: 4px;
+}
+
+
+
 /* ==== Form Elements ==== */
 form {
   display: flex;

@@ -1,206 +1,203 @@
-/* ==== Reset & Font ==== */
-* {
+/* ==== General Reset & Fonts ==== */
+body {
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  background-color: #FFF5F7;
 }
 
-body {
-  background: #fef9f9;
-  color: #333;
+/* Global Box Model */
+* {
+  box-sizing: border-box;
 }
 
 /* ==== Container Layout ==== */
 .container {
   width: 64%;
-  padding: 30px;
-  background-color: #fff;
+  padding: 20px;
+  background-color: white;
   float: left;
-  border-radius: 16px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
   margin: 20px;
 }
 
-.live-preview {
-  width: 30%;
-  padding: 20px;
-  background-color: #ffffff;
-  float: right;
-  border-radius: 16px;
-  box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
-  margin: 20px 20px 20px 0;
-}
-
-/* ==== Typography ==== */
-h1, h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #2a2b2d;
-}
-
-label {
-  margin: 14px 0 6px;
+/* ==== Section Headings ==== */
+.section-title {
+  font-size: 24px;
   font-weight: 600;
-  display: block;
-  color: #2a2b2d;
+  color: #2A2B2D;
+  margin-bottom: 20px;
+  border-left: 6px solid #2A2B2D;
+  padding-left: 12px;
+  background: linear-gradient(to right, #fff 80%, #eee);
+  padding: 10px;
+  border-radius: 4px;
 }
 
 /* ==== Form Elements ==== */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 5px;
+  font-weight: 500;
+  color: #333;
+}
+
 input[type="text"],
 input[type="number"],
 input[type="file"],
 textarea,
 select {
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
   width: 100%;
-  margin-bottom: 16px;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  font-size: 15px;
+  background-color: #FAFAFA;
+  transition: border-color 0.2s ease-in-out;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: #d69e9e;
-  box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.2);
+  border-color: #2A2B2D;
 }
 
 /* ==== Buttons ==== */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
 button {
-  background: linear-gradient(135deg, #2A2B2D, #4B4C4F);
-  color: #fff;
+  padding: 12px 28px;
+  background-color: #2A2B2D;
+  color: #FFFFFF;
   border: none;
-  padding: 12px 24px;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 10px;
-  transition: transform 0.2s ease, background 0.3s ease;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  transform: scale(1.03);
-  background: #3d3e41;
+  transform: translateY(-2px) scale(1.02);
+  background-color: #1E1E1F;
+}
+
+/* ==== Hidden Section (for Additional Details) ==== */
+.hidden {
+  display: none;
+}
+
+#additional-details-section {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px dashed #ccc;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==== Live Preview ==== */
+.live-preview {
+  width: 30%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  float: right;
+  text-align: center;
+}
+
 .preview-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
 }
 
+/* Thumbnail Styling */
 .preview-thumbnail {
   width: 100%;
-  max-width: 280px;
+  max-width: 250px;
+  margin-bottom: 15px;
   overflow: hidden;
-  border-radius: 12px;
-  border: 2px solid #ddd;
-  transition: transform 0.3s;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  transition: transform 0.3s ease-in-out;
 }
 
 .preview-thumbnail img {
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .preview-thumbnail:hover {
-  transform: scale(1.04);
-  border-color: #d69e9e;
+  transform: scale(1.05);
+  border-color: #4A403A;
 }
 
+/* Product Name & Price */
 #preview-name {
   font-size: 20px;
-  font-weight: 600;
-  color: #333;
+  font-weight: bold;
+  color: #4A403A;
+  margin-bottom: 5px;
 }
 
 #preview-price {
   font-size: 18px;
-  color: #008000;
   font-weight: bold;
-}
-
-#preview-description {
-  font-size: 14px;
-  color: #555;
-  text-align: center;
+  color: #008000;
   margin-bottom: 10px;
 }
 
+/* Description */
+#preview-description {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  padding: 0 10px;
+  margin-bottom: 15px;
+}
+
+/* Extra Media */
 .preview-extra-images,
 .preview-extra-videos {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .preview-extra-images img,
 .preview-extra-videos video {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 10px;
-  border: 2px solid #ccc;
-  transition: transform 0.3s, border-color 0.3s;
+  border-radius: 6px;
+  border: 2px solid #ddd;
+  transition: transform 0.3s ease-in-out, border-color 0.3s;
 }
 
 .preview-extra-images img:hover,
 .preview-extra-videos video:hover {
-  transform: scale(1.08);
-  border-color: #d69e9e;
+  transform: scale(1.1);
+  border-color: #4A403A;
 }
 
-
-/* ==== Responsive ==== */
-@media (max-width: 768px) {
-  .container,
-  .live-preview {
-    width: 100%;
-    float: none;
-    margin: 10px;
-  }
-
-  .navbar {
-    flex-direction: column;
-    gap: 10px;
-    height: auto;
-    padding: 15px;
-  }
-
-  .navbar-title {
-    font-size: 24px;
-  }
-
-  .logo-container {
-    width: 50px;
-    height: 50px;
-  }
-
-  .logo-text {
-    font-size: 32px;
-  }
-
-  input, textarea, select {
-    font-size: 15px;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .preview-extra-images img,
-  .preview-extra-videos video {
-    width: 60px;
-    height: 60px;
-  }
-}
 
 
 
@@ -258,3 +255,44 @@ button:hover {
     text-decoration: none;
 }
 
+/* Responsive Styling */
+
+/* ==== Responsive ==== */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    float: none;
+    padding: 15px;
+  }
+
+  .live-preview {
+    width: 100%;
+    float: none;
+    margin-top: 20px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .navbar-title {
+    font-size: 24px;
+  }
+
+  .logo-container {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-text {
+    font-size: 32px;
+  }
+}

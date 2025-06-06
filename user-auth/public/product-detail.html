@@ -44,58 +44,50 @@
 
 
 
-  <div class="product-container">
-  <!-- Media Section -->
-  <div class="product-image-section">
-    <div class="slider-container">
-      <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-      <div class="slider-track" id="media-slider"></div>
-      <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
+ <div class="product-container">
+    <!-- Image Slider & Store Info -->
+    <div class="product-image-section">
+      <div class="slider-container">
+        <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
+        <div class="slider-track" id="media-slider"></div>
+        <button class="slider-btn next" onclick="moveSlide(1)">›</button>
+      </div>
+      <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
     </div>
 
-    <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
-  </div>
+    <!-- Product Info & Actions -->
+    <div class="product-info">
+      <h1 id="preview-name">Product Name</h1>
+      <div class="star-rating">★★★★★ <span id="rating-count">(0 Reviews)</span></div>
+      <h2 id="preview-price">₹0.00</h2>
+      <div class="action-buttons">
+        <button class="buy-now">Buy Now</button>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
 
-  <!-- Product Info -->
-  <div class="product-info">
-    <h1 id="preview-name">Product Name</h1>
-    <div class="star-rating">
-      ★★★★★ <span id="rating-count">(0 Reviews)</span>
-    </div>
-    <h2 id="preview-price">₹0.00</h2>
+      <div class="product-details">
+        <p id="preview-description">[Product description here]</p>
+        <p id="preview-summary"><strong>Summary:</strong> -</p>
+        <p id="preview-category"><strong>Category:</strong> -</p>
+        <p id="preview-subcategory"><strong>Subcategory:</strong> -</p>
+        <p id="preview-size"><strong>Size:</strong> -</p>
+        <p id="preview-color"><strong>Color:</strong> -</p>
+        <p id="preview-material"><strong>Material:</strong> -</p>
+        <p id="preview-pattern"><strong>Pattern:</strong> -</p>
+        <p id="preview-wash-care"><strong>Wash Care:</strong> -</p>
+        <p id="preview-model-style"><strong>Model Style:</strong> -</p>
+        <p id="preview-brand"><strong>Brand:</strong> -</p>
+        <p id="preview-available-in"><strong>Available In:</strong> -</p>
+      </div>
 
-    <div class="action-buttons">
-      <button class="buy-now">Buy Now</button>
-      <button class="add-to-cart">Add to Cart</button>
-    </div>
-
-    <div class="product-details">
-      <p id="preview-description">Product description will appear here.</p>
-      <p id="preview-summary"><strong>Summary:</strong> Not available.</p>
-      <p id="preview-category"><strong>Category:</strong> -</p>
-      <p id="preview-subcategory"><strong>Subcategory:</strong> -</p>
-      <p id="preview-tags"><strong>Tags:</strong> -</p>
-      <p id="preview-size"><strong>Size:</strong> -</p>
-      <p id="preview-color"><strong>Color:</strong> -</p>
-      <p id="preview-material"><strong>Material:</strong> -</p>
-      <p id="preview-pattern"><strong>Pattern:</strong> -</p>
-      <p id="preview-wash-care"><strong>Wash Care:</strong> -</p>
-      <p id="preview-model-style"><strong>Model Style:</strong> -</p>
-      <p id="preview-brand"><strong>Brand:</strong> -</p>
-      <p id="preview-available-in"><strong>Available In:</strong> -</p>
-    </div>
-
-    <div class="product-info-note">
-      <ul>
-        <li><strong>Note:</strong> “To ensure quality and reduce misuse, we currently do not offer COD or RTO on our platform.”</li>
-        <li>Enjoy <strong>Free Delivery</strong> — no extra charges for buyers.</li>
-      </ul>
+      <div class="product-info-note">
+        <ul>
+          <li><strong>Note:</strong> Currently we do not offer COD or RTO.</li>
+          <li>Enjoy <strong>Free Delivery</strong> — no extra charges.</li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
-
-
-
 
 
 

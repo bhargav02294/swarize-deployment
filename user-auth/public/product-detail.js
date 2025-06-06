@@ -68,18 +68,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-        // Slider movement
-window.moveSlide = function(direction) {
-    const items = mediaSlider.children.length;
-    const itemWidth = mediaSlider.children[0] ? mediaSlider.children[0].offsetWidth : 160; // removed +10
-    currentSlide += direction;
-
-    if (currentSlide < 0) currentSlide = 0;
-    if (currentSlide >= items) currentSlide = items - 1;
-
-    const offset = itemWidth * currentSlide;
-    mediaSlider.style.transform = `translateX(-${offset}px)`;
-};
+    window.moveSlide = function (direction) {
+      const items = mediaSlider.children.length;
+      const itemWidth = mediaSlider.children[0]?.offsetWidth || 200;
+      currentSlide = Math.max(0, Math.min(currentSlide + direction, items - 1));
+      mediaSlider.style.transform = `translateX(-${itemWidth * currentSlide}px)`;
+    };
 
 
 

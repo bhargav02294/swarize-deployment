@@ -534,19 +534,48 @@ document.getElementById("nextBtn").addEventListener("click", () => {
 
   localStorage.setItem("basicProductData", JSON.stringify({ name, price, description, category, subcategory }));
 
-  // Hide basic info, show details & submit
+  // UI Changes
   document.getElementById("basic-info-section").style.display = "none";
   document.getElementById("product-details-section").classList.remove("hidden");
-
-  loadFields(subcategory);
-
   document.getElementById("submit").style.display = "inline-block";
   document.getElementById("nextBtn").style.display = "none";
 
+  // Add preview update functions here if needed
   updatePreviewField("name", name);
   updatePreviewField("price", price);
   updatePreviewField("description", description);
+
+  loadFields(subcategory);
 });
+
+function loadFields(subcategory) {
+  const dynamicFields = document.getElementById("dynamic-fields");
+  dynamicFields.innerHTML = ""; // Clear old fields
+
+  if (subcategory === "Ethnic Wear") {
+    dynamicFields.innerHTML += `
+      <label>Material:</label>
+      <input type="text" name="material" required />
+
+      <label>Wash Care:</label>
+      <input type="text" name="washcare" required />
+    `;
+  } else if (subcategory === "Western Wear") {
+    dynamicFields.innerHTML += `
+      <label>Fabric:</label>
+      <input type="text" name="fabric" required />
+
+      <label>Fit:</label>
+      <input type="text" name="fit" required />
+    `;
+  }
+}
+
+function updatePreviewField(field, value) {
+  // This function can be expanded if you show live preview somewhere
+  console.log(`Preview Update - ${field}: ${value}`);
+}
+
 
 
 /*

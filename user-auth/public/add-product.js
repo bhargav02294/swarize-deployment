@@ -747,6 +747,19 @@ function updatePreviewField(fieldId, value) {
   if (el) el.textContent = value || "-";
 }
 
+function createInput(label, id, placeholder = "") {
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
+  return wrapper;
+}
+
+function createDropdown(label, id, options) {
+  const wrapper = document.createElement("div");
+  const optionsHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
+  wrapper.innerHTML = `<label for="${id}">${label}</label><select id="${id}" name="${id}"><option disabled selected>Select ${label}</option>${optionsHTML}</select>`;
+  return wrapper;
+}
+
 function loadSizeOptions(type) {
   const sizeOptions = {
     standard: ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
@@ -780,7 +793,6 @@ function loadSizeOptions(type) {
 
   wrapper.appendChild(selectedSizesContainer);
 
-  // Update preview on change
   selectedSizesContainer.addEventListener("change", () => {
     const selected = Array.from(selectedSizesContainer.querySelectorAll("input[type='checkbox']:checked"))
       .map(cb => cb.value)
@@ -844,9 +856,7 @@ function createColorPalette() {
   return wrapper;
 }
 
-
-
-// Load fields dynamically
+// === Load Dynamic Fields ===
 function loadFields(subcategory) {
   const container = document.getElementById("dynamic-fields");
   container.innerHTML = "";
@@ -857,7 +867,6 @@ function loadFields(subcategory) {
   if (config.size) {
     const sizeField = loadSizeOptions(config.size);
     container.appendChild(sizeField);
-    sizeField.querySelector("#size").addEventListener("change", e => updatePreviewField("size", e.target.value));
   }
 
   if (config.color) {
@@ -865,23 +874,31 @@ function loadFields(subcategory) {
     container.appendChild(colorField);
   }
 
-  if (config.material) {
-    const materialField = createDropdown("Material", "material", ["Cotton", "Denim", "Polyester", "Rayon"]);
-    container.appendChild(materialField);
-    materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
-  }
+// Load full clothing detail fields
+if (config.material) {
+  const materialField = createDropdown("Material", "material", [
+    "Cotton", "Denim", "Linen", "Silk", "Wool", "Viscose", "Polyester", "Rayon", "Blended", "Chiffon", "Georgette", "Velvet", "Net"
+  ]);
+  container.appendChild(materialField);
+  materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
+}
 
-  if (config.pattern) {
-    const patternField = createDropdown("Pattern", "pattern", ["Solid", "Striped", "Printed", "Checked"]);
-    container.appendChild(patternField);
-    patternField.querySelector("#pattern").addEventListener("change", e => updatePreviewField("pattern", e.target.value));
-  }
+if (config.pattern) {
+  const patternField = createDropdown("Pattern", "pattern", [
+    "Solid", "Striped", "Printed", "Checked", "Embroidered", "Floral", "Geometric", "Colorblocked", "Animal Print", "Tie & Dye"
+  ]);
+  container.appendChild(patternField);
+  patternField.querySelector("#pattern").addEventListener("change", e => updatePreviewField("pattern", e.target.value));
+}
 
-  if (config.washCare) {
-    const washCareField = createDropdown("Wash Care", "washCare", ["Machine Wash", "Hand Wash", "Dry Clean"]);
-    container.appendChild(washCareField);
-    washCareField.querySelector("#washCare").addEventListener("change", e => updatePreviewField("washCare", e.target.value));
-  }
+if (config.washCare) {
+  const washCareField = createDropdown("Wash Care", "washCare", [
+    "Machine Wash", "Hand Wash", "Dry Clean", "Do Not Bleach", "Tumble Dry Low", "Do Not Iron", "Delicate Wash"
+  ]);
+  container.appendChild(washCareField);
+  washCareField.querySelector("#washCare").addEventListener("change", e => updatePreviewField("washCare", e.target.value));
+}
+
 
   if (config.modelStyle) {
     const modelStyleField = createInput("Style/Model", "modelStyle");

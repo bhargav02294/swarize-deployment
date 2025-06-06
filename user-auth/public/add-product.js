@@ -532,49 +532,47 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     return;
   }
 
-  localStorage.setItem("basicProductData", JSON.stringify({ name, price, description, category, subcategory }));
+  localStorage.setItem("basicProductData", JSON.stringify({
+    name,
+    price,
+    description,
+    category,
+    subcategory
+  }));
 
-  // UI Changes
   document.getElementById("basic-info-section").style.display = "none";
   document.getElementById("product-details-section").classList.remove("hidden");
-  document.getElementById("submit").style.display = "inline-block";
-  document.getElementById("nextBtn").style.display = "none";
-
-  // Add preview update functions here if needed
-  updatePreviewField("name", name);
-  updatePreviewField("price", price);
-  updatePreviewField("description", description);
 
   loadFields(subcategory);
+
+  document.getElementById("submit").style.display = "inline-block";
+  document.getElementById("nextBtn").style.display = "none";
 });
 
+// Load additional fields dynamically based on subcategory
 function loadFields(subcategory) {
   const dynamicFields = document.getElementById("dynamic-fields");
-  dynamicFields.innerHTML = ""; // Clear old fields
+  dynamicFields.innerHTML = "";
 
-  if (subcategory === "Ethnic Wear") {
-    dynamicFields.innerHTML += `
-      <label>Material:</label>
-      <input type="text" name="material" required />
+  const sizeField = document.createElement("input");
+  sizeField.type = "text";
+  sizeField.name = "size";
+  sizeField.placeholder = "Enter available sizes (e.g., S, M, L)";
+  dynamicFields.appendChild(sizeField);
 
-      <label>Wash Care:</label>
-      <input type="text" name="washcare" required />
-    `;
-  } else if (subcategory === "Western Wear") {
-    dynamicFields.innerHTML += `
-      <label>Fabric:</label>
-      <input type="text" name="fabric" required />
-
-      <label>Fit:</label>
-      <input type="text" name="fit" required />
-    `;
-  }
+  const colorField = document.createElement("input");
+  colorField.type = "text";
+  colorField.name = "color";
+  colorField.placeholder = "Enter available colors (e.g., Red, Blue)";
+  dynamicFields.appendChild(colorField);
 }
 
-function updatePreviewField(field, value) {
-  // This function can be expanded if you show live preview somewhere
-  console.log(`Preview Update - ${field}: ${value}`);
-}
+// Handle actual form submission
+document.getElementById("add-product-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  alert("Product Submitted Successfully!");
+});
+
 
 
 

@@ -31,16 +31,22 @@ const isAuthenticated = (req, res, next) => {
 
 
 // ✅ Safe cloudinary upload helper
-// ✅ Smart cloudinary upload helper
-// Cloudinary Upload Helper
+// ✅ Cloudinary Upload Helper
 const uploadToCloudinary = (buffer, folder) => {
   return new Promise((resolve, reject) => {
-    if (!buffer || buffer.length === 0) return reject(new Error("Empty buffer"));
+    if (!buffer || buffer.length === 0) {
+      return reject(new Error("Invalid or empty file buffer"));
+    }
 
-    cloudinary.uploader.upload_stream({ folder, resource_type: 'auto' }, (error, result) => {
-      if (error) return reject(error);
-      resolve(result.secure_url);
-    }).end(buffer);
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder, resource_type: "auto" },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result.secure_url);
+      }
+    );
+
+    streamifier.createReadStream(buffer).pipe(uploadStream);
   });
 };
 
@@ -48,114 +54,110 @@ const uploadToCloudinary = (buffer, folder) => {
 
 
 // ✅ Add Product Route
+// ✅ Add Product Route
 router.post(
   '/add',
   isAuthenticated,
   upload.fields([
     { name: 'thumbnailImage', maxCount: 1 },
     { name: 'extraImages', maxCount: 4 },
-    { name: 'extraVideos', maxCount: 3 },
+    { name: 'extraVideos', maxCount: 3 }
   ]),
   async (req, res) => {
     try {
       const userId = req.session.userId;
+
+      // ✅ Check store
       const store = await Store.findOne({ ownerId: userId });
       if (!store) return res.status(404).json({ success: false, message: 'Store not found' });
 
-      const {
-        name, price, description, summary,
-        category, subcategory, size, color,
-        material, modelStyle, availableIn,
-        pattern, washCare, fabricType, fitType,
-        occasion, neckStyle, sleeveLength,
-        shape, surfaceStyling, heelType,
-        soleMaterial, closureType
-      } = req.body;
+      // ✅ Basic validation (extend as needed)
+      const { name, price, category, subcategory } = req.body;
+      if (!name || !price || !category || !subcategory) {
+        return res.status(400).json({ success: false, message: "Missing required fields" });
+      }
 
-      // Thumbnail Image
-      // Upload thumbnail image
-const thumbnailFile = req.files['thumbnailImage']?.[0];
-if (!thumbnailFile) {
-  return res.status(400).json({ success: false, message: "Thumbnail is required" });
-}
-const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails', thumbnailFile.mimetype);
+      // ✅ Upload thumbnail
+      const thumbnailFile = req.files['thumbnailImage']?.[0];
+      if (!thumbnailFile) {
+        return res.status(400).json({ success: false, message: "Thumbnail is required" });
+      }
+      const thumbnailImage = await uploadToCloudinary(thumbnailFile.buffer, 'swarize/products/thumbnails');
 
-// Upload extra images
- // Upload extra images
-      // Upload Extra Images
-    const extraImages = [];
-    if (req.files['extraImages']) {
-      for (const img of req.files['extraImages']) {
-        try {
-          if (img && img.buffer) {
+      // ✅ Upload extra images
+      const extraImages = [];
+      if (req.files['extraImages']) {
+        for (const img of req.files['extraImages']) {
+          try {
             const url = await uploadToCloudinary(img.buffer, 'swarize/products/images');
             extraImages.push(url);
+          } catch (err) {
+            console.warn("Extra image skipped:", err.message);
           }
-        } catch (err) {
-          console.warn(`Skipping image: ${err.message}`);
         }
       }
-    }
 
-      // Upload extra videos
+      // ✅ Upload extra videos
       const extraVideos = [];
       if (req.files['extraVideos']) {
         for (const vid of req.files['extraVideos']) {
-          if (!vid || !vid.buffer || vid.buffer.length === 0) continue;
           try {
             const url = await uploadToCloudinary(vid.buffer, 'swarize/products/videos');
             extraVideos.push(url);
           } catch (err) {
-            console.warn(`Skipping invalid video: ${err.message}`);
+            console.warn("Extra video skipped:", err.message);
           }
         }
       }
 
-
-
-     const product = new Product({
+      // ✅ Create Product
+      const product = new Product({
         ownerId: userId,
         store: store._id,
         storeSlug: store.slug,
+
+        // Basic Info
         name,
         price,
-        description,
-        summary,
+        description: req.body.description,
+        summary: req.body.summary,
         category,
         subcategory,
-        size,
-        color,
-        material,
-        modelStyle,
-        availableIn,
-        pattern,
-        washCare,
-        fabricType,
-        fitType,
-        occasion,
-        neckStyle,
-        sleeveLength,
-        shape,
-        surfaceStyling,
-        heelType,
-        soleMaterial,
-        closureType,
+        availableIn: req.body.availableIn || "All Over India",
+
+        // Optional/Dynamic Fields
+        size: req.body.size,
+        color: req.body.color,
+        material: req.body.material,
+        modelStyle: req.body.modelStyle,
+        pattern: req.body.pattern,
+        washCare: req.body.washCare,
+        fabricType: req.body.fabricType,
+        fitType: req.body.fitType,
+        occasion: req.body.occasion,
+        neckStyle: req.body.neckStyle,
+        sleeveLength: req.body.sleeveLength,
+        shape: req.body.shape,
+        surfaceStyling: req.body.surfaceStyling,
+        heelType: req.body.heelType,
+        soleMaterial: req.body.soleMaterial,
+        closureType: req.body.closureType,
+
+        // Media
         thumbnailImage,
         extraImages,
         extraVideos,
       });
 
       await product.save();
-      res.status(201).json({ success: true, message: "Product added successfully" });
+      return res.status(201).json({ success: true, message: "Product added successfully" });
 
     } catch (error) {
       console.error("Product Add Error:", error);
-      res.status(500).json({ success: false, message: error.message });
+      return res.status(500).json({ success: false, message: error.message });
     }
   }
 );
-
-
 
 
 

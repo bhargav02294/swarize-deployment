@@ -329,12 +329,8 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
 
 
-
-let basicProductData = {};
-
-// Mapping: subcategory → fields to show
 const subcategoryFieldsMap = {
-  // --- Women ---
+  // Women
   "Ethnic Wear":        { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
   "Western Wear":       { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
   "Bottomwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
@@ -346,7 +342,7 @@ const subcategoryFieldsMap = {
   "Beauty & Makeup":    { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
   "Eyewear & Watches":  { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
 
-  // --- Men ---
+  // Men
   "Topwear":            { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
   "Bottomwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
   "Ethnic Wear":        { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
@@ -358,7 +354,7 @@ const subcategoryFieldsMap = {
   "Grooming":           { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
   "Bags & Utility":     { size: false, color: true, material: true, washCare: false, pattern: false, modelStyle: false },
 
-  // --- Kids ---
+  // Kids
   "Boys Clothing":      { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
   "Girls Clothing":     { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
   "Footwear":           { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
@@ -370,7 +366,7 @@ const subcategoryFieldsMap = {
   "Accessories":        { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
   "Festive Wear":       { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
 
-  // --- Accessories ---
+  // Accessories
   "Bags & Travel":      { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
   "Unisex Footwear":    { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
   "Mobile Accessories": { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
@@ -383,16 +379,39 @@ const subcategoryFieldsMap = {
   "Fashion Accessories": { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false }
 };
 
+document.getElementById("nextBtn").addEventListener("click", () => {
+  const name = document.getElementById("product-name").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const category = document.getElementById("category").value;
+  const subcategory = document.getElementById("subcategory").value;
 
-// Utility functions
-function createInput(label, id, placeholder = "") {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
-  return wrapper;
+  if (!name || !price || !description || !category || !subcategory) {
+    alert("Please fill all required fields!");
+    return;
+  }
+
+  localStorage.setItem("basicProductData", JSON.stringify({ name, price, description, category, subcategory }));
+
+  document.getElementById("basic-info-section").style.display = "none";
+  document.getElementById("product-details-section").classList.remove("hidden");
+  document.getElementById("submit").style.display = "inline-block";
+  document.getElementById("nextBtn").style.display = "none";
+
+  updatePreviewField("name", name);
+  updatePreviewField("price", price);
+  updatePreviewField("description", description);
+
+  loadFields(subcategory);
+});
+
+// ==== Field Creators ====
+function updatePreviewField(fieldId, value) {
+  const el = document.getElementById(`preview-${fieldId}`);
+  if (el) el.textContent = value || "-";
 }
 
-
-// Helpers to create form controls
+// Utility Field Creators
 function createInput(label, id, placeholder = "") {
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
@@ -418,21 +437,24 @@ function createColorPalette() {
     swatch.className = "color-swatch";
     swatch.style.backgroundColor = hex;
     swatch.setAttribute("data-color", hex);
-    swatch.style.border = "1px solid #999";
-    swatch.style.width = "24px";
-    swatch.style.height = "24px";
-    swatch.style.display = "inline-block";
-    swatch.style.cursor = "pointer";
-    swatch.style.marginRight = "6px";
-    swatch.style.borderRadius = "4px";
+    Object.assign(swatch.style, {
+      border: "1px solid #999",
+      width: "24px",
+      height: "24px",
+      display: "inline-block",
+      cursor: "pointer",
+      marginRight: "6px",
+      borderRadius: "4px"
+    });
 
     swatch.addEventListener("click", () => {
       document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
       swatch.classList.add("selected");
       const input = document.getElementById("color");
-      if(input) input.value = hex;
+      if (input) input.value = hex;
       updatePreviewField("color", hex);
     });
+
     colorBox.appendChild(swatch);
   });
 
@@ -459,19 +481,15 @@ function loadSizeOptions(type) {
   return createInput("Size", "size", "Enter size");
 }
 
-function updatePreviewField(fieldId, value) {
-  const el = document.getElementById(`preview-${fieldId}`);
-  if(el) el.textContent = value || "-";
-}
 
-// Clear and load fields based on subcategory
+// Load fields dynamically
 function loadFields(subcategory) {
   const container = document.getElementById("dynamic-fields");
   container.innerHTML = "";
   if (!subcategory) return;
 
   const config = subcategoryFieldsMap[subcategory] || {};
-  
+
   if (config.size) {
     const sizeField = loadSizeOptions(config.size);
     container.appendChild(sizeField);
@@ -507,14 +525,10 @@ function loadFields(subcategory) {
     modelStyleField.querySelector("#modelStyle").addEventListener("input", e => updatePreviewField("modelStyle", e.target.value));
   }
 
-  // Brand field (optional)
   const brandField = createInput("Brand (optional)", "brand");
   container.appendChild(brandField);
   brandField.querySelector("#brand").addEventListener("input", e => updatePreviewField("brand", e.target.value));
 }
-
-
-
 
 
 
@@ -532,46 +546,23 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     return;
   }
 
-  localStorage.setItem("basicProductData", JSON.stringify({
-    name,
-    price,
-    description,
-    category,
-    subcategory
-  }));
+  localStorage.setItem("basicProductData", JSON.stringify({ name, price, description, category, subcategory }));
 
   document.getElementById("basic-info-section").style.display = "none";
   document.getElementById("product-details-section").classList.remove("hidden");
-
-  loadFields(subcategory);
-
   document.getElementById("submit").style.display = "inline-block";
   document.getElementById("nextBtn").style.display = "none";
+
+  updatePreviewField("name", name);
+  updatePreviewField("price", price);
+  updatePreviewField("description", description);
+
+  loadFields(subcategory);
 });
 
-// Load additional fields dynamically based on subcategory
-function loadFields(subcategory) {
-  const dynamicFields = document.getElementById("dynamic-fields");
-  dynamicFields.innerHTML = "";
 
-  const sizeField = document.createElement("input");
-  sizeField.type = "text";
-  sizeField.name = "size";
-  sizeField.placeholder = "Enter available sizes (e.g., S, M, L)";
-  dynamicFields.appendChild(sizeField);
 
-  const colorField = document.createElement("input");
-  colorField.type = "text";
-  colorField.name = "color";
-  colorField.placeholder = "Enter available colors (e.g., Red, Blue)";
-  dynamicFields.appendChild(colorField);
-}
 
-// Handle actual form submission
-document.getElementById("add-product-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Product Submitted Successfully!");
-});
 
 
 

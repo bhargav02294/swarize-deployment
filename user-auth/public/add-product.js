@@ -331,53 +331,389 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
 const subcategoryFieldsMap = {
   // Women
-  "Ethnic Wear":        { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Western Wear":       { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Bottomwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Winterwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Innerwear & Loungewear": { size: "standard", color: true, material: true, washCare: true, pattern: false, modelStyle: false },
-  "Footwear":           { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Bags & Clutches":    { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
-  "Jewelry & Accessories": { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
-  "Beauty & Makeup":    { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Eyewear & Watches":  { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
+  "Ethnic Wear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Western Wear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Bottomwear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Winterwear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Innerwear & Loungewear": {
+    size: "standard",
+    color: true,
+    material: true,
+    washCare: true,
+    pattern: false,
+    modelStyle: false,
+    fit: true
+  },
+  "Footwear": {
+    size: "footwear",
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    heelHeight: true,
+    occasion: true
+  },
+  "Bags & Clutches": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    occasion: true
+  },
+  "Jewelry & Accessories": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    occasion: true
+  },
+  "Beauty & Makeup": {
+    size: false,
+    color: false,
+    material: false,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    skinType: true,
+    finish: true
+  },
+  "Eyewear & Watches": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    frameMaterial: true,
+    lensType: true,
+    frameShape: true
+  },
 
   // Men
-  "Topwear":            { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Bottomwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Ethnic Wear":        { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Winterwear":         { size: "standard", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Innerwear & Sleepwear": { size: "standard", color: true, material: true, washCare: true, pattern: false, modelStyle: false },
-  "Footwear":           { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Accessories":        { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
-  "Eyewear & Watches":  { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Grooming":           { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Bags & Utility":     { size: false, color: true, material: true, washCare: false, pattern: false, modelStyle: false },
+  "Topwear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Bottomwear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Ethnic Wear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Winterwear": {
+    size: "standard",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Innerwear & Sleepwear": {
+    size: "standard",
+    color: true,
+    material: true,
+    washCare: true,
+    pattern: false,
+    modelStyle: false,
+    fit: true
+  },
+  "Footwear": {
+    size: "footwear",
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    heelHeight: true,
+    occasion: true
+  },
+  "Accessories": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    occasion: true
+  },
+  "Eyewear & Watches": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    frameMaterial: true,
+    lensType: true,
+    frameShape: true
+  },
+  "Grooming": {
+    size: false,
+    color: false,
+    material: false,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    skinType: true,
+    finish: true
+  },
+  "Bags & Utility": {
+    size: false,
+    color: true,
+    material: true,
+    washCare: false,
+    pattern: false,
+    modelStyle: false,
+    occasion: true
+  },
 
   // Kids
-  "Boys Clothing":      { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Girls Clothing":     { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Footwear":           { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Toys & Games":       { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Remote Toys":        { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Learning & School":  { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Baby Essentials":    { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Winterwear":         { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
-  "Accessories":        { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
-  "Festive Wear":       { size: "kids", color: true, material: true, pattern: true, washCare: true, modelStyle: true },
+  "Boys Clothing": {
+    size: "kids",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Girls Clothing": {
+    size: "kids",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Footwear": {
+    size: "footwear",
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    heelHeight: true,
+    occasion: true
+  },
+  "Toys & Games": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    ageGroup: true
+  },
+  "Remote Toys": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    ageGroup: true
+  },
+  "Learning & School": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    ageGroup: true
+  },
+  "Baby Essentials": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: true,
+    modelStyle: false,
+    ageGroup: true
+  },
+  "Winterwear": {
+    size: "kids",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
+  "Accessories": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    occasion: true
+  },
+  "Festive Wear": {
+    size: "kids",
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: true,
+    fit: true,
+    occasion: true
+  },
 
   // Accessories
-  "Bags & Travel":      { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
-  "Unisex Footwear":    { size: "footwear", color: true, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Mobile Accessories": { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Gadgets":            { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Computer Accessories": { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Home Decor":         { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false },
-  "Kitchenware":        { size: false, color: false, material: true, pattern: false, washCare: false, modelStyle: false },
-  "Health & Care":      { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Craft & DIY Kits":   { size: false, color: false, material: false, pattern: false, washCare: false, modelStyle: false },
-  "Fashion Accessories": { size: false, color: true, material: true, pattern: false, washCare: false, modelStyle: false }
+  "Bags & Travel": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    occasion: true
+  },
+  "Unisex Footwear": {
+    size: "footwear",
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false,
+    heelHeight: true,
+    occasion: true
+  },
+  "Mobile Accessories": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false
+  },
+  "Gadgets": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false
+  },
+  "Computer Accessories": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false
+  },
+  "Home Decor": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: true,
+    modelStyle: false
+  },
+  "Kitchenware": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: true,
+    modelStyle: false
+  },
+  "Health & Care": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false
+  },
+  "Craft & DIY Kits": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: false,
+    washCare: false,
+    modelStyle: false
+  },
+  "Fashion Accessories": {
+    size: false,
+    color: true,
+    material: true,
+    pattern: true,
+    washCare: false,
+    modelStyle: false,
+    occasion: true
+  }
 };
+
 
 document.getElementById("nextBtn").addEventListener("click", () => {
   const name = document.getElementById("product-name").value.trim();
@@ -428,7 +764,11 @@ function createDropdown(label, id, options) {
 function createColorPalette() {
   const wrapper = document.createElement("div");
   wrapper.innerHTML = `<label>Color</label>`;
-  const colors = ["#000000", "#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff", "#cccccc"];
+  const colors = [
+    "#000000", "#ffffff", "#ff0000", "#00ff00", "#0000ff",
+    "#ffff00", "#ff00ff", "#00ffff", "#808080", "#800000",
+    "#808000", "#008000", "#800080", "#008080", "#000080"
+  ];
   const colorBox = document.createElement("div");
   colorBox.className = "color-palette";
 

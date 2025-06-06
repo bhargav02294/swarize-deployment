@@ -224,7 +224,7 @@ async function fetchStoreDetails() {
 
 
 
-
+/*
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -310,7 +310,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       messageElement.style.color = "red";
   }
 });
-
+*/
 
 
 
@@ -926,3 +926,101 @@ function updatePreviewField(field, value) {
   }
 }
 */
+
+
+document.getElementById('add-product-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const messageElement = document.getElementById('message') || document.createElement('div');
+  if (!document.getElementById('message')) {
+    messageElement.id = 'message';
+    document.body.appendChild(messageElement);
+  }
+
+  const formData = new FormData();
+
+  const availableInInput = document.getElementById("availableIn");
+  const availableInValue = availableInInput?.value.trim() || "All Over India";
+
+  // Required Fields
+  formData.append('name', document.getElementById("product-name").value.trim());
+  formData.append('price', document.getElementById("price").value.trim());
+  formData.append('description', document.getElementById("description").value.trim());
+  formData.append('summary', document.getElementById("summary")?.value.trim() || "");
+  formData.append('category', document.getElementById("category").value);
+  formData.append('subcategory', document.getElementById("subcategory").value);
+  formData.append('availableIn', availableInValue);
+
+  // Dynamic Fields (check if present before appending)
+  const optionalFields = ["size", "color", "material", "pattern", "washCare", "modelStyle", "brand"];
+  optionalFields.forEach(fieldId => {
+    const fieldEl = document.getElementById(fieldId);
+    if (fieldEl) {
+      formData.append(fieldId, fieldEl.value.trim());
+    }
+  });
+
+  // Handle thumbnail image
+  const thumbnail = document.getElementById("thumbnail-image").files[0];
+  if (thumbnail) {
+    formData.append('thumbnailImage', thumbnail);
+  } else {
+    messageElement.textContent = "Thumbnail image is required.";
+    messageElement.style.color = "red";
+    return;
+  }
+
+  // Extra Images
+  ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
+    const file = document.getElementById(id)?.files[0];
+    if (file) {
+      formData.append('extraImages', file);
+    }
+  });
+
+  // Extra Videos
+  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
+    const file = document.getElementById(id)?.files[0];
+    if (file) {
+      formData.append('extraVideos', file);
+    }
+  });
+
+  // Store ID from localStorage
+  const storeId = localStorage.getItem("storeId");
+  if (storeId) formData.append("storeId", storeId);
+
+  // Log FormData entries before sending
+  console.log("Uploading FormData...");
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
+
+  try {
+    const response = await fetch("/api/products/add", {
+      method: "POST",
+      body: formData,
+      credentials: "include"
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success) {
+      messageElement.textContent = "Product added successfully!";
+      messageElement.style.color = "green";
+
+      setTimeout(() => {
+        const storeSlug = localStorage.getItem("storeSlug");
+        window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
+      }, 2000);
+    } else {
+      messageElement.textContent = result.message || "Failed to add product.";
+      messageElement.style.color = "red";
+    }
+
+  } catch (error) {
+    console.error("Error adding product:", error);
+    messageElement.textContent = "Error adding product.";
+    messageElement.style.color = "red";
+  }
+});

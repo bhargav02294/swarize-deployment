@@ -1,100 +1,72 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get("id");
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get("id");
+  if (!productId) return document.body.innerHTML = "<h2>No product ID provided.</h2>";
 
-    if (!productId) {
-        document.body.innerHTML = "<h2>Error: No product ID provided.</h2>";
-        return;
+  try {
+    const res = await fetch(`https://swarize.in/api/products/detail/${productId}`);
+    const { product } = await res.json();
+
+    if (!product) return document.body.innerHTML = "<h2>Product not found.</h2>";
+
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+
+    const fields = {
+      "preview-name": product.name,
+      "preview-price": `₹${product.price}`,
+      "preview-description": product.description,
+      "preview-summary": `Summary: ${product.summary || "N/A"}`,
+      "preview-category": `Category: ${product.category || "-"}`,
+      "preview-subcategory": `Subcategory: ${product.subcategory || "-"}`,
+      "preview-tags": `Tags: ${product.tags?.join(", ") || "-"}`,
+      "preview-size": `Size: ${product.size || "-"}`,
+      "preview-color": `Color: ${product.color || "-"}`,
+      "preview-material": `Material: ${product.material || "-"}`,
+      "preview-pattern": `Pattern: ${product.pattern || "-"}`,
+      "preview-wash-care": `Wash Care: ${product.washCare || "-"}`,
+      "preview-model-style": `Model Style: ${product.modelStyle || "-"}`,
+      "preview-brand": `Brand: ${product.brand || "-"}`,
+      "preview-available-in": `Available In: ${product.availableIn || "All over India"}`,
+    };
+
+    Object.entries(fields).forEach(([id, text]) => setText(id, text));
+
+    const storeName = product.store?.storeName;
+    const storeSlug = product.store?.slug;
+    const storeEl = document.getElementById("store-link");
+    if (storeEl && storeName) {
+      storeEl.textContent = storeName;
+      if (storeSlug) {
+        storeEl.addEventListener("click", () => {
+          window.location.href = `sellers-products.html?slug=${storeSlug}`;
+        });
+      }
     }
 
-    try {
-        const productResponse = await fetch(`https://swarize.in/api/products/detail/${productId}`);
-const product = (await productResponse.json()).product;
+    const mediaSlider = document.getElementById("media-slider");
+    let currentSlide = 0;
 
+    if (mediaSlider) {
+      mediaSlider.innerHTML = "";
+      const mediaItems = [];
 
-        if (!product || Object.keys(product).length === 0) {
-            document.body.innerHTML = "<h2>Product not found.</h2>";
-            return;
-        }
+      if (product.thumbnailImage)
+        mediaItems.push({ type: "img", src: product.thumbnailImage });
 
-        const setText = (id, text) => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = text;
-        };
+      (product.extraImages || []).forEach(img => mediaItems.push({ type: "img", src: img }));
+      (product.extraVideos || []).forEach(vid => mediaItems.push({ type: "video", src: vid }));
 
-        const setSrc = (id, url) => {
-            const el = document.getElementById(id);
-            if (el && url) el.src = url;
-        };
-
-        // Set basic product text info
-        setText("preview-name", product.name || "Product Name");
-        setText("preview-price", `₹${product.price || "0.00"}`);
-        const storeSlug = product.store?.slug;
-        const storeName = product.store?.storeName;
-        
-        const storeLinkEl = document.getElementById("store-link");
-        if (storeLinkEl && storeName) {
-            storeLinkEl.textContent = storeName;
-            if (storeSlug) {
-                storeLinkEl.addEventListener("click", () => {
-                    window.location.href = `sellers-products.html?slug=${storeSlug}`;
-                });
-            }
-        }
-        
-
-        setText("preview-description", product.description || "No description.");
-        setText("preview-summary", `Summary: ${product.summary || " "}`);
-        setText("preview-category", `Category: ${product.category || " "}`);
-        setText("preview-subcategory", `Subcategory: ${product.subcategory || " "}`);
-        setText("preview-tags", `Tags: ${product.tags?.join(", ") || " "}`);
-        setText("preview-size", `Size: ${product.size || " "}`);
-        setText("preview-color", `Color: ${product.color || " "}`);
-        setText("preview-material", `Material: ${product.material || " "}`);
-        setText("preview-model-style", `Model Style: ${product.modelStyle || " "}`);
-        setText("preview-available-in", `Available In: ${product.availableIn || "All over India"}`);
-
-        // Handle slider media
-        const mediaSlider = document.getElementById("media-slider");
-        let currentSlide = 0;
-
-        if (mediaSlider) {
-            mediaSlider.innerHTML = "";
-
-            // Add thumbnail first
-            if (product.thumbnailImage) {
-                const thumb = document.createElement("img");
-                thumb.src = product.thumbnailImage;
-                thumb.alt = "Main Image";
-                thumb.classList.add("slider-media");
-                mediaSlider.appendChild(thumb);
-
-                setSrc("preview-thumbnail", product.thumbnailImage);
-            }
-
-            // Add extra images
-            if (product.extraImages?.length) {
-                product.extraImages.forEach(url => {
-                    const img = document.createElement("img");
-                    img.src = url;
-                    img.alt = "Extra Image";
-                    img.classList.add("slider-media");
-                    mediaSlider.appendChild(img);
-                });
-            }
-
-            // Add extra videos
-            if (product.extraVideos?.length) {
-                product.extraVideos.forEach(url => {
-                    const video = document.createElement("video");
-                    video.src = url;
-                    video.controls = true;
-                    video.classList.add("slider-media");
-                    mediaSlider.appendChild(video);
-                });
-            }
-        }
+      mediaItems.forEach(({ type, src }) => {
+        const el = document.createElement(type);
+        el.src = src;
+        el.classList.add("slider-media");
+        if (type === "video") el.controls = true;
+        mediaSlider.appendChild(el);
+      });
+    }
 
         // Slider movement
 window.moveSlide = function(direction) {
@@ -136,10 +108,6 @@ if (addToCartBtn) {
 }
 
 
-
-
-
-
         const buyNowBtn = document.querySelector(".buy-now");
         if (buyNowBtn) {
             buyNowBtn.addEventListener("click", () => {
@@ -150,6 +118,16 @@ if (addToCartBtn) {
         fetchReviews();
 
 
+
+
+
+
+
+
+
+
+
+        
 
         // Update SEO meta dynamically
 document.title = `${product.name} | Swarize`;

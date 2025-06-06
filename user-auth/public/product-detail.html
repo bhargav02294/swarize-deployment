@@ -27,8 +27,6 @@
       
 <body>
 
-
-
     <nav class="navbar">
         <div class="navbar-container">
             <div class="logo-container">
@@ -40,56 +38,30 @@
         </div>
     </nav>
     
-    <!-- Back Button -->
-    <button class="back-button" onclick="window.location.href='index.html';">
-        <div class="button-box">
-            <span class="button-elem">
-                <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
-                </svg>
-            </span>
-            <span class="button-elem">
-                <svg viewBox="0 0 46 40">
-                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
-                </svg>
-            </span>
-        </div>
-    </button>
+   
 
 
 
 
-   <div class="product-container">
-  <!-- Product Image Section -->
+
+  <div class="product-container">
+  <!-- Media Section -->
   <div class="product-image-section">
     <div class="slider-container">
       <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-
-      <div class="slider-track" id="media-slider">
-        <!-- JS will dynamically insert <img> and <video> elements here -->
-      </div>
-
+      <div class="slider-track" id="media-slider"></div>
       <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
     </div>
 
-<!-- Store Name Section -->
-    <h3 id="preview-store-name">
-      Sold by: <span id="store-link" >Unknown Store</span>
-    </h3>
-
+    <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
   </div>
 
-
-
-
-  <!-- Product Info Section (Top-right Corner) -->
+  <!-- Product Info -->
   <div class="product-info">
     <h1 id="preview-name">Product Name</h1>
-
     <div class="star-rating">
-      <span id="rating-count">(0 Reviews)</span>
+      ★★★★★ <span id="rating-count">(0 Reviews)</span>
     </div>
-
     <h2 id="preview-price">₹0.00</h2>
 
     <div class="action-buttons">
@@ -97,37 +69,33 @@
       <button class="add-to-cart">Add to Cart</button>
     </div>
 
-    
-
-    <!-- Product Details -->
     <div class="product-details">
       <p id="preview-description">Product description will appear here.</p>
       <p id="preview-summary"><strong>Summary:</strong> Not available.</p>
+      <p id="preview-category"><strong>Category:</strong> -</p>
+      <p id="preview-subcategory"><strong>Subcategory:</strong> -</p>
+      <p id="preview-tags"><strong>Tags:</strong> -</p>
+      <p id="preview-size"><strong>Size:</strong> -</p>
+      <p id="preview-color"><strong>Color:</strong> -</p>
+      <p id="preview-material"><strong>Material:</strong> -</p>
+      <p id="preview-pattern"><strong>Pattern:</strong> -</p>
+      <p id="preview-wash-care"><strong>Wash Care:</strong> -</p>
+      <p id="preview-model-style"><strong>Model Style:</strong> -</p>
+      <p id="preview-brand"><strong>Brand:</strong> -</p>
+      <p id="preview-available-in"><strong>Available In:</strong> -</p>
+    </div>
 
-
-
-
-      <p id="preview-available-in"><strong>Available In:</strong> Not specified</p>
-      <p id="preview-category"><strong>Category:</strong> Not specified</p>
-      <p id="preview-subcategory"><strong>Subcategory:</strong> Not specified</p>
-      <p id="preview-tags"><strong>Tags:</strong> None</p>
-      <p id="preview-size"><strong>Size:</strong> Not specified</p>
-      <p id="preview-color"><strong>Color:</strong> Not specified</p>
-      <p id="preview-material"><strong>Material:</strong> Not specified</p>
-      <p id="preview-model-style"><strong>Model Style:</strong> Not specified</p>
-      <div class="product-info-note">
-  <ul>
-    <li><strong>Note:</strong> “To ensure quality and reduce misuse, we currently do not offer COD or RTO on our platform. Thank you for your understanding.”</li>
-    <li>Enjoy <strong>Free Delivery</strong> — no extra charges for buyers.</li>
-  </ul>
-</div>
+    <div class="product-info-note">
+      <ul>
+        <li><strong>Note:</strong> “To ensure quality and reduce misuse, we currently do not offer COD or RTO on our platform.”</li>
+        <li>Enjoy <strong>Free Delivery</strong> — no extra charges for buyers.</li>
+      </ul>
     </div>
   </div>
-
-  
 </div>
 
-      
+
+
 
 
 

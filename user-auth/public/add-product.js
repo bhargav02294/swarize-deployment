@@ -332,8 +332,6 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
 let basicProductData = {};
 
-
-
 // Mapping: subcategory → fields to show
 const subcategoryFieldsMap = {
   // --- Women ---
@@ -537,22 +535,33 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     return;
   }
 
-  basicProductData = { name, price, description, category, subcategory };
-
-  // Save to localStorage if needed
+  const basicProductData = { name, price, description, category, subcategory };
   localStorage.setItem("basicProductData", JSON.stringify(basicProductData));
 
-  // Show detail section
   document.getElementById("product-details-section").classList.remove("hidden");
-
-  // Hide basic info section and Next button
   document.getElementById("basic-info-section").style.display = "none";
 
-  // Load detail fields dynamically based on subcategory
-  loadFields(subcategory);
+  loadFields(subcategory); // Make sure this is defined
 
-  // Update preview basics
   updatePreviewField("name", name);
   updatePreviewField("price", price);
   updatePreviewField("description", description);
 });
+
+// Mock: Replace with actual dynamic field loading
+function loadFields(subcategory) {
+  const container = document.getElementById("dynamic-fields");
+  container.innerHTML = `<p>Loading fields for <strong>${subcategory}</strong>...</p>`;
+}
+
+// Mock: Replace with real preview logic
+function updatePreviewField(field, value) {
+  const element = document.getElementById(`preview-${field}`);
+  if (element) {
+    if (field === "price") {
+      element.textContent = `₹${value}`;
+    } else {
+      element.textContent = value;
+    }
+  }
+}

@@ -371,3 +371,11 @@ button:hover {
     position: static;
   }
 }
+
+
+
+
+
+.hidden {
+  display: none;
+}

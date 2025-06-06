@@ -51,125 +51,99 @@
     </div>
 </button>
 
+
+
+
+
+
+
+
+
   
-  <div class="container">
-    <h1>Add Product - Basic Details</h1>
-    <form id="add-product-form">
-      <!-- Product Name -->
-      <label for="product-name">Product Name *</label>
-      <input type="text" id="product-name" name="name" placeholder="Enter product name" required>
+  <!-- ✅ Basic Info Section -->
+<div id="basic-info-section" class="container">
+  <h1>Add Product - Basic Details</h1>
+  <form id="add-product-form">
+    <label for="product-name">Product Name *</label>
+    <input type="text" id="product-name" required>
 
-      <!-- Price -->
-      <label for="price">Price (INR):</label>
-      <input type="number" id="price" name="price" min="249" required placeholder="Must be greater than ₹248">
-      <small class="info-note">
-        * Make sure your pricing includes applicable shipping and platform transaction fees. 
-        <a href="terms-and-condition.html" target="_blank">View pricing policy</a>
-      </small>
+    <label for="price">Price (INR):</label>
+    <input type="number" id="price" min="249" required placeholder="Must be greater than ₹248">
 
+    <label for="thumbnail-image">Thumbnail Image *</label>
+    <input type="file" id="thumbnail-image" accept="image/*" required>
 
-      <!-- Thumbnail Image -->
-      <label for="thumbnail-image">Thumbnail Image *</label>
-      <input type="file" id="thumbnail-image" name="thumbnailImage" accept="image/*" required>
+    <label for="extraImage1">Extra Image 1:</label>
+    <input type="file" id="extraImage1" accept="image/*">
+    <label for="extraImage2">Extra Image 2:</label>
+    <input type="file" id="extraImage2" accept="image/*">
+    <label for="extraImage3">Extra Image 3:</label>
+    <input type="file" id="extraImage3" accept="image/*">
+    <label for="extraImage4">Extra Image 4:</label>
+    <input type="file" id="extraImage4" accept="image/*">
 
-      <!-- Extra Images -->
-      <label for="extraImage1">Extra Image 1:</label>
-<input type="file" id="extraImage1" name="extraImages" accept="image/*">
+    <label for="extraVideo1">Extra Video 1:</label>
+    <input type="file" id="extraVideo1" accept="video/*">
+    <label for="extraVideo2">Extra Video 2:</label>
+    <input type="file" id="extraVideo2" accept="video/*">
+    <label for="extraVideo3">Extra Video 3:</label>
+    <input type="file" id="extraVideo3" accept="video/*">
 
-<label for="extraImage2">Extra Image 2:</label>
-<input type="file" id="extraImage2" name="extraImages" accept="image/*">
+    <label for="description">Description *</label>
+    <textarea id="description" required></textarea>
 
-<label for="extraImage3">Extra Image 3:</label>
-<input type="file" id="extraImage3" name="extraImages" accept="image/*">
+    <label for="summary">Summary:</label>
+    <textarea id="summary"></textarea>
 
-<label for="extraImage4">Extra Image 4:</label>
-<input type="file" id="extraImage4" name="extraImages" accept="image/*">
+    <label for="category">Category *</label>
+    <select id="category" required>
+      <option value="" disabled selected>Select a category</option>
+    </select>
 
+    <label for="subcategory">Subcategory *</label>
+    <select id="subcategory" required>
+      <option value="" disabled selected>Select a subcategory</option>
+    </select>
 
-      <!-- Extra Videos -->
-      <label for="extraVideo1">Extra Video 1:</label>
-<input type="file" id="extraVideo1" name="extraVideos" accept="video/*">
-      <label for="extraVideo2">Extra Video 2:</label>
-<input type="file" id="extraVideo2" name="extraVideos" accept="video/*">
-      <label for="extraVideo3">Extra Video 3:</label>
-<input type="file" id="extraVideo3" name="extraVideos" accept="video/*">
+    <label for="availableIn">Available In</label>
+    <input type="text" id="availableIn" placeholder="Enter delivery locations" />
 
-      <!-- Description -->
-      <label for="description">Description *</label>
-      <textarea id="description" name="description" placeholder="Enter a detailed product description" required></textarea>
+    <button id="nextBtn" type="button" style="margin-top: 20px;">Next</button>
+    <button type="submit" id="submit">Submit Product</button>
+  </form>
+</div>
 
-      <!-- Summary -->
-      <label for="summary">Summary:</label>
-      <textarea id="summary" name="summary" placeholder="Enter product summary"></textarea>
-  
-      <!-- Category -->
-      <label for="category">Category *</label>
-      <select id="category" name="category" required>
-        <option value="" disabled selected>Select a category</option>
-      </select>
-
-      <!-- Subcategory -->
-      <label for="subcategory">Subcategory *</label>
-      <select id="subcategory" name="subcategory" required>
-        <option value="" disabled selected>Select a subcategory</option>
-      </select>
-
-
-  <button id="nextBtn" type="button" style="margin-top:20px;">Next</button>
-
-
-
-
-<!-- Dynamic Fields Section (Initially Hidden) -->
-<div id="product-details-section" class="hidden">
-  <h3>Product Details</h3>
+<!-- ✅ Detail Section (hidden by default) -->
+<div id="product-details-section" class="container hidden">
+  <h3>Additional Product Details</h3>
   <div id="dynamic-fields"></div>
 </div>
 
-
-
-<div>
-    <label for="availableIn">Available In</label>
-    <input type="text" id="availableIn" name="availableIn" placeholder="Enter delivery locations" />
-  </div>
-
-  <!-- Submit Button -->
-  <button type="submit" id="submit">Submit Product</button>
-</div>
-
-      
-    </form>
-    <div id="message"></div>
-
-  </div>
-
-  <!-- Live Preview -->
-  <div class="live-preview">
-    <h2>Live Preview</h2>
-    <div class="preview-container">
-      <div class="preview-thumbnail">
-        <img id="preview-thumbnail" src="" alt="Thumbnail Preview">
-      </div>
-      <h3 id="preview-name">Product Name</h3>
-      <p id="preview-price">₹0.00</p>
-      <p id="preview-description">Product description will appear here.</p>
-      <div class="preview-extra-images">
-        <h4>Extra Images:</h4>
-        <img id="preview-extra-image-1" src="" alt="Extra Image 1">
-        <img id="preview-extra-image-2" src="" alt="Extra Image 2">
-        <img id="preview-extra-image-3" src="" alt="Extra Image 3">
-        <img id="preview-extra-image-4" src="" alt="Extra Image 4">
-      </div>
-       <!-- Extra Videos Preview -->
-       <div class="preview-extra-videos">
-        <h4>Extra Videos:</h4>
-        <video id="preview-extra-video-1" controls></video>
-        <video id="preview-extra-video-2" controls></video>
-        <video id="preview-extra-video-3" controls></video>
-      </div>
+<!-- ✅ Live Preview -->
+<div class="live-preview">
+  <h2>Live Preview</h2>
+  <div class="preview-container">
+    <img id="preview-thumbnail" src="" alt="Thumbnail Preview">
+    <h3 id="preview-name">Product Name</h3>
+    <p id="preview-price">₹0.00</p>
+    <p id="preview-description">Product description will appear here.</p>
+    <div class="preview-extra-images">
+      <h4>Extra Images:</h4>
+      <img id="preview-extra-image-1">
+      <img id="preview-extra-image-2">
+      <img id="preview-extra-image-3">
+      <img id="preview-extra-image-4">
+    </div>
+    <div class="preview-extra-videos">
+      <h4>Extra Videos:</h4>
+      <video id="preview-extra-video-1" controls></video>
+      <video id="preview-extra-video-2" controls></video>
+      <video id="preview-extra-video-3" controls></video>
     </div>
   </div>
+</div>
 
-  <script src="add-product.js"></script>
+<!-- ✅ JS script -->
+<script src="add-product.js" defer></script>
 </body>
 </html>

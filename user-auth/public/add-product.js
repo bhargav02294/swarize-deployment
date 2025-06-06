@@ -548,6 +548,10 @@ document.getElementById("nextBtn").addEventListener("click", () => {
   updatePreviewField("description", description);
 });
 
+
+
+
+/*
 // Mock: Replace with actual dynamic field loading
 function loadFields(subcategory) {
   const container = document.getElementById("dynamic-fields");
@@ -565,3 +569,4 @@ function updatePreviewField(field, value) {
     }
   }
 }
+*/

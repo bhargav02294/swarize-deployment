@@ -926,6 +926,8 @@ function updatePreviewField(field, value) {
   }
 }
 */
+
+
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -940,6 +942,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   const availableInInput = document.getElementById("availableIn");
   const availableInValue = availableInInput?.value.trim() || "All Over India";
 
+  // Required Fields
   formData.append('name', document.getElementById("product-name").value.trim());
   formData.append('price', document.getElementById("price").value.trim());
   formData.append('description', document.getElementById("description").value.trim());
@@ -948,6 +951,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   formData.append('subcategory', document.getElementById("subcategory").value);
   formData.append('availableIn', availableInValue);
 
+  // Dynamic Fields (check if present before appending)
   const optionalFields = ["size", "color", "material", "pattern", "washCare", "modelStyle", "brand"];
   optionalFields.forEach(fieldId => {
     const fieldEl = document.getElementById(fieldId);
@@ -956,16 +960,10 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
     }
   });
 
-  // Handle Thumbnail (from localStorage)
-  const storedData = JSON.parse(localStorage.getItem("basicProductData") || "{}");
-
-  if (storedData.thumbnailImage && storedData.thumbnailImage.data) {
-    const file = base64ToFile(
-      storedData.thumbnailImage.data,
-      storedData.thumbnailImage.name,
-      storedData.thumbnailImage.type
-    );
-    formData.append('thumbnailImage', file);
+  // Handle thumbnail image
+  const thumbnail = document.getElementById("thumbnail-image").files[0];
+  if (thumbnail) {
+    formData.append('thumbnailImage', thumbnail);
   } else {
     messageElement.textContent = "Thumbnail image is required.";
     messageElement.style.color = "red";
@@ -973,30 +971,26 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   }
 
   // Extra Images
-  if (Array.isArray(storedData.extraImages)) {
-    storedData.extraImages.forEach((img) => {
-      if (img && img.data) {
-        const file = base64ToFile(img.data, img.name, img.type);
-        formData.append('extraImages', file);
-      }
-    });
-  }
+  ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
+    const file = document.getElementById(id)?.files[0];
+    if (file) {
+      formData.append('extraImages', file);
+    }
+  });
 
   // Extra Videos
-  if (Array.isArray(storedData.extraVideos)) {
-    storedData.extraVideos.forEach((vid) => {
-      if (vid && vid.data) {
-        const file = base64ToFile(vid.data, vid.name, vid.type);
-        formData.append('extraVideos', file);
-      }
-    });
-  }
+  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
+    const file = document.getElementById(id)?.files[0];
+    if (file) {
+      formData.append('extraVideos', file);
+    }
+  });
 
-  // Store ID
+  // Store ID from localStorage
   const storeId = localStorage.getItem("storeId");
   if (storeId) formData.append("storeId", storeId);
 
-  // Debugging log
+  // Log FormData entries before sending
   console.log("Uploading FormData...");
   for (const pair of formData.entries()) {
     console.log(pair[0], pair[1]);
@@ -1014,6 +1008,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
     if (response.ok && result.success) {
       messageElement.textContent = "Product added successfully!";
       messageElement.style.color = "green";
+
       setTimeout(() => {
         const storeSlug = localStorage.getItem("storeSlug");
         window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
@@ -1022,6 +1017,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
       messageElement.textContent = result.message || "Failed to add product.";
       messageElement.style.color = "red";
     }
+
   } catch (error) {
     console.error("Error adding product:", error);
     messageElement.textContent = "Error adding product.";

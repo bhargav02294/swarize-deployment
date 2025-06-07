@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (el) el.textContent = text;
     };
 
+
+
+
+
+
     const fields = {
       "preview-name": product.name,
       "preview-price": `₹${product.price}`,
@@ -21,9 +26,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       "preview-summary": `Summary: ${product.summary || "N/A"}`,
       "preview-category": `Category: ${product.category || "-"}`,
       "preview-subcategory": `Subcategory: ${product.subcategory || "-"}`,
-      "preview-tags": `Tags: ${product.tags?.join(", ") || "-"}`,
-      "preview-size": `Size: ${product.size || "-"}`,
-      "preview-color": `Color: ${product.color || "-"}`,
       "preview-material": `Material: ${product.material || "-"}`,
       "preview-pattern": `Pattern: ${product.pattern || "-"}`,
       "preview-wash-care": `Wash Care: ${product.washCare || "-"}`,
@@ -31,6 +33,51 @@ document.addEventListener("DOMContentLoaded", async () => {
       "preview-brand": `Brand: ${product.brand || "-"}`,
       "preview-available-in": `Available In: ${product.availableIn || "All over India"}`,
     };
+
+    for (const id in fields) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = fields[id];
+    }
+
+   // Size Rendering
+const sizeContainer = document.getElementById("preview-size");
+if (product.size) {
+  const sizes = Array.isArray(product.size) ? product.size : product.size.split(",");
+  sizes.forEach(size => {
+    const btn = document.createElement("button");
+    btn.textContent = size.trim();
+    sizeContainer.appendChild(btn);
+  });
+} else {
+  sizeContainer.textContent = "-";
+}
+
+// Color Rendering
+const colorContainer = document.getElementById("preview-color");
+if (product.color) {
+  const colors = Array.isArray(product.color) ? product.color : product.color.split(",");
+  colors.forEach(color => {
+    const swatch = document.createElement("div");
+    swatch.className = "color-swatch";
+    swatch.style.backgroundColor = color.trim();
+    colorContainer.appendChild(swatch);
+  });
+} else {
+  colorContainer.textContent = "-";
+}
+
+
+    // Expand/Collapse
+    document.getElementById("toggle-description").onclick = () => {
+      document.getElementById("preview-description").classList.toggle("expanded");
+    };
+    document.getElementById("toggle-summary").onclick = () => {
+      document.getElementById("preview-summary").classList.toggle("expanded");
+    };
+
+
+
+
 
     Object.entries(fields).forEach(([id, text]) => setText(id, text));
 

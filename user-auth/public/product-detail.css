@@ -111,29 +111,27 @@ body {
 }
 
 .product-image-section {
-  flex: 1 1 50%;
-  min-width: 400px;
+  flex: 1 1 40%;
+  min-width: 300px;
 }
+
+
 
 .slider-container {
   position: relative;
   width: 100%;
-  height: 550px; /* increased height */
+  height: 450px;
   overflow: hidden;
   background: none; /* remove background */
   border: none;     /* remove border */
   border-radius: 0; /* no corners */
 }
-
 .slider-track img,
 .slider-track video {
   width: 100%;
   height: 100%;
   object-fit: contain;
   flex-shrink: 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
 }
 
 .slider-track {

@@ -132,9 +132,9 @@ if (sizes.length > 0) {
 
     window.moveSlide = function (direction) {
       const items = mediaSlider.children.length;
-      const itemWidth = mediaSlider.children[0]?.offsetWidth || 200;
+        const containerWidth = mediaSlider.offsetWidth;
       currentSlide = Math.max(0, Math.min(currentSlide + direction, items - 1));
-      mediaSlider.style.transform = `translateX(-${itemWidth * currentSlide}px)`;
+      mediaSlider.style.transform = `translateX(-${containerWidth * currentSlide}px)`;
     };
 
 

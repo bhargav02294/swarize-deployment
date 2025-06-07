@@ -110,6 +110,9 @@ body {
   gap: 30px;
 }
 
+
+
+
 .product-image-section {
   flex: 1 1 40%;
   min-width: 300px;
@@ -125,14 +128,11 @@ body {
   background: transparent;
   border: none;
   border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+ 
 }
 
 .slider-track {
   display: flex;
-  width: 100%;
   height: 100%;
   transition: transform 0.5s;
 }
@@ -143,6 +143,8 @@ body {
   max-height: 100%;
   object-fit: contain;
   flex-shrink: 0;
+    display: block;
+
   background-color: #fff; /* optional: white bg for transparent media */
 }
 

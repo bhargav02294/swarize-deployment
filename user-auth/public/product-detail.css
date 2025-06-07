@@ -119,7 +119,7 @@ body {
 
 .slider-container {
   position: relative;
-  width: 650px;
+  width: 100%;
   height: 650px;
   overflow: hidden;
   background: transparent;
@@ -196,7 +196,7 @@ body {
 
 
 .product-info {
-  flex: 1 1 55%;
+  flex: 1 1 40%;
   padding: 10px;
 }
 

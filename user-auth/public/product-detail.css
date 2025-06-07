@@ -269,14 +269,6 @@ body {
 
 
 
-.size-container button {
-  margin: 5px;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  border-radius: 6px;
-  cursor: default;
-}
 
 .color-container .color-swatch {
   width: 22px;
@@ -285,6 +277,38 @@ body {
   border: 1px solid #333;
   margin-right: 8px;
   border-radius: 4px;
+}
+.size-container button {
+  margin: 5px;
+  padding: 6px 12px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.size-container button:hover {
+  background-color: #f1f1f1;
+}
+
+.size-container button.selected {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+#toggle-desc-btn, #toggle-less-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#toggle-desc-btn:hover, #toggle-less-btn:hover {
+  background-color: #555;
 }
 
 

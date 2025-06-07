@@ -17,17 +17,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const fields = {
       "preview-name": product.name,
       "preview-price": `₹${product.price}`,
-      "preview-description": product.description,
-      "preview-summary": `Summary: ${product.summary || "N/A"}`,
-      "preview-category": `Category: ${product.category || "-"}`,
+    
       "preview-subcategory": `Subcategory: ${product.subcategory || "-"}`,
-      "preview-tags": `Tags: ${product.tags?.join(", ") || "-"}`,
       "preview-material": `Material: ${product.material || "-"}`,
       "preview-pattern": `Pattern: ${product.pattern || "-"}`,
       "preview-wash-care": `Wash Care: ${product.washCare || "-"}`,
       "preview-model-style": `Model Style: ${product.modelStyle || "-"}`,
       "preview-brand": `Brand: ${product.brand || "-"}`,
       "preview-available-in": `Available In: ${product.availableIn || "All over India"}`,
+      "preview-description": product.description,
+      "preview-summary": `Summary: ${product.summary || "N/A"}`,
     };
 
     Object.entries(fields).forEach(([id, text]) => setText(id, text));
@@ -45,21 +44,51 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
+ document.getElementById("preview-name").textContent = product.name || "-";
+    document.getElementById("preview-price").textContent = product.price ? `₹${product.price}` : "-";
+    document.getElementById("preview-description").textContent = product.description || "-";
+
+    document.getElementById("toggle-desc-btn").addEventListener("click", () => {
+  document.getElementById("desc-summary-content").style.display = "block";
+  document.getElementById("toggle-desc-btn").style.display = "none";
+});
+
+document.getElementById("toggle-less-btn").addEventListener("click", () => {
+  document.getElementById("desc-summary-content").style.display = "none";
+  document.getElementById("toggle-desc-btn").style.display = "inline-block";
+});
+
     // ==== SIZE ====
-    const sizeContainer = document.getElementById("preview-size");
-    sizeContainer.innerHTML = "";
-    const sizes = Array.isArray(product.size)
-      ? product.size
-      : (product.size || "").split(",").map(s => s.trim()).filter(Boolean);
-    if (sizes.length > 0) {
-      sizes.forEach(size => {
-        const btn = document.createElement("button");
-        btn.textContent = size;
-        sizeContainer.appendChild(btn);
-      });
-    } else {
-      sizeContainer.textContent = "-";
-    }
+const sizeContainer = document.getElementById("preview-size");
+sizeContainer.innerHTML = "";
+
+const sizes = Array.isArray(product.size)
+  ? product.size
+  : (product.size || "").split(",").map(s => s.trim()).filter(Boolean);
+
+let selectedSize = null;
+
+if (sizes.length > 0) {
+  sizes.forEach(size => {
+    const btn = document.createElement("button");
+    btn.textContent = size;
+
+    btn.addEventListener("click", () => {
+      // Unselect all
+      document.querySelectorAll(".size-container button").forEach(b => b.classList.remove("selected"));
+      // Select current
+      btn.classList.add("selected");
+      selectedSize = size;
+      console.log("Selected size:", selectedSize);
+      // You can save to localStorage or prepare to submit in cart logic
+    });
+
+    sizeContainer.appendChild(btn);
+  });
+} else {
+  sizeContainer.textContent = "-";
+}
+
 
     // ==== COLOR ====
     const colorContainer = document.getElementById("preview-color");
@@ -75,10 +104,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         colorContainer.appendChild(swatch);
       });
     } else {
-      colorContainer.textContent = "-";
+      colorContainer.textContent = " ";
     }
 
-    
+
     const mediaSlider = document.getElementById("media-slider");
     let currentSlide = 0;
 

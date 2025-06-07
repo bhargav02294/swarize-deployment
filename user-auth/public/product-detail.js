@@ -14,23 +14,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (el) el.textContent = text;
     };
 
-    const fields = {
-      "preview-name": product.name,
-      "preview-price": `₹${product.price}`,
-      "preview-description": product.description,
-      "preview-summary": `Summary: ${product.summary || "N/A"}`,
-      "preview-category": `Category: ${product.category || "-"}`,
-      "preview-subcategory": `Subcategory: ${product.subcategory || "-"}`,
-      "preview-tags": `Tags: ${product.tags?.join(", ") || "-"}`,
-      "preview-size": `Size: ${product.size || "-"}`,
-      "preview-color": `Color: ${product.color || "-"}`,
-      "preview-material": `Material: ${product.material || "-"}`,
-      "preview-pattern": `Pattern: ${product.pattern || "-"}`,
-      "preview-wash-care": `Wash Care: ${product.washCare || "-"}`,
-      "preview-model-style": `Model Style: ${product.modelStyle || "-"}`,
-      "preview-brand": `Brand: ${product.brand || "-"}`,
-      "preview-available-in": `Available In: ${product.availableIn || "All over India"}`,
-    };
+    setText("preview-name", product.name);
+    setText("preview-price", `₹${product.price}`);
+    setText("preview-description", product.description);
+    setText("preview-summary", product.summary || "N/A");
+    setText("preview-category", product.category || "-");
+    setText("preview-subcategory", product.subcategory || "-");
+    setText("preview-material", product.material || "-");
+    setText("preview-pattern", product.pattern || "-");
+    setText("preview-wash-care", product.washCare || "-");
+    setText("preview-model-style", product.modelStyle || "-");
+    setText("preview-brand", product.brand || "-");
+    setText("preview-available-in", product.availableIn || "All over India");
+
 
     Object.entries(fields).forEach(([id, text]) => setText(id, text));
 
@@ -257,14 +253,3 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
 
 
 
-function toggleMore() {
-        const section = document.getElementById("more-details");
-        const btn = document.getElementById("toggle-more");
-        if (section.style.display === "none" || section.style.display === "") {
-          section.style.display = "block";
-          btn.textContent = "Show Less";
-        } else {
-          section.style.display = "none";
-          btn.textContent = "Show More";
-        }
-      }

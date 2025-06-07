@@ -26,97 +26,101 @@
       </head>
       
 <body>
-
-    <nav class="navbar">
-      <div class="navbar-container">
-        <a href="/" class="logo">Swarize</a>
-        <ul class="nav-links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/categories.html">Categories</a></li>
-          <li><a href="/cart.html">Cart</a></li>
-        </ul>
+  <div class="product-container">
+    <!-- Image Slider -->
+    <div class="product-image-section">
+      <div class="slider-container">
+        <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
+        <div class="slider-track" id="media-slider"></div>
+        <button class="slider-btn next" onclick="moveSlide(1)">›</button>
       </div>
-    </nav>
+    </div>
 
-    <main class="product-container">
-      <!-- Image Slider & Store Info -->
-      <section class="product-gallery">
-        <div class="slider">
-          <button class="slider-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-          <div class="slider-track" id="media-slider"></div>
-          <button class="slider-btn next" onclick="moveSlide(1)">&#10095;</button>
-        </div>
-        <h4 class="store-name">Sold by: <span id="store-link">Unknown Store</span></h4>
-      </section>
+    <!-- Product Info -->
+    <div class="product-info">
+      <h1 id="preview-name">Product Name</h1>
+      <div class="star-rating">★★★★★ <span id="rating-count">(0 Reviews)</span></div>
+      <h2 id="preview-price">₹0.00</h2>
 
-      <!-- Product Details -->
-      <section class="product-info">
-        <span id="preview-brand" class="brand-label">Brand: Arctic Wolf</span>
-        <h1 id="preview-name" class="product-title">Product Name</h1>
-        <p id="preview-price" class="product-price">₹0.00</p>
-        <div class="star-rating">★★★★★ <span id="rating-count">(0 Reviews)</span></div>
+      <!-- Size Selection -->
+      <div class="product-size" id="size-options">
+        <strong>Size:</strong>
+        <!-- Size buttons will be injected here -->
+      </div>
 
-        <div class="selector">
-          <div class="color-options" id="color-options"></div>
-          <div class="size-options" id="size-options"></div>
-        </div>
+      <!-- Color Display -->
+      <div class="product-color" id="color-display">
+        <strong>Color:</strong>
+        <!-- Color swatches or text will be injected here -->
+      </div>
 
-        <div class="action-buttons">
-          <button class="buy-now">Buy Now</button>
-          <button class="add-to-cart">Add to Cart</button>
-        </div>
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="buy-now">Buy Now</button>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
 
-        <div class="product-description">
-          <p id="preview-summary" class="summary"></p>
-          <div class="more-details" id="more-details">
-            <p id="preview-description"></p>
-            <p id="preview-category"></p>
-            <p id="preview-subcategory"></p>
-            <p id="preview-size"></p>
-            <p id="preview-color"></p>
-            <p id="preview-material"></p>
-            <p id="preview-pattern"></p>
-            <p id="preview-wash-care"></p>
-            <p id="preview-model-style"></p>
-            <p id="preview-available-in"></p>
-          </div>
-          <button id="toggle-more" onclick="toggleMore()">Show More</button>
-        </div>
+      <!-- Description with Show More/Less -->
+      <div class="product-description">
+        <p id="preview-description" class="text-collapse"></p>
+        <button id="toggle-description" class="toggle-btn">Show More</button>
+      </div>
 
-        <ul class="info-note">
+      <!-- Summary with Show More/Less -->
+      <div class="product-summary">
+        <p id="preview-summary" class="text-collapse"></p>
+        <button id="toggle-summary" class="toggle-btn">Show More</button>
+      </div>
+
+      <!-- Additional Details -->
+      <div class="product-details">
+        <p id="preview-category"><strong>Category:</strong> -</p>
+        <p id="preview-subcategory"><strong>Subcategory:</strong> -</p>
+        <p id="preview-material"><strong>Material:</strong> -</p>
+        <p id="preview-pattern"><strong>Pattern:</strong> -</p>
+        <p id="preview-wash-care"><strong>Wash Care:</strong> -</p>
+        <p id="preview-model-style"><strong>Model Style:</strong> -</p>
+        <p id="preview-brand"><strong>Brand:</strong> -</p>
+        <p id="preview-available-in"><strong>Available In:</strong> -</p>
+      </div>
+
+      <!-- Store Info -->
+      <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
+
+      <!-- Notes -->
+      <div class="product-info-note">
+        <ul>
           <li><strong>Note:</strong> Currently we do not offer COD or RTO.</li>
           <li>Enjoy <strong>Free Delivery</strong> — no extra charges.</li>
         </ul>
-      </section>
-    </main>
-
-    <!-- Review Section -->
-    <section class="review-section">
-      <h2>Customer Reviews</h2>
-      <div id="reviews-container">No reviews yet.</div>
-
-      <div class="submit-review">
-        <h3>Submit Your Review</h3>
-        <select id="rating">
-          <option value="5">★★★★★</option>
-          <option value="4">★★★★☆</option>
-          <option value="3">★★★☆☆</option>
-          <option value="2">★★☆☆☆</option>
-          <option value="1">★☆☆☆☆</option>
-        </select>
-        <textarea id="comment" placeholder="Write your review here..."></textarea>
-        <button id="submit-review">Submit Review</button>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <footer class="footer">
-      <div class="footer-container">
-        <p>&copy; 2025 Swarize. All Rights Reserved.</p>
-      </div>
-    </footer>
+  <!-- Review Section -->
+  <div class="review-section">
+    <h3>Customer Reviews</h3>
+    <div id="reviews-container">No reviews yet.</div>
+
+    <h3>Submit Your Review</h3>
+    <p id="review-message"></p>
+    <select id="rating">
+      <option value="5">★★★★★ (5 Stars)</option>
+      <option value="4">★★★★☆ (4 Stars)</option>
+      <option value="3">★★★☆☆ (3 Stars)</option>
+      <option value="2">★★☆☆☆ (2 Stars)</option>
+      <option value="1">★☆☆☆☆ (1 Star)</option>
+    </select>
+    <textarea id="comment" placeholder="Write your review here..."></textarea>
+    <button id="submit-review">Submit Review</button>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 Swarize. All Rights Reserved.</p>
+  </footer>
 
 
-    
+
     <script src="product-detail.js"></script>
 </body>
 </html>

@@ -109,33 +109,43 @@ if (sizes.length > 0) {
 
 
     const mediaSlider = document.getElementById("media-slider");
-    let currentSlide = 0;
+let currentSlide = 0;
 
-    if (mediaSlider) {
-      mediaSlider.innerHTML = "";
-      const mediaItems = [];
+if (mediaSlider) {
+  mediaSlider.innerHTML = "";
+  const mediaItems = [];
 
-      if (product.thumbnailImage)
-        mediaItems.push({ type: "img", src: product.thumbnailImage });
+  if (product.thumbnailImage)
+    mediaItems.push({ type: "img", src: product.thumbnailImage });
 
-      (product.extraImages || []).forEach(img => mediaItems.push({ type: "img", src: img }));
-      (product.extraVideos || []).forEach(vid => mediaItems.push({ type: "video", src: vid }));
+  (product.extraImages || []).forEach(img => mediaItems.push({ type: "img", src: img }));
+  (product.extraVideos || []).forEach(vid => mediaItems.push({ type: "video", src: vid }));
 
-      mediaItems.forEach(({ type, src }) => {
-        const el = document.createElement(type);
-        el.src = src;
-        el.classList.add("slider-media");
-        if (type === "video") el.controls = true;
-        mediaSlider.appendChild(el);
-      });
-    }
+  // Create a wrapper div for each media so it always fits container width
+  mediaItems.forEach(({ type, src }) => {
+    const wrapper = document.createElement("div");
+    wrapper.style.minWidth = "100%";  // Ensures one item per view
+    wrapper.style.height = "100%";
+    wrapper.style.display = "flex";
+    wrapper.style.alignItems = "center";
+    wrapper.style.justifyContent = "center";
 
-    window.moveSlide = function (direction) {
-      const items = mediaSlider.children.length;
-        const containerWidth = mediaSlider.offsetWidth;
-      currentSlide = Math.max(0, Math.min(currentSlide + direction, items - 1));
-      mediaSlider.style.transform = `translateX(-${containerWidth * currentSlide}px)`;
-    };
+    const el = document.createElement(type);
+    el.src = src;
+    el.classList.add("slider-media");
+    if (type === "video") el.controls = true;
+
+    wrapper.appendChild(el);
+    mediaSlider.appendChild(wrapper);
+  });
+}
+
+window.moveSlide = function (direction) {
+  const totalItems = mediaSlider.children.length;
+  const containerWidth = mediaSlider.offsetWidth;
+  currentSlide = Math.max(0, Math.min(currentSlide + direction, totalItems - 1));
+  mediaSlider.style.transform = `translateX(-${containerWidth * currentSlide}px)`;
+};
 
 
 

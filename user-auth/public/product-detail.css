@@ -269,51 +269,22 @@ body {
 
 
 
-
-/* Size Button Styles */
-.size-button-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.size-button-group button {
-  padding: 8px 14px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-  cursor: default;
-  font-size: 14px;
-  pointer-events: none; /* Disable click */
-}
-
-/* Color Swatch Styles */
-.color-swatch-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-
-.size-button {
+.size-container button {
   margin: 5px;
   padding: 6px 12px;
   border: 1px solid #ccc;
-  border-radius: 8px;
   background-color: #f9f9f9;
-  cursor: pointer;
-  font-size: 14px;
+  border-radius: 6px;
+  cursor: default;
 }
 
-.color-swatch {
+.color-container .color-swatch {
+  width: 22px;
+  height: 22px;
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  border: 1px solid #999;
-  border-radius: 50%;
-  margin-right: 6px;
+  border: 1px solid #333;
+  margin-right: 8px;
+  border-radius: 4px;
 }
 
 

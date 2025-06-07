@@ -248,3 +248,23 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
         });
     }
 });
+
+
+
+
+
+
+
+
+
+function toggleMore() {
+        const section = document.getElementById("more-details");
+        const btn = document.getElementById("toggle-more");
+        if (section.style.display === "none" || section.style.display === "") {
+          section.style.display = "block";
+          btn.textContent = "Show Less";
+        } else {
+          section.style.display = "none";
+          btn.textContent = "Show More";
+        }
+      }

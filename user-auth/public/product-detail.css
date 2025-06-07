@@ -130,7 +130,7 @@ body {
 .slider-track video {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* shows full content without cropping */
+  object-fit: cover; /* shows full content without cropping */
   flex-shrink: 0;
 }
 

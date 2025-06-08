@@ -814,37 +814,60 @@ body {
     font-family: 'Times New Roman';
   }
 
-  /* Search bar center */
-  .search-container {
+  /* Collapsed state (only icon visible, centered) */
+  .search-container.collapsed {
     position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    top: 60px;
-    width: 75%;
-    height: 35px;
-    padding: 5px 10px;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     background: #ffffff;
     border: 1px solid #4A403A;
-    border-radius: 30px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
     z-index: 10;
   }
 
-  #search-input {
-    font-size: 12px;
-    padding: 5px 10px;
+  /* Expanded state */
+  .search-container.expanded {
+    width: 80%;
+    height: 40px;
+    border-radius: 30px;
+    padding: 0 10px;
+    justify-content: space-between;
+  }
+
+  .search-container input {
+    display: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 14px;
+    padding: 0 8px;
+    color: #2A2B2D;
+  }
+
+  .search-container.expanded input {
+    display: inline-block;
   }
 
   #search-button {
-    font-size: 12px;
-    padding: 5px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #2A2B2D;
+    cursor: pointer;
   }
 
   #search-button i {
-    font-size: 14px;
+    font-size: 18px;
   }
-
   /* Menu icons on right */
   .menu {
     display: flex;

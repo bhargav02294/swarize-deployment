@@ -589,8 +589,9 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
+  const searchContainer = document.getElementById('searchBox');
 
-    if (!searchInput || !searchButton) {
+    if (!searchInput || !searchButton || !searchContainer) {
         console.error(" Search input or button not found! Check your HTML.");
         return;
     }
@@ -640,59 +641,65 @@ const categoryMap = {
 };
 
 
-    // ✅ Combined Search Function
+    // ✅ Combined Search Logic
     function handleSearch() {
-        let query = searchInput.value.trim().toLowerCase();
-        console.log("🔍 Searching for:", query);
+        const rawQuery = searchInput.value.trim().toLowerCase();
 
-        if (query === "") {
+        if (!rawQuery) {
             alert("Please enter a search term.");
             return;
         }
 
-        // ✅ Step 1: Normalize the search term using keywordMapping
-        let normalizedSearchTerm = keywordMapping[query] || query;
+        const normalized = keywordMapping[rawQuery] || rawQuery;
 
-        // ✅ Step 2: Check if subcategory exists in subcategoryPages
-        if (subcategoryPages[normalizedSearchTerm]) {
-            console.log(` Redirecting to: ${subcategoryPages[normalizedSearchTerm]}`);
-            window.location.href = subcategoryPages[normalizedSearchTerm];
+        // Step 1: Direct match in subcategory pages
+        if (subcategoryPages[normalized]) {
+            window.location.href = subcategoryPages[normalized];
             return;
         }
 
-        // ✅ Step 3: Check if it's a related match in categoryMap
-        let bestMatchPage = null;
-        let bestMatchSubcategory = null;
-
+        // Step 2: Fuzzy match inside categoryMap
         for (const [page, subcategories] of Object.entries(categoryMap)) {
             for (const subcategory of subcategories) {
-                if (subcategory.toLowerCase().includes(normalizedSearchTerm)) {
-                    bestMatchPage = page;
-                    bestMatchSubcategory = subcategory;
+                if (subcategory.toLowerCase().includes(normalized)) {
+                    window.location.href = `${page}?subcategory=${subcategory}`;
+                    return;
                 }
             }
         }
 
-        // ✅ Redirect to best match if found
-        if (bestMatchPage && bestMatchSubcategory) {
-            console.log(` Redirecting to related match: ${bestMatchPage}?subcategory=${bestMatchSubcategory}`);
-            window.location.href = `${bestMatchPage}?subcategory=${bestMatchSubcategory}`;
-            return;
-        }
-
-        // ✅ Step 4: No match found, show alert
         alert("No matching category found. Try searching again!");
     }
 
-    // ✅ Attach Events
-    searchButton.addEventListener("click", handleSearch);
+    // ✅ UI Expand/Collapse + Search Logic Combined
+    searchButton.addEventListener("click", (e) => {
+        if (searchContainer.classList.contains("collapsed")) {
+            e.preventDefault();
+            searchContainer.classList.remove("collapsed");
+            searchContainer.classList.add("expanded");
+            setTimeout(() => {
+                searchInput.focus();
+            }, 200);
+        } else {
+            handleSearch();
+        }
+    });
+
+    // ✅ Enter key triggers search
     searchInput.addEventListener("keypress", (event) => {
         if (event.key === "Enter") {
             handleSearch();
         }
     });
-});
 
+    // ✅ Click outside to collapse
+    document.addEventListener("click", (e) => {
+        if (!searchContainer.contains(e.target) && searchContainer.classList.contains("expanded")) {
+            searchContainer.classList.remove("expanded");
+            searchContainer.classList.add("collapsed");
+        }
+    });
+});
 
 
 

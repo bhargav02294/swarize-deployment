@@ -89,6 +89,30 @@ if (sizes.length > 0) {
   sizeContainer.textContent = "-";
 }
 
+  const subcategory = product.subcategory?.toLowerCase(); // From your product data
+
+const sizeChartData = {
+  "women-ethnic wear": "S: 34 Bust | M: 36 Bust | L: 38 Bust | XL: 40 Bust",
+  "women-bottomwear": "S: 28 Waist | M: 30 Waist | L: 32 Waist | XL: 34 Waist",
+  "men-topwear": "M: 38 Chest | L: 40 Chest | XL: 42 Chest",
+  "men-footwear": "UK 7 = 25.4cm | UK 8 = 26.0cm | UK 9 = 26.7cm",
+  "kids-footwear": "Size 4 = 13cm | Size 5 = 14cm | Size 6 = 15cm",
+  // Add more as needed
+};
+
+// Find matching key
+const chartKey = Object.keys(sizeChartData).find(key => subcategory?.includes(key));
+if (chartKey) {
+  document.getElementById("size-chart-wrapper").style.display = "block";
+  document.getElementById("view-size-chart").onclick = () => {
+    document.getElementById("size-chart-modal").style.display = "flex";
+    document.getElementById("size-chart-content").innerText = sizeChartData[chartKey];
+  };
+  document.getElementById("close-size-chart").onclick = () => {
+    document.getElementById("size-chart-modal").style.display = "none";
+  };
+}
+
 
     // ==== COLOR ====
     const colorContainer = document.getElementById("preview-color");

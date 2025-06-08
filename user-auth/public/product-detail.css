@@ -818,11 +818,11 @@ body {
   .search-container.collapsed {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 60%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 40%;
     background: #ffffff;
     border: 1px solid #4A403A;
     display: flex;
@@ -835,8 +835,8 @@ body {
 
   /* Expanded state */
   .search-container.expanded {
-    width: 80%;
-    height: 40px;
+    width: 50%;
+    height: 30px;
     border-radius: 30px;
     padding: 0 10px;
     justify-content: space-between;
@@ -873,7 +873,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 15px;
+    gap: 5px;
   }
 
   .menu-item,

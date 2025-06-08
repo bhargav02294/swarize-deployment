@@ -809,7 +809,7 @@ body {
     border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
 }
 
 .logo-text {
@@ -878,7 +878,7 @@ body {
     .menu {
         display: flex; /* ← Yeh add karo */
 
-        position: static;
+        position: right;
         flex-direction: row;
         margin-top: -85px;
         margin-right: 20px;
@@ -898,7 +898,7 @@ body {
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
         font-size: 18px;
-        color: #4A403A;
+        color: #ffffff;
     }
     
     .menu-item[href*="addtocart"]::before {

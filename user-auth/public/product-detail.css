@@ -660,11 +660,6 @@ body {
 
 @media screen and (max-width: 768px) {
 
-  /* General Reset */
-  html, body {
-    overflow-x: hidden;
-  }
-
 
 
    .product-container {
@@ -784,52 +779,61 @@ body {
 
 
 
-   .navbar {
+   
+
+  /* Ensure no horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* Navbar adjustments */
+  .navbar {
     flex-direction: column;
     height: auto;
     padding: 10px 15px;
+    align-items: flex-start;
   }
 
   .navbar-container {
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
+    gap: 10px;
   }
 
   .logo-container {
     width: 45px;
     height: 45px;
-    position: left;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .logo-text {
-    font-size: 26px;
+    font-size: 24px;
   }
 
   .navbar-title {
-    font-size: 24px;
+    font-size: 22px;
     text-align: left;
     margin-bottom: 10px;
-    flex-grow: 0;
     color: #FFF5F7;
   }
 
   .search-container {
-    position: center;
+    position: static;
     width: 100%;
     transform: none;
-    margin-bottom: 10px;
+    margin: 10px 0;
   }
 
   #search-input {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .menu {
     flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    gap: 10px;
-    position: right;
+    gap: 8px;
     padding-top: 10px;
   }
 
@@ -837,8 +841,8 @@ body {
   .dropdown-button {
     width: 100%;
     text-align: left;
-    padding: 10px 5px;
-    font-size: 16px;
+    font-size: 15px;
+    padding: 8px 0;
   }
 
   .dropdown-content {
@@ -846,11 +850,12 @@ body {
     width: 100%;
     border-radius: 0;
     box-shadow: none;
+    margin-top: 5px;
   }
 
   .dropdown-content a {
     padding: 10px;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .dropdown.active .dropdown-content {

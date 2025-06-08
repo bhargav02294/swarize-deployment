@@ -205,7 +205,7 @@ body {
 .product-header h1 {
   font-size: 26px;
   font-weight: 600;
-    text-align: center;
+    text-align: left;
   text-transform: capitalize;
 
   color: #1a1a1a;
@@ -219,7 +219,7 @@ body {
   font-family: sans-serif;
   font-size: 24px;
   font-weight: 700;
-  text-align: center;
+  text-align: left;
   color: #1a1a1a5e;
   margin: 6px 0;
   line-height: 1.6;
@@ -302,12 +302,14 @@ body {
 
 .action-buttons {
   display: flex;
-  gap: 20px;
-  justify-content: center;
+  flex-direction: column; /* Stack vertically */
+  align-items: center;     /* Center horizontally */
+  gap: 16px;
   margin: 30px 0;
 }
 
 .action-buttons button {
+  width: 240px; /* Optional: fixed width for alignment */
   padding: 14px 30px;
   font-size: 16px;
   font-weight: 600;
@@ -321,6 +323,7 @@ body {
   overflow: hidden;
   z-index: 1;
 }
+
 
 /* Buy Now - premium red gradient */
 .buy-now {

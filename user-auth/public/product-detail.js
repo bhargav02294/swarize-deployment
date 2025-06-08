@@ -89,29 +89,57 @@ if (sizes.length > 0) {
   sizeContainer.textContent = "-";
 }
 
-  const subcategory = product.subcategory?.toLowerCase(); // From your product data
+  
+
+
+
+
+    const sizeChartBtn = document.getElementById("size-chart-btn");
+const sizeChartModal = document.getElementById("size-chart-modal");
+const sizeChartOverlay = document.getElementById("size-chart-overlay");
+const closeSizeChart = document.getElementById("close-size-chart");
+const sizeChartContent = document.getElementById("size-chart-content");
 
 const sizeChartData = {
-  "women-ethnic wear": "S: 34 Bust | M: 36 Bust | L: 38 Bust | XL: 40 Bust",
-  "women-bottomwear": "S: 28 Waist | M: 30 Waist | L: 32 Waist | XL: 34 Waist",
-  "men-topwear": "M: 38 Chest | L: 40 Chest | XL: 42 Chest",
-  "men-footwear": "UK 7 = 25.4cm | UK 8 = 26.0cm | UK 9 = 26.7cm",
-  "kids-footwear": "Size 4 = 13cm | Size 5 = 14cm | Size 6 = 15cm",
-  // Add more as needed
+  "Women": {
+    "Ethnic Wear": "<p>Size XS: 32 Bust, 26 Waist</p><p>Size S: 34 Bust, 28 Waist</p>",
+    "Western Wear": "<p>S: 34 Bust, 28 Waist</p><p>M: 36 Bust, 30 Waist</p>",
+    "Footwear": "<p>UK 4: 23.5cm, UK 5: 24cm</p>"
+  },
+  "Men": {
+    "Topwear": "<p>M: 38 Chest, L: 40 Chest</p>",
+    "Bottomwear": "<p>M: 32 Waist, L: 34 Waist</p>",
+    "Footwear": "<p>UK 7: 25cm, UK 8: 26cm</p>"
+  },
+  "Kids": {
+    "Boys Clothing": "<p>5-6Y: 24 Chest, 7-8Y: 26 Chest</p>",
+    "Girls Clothing": "<p>5-6Y: 22 Chest, 7-8Y: 24 Chest</p>"
+  },
+  "Accessories": {}
 };
 
-// Find matching key
-const chartKey = Object.keys(sizeChartData).find(key => subcategory?.includes(key));
-if (chartKey) {
-  document.getElementById("size-chart-wrapper").style.display = "block";
-  document.getElementById("view-size-chart").onclick = () => {
-    document.getElementById("size-chart-modal").style.display = "flex";
-    document.getElementById("size-chart-content").innerText = sizeChartData[chartKey];
-  };
-  document.getElementById("close-size-chart").onclick = () => {
-    document.getElementById("size-chart-modal").style.display = "none";
-  };
-}
+sizeChartBtn.addEventListener("click", () => {
+  const category = product.category;
+  const subcategory = product.subcategory;
+  const chart =
+    (sizeChartData[category] && sizeChartData[category][subcategory]) ||
+    "<p>No size chart available for this subcategory.</p>";
+
+  sizeChartContent.innerHTML = chart;
+  sizeChartModal.style.display = "block";
+  sizeChartOverlay.style.display = "block";
+});
+
+closeSizeChart.addEventListener("click", () => {
+  sizeChartModal.style.display = "none";
+  sizeChartOverlay.style.display = "none";
+});
+
+
+
+
+
+
 
 
     // ==== COLOR ====

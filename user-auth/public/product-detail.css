@@ -212,7 +212,7 @@ body {
   margin-bottom: 6px;
 }
 
-.preview-brand{
+.brand{
 
    font-size: 28px;
   font-weight: 900;
@@ -327,18 +327,18 @@ body {
 
 /* --- Collapsible Description --- */
 .collapsible-desc {
-  text-align: center;
+  text-align: left;
   margin-top: 20px;
 }
 
 .collapsible-desc button {
   background: none;
   border: none;
-  font-size: 13.5px;
+  font-size: 8px;
   color: #007bff;
   cursor: pointer;
   text-decoration: underline;
-  margin-bottom: 10px;
+  margin-bottom: -5px;
 }
 
 #desc-summary-content {

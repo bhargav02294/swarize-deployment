@@ -18,15 +18,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       "preview-name": product.name,
       "preview-price": `₹${product.price}`,
     
-      "preview-subcategory": `Subcategory: ${product.subcategory || "-"}`,
-      "preview-material": `Material: ${product.material || "-"}`,
-      "preview-pattern": `Pattern: ${product.pattern || "-"}`,
-      "preview-wash-care": `Wash Care: ${product.washCare || "-"}`,
-      "preview-model-style": `Model Style: ${product.modelStyle || "-"}`,
-      "preview-brand": `Brand: ${product.brand || "-"}`,
-      "preview-available-in": `Available In: ${product.availableIn || "All over India"}`,
+      "preview-subcategory": `${product.subcategory || " "}`,
+      "preview-material": `${product.material || " "}`,
+      "preview-pattern": `${product.pattern || " "}`,
+      "preview-wash-care": `${product.washCare || " "}`,
+      "preview-model-style": `${product.modelStyle || " "}`,
+      "brand": `${product.brand || " "}`,
+      "preview-available-in": `${product.availableIn || "All over India"}`,
       "preview-description": product.description,
-      "preview-summary": `Summary: ${product.summary || "N/A"}`,
+      "preview-summary": `${product.summary || " "}`,
     };
 
     Object.entries(fields).forEach(([id, text]) => setText(id, text));

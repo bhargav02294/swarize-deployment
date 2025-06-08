@@ -311,14 +311,14 @@ sizeChartBtn.addEventListener("click", () => {
   const category = product.category;
   const subcategory = product.subcategory;
 
-  const chartData = sizeChartData[category] && sizeChartData[category][subcategory];
+  const chartData = sizeChartData[category]?.[subcategory];
 
   if (!chartData) {
     sizeChartContent.innerHTML = "<p>No size chart available for this subcategory.</p>";
   } else {
-    let table = '<table><thead><tr>' + chartData[0].map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
-    for (let i = 1; i < chartData.length; i++) {
-      table += '<tr>' + chartData[i].map(d => `<td>${d}</td>`).join("") + '</tr>';
+    let table = '<table><thead><tr>' + chartData.headers.map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
+    for (const row of chartData.rows) {
+      table += '<tr>' + row.map(d => `<td>${d}</td>`).join("") + '</tr>';
     }
     table += '</tbody></table>';
     sizeChartContent.innerHTML = table;
@@ -327,6 +327,7 @@ sizeChartBtn.addEventListener("click", () => {
   sizeChartModal.style.display = "block";
   sizeChartOverlay.style.display = "block";
 });
+
 
 closeSizeChart.addEventListener("click", () => {
   sizeChartModal.style.display = "none";

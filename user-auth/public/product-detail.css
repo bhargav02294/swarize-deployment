@@ -665,27 +665,6 @@ body {
     overflow-x: hidden;
   }
 
-  /* Navbar */
-  .navbar {
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  .logo-container {
-    width: 45px;
-    height: 45px;
-  }
-
-  .logo-text {
-    font-size: 26px;
-  }
-
-  .navbar-title {
-    font-size: 20px;
-    margin-top: 8px;
-  }
-
-
 
 
 

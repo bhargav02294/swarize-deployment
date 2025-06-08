@@ -46,8 +46,6 @@
 
  <div class="product-container">
     <!-- Image Slider & Store Info -->
-         <div class="spec-row"><strong> </strong> <span id="preview-brand"></span></div>
-
     <div class="product-image-section">
       <div class="slider-container">
         <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
@@ -91,6 +89,7 @@
     <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern"></span></div>
     <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care"></span></div>
     <div class="spec-row"><strong>Model:</strong> <span id="preview-model-style"></span></div>
+    <div class="spec-row"><strong>Brand:</strong> <span id="preview-brand"></span></div>
     <div class="spec-row"><strong>Available in:</strong> <span id="preview-available-in"></span></div>
   </div>
 
@@ -111,6 +110,13 @@
   </div>
 </div>
 
+<!-- Size Chart Modal -->
+<div id="size-chart-overlay"></div>
+<div id="size-chart-modal">
+  <h3>Size Chart</h3>
+  <div id="size-chart-content">Loading...</div>
+  <button id="close-size-chart">Close</button>
+</div>
 
 
         <button id="size-chart-btn">View Size Chart</button>

@@ -204,7 +204,7 @@ body {
 
 .product-header h1 {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 600;
     text-align: center;
   text-transform: capitalize;
 
@@ -216,11 +216,11 @@ body {
 
 
 .spec-brand {
-  font-family: 'Poppins', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
+  font-family: sans-serif;
+  font-size: 24px;
+  font-weight: 700;
   text-align: center;
-  color: #1a1a1a;
+  color: #1a1a1a5e;
   margin: 16px 0;
   line-height: 1.6;
 }

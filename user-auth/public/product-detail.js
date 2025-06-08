@@ -48,15 +48,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("preview-price").textContent = product.price ? `₹${product.price}` : "-";
     document.getElementById("preview-description").textContent = product.description || "-";
 
-    document.getElementById("toggle-desc-btn").addEventListener("click", () => {
-  document.getElementById("desc-summary-content").style.display = "block";
-  document.getElementById("toggle-desc-btn").style.display = "none";
-});
+   const showBtn = document.getElementById("toggle-desc-btn");
+const hideBtn = document.getElementById("toggle-less-btn");
+const descContent = document.getElementById("desc-summary-content");
 
-document.getElementById("toggle-less-btn").addEventListener("click", () => {
-  document.getElementById("desc-summary-content").style.display = "none";
-  document.getElementById("toggle-desc-btn").style.display = "inline-block";
-});
+if (showBtn && hideBtn && descContent) {
+  showBtn.addEventListener("click", () => {
+    descContent.style.display = "block";
+    showBtn.style.display = "none";
+  });
+
+  hideBtn.addEventListener("click", () => {
+    descContent.style.display = "none";
+    showBtn.style.display = "inline-block";
+  });
+}
+
 
     // ==== SIZE ====
 const sizeContainer = document.getElementById("preview-size");

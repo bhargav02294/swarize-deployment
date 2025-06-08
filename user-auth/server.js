@@ -1064,7 +1064,7 @@ app.post("/api/payment/create-order", async (req, res) => {
 app.post("/api/orders/create", async (req, res) => {
   try {
     const { productId, buyerId, paymentId, promoCode } = req.body;  
-    console.log("🔹 Order API Called:", { productId, buyerId, paymentId, promoCode });
+    console.log("🔹 Order API Called:", { productId, buyerId, paymentId, promoCode, selectedSize });
 
       // ✅ Fetch Buyer, Seller, and Product Details
       const buyer = await User.findById(buyerId);
@@ -1074,6 +1074,9 @@ app.post("/api/orders/create", async (req, res) => {
       const buyerBank = await BankDetail.findOne({ userId: buyerId });
       let sellerBank = seller ? await BankDetail.findOne({ userId: seller._id }).lean() : null;
 
+      const sizeToSave = selectedSize && selectedSize.trim() !== "" ? selectedSize : "Not selected";
+
+
       console.log(" Seller Bank Found:", sellerBank);
       console.log(" Buyer:", buyer);
       console.log(" Product:", product);
@@ -1081,6 +1084,7 @@ app.post("/api/orders/create", async (req, res) => {
       console.log(" Store:", store);
       console.log(" Buyer Bank:", buyerBank);
 
+      
       // ✅ Check if any required data is missing
       if (!buyer || !product || !seller || !buyerBank) {
           console.log(" Invalid transaction details: Some data is missing");
@@ -1111,6 +1115,7 @@ app.post("/api/orders/create", async (req, res) => {
           thumbnailImage: product.thumbnailImage,
           category: product.category,
           subcategory: product.subcategory,
+          selectedSize: sizeToSave,
           buyerId: buyer._id,
           buyerName: buyer.name,
           buyerEmail: buyer.email,
@@ -1154,6 +1159,7 @@ app.post("/api/orders/create", async (req, res) => {
           thumbnailImage: product.thumbnailImage,
           category: product.category,
           subcategory: product.subcategory,
+          selectedSize: sizeToSave,
           sellerId: seller._id,
           sellerName: seller.name,
           sellerEmail: seller.email,

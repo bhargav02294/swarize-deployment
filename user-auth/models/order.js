@@ -7,8 +7,7 @@ const OrderSchema = new mongoose.Schema({
     thumbnailImage: { type: String, required: true },
     category: { type: String },
     subcategory: { type: String },
-    tags: { type: [String] },
-
+    selectedSize: { type: String, default: "Not selected" },
     // ✅ Buyer Details
     buyerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     buyerName: { type: String, required: true },

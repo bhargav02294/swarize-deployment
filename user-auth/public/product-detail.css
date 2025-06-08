@@ -302,14 +302,12 @@ body {
 
 .action-buttons {
   display: flex;
-  flex-direction: column; /* Stack vertically */
-  align-items: center;     /* Center horizontally */
-  gap: 16px;
+  gap: 20px;
+  justify-content: center;
   margin: 30px 0;
 }
 
 .action-buttons button {
-  width: 240px; /* Optional: fixed width for alignment */
   padding: 14px 30px;
   font-size: 16px;
   font-weight: 600;
@@ -323,7 +321,6 @@ body {
   overflow: hidden;
   z-index: 1;
 }
-
 
 /* Buy Now - premium red gradient */
 .buy-now {
@@ -350,6 +347,33 @@ body {
   transform: scale(1.05);
   box-shadow: 0 8px 24px rgba(217, 30, 54, 0.4);
 }
+
+/* Add to Cart - vibrant gold */
+.add-to-cart {
+  background: linear-gradient(135deg, #fff200, #ffb800);
+  color: #222;
+}
+
+.add-to-cart::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #f2c400, #e68a00);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+  border-radius: 12px;
+}
+
+.add-to-cart:hover::before {
+  opacity: 1;
+}
+
+.add-to-cart:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(255, 184, 0, 0.4);
+}
+
 
 /* Add to Cart - vibrant gold */
 .add-to-cart {

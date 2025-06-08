@@ -73,7 +73,7 @@ const sizes = Array.isArray(product.size)
   ? product.size
   : (product.size || "").split(",").map(s => s.trim()).filter(Boolean);
 
-let selectedSize = null;
+const selectedSize = document.getElementById("selected-size")?.value || "";
 
 if (sizes.length > 0) {
   sizes.forEach(size => {

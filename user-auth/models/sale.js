@@ -7,7 +7,7 @@ const SaleSchema = new mongoose.Schema({
     thumbnailImage: { type: String, required: true },
     category: { type: String },
     subcategory: { type: String },
-    tags: { type: [String] },
+    selectedSize: { type: String, default: "Not selected" },
 
     // ✅ Seller Details
     sellerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

@@ -196,137 +196,157 @@ body {
 
 
 .product-info {
-  flex: 1 1 40%;
-  padding: 10px;
+  flex: 1 1 50%;
+  padding: 20px 30px;
+  font-family: 'Poppins', sans-serif;
+  color: #222;
 }
 
-.product-info h2 {
-  font-size: 28px;
+.product-header h1 {
+  font-size: 26px;
   font-weight: 700;
-  color: #0f5132;
-  margin-bottom: 10px;
-  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
-  letter-spacing: 0.5px;
-}
-
-.product-info h1 {
-  font-size: 36px;
-  font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 15px;
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
-  letter-spacing: 0.3px;
-  line-height: 1.2;
+  margin-bottom: 6px;
 }
-
 
 .star-rating {
-  color: #ffc107;
-  font-size: 18px;
-  margin-bottom: 12px;
+  font-size: 14px;
+  color: #ffa500;
+  margin-bottom: 8px;
 }
 
+#preview-price {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  font-size: 16px;
+  color: #888;
+  margin-left: 10px;
+}
+
+.discount {
+  font-size: 14px;
+  color: #d32f2f;
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.product-selections {
+  margin-bottom: 25px;
+}
+
+.selection-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.size-chart-trigger {
+  background: none;
+  border: 1px solid #999;
+  font-size: 12px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #007bff;
+}
+
+.size-chart-trigger:hover {
+  background-color: #f1f1f1;
+}
 
 .action-buttons {
   display: flex;
-  gap: 16px;
-  margin-bottom: 30px;
+  gap: 14px;
+  margin-bottom: 28px;
 }
 
 .action-buttons button {
-  padding: 14px 28px;
-  font-size: 16px;
-  font-weight: 600;
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 8px;
   border: none;
-  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.2s ease-in-out;
 }
 
 .buy-now {
-  background: linear-gradient(135deg, #ff3c3c, #e91e63);
+  background-color: #d32f2f;
   color: #fff;
 }
 
 .buy-now:hover {
-  background: linear-gradient(135deg, #d62828, #c2185b);
-  transform: scale(1.04);
-  box-shadow: 0 6px 18px rgba(233, 30, 99, 0.3);
+  background-color: #b71c1c;
 }
 
 .add-to-cart {
-  background: linear-gradient(135deg, #ffe600, #ffb300);
-  color: #222;
+  background-color: #fdd835;
+  color: #000;
 }
 
 .add-to-cart:hover {
-  background: linear-gradient(135deg, #fdd835, #f9a825);
-  transform: scale(1.04);
-  box-shadow: 0 6px 18px rgba(255, 193, 7, 0.3);
+  background-color: #fbc02d;
 }
 
-
-.product-details {
-  margin-top: 30px;
-  font-size: 15.5px;
-  line-height: 1.7;
-  border-top: 1px solid #ddd;
-  padding-top: 20px;
-  color: #333;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.product-details p {
-  margin: 10px 0;
-  color: #444;
-}
-
-.product-details strong {
-  display: inline-block;
-  min-width: 120px;
-  color: #222;
-  font-weight: 600;
-}
-
-.product-info-note {
-  background: linear-gradient(to right, #f8f9fa, #ffffff);
-  border-left: 4px solid #4a90e2;
-  padding: 18px 20px;
-  margin-top: 28px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.product-info-note ul {
-  padding-left: 20px;
-  margin: 0;
-}
-
-.product-info-note li {
-  margin-bottom: 8px;
+.product-details-section {
   font-size: 14.5px;
+  margin-bottom: 25px;
+}
+
+.spec-row {
+  margin-bottom: 8px;
+}
+
+.spec-row strong {
+  min-width: 120px;
+  display: inline-block;
   color: #555;
 }
 
-#toggle-desc-btn,
-#toggle-less-btn {
-  margin-top: -5px;
-  background: transparent;
+.collapsible-desc button {
+  background: none;
   border: none;
-  border-bottom: 1px solid #0657cf;
-  font-size: 12px;
-  color: #0657cf;
+  font-size: 14px;
+  color: #007bff;
   cursor: pointer;
-  padding: 4px 0;
-  transition: color 0.2s, border-color 0.2s;
+  margin-bottom: 8px;
 }
 
-#toggle-desc-btn:hover,
-#toggle-less-btn:hover {
-  color: #000;
-  border-color: #000;
+#desc-summary-content {
+  padding: 10px 0;
+  font-size: 14.5px;
+  line-height: 1.6;
 }
+
+.product-info-note {
+  background: #f8f9fa;
+  padding: 14px;
+  border-left: 4px solid #007bff;
+  font-size: 13.5px;
+  color: #444;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.product-info-note li {
+  margin-bottom: 6px;
+}
+
+/* Modal styles remain same as previous response */
+
+
+
+
+
+
 
 
 @media (max-width: 768px) {

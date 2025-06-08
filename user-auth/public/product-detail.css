@@ -193,7 +193,16 @@ body {
   text-decoration: underline;
 }
 
+.brand-row {
+ font-size: 28px;
+  font-weight: 900;
+    text-align: center;
+  text-transform: capitalize;
 
+  color: #1a1a1a;
+  margin-bottom: 6px;
+
+}
 
 .product-info {
   flex: 1 1 50%;
@@ -205,6 +214,9 @@ body {
 .product-header h1 {
   font-size: 26px;
   font-weight: 700;
+    text-align: center;
+  text-transform: capitalize;
+
   color: #1a1a1a;
   margin-bottom: 6px;
 }
@@ -311,19 +323,23 @@ body {
   color: #555;
 }
 
-.collapsible-desc button {
-  background: none;
+#toggle-desc-btn,
+#toggle-less-btn {
+  margin-top: -5px;
+  background: transparent;
   border: none;
-  font-size: 14px;
-  color: #007bff;
+  border-bottom: 1px solid #0657cf;
+  font-size: 12px;
+  color: #0657cf;
   cursor: pointer;
-  margin-bottom: 8px;
+  padding: 4px 0;
+  transition: color 0.2s, border-color 0.2s;
 }
 
-#desc-summary-content {
-  padding: 10px 0;
-  font-size: 14.5px;
-  line-height: 1.6;
+#toggle-desc-btn:hover,
+#toggle-less-btn:hover {
+  color: #000;
+  border-color: #000;
 }
 
 .product-info-note {

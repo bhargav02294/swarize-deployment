@@ -798,6 +798,7 @@ body {
   .logo-container {
     width: 45px;
     height: 45px;
+    position: left;
     margin-bottom: 10px;
   }
 
@@ -814,7 +815,7 @@ body {
   }
 
   .search-container {
-    position: static;
+    position: center;
     width: 100%;
     transform: none;
     margin-bottom: 10px;
@@ -828,6 +829,7 @@ body {
     flex-direction: column;
     width: 100%;
     gap: 10px;
+    position: right;
     padding-top: 10px;
   }
 

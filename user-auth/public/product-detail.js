@@ -91,9 +91,7 @@ if (sizes.length > 0) {
 
   
 
-
-
-    const sizeChartBtn = document.getElementById("size-chart-btn");
+const sizeChartBtn = document.getElementById("size-chart-btn");
 const sizeChartModal = document.getElementById("size-chart-modal");
 const sizeChartOverlay = document.getElementById("size-chart-overlay");
 const closeSizeChart = document.getElementById("close-size-chart");
@@ -101,30 +99,88 @@ const sizeChartContent = document.getElementById("size-chart-content");
 
 const sizeChartData = {
   "Women": {
-    "Ethnic Wear": "<p>Size XS: 32 Bust, 26 Waist</p><p>Size S: 34 Bust, 28 Waist</p>",
-    "Western Wear": "<p>S: 34 Bust, 28 Waist</p><p>M: 36 Bust, 30 Waist</p>",
-    "Footwear": "<p>UK 4: 23.5cm, UK 5: 24cm</p>"
+    "Ethnic Wear": [
+      ["Size", "Bust (in)", "Waist (in)", "Hip (in)"],
+      ["XS", "32", "26", "34"],
+      ["S", "34", "28", "36"],
+      ["M", "36", "30", "38"],
+      ["L", "38", "32", "40"],
+      ["XL", "40", "34", "42"]
+    ],
+    "Western Wear": [
+      ["Size", "Bust (in)", "Waist (in)", "Length (in)"],
+      ["S", "34", "28", "34"],
+      ["M", "36", "30", "35"],
+      ["L", "38", "32", "36"]
+    ],
+    "Footwear": [
+      ["UK Size", "Foot Length (cm)"],
+      ["4", "23.5"],
+      ["5", "24.0"],
+      ["6", "24.5"],
+      ["7", "25.0"]
+    ]
   },
   "Men": {
-    "Topwear": "<p>M: 38 Chest, L: 40 Chest</p>",
-    "Bottomwear": "<p>M: 32 Waist, L: 34 Waist</p>",
-    "Footwear": "<p>UK 7: 25cm, UK 8: 26cm</p>"
+    "Topwear": [
+      ["Size", "Chest (in)", "Length (in)"],
+      ["M", "38", "27"],
+      ["L", "40", "28"],
+      ["XL", "42", "29"]
+    ],
+    "Bottomwear": [
+      ["Size", "Waist (in)", "Inseam (in)"],
+      ["M", "32", "31"],
+      ["L", "34", "32"],
+      ["XL", "36", "33"]
+    ],
+    "Footwear": [
+      ["UK Size", "Foot Length (cm)"],
+      ["7", "25.0"],
+      ["8", "26.0"],
+      ["9", "27.0"]
+    ]
   },
   "Kids": {
-    "Boys Clothing": "<p>5-6Y: 24 Chest, 7-8Y: 26 Chest</p>",
-    "Girls Clothing": "<p>5-6Y: 22 Chest, 7-8Y: 24 Chest</p>"
-  },
-  "Accessories": {}
+    "Boys Clothing": [
+      ["Age", "Chest (in)", "Height (cm)"],
+      ["5-6Y", "24", "116"],
+      ["7-8Y", "26", "128"],
+      ["9-10Y", "28", "140"]
+    ],
+    "Girls Clothing": [
+      ["Age", "Chest (in)", "Height (cm)"],
+      ["5-6Y", "22", "116"],
+      ["7-8Y", "24", "128"],
+      ["9-10Y", "26", "140"]
+    ],
+    "Footwear": [
+      ["UK Size", "Foot Length (cm)"],
+      ["10K", "17.0"],
+      ["11K", "17.8"],
+      ["12K", "18.5"],
+      ["1", "19.2"]
+    ]
+  }
 };
 
 sizeChartBtn.addEventListener("click", () => {
   const category = product.category;
   const subcategory = product.subcategory;
-  const chart =
-    (sizeChartData[category] && sizeChartData[category][subcategory]) ||
-    "<p>No size chart available for this subcategory.</p>";
 
-  sizeChartContent.innerHTML = chart;
+  const chartData = sizeChartData[category] && sizeChartData[category][subcategory];
+
+  if (!chartData) {
+    sizeChartContent.innerHTML = "<p>No size chart available for this subcategory.</p>";
+  } else {
+    let table = '<table><thead><tr>' + chartData[0].map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
+    for (let i = 1; i < chartData.length; i++) {
+      table += '<tr>' + chartData[i].map(d => `<td>${d}</td>`).join("") + '</tr>';
+    }
+    table += '</tbody></table>';
+    sizeChartContent.innerHTML = table;
+  }
+
   sizeChartModal.style.display = "block";
   sizeChartOverlay.style.display = "block";
 });
@@ -133,7 +189,6 @@ closeSizeChart.addEventListener("click", () => {
   sizeChartModal.style.display = "none";
   sizeChartOverlay.style.display = "none";
 });
-
 
 
 

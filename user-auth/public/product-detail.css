@@ -777,167 +777,132 @@ body {
 
 
 
-   
 
-  /* Ensure no horizontal scroll */
   html, body {
     overflow-x: hidden;
   }
 
-  /* Navbar adjustments */
-    .navbar-container {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        padding: 5px 8px;
-        gap: 6px;
-        position: relative;
-        height: 75px;
-    }
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px 15px;
+  }
 
-    /* Row 1: Logo + Brand Name */
-    .container {
+  .navbar-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 10px;
-}
+    justify-content: space-between;
+    width: 100%;
+  }
 
-.logo-container {
+  /* Logo on left */
+  .logo-container {
     width: 36px;
     height: 36px;
     background-color: #2A2B2D;
     border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: left;
-}
+    justify-content: center;
+  }
 
-.logo-text {
-    font-size: 25px;
-    font-weight: bold;
-    color: #FFF5F7 ;
-    font-family: 'Times New Roman';
-}
-
-.brand-name {
+  .logo-text {
     font-size: 22px;
     font-weight: bold;
-    color: #2A2B2D;
+    color: #FFF5F7;
     font-family: 'Times New Roman';
-}
-    
+  }
 
-    /* Row 2: Search + Menu */
-    .navbar-bottom-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
-    .search-container {
-      position: static;
-      margin-left: 190px;
-      margin-top: -85px;
-      height: 25px;
-      width: 150px;
-      display: flex;
-      align-items: center;
-      background: #ffffff ;
-      border: 1px solid #4A403A;
-      border-radius: 30px;
-      padding: 3px 3px;
+  /* Search bar center */
+  .search-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 60px;
+    width: 75%;
+    height: 35px;
+    padding: 5px 10px;
+    background: #ffffff;
+    border: 1px solid #4A403A;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    z-index: 10;
   }
 
   #search-input {
-      font-size: 10px;
-      padding: 4px 8px;
-      width: 100%;
-      background: transparent;
-      border: none;
-      outline: none;
+    font-size: 12px;
+    padding: 5px 10px;
   }
 
   #search-button {
-      font-size: 8px;
-      padding: 5px;
-      background-color: #ffffff ;
-      border: none;
-      color: #2A2B2D;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
+    font-size: 12px;
+    padding: 5px;
   }
 
   #search-button i {
-      font-size: 10px;
+    font-size: 14px;
   }
 
-    .menu {
-        display: flex; /* ← Yeh add karo */
+  /* Menu icons on right */
+  .menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+  }
 
-        position: right;
-        flex-direction: row;
-        margin-top: -85px;
-        margin-right: 20px;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 15px;
-    }
+  .menu-item,
+  .dropdown-button {
+    font-size: 0;
+    position: relative;
+  }
 
-    .menu-item,
-    .dropdown-button {
-        font-size: 0;
-        position: relative;
-    }
-    
-    .menu-item::before,
-    .dropdown-button::before {
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        font-size: 18px;
-        color: #ffffff;
-    }
-    
-    .menu-item[href*="addtocart"]::before {
-        content: "\f07a";
-    }
-    
-    .menu-item[href*="home"]::before {
-        content: "\f015";
-    }
-    
-    .dropdown-button::before {
-        content: "\f007";
-    }
-    .dropdown-content {
-        top: 100%; /* place it below the icon */
-        left: 50%; /* center it horizontally */
-        transform: translateX(-50%); /* truly center it */
-        min-width: 90px;
-        font-size: 12px;
-        padding: 4px 0;
-        border-radius: 6px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        z-index: 999;
-        position: absolute;
-        display: none; /* hide by default */
-        background-color: white;
-    }
-    
-    
-    .dropdown-content a {
-        padding: 6px 8px;
-        font-size: 12px;
-        line-height: 1.2;
-    }
-    
-    .dropdown.active .dropdown-content {
-        display: block;
-    }
-    
+  .menu-item::before,
+  .dropdown-button::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 18px;
+    color: #ffffff;
+  }
+
+  .menu-item[href*="addtocart"]::before {
+    content: "\f07a";
+  }
+
+  .menu-item[href*="home"]::before {
+    content: "\f015";
+  }
+
+  .dropdown-button::before {
+    content: "\f007";
+  }
+
+  .dropdown-content {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 90px;
+    font-size: 12px;
+    padding: 4px 0;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    position: absolute;
+    display: none;
+    background-color: white;
+  }
+
+  .dropdown-content a {
+    padding: 6px 8px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+  }
 }
 
 

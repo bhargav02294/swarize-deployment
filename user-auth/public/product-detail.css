@@ -706,7 +706,6 @@ body {
   
 
 
-@media (max-width: 768px) {
   .product-details {
     font-size: 13px;
     margin-top: 20px;
@@ -726,7 +725,6 @@ body {
     font-size: 14px;
     margin-bottom: 6px;
   }
-}
 
 
 
@@ -787,83 +785,159 @@ body {
   }
 
   /* Navbar adjustments */
-  .navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 10px 15px;
-    align-items: flex-start;
-  }
+    .navbar-container {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 5px 8px;
+        gap: 6px;
+        position: relative;
+        height: 75px;
+    }
 
-  .navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+    /* Row 1: Logo + Brand Name */
+    .container {
+    display: flex;
+    align-items: center;
     gap: 10px;
-  }
+}
 
-  .logo-container {
-    width: 45px;
-    height: 45px;
-    margin-bottom: 5px;
-  }
+.logo-container {
+    width: 36px;
+    height: 36px;
+    background-color: #2A2B2D;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-  .logo-text {
-    font-size: 24px;
-  }
+.logo-text {
+    font-size: 25px;
+    font-weight: bold;
+    color: #FFF5F7 ;
+    font-family: 'Times New Roman';
+}
 
-  .navbar-title {
+.brand-name {
     font-size: 22px;
-    text-align: left;
-    margin-bottom: 10px;
-    color: #FFF5F7;
-  }
+    font-weight: bold;
+    color: #2A2B2D;
+    font-family: 'Times New Roman';
+}
+    
 
-  .search-container {
-    position: static;
-    width: 100%;
-    transform: none;
-    margin: 10px 0;
+    /* Row 2: Search + Menu */
+    .navbar-bottom-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search-container {
+      position: static;
+      margin-left: 190px;
+      margin-top: -85px;
+      height: 25px;
+      width: 150px;
+      display: flex;
+      align-items: center;
+      background: #ffffff ;
+      border: 1px solid #4A403A;
+      border-radius: 30px;
+      padding: 3px 3px;
   }
 
   #search-input {
-    font-size: 15px;
+      font-size: 10px;
+      padding: 4px 8px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
   }
 
-  .menu {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    gap: 8px;
-    padding-top: 10px;
+  #search-button {
+      font-size: 8px;
+      padding: 5px;
+      background-color: #ffffff ;
+      border: none;
+      color: #2A2B2D;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
   }
 
-  .menu-item,
-  .dropdown-button {
-    width: 100%;
-    text-align: left;
-    font-size: 15px;
-    padding: 8px 0;
+  #search-button i {
+      font-size: 10px;
   }
 
-  .dropdown-content {
-    position: static;
-    width: 100%;
-    border-radius: 0;
-    box-shadow: none;
-    margin-top: 5px;
-  }
+    .menu {
+        display: flex; /* ← Yeh add karo */
 
-  .dropdown-content a {
-    padding: 10px;
-    font-size: 14px;
-  }
+        position: static;
+        flex-direction: row;
+        margin-top: -85px;
+        margin-right: 20px;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 15px;
+    }
 
-  .dropdown.active .dropdown-content {
-    display: block;
-    border-top: 1px solid #ddd;
-    background-color: #fff;
-  }
-
+    .menu-item,
+    .dropdown-button {
+        font-size: 0;
+        position: relative;
+    }
+    
+    .menu-item::before,
+    .dropdown-button::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 18px;
+        color: #4A403A;
+    }
+    
+    .menu-item[href*="addtocart"]::before {
+        content: "\f07a";
+    }
+    
+    .menu-item[href*="home"]::before {
+        content: "\f015";
+    }
+    
+    .dropdown-button::before {
+        content: "\f007";
+    }
+    .dropdown-content {
+        top: 100%; /* place it below the icon */
+        left: 50%; /* center it horizontally */
+        transform: translateX(-50%); /* truly center it */
+        min-width: 90px;
+        font-size: 12px;
+        padding: 4px 0;
+        border-radius: 6px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        position: absolute;
+        display: none; /* hide by default */
+        background-color: white;
+    }
+    
+    
+    .dropdown-content a {
+        padding: 6px 8px;
+        font-size: 12px;
+        line-height: 1.2;
+    }
+    
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+    
 }
 
 

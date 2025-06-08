@@ -60,11 +60,11 @@ document.getElementById("toggle-less-btn").addEventListener("click", () => {
 
     // ==== SIZE ====
 const sizeContainer = document.getElementById("preview-size");
-sizeContainer.innerHTML = "Size:";
+sizeContainer.innerHTML = "";
 
 const sizes = Array.isArray(product.size)
   ? product.size
-  : (product.size || "").split(" ").map(s => s.trim()).filter(Boolean);
+  : (product.size || "").split(",").map(s => s.trim()).filter(Boolean);
 
 let selectedSize = null;
 
@@ -93,7 +93,6 @@ if (sizes.length > 0) {
 
 
 
-
     const sizeChartBtn = document.getElementById("size-chart-btn");
 const sizeChartModal = document.getElementById("size-chart-modal");
 const sizeChartOverlay = document.getElementById("size-chart-overlay");
@@ -119,7 +118,6 @@ const sizeChartData = {
 };
 
 sizeChartBtn.addEventListener("click", () => {
-  
   const category = product.category;
   const subcategory = product.subcategory;
   const chart =

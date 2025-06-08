@@ -18,15 +18,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       "preview-name": product.name,
       "preview-price": `₹${product.price}`,
     
-      "preview-subcategory": `${product.subcategory || "-"}`,
-      "preview-material": `${product.material || "-"}`,
-      "preview-pattern": `${product.pattern || "-"}`,
-      "preview-wash-care": `${product.washCare || "-"}`,
-      "preview-model-style": `${product.modelStyle || "-"}`,
-      "preview-brand": `${product.brand || "-"}`,
-      "preview-available-in": `${product.availableIn || "All over India"}`,
+      "preview-subcategory": `Subcategory: ${product.subcategory || "-"}`,
+      "preview-material": `Material: ${product.material || "-"}`,
+      "preview-pattern": `Pattern: ${product.pattern || "-"}`,
+      "preview-wash-care": `Wash Care: ${product.washCare || "-"}`,
+      "preview-model-style": `Model Style: ${product.modelStyle || "-"}`,
+      "preview-brand": `Brand: ${product.brand || "-"}`,
+      "preview-available-in": `Available In: ${product.availableIn || "All over India"}`,
       "preview-description": product.description,
-      "preview-summary": `${product.summary || "N/A"}`,
+      "preview-summary": `Summary: ${product.summary || "N/A"}`,
     };
 
     Object.entries(fields).forEach(([id, text]) => setText(id, text));
@@ -311,14 +311,14 @@ sizeChartBtn.addEventListener("click", () => {
   const category = product.category;
   const subcategory = product.subcategory;
 
-  const chartData = sizeChartData[category]?.[subcategory];
+  const chartData = sizeChartData[category] && sizeChartData[category][subcategory];
 
   if (!chartData) {
     sizeChartContent.innerHTML = "<p>No size chart available for this subcategory.</p>";
   } else {
-    let table = '<table><thead><tr>' + chartData.headers.map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
-    for (const row of chartData.rows) {
-      table += '<tr>' + row.map(d => `<td>${d}</td>`).join("") + '</tr>';
+    let table = '<table><thead><tr>' + chartData[0].map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
+    for (let i = 1; i < chartData.length; i++) {
+      table += '<tr>' + chartData[i].map(d => `<td>${d}</td>`).join("") + '</tr>';
     }
     table += '</tbody></table>';
     sizeChartContent.innerHTML = table;

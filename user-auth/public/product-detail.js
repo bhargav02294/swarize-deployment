@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       "preview-pattern": `${product.pattern || " "}`,
       "preview-wash-care": `${product.washCare || " "}`,
       "preview-model-style": `${product.modelStyle || " "}`,
-      "brand": `${product.brand || " "}`,
+      "preview-brand": `${product.brand || " "}`,
       "preview-available-in": `${product.availableIn || "All over India"}`,
       "preview-description": product.description,
       "preview-summary": `${product.summary || " "}`,

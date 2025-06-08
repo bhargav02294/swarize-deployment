@@ -577,3 +577,171 @@ document.getElementById("twitter-image").setAttribute("content", product.thumbna
         });
     }
 });
+
+
+
+
+
+
+
+//=========      Search   function    =============//
+
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("search-input");
+    const searchButton = document.getElementById("search-button");
+
+    if (!searchInput || !searchButton) {
+        console.error(" Search input or button not found! Check your HTML.");
+        return;
+    }
+
+    // ✅ Keyword Mapping to normalize search terms
+    // ✅ Keyword Mapping to normalize search terms
+const keywordMapping = {
+    "t shirt": "T-Shirts", "tshirt": "T-Shirts", "tees": "T-Shirts",
+    "shirt": "Shirts",
+    "jean": "Jeans", "denim": "Jeans",
+    "saree": "Ethnic Wear", "kurti": "Ethnic Wear", "lehenga": "Ethnic Wear",
+    "watch": "Eyewear & Watches", "watches": "Eyewear & Watches",
+    "shoe": "Footwear", "shoes": "Footwear",
+    "wallet": "Accessories", "handbag": "Bags & Clutches", "bags": "Bags & Travel"
+};
+
+// ✅ Subcategory Page Mapping (New Pages)
+const subcategoryPages = {
+    "T-Shirts": "women.html?subcategory=T-Shirts",
+    "Jeans": "women.html?subcategory=Jeans",
+    "Ethnic Wear": "women.html?subcategory=Ethnic Wear",
+    "Eyewear & Watches": "men.html?subcategory=Eyewear & Watches",
+    "Footwear": "men.html?subcategory=Footwear",
+    "Accessories": "men.html?subcategory=Accessories",
+    "Bags & Clutches": "women.html?subcategory=Bags & Clutches",
+    "Bags & Travel": "accessories.html?subcategory=Bags & Travel"
+};
+
+// ✅ Main Category & Subcategory Mapping (4 Main Category URLs)
+const categoryMap = {
+    "women.html": [
+        "Ethnic Wear", "Western Wear", "Bottomwear", "Winterwear", "Innerwear & Loungewear",
+        "Footwear", "Bags & Clutches", "Jewelry & Accessories", "Beauty & Makeup", "Eyewear & Watches"
+    ],
+    "men.html": [
+        "Topwear", "Bottomwear", "Ethnic Wear", "Winterwear", "Innerwear & Sleepwear",
+        "Footwear", "Accessories", "Eyewear & Watches", "Grooming", "Bags & Utility"
+    ],
+    "kids.html": [
+        "Boys Clothing", "Girls Clothing", "Footwear", "Toys & Games", "Remote Toys",
+        "Learning & School", "Baby Essentials", "Winterwear", "Accessories", "Festive Wear"
+    ],
+    "accessories.html": [
+        "Bags & Travel", "Unisex Footwear", "Mobile Accessories", "Gadgets", "Computer Accessories",
+        "Home Decor", "Kitchenware", "Health & Care", "Craft & DIY Kits", "Fashion Accessories"
+    ]
+};
+
+
+    // ✅ Combined Search Function
+    function handleSearch() {
+        let query = searchInput.value.trim().toLowerCase();
+        console.log("🔍 Searching for:", query);
+
+        if (query === "") {
+            alert("Please enter a search term.");
+            return;
+        }
+
+        // ✅ Step 1: Normalize the search term using keywordMapping
+        let normalizedSearchTerm = keywordMapping[query] || query;
+
+        // ✅ Step 2: Check if subcategory exists in subcategoryPages
+        if (subcategoryPages[normalizedSearchTerm]) {
+            console.log(` Redirecting to: ${subcategoryPages[normalizedSearchTerm]}`);
+            window.location.href = subcategoryPages[normalizedSearchTerm];
+            return;
+        }
+
+        // ✅ Step 3: Check if it's a related match in categoryMap
+        let bestMatchPage = null;
+        let bestMatchSubcategory = null;
+
+        for (const [page, subcategories] of Object.entries(categoryMap)) {
+            for (const subcategory of subcategories) {
+                if (subcategory.toLowerCase().includes(normalizedSearchTerm)) {
+                    bestMatchPage = page;
+                    bestMatchSubcategory = subcategory;
+                }
+            }
+        }
+
+        // ✅ Redirect to best match if found
+        if (bestMatchPage && bestMatchSubcategory) {
+            console.log(` Redirecting to related match: ${bestMatchPage}?subcategory=${bestMatchSubcategory}`);
+            window.location.href = `${bestMatchPage}?subcategory=${bestMatchSubcategory}`;
+            return;
+        }
+
+        // ✅ Step 4: No match found, show alert
+        alert("No matching category found. Try searching again!");
+    }
+
+    // ✅ Attach Events
+    searchButton.addEventListener("click", handleSearch);
+    searchInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            handleSearch();
+        }
+    });
+});
+
+
+
+
+
+
+
+//----------------dropdowns   --         login country category    -------------------------//
+
+document.addEventListener('click', function (event) {
+    const loginDropdown = document.querySelector('.login-dropdown');
+    const countryDropdown = document.querySelector('.country-dropdowner');
+    const categoryDropdowns = document.querySelectorAll('.category-dropdown');
+
+
+    // Toggle Login Dropdown
+    if (loginDropdown.contains(event.target)) {
+        loginDropdown.classList.toggle('active');
+    } else {
+        loginDropdown.classList.remove('active');
+    }
+
+    // Toggle Country Dropdown
+    if (countryDropdown.contains(event.target)) {
+        countryDropdown.classList.toggle('active');
+    } else {
+        countryDropdown.classList.remove('active');
+    }
+    // Toggle Category Dropdowns
+    categoryDropdowns.forEach(dropdown => {
+        if (dropdown.contains(event.target)) {
+            dropdown.classList.toggle('active');
+        } else {
+            dropdown.classList.remove('active');
+        }
+    });
+});
+
+// Update Country Flag on Selection
+
+
+// Prevent Dropdowns from Closing When Clicking Inside
+document.querySelector('.login-content').addEventListener('click', (event) => {
+    event.stopPropagation();
+});
+
+// Prevent Dropdowns from Closing When Clicking Inside
+document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+    dropdown.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+});
+

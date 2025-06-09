@@ -197,24 +197,22 @@ header h1, header h2 {
 /* ======== Mobile View Adjustments ======== */
 /* ======== Mobile View Adjustments ======== */
 @media (max-width: 768px) {
-    .navbar-container {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        padding: 5px 8px;
-        gap: 6px;
-        position: relative;
-        height: 75px;
-    }
+  html, body {
+    overflow-x: hidden;
+  }
 
-    /* Row 1: Logo + Brand Name */
-    .container {
+  .navbar-container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 10px;
-}
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 8px;
+    height: auto;
+  }
 
-.logo-container {
+  /* Logo */
+  .logo-container {
     width: 36px;
     height: 36px;
     background-color: #2A2B2D;
@@ -222,34 +220,23 @@ header h1, header h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+  }
 
-.logo-text {
+  .logo-text {
     font-size: 25px;
     font-weight: bold;
-    color: #FFF5F7 ;
+    color: #FFF5F7;
     font-family: 'Times New Roman';
-}
+  }
 
-.brand-name {
+  .brand-name {
     font-size: 22px;
     font-weight: bold;
     color: #2A2B2D;
     font-family: 'Times New Roman';
-}
-    
+  }
 
-    /* Row 2: Search + Menu */
-    .navbar-bottom-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-
-
-    
-/* Collapsed state (only icon visible, centered) */
+  /* Collapsed Search */
   .search-container.collapsed {
     position: absolute;
     top: 50%;
@@ -268,13 +255,17 @@ header h1, header h2 {
     z-index: 10;
   }
 
-  /* Expanded state */
+  /* Expanded Search */
   .search-container.expanded {
     width: 40%;
     height: 30px;
     border-radius: 30px;
     padding: 0 10px;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #4A403A;
   }
 
   .search-container input {
@@ -303,21 +294,18 @@ header h1, header h2 {
   #search-button i {
     font-size: 18px;
   }
-  /* Menu icons on right */
+
+  /* Menu Icons */
   .menu {
     display: flex;
     flex-direction: row;
     align-items: center;
-        left: 80%;
-
-    gap: -10px;
+    gap: 15px;
   }
 
   .menu-item,
   .dropdown-button {
     font-size: 0;
-        left: 70%;
-
     position: relative;
   }
 
@@ -326,7 +314,7 @@ header h1, header h2 {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 18px;
-    color: #ffffff;
+    color: #4A403A;
   }
 
   .menu-item[href*="addtocart"]::before {
@@ -366,6 +354,8 @@ header h1, header h2 {
     display: block;
   }
 }
+
+    
 
 
 

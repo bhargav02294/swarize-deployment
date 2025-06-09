@@ -837,7 +837,7 @@ body {
   .search-container.expanded {
     width: 40%;
     height: 30px;
-    border-radius: 15px;
+    border-radius: 10%;
     padding: 0 10px;
     justify-content: space-between;
   }
@@ -875,7 +875,7 @@ body {
     align-items: center;
         left: 80%;
 
-    gap: -10px;
+    gap: 2px;
   }
 
   .menu-item,

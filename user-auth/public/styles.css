@@ -240,7 +240,7 @@ header h1, header h2 {
   .search-container.collapsed {
     position: absolute;
     top: 50%;
-    left: 60%;
+    left: 70%;
     transform: translate(-50%, -50%);
     width: 30px;
     height: 30px;
@@ -258,8 +258,8 @@ header h1, header h2 {
   /* Expanded Search */
   .search-container.expanded {
     width: 30%;
-    height: 25px;
-    border-radius: 20px;
+    height: 30px;
+    border-radius: 10%;
     padding: 0 10px;
     display: flex;
     justify-content: space-between;

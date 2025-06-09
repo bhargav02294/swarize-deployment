@@ -240,7 +240,7 @@ header h1, header h2 {
   .search-container.collapsed {
     position: absolute;
     top: 50%;
-    left: 70%;
+    left: 65%;
     transform: translate(-50%, -50%);
     width: 30px;
     height: 30px;
@@ -257,9 +257,9 @@ header h1, header h2 {
 
   /* Expanded Search */
   .search-container.expanded {
-    width: 30%;
+    width: 25%;
     height: 30px;
-    border-radius: 10%;
+    border-radius: 30%;
     padding: 0 10px;
     display: flex;
     justify-content: space-between;
@@ -274,7 +274,7 @@ header h1, header h2 {
     outline: none;
     background: transparent;
     width: 100%;
-    font-size: 14px;
+    font-size: 10px;
     padding: 0 8px;
     color: #2A2B2D;
   }
@@ -286,13 +286,13 @@ header h1, header h2 {
   #search-button {
     background: none;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     color: #2A2B2D;
     cursor: pointer;
   }
 
   #search-button i {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   /* Menu Icons */

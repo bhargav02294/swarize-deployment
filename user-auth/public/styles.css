@@ -266,7 +266,7 @@ header h1, header h2 {
   background: #ffffff;
   border: 1px solid #4A403A;
   width: 100%;
-  max-width: 100px; /* adjust as needed */
+  max-width: 90px; /* adjust as needed */
   margin-left: auto; /* push to right */
 }
 
@@ -277,7 +277,7 @@ header h1, header h2 {
     outline: none;
     background: transparent;
     width: 100%;
-    font-size: 6px;
+    font-size: 4px;
     padding: 0 8px;
     color: #2A2B2D;
   }
@@ -289,13 +289,13 @@ header h1, header h2 {
   #search-button {
     background: none;
     border: none;
-    font-size: 10px;
+    font-size: 8px;
     color: #2A2B2D;
     cursor: pointer;
   }
 
   #search-button i {
-    font-size: 10px;
+    font-size: 8px;
   }
 
   /* Menu Icons */

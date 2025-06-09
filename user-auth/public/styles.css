@@ -266,7 +266,7 @@ header h1, header h2 {
   background: #ffffff;
   border: 1px solid #4A403A;
   width: 100%;
-  max-width: 200px; /* adjust as needed */
+  max-width: 100px; /* adjust as needed */
   margin-left: auto; /* push to right */
 }
 

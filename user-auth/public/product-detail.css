@@ -835,7 +835,7 @@ body {
 
   /* Expanded state */
   .search-container.expanded {
-    width: 50%;
+    width: 40%;
     height: 30px;
     border-radius: 30px;
     padding: 0 10px;

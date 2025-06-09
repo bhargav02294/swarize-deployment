@@ -837,7 +837,7 @@ body {
   .search-container.expanded {
     width: 40%;
     height: 30px;
-    border-radius: 30%;
+    border-radius: 15px;
     padding: 0 10px;
     justify-content: space-between;
   }

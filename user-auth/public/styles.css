@@ -259,7 +259,7 @@ header h1, header h2 {
   .search-container.expanded {
     width: 25%;
     height: 30px;
-    border-radius: 30%;
+    border-radius: 20px;
     padding: 0 10px;
     display: flex;
     justify-content: space-between;
@@ -274,7 +274,7 @@ header h1, header h2 {
     outline: none;
     background: transparent;
     width: 100%;
-    font-size: 10px;
+    font-size: 6px;
     padding: 0 8px;
     color: #2A2B2D;
   }
@@ -286,13 +286,13 @@ header h1, header h2 {
   #search-button {
     background: none;
     border: none;
-    font-size: 14px;
+    font-size: 10px;
     color: #2A2B2D;
     cursor: pointer;
   }
 
   #search-button i {
-    font-size: 16px;
+    font-size: 10px;
   }
 
   /* Menu Icons */

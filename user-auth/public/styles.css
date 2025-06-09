@@ -257,8 +257,9 @@ header h1, header h2 {
 
  /* Expanded Search */
 .search-container.expanded {
-  height: 30px;
+  height: 25px;
   border-radius: 20px;
+  top: 48%;
   padding: 0 10px;
   display: flex;
   justify-content: space-between;
@@ -266,8 +267,8 @@ header h1, header h2 {
   background: #ffffff;
   border: 1px solid #4A403A;
   width: 100%;
-  max-width: 90px; /* adjust as needed */
-  margin-left: auto; /* push to right */
+  max-width: 75px; /* adjust as needed */
+  margin-left: 55%; /* push to right */
 }
 
 
@@ -276,7 +277,7 @@ header h1, header h2 {
     border: none;
     outline: none;
     background: transparent;
-    width: 100%;
+    width: 70%;
     font-size: 4px;
     padding: 0 8px;
     color: #2A2B2D;
@@ -289,13 +290,13 @@ header h1, header h2 {
   #search-button {
     background: none;
     border: none;
-    font-size: 8px;
+    font-size: 10px;
     color: #2A2B2D;
     cursor: pointer;
   }
 
   #search-button i {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   /* Menu Icons */

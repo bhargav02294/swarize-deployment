@@ -873,12 +873,16 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 5px;
+        left: 80%;
+
+    gap: -10px;
   }
 
   .menu-item,
   .dropdown-button {
     font-size: 0;
+        left: 70%;
+
     position: relative;
   }
 

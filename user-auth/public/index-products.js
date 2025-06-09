@@ -131,8 +131,9 @@ async function addToCart(productId) {
 document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
+  const searchContainer = document.getElementById('searchBox');
 
-    if (!searchInput || !searchButton) {
+    if (!searchInput || !searchButton || !searchContainer) {
         console.error(" Search input or button not found! Check your HTML.");
         return;
     }

@@ -259,7 +259,7 @@ header h1, header h2 {
 .search-container.expanded {
   height: 25px;
   border-radius: 20px;
-  top: 48%;
+  top: 52%;
   padding: 0 10px;
   display: flex;
   justify-content: space-between;
@@ -268,7 +268,7 @@ header h1, header h2 {
   border: 1px solid #4A403A;
   width: 100%;
   max-width: 75px; /* adjust as needed */
-  margin-left: 55%; /* push to right */
+  margin-left: auto; /* push to right */
 }
 
 

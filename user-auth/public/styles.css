@@ -278,8 +278,8 @@ header h1, header h2 {
     background: transparent;
     width: 100%;
     font-size: 2px;
-    padding: 0 2px;
-    color: #2A2B2D;
+    padding: 0 8px;
+    color: #0b51dd;
   }
 
   .search-container.expanded input {

@@ -277,8 +277,8 @@ header h1, header h2 {
     outline: none;
     background: transparent;
     width: 100%;
-    font-size: 4px;
-    padding: 0 6px;
+    font-size: 2px;
+    padding: 0 2px;
     color: #2A2B2D;
   }
 
@@ -289,7 +289,7 @@ header h1, header h2 {
   #search-button {
     background: none;
     border: none;
-    font-size: 4px;
+    font-size: 2px;
     color: #2A2B2D;
     cursor: pointer;
   }

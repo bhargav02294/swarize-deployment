@@ -318,6 +318,7 @@ router.post('/login', async (req, res) => {
 });
 
 // ✅ Route to Fetch Products by Category
+
 router.get('/category/:category', async (req, res) => {
   try {
     const category = decodeURIComponent(req.params.category);
@@ -328,5 +329,6 @@ router.get('/category/:category', async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
 
 module.exports = router;

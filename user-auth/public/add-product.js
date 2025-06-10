@@ -762,9 +762,12 @@ function createDropdown(label, id, options) {
 
 function loadSizeOptions(type) {
   const sizeOptions = {
-    standard: ["XS", "S", "M", "L", "XL", "XXL", "3XL"],
-    footwear: ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10"],
-    kids: ["0-1 Yr", "1-2 Yr", "2-3 Yr", "3-4 Yr", "4-5 Yr", "6-7 Yr"]
+    womenClothing: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL", "4XL", "Petite"],
+    menClothing: ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+    kidsClothing: ["0-3M", "3-6M", "6-12M", "1-2 Yr", "2-3 Yr", "3-4 Yr", "4-5 Yr", "6-7 Yr", "8-9 Yr", "10-11 Yr", "12-13 Yr", "14-15 Yr"],
+    womenFootwear: ["3", "4", "5", "6", "7", "8", "9"],
+    menFootwear: ["6", "7", "8", "9", "10", "11", "12"],
+    kidsFootwear: ["5", "6", "7", "8", "9", "10", "11", "12", "13"]
   };
 
   const wrapper = document.createElement("div");
@@ -874,31 +877,42 @@ function loadFields(subcategory) {
     container.appendChild(colorField);
   }
 
-// Load full clothing detail fields
-if (config.material) {
-  const materialField = createDropdown("Material", "material", [
-    "Cotton", "Denim", "Linen", "Silk", "Wool", "Viscose", "Polyester", "Rayon", "Blended", "Chiffon", "Georgette", "Velvet", "Net"
-  ]);
-  container.appendChild(materialField);
-  materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
-}
+ // Material
+  if (config.material === "clothing") {
+    const materialField = createDropdown("Material", "material", [
+      "Cotton", "Cotton Blend", "Linen", "Silk", "Satin", "Rayon", "Polyester", "Chiffon",
+      "Georgette", "Wool", "Viscose", "Velvet", "Denim", "Net", "Nylon", "Organza", "Modal"
+    ]);
+    container.appendChild(materialField);
+    materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
+  } else if (config.material === "footwear") {
+    const materialField = createDropdown("Material", "material", [
+      "Genuine Leather", "Faux Leather", "PU", "Suede", "Canvas", "Rubber", "EVA", "PVC", "Fabric", "Mesh", "Knit", "Synthetic"
+    ]);
+    container.appendChild(materialField);
+    materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
+  }
 
-if (config.pattern) {
-  const patternField = createDropdown("Pattern", "pattern", [
-    "Solid", "Striped", "Printed", "Checked", "Embroidered", "Floral", "Geometric", "Colorblocked", "Animal Print", "Tie & Dye"
-  ]);
-  container.appendChild(patternField);
-  patternField.querySelector("#pattern").addEventListener("change", e => updatePreviewField("pattern", e.target.value));
-}
+  // Pattern
+  if (config.pattern) {
+    const patternField = createDropdown("Pattern", "pattern", [
+      "Solid", "Striped", "Printed", "Checked", "Floral", "Geometric", "Abstract", "Polka Dots", "Paisley", "Bohemian", "Tribal",
+      "Animal Print", "Colorblocked", "Bandhani", "Ikat", "Kalamkari", "Block Print", "Tie-Dye", "Ethnic Motif", "Camouflage"
+    ]);
+    container.appendChild(patternField);
+    patternField.querySelector("#pattern").addEventListener("change", e => updatePreviewField("pattern", e.target.value));
+  }
 
-if (config.washCare) {
-  const washCareField = createDropdown("Wash Care", "washCare", [
-    "Machine Wash", "Hand Wash", "Dry Clean", "Do Not Bleach", "Tumble Dry Low", "Do Not Iron", "Delicate Wash"
-  ]);
-  container.appendChild(washCareField);
-  washCareField.querySelector("#washCare").addEventListener("change", e => updatePreviewField("washCare", e.target.value));
-}
-
+  // Wash Care
+  if (config.washCare) {
+    const washCareField = createDropdown("Wash Care", "washCare", [
+      "Machine Wash Cold", "Machine Wash Warm", "Hand Wash", "Dry Clean Only", "Do Not Bleach",
+      "Do Not Tumble Dry", "Tumble Dry Low", "Do Not Wring", "Wash Inside Out", "Iron on Reverse",
+      "Do Not Iron", "Do Not Iron on Print", "Delicate Wash"
+    ]);
+    container.appendChild(washCareField);
+    washCareField.querySelector("#washCare").addEventListener("change", e => updatePreviewField("washCare", e.target.value));
+  }
 
   if (config.modelStyle) {
     const modelStyleField = createInput("Style/Model", "modelStyle");

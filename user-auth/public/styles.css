@@ -1012,11 +1012,12 @@ body, html {
 /* === Card Image === */
 .slider-card img {
   width: 100%;
-  height: 120px;
-  object-fit: contain;
+  height: 160px; /* increased from 120px */
+  object-fit: cover; /* optional: makes image fill space more attractively */
   border-radius: 8px;
   background-color: #FFF5F7;
 }
+
 
 /* === Card Content === */
 .product-card-content {
@@ -1060,7 +1061,7 @@ body, html {
   }
 
   .slider-card img {
-    height: 110px;
+    height: 140px;
   }
 
   .product-slider-section h2 {
@@ -1177,11 +1178,12 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 
 .product-image {
   width: 100%;
-  height: 170px;
-  object-fit: contain;
-  border-radius: 8px;
-  background-color: #ffffff ;
+  height: 220px; /* increased from 170px */
+  object-fit: cover; /* makes it fill and crop a bit */
+  border-radius: 10px;
+  background-color: #ffffff;
 }
+
 
 .product-card h4 {
   font-size: 1.1rem;
@@ -1296,7 +1298,7 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 
   .product-image {
     width: 100%;
-    height: 120px;
+    height: 160px;
     object-fit: contain;
     border-radius: 6px;
     background-color: #FFF5F7;

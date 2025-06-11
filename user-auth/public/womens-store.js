@@ -3,34 +3,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const titleEl = document.getElementById('subcategory-title');
 
   const params = new URLSearchParams(window.location.search);
-  const sub = params.get('subcategory') || 'All';
+const sub = params.get('subcategory');
+if (!sub) return; // Stop if no subcategory is given
   titleEl.textContent = sub;
 
 fetch(`https://swarize.in/api/products/category/Women/${encodeURIComponent(sub)}`)
     .then(res => res.json())
     .then(data => {
       productContainer.innerHTML = '';
-      if (!data.success || !data.products.length) {
-        productContainer.innerHTML = `<p>No products found in ${sub}.</p>`;
-        return;
-      }
+      if (!data.success || !data.products || data.products.length === 0) {
+      productContainer.innerHTML = `<p>No products found in ${sub}.</p>`;
+      return;
+    }
 
       data.products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
+      const card = document.createElement('div');
+      card.className = 'product-card';
 
-        const imgUrl = p.thumbnailImage.startsWith('uploads/')
-          ? `https://swarize.in/${p.thumbnailImage}`
-          : p.thumbnailImage;
+      const imgUrl = p.thumbnailImage?.startsWith('uploads/')
+        ? `https://swarize.in/${p.thumbnailImage}`
+        : p.thumbnailImage;
 
-        card.innerHTML = `
-          <img src="${imgUrl}" alt="${p.name}" class="product-image" onclick="viewProduct('${p._id}')">
-          <h4>${p.name}</h4>
-          <p class="product-price">₹${p.price}</p>
-          <button class="cart-button" onclick="addToCart('${p._id}')">🛒</button>
-        `;
-        productContainer.appendChild(card);
-      });
+      card.innerHTML = `
+        <img src="${imgUrl}" alt="${p.name}" class="product-image" onclick="viewProduct('${p._id}')">
+        <h4>${p.name}</h4>
+        <p class="product-price">₹${p.price}</p>
+        <button class="cart-button" onclick="addToCart('${p._id}')">🛒</button>
+      `;
+      productContainer.appendChild(card);
+    });
     })
     .catch(err => {
       console.error(' Error loading products:', err);

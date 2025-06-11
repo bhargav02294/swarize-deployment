@@ -222,6 +222,36 @@ router.get('/products', async (req, res) => {
 });
 
 
+// ✅ Route to Fetch Products by Category
+// ✅ Route to fetch products by category and subcategory (like Women's Store)
+router.get('/category/:category/:subcategory', async (req, res) => {
+    try {
+        const { category, subcategory } = req.params;
+
+        const products = await Product.find({
+            category: decodeURIComponent(category),
+            subcategory: decodeURIComponent(subcategory)
+        }).sort({ createdAt: -1 });
+
+        res.json({ success: true, products });
+    } catch (err) {
+        console.error(" Error fetching by category/subcategory:", err);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+// ✅ Route to Fetch Products by Category
+
+router.get('/category/:category', async (req, res) => {
+  try {
+    const category = decodeURIComponent(req.params.category);
+    const products = await Product.find({ category }).sort({ createdAt: -1 });
+    res.json({ success: true, products });
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
 
 // 🔴 DELETE product
 router.delete("/delete/:id", verifySession, async (req, res) => {
@@ -272,23 +302,6 @@ router.get('/detail/:id', async (req, res) => {
 
 
 
-// ✅ Route to Fetch Products by Category
-// ✅ Route to fetch products by category and subcategory (like Women's Store)
-router.get('/category/:category/:subcategory', async (req, res) => {
-    try {
-        const { category, subcategory } = req.params;
-
-        const products = await Product.find({
-            category: decodeURIComponent(category),
-            subcategory: decodeURIComponent(subcategory)
-        }).sort({ createdAt: -1 });
-
-        res.json({ success: true, products });
-    } catch (err) {
-        console.error(" Error fetching by category/subcategory:", err);
-        res.status(500).json({ success: false, message: "Server error" });
-    }
-});
 
 
 
@@ -317,18 +330,6 @@ router.post('/login', async (req, res) => {
     });
 });
 
-// ✅ Route to Fetch Products by Category
-
-router.get('/category/:category', async (req, res) => {
-  try {
-    const category = decodeURIComponent(req.params.category);
-    const products = await Product.find({ category }).sort({ createdAt: -1 });
-    res.json({ success: true, products });
-  } catch (error) {
-    console.error("Error fetching products by category:", error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
 
 
 module.exports = router;

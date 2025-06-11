@@ -1,39 +1,48 @@
-<!-- accessories-store.html -->
+<!-- accessories.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Accessories Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accessories Collection - Swarize</title>
   <link rel="stylesheet" href="product-page.css" />
 </head>
 <body>
-  <h1>Accessories Store</h1>
+  <h1>Accessories Collection</h1>
   <div id="product-list" class="product-grid"></div>
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      const res = await fetch("/api/products/category/Accessories");
-      const data = await res.json();
-      const container = document.getElementById("product-list");
+      try {
+        // ✅ Fetch all products in the "Accessories" category
+        const res = await fetch("https://swarize.in/api/products/category/Accessories");
+        const data = await res.json();
+        const container = document.getElementById("product-list");
 
-      if (data.success && data.products.length > 0) {
-        data.products.forEach((p) => {
-          const card = document.createElement("div");
-          card.className = "product-card";
-          const imgSrc = p.thumbnailImage.startsWith("uploads/")
-            ? `https://swarize.in/${p.thumbnailImage}`
-            : p.thumbnailImage;
-          card.innerHTML = `
-            <img src="${imgSrc}" alt="${p.name}" />
-            <h3>${p.name}</h3>
-            <p>₹${p.price}</p>
-            <button onclick="location.href='/product-detail.html?id=${p._id}'">View</button>
-          `;
-          container.appendChild(card);
-        });
-      } else {
-        container.innerHTML = "<p>No products found.</p>";
+        if (data.success && data.products.length > 0) {
+          data.products.forEach(p => {
+            const card = document.createElement("div");
+            card.className = "product-card";
+
+            const imgSrc = p.thumbnailImage?.startsWith("uploads/")
+              ? `https://swarize.in/${p.thumbnailImage}`
+              : p.thumbnailImage;
+
+            card.innerHTML = `
+              <img src="${imgSrc}" alt="${p.name}" />
+              <h3>${p.name}</h3>
+              <p>₹${p.price}</p>
+              <button onclick="location.href='/product-detail.html?id=${p._id}'">View</button>
+            `;
+
+            container.appendChild(card);
+          });
+        } else {
+          container.innerHTML = `<p>No products found in Accessories category.</p>`;
+        }
+      } catch (err) {
+        console.error("Error loading products:", err);
+        document.getElementById("product-list").innerHTML = '<p>Failed to load products.</p>';
       }
     });
   </script>

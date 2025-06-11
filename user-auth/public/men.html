@@ -14,8 +14,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       try {
-        // ✅ Fetch all products in the "Men's Store" category
-        const res = await fetch("https://swarize.in/api/products/category/Men's%20Store");
+        const res = await fetch("https://swarize.in/api/products/category/Men");
         const data = await res.json();
         const container = document.getElementById("product-list");
 
@@ -38,7 +37,7 @@
             container.appendChild(card);
           });
         } else {
-          container.innerHTML = '<p>No products found in Men\'s Store category.</p>';
+          container.innerHTML = '<p>No products found in Men category.</p>';
         }
       } catch (err) {
         console.error("Error loading products:", err);

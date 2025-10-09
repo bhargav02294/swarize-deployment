@@ -1,35 +1,39 @@
-// ✅ NEW categoriesData with 4 Main Categories and 10 Subcategories Each
+// ✅ CategoriesData for only Sarees and Dresses
 const categoriesData = [
   {
-    name: "Women",
+    name: "Saree",
     subcategories: [
-      "Ethnic Wear", "Western Wear", "Bottomwear", "Winterwear", "Innerwear & Loungewear",
-      "Footwear", "Bags & Clutches", "Jewelry & Accessories", "Beauty & Makeup", "Eyewear & Watches"
+      "Silk Sarees",
+      "Cotton Sarees",
+      "Chiffon Sarees",
+      "Georgette Sarees",
+      "Designer Sarees",
+      "Party Wear Sarees",
+      "Casual Sarees",
+      "Wedding Sarees",
+      "Printed Sarees",
+      "Embroidered Sarees"
     ]
   },
   {
-    name: "Men",
+    name: "Dress",
     subcategories: [
-      "Topwear", "Bottomwear", "Ethnic Wear", "Winterwear", "Innerwear & Sleepwear",
-      "Footwear", "Accessories", "Eyewear & Watches", "Grooming", "Bags & Utility"
-    ]
-  },
-  {
-    name: "Kids",
-    subcategories: [
-      "Boys Clothing", "Girls Clothing", "Footwear", "Toys & Games", "Remote Toys",
-      "Learning & School", "Baby Essentials", "Winterwear", "Accessories", "Festive Wear"
-    ]
-  },
-  {
-    name: "Accessories",
-    subcategories: [
-      "Bags & Travel", "Unisex Footwear", "Mobile Accessories", "Gadgets", "Computer Accessories",
-      "Home Decor", "Kitchenware", "Health & Care", "Craft & DIY Kits", "Fashion Accessories"
+      "Kurtis",
+      "Long Kurtis",
+      "Short Kurtis",
+      "Anarkali Dresses",
+      "A-Line Dresses",
+      "Straight Fit Dresses",
+      "Palazzo Kurtis",
+      "Layered Kurtis",
+      "Lehengas",
+      "Gowns",
+      "Salwar Suits",
+      "Tunics",
+      "Dupattas & Shawls"
     ]
   }
 ];
-
 
 
 const categorySelect = document.getElementById("category");
@@ -224,160 +228,32 @@ async function fetchStoreDetails() {
 
 
 
-/*
-document.getElementById('add-product-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const messageElement = document.getElementById('message');
-  const formData = new FormData();
-
-  const availableInInput = document.getElementById("availableIn");
-  let availableInValue = availableInInput.value.trim() || "All Over India";
-
-  formData.append('name', document.getElementById("product-name").value.trim());
-  formData.append('price', document.getElementById("price").value.trim());
-  formData.append('description', document.getElementById("description").value.trim());
-  formData.append('summary', document.getElementById("summary").value.trim());
-  formData.append('category', document.getElementById("category").value);
-  formData.append('subcategory', document.getElementById("subcategory").value);
-  formData.append('size', document.getElementById("size").value.trim());
-  formData.append('color', document.getElementById("color").value.trim());
-  formData.append('material', document.getElementById("material").value.trim());
-  formData.append('modelStyle', document.getElementById("model-style").value.trim());
-  formData.append('availableIn', availableInValue);
-
-  const thumbnail = document.getElementById("thumbnail-image").files[0];
-  if (thumbnail) {
-      formData.append('thumbnailImage', thumbnail);
-  } else {
-      messageElement.textContent = " Thumbnail image is required.";
-      messageElement.style.color = "red";
-      return;
-  }
-
-  // Add extra images to FormData
-  ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-      const file = document.getElementById(id)?.files[0];
-      if (file) {
-          formData.append('extraImages', file);
-      }
-  });
-
-  // Add extra videos to FormData
-  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-      const file = document.getElementById(id)?.files[0];
-      if (file) {
-          formData.append('extraVideos', file);
-      }
-  });
-
-  // Log FormData before sending to check the contents
-  console.log("Uploading FormData...");
-  for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-  }
-
-  // Get the storeId from localStorage
-  const storeId = localStorage.getItem("storeId");
-  formData.append("storeId", storeId);
-
-  try {
-      const response = await fetch("/api/products/add", {
-          method: "POST",
-          body: formData,
-          credentials: "include"
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-          messageElement.textContent = " Product added successfully!";
-          messageElement.style.color = "green";
-
-          // Redirect after success
-          setTimeout(() => {
-              const storeSlug = localStorage.getItem("storeSlug");
-              window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
-          }, 2000);
-      } else {
-          messageElement.textContent = result.message || " Failed to add product.";
-          messageElement.style.color = "red";
-      }
-
-  } catch (error) {
-      console.error("Error adding product:", error);
-      messageElement.textContent = " Error adding product.";
-      messageElement.style.color = "red";
-  }
-});
-*/
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+// ==== Final Subcategory Fields for Saree and Dress ====
 const subcategoryFieldsMap = {
-  // WOMEN
-  "Ethnic Wear":             { size: "womenClothing",  color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Western Wear":            { size: "womenClothing",  color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Bottomwear":              { size: "womenClothing",  color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Winterwear":              { size: "womenClothing",  color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Innerwear & Loungewear":  { size: "womenClothing",  color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Footwear":                { size: "womenFootwear",  color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Bags & Clutches":         { size: "bags",           color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Jewelry & Accessories":   { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Beauty & Makeup":         { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Eyewear & Watches":       { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-
-  // MEN
-  "Topwear":                 { size: "menClothing",    color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Bottomwear":              { size: "menClothing",    color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Ethnic Wear":             { size: "menClothing",    color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Winterwear":              { size: "menClothing",    color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Innerwear & Sleepwear":   { size: "menClothing",    color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Footwear":                { size: "menFootwear",    color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Accessories":             { size: "accessories",    color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Eyewear & Watches":       { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Grooming":                { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Bags & Utility":          { size: "bags",           color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-
-  // KIDS
-  "Boys Clothing":           { size: "kidsClothing",   color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Girls Clothing":          { size: "kidsClothing",   color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Footwear":                { size: "kidsFootwear",   color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Toys & Games":            { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Remote Toys":             { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Learning & School":       { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Baby Essentials":         { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Winterwear":              { size: "kidsClothing",   color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Accessories":             { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Festive Wear":            { size: "kidsClothing",   color: true, material: "clothing", pattern: true, washCare: true, modelStyle: true, brand: true },
-
-  // ACCESSORIES
-  "Bags & Travel":           { size: "bags",           color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Unisex Footwear":         { size: "menFootwear",    color: true, material: "footwear", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Mobile Accessories":      { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Gadgets":                 { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Computer Accessories":    { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Home Decor":              { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Kitchenware":             { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Health & Care":           { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Craft & DIY Kits":        { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true },
-  "Fashion Accessories":     { size: "accessories",    color: true, material: "accessory", pattern: true, washCare: true, modelStyle: true, brand: true }
+  "Saree": {
+    productCode: true,
+    material: true,
+    color: true,
+    pattern: true,
+    sareeSize: true,
+    blouseSize: true,
+    occasion: true,
+    washCare: true
+  },
+  "Dress": {
+    productCode: true,
+    material: true,
+    color: true,
+    pattern: true,
+    availableSize: true,
+    occasion: true,
+    washCare: true
+  }
 };
-
 
 document.getElementById("nextBtn").addEventListener("click", () => {
   const name = document.getElementById("product-name").value.trim();
@@ -405,159 +281,75 @@ document.getElementById("nextBtn").addEventListener("click", () => {
   loadFields(subcategory);
 });
 
-// ==== Field Creators ====
-function updatePreviewField(fieldId, value) {
-  const el = document.getElementById(`preview-${fieldId}`);
-  if (el) el.textContent = value || "-";
-}
-
-function createInput(label, id, placeholder = "") {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
-  return wrapper;
-}
-
-function createDropdown(label, id, options) {
-  const wrapper = document.createElement("div");
-  const optionsHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><select id="${id}" name="${id}"><option disabled selected>Select ${label}</option>${optionsHTML}</select>`;
-  return wrapper;
-}
-
-function loadSizeOptions(type) {
-  const sizeOptions = {
-    womenClothing: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL", "4XL", "Petite"],
-    menClothing: ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
-    kidsClothing: ["0-3M", "3-6M", "6-12M", "1-2 Yr", "2-3 Yr", "3-4 Yr", "4-5 Yr", "6-7 Yr", "8-9 Yr", "10-11 Yr", "12-13 Yr", "14-15 Yr"],
-    womenFootwear: ["3", "4", "5", "6", "7", "8", "9"],
-    menFootwear: ["6", "7", "8", "9", "10", "11", "12"],
-    kidsFootwear: ["5", "6", "7", "8", "9", "10", "11", "12", "13"]
-  };
-
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("field-group");
-  wrapper.innerHTML = `<label>Available Sizes</label>`;
-
-  const selectedSizesContainer = document.createElement("div");
-  selectedSizesContainer.classList.add("size-options");
-
-  const options = sizeOptions[type] || ["Free Size"];
-  options.forEach(size => {
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "size";
-    checkbox.value = size;
-    checkbox.id = `size-${size}`;
-
-    const label = document.createElement("label");
-    label.htmlFor = `size-${size}`;
-    label.textContent = size;
-    label.style.marginRight = "10px";
-
-    selectedSizesContainer.appendChild(checkbox);
-    selectedSizesContainer.appendChild(label);
-  });
-
-  wrapper.appendChild(selectedSizesContainer);
-
-  selectedSizesContainer.addEventListener("change", () => {
-    const selected = Array.from(selectedSizesContainer.querySelectorAll("input[type='checkbox']:checked"))
-      .map(cb => cb.value)
-      .join(", ");
-    updatePreviewField("size", selected);
-  });
-
-  return wrapper;
-}
-
-function createColorPalette() {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label>Color</label>`;
-  const colors = [
-    "#000000", "#ffffff", "#ff0000", "#00ff00", "#0000ff",
-    "#ffff00", "#ff00ff", "#00ffff", "#808080", "#800000",
-    "#808000", "#008000", "#800080", "#008080", "#000080"
-  ];
-  const colorBox = document.createElement("div");
-  colorBox.className = "color-palette";
-
-  colors.forEach(hex => {
-    const swatch = document.createElement("span");
-    swatch.className = "color-swatch";
-    swatch.style.backgroundColor = hex;
-    swatch.setAttribute("data-color", hex);
-    Object.assign(swatch.style, {
-      border: "1px solid #999",
-      width: "24px",
-      height: "24px",
-      display: "inline-block",
-      cursor: "pointer",
-      marginRight: "6px",
-      borderRadius: "4px"
-    });
-
-    swatch.addEventListener("click", () => {
-      document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
-      swatch.classList.add("selected");
-      const input = document.getElementById("color");
-      if (input) input.value = hex;
-      updatePreviewField("color", hex);
-    });
-
-    colorBox.appendChild(swatch);
-  });
-
-  const input = document.createElement("input");
-  input.type = "text";
-  input.id = "color";
-  input.name = "color";
-  input.placeholder = "Or enter custom color name";
-  input.style.marginTop = "8px";
-  input.addEventListener("input", () => {
-    updatePreviewField("color", input.value);
-  });
-
-  wrapper.appendChild(colorBox);
-  wrapper.appendChild(input);
-
-  return wrapper;
-}
-
 // ==== Dynamic Field Loader ====
 function loadFields(subcategory) {
   const container = document.getElementById("dynamic-fields");
   container.innerHTML = "";
   if (!subcategory) return;
 
-  const config = subcategoryFieldsMap[subcategory] || {};
+  const config = subcategoryFieldsMap[subcategory];
 
-  if (config.size) container.appendChild(loadSizeOptions(config.size));
-  if (config.color) container.appendChild(createColorPalette());
+  // Product Code
+  if (config.productCode) {
+    const codeField = createInput("Product Code", "productCode", "Enter product code");
+    container.appendChild(codeField);
+    codeField.querySelector("#productCode").addEventListener("input", e => updatePreviewField("productCode", e.target.value));
+  }
 
-  if (config.material === "clothing") {
-    const materialField = createDropdown("Material", "material", [
-      "Cotton", "Cotton Blend", "Linen", "Silk", "Satin", "Rayon", "Polyester", "Chiffon",
-      "Georgette", "Wool", "Viscose", "Velvet", "Denim", "Net", "Nylon", "Organza", "Modal"
-    ]);
-    container.appendChild(materialField);
-    materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
-  } else if (config.material === "footwear") {
-    const materialField = createDropdown("Material", "material", [
-      "Genuine Leather", "Faux Leather", "PU", "Suede", "Canvas", "Rubber", "EVA", "PVC", "Fabric", "Mesh", "Knit", "Synthetic"
+  // Material / Fabric
+  if (config.material) {
+    const materialField = createDropdown("Material / Fabric", "material", [
+      "Cotton", "Cotton Blend", "Silk", "Satin", "Rayon", "Polyester", "Chiffon", "Georgette",
+      "Wool", "Velvet", "Linen", "Net", "Nylon", "Organza", "Modal"
     ]);
     container.appendChild(materialField);
     materialField.querySelector("#material").addEventListener("change", e => updatePreviewField("material", e.target.value));
   }
 
+  // Color
+  if (config.color) {
+    container.appendChild(createColorPalette());
+  }
+
+  // Pattern
   if (config.pattern) {
     const patternField = createDropdown("Pattern", "pattern", [
-      "Solid", "Striped", "Printed", "Checked", "Floral", "Geometric", "Abstract", "Polka Dots", "Paisley", "Bohemian", "Tribal",
-      "Animal Print", "Colorblocked", "Bandhani", "Ikat", "Kalamkari", "Block Print", "Tie-Dye", "Ethnic Motif", "Camouflage"
+      "Solid", "Striped", "Printed", "Checked", "Floral", "Geometric", "Abstract", "Polka Dots",
+      "Paisley", "Bohemian", "Tribal", "Animal Print", "Colorblocked", "Bandhani", "Ikat",
+      "Kalamkari", "Block Print", "Tie-Dye", "Ethnic Motif", "Camouflage"
     ]);
     container.appendChild(patternField);
     patternField.querySelector("#pattern").addEventListener("change", e => updatePreviewField("pattern", e.target.value));
   }
 
+  // Saree Size & Blouse Size (only for Saree)
+  if (config.sareeSize) {
+    const sareeSizeField = createInput("Saree Size (meters)", "sareeSize", "e.g., 5.5 meters");
+    container.appendChild(sareeSizeField);
+    sareeSizeField.querySelector("#sareeSize").addEventListener("input", e => updatePreviewField("sareeSize", e.target.value));
+  }
+
+  if (config.blouseSize) {
+    const blouseSizeField = createInput("Blouse Size (meters)", "blouseSize", "e.g., 0.8 meters");
+    container.appendChild(blouseSizeField);
+    blouseSizeField.querySelector("#blouseSize").addEventListener("input", e => updatePreviewField("blouseSize", e.target.value));
+  }
+
+  // Available Size (only for Dress)
+  if (config.availableSize) {
+    container.appendChild(loadSizeOptions("womenClothing")); // XS, S, M, L, XL, XXL, 3XL, 4XL
+  }
+
+  // Occasion
+  if (config.occasion) {
+    const occasionField = createDropdown("Occasion", "occasion", [
+      "Casual", "Party", "Wedding", "Festive", "Office", "Formal", "Daily Wear", "Cocktail", "Ethnic", "Bridal"
+    ]);
+    container.appendChild(occasionField);
+    occasionField.querySelector("#occasion").addEventListener("change", e => updatePreviewField("occasion", e.target.value));
+  }
+
+  // Wash Care
   if (config.washCare) {
     const washCareField = createDropdown("Wash Care", "washCare", [
       "Machine Wash Cold", "Machine Wash Warm", "Hand Wash", "Dry Clean Only", "Do Not Bleach",
@@ -567,18 +359,7 @@ function loadFields(subcategory) {
     container.appendChild(washCareField);
     washCareField.querySelector("#washCare").addEventListener("change", e => updatePreviewField("washCare", e.target.value));
   }
-
-  if (config.modelStyle) {
-    const modelStyleField = createInput("Style/Model", "modelStyle");
-    container.appendChild(modelStyleField);
-    modelStyleField.querySelector("#modelStyle").addEventListener("input", e => updatePreviewField("modelStyle", e.target.value));
-  }
-
-  const brandField = createInput("Brand (optional)", "brand");
-  container.appendChild(brandField);
-  brandField.querySelector("#brand").addEventListener("input", e => updatePreviewField("brand", e.target.value));
 }
-
 
 
 
@@ -661,8 +442,8 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   formData.append('subcategory', document.getElementById("subcategory").value);
   formData.append('availableIn', availableInValue);
 
-  // Dynamic Fields (check if present before appending)
-  // Dynamic Fields (exclude size & brand here)
+ // Dynamic Fields (check if present before appending)
+// Dynamic Fields (exclude size & productCode here)
 const optionalFields = ["color", "material", "pattern", "washCare", "modelStyle"];
 optionalFields.forEach(fieldId => {
   const fieldEl = document.getElementById(fieldId);
@@ -678,11 +459,12 @@ if (sizeCheckboxes.length > 0) {
   sizes.forEach(size => formData.append("size", size));
 }
 
-// ✅ Brand
-const brandInput = document.getElementById("brand");
-if (brandInput && brandInput.value.trim()) {
-  formData.append("brand", brandInput.value.trim());
+// ✅ Product Code (replacing Brand)
+const productCodeInput = document.getElementById("productCode");
+if (productCodeInput && productCodeInput.value.trim()) {
+  formData.append("productCode", productCodeInput.value.trim());
 }
+
 
 
   // Handle thumbnail image

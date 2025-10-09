@@ -1,38 +1,49 @@
 // ✅ NEW categoriesData with 4 Main Categories and 10 Subcategories Each
+// ✅ Category and Subcategory Data
+const categoriesData = [
+  {
+    name: "Sarees",
+    subcategories: [
+      "Silk Saree", "Cotton Saree", "Georgette Saree", "Chiffon Saree", "Crepe Saree",
+      "Linen Saree", "Banarasi Saree", "Kanjivaram Saree", "Paithani Saree", "Organza Saree",
+      "Tissue Saree", "Satin Saree", "Net Saree", "Printed Saree", "Embroidered Saree"
+    ],
+  },
+  {
+    name: "Dresses",
+    subcategories: [
+      "Kurti", "Lehenga", "Anarkali Dress", "Gown", "Sharara", "Salwar Suit",
+      "Palazzo Set", "Skirt Set", "Indo Western Dress", "Co-ord Set", "Churidar Set"
+    ],
+  },
+];
 
 
+// ✅ Load Categories and Subcategories
+document.addEventListener("DOMContentLoaded", () => {
+  const categorySelect = document.getElementById("category");
+  const subcategorySelect = document.getElementById("subcategory");
 
-const categoriesData = [ { name: "Saree", subcategories: [ "Silk Sarees", "Cotton Sarees", "Chiffon Sarees", "Georgette Sarees", "Designer Sarees", "Party Wear Sarees", "Casual Sarees", "Wedding Sarees", "Printed Sarees", "Embroidered Sarees" ] },
- { name: "Dress", subcategories: [ "Kurtis", "Long Kurtis", "Short Kurtis", "Anarkali Dresses", "A-Line Dresses", "Straight Fit Dresses", "Palazzo Kurtis", "Layered Kurtis", "Lehengas", "Gowns", "Salwar Suits", "Tunics", "Dupattas & Shawls" ] } ];
+  categoriesData.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat.name;
+    opt.textContent = cat.name;
+    categorySelect.appendChild(opt);
+  });
 
-
-
-const categorySelect = document.getElementById("category");
-const subcategorySelect = document.getElementById("subcategory");
-
-// Populate categories
-categoriesData.forEach((category) => {
-  const option = document.createElement("option");
-  option.value = category.name;
-  option.textContent = category.name;
-  categorySelect.appendChild(option);
+  categorySelect.addEventListener("change", e => {
+    subcategorySelect.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
+    const selectedCategory = categoriesData.find(c => c.name === e.target.value);
+    if (selectedCategory) {
+      selectedCategory.subcategories.forEach(sub => {
+        const opt = document.createElement("option");
+        opt.value = sub;
+        opt.textContent = sub;
+        subcategorySelect.appendChild(opt);
+      });
+    }
+  });
 });
-
-// Update subcategories based on selected category
-categorySelect.addEventListener("change", (e) => {
-  const selectedCategory = e.target.value;
-  const category = categoriesData.find((cat) => cat.name === selectedCategory);
-  subcategorySelect.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
-  if (category) {
-    category.subcategories.forEach((subcategory) => {
-      const option = document.createElement("option");
-      option.value = subcategory;
-      option.textContent = subcategory;
-      subcategorySelect.appendChild(option);
-    });
-  }
-});
-
 
 
 
@@ -272,94 +283,27 @@ async function fetchStoreDetails() {
 
 
 
-
-/*
-document.getElementById('add-product-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const messageElement = document.getElementById('message');
-  const formData = new FormData();
-
-  const availableInInput = document.getElementById("availableIn");
-  let availableInValue = availableInInput.value.trim() || "All Over India";
-
-  formData.append('name', document.getElementById("product-name").value.trim());
-  formData.append('price', document.getElementById("price").value.trim());
-  formData.append('description', document.getElementById("description").value.trim());
-  formData.append('summary', document.getElementById("summary").value.trim());
-  formData.append('category', document.getElementById("category").value);
-  formData.append('subcategory', document.getElementById("subcategory").value);
-  formData.append('size', document.getElementById("size").value.trim());
-  formData.append('color', document.getElementById("color").value.trim());
-  formData.append('material', document.getElementById("material").value.trim());
-  formData.append('modelStyle', document.getElementById("model-style").value.trim());
-  formData.append('availableIn', availableInValue);
-
-  const thumbnail = document.getElementById("thumbnail-image").files[0];
-  if (thumbnail) {
-      formData.append('thumbnailImage', thumbnail);
-  } else {
-      messageElement.textContent = " Thumbnail image is required.";
-      messageElement.style.color = "red";
-      return;
-  }
-
-  // Add extra images to FormData
-  ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-      const file = document.getElementById(id)?.files[0];
-      if (file) {
-          formData.append('extraImages', file);
-      }
-  });
-
-  // Add extra videos to FormData
-  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-      const file = document.getElementById(id)?.files[0];
-      if (file) {
-          formData.append('extraVideos', file);
-      }
-  });
-
-  // Log FormData before sending to check the contents
-  console.log("Uploading FormData...");
-  for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-  }
-
-  // Get the storeId from localStorage
-  const storeId = localStorage.getItem("storeId");
-  formData.append("storeId", storeId);
-
-  try {
-      const response = await fetch("/api/products/add", {
-          method: "POST",
-          body: formData,
-          credentials: "include"
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-          messageElement.textContent = " Product added successfully!";
-          messageElement.style.color = "green";
-
-          // Redirect after success
-          setTimeout(() => {
-              const storeSlug = localStorage.getItem("storeSlug");
-              window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
-          }, 2000);
-      } else {
-          messageElement.textContent = result.message || " Failed to add product.";
-          messageElement.style.color = "red";
-      }
-
-  } catch (error) {
-      console.error("Error adding product:", error);
-      messageElement.textContent = " Error adding product.";
-      messageElement.style.color = "red";
-  }
-});
-*/
+const subcategoryFieldsMap = {
+  Sarees: {
+    productCode: true,
+    material: true,
+    color: true,
+    pattern: true,
+    sareeSize: true,
+    blouseSize: true,
+    occasion: true,
+    washCare: true,
+  },
+  Dresses: {
+    productCode: true,
+    material: true,
+    color: true,
+    pattern: true,
+    availableSize: true,
+    occasion: true,
+    washCare: true,
+  },
+};
 
 
 
@@ -368,215 +312,148 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// ==== Field Creators ====
-function createPreviewElement(label) {
-  const p = document.createElement("p");
-  p.textContent = `${label}: -`;
-  previewContainer.appendChild(p);
-  return p;
-}
-
-function updatePreviewField(fieldId, value) {
-  if (previewFields[fieldId]) {
-    previewFields[fieldId].textContent = `${fieldId.replace(/([A-Z])/g, ' $1')}: ${value || "-"}`;
-  }
-}
-
-// ===== Field Creators =====
-function createInput(label, id, placeholder = "") {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><input type="text" id="${id}" name="${id}" placeholder="${placeholder}" />`;
-  return wrapper;
-}
-
-function createDropdown(label, id, options) {
-  const wrapper = document.createElement("div");
-  const optionsHTML = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
-  wrapper.innerHTML = `<label for="${id}">${label}</label><select id="${id}" name="${id}"><option disabled selected>Select ${label}</option>${optionsHTML}</select>`;
-  return wrapper;
-}
-
-
-function loadSizeOptions(type) {
-  const sizeOptions = {
-    womenClothing: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL", "4XL", "Petite"],
-    menClothing: ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
-    kidsClothing: ["0-3M", "3-6M", "6-12M", "1-2 Yr", "2-3 Yr", "3-4 Yr", "4-5 Yr", "6-7 Yr", "8-9 Yr", "10-11 Yr", "12-13 Yr", "14-15 Yr"],
-    womenFootwear: ["3", "4", "5", "6", "7", "8", "9"],
-    menFootwear: ["6", "7", "8", "9", "10", "11", "12"],
-    kidsFootwear: ["5", "6", "7", "8", "9", "10", "11", "12", "13"]
-  };
-
-  const wrapper = document.createElement("div");
-  wrapper.classList.add("field-group");
-  wrapper.innerHTML = `<label>Available Sizes</label>`;
-
-  const selectedSizesContainer = document.createElement("div");
-  selectedSizesContainer.classList.add("size-options");
-
-  const options = sizeOptions[type] || ["Free Size"];
-  options.forEach(size => {
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "size";
-    checkbox.value = size;
-    checkbox.id = `size-${size}`;
-
-    const label = document.createElement("label");
-    label.htmlFor = `size-${size}`;
-    label.textContent = size;
-    label.style.marginRight = "10px";
-
-    selectedSizesContainer.appendChild(checkbox);
-    selectedSizesContainer.appendChild(label);
-  });
-
-  wrapper.appendChild(selectedSizesContainer);
-
-  selectedSizesContainer.addEventListener("change", () => {
-    const selected = Array.from(selectedSizesContainer.querySelectorAll("input[type='checkbox']:checked"))
-      .map(cb => cb.value)
-      .join(", ");
-    updatePreviewField("size", selected);
-  });
-
-  return wrapper;
-}
-
-
-
-
-
-
-
-function createColorPicker() {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = `<label>Color</label>`;
-  
-  const colors = [
-    "#000000","#ffffff","#ff0000","#00ff00","#0000ff",
-    "#ffff00","#ff00ff","#00ffff","#808080","#800000",
-    "#808000","#008000","#800080","#008080","#000080"
-  ];
-  
-  const colorBox = document.createElement("div");
-  colorBox.className = "color-palette";
-  
-  colors.forEach(hex => {
-    const swatch = document.createElement("span");
-    swatch.style.backgroundColor = hex;
-    Object.assign(swatch.style, {width:"24px", height:"24px", display:"inline-block", cursor:"pointer", marginRight:"6px", border:"1px solid #999", borderRadius:"4px"});
-    swatch.addEventListener("click", () => {
-      document.querySelectorAll(".color-swatch").forEach(s=>s.classList.remove("selected"));
-      swatch.classList.add("selected");
-      colorInput.value = hex;
-      updatePreviewField("color", hex);
-    });
-    swatch.className = "color-swatch";
-    colorBox.appendChild(swatch);
-  });
-  
-  const colorInput = document.createElement("input");
-  colorInput.type = "text";
-  colorInput.id = "color";
-  colorInput.placeholder = "Or enter custom color";
-  colorInput.addEventListener("input", ()=>updatePreviewField("color", colorInput.value));
-  
-  wrapper.appendChild(colorBox);
-  wrapper.appendChild(colorInput);
-  return wrapper;
-}
-
-
-
-// ==== Dynamic Field Loader ====
-// ===== Load Dynamic Fields Based on Subcategory =====
-function loadFields(subcategory) {
+// Dynamic Fields Loader
+// ================================
+function loadFields(categoryName) {
   const container = document.getElementById("dynamic-fields");
-  container.innerHTML = "";
-  const category = categorySelect.value;
+  container.innerHTML = ""; // clear previous fields
+
+  const fieldSet = subcategoryFieldsMap[categoryName];
+  if (!fieldSet) return;
 
   // Product Code
-  const productCodeField = createInput("Product Code", "productCode");
-  productCodeField.querySelector("input").addEventListener("input", e=>updatePreviewField("productCode", e.target.value));
-  container.appendChild(productCodeField);
+  if (fieldSet.productCode) {
+    const label = document.createElement("label");
+    label.textContent = "Product Code:";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.id = "productCode";
+    container.append(label, input);
+  }
 
-  // Material
-  const materialOptions = [
-    "Cotton", "Cotton Blend", "Linen", "Silk", "Satin", "Rayon", "Polyester", "Chiffon",
-    "Georgette", "Wool", "Viscose", "Velvet", "Denim", "Net", "Nylon", "Organza", "Modal"
-  ];
-  const materialField = createDropdown("Material/Fabric", "material", materialOptions);
-  materialField.querySelector("select").addEventListener("change", e=>updatePreviewField("material", e.target.value));
-  container.appendChild(materialField);
+  // Material / Fabric
+  if (fieldSet.material) {
+    const label = document.createElement("label");
+    label.textContent = "Material / Fabric:";
+    const select = document.createElement("select");
+    select.id = "material";
+    [
+      "", "Cotton", "Silk", "Georgette", "Chiffon", "Crepe", "Linen", "Net", "Satin", "Velvet", "Organza", "Rayon", "Tissue", "Wool", "Polyester", "Blend"
+    ].forEach(type => {
+      const opt = document.createElement("option");
+      opt.value = type;
+      opt.textContent = type || "Select Material";
+      select.appendChild(opt);
+    });
+    container.append(label, select);
+  }
 
   // Color
-  container.appendChild(createColorPicker());
+  if (fieldSet.color) {
+    const label = document.createElement("label");
+    label.textContent = "Color:";
+    const colorInput = document.createElement("input");
+    colorInput.type = "color";
+    colorInput.id = "colorPicker";
+    const textInput = document.createElement("input");
+    textInput.type = "text";
+    textInput.id = "color";
+    textInput.placeholder = "Enter color name";
+    container.append(label, colorInput, textInput);
+  }
 
   // Pattern
-  const patternOptions = [
-    "Solid", "Striped", "Printed", "Checked", "Floral", "Geometric", "Abstract", "Polka Dots",
-    "Paisley", "Bohemian", "Tribal", "Animal Print", "Colorblocked", "Bandhani", "Ikat",
-    "Kalamkari", "Block Print", "Tie-Dye", "Ethnic Motif", "Camouflage"
-  ];
-  const patternField = createDropdown("Pattern", "pattern", patternOptions);
-  patternField.querySelector("select").addEventListener("change", e=>updatePreviewField("pattern", e.target.value));
-  container.appendChild(patternField);
+  if (fieldSet.pattern) {
+    const label = document.createElement("label");
+    label.textContent = "Pattern:";
+    const select = document.createElement("select");
+    select.id = "pattern";
+    [
+      "", "Plain", "Printed", "Embroidered", "Zari Work", "Thread Work", "Mirror Work",
+      "Digital Print", "Handloom", "Floral", "Striped", "Checks", "Tie-Dye"
+    ].forEach(type => {
+      const opt = document.createElement("option");
+      opt.value = type;
+      opt.textContent = type || "Select Pattern";
+      select.appendChild(opt);
+    });
+    container.append(label, select);
+  }
+
+  // Saree Size
+  if (fieldSet.sareeSize) {
+    const label = document.createElement("label");
+    label.textContent = "Saree Size (in meters):";
+    const input = document.createElement("input");
+    input.type = "number";
+    input.id = "sareeSize";
+    input.placeholder = "Enter saree length";
+    container.append(label, input);
+  }
+
+  // Blouse Size
+  if (fieldSet.blouseSize) {
+    const label = document.createElement("label");
+    label.textContent = "Blouse Size (in meters):";
+    const input = document.createElement("input");
+    input.type = "number";
+    input.id = "blouseSize";
+    input.placeholder = "Enter blouse length";
+    container.append(label, input);
+  }
+
+  // Available Sizes (for Dresses)
+  if (fieldSet.availableSize) {
+    const label = document.createElement("label");
+    label.textContent = "Available Sizes:";
+    container.appendChild(label);
+
+    const sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"];
+    sizes.forEach(size => {
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = `size-${size}`;
+      cb.name = "availableSizes";
+      cb.value = size;
+      const lbl = document.createElement("label");
+      lbl.setAttribute("for", cb.id);
+      lbl.textContent = size;
+      container.append(cb, lbl);
+    });
+  }
 
   // Occasion
-  const occasionOptions = ["Casual", "Party", "Wedding", "Festive", "Office", "Daily Wear"];
-  const occasionField = createDropdown("Occasion", "occasion", occasionOptions);
-  occasionField.querySelector("select").addEventListener("change", e=>updatePreviewField("occasion", e.target.value));
-  container.appendChild(occasionField);
+  if (fieldSet.occasion) {
+    const label = document.createElement("label");
+    label.textContent = "Occasion:";
+    const select = document.createElement("select");
+    select.id = "occasion";
+    [
+      "", "Casual", "Festive", "Wedding", "Party", "Traditional", "Office Wear", "Daily Wear"
+    ].forEach(type => {
+      const opt = document.createElement("option");
+      opt.value = type;
+      opt.textContent = type || "Select Occasion";
+      select.appendChild(opt);
+    });
+    container.append(label, select);
+  }
 
   // Wash Care
-  const washCareOptions = [
-    "Machine Wash Cold", "Machine Wash Warm", "Hand Wash", "Dry Clean Only", "Do Not Bleach",
-    "Do Not Tumble Dry", "Tumble Dry Low", "Do Not Wring", "Wash Inside Out", "Iron on Reverse",
-    "Do Not Iron", "Do Not Iron on Print", "Delicate Wash"
-  ];
-  const washCareField = createDropdown("Wash Care", "washCare", washCareOptions);
-  washCareField.querySelector("select").addEventListener("change", e=>updatePreviewField("washCare", e.target.value));
-  container.appendChild(washCareField);
-
-  // Category-specific fields
-  if(category==="Saree") {
-    const sareeSizeField = createInput("Saree Size (meters)", "sareeSize");
-    sareeSizeField.querySelector("input").addEventListener("input", e=>updatePreviewField("sareeSize", e.target.value));
-    container.appendChild(sareeSizeField);
-
-    const blouseSizeField = createInput("Blouse Size (meters)", "blouseSize");
-    blouseSizeField.querySelector("input").addEventListener("input", e=>updatePreviewField("blouseSize", e.target.value));
-    container.appendChild(blouseSizeField);
-  } else if(category==="Dress") {
-    const availableSizes = ["XS","S","M","L","XL","XXL","3XL","4XL"];
-    const wrapper = document.createElement("div");
-    wrapper.innerHTML = `<label>Available Sizes</label>`;
-    const sizeContainer = document.createElement("div");
-    availableSizes.forEach(size=>{
-      const cb = document.createElement("input");
-      cb.type="checkbox"; cb.value=size; cb.id=`size-${size}`;
-      const lbl = document.createElement("label");
-      lbl.htmlFor = `size-${size}`; lbl.textContent=size; lbl.style.marginRight="10px";
-      sizeContainer.appendChild(cb); sizeContainer.appendChild(lbl);
-      cb.addEventListener("change", ()=>{
-        const selected = Array.from(sizeContainer.querySelectorAll("input[type='checkbox']:checked")).map(c=>c.value).join(", ");
-        updatePreviewField("availableSize", selected);
-      });
+  if (fieldSet.washCare) {
+    const label = document.createElement("label");
+    label.textContent = "Wash Care:";
+    const select = document.createElement("select");
+    select.id = "washCare";
+    [
+      "", "Dry Clean Only", "Hand Wash", "Machine Wash", "Cold Wash", "Do Not Bleach"
+    ].forEach(type => {
+      const opt = document.createElement("option");
+      opt.value = type;
+      opt.textContent = type || "Select Wash Care";
+      select.appendChild(opt);
     });
-    wrapper.appendChild(sizeContainer);
-    container.appendChild(wrapper);
+    container.append(label, select);
   }
 }
 
@@ -622,26 +499,6 @@ document.getElementById("nextBtn").addEventListener("click", ()=>{
 
 
 
-/*
-// Mock: Replace with actual dynamic field loading
-function loadFields(subcategory) {
-  const container = document.getElementById("dynamic-fields");
-  container.innerHTML = `<p>Loading fields for <strong>${subcategory}</strong>...</p>`;
-}
-
-// Mock: Replace with real preview logic
-function updatePreviewField(field, value) {
-  const element = document.getElementById(`preview-${field}`);
-  if (element) {
-    if (field === "price") {
-      element.textContent = `₹${value}`;
-    } else {
-      element.textContent = value;
-    }
-  }
-}
-*/
-
 
 document.getElementById('add-product-form').addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -666,31 +523,35 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
   formData.append('subcategory', document.getElementById("subcategory").value);
   formData.append('availableIn', availableInValue);
 
+
+
+
   // Dynamic Fields (check if present before appending)
-  // Dynamic Fields (exclude size & brand here)
-const productCodeInput = document.getElementById("productCode");
-if (productCodeInput && productCodeInput.value.trim()) {
-  formData.append("productCode", productCodeInput.value.trim());
-}
-
-// ✅ Optional fields
-const optionalFields = ["color", "material", "pattern", "washCare", "modelStyle", "occasion", "sareeSize", "blouseSize"];
-optionalFields.forEach(fieldId => {
-  const fieldEl = document.getElementById(fieldId);
-  if (fieldEl && fieldEl.value.trim()) {
-    formData.append(fieldId, fieldEl.value.trim());
+ // ✅ Product Code
+  const productCodeInput = document.getElementById("productCode");
+  if (productCodeInput && productCodeInput.value.trim()) {
+    formData.append("productCode", productCodeInput.value.trim());
   }
-});
 
-// ✅ Size
-// For Dress: checkbox multi-select (availableSizes)
-// For Saree: sareeSize & blouseSize handled above
-const sizeCheckboxes = document.querySelectorAll("input[name='availableSizes']:checked");
-if (sizeCheckboxes.length > 0) {
-  const sizes = Array.from(sizeCheckboxes).map(cb => cb.value);
-  sizes.forEach(size => formData.append("availableSizes", size));
-}
+  // ✅ Optional Fields
+  const optionalFields = ["color", "material", "pattern", "washCare", "occasion", "sareeSize", "blouseSize"];
+  optionalFields.forEach(fieldId => {
+    const fieldEl = document.getElementById(fieldId);
+    if (fieldEl && fieldEl.value.trim()) {
+      formData.append(fieldId, fieldEl.value.trim());
+    }
+  });
 
+  // ✅ Size Checkboxes
+  const sizeCheckboxes = document.querySelectorAll("input[name='availableSizes']:checked");
+  if (sizeCheckboxes.length > 0) {
+    const sizes = Array.from(sizeCheckboxes).map(cb => cb.value);
+    sizes.forEach(size => formData.append("availableSizes", size));
+  }
+
+
+
+  
 
   // Handle thumbnail image
   const thumbnail = document.getElementById("thumbnail-image").files[0];

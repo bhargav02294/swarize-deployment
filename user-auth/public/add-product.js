@@ -1,5 +1,8 @@
 // ✅ NEW categoriesData with 4 Main Categories and 10 Subcategories Each
 // ✅ Category and Subcategory Data
+
+document.addEventListener("DOMContentLoaded", () => {
+
 const categoriesData = [
   {
     name: "Sarees",
@@ -20,7 +23,6 @@ const categoriesData = [
 
 
 // ✅ Load Categories and Subcategories
-document.addEventListener("DOMContentLoaded", () => {
   const categorySelect = document.getElementById("category");
   const subcategorySelect = document.getElementById("subcategory");
 
@@ -551,7 +553,7 @@ document.getElementById('add-product-form').addEventListener('submit', async (ev
 
 
 
-  
+
 
   // Handle thumbnail image
   const thumbnail = document.getElementById("thumbnail-image").files[0];

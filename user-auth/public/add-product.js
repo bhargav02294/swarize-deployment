@@ -1,621 +1,491 @@
-// ✅ NEW categoriesData with 4 Main Categories and 10 Subcategories Each
-// ✅ Category and Subcategory Data
+// add-product.js (complete, self-contained)
+// Loads after DOM (make sure your <script src="add-product.js"> is at bottom of HTML or use this file)
 
 document.addEventListener("DOMContentLoaded", () => {
+  // ----------------------------
+  // Category + Subcategory data
+  // ----------------------------
+  const categoriesData = [
+    {
+      name: "Sarees",
+      subcategories: [
+        "Silk Saree","Cotton Saree","Georgette Saree","Chiffon Saree","Crepe Saree",
+        "Linen Saree","Banarasi Saree","Kanjivaram Saree","Paithani Saree","Organza Saree",
+        "Tissue Saree","Satin Saree","Net Saree","Printed Saree","Embroidered Saree"
+      ]
+    },
+    {
+      name: "Dresses",
+      subcategories: [
+        "Kurti","Lehenga","Anarkali Dress","Gown","Sharara","Salwar Suit",
+        "Palazzo Set","Skirt Set","Indo Western Dress","Co-ord Set","Churidar Set"
+      ]
+    }
+  ];
 
-const categoriesData = [
-  {
-    name: "Sarees",
-    subcategories: [
-      "Silk Saree", "Cotton Saree", "Georgette Saree", "Chiffon Saree", "Crepe Saree",
-      "Linen Saree", "Banarasi Saree", "Kanjivaram Saree", "Paithani Saree", "Organza Saree",
-      "Tissue Saree", "Satin Saree", "Net Saree", "Printed Saree", "Embroidered Saree"
-    ],
-  },
-  {
-    name: "Dresses",
-    subcategories: [
-      "Kurti", "Lehenga", "Anarkali Dress", "Gown", "Sharara", "Salwar Suit",
-      "Palazzo Set", "Skirt Set", "Indo Western Dress", "Co-ord Set", "Churidar Set"
-    ],
-  },
-];
-
-
-// ✅ Load Categories and Subcategories
+  // ----------------------------
+  // Element references
+  // ----------------------------
   const categorySelect = document.getElementById("category");
   const subcategorySelect = document.getElementById("subcategory");
+  const nextBtn = document.getElementById("nextBtn");
+  const basicInfoSection = document.getElementById("basic-info-section");
+  const productDetailsSection = document.getElementById("product-details-section");
+  const dynamicFieldsContainer = document.getElementById("dynamic-fields");
+  const addProductForm = document.getElementById("add-product-form");
 
-  categoriesData.forEach(cat => {
-    const opt = document.createElement("option");
-    opt.value = cat.name;
-    opt.textContent = cat.name;
-    categorySelect.appendChild(opt);
-  });
+  // live preview elements
+  const previewContainer = document.querySelector(".preview-container") || document.body;
+  const previewThumbnail = document.getElementById("preview-thumbnail");
+  const previewName = document.getElementById("preview-name");
+  const previewPrice = document.getElementById("preview-price");
+  const previewDescription = document.getElementById("preview-description");
+  const previewExtraImages = [
+    document.getElementById("preview-extra-image-1"),
+    document.getElementById("preview-extra-image-2"),
+    document.getElementById("preview-extra-image-3"),
+    document.getElementById("preview-extra-image-4")
+  ];
 
-  categorySelect.addEventListener("change", e => {
-    subcategorySelect.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
-    const selectedCategory = categoriesData.find(c => c.name === e.target.value);
-    if (selectedCategory) {
-      selectedCategory.subcategories.forEach(sub => {
-        const opt = document.createElement("option");
-        opt.value = sub;
-        opt.textContent = sub;
-        subcategorySelect.appendChild(opt);
-      });
-    }
-  });
-});
-
-
-
-
-
-
-
-
-
-
-// Live preview elements
-const previewThumbnail = document.getElementById("preview-thumbnail");
-const previewName = document.getElementById("preview-name");
-const previewPrice = document.getElementById("preview-price");
-const previewDescription = document.getElementById("preview-description");
-const previewExtraImages = [
-  document.getElementById("preview-extra-image-1"),
-  document.getElementById("preview-extra-image-2"),
-  document.getElementById("preview-extra-image-3"),
-  document.getElementById("preview-extra-image-4"),
-];
-
-// Additional preview elements
-// ==== Additional Preview Elements ====
-
-// Common fields
-const previewProductCode = document.createElement("p");
-const previewMaterial = document.createElement("p");
-const previewColor = document.createElement("p");
-const previewPattern = document.createElement("p");
-const previewWashCare = document.createElement("p");
-const previewOccasion = document.createElement("p");
-
-// Saree-specific
-const previewSareeSize = document.createElement("p");
-const previewBlouseSize = document.createElement("p");
-
-// Dress-specific
-const previewAvailableSize = document.createElement("p");
-
-// Subcategory display (common)
-const previewCategory = document.createElement("p");
-const previewSubcategory = document.createElement("p");
-const previewTags = document.createElement("p");
-
-// ==== Append to preview container dynamically ====
-const previewContainer = document.querySelector(".preview-container");
-previewContainer.append(
-  previewCategory,
-  previewSubcategory,
-  previewTags,
-  previewProductCode,
-  previewMaterial,
-  previewColor,
-  previewPattern,
-  previewWashCare,
-  previewOccasion,
-  previewSareeSize,
-  previewBlouseSize,
-  previewAvailableSize
-);
-
-// ==== Function to update preview dynamically ====
-function updatePreviewField(fieldId, value) {
-  switch (fieldId) {
-    case "category":
-      previewCategory.textContent = `Category: ${value}`;
-      break;
-    case "subcategory":
-      previewSubcategory.textContent = `Subcategory: ${value}`;
-      break;
-    case "productCode":
-      previewProductCode.textContent = `Product Code: ${value}`;
-      break;
-    case "material":
-      previewMaterial.textContent = `Material/Fabric: ${value}`;
-      break;
-    case "color":
-      previewColor.textContent = `Color: ${value}`;
-      break;
-    case "pattern":
-      previewPattern.textContent = `Pattern: ${value}`;
-      break;
-    case "washCare":
-      previewWashCare.textContent = `Wash Care: ${value}`;
-      break;
-    case "occasion":
-      previewOccasion.textContent = `Occasion: ${value}`;
-      break;
-    case "sareeSize":
-      previewSareeSize.textContent = `Saree Size: ${value} meters`;
-      break;
-    case "blouseSize":
-      previewBlouseSize.textContent = `Blouse Size: ${value} meters`;
-      break;
-    case "availableSize":
-      previewAvailableSize.textContent = `Available Sizes: ${value}`;
-      break;
-    case "tags":
-      previewTags.textContent = `Tags: ${value}`;
-      break;
-    default:
-      break;
-  }
-}
-
-
-
-
-// Update live preview for text inputs
-document.getElementById("product-name").addEventListener("input", (e) => {
-  previewName.textContent = e.target.value || "Product Name";
-});
-
-document.getElementById("price").addEventListener("input", (e) => {
-  const price = e.target.value ? `₹${e.target.value}` : "₹0.00";
-  previewPrice.textContent = price;
-});
-
-document.getElementById("description").addEventListener("input", (e) => {
-  previewDescription.textContent = e.target.value || "Product description will appear here.";
-});
-
-// Update live preview for category and subcategory
-categorySelect.addEventListener("change", (e) => {
-  previewCategory.textContent = `Category: ${e.target.value}`;
-});
-
-subcategorySelect.addEventListener("change", (e) => {
-  previewSubcategory.textContent = `Subcategory: ${e.target.value}`;
-});
-
-
-
-// Update live preview for images
-const handleImagePreview = (fileInput, previewElement) => {
-  const file = fileInput.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      previewElement.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    previewElement.src = "";
-  }
-};
-
-document.getElementById("thumbnail-image").addEventListener("change", (e) => {
-  handleImagePreview(e.target, previewThumbnail);
-});
-
-document.getElementById("extraImage1").addEventListener("change", (e) => {
-  handleImagePreview(e.target, previewExtraImages[0]);
-});
-
-document.getElementById("extraImage2").addEventListener("change", (e) => {
-  handleImagePreview(e.target, previewExtraImages[1]);
-});
-
-document.getElementById("extraImage3").addEventListener("change", (e) => {
-  handleImagePreview(e.target, previewExtraImages[2]);
-});
-
-document.getElementById("extraImage4").addEventListener("change", (e) => {
-  handleImagePreview(e.target, previewExtraImages[3]);
-});
-
-['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach((id, index) => {
-  document.getElementById(id).addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      const videoElement = document.getElementById(`preview-extra-video-${index + 1}`);
-      videoElement.src = url;
-      videoElement.style.display = 'block';
-    }
-  });
-});
-
-
-
-
-
-// Reset live preview (optional)
-function resetLivePreview() {
-    document.getElementById('preview-thumbnail').src = '';
-    document.getElementById('preview-name').textContent = 'Product Name';
-    document.getElementById('preview-price').textContent = '₹0.00';
-    document.getElementById('preview-description').textContent = 'Product description will appear here.';
-    ['preview-extra-image-1', 'preview-extra-image-2', 'preview-extra-image-3', 'preview-extra-image-4'].forEach(id => {
-        document.getElementById(id).src = '';
+  // ----------------------------
+  // Populate category select
+  // ----------------------------
+  if (categorySelect) {
+    categoriesData.forEach(cat => {
+      const o = document.createElement("option");
+      o.value = cat.name;
+      o.textContent = cat.name;
+      categorySelect.appendChild(o);
     });
-    ['preview-extra-video-1', 'preview-extra-video-2', 'preview-extra-video-3'].forEach(id => {
-        const video = document.getElementById(id);
-        video.src = '';
-        video.pause();
-    });
-}
 
-
-
-async function fetchStoreDetails() {
-  const slug = localStorage.getItem("storeSlug");
-  const messageElement = document.getElementById('message');
-
-  if (!slug) {
-      messageElement.textContent = "Store info missing. Please open your store first.";
-      messageElement.style.color = "red";
-      return null;
-  }
-
-  try {
-      const res = await fetch(`/api/store/${slug}`);
-      const data = await res.json();
-      if (data.success) {
-          localStorage.setItem("storeId", data.store._id);
-          localStorage.setItem("storeName", data.store.storeName);
-          localStorage.setItem("storeSlug", data.store.slug);
-          return data.store;
-      } else {
-          messageElement.textContent = "Store not found.";
-          messageElement.style.color = "red";
-          return null;
+    categorySelect.addEventListener("change", (e) => {
+      subcategorySelect.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
+      const selected = categoriesData.find(c => c.name === e.target.value);
+      if (selected) {
+        selected.subcategories.forEach(sub => {
+          const o = document.createElement("option");
+          o.value = sub;
+          o.textContent = sub;
+          subcategorySelect.appendChild(o);
+        });
       }
-  } catch (err) {
-      console.error("Error fetching store:", err);
-      return null;
-  }
-}
-
-
-
-
-
-
-
-
-
-const subcategoryFieldsMap = {
-  Sarees: {
-    productCode: true,
-    material: true,
-    color: true,
-    pattern: true,
-    sareeSize: true,
-    blouseSize: true,
-    occasion: true,
-    washCare: true,
-  },
-  Dresses: {
-    productCode: true,
-    material: true,
-    color: true,
-    pattern: true,
-    availableSize: true,
-    occasion: true,
-    washCare: true,
-  },
-};
-
-
-
-
-
-
-
-
-// Dynamic Fields Loader
-// ================================
-function loadFields(categoryName) {
-  const container = document.getElementById("dynamic-fields");
-  container.innerHTML = ""; // clear previous fields
-
-  const fieldSet = subcategoryFieldsMap[categoryName];
-  if (!fieldSet) return;
-
-  // Product Code
-  if (fieldSet.productCode) {
-    const label = document.createElement("label");
-    label.textContent = "Product Code:";
-    const input = document.createElement("input");
-    input.type = "text";
-    input.id = "productCode";
-    container.append(label, input);
-  }
-
-  // Material / Fabric
-  if (fieldSet.material) {
-    const label = document.createElement("label");
-    label.textContent = "Material / Fabric:";
-    const select = document.createElement("select");
-    select.id = "material";
-    [
-      "", "Cotton", "Silk", "Georgette", "Chiffon", "Crepe", "Linen", "Net", "Satin", "Velvet", "Organza", "Rayon", "Tissue", "Wool", "Polyester", "Blend"
-    ].forEach(type => {
-      const opt = document.createElement("option");
-      opt.value = type;
-      opt.textContent = type || "Select Material";
-      select.appendChild(opt);
-    });
-    container.append(label, select);
-  }
-
-  // Color
-  if (fieldSet.color) {
-    const label = document.createElement("label");
-    label.textContent = "Color:";
-    const colorInput = document.createElement("input");
-    colorInput.type = "color";
-    colorInput.id = "colorPicker";
-    const textInput = document.createElement("input");
-    textInput.type = "text";
-    textInput.id = "color";
-    textInput.placeholder = "Enter color name";
-    container.append(label, colorInput, textInput);
-  }
-
-  // Pattern
-  if (fieldSet.pattern) {
-    const label = document.createElement("label");
-    label.textContent = "Pattern:";
-    const select = document.createElement("select");
-    select.id = "pattern";
-    [
-      "", "Plain", "Printed", "Embroidered", "Zari Work", "Thread Work", "Mirror Work",
-      "Digital Print", "Handloom", "Floral", "Striped", "Checks", "Tie-Dye"
-    ].forEach(type => {
-      const opt = document.createElement("option");
-      opt.value = type;
-      opt.textContent = type || "Select Pattern";
-      select.appendChild(opt);
-    });
-    container.append(label, select);
-  }
-
-  // Saree Size
-  if (fieldSet.sareeSize) {
-    const label = document.createElement("label");
-    label.textContent = "Saree Size (in meters):";
-    const input = document.createElement("input");
-    input.type = "number";
-    input.id = "sareeSize";
-    input.placeholder = "Enter saree length";
-    container.append(label, input);
-  }
-
-  // Blouse Size
-  if (fieldSet.blouseSize) {
-    const label = document.createElement("label");
-    label.textContent = "Blouse Size (in meters):";
-    const input = document.createElement("input");
-    input.type = "number";
-    input.id = "blouseSize";
-    input.placeholder = "Enter blouse length";
-    container.append(label, input);
-  }
-
-  // Available Sizes (for Dresses)
-  if (fieldSet.availableSize) {
-    const label = document.createElement("label");
-    label.textContent = "Available Sizes:";
-    container.appendChild(label);
-
-    const sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL"];
-    sizes.forEach(size => {
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.id = `size-${size}`;
-      cb.name = "availableSizes";
-      cb.value = size;
-      const lbl = document.createElement("label");
-      lbl.setAttribute("for", cb.id);
-      lbl.textContent = size;
-      container.append(cb, lbl);
+      updatePreviewField("category", e.target.value);
+      // clear previous subcategory preview
+      updatePreviewField("subcategory", "");
     });
   }
 
-  // Occasion
-  if (fieldSet.occasion) {
-    const label = document.createElement("label");
-    label.textContent = "Occasion:";
-    const select = document.createElement("select");
-    select.id = "occasion";
-    [
-      "", "Casual", "Festive", "Wedding", "Party", "Traditional", "Office Wear", "Daily Wear"
-    ].forEach(type => {
-      const opt = document.createElement("option");
-      opt.value = type;
-      opt.textContent = type || "Select Occasion";
-      select.appendChild(opt);
+  if (subcategorySelect) {
+    subcategorySelect.addEventListener("change", (e) => {
+      updatePreviewField("subcategory", e.target.value);
     });
-    container.append(label, select);
   }
 
-  // Wash Care
-  if (fieldSet.washCare) {
-    const label = document.createElement("label");
-    label.textContent = "Wash Care:";
-    const select = document.createElement("select");
-    select.id = "washCare";
-    [
-      "", "Dry Clean Only", "Hand Wash", "Machine Wash", "Cold Wash", "Do Not Bleach"
-    ].forEach(type => {
-      const opt = document.createElement("option");
-      opt.value = type;
-      opt.textContent = type || "Select Wash Care";
-      select.appendChild(opt);
-    });
-    container.append(label, select);
-  }
-}
+  // ----------------------------
+  // Preview dynamic elements (created and appended)
+  // ----------------------------
+  const previewProductCode = createPreviewP("Product Code");
+  const previewMaterial = createPreviewP("Material/Fabric");
+  const previewColor = createPreviewP("Color");
+  const previewPattern = createPreviewP("Pattern");
+  const previewWashCare = createPreviewP("Wash Care");
+  const previewOccasion = createPreviewP("Occasion");
+  const previewSareeSize = createPreviewP("Saree Size");
+  const previewBlouseSize = createPreviewP("Blouse Size");
+  const previewAvailableSize = createPreviewP("Available Sizes");
+  const previewCategory = createPreviewP("Category");
+  const previewSubcategory = createPreviewP("Subcategory");
+  const previewTags = createPreviewP("Tags");
 
-
-
-
-
-
-// ===== Next Button =====
-document.getElementById("nextBtn").addEventListener("click", ()=>{
-  const name = document.getElementById("product-name").value.trim();
-  const price = document.getElementById("price").value.trim();
-  const description = document.getElementById("description").value.trim();
-  const category = document.getElementById("category").value;
-  const subcategory = document.getElementById("subcategory").value;
-
-  if(!name || !price || !description || !category || !subcategory){
-    alert("Please fill all required fields!"); return;
+  // helper to create & append a preview paragraph
+  function createPreviewP(label) {
+    const p = document.createElement("p");
+    p.textContent = `${label}: -`;
+    if (previewContainer) previewContainer.appendChild(p);
+    return p;
   }
 
-  localStorage.setItem("basicProductData", JSON.stringify({name, price, description, category, subcategory}));
-
-  document.getElementById("basic-info-section").style.display="none";
-  document.getElementById("product-details-section").classList.remove("hidden");
-  document.getElementById("submit").style.display="inline-block";
-  document.getElementById("nextBtn").style.display="none";
-
-  updatePreviewField("name", name);
-  updatePreviewField("price", price);
-  updatePreviewField("description", description);
-  updatePreviewField("category", category);
-  updatePreviewField("subcategory", subcategory);
-
-  loadFields(subcategory);
-});
-
-
-
-
-
-
-
-
-
-
-
-document.getElementById('add-product-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-
-  const messageElement = document.getElementById('message') || document.createElement('div');
-  if (!document.getElementById('message')) {
-    messageElement.id = 'message';
-    document.body.appendChild(messageElement);
-  }
-
-  const formData = new FormData();
-
-  const availableInInput = document.getElementById("availableIn");
-  const availableInValue = availableInInput?.value.trim() || "All Over India";
-
-  // Required Fields
-  formData.append('name', document.getElementById("product-name").value.trim());
-  formData.append('price', document.getElementById("price").value.trim());
-  formData.append('description', document.getElementById("description").value.trim());
-  formData.append('summary', document.getElementById("summary")?.value.trim() || "");
-  formData.append('category', document.getElementById("category").value);
-  formData.append('subcategory', document.getElementById("subcategory").value);
-  formData.append('availableIn', availableInValue);
-
-
-
-
-  // Dynamic Fields (check if present before appending)
- // ✅ Product Code
-  const productCodeInput = document.getElementById("productCode");
-  if (productCodeInput && productCodeInput.value.trim()) {
-    formData.append("productCode", productCodeInput.value.trim());
-  }
-
-  // ✅ Optional Fields
-  const optionalFields = ["color", "material", "pattern", "washCare", "occasion", "sareeSize", "blouseSize"];
-  optionalFields.forEach(fieldId => {
-    const fieldEl = document.getElementById(fieldId);
-    if (fieldEl && fieldEl.value.trim()) {
-      formData.append(fieldId, fieldEl.value.trim());
+  // update preview by field name
+  function updatePreviewField(fieldId, value) {
+    const val = (value === undefined || value === null || value === "") ? "-" : value;
+    switch (fieldId) {
+      case "category": previewCategory.textContent = `Category: ${val}`; break;
+      case "subcategory": previewSubcategory.textContent = `Subcategory: ${val}`; break;
+      case "productCode": previewProductCode.textContent = `Product Code: ${val}`; break;
+      case "material": previewMaterial.textContent = `Material/Fabric: ${val}`; break;
+      case "color": previewColor.textContent = `Color: ${val}`; break;
+      case "pattern": previewPattern.textContent = `Pattern: ${val}`; break;
+      case "washCare": previewWashCare.textContent = `Wash Care: ${val}`; break;
+      case "occasion": previewOccasion.textContent = `Occasion: ${val}`; break;
+      case "sareeSize": previewSareeSize.textContent = `Saree Size: ${val} meters`; break;
+      case "blouseSize": previewBlouseSize.textContent = `Blouse Size: ${val} meters`; break;
+      case "availableSize": previewAvailableSize.textContent = `Available Sizes: ${val}`; break;
+      case "tags": previewTags.textContent = `Tags: ${val}`; break;
+      case "name": if (previewName) previewName.textContent = val; break;
+      case "price": if (previewPrice) previewPrice.textContent = (val === "-") ? "₹0.00" : `₹${val}`; break;
+      case "description": if (previewDescription) previewDescription.textContent = val; break;
+      default: break;
     }
+  }
+
+  // wire basic field preview changes
+  const nameInput = document.getElementById("product-name");
+  if (nameInput) nameInput.addEventListener("input", e => updatePreviewField("name", e.target.value));
+  const priceInput = document.getElementById("price");
+  if (priceInput) priceInput.addEventListener("input", e => updatePreviewField("price", e.target.value));
+  const descInput = document.getElementById("description");
+  if (descInput) descInput.addEventListener("input", e => updatePreviewField("description", e.target.value));
+
+  // image preview handlers
+  function handleImagePreview(fileInput, previewEl) {
+    if (!fileInput || !previewEl) return;
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) { previewEl.src = ""; return; }
+    const reader = new FileReader();
+    reader.onload = e => previewEl.src = e.target.result;
+    reader.readAsDataURL(file);
+  }
+  const thumbInput = document.getElementById("thumbnail-image");
+  if (thumbInput && previewThumbnail) thumbInput.addEventListener("change", e => handleImagePreview(e.target, previewThumbnail));
+  ['extraImage1','extraImage2','extraImage3','extraImage4'].forEach((id, idx) => {
+    const inp = document.getElementById(id);
+    const prev = previewExtraImages[idx];
+    if (inp && prev) inp.addEventListener("change", e => handleImagePreview(e.target, prev));
+  });
+  ['extraVideo1','extraVideo2','extraVideo3'].forEach((id, idx) => {
+    const inp = document.getElementById(id);
+    if (inp) inp.addEventListener("change", e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      const vid = document.getElementById(`preview-extra-video-${idx+1}`);
+      if (vid) { vid.src = url; vid.style.display = "block"; }
+    });
   });
 
-  // ✅ Size Checkboxes
-  const sizeCheckboxes = document.querySelectorAll("input[name='availableSizes']:checked");
-  if (sizeCheckboxes.length > 0) {
-    const sizes = Array.from(sizeCheckboxes).map(cb => cb.value);
-    sizes.forEach(size => formData.append("availableSizes", size));
-  }
-
-
-
-
-
-  // Handle thumbnail image
-  const thumbnail = document.getElementById("thumbnail-image").files[0];
-  if (thumbnail) {
-    formData.append('thumbnailImage', thumbnail);
-  } else {
-    messageElement.textContent = "Thumbnail image is required.";
-    messageElement.style.color = "red";
-    return;
-  }
-
-  // Extra Images
-  ['extraImage1', 'extraImage2', 'extraImage3', 'extraImage4'].forEach(id => {
-    const file = document.getElementById(id)?.files[0];
-    if (file) {
-      formData.append('extraImages', file);
+  // ----------------------------
+  // Field config for categories
+  // ----------------------------
+  const subcategoryFieldsMap = {
+    "Sarees": {
+      productCode: true,
+      material: true,
+      color: true,
+      pattern: true,
+      sareeSize: true,
+      blouseSize: true,
+      occasion: true,
+      washCare: true
+    },
+    "Dresses": {
+      productCode: true,
+      material: true,
+      color: true,
+      pattern: true,
+      availableSize: true,
+      occasion: true,
+      washCare: true
     }
-  });
+  };
 
-  // Extra Videos
-  ['extraVideo1', 'extraVideo2', 'extraVideo3'].forEach(id => {
-    const file = document.getElementById(id)?.files[0];
-    if (file) {
-      formData.append('extraVideos', file);
-    }
-  });
-
-  // Store ID from localStorage
-  const storeId = localStorage.getItem("storeId");
-  if (storeId) formData.append("storeId", storeId);
-
-  // Log FormData entries before sending
-  console.log("Uploading FormData...");
-  for (const pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
+  // ----------------------------
+  // Helpers to create inputs
+  // ----------------------------
+  function createLabel(text) {
+    const l = document.createElement("label");
+    l.textContent = text;
+    return l;
   }
 
-  try {
-    const response = await fetch("/api/products/add", {
-      method: "POST",
-      body: formData,
-      credentials: "include"
+  function createTextInput(id, placeholder = "", type = "text") {
+    const input = document.createElement("input");
+    input.type = type;
+    input.id = id;
+    input.placeholder = placeholder;
+    return input;
+  }
+
+  function createSelect(id, options = []) {
+    const select = document.createElement("select");
+    select.id = id;
+    const placeholderOpt = document.createElement("option");
+    placeholderOpt.value = "";
+    placeholderOpt.disabled = true;
+    placeholderOpt.selected = true;
+    placeholderOpt.textContent = `Select ${id}`;
+    select.appendChild(placeholderOpt);
+    options.forEach(optVal => {
+      const o = document.createElement("option");
+      o.value = optVal;
+      o.textContent = optVal;
+      select.appendChild(o);
     });
+    return select;
+  }
 
-    const result = await response.json();
+  function createCheckbox(name, value, id) {
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.name = name;
+    cb.value = value;
+    if (id) cb.id = id;
+    return cb;
+  }
 
-    if (response.ok && result.success) {
-      messageElement.textContent = "Product added successfully!";
-      messageElement.style.color = "green";
+  function createColorField() {
+    const wrapper = document.createElement("div");
+    const label = createLabel("Color:");
+    const colorPicker = document.createElement("input");
+    colorPicker.type = "color";
+    colorPicker.id = "colorPicker";
+    const text = document.createElement("input");
+    text.type = "text";
+    text.id = "color";
+    text.placeholder = "Enter color name";
 
-      setTimeout(() => {
-        const storeSlug = localStorage.getItem("storeSlug");
-        window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug)}`;
-      }, 2000);
-    } else {
-      messageElement.textContent = result.message || "Failed to add product.";
-      messageElement.style.color = "red";
+    // sync color picker -> text (hex)
+    colorPicker.addEventListener("input", () => {
+      text.value = colorPicker.value;
+      updatePreviewField("color", text.value);
+    });
+    // text -> preview
+    text.addEventListener("input", () => updatePreviewField("color", text.value));
+    wrapper.append(label, colorPicker, text);
+    return wrapper;
+  }
+
+  // ----------------------------
+  // Load dynamic fields for a category
+  // ----------------------------
+  function loadFields(categoryName) {
+    dynamicFieldsContainer.innerHTML = ""; // clear
+    const cfg = subcategoryFieldsMap[categoryName];
+    if (!cfg) return;
+
+    // Product Code
+    if (cfg.productCode) {
+      dynamicFieldsContainer.append(createLabel("Product Code:"));
+      const pc = createTextInput("productCode", "Enter product code");
+      pc.addEventListener("input", e => updatePreviewField("productCode", e.target.value));
+      dynamicFieldsContainer.appendChild(pc);
     }
 
-  } catch (error) {
-    console.error("Error adding product:", error);
-    messageElement.textContent = "Error adding product.";
-    messageElement.style.color = "red";
+    // Material / Fabric
+    if (cfg.material) {
+      dynamicFieldsContainer.append(createLabel("Material / Fabric:"));
+      const matSelect = createSelect("material", [
+        "Cotton","Silk","Georgette","Chiffon","Crepe","Linen","Net","Satin","Velvet","Organza","Rayon","Tissue","Wool","Polyester","Blend"
+      ]);
+      matSelect.addEventListener("change", e => updatePreviewField("material", e.target.value));
+      dynamicFieldsContainer.appendChild(matSelect);
+    }
+
+    // Color (color picker + text)
+    if (cfg.color) {
+      dynamicFieldsContainer.appendChild(createColorField());
+    }
+
+    // Pattern
+    if (cfg.pattern) {
+      dynamicFieldsContainer.append(createLabel("Pattern:"));
+      const patternSelect = createSelect("pattern", [
+        "Plain","Printed","Embroidered","Zari Work","Thread Work","Mirror Work","Digital Print","Handloom","Floral","Striped","Checks","Tie-Dye"
+      ]);
+      patternSelect.addEventListener("change", e => updatePreviewField("pattern", e.target.value));
+      dynamicFieldsContainer.appendChild(patternSelect);
+    }
+
+    // Saree size / blouse size (numbers in meters)
+    if (cfg.sareeSize) {
+      dynamicFieldsContainer.append(createLabel("Saree Size (meters):"));
+      const sareeInput = createTextInput("sareeSize", "e.g. 5.5", "number");
+      sareeInput.addEventListener("input", e => updatePreviewField("sareeSize", e.target.value));
+      dynamicFieldsContainer.appendChild(sareeInput);
+
+      dynamicFieldsContainer.append(createLabel("Blouse Size (meters):"));
+      const blouseInput = createTextInput("blouseSize", "e.g. 0.8", "number");
+      blouseInput.addEventListener("input", e => updatePreviewField("blouseSize", e.target.value));
+      dynamicFieldsContainer.appendChild(blouseInput);
+    }
+
+    // available sizes for dresses (checkboxes)
+    if (cfg.availableSize) {
+      dynamicFieldsContainer.append(createLabel("Available Sizes:"));
+      const sizes = ["XS","S","M","L","XL","XXL","3XL","4XL"];
+      const sizeWrap = document.createElement("div");
+      sizes.forEach(sz => {
+        const id = `available-size-${sz}`;
+        const cb = createCheckbox("availableSizes", sz, id);
+        const lbl = document.createElement("label");
+        lbl.htmlFor = id;
+        lbl.textContent = sz;
+        cb.addEventListener("change", () => {
+          const checked = Array.from(document.querySelectorAll("input[name='availableSizes']:checked")).map(c => c.value).join(", ");
+          updatePreviewField("availableSize", checked);
+        });
+        sizeWrap.append(cb, lbl);
+      });
+      dynamicFieldsContainer.appendChild(sizeWrap);
+    }
+
+    // Occasion
+    if (cfg.occasion) {
+      dynamicFieldsContainer.append(createLabel("Occasion:"));
+      const occSel = createSelect("occasion", ["Casual","Festive","Wedding","Party","Traditional","Office Wear","Daily Wear"]);
+      occSel.addEventListener("change", e => updatePreviewField("occasion", e.target.value));
+      dynamicFieldsContainer.appendChild(occSel);
+    }
+
+    // Wash care
+    if (cfg.washCare) {
+      dynamicFieldsContainer.append(createLabel("Wash Care:"));
+      const washSel = createSelect("washCare", ["Dry Clean Only","Hand Wash","Machine Wash","Cold Wash","Do Not Bleach"]);
+      washSel.addEventListener("change", e => updatePreviewField("washCare", e.target.value));
+      dynamicFieldsContainer.appendChild(washSel);
+    }
   }
+
+  // ----------------------------
+  // Next button -> show dynamic fields section
+  // ----------------------------
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      const name = (document.getElementById("product-name") || {}).value?.trim();
+      const price = (document.getElementById("price") || {}).value?.trim();
+      const description = (document.getElementById("description") || {}).value?.trim();
+      const category = (document.getElementById("category") || {}).value;
+      const subcategory = (document.getElementById("subcategory") || {}).value;
+
+      if (!name || !price || !description || !category || !subcategory) {
+        alert("Please fill all required fields!");
+        return;
+      }
+
+      localStorage.setItem("basicProductData", JSON.stringify({ name, price, description, category, subcategory }));
+
+      if (basicInfoSection) basicInfoSection.style.display = "none";
+      if (productDetailsSection) productDetailsSection.classList.remove("hidden");
+
+      // preview updates
+      updatePreviewField("name", name);
+      updatePreviewField("price", price);
+      updatePreviewField("description", description);
+      updatePreviewField("category", category);
+      updatePreviewField("subcategory", subcategory);
+
+      // load dynamic fields based on main category (Sarees | Dresses)
+      loadFields(category);
+    });
+  }
+
+  // ----------------------------
+  // Form submit - gather data & send
+  // ----------------------------
+  if (addProductForm) {
+    addProductForm.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const messageElement = document.getElementById('message') || (() => {
+        const m = document.createElement('div'); m.id = 'message'; document.body.appendChild(m); return m;
+      })();
+
+      const formData = new FormData();
+
+      // Basic required
+      const nameVal = (document.getElementById("product-name") || {}).value?.trim();
+      const priceVal = (document.getElementById("price") || {}).value?.trim();
+      const descVal = (document.getElementById("description") || {}).value?.trim();
+      const summaryVal = (document.getElementById("summary") || {}).value?.trim() || "";
+      const categoryVal = (document.getElementById("category") || {}).value;
+      const subcategoryVal = (document.getElementById("subcategory") || {}).value;
+      const availableInVal = (document.getElementById("availableIn") || {}).value?.trim() || "All Over India";
+
+      if (!nameVal || !priceVal || !descVal || !categoryVal || !subcategoryVal) {
+        messageElement.textContent = "Please fill required fields.";
+        messageElement.style.color = "red";
+        return;
+      }
+
+      formData.append("name", nameVal);
+      formData.append("price", priceVal);
+      formData.append("description", descVal);
+      formData.append("summary", summaryVal);
+      formData.append("category", categoryVal);
+      formData.append("subcategory", subcategoryVal);
+      formData.append("availableIn", availableInVal);
+
+      // Product Code
+      const productCodeEl = document.getElementById("productCode");
+      if (productCodeEl && productCodeEl.value.trim()) formData.append("productCode", productCodeEl.value.trim());
+
+      // Optional single-value fields
+      ["material","pattern","washCare","occasion","sareeSize","blouseSize","color"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value !== undefined && String(el.value).trim() !== "") {
+          formData.append(id, el.value.trim());
+        }
+      });
+
+      // availableSizes checkboxes -> multiple entries
+      const checkedSizes = Array.from(document.querySelectorAll("input[name='availableSizes']:checked")).map(cb => cb.value);
+      if (checkedSizes.length) {
+        checkedSizes.forEach(s => formData.append("availableSizes", s));
+      }
+
+      // Files: thumbnail required
+      const thumbnail = (document.getElementById("thumbnail-image") || {}).files?.[0];
+      if (!thumbnail) {
+        messageElement.textContent = "Thumbnail image is required.";
+        messageElement.style.color = "red";
+        return;
+      }
+      formData.append("thumbnailImage", thumbnail);
+
+      // extra images
+      ['extraImage1','extraImage2','extraImage3','extraImage4'].forEach(id => {
+        const f = (document.getElementById(id) || {}).files?.[0];
+        if (f) formData.append("extraImages", f);
+      });
+      // extra videos
+      ['extraVideo1','extraVideo2','extraVideo3'].forEach(id => {
+        const f = (document.getElementById(id) || {}).files?.[0];
+        if (f) formData.append("extraVideos", f);
+      });
+
+      // storeId if in localStorage
+      const storeId = localStorage.getItem("storeId");
+      if (storeId) formData.append("storeId", storeId);
+
+      // Debug: show all form data keys (useful in console)
+      console.log("Uploading FormData entries:");
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      try {
+        const resp = await fetch("/api/products/add", {
+          method: "POST",
+          body: formData,
+          credentials: "include"
+        });
+        const result = await resp.json();
+        if (resp.ok && result.success) {
+          messageElement.textContent = "Product added successfully!";
+          messageElement.style.color = "green";
+          setTimeout(() => {
+            const storeSlug = localStorage.getItem("storeSlug");
+            window.location.href = `/store.html?slug=${encodeURIComponent(storeSlug || "")}`;
+          }, 1200);
+        } else {
+          messageElement.textContent = result.message || "Failed to add product.";
+          messageElement.style.color = "red";
+        }
+      } catch (err) {
+        console.error("Error posting product:", err);
+        messageElement.textContent = "Error adding product.";
+        messageElement.style.color = "red";
+      }
+    });
+  }
+
+  // End DOMContentLoaded
 });

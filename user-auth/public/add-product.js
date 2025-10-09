@@ -277,8 +277,8 @@ document.getElementById("nextBtn").addEventListener("click", () => {
   updatePreviewField("name", name);
   updatePreviewField("price", price);
   updatePreviewField("description", description);
+  loadFields(category);
 
-  loadFields(subcategory);
 });
 
 // ==== Dynamic Field Loader ====

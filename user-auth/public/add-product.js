@@ -87,15 +87,14 @@ const previewExtraImages = [
 // Additional preview elements
 const previewCategory = document.createElement("p");
 const previewSubcategory = document.createElement("p");
-const previewTags = document.createElement("p");
-const previewSize = document.createElement("p");
 const previewColor = document.createElement("p");
 const previewMaterial = document.createElement("p");
-const previewModelStyle = document.createElement("p");
+const previewProductCode = document.createElement("p");
 
 // Add these elements to the preview container dynamically
 const previewContainer = document.querySelector(".preview-container");
-previewContainer.append(previewCategory, previewSubcategory, previewTags, previewSize, previewColor, previewMaterial, previewModelStyle);
+previewContainer.append(  previewCategory, previewSubcategory, previewColor, previewMaterial, previewProductCode
+);
 
 // Update live preview for text inputs
 document.getElementById("product-name").addEventListener("input", (e) => {
@@ -277,8 +276,10 @@ document.getElementById("nextBtn").addEventListener("click", () => {
   updatePreviewField("name", name);
   updatePreviewField("price", price);
   updatePreviewField("description", description);
-  loadFields(category);
+  updatePreviewField("category", category);
+  updatePreviewField("subcategory", subcategory);
 
+  loadFields(category); // ✅ Use category
 });
 
 // ==== Dynamic Field Loader ====

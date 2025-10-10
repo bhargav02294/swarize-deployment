@@ -752,3 +752,111 @@ document.querySelectorAll('.dropdown-content').forEach(dropdown => {
     });
 });
 
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
+
+  if (!productId) return;
+
+  try {
+    const res = await fetch(`/api/products/${productId}`);
+    const result = await res.json();
+    if (!result.success) return console.error("Product not found");
+    const p = result.product;
+
+    // Update meta and title
+    document.title = `${p.name} | Swarize`;
+    document.getElementById('dynamic-title').textContent = document.title;
+    document.getElementById('meta-description').content = p.summary || p.description || '';
+    document.getElementById('meta-keywords').content = p.tags?.join(', ') || '';
+    document.getElementById('og-title').content = p.name;
+    document.getElementById('og-description').content = p.summary || '';
+    document.getElementById('og-image').content = p.thumbnailImage || '/default-thumbnail.jpg';
+    document.getElementById('og-url').content = window.location.href;
+    document.getElementById('twitter-title').content = p.name;
+    document.getElementById('twitter-description').content = p.summary || '';
+    document.getElementById('twitter-image').content = p.thumbnailImage || '/default-thumbnail.jpg';
+
+    // Images & slider
+    const slider = document.getElementById('media-slider');
+    slider.innerHTML = '';
+    const allMedia = [p.thumbnailImage, ...(p.extraImages || []), ...(p.extraVideos || [])];
+    allMedia.forEach(src => {
+      let el;
+      if (src.endsWith('.mp4') || src.endsWith('.webm')) {
+        el = document.createElement('video');
+        el.src = src;
+        el.controls = true;
+      } else {
+        el = document.createElement('img');
+        el.src = src;
+      }
+      el.classList.add('media-item');
+      el.addEventListener('click', () => document.getElementById('preview-name').scrollIntoView());
+      slider.appendChild(el);
+    });
+
+    // Store info
+    document.getElementById('store-link').textContent = p.sellerStoreName || 'Unknown Store';
+
+    // Product name & prices
+    document.getElementById('preview-name').textContent = p.name || '-';
+    const priceEl = document.getElementById('preview-price');
+    if (p.displayPrice && p.displayPrice > 0) {
+      priceEl.innerHTML = `<span class="original-price">₹${p.displayPrice}</span> <span class="discount">₹${p.price}</span>`;
+    } else {
+      priceEl.textContent = `₹${p.price}`;
+    }
+
+    // Color
+    const colorContainer = document.getElementById('preview-color');
+    colorContainer.style.backgroundColor = p.color || '#fff';
+    document.getElementById('preview-color-text').textContent = p.color || '-';
+
+    // Size / Available Sizes
+    document.getElementById('preview-size').textContent = p.availableSizes?.join(' / ') || '-';
+    document.getElementById('preview-saree-size').textContent = p.sareeSize ? `${p.sareeSize} meters` : '-';
+    document.getElementById('preview-blouse-size').textContent = p.blouseSize ? `${p.blouseSize} meters` : '-';
+
+    // Other attributes
+    document.getElementById('preview-category').textContent = p.category || '-';
+    document.getElementById('preview-subcategory').textContent = p.subcategory || '-';
+    document.getElementById('preview-product-code').textContent = p.productCode || '-';
+    document.getElementById('preview-material').textContent = p.material || '-';
+    document.getElementById('preview-pattern').textContent = p.pattern || '-';
+    document.getElementById('preview-wash-care').textContent = p.washCare || '-';
+    document.getElementById('preview-occasion').textContent = p.occasion || '-';
+    document.getElementById('preview-available-in').textContent = p.availableIn || 'All Over India';
+
+    // Description & summary
+    document.getElementById('preview-description').textContent = p.description || '-';
+    document.getElementById('preview-summary').textContent = p.summary || '-';
+
+    // Tags (optional, can be shown somewhere)
+    if (p.tags && p.tags.length) {
+      const tagsContainer = document.createElement('div');
+      tagsContainer.classList.add('tags');
+      tagsContainer.textContent = 'Tags: ' + p.tags.join(', ');
+      document.querySelector('.product-details-section').appendChild(tagsContainer);
+    }
+
+  } catch (err) {
+    console.error("Error loading product details:", err);
+  }
+
+  // Description collapsible toggle
+  const toggleDescBtn = document.getElementById('toggle-desc-btn');
+  const descContent = document.getElementById('desc-summary-content');
+  const toggleLessBtn = document.getElementById('toggle-less-btn');
+  toggleDescBtn.addEventListener('click', () => descContent.style.display = 'block');
+  toggleLessBtn.addEventListener('click', () => descContent.style.display = 'none');
+
+});

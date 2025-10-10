@@ -149,6 +149,27 @@
 
 
 
+
+
+<!-- Add missing fields placeholders inside .product-details-section -->
+<div class="product-details-section">
+    <div class="spec-row"><strong>Category:</strong> <span id="preview-category"></span></div>
+    <div class="spec-row"><strong>Subcategory:</strong> <span id="preview-subcategory"></span></div>
+    <div class="spec-row"><strong>Product Code:</strong> <span id="preview-product-code"></span></div>
+    <div class="spec-row"><strong>Material:</strong> <span id="preview-material"></span></div>
+    <div class="spec-row"><strong>Color:</strong> <span id="preview-color-text"></span></div>
+    <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern"></span></div>
+    <div class="spec-row"><strong>Saree Size:</strong> <span id="preview-saree-size"></span></div>
+    <div class="spec-row"><strong>Blouse Size:</strong> <span id="preview-blouse-size"></span></div>
+    <div class="spec-row"><strong>Available Sizes:</strong> <span id="preview-available-sizes"></span></div>
+    <div class="spec-row"><strong>Occasion:</strong> <span id="preview-occasion"></span></div>
+    <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care"></span></div>
+    <div class="spec-row"><strong>Available in:</strong> <span id="preview-available-in"></span></div>
+</div>
+
+
+
+
    <!-- Review Section -->
 <!-- Review Section -->
 <div class="review-section">
@@ -175,121 +196,6 @@
     <div id="reviews-container">No reviews yet.</div>
 </div>
 
-
-
-
-
-
-
-
-<div class="container">
-    <div class="product-header">
-      <div class="product-images">
-        <img id="mainImage" class="product-main-image" src="" alt="Product Image">
-        <div class="product-gallery" id="gallery"></div>
-      </div>
-      <div class="product-info">
-        <h1 class="product-title" id="productName">Product Name</h1>
-        <div class="product-price-section">
-          <span class="product-display-price" id="displayPrice"></span>
-          <span class="product-price" id="price">₹0.00</span>
-        </div>
-        <p class="product-summary" id="summary">Short summary here</p>
-        <p><strong>Category:</strong> <span id="category">-</span></p>
-        <p><strong>Subcategory:</strong> <span id="subcategory">-</span></p>
-        <p><strong>Available In:</strong> <span id="availableIn">All Over India</span></p>
-      </div>
-    </div>
-
-    <div class="product-attributes">
-      <h3>Product Details</h3>
-      <p><strong>Product Code:</strong> <span id="productCode">-</span></p>
-      <p><strong>Material/Fabric:</strong> <span id="material">-</span></p>
-      <p><strong>Color:</strong> <span id="color">-</span></p>
-      <p><strong>Pattern:</strong> <span id="pattern">-</span></p>
-      <p><strong>Saree Size:</strong> <span id="sareeSize">-</span></p>
-      <p><strong>Blouse Size:</strong> <span id="blouseSize">-</span></p>
-      <p><strong>Available Sizes:</strong> <span id="availableSizes">-</span></p>
-      <p><strong>Occasion:</strong> <span id="occasion">-</span></p>
-      <p><strong>Wash Care:</strong> <span id="washCare">-</span></p>
-    </div>
-
-    <div class="tabs">
-      <div class="tab" onclick="toggleTab('descriptionTab')">Description</div>
-      <div class="tab-content" id="descriptionTab">
-        <p id="description">Full product description here</p>
-      </div>
-    </div>
-  </div>
-
-
-  <script>
-  // Example: fetch product ID from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('id'); // ?id=productId
-
-  async function fetchProduct() {
-    if (!productId) return;
-    try {
-      const res = await fetch(`/api/products/${productId}`);
-      const data = await res.json();
-      if (!data.success) return console.error("Product not found");
-
-      const p = data.product;
-
-      // Media
-      document.getElementById('mainImage').src = p.thumbnailImage || '';
-      const gallery = document.getElementById('gallery');
-      gallery.innerHTML = '';
-      if (p.extraImages) p.extraImages.forEach(img => {
-        const i = document.createElement('img');
-        i.src = img;
-        i.addEventListener('click', () => document.getElementById('mainImage').src = img);
-        gallery.appendChild(i);
-      });
-      if (p.extraVideos) p.extraVideos.forEach(vid => {
-        const v = document.createElement('video');
-        v.src = vid;
-        v.controls = true;
-        v.addEventListener('click', () => document.getElementById('mainImage').src = vid);
-        gallery.appendChild(v);
-      });
-
-      // Text Fields
-      document.getElementById('productName').textContent = p.name || '-';
-      document.getElementById('price').textContent = `₹${p.price || 0}`;
-      document.getElementById('displayPrice').textContent = p.displayPrice ? `₹${p.displayPrice}` : '';
-      document.getElementById('summary').textContent = p.summary || '-';
-      document.getElementById('category').textContent = p.category || '-';
-      document.getElementById('subcategory').textContent = p.subcategory || '-';
-      document.getElementById('availableIn').textContent = p.availableIn || 'All Over India';
-
-      // Attributes
-      document.getElementById('productCode').textContent = p.productCode || '-';
-      document.getElementById('material').textContent = p.material || '-';
-      document.getElementById('color').textContent = p.color || '-';
-      document.getElementById('pattern').textContent = p.pattern || '-';
-      document.getElementById('sareeSize').textContent = p.sareeSize ? `${p.sareeSize} meters` : '-';
-      document.getElementById('blouseSize').textContent = p.blouseSize ? `${p.blouseSize} meters` : '-';
-      document.getElementById('availableSizes').textContent = p.availableSizes ? p.availableSizes.join(', ') : '-';
-      document.getElementById('occasion').textContent = p.occasion || '-';
-      document.getElementById('washCare').textContent = p.washCare || '-';
-
-      // Description tab
-      document.getElementById('description').textContent = p.description || '-';
-    } catch (err) {
-      console.error("Error fetching product:", err);
-    }
-  }
-
-  function toggleTab(tabId) {
-    const el = document.getElementById(tabId);
-    if (el.classList.contains('tab-active')) el.classList.remove('tab-active');
-    else el.classList.add('tab-active');
-  }
-
-  fetchProduct();
-</script>
 
     <script src="product-detail.js"></script>
 </body>

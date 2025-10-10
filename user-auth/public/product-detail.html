@@ -1,196 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      
-        <title id="dynamic-title">Product Details | Swarize</title>
-        <meta id="meta-description" name="description" content="Find the best products on Swarize with quality details, pricing, reviews and fast delivery." />
-        <meta id="meta-keywords" name="keywords" content="shopping, online store, buy, swarize" />
-        
-        <!-- Open Graph for social sharing -->
-        <meta property="og:type" content="product" />
-        <meta property="og:site_name" content="Swarize" />
-        <meta id="og-title" property="og:title" content="Product Details | Swarize" />
-        <meta id="og-description" property="og:description" content="Discover top quality products on Swarize. Read reviews, view images and order online now." />
-        <meta id="og-image" property="og:image" content="/default-thumbnail.jpg" />
-        <meta id="og-url" property="og:url" content="" />
-      
-        <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta id="twitter-title" name="twitter:title" content="Product Details | Swarize" />
-        <meta id="twitter-description" name="twitter:description" content="Explore premium products on Swarize. Trusted reviews, secure shopping and fast delivery." />
-        <meta id="twitter-image" name="twitter:image" content="/default-thumbnail.jpg" />
-              <link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="dynamic-title">Product Details | Swarize</title>
+  <meta id="meta-description" name="description" content="Find the best products on Swarize with quality details, pricing, reviews and fast delivery." />
+  <meta id="meta-keywords" name="keywords" content="shopping, online store, buy, swarize" />
 
-        <link rel="stylesheet" href="/product-detail.css" />
-      </head>
-      
+  <!-- Open Graph -->
+  <meta property="og:type" content="product" />
+  <meta property="og:site_name" content="Swarize" />
+  <meta id="og-title" property="og:title" content="Product Details | Swarize" />
+  <meta id="og-description" property="og:description" content="Discover top quality products on Swarize. Read reviews, view images and order online now." />
+  <meta id="og-image" property="og:image" content="/default-thumbnail.jpg" />
+  <meta id="og-url" property="og:url" content="" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta id="twitter-title" name="twitter:title" content="Product Details | Swarize" />
+  <meta id="twitter-description" name="twitter:description" content="Explore premium products on Swarize. Trusted reviews, secure shopping and fast delivery." />
+  <meta id="twitter-image" name="twitter:image" content="/default-thumbnail.jpg" />
+
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/product-detail.css" />
+</head>
 <body>
-
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
-            </div>
-
-                <div class="search-container collapsed" id="searchBox">
-                  <input type="text" id="search-input" placeholder="Search...">
-                  <button id="search-button">
-                    <i class="fas fa-search"></i>
-                  </button> 
-                </div>
-
-      
-            <!-- Navbar Menu -->
-            <ul class="menu">
-              <!-- Login Dropdown -->
-              <li class="dropdown login-dropdown">
-                <button class="dropdown-button">Login</button>
-                <div class="dropdown-content login-content">
-                  <a href="signin.html">Sign In</a>
-                  <a href="signup.html">Sign Up</a>
-                </div>
-              </li>
-      
-              <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
-              <li><a href="home.html" class="menu-item">Home</a></li>
-            </ul>
-
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo-container">
+        <a href="index.html" class="logo-link"><span class="logo-text">S</span></a>
+      </div>
+      <div class="search-container collapsed" id="searchBox">
+        <input type="text" id="search-input" placeholder="Search...">
+        <button id="search-button"><i class="fas fa-search"></i></button> 
+      </div>
+      <ul class="menu">
+        <li class="dropdown login-dropdown">
+          <button class="dropdown-button">Login</button>
+          <div class="dropdown-content login-content">
+            <a href="signin.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
           </div>
-    </nav>
-    
-   
-      
-  
-
-
-<div class="product-container">
-
-  <!-- Product Images Slider -->
-  <div class="product-image-section">
-    <div class="slider-container">
-      <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
-      <div class="slider-track" id="media-slider"></div>
-      <button class="slider-btn next" onclick="moveSlide(1)">›</button>
-    </div>
-    <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
-  </div>
-
-  <!-- Product Info -->
-  <div class="product-info">
-    <div class="product-header">
-      <h1 id="preview-name">Product Name</h1>
-      <div class="star-rating"><span id="rating-count"></span></div>
-      <h2 id="preview-price">₹0.00</h2>
-      <div class="spec-row"><strong>Product Code:</strong> <span id="preview-product-code">-</span></div>
-      <div class="spec-row"><strong>Category:</strong> <span id="preview-category">-</span></div>
-      <div class="spec-row"><strong>Subcategory:</strong> <span id="preview-subcategory">-</span></div>
-    </div>
-
-    <!-- Product Selections -->
-    <div class="product-selections">
-      <div class="selection-row">
-        <label>Color:</label>
-        <div id="preview-color" class="color-container">-</div>
-      </div>
-      <div class="selection-row">
-        <label>Size:</label>
-        <div id="preview-size" class="size-container">-</div>
-        <button id="size-chart-btn" class="size-chart-trigger">Size Chart</button>
-      </div>
-      <div class="selection-row">
-        <label>Saree Size:</label>
-        <span id="preview-saree-size">-</span>
-      </div>
-      <div class="selection-row">
-        <label>Blouse Size:</label>
-        <span id="preview-blouse-size">-</span>
-      </div>
-    </div>
-
-    <!-- Buy / Cart Buttons -->
-    <div class="action-buttons">
-      <button class="buy-now">Buy Now</button>
-      <button class="add-to-cart">Add to Cart</button>
-    </div>
-
-    <!-- Product Details -->
-    <div class="product-details-section">
-      <div class="spec-row"><strong>Material:</strong> <span id="preview-material">-</span></div>
-      <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern">-</span></div>
-      <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care">-</span></div>
-      <div class="spec-row"><strong>Brand:</strong> <span id="preview-brand">-</span></div>
-      <div class="spec-row"><strong>Model:</strong> <span id="preview-model-style">-</span></div>
-      <div class="spec-row"><strong>Occasion:</strong> <span id="preview-occasion">-</span></div>
-      <div class="spec-row"><strong>Available In:</strong> <span id="preview-available-in">All over India</span></div>
-      <div class="spec-row"><strong>Tags:</strong> <span id="preview-tags">-</span></div>
-    </div>
-
-    <!-- Description -->
-    <div class="collapsible-desc">
-      <button id="toggle-desc-btn">+ Product Description</button>
-      <div id="desc-summary-content" style="display: none;">
-        <p id="preview-description">-</p>
-        <p id="preview-summary">-</p>
-        <button id="toggle-less-btn">- Show Less</button>
-      </div>
-    </div>
-
-    <!-- Note -->
-    <div class="product-info-note">
-      <ul>
-        <li><strong>Note:</strong> No COD / RTO available.</li>
-        <li>✔ Free Delivery across India</li>
+        </li>
+        <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
+        <li><a href="home.html" class="menu-item">Home</a></li>
       </ul>
     </div>
+  </nav>
+
+  <!-- Product Container -->
+  <div class="product-container">
+    <!-- Image Slider -->
+    <div class="product-image-section">
+      <div class="slider-container">
+        <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
+        <div class="slider-track" id="media-slider"></div>
+        <button class="slider-btn next" onclick="moveSlide(1)">›</button>
+      </div>
+      <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="product-header">
+        <h1 id="preview-name">Product Name</h1>
+        <h2 id="preview-price">₹0.00</h2>
+        <h2 id="preview-display-price">₹0.00</h2>
+        <div class="spec-row"><strong>Product Code:</strong> <span id="preview-product-code">-</span></div>
+        <div class="spec-row"><strong>Category:</strong> <span id="preview-category">-</span></div>
+        <div class="spec-row"><strong>Subcategory:</strong> <span id="preview-subcategory">-</span></div>
+      </div>
+
+      <!-- Product Selections -->
+      <div class="product-selections">
+        <div class="selection-row">
+          <label>Color:</label>
+          <div id="preview-color" class="color-container">-</div>
+        </div>
+        <div class="selection-row">
+          <label>Size:</label>
+          <div id="preview-size" class="size-container">-</div>
+          <button id="size-chart-btn" class="size-chart-trigger">Size Chart</button>
+        </div>
+        <div class="selection-row">
+          <label>Saree Size:</label>
+          <span id="preview-saree-size">-</span>
+        </div>
+        <div class="selection-row">
+          <label>Blouse Size:</label>
+          <span id="preview-blouse-size">-</span>
+        </div>
+      </div>
+
+      <!-- Buy / Cart Buttons -->
+      <div class="action-buttons">
+        <button class="buy-now">Buy Now</button>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <!-- Product Details -->
+      <div class="product-details-section">
+        <div class="spec-row"><strong>Material:</strong> <span id="preview-material">-</span></div>
+        <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern">-</span></div>
+        <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care">-</span></div>
+        <div class="spec-row"><strong>Brand:</strong> <span id="preview-brand">-</span></div>
+        <div class="spec-row"><strong>Model:</strong> <span id="preview-model-style">-</span></div>
+        <div class="spec-row"><strong>Occasion:</strong> <span id="preview-occasion">-</span></div>
+        <div class="spec-row"><strong>Available In:</strong> <span id="preview-available-in">All over India</span></div>
+        <div class="spec-row"><strong>Tags:</strong> <span id="preview-tags">-</span></div>
+      </div>
+
+      <!-- Description -->
+      <div class="collapsible-desc">
+        <button id="toggle-desc-btn">+ Product Description</button>
+        <div id="desc-summary-content" style="display: none;">
+          <p id="preview-description">-</p>
+          <p id="preview-summary">-</p>
+          <button id="toggle-less-btn">- Show Less</button>
+        </div>
+      </div>
+
+      <!-- Note -->
+      <div class="product-info-note">
+        <ul>
+          <li><strong>Note:</strong> No COD / RTO available.</li>
+          <li>✔ Free Delivery across India</li>
+        </ul>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- Size Chart Modal -->
-<div id="size-chart-overlay"></div>
-<div id="size-chart-modal">
-  <h3>Size Chart</h3>
-  <div id="size-chart-content">Loading...</div>
-  <button id="close-size-chart">Close</button>
-</div>
+  <!-- Size Chart Modal -->
+  <div id="size-chart-overlay"></div>
+  <div id="size-chart-modal">
+    <h3>Size Chart</h3>
+    <div id="size-chart-content">Loading...</div>
+    <button id="close-size-chart">Close</button>
+  </div>
 
-
-
-
-
-
-
-   <!-- Review Section -->
-<!-- Review Section -->
-<div class="review-section">
-    <h3>Customer Reviews</h3>
-    
-<!-- Reviews Section -->
-<div class="review-section">
-   
-    
+  <!-- Reviews Section -->
+  <div class="review-section">
     <h3>Submit Your Review</h3>
     <p id="review-message"></p>
     <select id="rating">
-        <option value="5">★★★★★ (5 Stars)</option>
-        <option value="4">★★★★☆ (4 Stars)</option>
-        <option value="3">★★★☆☆ (3 Stars)</option>
-        <option value="2">★★☆☆☆ (2 Stars)</option>
-        <option value="1">★☆☆☆☆ (1 Star)</option>
+      <option value="5">★★★★★ (5 Stars)</option>
+      <option value="4">★★★★☆ (4 Stars)</option>
+      <option value="3">★★★☆☆ (3 Stars)</option>
+      <option value="2">★★☆☆☆ (2 Stars)</option>
+      <option value="1">★☆☆☆☆ (1 Star)</option>
     </select>
     <textarea id="comment" placeholder="Write your review here..."></textarea>
     <button id="submit-review">Submit Review</button>
 
-
     <h3>Customer Reviews</h3>
     <div id="reviews-container">No reviews yet.</div>
-</div>
+  </div>
 
-
-    <script src="product-detail.js"></script>
+  <script src="product-detail.js"></script>
 </body>
 </html>

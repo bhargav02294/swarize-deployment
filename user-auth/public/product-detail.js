@@ -10,15 +10,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!product) return document.body.innerHTML = "<h2>Product not found.</h2>";
 
+    // Helper to safely set text
     const setText = (id, text) => {
       const el = document.getElementById(id);
       if (el) el.textContent = text || "-";
     };
 
+    // Fill all product fields
     const fields = {
       "preview-name": product.name,
       "preview-product-code": product.productCode,
       "preview-price": product.price ? `₹${product.price}` : "-",
+      "preview-display-price": product.displayPrice ? `₹${product.displayPrice}` : "-",
       "preview-category": product.category,
       "preview-subcategory": product.subcategory,
       "preview-material": product.material,
@@ -38,14 +41,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     Object.entries(fields).forEach(([id, text]) => setText(id, text));
 
     // Store info
-    const storeName = product.store?.storeName;
-    const storeSlug = product.store?.slug;
     const storeEl = document.getElementById("store-link");
-    if (storeEl && storeName) {
-      storeEl.textContent = storeName;
-      if (storeSlug) storeEl.addEventListener("click", () => {
-        window.location.href = `sellers-products.html?slug=${storeSlug}`;
-      });
+    if (storeEl && product.store) {
+      storeEl.textContent = product.store.storeName || "Unknown Store";
+      if (product.store.slug) {
+        storeEl.addEventListener("click", () => {
+          window.location.href = `sellers-products.html?slug=${product.store.slug}`;
+        });
+      }
     }
 
     // Description toggle
@@ -102,6 +105,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (mediaSlider) {
       mediaSlider.innerHTML = "";
       const mediaItems = [];
+
       if (product.thumbnailImage) mediaItems.push({ type: "img", src: product.thumbnailImage });
       (product.extraImages || []).forEach(img => mediaItems.push({ type: "img", src: img }));
       (product.extraVideos || []).forEach(vid => mediaItems.push({ type: "video", src: vid }));
@@ -113,10 +117,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         wrapper.style.display = "flex";
         wrapper.style.alignItems = "center";
         wrapper.style.justifyContent = "center";
+
         const el = document.createElement(type);
         el.src = src;
         el.classList.add("slider-media");
         if (type === "video") el.controls = true;
+
         wrapper.appendChild(el);
         mediaSlider.appendChild(wrapper);
       });
@@ -157,14 +163,42 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    // ==== REVIEWS PLACEHOLDER ====
+    // ==== SIZE CHART ====
+    const sizeChartBtn = document.getElementById("size-chart-btn");
+    const sizeChartModal = document.getElementById("size-chart-modal");
+    const sizeChartOverlay = document.getElementById("size-chart-overlay");
+    const closeSizeChart = document.getElementById("close-size-chart");
+    const sizeChartContent = document.getElementById("size-chart-content");
+
+    sizeChartBtn.addEventListener("click", () => {
+      const chartData = sizeChartData[product.category]?.[product.subcategory];
+      if (!chartData) {
+        sizeChartContent.innerHTML = "<p>No size chart available.</p>";
+      } else {
+        let table = '<table><thead><tr>' + chartData.headers.map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
+        chartData.rows.forEach(row => {
+          table += '<tr>' + row.map(d => `<td>${d}</td>`).join("") + '</tr>';
+        });
+        table += '</tbody></table>';
+        sizeChartContent.innerHTML = table;
+      }
+      sizeChartModal.style.display = "block";
+      sizeChartOverlay.style.display = "block";
+    });
+
+    closeSizeChart.addEventListener("click", () => {
+      sizeChartModal.style.display = "none";
+      sizeChartOverlay.style.display = "none";
+    });
+
+    // ==== REVIEWS ====
     function fetchReviews() {
       const reviewsContainer = document.getElementById("reviews-container");
       if (reviewsContainer) {
+        // Placeholder for future API reviews
         reviewsContainer.innerHTML = "<p>No reviews yet.</p>";
       }
     }
-
     fetchReviews();
 
   } catch (err) {
@@ -172,7 +206,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error(err);
   }
 });
-
 
 
 

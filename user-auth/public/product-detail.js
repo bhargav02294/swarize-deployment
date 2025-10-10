@@ -759,104 +759,201 @@ document.querySelectorAll('.dropdown-content').forEach(dropdown => {
 
 
 
-
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get('id');
-
-  if (!productId) return;
+  const productId = urlParams.get("id");
+  if (!productId) return document.body.innerHTML = "<h2>No product ID provided.</h2>";
 
   try {
-    const res = await fetch(`/api/products/${productId}`);
-    const result = await res.json();
-    if (!result.success) return console.error("Product not found");
-    const p = result.product;
+    const res = await fetch(`https://swarize.in/api/products/detail/${productId}`);
+    const { product } = await res.json();
 
-    // Update meta and title
-    document.title = `${p.name} | Swarize`;
-    document.getElementById('dynamic-title').textContent = document.title;
-    document.getElementById('meta-description').content = p.summary || p.description || '';
-    document.getElementById('meta-keywords').content = p.tags?.join(', ') || '';
-    document.getElementById('og-title').content = p.name;
-    document.getElementById('og-description').content = p.summary || '';
-    document.getElementById('og-image').content = p.thumbnailImage || '/default-thumbnail.jpg';
-    document.getElementById('og-url').content = window.location.href;
-    document.getElementById('twitter-title').content = p.name;
-    document.getElementById('twitter-description').content = p.summary || '';
-    document.getElementById('twitter-image').content = p.thumbnailImage || '/default-thumbnail.jpg';
+    if (!product) return document.body.innerHTML = "<h2>Product not found.</h2>";
 
-    // Images & slider
-    const slider = document.getElementById('media-slider');
-    slider.innerHTML = '';
-    const allMedia = [p.thumbnailImage, ...(p.extraImages || []), ...(p.extraVideos || [])];
-    allMedia.forEach(src => {
-      let el;
-      if (src.endsWith('.mp4') || src.endsWith('.webm')) {
-        el = document.createElement('video');
-        el.src = src;
-        el.controls = true;
+    // Helper to set text content
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text || "-";
+    };
+
+    // ==== Basic Fields ====
+    setText("preview-name", product.name);
+    // Price & displayPrice
+    const priceEl = document.getElementById("preview-price");
+    if (priceEl) {
+      if (product.displayPrice && product.displayPrice > 0 && product.displayPrice !== product.price) {
+        priceEl.innerHTML = `<span class="original-price">₹${product.displayPrice}</span> <span class="discount">₹${product.price}</span>`;
       } else {
-        el = document.createElement('img');
-        el.src = src;
+        priceEl.textContent = `₹${product.price}`;
       }
-      el.classList.add('media-item');
-      el.addEventListener('click', () => document.getElementById('preview-name').scrollIntoView());
-      slider.appendChild(el);
+    }
+
+    setText("preview-category", product.category);
+    setText("preview-subcategory", product.subcategory);
+    setText("preview-product-code", product.productCode);
+    setText("preview-material", product.material);
+    setText("preview-pattern", product.pattern);
+    setText("preview-wash-care", product.washCare);
+    setText("preview-model-style", product.modelStyle);
+    setText("preview-brand", product.brand);
+    setText("preview-available-in", product.availableIn || "All over India");
+    setText("preview-occasion", product.occasion);
+    setText("preview-description", product.description);
+    setText("preview-summary", product.summary);
+
+    // Tags
+    if (product.tags && product.tags.length) {
+      const tagsContainer = document.createElement("div");
+      tagsContainer.classList.add("tags");
+      tagsContainer.textContent = "Tags: " + product.tags.join(", ");
+      document.querySelector(".product-details-section").appendChild(tagsContainer);
+    }
+
+    // ==== Color ====
+    const colorContainer = document.getElementById("preview-color");
+    colorContainer.innerHTML = "";
+    const colors = Array.isArray(product.color) ? product.color : (product.color || "").split(",").map(c => c.trim()).filter(Boolean);
+    if (colors.length > 0) {
+      colors.forEach(color => {
+        const swatch = document.createElement("span");
+        swatch.className = "color-swatch";
+        swatch.style.backgroundColor = color;
+        colorContainer.appendChild(swatch);
+      });
+    } else {
+      colorContainer.textContent = "-";
+    }
+    setText("preview-color-text", colors.join(", "));
+
+    // ==== Size ====
+    const sizeContainer = document.getElementById("preview-size");
+    sizeContainer.innerHTML = "";
+    const availableSizes = Array.isArray(product.availableSizes) ? product.availableSizes : (product.availableSizes || "").split(",").map(s => s.trim()).filter(Boolean);
+    if (availableSizes.length > 0) {
+      availableSizes.forEach(size => {
+        const btn = document.createElement("button");
+        btn.textContent = size;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".size-container button").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+        });
+        sizeContainer.appendChild(btn);
+      });
+    } else {
+      sizeContainer.textContent = "-";
+    }
+
+    // Saree & Blouse size
+    setText("preview-saree-size", product.sareeSize ? `${product.sareeSize} meters` : "-");
+    setText("preview-blouse-size", product.blouseSize ? `${product.blouseSize} meters` : "-");
+
+    // ==== Media Slider ====
+    const mediaSlider = document.getElementById("media-slider");
+    mediaSlider.innerHTML = "";
+    const mediaItems = [];
+    if (product.thumbnailImage) mediaItems.push({ type: "img", src: product.thumbnailImage });
+    (product.extraImages || []).forEach(img => mediaItems.push({ type: "img", src: img }));
+    (product.extraVideos || []).forEach(vid => mediaItems.push({ type: "video", src: vid }));
+
+    let currentSlide = 0;
+    mediaItems.forEach(({ type, src }) => {
+      const wrapper = document.createElement("div");
+      wrapper.style.minWidth = "100%";
+      wrapper.style.display = "flex";
+      wrapper.style.alignItems = "center";
+      wrapper.style.justifyContent = "center";
+      const el = document.createElement(type);
+      el.src = src;
+      el.classList.add("slider-media");
+      if (type === "video") el.controls = true;
+      wrapper.appendChild(el);
+      mediaSlider.appendChild(wrapper);
     });
 
-    // Store info
-    document.getElementById('store-link').textContent = p.sellerStoreName || 'Unknown Store';
+    window.moveSlide = (direction) => {
+      const totalItems = mediaSlider.children.length;
+      const containerWidth = mediaSlider.offsetWidth;
+      currentSlide = Math.max(0, Math.min(currentSlide + direction, totalItems - 1));
+      mediaSlider.style.transform = `translateX(-${containerWidth * currentSlide}px)`;
+    };
 
-    // Product name & prices
-    document.getElementById('preview-name').textContent = p.name || '-';
-    const priceEl = document.getElementById('preview-price');
-    if (p.displayPrice && p.displayPrice > 0) {
-      priceEl.innerHTML = `<span class="original-price">₹${p.displayPrice}</span> <span class="discount">₹${p.price}</span>`;
-    } else {
-      priceEl.textContent = `₹${p.price}`;
+    // ==== Store Info ====
+    const storeEl = document.getElementById("store-link");
+    if (storeEl && product.store) {
+      storeEl.textContent = product.store.storeName || "Unknown Store";
+      if (product.store.slug) {
+        storeEl.addEventListener("click", () => {
+          window.location.href = `sellers-products.html?slug=${product.store.slug}`;
+        });
+      }
     }
 
-    // Color
-    const colorContainer = document.getElementById('preview-color');
-    colorContainer.style.backgroundColor = p.color || '#fff';
-    document.getElementById('preview-color-text').textContent = p.color || '-';
-
-    // Size / Available Sizes
-    document.getElementById('preview-size').textContent = p.availableSizes?.join(' / ') || '-';
-    document.getElementById('preview-saree-size').textContent = p.sareeSize ? `${p.sareeSize} meters` : '-';
-    document.getElementById('preview-blouse-size').textContent = p.blouseSize ? `${p.blouseSize} meters` : '-';
-
-    // Other attributes
-    document.getElementById('preview-category').textContent = p.category || '-';
-    document.getElementById('preview-subcategory').textContent = p.subcategory || '-';
-    document.getElementById('preview-product-code').textContent = p.productCode || '-';
-    document.getElementById('preview-material').textContent = p.material || '-';
-    document.getElementById('preview-pattern').textContent = p.pattern || '-';
-    document.getElementById('preview-wash-care').textContent = p.washCare || '-';
-    document.getElementById('preview-occasion').textContent = p.occasion || '-';
-    document.getElementById('preview-available-in').textContent = p.availableIn || 'All Over India';
-
-    // Description & summary
-    document.getElementById('preview-description').textContent = p.description || '-';
-    document.getElementById('preview-summary').textContent = p.summary || '-';
-
-    // Tags (optional, can be shown somewhere)
-    if (p.tags && p.tags.length) {
-      const tagsContainer = document.createElement('div');
-      tagsContainer.classList.add('tags');
-      tagsContainer.textContent = 'Tags: ' + p.tags.join(', ');
-      document.querySelector('.product-details-section').appendChild(tagsContainer);
+    // ==== Description Toggle ====
+    const showBtn = document.getElementById("toggle-desc-btn");
+    const hideBtn = document.getElementById("toggle-less-btn");
+    const descContent = document.getElementById("desc-summary-content");
+    if (showBtn && hideBtn && descContent) {
+      showBtn.addEventListener("click", () => { descContent.style.display = "block"; showBtn.style.display = "none"; });
+      hideBtn.addEventListener("click", () => { descContent.style.display = "none"; showBtn.style.display = "inline-block"; });
     }
+
+    // ==== Add to Cart & Buy Now ====
+    const addToCartBtn = document.querySelector(".add-to-cart");
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener("click", async () => {
+        try {
+          const res = await fetch("https://swarize.in/api/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId }),
+            credentials: "include"
+          });
+          const data = await res.json();
+          if (data.success) window.location.href = `addtocart.html?id=${productId}`;
+          else alert(data.message || "Failed to add to cart");
+        } catch (err) {
+          alert("Error adding product to cart.");
+        }
+      });
+    }
+
+    const buyNowBtn = document.querySelector(".buy-now");
+    if (buyNowBtn) {
+      buyNowBtn.addEventListener("click", () => {
+        window.location.href = `payment.html?id=${productId}&name=${encodeURIComponent(product.name)}&price=${product.price}`;
+      });
+    }
+
+    // ==== Size Chart ====
+    const sizeChartBtn = document.getElementById("size-chart-btn");
+    const sizeChartModal = document.getElementById("size-chart-modal");
+    const sizeChartOverlay = document.getElementById("size-chart-overlay");
+    const sizeChartContent = document.getElementById("size-chart-content");
+    const closeSizeChart = document.getElementById("close-size-chart");
+
+    sizeChartBtn?.addEventListener("click", () => {
+      const chartData = sizeChartData[product.category]?.[product.subcategory];
+      if (!chartData) sizeChartContent.innerHTML = "<p>No size chart available.</p>";
+      else {
+        let table = "<table><thead><tr>" + chartData.headers.map(h => `<th>${h}</th>`).join("") + "</tr></thead><tbody>";
+        chartData.rows.forEach(row => table += "<tr>" + row.map(d => `<td>${d}</td>`).join("") + "</tr>");
+        table += "</tbody></table>";
+        sizeChartContent.innerHTML = table;
+      }
+      sizeChartModal.style.display = "block";
+      sizeChartOverlay.style.display = "block";
+    });
+
+    closeSizeChart?.addEventListener("click", () => {
+      sizeChartModal.style.display = "none";
+      sizeChartOverlay.style.display = "none";
+    });
+
+    // ==== Reviews ====
+    fetchReviews();
 
   } catch (err) {
-    console.error("Error loading product details:", err);
+    console.error(err);
+    document.body.innerHTML = "<h2>Failed to load product details.</h2>";
   }
-
-  // Description collapsible toggle
-  const toggleDescBtn = document.getElementById('toggle-desc-btn');
-  const descContent = document.getElementById('desc-summary-content');
-  const toggleLessBtn = document.getElementById('toggle-less-btn');
-  toggleDescBtn.addEventListener('click', () => descContent.style.display = 'block');
-  toggleLessBtn.addEventListener('click', () => descContent.style.display = 'none');
-
 });

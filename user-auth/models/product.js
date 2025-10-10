@@ -1,33 +1,3 @@
-/*
-const mongoose = require('mongoose');
-
-const productSchema = new mongoose.Schema({
-    ownerId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
-    store: { type: mongoose.Schema.Types.ObjectId, ref: 'Store', required: true }, // Ensure link to Store
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    description: { type: String, required: true },
-    summary: { type: String },
-    category: { type: String },
-    subcategory: { type: String },
-    size: { type: String },
-    color: { type: String },
-    store: { type: mongoose.Schema.Types.ObjectId, ref: 'Store' },
-
-    material: { type: String },
-    modelStyle: { type: String },
-    availableIn: { type: String, default: 'All Over India' },
-    thumbnailImage: { type: String },
-    extraImages: [{ type: String }],
-    extraVideos: [{ type: String }],
-}, { timestamps: true });
-
-module.exports = mongoose.model('Product', productSchema);
-*/
-
-
-
-
 
 
 const mongoose = require('mongoose');
@@ -57,6 +27,15 @@ const productSchema = new mongoose.Schema({
     min: 249,
   },
 
+  // ✅ Display (MRP) price – just for showing line-through
+  displayPrice: {
+    type: Number,
+    default: 0,
+  },
+
+
+  
+
   description: {
     type: String,
     required: true,
@@ -67,50 +46,76 @@ const productSchema = new mongoose.Schema({
     default: "",
   },
 
-  category: {
-    type: String,
-    required: true,
-  },
+    category: {
+      type: String,
+      required: true,
+      enum: ["Sarees", "Dresses"], // Main categories
+    },
 
   subcategory: {
     type: String,
     required: true,
   },
 
-  size: {
-  type: [String],
-  default: [],
-},
+  // ✅ Product Code (instead of brand)
+    productCode: {
+      type: String,
+      trim: true,
+      default: "",
+    },
 
-  color: {
-    type: String,
-    default: "",
-  },
+    // ✅ Sizes (array of multiple checkboxes)
+    size: {
+      type: [String],
+      default: [],
+    },
 
-  material: {
-    type: String,
-    default: "",
-  },
+    // ✅ Saree-specific Fields
+    sareeLength: {
+      type: Number, // meters
+      default: null,
+    },
+    blouseLength: {
+      type: Number, // meters
+      default: null,
+    },
 
-  pattern: {
-    type: String,
-    default: "",
-  },
+    // ✅ Common Product Details
+    color: {
+      type: String,
+      trim: true,
+      default: "",
+    },
 
-  washCare: {
-    type: String,
-    default: "",
-  },
+    material: {
+      type: String,
+      trim: true,
+      default: "",
+    },
 
-  modelStyle: {
-    type: String,
-    default: "",
-  },
+    pattern: {
+      type: String,
+      trim: true,
+      default: "",
+    },
 
-  brand: {
-  type: String,
-  default: "",
-},
+    occasion: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    washCare: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
+    modelStyle: {
+      type: String,
+      trim: true,
+      default: "",
+    },
 
   availableIn: {
     type: String,

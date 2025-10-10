@@ -65,7 +65,7 @@ router.post(
       if (!store) return res.status(404).json({ success: false, message: 'Store not found' });
 
       // ✅ Basic validation (extend as needed)
-      const { name, price, category, subcategory } = req.body;
+      const { name, price, displayPrice, category, subcategory } = req.body;
       if (!name || !price || !category || !subcategory) {
         return res.status(400).json({ success: false, message: "Missing required fields" });
       }
@@ -103,6 +103,17 @@ router.post(
         }
       }
 
+      // ✅ Handle Sizes (multi-select or single)
+      let sizes = [];
+      if (req.body.size) {
+        if (Array.isArray(req.body.size)) {
+          sizes = req.body.size;
+        } else if (typeof req.body.size === "string") {
+          sizes = [req.body.size];
+        }
+      }
+
+
       // ✅ Create Product
       const product = new Product({
         ownerId: userId,
@@ -112,31 +123,35 @@ router.post(
         // Basic Info
         name,
         price,
+        displayPrice: displayPrice && !isNaN(displayPrice) ? Number(displayPrice) : 0,
+
         description: req.body.description,
         summary: req.body.summary,
         category,
         subcategory,
         availableIn: req.body.availableIn || "All Over India",
 
-        // Optional/Dynamic Fields
-size: Array.isArray(req.body.size) ? req.body.size : [req.body.size],
-        color: req.body.color,
-        material: req.body.material,
-        modelStyle: req.body.modelStyle,
-        pattern: req.body.pattern,
-        brand: req.body.brand || "",
+        // ✅ Product Code (replaces brand)
+        productCode: req.body.productCode || "",
 
-        washCare: req.body.washCare,
-        fabricType: req.body.fabricType,
-        fitType: req.body.fitType,
-        occasion: req.body.occasion,
-        neckStyle: req.body.neckStyle,
-        sleeveLength: req.body.sleeveLength,
-        shape: req.body.shape,
-        surfaceStyling: req.body.surfaceStyling,
-        heelType: req.body.heelType,
-        soleMaterial: req.body.soleMaterial,
-        closureType: req.body.closureType,
+        // ✅ Common Fields
+        color: req.body.color || "",
+        material: req.body.material || "",
+        pattern: req.body.pattern || "",
+        occasion: req.body.occasion || "",
+        washCare: req.body.washCare || "",
+        modelStyle: req.body.modelStyle || "",
+
+        // ✅ Saree-specific Fields
+        sareeLength: req.body.sareeLength
+          ? parseFloat(req.body.sareeLength)
+          : null,
+        blouseLength: req.body.blouseLength
+          ? parseFloat(req.body.blouseLength)
+          : null,
+
+        // ✅ Dress Sizes (multi-checkbox)
+        size: sizes,
 
         // Media
         thumbnailImage,

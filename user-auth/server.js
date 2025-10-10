@@ -895,40 +895,48 @@ app.get('/api/get-product-performance', async (req, res) => {
 
 
 
+// ✅ Product Model
 
-// Product Model
-
-// Sample data for categories and subcategories
+// ✅ Updated Categories and Subcategories (Sarees & Dresses Only)
 const categoriesData = [
   {
-    name: "Women",
+    name: "Sarees",
     subcategories: [
-      "Ethnic Wear", "Western Wear", "Bottomwear", "Winterwear", "Innerwear & Loungewear",
-      "Footwear", "Bags & Clutches", "Jewelry & Accessories", "Beauty & Makeup", "Eyewear & Watches"
+      "Silk Saree",
+      "Cotton Saree",
+      "Georgette Saree",
+      "Chiffon Saree",
+      "Crepe Saree",
+      "Linen Saree",
+      "Banarasi Saree",
+      "Kanjivaram Saree",
+      "Paithani Saree",
+      "Organza Saree",
+      "Tissue Saree",
+      "Satin Saree",
+      "Net Saree",
+      "Printed Saree",
+      "Embroidered Saree"
     ]
   },
   {
-    name: "Men",
+    name: "Dresses",
     subcategories: [
-      "Topwear", "Bottomwear", "Ethnic Wear", "Winterwear", "Innerwear & Sleepwear",
-      "Footwear", "Accessories", "Eyewear & Watches", "Grooming", "Bags & Utility"
-    ]
-  },
-  {
-    name: "Kids",
-    subcategories: [
-      "Boys Clothing", "Girls Clothing", "Footwear", "Toys & Games", "Remote Toys",
-      "Learning & School", "Baby Essentials", "Winterwear", "Accessories", "Festive Wear"
-    ]
-  },
-  {
-    name: "Accessories",
-    subcategories: [
-      "Bags & Travel", "Unisex Footwear", "Mobile Accessories", "Gadgets", "Computer Accessories",
-      "Home Decor", "Kitchenware", "Health & Care", "Craft & DIY Kits", "Fashion Accessories"
+      "Kurti",
+      "Lehenga",
+      "Anarkali Dress",
+      "Gown",
+      "Sharara",
+      "Salwar Suit",
+      "Palazzo Set",
+      "Skirt Set",
+      "Indo Western Dress",
+      "Co-ord Set",
+      "Churidar Set"
     ]
   }
 ];
+
 
 
 // Endpoint to fetch categories
@@ -1063,7 +1071,7 @@ app.post("/api/payment/create-order", async (req, res) => {
 
 app.post("/api/orders/create", async (req, res) => {
   try {
-    const { productId, buyerId, paymentId, promoCode } = req.body;  
+    const { productId, buyerId, paymentId, promoCode, selectedSize } = req.body;  
     console.log("🔹 Order API Called:", { productId, buyerId, paymentId, promoCode, selectedSize });
 
       // ✅ Fetch Buyer, Seller, and Product Details
@@ -1112,6 +1120,8 @@ app.post("/api/orders/create", async (req, res) => {
           productId,
           productName: product.name,
           productPrice: product.price,
+                displayPrice: product.displayPrice || 0, // ✅ New: crossed-out MRP
+
           thumbnailImage: product.thumbnailImage,
           category: product.category,
           subcategory: product.subcategory,
@@ -1156,6 +1166,8 @@ app.post("/api/orders/create", async (req, res) => {
           productId,
           productName: product.name,
           productPrice: product.price,
+                displayPrice: product.displayPrice || 0, // ✅ New: crossed-out MRP
+
           thumbnailImage: product.thumbnailImage,
           category: product.category,
           subcategory: product.subcategory,

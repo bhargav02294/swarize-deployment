@@ -44,9 +44,17 @@
       <label for="product-name">Product Name *</label>
       <input type="text" id="product-name" name="name" placeholder="Enter product name" required>
 
+       <!-- Display Price -->
+      <label for="display-price">Display Price (INR):</label>
+      <input type="number" id="display-price" name="displayPrice" min="0" placeholder="Optional: Show as crossed-out price">
+      <small class="info-note">
+        * This is the original price you want to show crossed out for marketing. It is optional.
+      </small>
+
       <!-- Price -->
       <label for="price">Price (INR):</label>
       <input type="number" id="price" name="price" min="249" required placeholder="Must be greater than ₹248">
+
       <small class="info-note">
         * Make sure your pricing includes applicable shipping and platform transaction fees. 
         <a href="terms-and-condition.html" target="_blank">View pricing policy</a>

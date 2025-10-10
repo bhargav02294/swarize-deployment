@@ -122,7 +122,27 @@ document.addEventListener("DOMContentLoaded", () => {
       case "availableSize": previewAvailableSize.textContent = `Available Sizes: ${val}`; break;
       case "tags": previewTags.textContent = `Tags: ${val}`; break;
       case "name": if (previewName) previewName.textContent = val; break;
-      case "price": if (previewPrice) previewPrice.textContent = (val === "-") ? "₹0.00" : `₹${val}`; break;
+      case "description": if (previewDescription) previewDescription.textContent = val; break;
+      case "price":
+        if (previewPrice) {
+          const displayVal = document.getElementById("display-price")?.value;
+          if (displayVal && Number(displayVal) > 0) {
+            previewPrice.innerHTML = `<span style="text-decoration: line-through; color: gray;">₹${displayVal}</span> <span style="font-weight:bold;">₹${val}</span>`;
+          } else {
+            previewPrice.textContent = `₹${val}`;
+          }
+        }
+        break;
+      case "displayPrice":
+        if (previewPrice) {
+          const priceVal = document.getElementById("price")?.value || "0";
+          if (val && Number(val) > 0) {
+            previewPrice.innerHTML = `<span style="text-decoration: line-through; color: gray;">₹${val}</span> <span style="font-weight:bold;">₹${priceVal}</span>`;
+          } else {
+            previewPrice.textContent = `₹${priceVal}`;
+          }
+        }
+        break;
       case "description": if (previewDescription) previewDescription.textContent = val; break;
       default: break;
     }
@@ -131,8 +151,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // wire basic field preview changes
   const nameInput = document.getElementById("product-name");
   if (nameInput) nameInput.addEventListener("input", e => updatePreviewField("name", e.target.value));
-  const priceInput = document.getElementById("price");
-  if (priceInput) priceInput.addEventListener("input", e => updatePreviewField("price", e.target.value));
+ const priceInput = document.getElementById("price");
+  if (priceInput) priceInput.addEventListener("input", e => {
+    updatePreviewField("price", e.target.value);
+    updatePreviewField("displayPrice", document.getElementById("display-price")?.value);
+  });
+
+  const displayPriceInput = document.getElementById("display-price");
+  if (displayPriceInput) displayPriceInput.addEventListener("input", e => {
+    updatePreviewField("displayPrice", e.target.value);
+  });
+
   const descInput = document.getElementById("description");
   if (descInput) descInput.addEventListener("input", e => updatePreviewField("description", e.target.value));
 
@@ -345,6 +374,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
+
+
+
+
+
+
   // ----------------------------
   // Next button -> show dynamic fields section
   // ----------------------------
@@ -352,6 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextBtn.addEventListener("click", () => {
       const name = (document.getElementById("product-name") || {}).value?.trim();
       const price = (document.getElementById("price") || {}).value?.trim();
+            const displayPrice = (document.getElementById("display-price") || {}).value?.trim() || "";
       const description = (document.getElementById("description") || {}).value?.trim();
       const category = (document.getElementById("category") || {}).value;
       const subcategory = (document.getElementById("subcategory") || {}).value;
@@ -361,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      localStorage.setItem("basicProductData", JSON.stringify({ name, price, description, category, subcategory }));
+      localStorage.setItem("basicProductData", JSON.stringify({ name, price, displayPrice, description, category, subcategory }));
 
       if (basicInfoSection) basicInfoSection.style.display = "none";
       if (productDetailsSection) productDetailsSection.classList.remove("hidden");
@@ -369,6 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // preview updates
       updatePreviewField("name", name);
       updatePreviewField("price", price);
+            updatePreviewField("displayPrice", displayPrice);
       updatePreviewField("description", description);
       updatePreviewField("category", category);
       updatePreviewField("subcategory", subcategory);
@@ -393,6 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Basic required
       const nameVal = (document.getElementById("product-name") || {}).value?.trim();
       const priceVal = (document.getElementById("price") || {}).value?.trim();
+            const displayPriceVal = (document.getElementById("display-price") || {}).value?.trim() || "0";
       const descVal = (document.getElementById("description") || {}).value?.trim();
       const summaryVal = (document.getElementById("summary") || {}).value?.trim() || "";
       const categoryVal = (document.getElementById("category") || {}).value;
@@ -407,6 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       formData.append("name", nameVal);
       formData.append("price", priceVal);
+            formData.append("displayPrice", displayPriceVal); // ✅ added displayPrice
       formData.append("description", descVal);
       formData.append("summary", summaryVal);
       formData.append("category", categoryVal);

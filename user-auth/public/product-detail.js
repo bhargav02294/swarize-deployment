@@ -10,13 +10,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!product) return document.body.innerHTML = "<h2>Product not found.</h2>";
 
-    // Helper to set text safely
     const setText = (id, text) => {
       const el = document.getElementById(id);
       if (el) el.textContent = text || "-";
     };
 
-    // Fill all product fields
     const fields = {
       "preview-name": product.name,
       "preview-product-code": product.productCode,
@@ -82,38 +80,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         sizeContainer.appendChild(btn);
       });
     } else sizeContainer.textContent = "-";
-
-    // ==== SIZE CHART ====
-    const sizeChartBtn = document.getElementById("size-chart-btn");
-    const sizeChartModal = document.getElementById("size-chart-modal");
-    const sizeChartOverlay = document.getElementById("size-chart-overlay");
-    const closeSizeChart = document.getElementById("close-size-chart");
-    const sizeChartContent = document.getElementById("size-chart-content");
-
-    sizeChartBtn.addEventListener("click", () => {
-      const category = product.category;
-      const subcategory = product.subcategory;
-      const chartData = sizeChartData[category]?.[subcategory];
-
-      if (!chartData) {
-        sizeChartContent.innerHTML = "<p>No size chart available for this subcategory.</p>";
-      } else {
-        let table = '<table><thead><tr>' + chartData.headers.map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
-        chartData.rows.forEach(row => {
-          table += '<tr>' + row.map(d => `<td>${d}</td>`).join("") + '</tr>';
-        });
-        table += '</tbody></table>';
-        sizeChartContent.innerHTML = table;
-      }
-
-      sizeChartModal.style.display = "block";
-      sizeChartOverlay.style.display = "block";
-    });
-
-    closeSizeChart.addEventListener("click", () => {
-      sizeChartModal.style.display = "none";
-      sizeChartOverlay.style.display = "none";
-    });
 
     // ==== COLOR SWATCHES ====
     const colorContainer = document.getElementById("preview-color");
@@ -191,7 +157,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    // ==== REVIEWS ====
+    // ==== REVIEWS PLACEHOLDER ====
+    function fetchReviews() {
+      const reviewsContainer = document.getElementById("reviews-container");
+      if (reviewsContainer) {
+        reviewsContainer.innerHTML = "<p>No reviews yet.</p>";
+      }
+    }
+
     fetchReviews();
 
   } catch (err) {

@@ -68,72 +68,85 @@
   
 
 
+<div class="product-container">
 
+  <!-- Product Images Slider -->
+  <div class="product-image-section">
+    <div class="slider-container">
+      <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
+      <div class="slider-track" id="media-slider"></div>
+      <button class="slider-btn next" onclick="moveSlide(1)">›</button>
+    </div>
+    <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
+  </div>
 
- <div class="product-container">
-    <!-- Image Slider & Store Info -->
-    <div class="product-image-section">
-      <div class="slider-container">
-        <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
-        <div class="slider-track" id="media-slider"></div>
-        <button class="slider-btn next" onclick="moveSlide(1)">›</button>
+  <!-- Product Info -->
+  <div class="product-info">
+    <div class="product-header">
+      <h1 id="preview-name">Product Name</h1>
+      <div class="star-rating"><span id="rating-count"></span></div>
+      <h2 id="preview-price">₹0.00</h2>
+      <div class="spec-row"><strong>Product Code:</strong> <span id="preview-product-code">-</span></div>
+      <div class="spec-row"><strong>Category:</strong> <span id="preview-category">-</span></div>
+      <div class="spec-row"><strong>Subcategory:</strong> <span id="preview-subcategory">-</span></div>
+    </div>
+
+    <!-- Product Selections -->
+    <div class="product-selections">
+      <div class="selection-row">
+        <label>Color:</label>
+        <div id="preview-color" class="color-container">-</div>
       </div>
-
-              <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
-
+      <div class="selection-row">
+        <label>Size:</label>
+        <div id="preview-size" class="size-container">-</div>
+        <button id="size-chart-btn" class="size-chart-trigger">Size Chart</button>
+      </div>
+      <div class="selection-row">
+        <label>Saree Size:</label>
+        <span id="preview-saree-size">-</span>
+      </div>
+      <div class="selection-row">
+        <label>Blouse Size:</label>
+        <span id="preview-blouse-size">-</span>
+      </div>
     </div>
 
-    <div class="product-info">
-  <div class="product-header">
-        <div class="spec-brand"><strong> </strong> <span id="preview-brand"></span></div>
-
-    <h1 id="preview-name">Product Name</h1>
-    <div class="star-rating"> <span id="rating-count"> </span>
-    </div>
-    <h2 id="preview-price">₹ <span class="original-price">₹</span> <span class="discount"> </span></h2>
-  </div>
-
-  <div class="product-selections">
-    <div class="selection-row">
-      <label>Color:</label>
-      <div id="preview-color" class="color-container">---</div>
+    <!-- Buy / Cart Buttons -->
+    <div class="action-buttons">
+      <button class="buy-now">Buy Now</button>
+      <button class="add-to-cart">Add to Cart</button>
     </div>
 
-    <div class="selection-row">
-      <label>Size:</label>
-      <div id="preview-size" class="size-container">M / L</div>
-      <button id="size-chart-btn" class="size-chart-trigger">Size Chart</button>
+    <!-- Product Details -->
+    <div class="product-details-section">
+      <div class="spec-row"><strong>Material:</strong> <span id="preview-material">-</span></div>
+      <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern">-</span></div>
+      <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care">-</span></div>
+      <div class="spec-row"><strong>Brand:</strong> <span id="preview-brand">-</span></div>
+      <div class="spec-row"><strong>Model:</strong> <span id="preview-model-style">-</span></div>
+      <div class="spec-row"><strong>Occasion:</strong> <span id="preview-occasion">-</span></div>
+      <div class="spec-row"><strong>Available In:</strong> <span id="preview-available-in">All over India</span></div>
+      <div class="spec-row"><strong>Tags:</strong> <span id="preview-tags">-</span></div>
     </div>
-  </div>
 
-  <div class="action-buttons">
-    <button class="buy-now">Buy Now</button>
-    <button class="add-to-cart">Add to Cart</button>
-  </div>
+    <!-- Description -->
+    <div class="collapsible-desc">
+      <button id="toggle-desc-btn">+ Product Description</button>
+      <div id="desc-summary-content" style="display: none;">
+        <p id="preview-description">-</p>
+        <p id="preview-summary">-</p>
+        <button id="toggle-less-btn">- Show Less</button>
+      </div>
+    </div>
 
-  <div class="product-details-section">
-    <div class="spec-row"><strong>Category:</strong> <span id="preview-subcategory"></span></div>
-    <div class="spec-row"><strong>Material:</strong> <span id="preview-material"></span></div>
-    <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern"></span></div>
-    <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care"></span></div>
-    <div class="spec-row"><strong>Model:</strong> <span id="preview-model-style"></span></div>
-    <div class="spec-row"><strong>Available in:</strong> <span id="preview-available-in"></span></div>
-  </div>
-
-  <div class="collapsible-desc">
-  <button id="toggle-desc-btn">+ Product Description</button>
-  <div id="desc-summary-content" style="display: none;">
-    <p id="preview-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    <p id="preview-summary">More details about the product features and materials.</p>
-    <button id="toggle-less-btn">- Show Less</button>
-  </div>
-</div>
-
-  <div class="product-info-note">
-    <ul>
-      <li><strong>Note:</strong> No COD / RTO available.</li>
-      <li>✔ Free Delivery across India</li>
-    </ul>
+    <!-- Note -->
+    <div class="product-info-note">
+      <ul>
+        <li><strong>Note:</strong> No COD / RTO available.</li>
+        <li>✔ Free Delivery across India</li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -144,6 +157,8 @@
   <div id="size-chart-content">Loading...</div>
   <button id="close-size-chart">Close</button>
 </div>
+
+
 
 
 

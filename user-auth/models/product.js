@@ -64,21 +64,21 @@ const productSchema = new mongoose.Schema({
       default: "",
     },
 
-    // ✅ Sizes (array of multiple checkboxes)
-    size: {
-      type: [String],
-      default: [],
-    },
+     // ✅ Sizes (checkbox array)
+  size: {
+    type: [String],
+    default: [],
+  },
 
-    // ✅ Saree-specific Fields
-    sareeLength: {
-      type: Number, // meters
-      default: null,
-    },
-    blouseLength: {
-      type: Number, // meters
-      default: null,
-    },
+  // ✅ Saree-specific Fields (renamed to match frontend)
+  sareeSize: {
+    type: Number, // meters
+    default: null,
+  },
+  blouseSize: {
+    type: Number, // meters
+    default: null,
+  },
 
     // ✅ Common Product Details
     color: {

@@ -103,7 +103,7 @@ router.post(
         }
       }
 
-      // ✅ Handle Sizes (multi-select or single)
+      // ✅ Handle Sizes (multi-select)
       let sizes = [];
       if (req.body.size) {
         if (Array.isArray(req.body.size)) {
@@ -143,12 +143,9 @@ router.post(
         modelStyle: req.body.modelStyle || "",
 
         // ✅ Saree-specific Fields
-        sareeLength: req.body.sareeLength
-          ? parseFloat(req.body.sareeLength)
-          : null,
-        blouseLength: req.body.blouseLength
-          ? parseFloat(req.body.blouseLength)
-          : null,
+        sareeSize: req.body.sareeSize ? parseFloat(req.body.sareeSize) : null,
+        blouseSize: req.body.blouseSize ? parseFloat(req.body.blouseSize) : null,
+
 
         // ✅ Dress Sizes (multi-checkbox)
         size: sizes,

@@ -13,14 +13,14 @@ body, html {
 
 /* ======== Header (Top Bar) ======== */
 header {
-    background-color: #2A2B2D;
+    background-color: #1A2A3A;
     padding: 6px 10px;
     height: 50px;
     text-align: center;
 }
 
 header h1, header h2 {
-    color: #FFF5F7 ;
+    color: #FFFFFF ;
     font-family: 'Poppins', sans-serif;
     margin: 1px 0;
     font-size: 12px;
@@ -45,7 +45,7 @@ header h1, header h2 {
 
 /* ======== Navbar ======== */
 .navbar {
-    background-color: #FFF5F7 ;
+    background-color: #FFFFFF ;
     padding: 10px 0;
     position: relative;
     width: 100%;
@@ -72,7 +72,7 @@ header h1, header h2 {
 .logo-container {
     width: 46px;
     height: 46px;
-    background-color: #2A2B2D;
+    background-color: #1A2A3A;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -89,7 +89,7 @@ header h1, header h2 {
 .brand-name {
     font-size: 28px;
     font-weight: bold;
-    color: #2A2B2D;
+    color: #1A2A3A;
     font-family: 'Times New Roman';
 }
 
@@ -97,7 +97,7 @@ header h1, header h2 {
 /* PC View */
 .search-container {
     --timing: 0.3s;
-    --border-color: #2A2B2D;
+    --border-color: #1A2A3A;
     background: #ffffff ;
     border: 1px solid var(--border-color);
     border-radius: 30px;
@@ -122,7 +122,7 @@ header h1, header h2 {
 #search-button {
     background: none;
     border: none;
-    color: #2A2B2D;
+    color: #1A2A3A;
     cursor: pointer;
     font-size: 16px;
     display: flex;
@@ -145,7 +145,7 @@ header h1, header h2 {
 
 .menu-item,
 .dropdown-button {
-    color: #2A2B2D;
+    color: #1A2A3A;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     text-decoration: none;
@@ -157,7 +157,7 @@ header h1, header h2 {
 
 .menu-item:hover,
 .dropdown-button:hover {
-    color: #2A2B2D;
+    color: #1A2A3A;
 }
 
 /* ======== Dropdown (Login) ======== */
@@ -169,7 +169,7 @@ header h1, header h2 {
     display: none;
     position: absolute;
     background-color: #ffffff;
-    border: 1px solid #2A2B2D;
+    border: 1px solid #1A2A3A;
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     min-width: 160px;
@@ -1576,10 +1576,10 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 
 
 .footer {
-    border-top: 3px solid #2A2B2D;
+    border-top: 3px solid #1A2A3A;
 
-    background-color:#FFF5F7 ;
-    color: #2A2B2D;
+    background-color:#FFFFFF ;
+    color: #1A2A3A;
     padding: 50px 20px;
     font-family: sans-serif;
 }
@@ -1606,7 +1606,7 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 .about-section h3 {
     font-size: 24px;
     font-weight: bold;
-    color: #21211d; /* Gold */
+    color: #1A2A3A;
     margin-bottom: 15px;
     
 }
@@ -1632,7 +1632,7 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 .footer-section h3 {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #2A2B2D  ; /* Gold */
+    color: #1A2A3A;
     text-transform: uppercase;
     display: inline-block;
     padding-bottom: 5px;
@@ -1655,7 +1655,7 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 }
 
 .footer-section ul li a:hover {
-    color: #151617      ; /* Gold */
+    color: #1A2A3A     ; /* Gold */
 }
 
 /* Contact Info */
@@ -1664,7 +1664,7 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 }
 
 .contact-info a {
-    color: #4A403A ;
+    color: #1A2A3A;
     text-decoration: none;
     font-weight: bold;
 }

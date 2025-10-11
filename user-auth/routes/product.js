@@ -103,15 +103,26 @@ router.post(
         }
       }
 
-      // ✅ Handle Sizes (multi-select)
-      let sizes = [];
-      if (req.body.size) {
-        if (Array.isArray(req.body.size)) {
-          sizes = req.body.size;
-        } else if (typeof req.body.size === "string") {
-          sizes = [req.body.size];
-        }
-      }
+      // ✅ Handle Sizes (for Dresses: availableSizes[] and for Sarees: size[])
+let sizes = [];
+
+// Frontend might send availableSizes[] (for dresses)
+if (req.body.availableSizes) {
+  if (Array.isArray(req.body.availableSizes)) {
+    sizes = req.body.availableSizes;
+  } else if (typeof req.body.availableSizes === "string") {
+    sizes = [req.body.availableSizes];
+  }
+}
+// Fallback for any older field name
+else if (req.body.size) {
+  if (Array.isArray(req.body.size)) {
+    sizes = req.body.size;
+  } else if (typeof req.body.size === "string") {
+    sizes = [req.body.size];
+  }
+}
+
 
 
       // ✅ Create Product

@@ -180,6 +180,28 @@ else if (req.body.size) {
 
 
 
+// server.js or routes/product.js
+app.get("/api/products/section", async (req, res) => {
+  try {
+    const { section } = req.query;
+    const filter = { isDeleted: false, status: "active" };
+
+    if (section === "saree") filter.category = "Sarees";
+    else if (section === "dress") filter.category = "Dresses";
+    else if (section === "festive-edit") filter.occasion = { $in: ["Festive","Wedding","Traditional"] };
+    else if (section === "everyday-elegance") filter.occasion = { $in: ["Casual","Daily Wear"] };
+    else if (section === "under999") filter.price = { $lte: 999 };
+
+    const products = await Product.find(filter).sort({ createdAt: -1 });
+    res.json({ success: true, products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Failed to fetch products" });
+  }
+});
+
+
+
 
 
 

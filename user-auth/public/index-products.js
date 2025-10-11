@@ -119,6 +119,31 @@ async function addToCart(productId) {
 
 
 
+async function loadSection(section) {
+  const resp = await fetch(`/api/products/section?section=${section}`);
+  const data = await resp.json();
+  const container = document.getElementById("products-container");
+  container.innerHTML = "";
+
+  data.products.forEach(p => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <img src="${p.thumbnailImage}" width="150" />
+      <h4>${p.name}</h4>
+      <p>₹${p.price}</p>
+      <p>${p.category} - ${p.subcategory}</p>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Button event listeners
+document.getElementById("btn-saree").addEventListener("click", () => loadSection("saree"));
+document.getElementById("btn-dress").addEventListener("click", () => loadSection("dress"));
+document.getElementById("btn-festive").addEventListener("click", () => loadSection("festive-edit"));
+document.getElementById("btn-elegance").addEventListener("click", () => loadSection("everyday-elegance"));
+document.getElementById("btn-under999").addEventListener("click", () => loadSection("under999"));
+
 
 
 

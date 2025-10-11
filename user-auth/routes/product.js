@@ -180,8 +180,8 @@ else if (req.body.size) {
 
 
 
-// server.js or routes/product.js
-app.get("/api/products/section", async (req, res) => {
+// Section API
+router.get("/section", async (req, res) => {
   try {
     const { section } = req.query;
     const filter = { isDeleted: false, status: "active" };
@@ -199,7 +199,6 @@ app.get("/api/products/section", async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to fetch products" });
   }
 });
-
 
 
 

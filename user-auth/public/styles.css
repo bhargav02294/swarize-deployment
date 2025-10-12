@@ -490,168 +490,81 @@
 
 
 
-
-
-
-
-
-/* Reset & Layout  slider---------*/
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body, html {
-  height: 100%;
-  width: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow-x: hidden;
-}
-
-.slider-section {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-  background-color: #f9f9f9;
-}
-
-.slider-wrapper {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.slider {
+.hero-section {
+  background: linear-gradient(135deg, #E3F2FD 0%, #8BC6EC 100%);
+  color: #1A2A3A;
+  padding: 80px 10%;
   display: flex;
-  height: 100%;
-  transition: transform 0.8s ease-in-out;
-}
-
-.slide {
-  flex: 0 0 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
   justify-content: center;
-}
-
-.banner-style {
-  background: #ffffff;
-  width: 100%;
-  height: 100%;
-  padding: 60px;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 
-.banner-content {
+.hero-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  height: 100%;
-  max-width: 1400px;
   gap: 40px;
+  flex-wrap: wrap;
 }
 
-.banner-text {
-  flex: 1;
-  padding-left: 40px;
+.hero-text {
+  max-width: 500px;
+  animation: fadeInLeft 1.5s ease;
 }
 
-.banner-text h1 {
-  font-size: 3rem;
-  line-height: 1.2;
-  font-weight: 800;
-  color: #1f2937;
+.hero-text h1 {
+  font-size: 2.8rem;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
   margin-bottom: 15px;
+  color: #1A2A3A;
 }
 
-.banner-text .highlight {
-  color: #d61355;
+.hero-text span {
+  color: #8BC6EC;
 }
 
-.banner-text p {
-  font-size: 1.2rem;
-  color: #4b5563;
+.hero-text p {
+  font-size: 1.1rem;
+  color: #333;
   margin-bottom: 25px;
 }
 
-/* ---------------- Banner Button Styling ---------------- */
-.banner-button {
-  display: inline-block;
-  margin-top: 18px;
-  padding: 12px 24px;
-  background-color: #2A2B2D;
-  color: #FFF5F7;
-  font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
+.hero-button {
+  background-color: #1A2A3A;
+  color: #ffffff;
+  padding: 12px 28px;
   border: none;
   border-radius: 8px;
   text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-.banner-button:hover {
-  background-color: #4A403A;
-  transform: translateY(-2px);
+.hero-button:hover {
+  background-color: #8BC6EC;
+  color: #1A2A3A;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(26, 42, 58, 0.2);
 }
 
-.banner-image {
-  flex: 1;
-  text-align: center;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hero-image img {
+  width: 420px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  animation: floatUp 3s ease-in-out infinite alternate;
 }
 
-.banner-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Important for full image fill */
-  border-radius: 16px;
-  max-width: none;
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .banner-content {
-    flex-direction: column-reverse;
-    text-align: center;
-    padding: 20px;
-    height: auto;
-  }
-
-  .banner-text {
-    padding: 0;
-  }
-
-  .banner-text h1 {
-    font-size: 2rem;
-  }
-
-  .banner-text p {
-    font-size: 1rem;
-  }
-
-  .cta-button {
-    font-size: 0.95rem;
-    padding: 10px 24px;
-  }
-
-  .banner-image img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 12px;
-  }
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
 }
 
 

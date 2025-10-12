@@ -253,7 +253,7 @@ const categoryMap = {
 
 
 
-
+/*
 //-------------home section image slider-------------------//
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -272,6 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setInterval(showNextSlide, 5000); // 5 seconds per slide
 });
 
+*/
 
 
 
@@ -282,55 +283,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-
-
-//----------------dropdowns   --         login country category    -------------------------//
-
-document.addEventListener('click', function (event) {
-    const loginDropdown = document.querySelector('.login-dropdown');
-    const countryDropdown = document.querySelector('.country-dropdowner');
-    const categoryDropdowns = document.querySelectorAll('.category-dropdown');
-
-
-    // Toggle Login Dropdown
-    if (loginDropdown.contains(event.target)) {
-        loginDropdown.classList.toggle('active');
-    } else {
-        loginDropdown.classList.remove('active');
-    }
-
-    // Toggle Country Dropdown
-    if (countryDropdown.contains(event.target)) {
-        countryDropdown.classList.toggle('active');
-    } else {
-        countryDropdown.classList.remove('active');
-    }
-    // Toggle Category Dropdowns
-    categoryDropdowns.forEach(dropdown => {
-        if (dropdown.contains(event.target)) {
-            dropdown.classList.toggle('active');
-        } else {
-            dropdown.classList.remove('active');
-        }
-    });
-});
-
-// Update Country Flag on Selection
-
-
-// Prevent Dropdowns from Closing When Clicking Inside
-document.querySelector('.login-content').addEventListener('click', (event) => {
-    event.stopPropagation();
-});
-
-// Prevent Dropdowns from Closing When Clicking Inside
-document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-    dropdown.addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
-});
 
 
 

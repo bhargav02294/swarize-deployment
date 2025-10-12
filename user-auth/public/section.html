@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swarize | Category</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #E3F2FD;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .category-header {
+      background-color: #1A2A3A;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    #products-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      padding: 1rem;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product-card h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.4rem;
+      color: #1A2A3A;
+      margin: 0.8rem 0 0.3rem;
+    }
+
+    .price {
+      color: #1A2A3A;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .display-price {
+      text-decoration: line-through;
+      color: gray;
+      font-size: 0.9rem;
+      margin-top: -0.2rem;
+    }
+
+    .category-back {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .category-back button {
+      background-color: #1A2A3A;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .category-back button:hover {
+      background-color: #8BC6EC;
+      color: #1A2A3A;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="category-header" id="categoryHeader">
+    Loading...
+  </div>
+
+  <div class="category-back">
+    <button onclick="window.history.back()">← Back</button>
+  </div>
+
+  <div id="products-container"></div>
+
+  <script>
+    async function loadSectionProducts() {
+      const params = new URLSearchParams(window.location.search);
+      const section = params.get("section");
+
+      // Update heading
+      const header = document.getElementById("categoryHeader");
+      header.textContent =
+        section === "saree" ? "Saree Collection" :
+        section === "dress" ? "Dress Collection" :
+        section === "festive-edit" ? "Festive Edit" :
+        section === "everyday-elegance" ? "Everyday Elegance" :
+        section === "under999" ? "Under ₹999" : "Products";
+
+      // Fetch products
+      const response = await fetch(`/api/products/section?section=${section}`);
+      const data = await response.json();
+
+      const container = document.getElementById("products-container");
+      container.innerHTML = "";
+
+      if (!data.success || data.products.length === 0) {
+        container.innerHTML = "<p style='text-align:center;color:#555;'>No products found.</p>";
+        return;
+      }
+
+      data.products.forEach(p => {
+        const div = document.createElement("div");
+        div.classList.add("product-card");
+        div.innerHTML = `
+          <img src="${p.thumbnailImage}" alt="${p.name}" />
+          <h3>${p.name}</h3>
+          <p class="price">₹${p.price}</p>
+          ${p.displayPrice ? `<p class="display-price">₹${p.displayPrice}</p>` : ""}
+          <p style="color:#666;font-size:0.9rem;">${p.category} - ${p.subcategory}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    loadSectionProducts();
+  </script>
+</body>
+</html>

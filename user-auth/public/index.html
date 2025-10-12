@@ -33,7 +33,9 @@
         <link rel="icon" href="/favicon.ico">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Open+Sans&family=Playfair+Display&family=Poppins&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+  
 
         <!-- Structured Data (JSON-LD) -->
         <script type="application/ld+json">
@@ -57,44 +59,45 @@
       
    
 <body>
-
-   <!-- Top header -->
-  <div class="top-header">
-    <h1>List Your Products at ₹0 — Sell Without Any Cost!</h1>
+  
+  <!-- Top Promo Header -->
+  <header>
     <h2>Buy More, Save More — 5% Discount on Every Second Purchase!</h2>
-  </div>
+  </header>
 
-  <!-- Navbar -->
+  <!-- Main Navbar -->
   <header class="navbar">
     <div class="navbar-container">
 
-      <!-- Left: Logo -->
-      <div class="logo-container">
-        <div class="logo-circle">S</div>
-        <div class="brand-name">Swarize</div>
+      <!-- Logo & Brand -->
+      <div class="container">
+        <div class="logo-container">
+          <span class="logo-text">S</span>
+        </div>
+        <div class="brand-name">SWARIZE</div>
       </div>
 
-      <!-- Center: Search Bar -->
-      <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search products...">
+      <!-- Search Bar -->
+      <div class="search-container" id="searchBox">
+        <input type="text" id="search-input" placeholder="Search for products...">
         <button id="search-button"><i class="fas fa-search"></i></button>
       </div>
 
-      <!-- Right: Menu -->
+      <!-- Navbar Menu -->
       <ul class="menu">
-        <li class="dropdown">
+        <li class="dropdown login-dropdown">
           <button class="dropdown-button">Login</button>
-          <div class="dropdown-content">
+          <div class="dropdown-content login-content">
             <a href="signin.html">Sign In</a>
             <a href="signup.html">Sign Up</a>
           </div>
         </li>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="addtocart.html">Add to Cart</a></li>
+        <li><a href="home.html" class="menu-item">Home</a></li>
+        <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
       </ul>
     </div>
 
-    <!-- Categories -->
+    <!-- Category Buttons -->
     <div class="category-bar">
       <button id="btn-saree">Saree</button>
       <button id="btn-dress">Dress</button>

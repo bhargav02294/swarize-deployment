@@ -57,60 +57,52 @@
       
    
 <body>
-    <header>
-        <h1>List Your Products at ₹0 — Sell Without Any Cost!</h1>
-        <h2>Buy More, Save More — 5% Discount on Every Second Purchase!</h2>
-      </header>
-      
-      <header class="navbar">
-        <div class="navbar-container"> <!-- ✅ Added wrapper -->
-      
-          <!-- Logo Section -->
-          <div class="container">
-            <div class="logo-container">
-              <span class="logo-text">S</span> <!-- Letter "S" in the circle -->
-            </div>
-            <div class="brand-name">swarize</div> <!-- Website Name -->
+
+   <!-- Top header -->
+  <div class="top-header">
+    <h1>List Your Products at ₹0 — Sell Without Any Cost!</h1>
+    <h2>Buy More, Save More — 5% Discount on Every Second Purchase!</h2>
+  </div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-container">
+
+      <!-- Left: Logo -->
+      <div class="logo-container">
+        <div class="logo-circle">S</div>
+        <div class="brand-name">Swarize</div>
+      </div>
+
+      <!-- Center: Search Bar -->
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search products...">
+        <button id="search-button"><i class="fas fa-search"></i></button>
+      </div>
+
+      <!-- Right: Menu -->
+      <ul class="menu">
+        <li class="dropdown">
+          <button class="dropdown-button">Login</button>
+          <div class="dropdown-content">
+            <a href="signin.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
           </div>
-      
-          
-          <div class="navbar-bottom-row">
+        </li>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="addtocart.html">Add to Cart</a></li>
+      </ul>
+    </div>
 
-
-             <div class="search-container collapsed" id="searchBox">
-                  <input type="text" id="search-input" placeholder="Search...">
-                  <button id="search-button">
-                    <i class="fas fa-search"></i>
-                  </button> 
-                </div>
-      
-            <!-- Navbar Menu -->
-            <ul class="menu">
-              <!-- Login Dropdown -->
-              <li class="dropdown login-dropdown">
-                <button class="dropdown-button">Login</button>
-                <div class="dropdown-content login-content">
-                  <a href="signin.html">Sign In</a>
-                  <a href="signup.html">Sign Up</a>
-                </div>
-              </li>
-      
-              <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
-              <li><a href="home.html" class="menu-item">Home</a></li>
-
-              <button id="btn-saree">Saree</button>
-                <button id="btn-dress">Dress</button>
-                <button id="btn-festive">Festive Edit</button>
-                <button id="btn-elegance">Everyday Elegance</button>
-                <button id="btn-under999">Under ₹999</button>
-
-                <div id="products-container"></div>
-
-            </ul>
-      
-          </div>
-        </div>
-      </header>
+    <!-- Categories -->
+    <div class="category-bar">
+      <button id="btn-saree">Saree</button>
+      <button id="btn-dress">Dress</button>
+      <button id="btn-festive">Festive Edit</button>
+      <button id="btn-elegance">Everyday Elegance</button>
+      <button id="btn-under999">Under ₹999</button>
+    </div>
+  </header>
       
 
 

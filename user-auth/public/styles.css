@@ -10,350 +10,211 @@ body, html {
     overflow-x: hidden;
     background-color: #FFF5F7 ;
 }
-
-/* ======== Header (Top Bar) ======== */
-header {
-    background-color: #1A2A3A;
-    padding: 6px 10px;
-    height: 50px;
-    text-align: center;
-}
-
-header h1, header h2 {
-    color: #FFFFFF ;
-    font-family: 'Poppins', sans-serif;
-    margin: 1px 0;
-    font-size: 12px;
-}
-
-@media (max-width: 768px) {
-    header {
-        padding: 4px 8px;
-        height: 38px;
+/* ===== GLOBAL ===== */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #FFFFFF;
+      color: #1A2A3A;
     }
 
-    header h1 {
-        font-size: 10px;
-        margin: 1px 0;
+    header h1, header h2 {
+      margin: 0;
+      text-align: center;
+      color: #FFFFFF;
     }
 
-    header h2 {
-        font-size: 9px;
-        margin: 1px 0;
+    /* ===== TOP HEADER ===== */
+    .top-header {
+      background-color: #1A2A3A;
+      padding: 10px 0;
+      text-align: center;
     }
-}
 
-/* ======== Navbar ======== */
-.navbar {
-    background-color: #FFFFFF ;
-    padding: 10px 0;
-    position: relative;
-    width: 100%;
-    height: 65px;
-    z-index: 10;
-}
+    .top-header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
 
-.navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+    .top-header h2 {
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
 
-/* ======== Logo & Brand ======== */
-.container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+    /* ===== NAVBAR ===== */
+    .navbar {
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-.logo-container {
-    width: 46px;
-    height: 46px;
-    background-color: #1A2A3A;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 40px;
+    }
 
-.logo-text {
-    font-size: 31px;
-    font-weight: bold;
-    color:#FFF5F7 ;
-    font-family: 'Times New Roman';
-}
+    /* Logo and brand */
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
 
-.brand-name {
-    font-size: 28px;
-    font-weight: bold;
-    color: #1A2A3A;
-    font-family: 'Times New Roman';
-}
+    .logo-circle {
+      background-color: #8BC6EC;
+      color: #1A2A3A;
+      font-weight: 700;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+    }
 
-/* ======== Search ======== */
-/* PC View */
-.search-container {
-    --timing: 0.3s;
-    --border-color: #1A2A3A;
-    background: #ffffff ;
-    border: 1px solid var(--border-color);
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    width: 400px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
+    .brand-name {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #1A2A3A;
+      letter-spacing: 1px;
+    }
 
-#search-input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 14px;
-    padding: 5px 10px;
-    background: transparent;
-}
+    /* Search Bar */
+    .search-container {
+      flex: 1;
+      max-width: 500px;
+      display: flex;
+      align-items: center;
+      background-color: #E3F2FD;
+      border-radius: 30px;
+      padding: 6px 10px;
+      margin: 0 20px;
+    }
 
-#search-button {
-    background: none;
-    border: none;
-    color: #1A2A3A;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .search-container input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 8px;
+      outline: none;
+      font-size: 1rem;
+    }
 
-#search-button i {
-    font-size: 16px;
-}
+    .search-container button {
+      background-color: #1A2A3A;
+      border: none;
+      border-radius: 50%;
+      color: #FFFFFF;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
+    .search-container button:hover {
+      background-color: #8BC6EC;
+      color: #1A2A3A;
+    }
 
-/* ======== Menu ======== */
-.menu {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    list-style-type: none;
-}
+    /* Navbar Links */
+    .menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
 
-.menu-item,
-.dropdown-button {
-    color: #1A2A3A;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    text-decoration: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
+    .menu li {
+      margin-left: 20px;
+      position: relative;
+    }
 
-.menu-item:hover,
-.dropdown-button:hover {
-    color: #1A2A3A;
-}
+    .menu a, .dropdown-button {
+      text-decoration: none;
+      color: #1A2A3A;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
 
-/* ======== Dropdown (Login) ======== */
-.dropdown {
-    position: relative;
-}
+    .menu a:hover, .dropdown-button:hover {
+      background-color: #E3F2FD;
+      color: #1A2A3A;
+    }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #ffffff;
-    border: 1px solid #1A2A3A;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    min-width: 160px;
-    z-index: 1000;
-}
+    /* Dropdown */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: #FFFFFF;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      min-width: 150px;
+    }
 
-.dropdown.active .dropdown-content {
-    display: block;
-}
+    .dropdown-content a {
+      display: block;
+      padding: 10px;
+      color: #1A2A3A;
+      text-decoration: none;
+    }
 
-.dropdown-content a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    font-size: 14px;
-    color: #000;
-}
+    .dropdown-content a:hover {
+      background-color: #E3F2FD;
+    }
 
-.dropdown-content a:hover {
-    background-color: #f3f1ee77;
-}
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
 
-/* ======== Mobile View Adjustments ======== */
-/* ======== Mobile View Adjustments ======== */
-/* ======== Mobile View Adjustments ======== */
-/* ======== Mobile View Adjustments ======== */
-@media (max-width: 768px) {
-  html, body {
-    overflow-x: hidden;
-  }
+    /* Category Buttons */
+    .category-bar {
+      display: flex;
+      justify-content: center;
+      background-color: #1A2A3A;
+      padding: 10px 0;
+      gap: 15px;
+    }
 
-  .navbar-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 5px 8px;
-    height: auto;
-  }
+    .category-bar button {
+      background-color: #8BC6EC;
+      border: none;
+      color: #1A2A3A;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-  /* Logo */
-  .logo-container {
-    width: 36px;
-    height: 36px;
-    background-color: #2A2B2D;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .category-bar button:hover {
+      background-color: #E3F2FD;
+      transform: translateY(-2px);
+    }
 
-  .logo-text {
-    font-size: 25px;
-    font-weight: bold;
-    color: #FFF5F7;
-    font-family: 'Times New Roman';
-  }
-
-  .brand-name {
-    font-size: 22px;
-    font-weight: bold;
-    color: #2A2B2D;
-    font-family: 'Times New Roman';
-  }
-
-  /* Collapsed Search */
-  .search-container.collapsed {
-    position: absolute;
-    top: 50%;
-    left: 65%;
-    transform: translate(-50%, -50%);
-    width: 30px;
-    height: 30px;
-    border-radius: 40%;
-    background: #ffffff;
-    border: 1px solid #4A403A;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    z-index: 10;
-  }
-
- /* Expanded Search */
-.search-container.expanded {
-  height: 25px;
-  border-radius: 20px;
-  padding: 0 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff;
-  border: 1px solid #4A403A;
-  width: 100%;
-  max-width: 75px; /* adjust as needed */
-  margin-left: auto; /* push to right */
-}
-
-
-  .search-container input {
-    display: none;
-    border: none;
-    outline: none;
-    background: transparent;
-    width: 50%;
-    font-size: 1px;
-    padding: 0 0;
-    color: #0b51dd;
-  }
-
-  .search-container.expanded input {
-    display: inline-block;
-  }
-
-  #search-button {
-    background: none;
-    border: none;
-    font-size: 1px;
-    color: #2A2B2D;
-    cursor: pointer;
-  }
-
-  /* Menu Icons */
-  .menu {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .menu-item,
-  .dropdown-button {
-    font-size: 0;
-    position: relative;
-  }
-
-  .menu-item::before,
-  .dropdown-button::before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 18px;
-    color: #4A403A;
-  }
-
-  .menu-item[href*="addtocart"]::before {
-    content: "\f07a";
-  }
-
-  .menu-item[href*="home"]::before {
-    content: "\f015";
-  }
-
-  .dropdown-button::before {
-    content: "\f007";
-  }
-
-  .dropdown-content {
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: 90px;
-    font-size: 12px;
-    padding: 4px 0;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    position: absolute;
-    display: none;
-    background-color: white;
-  }
-
-  .dropdown-content a {
-    padding: 6px 8px;
-    font-size: 12px;
-    line-height: 1.2;
-  }
-
-  .dropdown.active .dropdown-content {
-    display: block;
-  }
-}
-
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar-container {
+        flex-direction: column;
+      }
+      .search-container {
+        max-width: 100%;
+        margin: 10px 0;
+      }
+      .menu {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
     
 
 

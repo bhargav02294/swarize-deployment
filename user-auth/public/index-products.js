@@ -276,11 +276,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const slides = document.querySelectorAll(".slide");
   const dotsContainer = document.querySelector(".slider-dots");
-
   let currentIndex = 0;
 
   // Create dots dynamically
@@ -308,6 +306,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   setInterval(nextSlide, 5000); // Auto slide every 5s
 });
+
+// Category-style redirection for hero buttons
+function openSection(section) {
+  window.location.href = `section.html?section=${section}`;
+}
 
 
 

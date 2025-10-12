@@ -277,6 +277,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const slides = document.querySelectorAll(".slide");
+  const dotsContainer = document.querySelector(".slider-dots");
+
+  let currentIndex = 0;
+
+  // Create dots dynamically
+  slides.forEach((_, idx) => {
+    const dot = document.createElement("button");
+    dot.addEventListener("click", () => goToSlide(idx));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll("button");
+  dots[0].classList.add("active");
+
+  function goToSlide(index) {
+    slides[currentIndex].classList.remove("active");
+    dots[currentIndex].classList.remove("active");
+    currentIndex = index;
+    slides[currentIndex].classList.add("active");
+    dots[currentIndex].classList.add("active");
+  }
+
+  function nextSlide() {
+    let next = (currentIndex + 1) % slides.length;
+    goToSlide(next);
+  }
+
+  setInterval(nextSlide, 5000); // Auto slide every 5s
+});
 
 
 

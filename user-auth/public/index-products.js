@@ -174,6 +174,115 @@ function viewProduct(id) {
 
 
 
+
+
+
+
+// ===================== PINTEREST STYLE PRODUCT GRID ===================== //
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const gridContainer = document.getElementById("pinterest-grid");
+  const loader = document.getElementById("grid-loader");
+
+  if (!gridContainer) return;
+
+  // --- Helper: Safe JSON parse ---
+  async function safeParseJson(response) {
+    const text = await response.text();
+    try {
+      return JSON.parse(text);
+    } catch (err) {
+      throw new Error("Server did not return valid JSON");
+    }
+  }
+
+  // --- Fetch all products ---
+  async function fetchAllProducts() {
+    try {
+      loader.style.display = "block";
+      const res = await fetch("/api/products/all", {
+        method: "GET",
+        credentials: "include"
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await safeParseJson(res);
+
+      if (Array.isArray(data)) return data;
+      if (data && Array.isArray(data.products)) return data.products;
+      return [];
+    } catch (err) {
+      console.error("Error loading products:", err);
+      return [];
+    } finally {
+      loader.style.display = "none";
+    }
+  }
+
+  // --- Image resolver ---
+  function resolveImagePath(path) {
+    if (!path) return "/assets/img-placeholder.png";
+    if (path.startsWith("uploads/") || path.startsWith("/uploads/"))
+      return `https://swarize.in/${path.replace(/^\/+/, "")}`;
+    return path;
+  }
+
+  // --- Render Pinterest Grid ---
+  async function renderPinterestGrid() {
+    const products = await fetchAllProducts();
+
+    if (!products || products.length === 0) {
+      gridContainer.innerHTML = `<p>No products available yet 🛍️</p>`;
+      return;
+    }
+
+    gridContainer.innerHTML = ""; // clear
+
+    products.forEach((product) => {
+      const imagePath = resolveImagePath(product.thumbnailImage);
+
+      const card = document.createElement("div");
+      card.classList.add("pinterest-card");
+      card.innerHTML = `
+        <img src="${imagePath}" alt="${escapeHtml(product.name)}" loading="lazy">
+        <div class="pinterest-info">
+          <h3>${escapeHtml(product.name)}</h3>
+          <p class="price-tag">₹${formatPrice(product.price)}</p>
+          <button class="quick-view-btn" onclick="viewProduct('${product._id}')">Quick View</button>
+        </div>
+      `;
+      gridContainer.appendChild(card);
+    });
+  }
+
+  // --- Helpers ---
+  function formatPrice(p) {
+    if (!p) return "-";
+    return Number(p).toLocaleString("en-IN");
+  }
+
+  function escapeHtml(str) {
+    return str
+      ? str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;")
+      : "";
+  }
+
+  // --- View Product redirect ---
+  window.viewProduct = function (id) {
+    window.location.href = `product-detail.html?id=${id}`;
+  };
+
+  // --- Initialize ---
+  await renderPinterestGrid();
+});
+
+
+
 /*
 //-------------home section image slider-------------------//
 

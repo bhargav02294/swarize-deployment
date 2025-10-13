@@ -601,16 +601,16 @@
 
 
 
-
-/* Product Carousel Section */
+/* ===================== PRODUCT CAROUSEL ===================== */
 .product-carousel {
   width: 100%;
   padding: 60px 5%;
   background: linear-gradient(135deg, #fff 0%, #f8f8fa 100%);
-  position: relative;
   overflow: hidden;
+  position: relative;
 }
 
+/* Section title */
 .section-title {
   font-size: 2rem;
   text-align: center;
@@ -620,25 +620,33 @@
   letter-spacing: 0.5px;
 }
 
+/* Carousel wrapper */
 .carousel-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
+  width: 100%;
 }
 
+/* Only the carousel track should scroll */
 .carousel-track {
   display: flex;
   gap: 25px;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
   padding: 10px;
+  cursor: grab;
 }
 
+.carousel-track:active {
+  cursor: grabbing;
+}
+
+/* Disable whole-page scroll when dragging */
 .carousel-track::-webkit-scrollbar {
   display: none;
 }
 
-/* Product Card */
+/* Individual product card */
 .product-card {
   background: #fff;
   border-radius: 16px;
@@ -654,7 +662,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Thumbnail */
+/* Product image */
 .product-card img {
   width: 100%;
   height: 300px;
@@ -666,7 +674,7 @@
   transform: scale(1.08);
 }
 
-/* Product Info */
+/* Product info */
 .product-info {
   padding: 15px;
   text-align: center;
@@ -702,7 +710,7 @@
   transform: scale(1.05);
 }
 
-/* Carousel Arrows */
+/* Carousel navigation arrows */
 .carousel-btn {
   background: rgba(255, 255, 255, 0.9);
   border: none;
@@ -731,6 +739,7 @@
   right: -10px;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .product-card {
     flex: 0 0 70%;

@@ -1,55 +1,29 @@
-// ================= PRODUCT LOADER & CAROUSEL ================= //
-
+// ================= PRODUCT CAROUSEL + CATEGORY LOADER ================= //
 document.addEventListener("DOMContentLoaded", async () => {
-  // Elements
-  const productsGrid = document.getElementById("products-grid");
-  const carouselTrack = document.getElementById("product-track"); // if you have a carousel track element
+  const carouselTrack = document.getElementById("product-track");
   const prevBtn = document.querySelector(".carousel-btn.prev");
   const nextBtn = document.querySelector(".carousel-btn.next");
 
-  // Categories for the grid view
-  const categories = ["Women", "Men", "Kids", "Accessories"];
+  const categories = ["Sarees", "Dresses"];
 
-  /* ----------------------
-     Utility: Safe JSON parse
-     ---------------------- */
+  /* ---------- Safe JSON Parser ---------- */
   async function safeParseJson(response) {
     const text = await response.text();
     try {
       return JSON.parse(text);
-    } catch (err) {
-      // Not JSON (likely HTML error page)
-      throw new Error("Server did not return JSON. Response text length: " + text.length);
+    } catch {
+      console.error("⚠️ Invalid JSON:", text.slice(0, 100));
+      return {};
     }
   }
 
-  /* -----------------------------------------
-     Function: fetchAllProducts (for main slider)
-     Endpoint: GET /api/products/all
-     Returns: array of products (or empty array)
-     ----------------------------------------- */
+  /* ---------- Fetch All Products ---------- */
   async function fetchAllProducts() {
     try {
-      const res = await fetch("/api/products/all", {
-        method: "GET",
-        credentials: "include" // in case your server uses session cookies
-      });
-
-      if (!res.ok) {
-        throw new Error(`Failed to fetch all products: ${res.status} ${res.statusText}`);
-      }
-
-      // parse safely
+      const res = await fetch("/api/products/all");
       const data = await safeParseJson(res);
-
-      // Your /api/products/all route returns an array (based on routes/product.js)
       if (Array.isArray(data)) return data;
-
-      // If server unexpectedly wrapped it, handle common wrapper shapes:
       if (data && Array.isArray(data.products)) return data.products;
-      if (data && data.success && Array.isArray(data.products)) return data.products;
-
-      // otherwise return empty
       return [];
     } catch (err) {
       console.error("Error fetching all products:", err);
@@ -57,149 +31,52 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  /* -----------------------------------------
-     Function: fetchProducts (by category)
-     Endpoint: GET /api/products/category/:category
-     Returns: array (or empty)
-     ----------------------------------------- */
+  /* ---------- Fetch by Category ---------- */
   async function fetchProductsByCategory(category) {
     try {
       const formatted = encodeURIComponent(category);
-      const res = await fetch(`/api/products/category/${formatted}`, {
-        method: "GET",
-        credentials: "include"
-      });
-
-      if (!res.ok) {
-        console.warn(`Category fetch returned ${res.status} for ${category}`);
-        return [];
-      }
-
+      const res = await fetch(`/api/products/category/${formatted}`);
       const data = await safeParseJson(res);
-
-      // your category endpoints return { success: true, products }
       if (data && Array.isArray(data.products)) return data.products;
-      // fallback if returned array directly
       if (Array.isArray(data)) return data;
-
       return [];
     } catch (err) {
-      console.error(`Error fetching products for category ${category}:`, err);
+      console.error("Error fetching category:", category, err);
       return [];
     }
   }
 
-  /* -----------------------------------------
-     Helper: Resolve image path (uploads vs full URL)
-     ----------------------------------------- */
-  function resolveImagePath(imagePath) {
-    if (!imagePath) return "/assets/img-placeholder.png"; // fallback placeholder
-    if (typeof imagePath !== "string") return "/assets/img-placeholder.png";
-    if (imagePath.startsWith("uploads/") || imagePath.startsWith("/uploads/")) {
-      // adjust to your domain
-      return `https://swarize.in/${imagePath.replace(/^\/+/, "")}`;
+  /* ---------- Utility: Image Path Resolver ---------- */
+  function resolveImagePath(path) {
+    if (!path) return "/assets/img-placeholder.png";
+    if (path.startsWith("uploads/") || path.startsWith("/uploads/")) {
+      return `https://swarize.in/${path.replace(/^\/+/, "")}`;
     }
-    return imagePath; // already a URL (cloudinary, S3 etc.)
+    return path;
   }
 
-  /* -----------------------------------------
-     UI: Render Category Grid Sections
-     ----------------------------------------- */
-  function createCategorySection(category, products) {
-    const categorySection = document.createElement("div");
-    categorySection.classList.add("category-section");
-    categorySection.innerHTML = `<h3>${category}</h3><div class="category-products"></div>`;
+  /* ---------- Helpers ---------- */
+  const formatPrice = p => (p ? Number(p).toLocaleString("en-IN") : "-");
+  const escapeHtml = text => String(text || "").replace(/[&<>"']/g, m => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[m]));
 
-    const productRow = categorySection.querySelector(".category-products");
-
-    products.forEach(product => {
-      const imagePath = resolveImagePath(product.thumbnailImage);
-
-      const productItem = document.createElement("div");
-      productItem.classList.add("product-card");
-      productItem.innerHTML = `
-        <img src="${imagePath}" alt="${escapeHtml(product.name)} - Buy online at Swarize" class="product-image" onclick="viewProduct('${product._id}')">
-        <h4>${escapeHtml(product.name)}</h4>
-        <p class="product-price">₹${formatPrice(product.price)}</p>
-        <div class="star-rating">★★★★★</div>
-        <button class="cart-button" onclick="addToCart('${product._id}')">🛒</button>
-      `;
-      productRow.appendChild(productItem);
-    });
-
-    return categorySection;
-  }
-
-  /* -----------------------------------------
-     Small helpers: formatPrice & escapeHtml
-     ----------------------------------------- */
-  function formatPrice(p) {
-    if (p === null || p === undefined) return "-";
-    if (typeof p === "number") return p.toLocaleString("en-IN");
-    // if saved as string already
-    return Number(p).toLocaleString("en-IN");
-  }
-
-  function escapeHtml(text) {
-    if (!text) return "";
-    return String(text)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  /* -----------------------------------------
-     Load grid categories (existing behaviour)
-     ----------------------------------------- */
-  async function loadCategoryGrid() {
-    if (!productsGrid) return;
-    productsGrid.innerHTML = "";
-
-    for (let i = 0; i < categories.length; i += 2) {
-      const row = document.createElement("div");
-      row.classList.add("product-row");
-
-      // First category
-      const category1 = categories[i];
-      const products1 = await fetchProductsByCategory(category1);
-      const categorySection1 = createCategorySection(category1, products1.slice(0, 6)); // limit per section
-      row.appendChild(categorySection1);
-
-      // Second category (if exists)
-      if (i + 1 < categories.length) {
-        const category2 = categories[i + 1];
-        const products2 = await fetchProductsByCategory(category2);
-        const categorySection2 = createCategorySection(category2, products2.slice(0, 6));
-        row.appendChild(categorySection2);
-      }
-
-      productsGrid.appendChild(row);
-    }
-  }
-
-  /* -----------------------------------------
-     Build Carousel from all products
-     ----------------------------------------- */
+  /* ---------- Render Carousel ---------- */
   async function buildProductCarousel() {
     if (!carouselTrack) return;
     carouselTrack.innerHTML = "";
 
     const allProducts = await fetchAllProducts();
-    if (!Array.isArray(allProducts) || allProducts.length === 0) {
+    if (!allProducts.length) {
       carouselTrack.innerHTML = `<p class="no-products">No products found 🛍️</p>`;
       return;
     }
 
-    // render cards
     allProducts.forEach(prod => {
       const card = document.createElement("div");
       card.classList.add("product-card");
-      const imagePath = resolveImagePath(prod.thumbnailImage);
-
       card.innerHTML = `
-        <img src="${imagePath}" alt="${escapeHtml(prod.name)}" />
+        <img src="${resolveImagePath(prod.thumbnailImage)}" alt="${escapeHtml(prod.name)}">
         <div class="product-info">
           <h3>${escapeHtml(prod.name)}</h3>
           <p>₹${formatPrice(prod.price)}</p>
@@ -209,58 +86,87 @@ document.addEventListener("DOMContentLoaded", async () => {
       carouselTrack.appendChild(card);
     });
 
-    // wire up arrow buttons if present
-    if (nextBtn) {
-      nextBtn.onclick = () => carouselTrack.scrollBy({ left: 300, behavior: "smooth" });
-    }
-    if (prevBtn) {
-      prevBtn.onclick = () => carouselTrack.scrollBy({ left: -300, behavior: "smooth" });
+    // Navigation Buttons
+    nextBtn?.addEventListener("click", () =>
+      carouselTrack.scrollBy({ left: 300, behavior: "smooth" })
+    );
+    prevBtn?.addEventListener("click", () =>
+      carouselTrack.scrollBy({ left: -300, behavior: "smooth" })
+    );
+
+    // Drag Scroll Fix (only product movement)
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    carouselTrack.addEventListener("mousedown", e => {
+      isDown = true;
+      carouselTrack.classList.add("active");
+      startX = e.pageX - carouselTrack.offsetLeft;
+      scrollLeft = carouselTrack.scrollLeft;
+    });
+
+    carouselTrack.addEventListener("mouseleave", () => (isDown = false));
+    carouselTrack.addEventListener("mouseup", () => (isDown = false));
+
+    carouselTrack.addEventListener("mousemove", e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carouselTrack.offsetLeft;
+      const walk = (x - startX) * 1.5; // scroll speed
+      carouselTrack.scrollLeft = scrollLeft - walk;
+    });
+  }
+
+  /* ---------- Render Categories (Grid style, optional) ---------- */
+  async function buildCategoryGrid() {
+    const grid = document.getElementById("products-grid");
+    if (!grid) return;
+
+    grid.innerHTML = "";
+    for (const category of categories) {
+      const products = await fetchProductsByCategory(category);
+      if (!products.length) continue;
+
+      const section = document.createElement("section");
+      section.classList.add("category-block");
+      section.innerHTML = `
+        <h2 class="section-title">${category}</h2>
+        <div class="carousel-wrapper">
+          <button class="carousel-btn prev"><</button>
+          <div class="carousel-track inner-track"></div>
+          <button class="carousel-btn next">></button>
+        </div>
+      `;
+      grid.appendChild(section);
+
+      const innerTrack = section.querySelector(".inner-track");
+      products.slice(0, 10).forEach(prod => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+        card.innerHTML = `
+          <img src="${resolveImagePath(prod.thumbnailImage)}" alt="${escapeHtml(prod.name)}">
+          <div class="product-info">
+            <h3>${escapeHtml(prod.name)}</h3>
+            <p>₹${formatPrice(prod.price)}</p>
+            <button class="quick-view-btn" onclick="viewProduct('${prod._id}')">Quick View</button>
+          </div>
+        `;
+        innerTrack.appendChild(card);
+      });
     }
   }
 
-  /* -----------------------------------------
-     Initialize: load both grid and carousel
-     ----------------------------------------- */
   await Promise.all([
-    loadCategoryGrid(),
-    buildProductCarousel()
+    buildProductCarousel(),
+    buildCategoryGrid()
   ]);
 });
 
-/* ============================
-   Existing global helpers (keep)
-   ============================ */
-
-// ✅ Function to view product details
-function viewProduct(productId) {
-  window.location.href = `product-detail.html?id=${productId}`;
+/* ---------- Global helpers ---------- */
+function viewProduct(id) {
+  window.location.href = `product-detail.html?id=${id}`;
 }
-
-// ✅ Function to add product to cart
-async function addToCart(productId) {
-  try {
-    const response = await fetch("/api/cart/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId }),
-      credentials: "include"
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      console.log(" Product added to cart");
-      window.location.href = `addtocart.html?id=${productId}`;
-    } else {
-      alert(" Failed to add product to cart: " + (data.message || "Unknown error"));
-    }
-  } catch (error) {
-    console.error("Error adding to cart:", error);
-    alert(" Error adding product to cart.");
-  }
-}
-
-
 
 
 
@@ -330,81 +236,6 @@ function openSection(section) {
 
 
 
-
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const productTrack = document.getElementById("product-track");
-  const prevBtn = document.querySelector(".carousel-btn.prev");
-  const nextBtn = document.querySelector(".carousel-btn.next");
-
-  // Example demo data (replace this with your fetched data)
-  const products = [
-    {
-      id: 1,
-      name: "Elegant Red Saree",
-      price: "₹2,499",
-      thumbnailImage: "https://images.unsplash.com/photo-1659293554631-d7a38642c5e3?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 2,
-      name: "Chic Floral Dress",
-      price: "₹1,999",
-      thumbnailImage: "https://images.unsplash.com/photo-1503160865267-af4660ce7bf2?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 3,
-      name: "Festive Gold Saree",
-      price: "₹3,299",
-      thumbnailImage: "https://plus.unsplash.com/premium_photo-1682090864876-c452a35292cb?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 4,
-      name: "Everyday Elegance Kurti",
-      price: "₹899",
-      thumbnailImage: "https://plus.unsplash.com/premium_photo-1661369481899-6ce99b916223?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 5,
-      name: "Modern Black Dress",
-      price: "₹1,599",
-      thumbnailImage: "https://images.unsplash.com/photo-1520975922131-a07b84c77b72?auto=format&fit=crop&q=60&w=600"
-    },
-  ];
-
-  // Render products dynamically
-  products.forEach(prod => {
-    const card = document.createElement("div");
-    card.classList.add("product-card");
-    card.innerHTML = `
-      <img src="${prod.thumbnailImage}" alt="${prod.name}">
-      <div class="product-info">
-        <h3>${prod.name}</h3>
-        <p>${prod.price}</p>
-        <button class="quick-view-btn" onclick="viewProduct(${prod.id})">Quick View</button>
-      </div>
-    `;
-    productTrack.appendChild(card);
-  });
-
-  // Scroll controls
-  nextBtn.addEventListener("click", () => {
-    productTrack.scrollBy({ left: 300, behavior: "smooth" });
-  });
-
-  prevBtn.addEventListener("click", () => {
-    productTrack.scrollBy({ left: -300, behavior: "smooth" });
-  });
-});
-
-// ✅ Redirect to product detail
-function viewProduct(productId) {
-  window.location.href = `product-detail.html?id=${productId}`;
-}
 
 
 

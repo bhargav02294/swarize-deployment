@@ -1,5 +1,14 @@
 /* ====== GLOBAL STYLES ====== */
-    body {
+    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none; /* hide default cursor */
+  scroll-behavior: smooth;
+}
+
+body {
       margin: 0;
         padding: 0;
   overflow-x: hidden; /* prevents horizontal scroll */
@@ -11,6 +20,22 @@
     html {
   margin: 0;
   padding: 0;
+}
+
+
+/* ==================== CUSTOM CURSOR ==================== */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  z-index: 9999;
 }
 
     /* ====== TOP HEADER (PROMO LINE) ====== */
@@ -1090,279 +1115,242 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 
 
 
-
-body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  background-color: #E3F2FD;
-  color: #1A2A3A;
-}
-
-h2, h3 {
-  margin: 0 0 15px;
-}
-
-a {
-  text-decoration: none;
-}
-
-/* ======================== BUSINESS SECTION ======================== */
+/* ==================== BUSINESS SECTION ==================== */
 .business-section {
   position: relative;
-  background: linear-gradient(to bottom, rgba(27, 42, 58, 0.85), rgba(27, 42, 58, 0.85)), 
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(26,42,58,0.7)), 
               url('https://i.imgur.com/tB9GBhi.jpg') no-repeat center center/cover;
-  padding: 80px 20px;
+  min-height: 800px;
   display: flex;
+  align-items: center;
   justify-content: center;
   text-align: center;
-  color: #FFFFFF;
+  overflow: hidden;
 }
 
 .business-overlay {
-  width: 100%;
-  max-width: 1200px;
+  position: relative;
+  z-index: 2;
 }
 
 .business-content h2 {
-  font-size: 2.8rem;
-  font-weight: bold;
-  margin-bottom: 15px;
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: #8BC6EC;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px #8BC6EC;
+  animation: glowText 2s infinite alternate;
+}
+
+.business-content .highlight-text {
+  color: #E3F2FD;
+  text-shadow: 0 0 10px #FFFFFF, 0 0 20px #8BC6EC;
 }
 
 .business-content p {
   font-size: 1.2rem;
-  margin-bottom: 25px;
-  font-style: italic;
-  line-height: 1.6;
-}
-
-.highlight-text {
-  color: #8BC6EC;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-}
-
-.business-content h3 {
-  font-size: 1.8rem;
   margin-bottom: 30px;
-  color: #FFFFFF;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
 .business-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   gap: 25px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .business-item {
-  background: #FFFFFF20;
-  border-radius: 12px;
-  flex: 1 1 22%;
-  min-width: 200px;
+  background: rgba(255,255,255,0.05);
   padding: 20px;
-  color: #FFFFFF;
-  transition: all 0.3s ease;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  flex: 1 1 200px;
+  max-width: 250px;
+  text-align: center;
+  color: #E3F2FD;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .business-item img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 12px;
-  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 10px #8BC6EC);
+  transition: transform 0.3s ease;
 }
 
 .business-item span {
-  font-size: 1rem;
-  font-weight: bold;
-  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .business-item:hover {
-  transform: translateY(-8px);
-  background: #8BC6EC30;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 30px #8BC6EC;
+}
+
+.business-item:hover img {
+  transform: rotate(15deg) scale(1.2);
 }
 
 .cta-btn {
   display: inline-block;
-  padding: 14px 30px;
-  background: #8BC6EC;
+  padding: 15px 35px;
+  font-weight: 600;
   color: #1A2A3A;
-  font-weight: bold;
-  border-radius: 30px;
+  background: #8BC6EC;
+  border-radius: 50px;
+  text-decoration: none;
   transition: all 0.3s ease;
+  box-shadow: 0 0 20px #8BC6EC;
 }
 
 .cta-btn:hover {
-  background: #1A2A3A;
-  color: #FFFFFF;
-  transform: scale(1.05);
-}
-
-/* ======================== CATEGORIES SECTION ======================== */
-.categories-section {
-  background: #1A2A3A;
-  padding: 100px 20px;
-  text-align: center;
-  color: #FFFFFF;
-}
-
-.categories-section .heading-main {
-  font-family: 'Playfair Display', serif;
-  font-size: 3rem;
-  margin-bottom: 10px;
-  color: #FFFFFF;
-  text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-}
-
-.categories-section .heading-sub {
-  font-family: 'Great Vibes', cursive;
-  font-size: 2rem;
-  color: #8BC6EC;
-  display: block;
-  margin-bottom: 30px;
-}
-
-.explore-button {
-  padding: 14px 36px;
-  font-size: 1.2rem;
-  border-radius: 30px;
   background: #E3F2FD;
-  color: #1A2A3A;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(139,198,236,0.3);
-  transition: all 0.3s ease;
+  transform: scale(1.1);
 }
 
-.explore-button:hover {
-  background: #8BC6EC;
-  color: #FFFFFF;
-  transform: scale(1.05);
-}
-
-/* ======================== SELL ROUTE SECTION ======================== */
-.sell-route-section {
-  background: linear-gradient(135deg, #8BC6EC 0%, #E3F2FD 100%);
+/* ==================== DISCOVER & DEAL ==================== */
+.categories-section {
   padding: 100px 20px;
   text-align: center;
-  color: #1A2A3A;
   position: relative;
-  overflow: hidden;
 }
 
-.sell-route-section::before {
+.categories-section::before {
   content: '';
   position: absolute;
   top: -50px;
   left: -50px;
   width: 200px;
   height: 200px;
-  background: #FFFFFF20;
   border-radius: 50%;
-  animation: float 6s ease-in-out infinite;
+  border: 2px solid #8BC6EC;
+  animation: rotateCircle 20s linear infinite;
+  opacity: 0.3;
 }
 
-.sell-route-section::after {
+.heading-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: #8BC6EC;
+  margin-bottom: 10px;
+  animation: fadeUp 2s ease forwards;
+}
+
+.heading-sub {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  color: #E3F2FD;
+  animation: fadeUp 2s ease forwards 0.5s;
+  display: block;
+}
+
+.explore-button {
+  margin-top: 30px;
+  padding: 14px 36px;
+  background: #8BC6EC;
+  color: #1A2A3A;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px #8BC6EC;
+}
+
+.explore-button:hover {
+  transform: scale(1.1);
+  background: #E3F2FD;
+}
+
+/* ==================== SELL ROUTE ==================== */
+.sell-route-section {
+  padding: 100px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.sell-route-section::before {
   content: '';
   position: absolute;
-  bottom: -50px;
-  right: -50px;
+  top: 50px;
+  right: -100px;
   width: 250px;
   height: 250px;
-  background: #FFFFFF20;
   border-radius: 50%;
-  animation: float2 8s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(20px); }
-}
-
-@keyframes float2 {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-25px); }
+  border: 2px solid #E3F2FD;
+  animation: rotateCircle 25s linear infinite reverse;
+  opacity: 0.2;
 }
 
 .serif-heading {
   font-family: 'Playfair Display', serif;
-  font-size: 2.8rem;
-  font-weight: bold;
+  font-size: 2.5rem;
+  color: #8BC6EC;
+  margin-bottom: 10px;
+  animation: fadeUp 2s ease forwards;
 }
 
 .script-heading {
   font-family: 'Dancing Script', cursive;
-  font-size: 2.4rem;
+  font-size: 2rem;
+  color: #E3F2FD;
   display: block;
-  margin-top: 8px;
-  color: #1A2A3A;
+  margin-top: 5px;
+  animation: fadeUp 2s ease forwards 0.5s;
 }
 
 .subtext {
   font-size: 1.1rem;
-  margin: 25px 0;
+  color: #E3F2FD;
+  margin-top: 20px;
   line-height: 1.6;
+  opacity: 0.9;
 }
 
 .cta-button {
-  padding: 14px 30px;
-  font-size: 1.1rem;
-  border-radius: 30px;
-  background: #1A2A3A;
-  color: #FFFFFF;
-  font-weight: bold;
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 30px;
+  background-color: #8BC6EC;
+  color: #1A2A3A;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
   transition: all 0.3s ease;
+  box-shadow: 0 0 20px #8BC6EC;
 }
 
 .cta-button:hover {
-  background: #FFFFFF;
-  color: #1A2A3A;
-  transform: scale(1.05);
+  transform: scale(1.1);
+  background: #E3F2FD;
 }
 
-/* ======================== MEDIA QUERIES ======================== */
-@media (max-width: 992px) {
-  .business-list {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .business-item {
-    width: 100%;
-  }
+/* ==================== ANIMATIONS ==================== */
+@keyframes glowText {
+  0% { text-shadow: 0 0 10px #8BC6EC; }
+  100% { text-shadow: 0 0 30px #E3F2FD, 0 0 20px #8BC6EC; }
 }
 
-@media (max-width: 480px) {
-  .business-section, .categories-section, .sell-route-section {
-    padding: 60px 15px;
-  }
-
-  .business-content h2 {
-    font-size: 2rem;
-  }
-
-  .categories-section .heading-main {
-    font-size: 2rem;
-  }
-
-  .categories-section .heading-sub {
-    font-size: 1.5rem;
-  }
-
-  .sell-route-section .serif-heading {
-    font-size: 2rem;
-  }
-
-  .sell-route-section .script-heading {
-    font-size: 1.5rem;
-  }
+@keyframes rotateCircle {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
+/* ==================== RESPONSIVE ==================== */
+@media(max-width:768px){
+  .business-list { flex-direction: column; align-items: center;}
+  .business-item { max-width: 80%; }
+  .heading-main, .heading-sub, .serif-heading, .script-heading { font-size: 2rem;}
+}
 
 
 

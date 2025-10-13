@@ -578,3 +578,31 @@ async function fetchReversedProducts() {
   }
 }
 fetchReversedProducts();
+
+
+
+
+
+
+
+
+
+
+
+// ==================== CUSTOM CURSOR ====================
+const cursor = document.querySelector('.cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.top = e.clientY + 'px';
+  cursor.style.left = e.clientX + 'px';
+});
+const hoverElements = document.querySelectorAll('a, .cta-btn, .business-item');
+hoverElements.forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+    cursor.style.background = 'rgba(139,198,236,0.3)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    cursor.style.background = 'transparent';
+  });
+});

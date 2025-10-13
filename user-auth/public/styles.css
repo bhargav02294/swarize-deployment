@@ -30,13 +30,24 @@ body {
   left: 0;
   width: 30px;
   height: 30px;
-  border: 2px solid #FFFFFF;
+  border: 2px solid #000000; /* Black border */
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease-out, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  transition: transform 0.1s ease-out, width 0.2s ease, height 0.2s ease, background 0.2s ease, box-shadow 0.3s ease;
   z-index: 9999;
+  box-shadow: 0 0 8px rgba(0,0,0,0.6); /* Black glow */
+  background-color: rgba(0,0,0,0.05); /* Slight transparent fill to make it visible on light backgrounds */
 }
+
+/* Optional: cursor hover effect for buttons or links */
+a:hover ~ .cursor, button:hover ~ .cursor {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0,0,0,0.1);
+  box-shadow: 0 0 15px rgba(0,0,0,0.8);
+}
+
 
     /* ====== TOP HEADER (PROMO LINE) ====== */
     header h2 {
@@ -58,7 +69,7 @@ body {
 
     /* ====== *****MAIN NAVBAR***** ================================ */
     .navbar {
-      background-color: #ffffffe0;
+      background-color: #ffffff;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
       position: sticky;
       top: 0;
@@ -243,7 +254,7 @@ body {
       justify-content: center;
       background-color: #ffffffb4;
       padding: 10px 0;
-      border-top: 1px solid rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.058);
     }
 
     .category-bar button {

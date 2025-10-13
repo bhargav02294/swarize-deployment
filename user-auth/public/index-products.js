@@ -178,36 +178,31 @@ function viewProduct(id) {
 
 
 
-// ===================== PINTEREST STYLE PRODUCT GRID ===================== //
+// ===================== PINTEREST STYLE PRODUCT GRID (Paginated) ===================== //
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   const gridContainer = document.getElementById("pinterest-grid");
   const loader = document.getElementById("grid-loader");
+  const loadMoreBtn = document.getElementById("load-more-btn");
 
-  if (!gridContainer) return;
+  let allProducts = [];
+  let currentIndex = 0;
+  const perPage = 12; // load 12 products at a time
 
-  // --- Helper: Safe JSON parse ---
+  // Safe JSON parse
   async function safeParseJson(response) {
     const text = await response.text();
-    try {
-      return JSON.parse(text);
-    } catch (err) {
-      throw new Error("Server did not return valid JSON");
-    }
+    try { return JSON.parse(text); } 
+    catch (err) { throw new Error("Invalid JSON"); }
   }
 
-  // --- Fetch all products ---
+  // Fetch all products
   async function fetchAllProducts() {
     try {
       loader.style.display = "block";
-      const res = await fetch("/api/products/all", {
-        method: "GET",
-        credentials: "include"
-      });
-
+      const res = await fetch("/api/products/all", { method: "GET", credentials: "include" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await safeParseJson(res);
-
       if (Array.isArray(data)) return data;
       if (data && Array.isArray(data.products)) return data.products;
       return [];
@@ -219,7 +214,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // --- Image resolver ---
+  // Resolve image path
   function resolveImagePath(path) {
     if (!path) return "/assets/img-placeholder.png";
     if (path.startsWith("uploads/") || path.startsWith("/uploads/"))
@@ -227,58 +222,54 @@ document.addEventListener("DOMContentLoaded", async () => {
     return path;
   }
 
-  // --- Render Pinterest Grid ---
-  async function renderPinterestGrid() {
-    const products = await fetchAllProducts();
+  // Escape HTML
+  function escapeHtml(str) {
+    return str ? str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+                 .replace(/"/g,"&quot;").replace(/'/g,"&#039;") : "";
+  }
 
-    if (!products || products.length === 0) {
-      gridContainer.innerHTML = `<p>No products available yet 🛍️</p>`;
-      return;
-    }
+  // Format price
+  function formatPrice(p) { return p ? Number(p).toLocaleString("en-IN") : "-"; }
 
-    gridContainer.innerHTML = ""; // clear
-
-    products.forEach((product) => {
-      const imagePath = resolveImagePath(product.thumbnailImage);
-
+  // Render products
+  function renderProducts() {
+    const productsToShow = allProducts.slice(currentIndex, currentIndex + perPage);
+    productsToShow.forEach(product => {
+      const imgPath = resolveImagePath(product.thumbnailImage);
       const card = document.createElement("div");
       card.classList.add("pinterest-card");
       card.innerHTML = `
-        <img src="${imagePath}" alt="${escapeHtml(product.name)}" loading="lazy">
-        <div class="pinterest-info">
-          <h3>${escapeHtml(product.name)}</h3>
-          <p class="price-tag">₹${formatPrice(product.price)}</p>
-          <button class="quick-view-btn" onclick="viewProduct('${product._id}')">Quick View</button>
-        </div>
+        <img src="${imgPath}" alt="${escapeHtml(product.name)}" loading="lazy" onclick="viewProduct('${product._id}')">
+        <div class="price-overlay">₹${formatPrice(product.price)}</div>
       `;
       gridContainer.appendChild(card);
     });
+    currentIndex += perPage;
+
+    // Hide Load More button if all loaded
+    if (currentIndex >= allProducts.length) loadMoreBtn.style.display = "none";
   }
 
-  // --- Helpers ---
-  function formatPrice(p) {
-    if (!p) return "-";
-    return Number(p).toLocaleString("en-IN");
+  // Load initial products
+  async function init() {
+    allProducts = await fetchAllProducts();
+    if (!allProducts || allProducts.length === 0) {
+      gridContainer.innerHTML = "<p>No products available 🛍️</p>";
+      loadMoreBtn.style.display = "none";
+      return;
+    }
+    renderProducts();
   }
 
-  function escapeHtml(str) {
-    return str
-      ? str
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;")
-      : "";
-  }
+  // Load more products
+  loadMoreBtn.addEventListener("click", () => { renderProducts(); });
 
-  // --- View Product redirect ---
-  window.viewProduct = function (id) {
+  // Global redirect function
+  window.viewProduct = function(id) {
     window.location.href = `product-detail.html?id=${id}`;
   };
 
-  // --- Initialize ---
-  await renderPinterestGrid();
+  init();
 });
 
 
@@ -358,57 +349,6 @@ function openSection(section) {
 
 
 
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const params = new URLSearchParams(window.location.search);
-    const subcategory = params.get("subcategory");
-
-    console.log("Selected subcategory:", subcategory);
-
-    // ❗ Define the buttons and dropdowns correctly
-    const categoryButtons = document.querySelectorAll(".category-btn");
-    const dropdowns = document.querySelectorAll(".subcategory-list");
-
-    categoryButtons.forEach((button) => {
-        button.addEventListener("click", (event) => {
-            event.stopPropagation();
-            const dropdown = button.nextElementSibling;
-
-            // Close other dropdowns
-            dropdowns.forEach((drop) => {
-                if (drop !== dropdown) {
-                    drop.style.display = "none";
-                    drop.style.opacity = "0";
-                }
-            });
-
-            // Toggle this dropdown
-            if (dropdown.style.display === "flex") {
-                dropdown.style.display = "none";
-                dropdown.style.opacity = "0";
-            } else {
-                dropdown.style.display = "flex";
-                dropdown.style.opacity = "1";
-            }
-        });
-    });
-
-    // Close dropdowns on outside click
-    document.addEventListener("click", () => {
-        dropdowns.forEach((dropdown) => {
-            dropdown.style.display = "none";
-            dropdown.style.opacity = "0";
-        });
-    });
-
-    // Prevent closing when clicking inside the dropdown
-    dropdowns.forEach((dropdown) => {
-        dropdown.addEventListener("click", (event) => {
-            event.stopPropagation();
-        });
-    });
-});
 
 
 

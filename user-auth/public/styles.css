@@ -18,7 +18,13 @@
       font-weight: 400;
     }
 
-    /* ====== MAIN NAVBAR ====== */
+
+
+
+
+
+
+    /* ====== *****MAIN NAVBAR***** ================================ */
     .navbar {
       background-color: #ffffffe0;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -253,241 +259,7 @@
 
 
 
-
-
-/* 🌟 Make all 4 categories spread across the width */
-.category-section.category-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 30px 50px; /* 🔽 Reduced padding */
-  background: #FFF5F7;
-}
-
-/* Category Dropdown Container */
-.category-dropdown {
-  position: relative;
-  text-align: center;
-}
-
-/* 🌟 Updated Category Button - Wider, shorter, horizontal layout */
-.category-btn {
-  background: #FFF5F7;
-  color: rgb(0, 0, 0);
-  font-weight: bold;
-  font-size: 16px;
-  border: none;
-  padding: 15px 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border-radius: 10px;
-  width: 300px; /* 🔼 3x wider */
-  height: 80px; /* 🔽 less height */
-  display: flex;
-  flex-direction: row; /* 🔄 Icon left, text right */
-  justify-content: flex-start;
-  align-items: center;
-  gap: 20px;
-  box-shadow: 0 5px 10px rgba(76, 45, 24, 0.3);
-  margin-top: 10px;  /* 🔽 Reduced margins */
-  margin-bottom: 5px;
-  text-align: left;
-}
-
-/* Category Icons */
-.category-icon {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-
-/* Hover Effect */
-.category-btn:hover {
-    background: #ffffff  ; /* Solid hover color */
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(80, 30, 10, 0.4);
-}
-
-
-
-/* Subcategory dropdown list - Updated for PC */
-.subcategory-list {
-  display: flex;
-  flex-direction: column;
-  width: 250px;
-  max-height: unset;
-  padding: 10px 12px;
-  border: 1px solid #F4D1AE;
-  border-radius: 10px;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-  z-index: 99;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-/* Show on hover */
-.category-dropdown:hover .subcategory-list {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(-50%) translateY(5px);
-}
-
-/* Remove subcategory columns */
-.subcategory-column {
-  width: 100%;
-  padding: 0;
-}
-
-/* 🔹 Subcategory Items */
-.subcategory-list li {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border-radius: 8px;
-  background: #ffffff;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  margin-top: 5px;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-
-
-
-
-/* Last item shouldn't have a border */
-.subcategory-list li:last-child {
-  border-bottom: none;
-}
-
-/* 🔹 Subcategory Links */
-.subcategory-list li a {
-  text-decoration: none;
-  color: #333;
-  display: block;
-  width: 100%;
-  transition: color 0.3s ease;
-}
-
-/* 🔹 Hover Effects */
-.subcategory-list li:hover {
-  background: #e4e7e8;
-  color: white;
-  transform: scale(1.05);
-  border: 1px solid #8C4A32;
-}
-
-
-
-
-/* Mobile View - Category Section */
-/* Mobile View - Category Section */
-/* 🌟 Unique & Professional Mobile View for Category Section 🌟 */
-/* 🌟 Final Mobile View - 5 Categories Per Row + Horizontal Scroll for Subcategories 🌟 */
-@media (max-width: 768px) {
-
-  .category-section.category-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 per row */
-    gap: 10px;
-    padding: 20px;
-  }
-
-  .category-dropdown {
-    text-align: center;
-    position: relative;
-  }
-
-  .category-btn {
-    width: 80px;  /* Smaller width */
-    height: 80px; /* Adjust height to fit icon + text */
-    font-size: 12px;
-    gap: 6px;
-    display: flex;
-    flex-direction: column;  /* Icon on top, text below */
-    justify-content: center;
-    align-items: center;
-    padding: 8px 5px;
-  }
-
-  .category-icon {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 6px; /* Space between icon and text */
-  }
-
-  /* Subcategory list same as before */
-  .subcategory-list {
-    position: absolute;
-    width: 180px;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 12px;
-    border: 1px solid #F4D1AE;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.15);
-    flex-direction: column;
-    display: flex;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-  }
-
-  .category-dropdown:hover .subcategory-list {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(5px);
-  }
-
-  .subcategory-list li {
-    font-size: 13px;
-    padding: 8px;
-  }
-
-  .subcategory-list li img {
-    display: none;
-  }
-
-  .subcategory-list li a {
-    color: #4A403A;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-  }
-
-  .subcategory-list li:hover {
-    background: #F4D1AE;
-    transform: scale(1.05);
-  }
-
-   /* Shift 1st category subcategory slightly right */
-  .category-section.category-grid .category-dropdown:nth-child(1) .subcategory-list {
-    transform: translateX(calc(-50% + 30px)); /* moved 15px right */
-  }
-
-  /* Shift 4th category subcategory slightly left */
-  .category-section.category-grid .category-dropdown:nth-child(4) .subcategory-list {
-    transform: translateX(calc(-50% - 30px)); /* moved 15px left */
-  }
-
-
-}
-
-
-
-
+    /* ====== Hero section ===========images ================== ====== */
 
 
 .hero-slider {
@@ -601,7 +373,7 @@
 
 
 
-/* ===================== PRODUCT CAROUSEL ===================== */
+/* =====================trending products ===all ===============================PRODUCT CAROUSEL ===================== */
 .product-carousel {
   width: 100%;
   padding: 60px 5%;
@@ -757,7 +529,8 @@
 
 
 
-/* ===================== PINTEREST STYLE PRODUCT GRID ===================== */
+/* ===================== ======================PINTEREST STYLE PRODUCT GRID ===================== */
+
 
 .pinterest-grid-section {
   width: 100%;
@@ -774,104 +547,66 @@
   letter-spacing: 0.5px;
 }
 
-/* Masonry-like layout */
+/* Masonry layout */
 .pinterest-grid {
   column-count: 4;
   column-gap: 20px;
-  transition: all 0.3s ease;
 }
 
-@media (max-width: 1200px) {
-  .pinterest-grid {
-    column-count: 3;
-  }
-}
-
-@media (max-width: 900px) {
-  .pinterest-grid {
-    column-count: 2;
-  }
-}
-
-@media (max-width: 600px) {
-  .pinterest-grid {
-    column-count: 1;
-  }
-}
+@media (max-width: 1200px) { .pinterest-grid { column-count: 3; } }
+@media (max-width: 900px) { .pinterest-grid { column-count: 2; } }
+@media (max-width: 600px) { .pinterest-grid { column-count: 1; } }
 
 /* Product Card */
 .pinterest-card {
   display: inline-block;
-  background: #fff;
-  border-radius: 16px;
-  margin: 0 0 20px;
-  overflow: hidden;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-  break-inside: avoid;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  background: #fff;
+  margin: 0 0 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+  break-inside: avoid;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .pinterest-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 /* Product Image */
 .pinterest-card img {
   width: 100%;
-  border-radius: 16px 16px 0 0;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
   transition: transform 0.5s ease;
+  border-radius: 16px;
 }
 
 .pinterest-card:hover img {
   transform: scale(1.05);
 }
 
-/* Product Details */
-.pinterest-info {
-  padding: 15px;
-  text-align: center;
-}
-
-.pinterest-info h3 {
+/* Price overlay */
+.price-overlay {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 61, 110, 0.9);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 600;
   font-size: 1rem;
-  color: #333;
-  margin: 8px 0;
-  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.pinterest-info p {
-  color: #777;
-  font-size: 0.95rem;
-  margin-bottom: 10px;
-}
-
-/* Price Tag */
-.price-tag {
-  font-weight: 600;
-  color: #ff3d6e;
-  font-size: 1.1rem;
-}
-
-/* Quick View Button */
-.quick-view-btn {
-  background: linear-gradient(135deg, #ff7b9c, #ff3d6e);
-  border: none;
-  color: white;
-  padding: 8px 20px;
-  border-radius: 25px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.quick-view-btn:hover {
-  background: linear-gradient(135deg, #ff3d6e, #ff7b9c);
-  transform: scale(1.05);
+.pinterest-card:hover .price-overlay {
+  opacity: 1;
 }
 
 /* Loader */
@@ -883,6 +618,24 @@
   display: none;
 }
 
+/* Load more button */
+.load-more-btn {
+  margin: 30px auto 0;
+  display: inline-block;
+  background: linear-gradient(135deg,#ff7b9c,#ff3d6e);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+  background: linear-gradient(135deg,#ff3d6e,#ff7b9c);
+  transform: scale(1.05);
+}
 
 
 
@@ -893,6 +646,7 @@
 
 
 
+/* ======================================Discover & Deal in section */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&family=Montserrat&display=swap');
 
@@ -944,7 +698,7 @@
 
 
 
-
+/* ========================= section=========Turn Your Passion */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Dancing+Script&family=Open+Sans&family=Poppins&display=swap');
 
@@ -1069,7 +823,7 @@
 
 
 
-/* ==== Product Slider Section ==== */
+/* ============================all============= Product Slider Section ==== */
 .product-slider-section {
   padding: 30px 20px;
   background: #FFF5F7;

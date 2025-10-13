@@ -321,62 +321,42 @@ function openSection(section) {
 
 
 
-
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const productTrack = document.getElementById("product-track");
   const prevBtn = document.querySelector(".carousel-btn.prev");
   const nextBtn = document.querySelector(".carousel-btn.next");
 
-  // Example demo data (replace this with your fetched data)
-  const products = [
-    {
-      id: 1,
-      name: "Elegant Red Saree",
-      price: "₹2,499",
-      thumbnailImage: "https://images.unsplash.com/photo-1659293554631-d7a38642c5e3?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 2,
-      name: "Chic Floral Dress",
-      price: "₹1,999",
-      thumbnailImage: "https://images.unsplash.com/photo-1503160865267-af4660ce7bf2?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 3,
-      name: "Festive Gold Saree",
-      price: "₹3,299",
-      thumbnailImage: "https://plus.unsplash.com/premium_photo-1682090864876-c452a35292cb?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 4,
-      name: "Everyday Elegance Kurti",
-      price: "₹899",
-      thumbnailImage: "https://plus.unsplash.com/premium_photo-1661369481899-6ce99b916223?auto=format&fit=crop&q=60&w=600"
-    },
-    {
-      id: 5,
-      name: "Modern Black Dress",
-      price: "₹1,599",
-      thumbnailImage: "https://images.unsplash.com/photo-1520975922131-a07b84c77b72?auto=format&fit=crop&q=60&w=600"
-    },
-  ];
+  try {
+    // ✅ Fetch products from backend
+    const response = await fetch("/products/all");
+    const data = await response.json();
 
-  // Render products dynamically
-  products.forEach(prod => {
-    const card = document.createElement("div");
-    card.classList.add("product-card");
-    card.innerHTML = `
-      <img src="${prod.thumbnailImage}" alt="${prod.name}">
-      <div class="product-info">
-        <h3>${prod.name}</h3>
-        <p>${prod.price}</p>
-        <button class="quick-view-btn" onclick="viewProduct(${prod.id})">Quick View</button>
-      </div>
-    `;
-    productTrack.appendChild(card);
-  });
+    if (!data.success || !data.products || data.products.length === 0) {
+      productTrack.innerHTML = `<p class="no-products">No products found 🛍️</p>`;
+      return;
+    }
 
-  // Scroll controls
+    // ✅ Render product cards dynamically
+    data.products.forEach(prod => {
+      const card = document.createElement("div");
+      card.classList.add("product-card");
+      card.innerHTML = `
+        <img src="${prod.thumbnailImage}" alt="${prod.name}">
+        <div class="product-info">
+          <h3>${prod.name}</h3>
+          <p>₹${prod.price}</p>
+          <button class="quick-view-btn" onclick="viewProduct('${prod._id}')">Quick View</button>
+        </div>
+      `;
+      productTrack.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("Error loading products:", error);
+    productTrack.innerHTML = `<p class="error-msg">⚠️ Failed to load products. Please try again.</p>`;
+  }
+
+  // ✅ Scroll Controls
   nextBtn.addEventListener("click", () => {
     productTrack.scrollBy({ left: 300, behavior: "smooth" });
   });

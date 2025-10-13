@@ -203,6 +203,18 @@ router.get("/section", async (req, res) => {
 
 
 
+// ✅ Get All Products Route
+router.get('/all', async (req, res) => {
+  try {
+    const products = await Product.find().sort({ createdAt: -1 }); // latest first
+    res.status(200).json({ success: true, products });
+  } catch (error) {
+    console.error("Fetch Products Error:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch products" });
+  }
+});
+
+
 
 // Route to fetch products for a specific seller (store)
 // Fetch all products from all sellers, but filter by store

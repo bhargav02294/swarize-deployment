@@ -1,10 +1,17 @@
 /* ====== GLOBAL STYLES ====== */
     body {
       margin: 0;
+        padding: 0;
+  overflow-x: hidden; /* prevents horizontal scroll */
+
       font-family: "Poppins", sans-serif;
       background-color: #FFFFFF;
       color: #1A2A3A;
     }
+    html {
+  margin: 0;
+  padding: 0;
+}
 
     /* ====== TOP HEADER (PROMO LINE) ====== */
     header h2 {
@@ -177,8 +184,8 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 70%;       /* place directly below the button */
-  right: 30px;         /* align with left edge of button */
+  top: 40%;       /* place directly below the button */
+  right: 150px;         /* align with left edge of button */
   background-color: #FFFFFF;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);

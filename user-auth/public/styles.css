@@ -174,17 +174,20 @@
 
 
     /* Dropdown */
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 35px;
-      right: 0;
-      background-color: #FFFFFF;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      min-width: 150px;
-      overflow: hidden;
-    }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;       /* place directly below the button */
+  left: 0;         /* align with left edge of button */
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  min-width: 150px;
+  overflow: hidden;
+  z-index: 100;
+}
+
+
 
     .dropdown-content a {
       display: block;
@@ -530,13 +533,12 @@
 
 
 /* ===================== ======================PINTEREST STYLE PRODUCT GRID ===================== */
-
-
 .pinterest-grid-section {
   width: 100%;
-  padding: 60px 5%;
+  padding: 60px 20px; /* increased side padding */
   background: linear-gradient(135deg, #fff 0%, #f8f8fa 100%);
   text-align: center;
+  box-sizing: border-box;
 }
 
 .pinterest-grid-section .section-title {
@@ -551,11 +553,19 @@
 .pinterest-grid {
   column-count: 4;
   column-gap: 20px;
+  max-width: 1400px; /* limit total width */
+  margin: 0 auto;     /* center grid */
 }
 
-@media (max-width: 1200px) { .pinterest-grid { column-count: 3; } }
-@media (max-width: 900px) { .pinterest-grid { column-count: 2; } }
-@media (max-width: 600px) { .pinterest-grid { column-count: 1; } }
+@media (max-width: 1200px) { 
+  .pinterest-grid { column-count: 3; } 
+}
+@media (max-width: 900px) { 
+  .pinterest-grid { column-count: 2; } 
+}
+@media (max-width: 600px) { 
+  .pinterest-grid { column-count: 1; } 
+}
 
 /* Product Card */
 .pinterest-card {
@@ -579,7 +589,7 @@
 /* Product Image */
 .pinterest-card img {
   width: 100%;
-  display: block;
+  display: relative;
   object-fit: cover;
   transition: transform 0.5s ease;
   border-radius: 16px;
@@ -595,18 +605,20 @@
   bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 61, 110, 0.9);
+  background: rgba(255, 61, 110, 0.95);
   color: #fff;
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 8px 16px;
+  border-radius: 25px;
   font-weight: 600;
   font-size: 1rem;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
 }
 
 .pinterest-card:hover .price-overlay {
   opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
 }
 
 /* Loader */
@@ -620,7 +632,7 @@
 
 /* Load more button */
 .load-more-btn {
-  margin: 30px auto 0;
+  margin: 30px auto 60px;
   display: inline-block;
   background: linear-gradient(135deg,#ff7b9c,#ff3d6e);
   color: #fff;
@@ -636,6 +648,7 @@
   background: linear-gradient(135deg,#ff3d6e,#ff7b9c);
   transform: scale(1.05);
 }
+
 
 
 

@@ -1213,96 +1213,60 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   transform: scale(1.1);
 }
 
-/* ==================== DISCOVER & DEAL ==================== */
-.categories-section {
+
+
+
+/* ==================== SECTION BASE STYLING ==================== */
+.categories-section, .sell-route-section {
+  position: relative;
   padding: 100px 20px;
   text-align: center;
-  position: relative;
-}
-
-.categories-section::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  left: -50px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  border: 2px solid #8BC6EC;
-  animation: rotateCircle 20s linear infinite;
-  opacity: 0.3;
-}
-
-.heading-main {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.8rem;
-  color: #8BC6EC;
-  margin-bottom: 10px;
-  animation: fadeUp 2s ease forwards;
-}
-
-.heading-sub {
-  font-family: 'Dancing Script', cursive;
-  font-size: 2rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1A2A3A, #111E2C);
   color: #E3F2FD;
-  animation: fadeUp 2s ease forwards 0.5s;
-  display: block;
 }
 
-.explore-button {
-  margin-top: 30px;
-  padding: 14px 36px;
-  background: #8BC6EC;
-  color: #1A2A3A;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 20px #8BC6EC;
-}
-
-.explore-button:hover {
-  transform: scale(1.1);
-  background: #E3F2FD;
-}
-
-/* ==================== SELL ROUTE ==================== */
-.sell-route-section {
-  padding: 100px 20px;
-  text-align: center;
-  position: relative;
-}
-
-.sell-route-section::before {
-  content: '';
-  position: absolute;
-  top: 50px;
-  right: -100px;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  border: 2px solid #E3F2FD;
-  animation: rotateCircle 25s linear infinite reverse;
-  opacity: 0.2;
-}
-
-.serif-heading {
+/* ==================== HEADINGS ==================== */
+.heading-main, .serif-heading {
   font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #8BC6EC;
   margin-bottom: 10px;
-  animation: fadeUp 2s ease forwards;
+  text-shadow: 0 0 15px #8BC6EC;
+  animation: fadeUp 1.5s ease forwards;
 }
 
-.script-heading {
+.heading-sub, .script-heading {
   font-family: 'Dancing Script', cursive;
   font-size: 2rem;
   color: #E3F2FD;
   display: block;
   margin-top: 5px;
-  animation: fadeUp 2s ease forwards 0.5s;
+  text-shadow: 0 0 10px #E3F2FD;
+  animation: fadeUp 1.5s ease forwards 0.5s;
 }
 
+/* ==================== BUTTONS ==================== */
+.explore-button, .cta-button {
+  margin-top: 30px;
+  padding: 15px 35px;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px #8BC6EC;
+  color: #1A2A3A;
+  background: #8BC6EC;
+  display: inline-block;
+}
+
+.explore-button:hover, .cta-button:hover {
+  background: #E3F2FD;
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #8BC6EC, 0 0 40px #E3F2FD;
+}
+
+/* ==================== SUBTEXT ==================== */
 .subtext {
   font-size: 1.1rem;
   color: #E3F2FD;
@@ -1311,33 +1275,56 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   opacity: 0.9;
 }
 
-.cta-button {
-  display: inline-block;
-  margin-top: 30px;
-  padding: 12px 30px;
-  background-color: #8BC6EC;
-  color: #1A2A3A;
-  font-weight: 600;
-  border-radius: 50px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 20px #8BC6EC;
+/* ==================== FLOATING CIRCLES ==================== */
+.floating-circles span {
+  position: absolute;
+  display: block;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: float 10s linear infinite;
 }
 
-.cta-button:hover {
-  transform: scale(1.1);
-  background: #E3F2FD;
+.floating-circles span:nth-child(1) {
+  width: 100px;
+  height: 100px;
+  top: 20%;
+  left: 10%;
+  animation-duration: 12s;
+}
+.floating-circles span:nth-child(2) {
+  width: 60px;
+  height: 60px;
+  top: 70%;
+  left: 80%;
+  animation-duration: 15s;
+}
+.floating-circles span:nth-child(3) {
+  width: 120px;
+  height: 120px;
+  top: 50%;
+  left: 50%;
+  animation-duration: 18s;
+}
+.floating-circles span:nth-child(4) {
+  width: 80px;
+  height: 80px;
+  top: 30%;
+  left: 70%;
+  animation-duration: 20s;
+}
+.floating-circles span:nth-child(5) {
+  width: 50px;
+  height: 50px;
+  top: 60%;
+  left: 20%;
+  animation-duration: 22s;
 }
 
 /* ==================== ANIMATIONS ==================== */
-@keyframes glowText {
-  0% { text-shadow: 0 0 10px #8BC6EC; }
-  100% { text-shadow: 0 0 30px #E3F2FD, 0 0 20px #8BC6EC; }
-}
-
-@keyframes rotateCircle {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes float {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0.4; }
+  50% { transform: translateY(-20px) translateX(10px) rotate(45deg); opacity: 0.7; }
+  100% { transform: translateY(0px) translateX(0px) rotate(360deg); opacity: 0.4; }
 }
 
 @keyframes fadeUp {
@@ -1347,9 +1334,9 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 
 /* ==================== RESPONSIVE ==================== */
 @media(max-width:768px){
-  .business-list { flex-direction: column; align-items: center;}
-  .business-item { max-width: 80%; }
-  .heading-main, .heading-sub, .serif-heading, .script-heading { font-size: 2rem;}
+  .heading-main, .serif-heading { font-size: 2.2rem; }
+  .heading-sub, .script-heading { font-size: 1.6rem; }
+  .floating-circles span { display: none; } /* remove floating circles on small screens */
 }
 
 

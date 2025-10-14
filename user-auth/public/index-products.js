@@ -537,3 +537,27 @@ hoverElements.forEach(el => {
     cursor.style.background = 'transparent';
   });
 });
+
+
+
+
+
+
+
+
+// subtle background particle movement
+document.querySelectorAll('.floating-bg').forEach(bg => {
+  bg.innerHTML = '';
+  for (let i = 0; i < 10; i++) {
+    const dot = document.createElement('span');
+    dot.style.position = 'absolute';
+    dot.style.top = Math.random() * 100 + '%';
+    dot.style.left = Math.random() * 100 + '%';
+    dot.style.width = '20px';
+    dot.style.height = '20px';
+    dot.style.borderRadius = '50%';
+    dot.style.background = 'rgba(255,255,255,0.15)';
+    dot.style.animation = `float${i} ${6 + Math.random() * 6}s infinite ease-in-out alternate`;
+    bg.appendChild(dot);
+  }
+});

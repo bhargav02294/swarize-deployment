@@ -1082,105 +1082,133 @@ section {
   transform: translateY(-3px);
 }
 
-/* ==================== DISCOVER & DEAL ==================== */
-.categories-section {
-  background: linear-gradient(to right, var(--light-sky), var(--white));
-  padding: 100px 10%;
-  text-align: center;
-  position: relative;
-}
 
-.categories-section h2 {
-  font-size: 2.2rem;
-  color: var(--deep-blue);
-  margin-bottom: 25px;
-}
 
-.heading-main {
+
+
+
+
+
+h2 {
+  font-size: 2.4rem;
   font-weight: 700;
-  color: var(--deep-blue);
+  color: #1A2A3A;
+  margin-bottom: 10px;
 }
 
-.heading-sub {
-  font-weight: 400;
-  color: #555;
+p {
+  font-size: 1.1rem;
+  color: #2A2B2D;
+  max-width: 500px;
 }
 
-.explore-button {
+/* ---------- Hero Section ---------- */
+.category-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 100px 8%;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.category-content {
+  max-width: 550px;
+  z-index: 2;
+}
+
+.category-btn {
   display: inline-block;
-  margin-top: 25px;
-  background: var(--deep-blue);
-  color: var(--white);
-  padding: 12px 28px;
-  border-radius: 25px;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background: linear-gradient(90deg, #1A2A3A, #8BC6EC);
+  color: #FFFFFF;
+  border-radius: 50px;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
-.explore-button:hover {
-  background: var(--soft-blue);
-  color: var(--deep-blue);
+.category-btn:hover {
+  background: linear-gradient(90deg, #8BC6EC, #1A2A3A);
   transform: translateY(-3px);
 }
 
-/* Floating subtle dots */
-.floating-circles span {
-  position: absolute;
-  background: rgba(139, 198, 236, 0.3);
-  border-radius: 50%;
-  animation: floatAnim 12s infinite ease-in-out;
-}
-.floating-circles span:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s; }
-.floating-circles span:nth-child(2) { width: 100px; height: 100px; top: 70%; left: 85%; animation-delay: 2s; }
-.floating-circles span:nth-child(3) { width: 60px; height: 60px; top: 40%; left: 60%; animation-delay: 4s; }
-@keyframes floatAnim {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-20px) scale(1.1); }
+/* ---------- Image Cutout ---------- */
+.category-image {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ==================== SELL ROUTE ==================== */
-.sell-route-section {
-  background: linear-gradient(135deg, var(--soft-blue), var(--light-sky));
-  padding: 100px 10%;
-  text-align: center;
-  color: var(--deep-blue);
+.category-image img {
+  width: 90%;
+  height: auto;
+  filter: drop-shadow(0px 8px 15px rgba(0,0,0,0.3));
+  transform: scale(1);
+  transition: transform 0.5s ease;
 }
 
-.sell-route-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+.category-image img:hover {
+  transform: scale(1.05);
 }
 
-.serif-heading {
-  font-family: 'Merriweather', serif;
+/* ---------- Background Themes ---------- */
+.saree-hero::before {
+  background: linear-gradient(135deg, #8BC6EC 0%, #E3F2FD 100%);
 }
 
-.script-heading {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
+.dress-hero::before {
+  background: linear-gradient(135deg, #E3F2FD 0%, #8BC6EC 100%);
 }
 
-.subtext {
-  font-size: 1.1rem;
-  color: #333;
-  margin: 20px 0 35px;
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .category-hero {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .category-image {
+    width: 300px;
+    height: 300px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
 }
 
-.cta-button {
-  display: inline-block;
-  background: var(--deep-blue);
-  color: var(--white);
-  padding: 12px 32px;
-  border-radius: 28px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
 
-.cta-button:hover {
-  background: var(--white);
-  color: var(--deep-blue);
-  box-shadow: 0 4px 12px rgba(26, 42, 58, 0.2);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ==================== FOOTER ==================== */
 .footer {

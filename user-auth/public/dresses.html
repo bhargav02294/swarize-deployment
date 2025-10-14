@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dress Collection | Swarize</title>
+  <link rel="stylesheet" href="products.css">
+</head>
+<body>
+
+  <section class="product-page">
+    <h2>Dress Collection</h2>
+    <div class="product-grid" id="dress-products"></div>
+  </section>
+
+  <script src="script.js"></script>
+  <script>
+    const dresses = [
+      { name: "Floral Maxi Dress", price: "₹1,599", img: "https://i.ibb.co/89bnP7H/dress1.jpg" },
+      { name: "Cotton Casual Dress", price: "₹1,299", img: "https://i.ibb.co/m5LjF3h/dress2.jpg" },
+      { name: "Party Gown Dress", price: "₹2,899", img: "https://i.ibb.co/bXCSdxS/dress3.jpg" }
+    ];
+
+    const grid = document.getElementById("dress-products");
+    grid.innerHTML = dresses.map(p => `
+      <div class="product-card">
+        <img src="${p.img}" alt="${p.name}">
+        <h4>${p.name}</h4>
+        <p class="product-price">${p.price}</p>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>

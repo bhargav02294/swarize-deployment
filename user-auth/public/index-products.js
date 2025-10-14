@@ -531,3 +531,14 @@ document.addEventListener('mousemove', e => {
 
 
 
+
+
+
+// Basic floating animation for images
+document.querySelectorAll('.category-image img').forEach(img => {
+  let offset = 0;
+  setInterval(() => {
+    offset += 0.03;
+    img.style.transform = `translateY(${Math.sin(offset) * 5}px) scale(1)`;
+  }, 30);
+});

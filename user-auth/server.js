@@ -333,52 +333,53 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// === OTP storage ===
+/// === OTP storage ===
 const otpStorage = new Map();
 
-// === Routes ===
-
-// Serve OTP HTML
-app.get('/verify-otp', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'otp.html'));
-});
-
-// Send OTP
+// === Send OTP ===
 app.post('/send-otp', async (req, res) => {
-    const { email } = req.body;
-    if(!email) return res.status(400).json({ success:false, message:"Email required" });
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ success:false, message:"Email required" });
 
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    otpStorage.set(email, otp);
-    setTimeout(() => otpStorage.delete(email), 5*60*1000); // expire in 5 min
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  otpStorage.set(email, otp);
+  setTimeout(() => otpStorage.delete(email), 5*60*1000); // expire in 5 min
 
-    const mailOptions = {
-        from: process.env.SENDGRID_FROM,
-        to: email,
-        subject: "Your Swarize OTP",
-        text: `Your OTP is ${otp}. It is valid for 5 minutes.`
-    };
+  try {
+    // Send email via SendGrid API (HTTP request)
+    await axios.post("https://api.sendgrid.com/v3/mail/send", {
+      personalizations: [{ to: [{ email }] }],
+      from: { email: process.env.SENDGRID_FROM, name: "Swarize" },
+      subject: "Your Swarize OTP",
+      content: [{ type: "text/plain", value: `Your OTP is ${otp}. It is valid for 5 minutes.` }]
+    }, {
+      headers: {
+        Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
+        "Content-Type": "application/json"
+      }
+    });
 
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log(`OTP for ${email}: ${otp}`);
-        res.json({ success:true, message:"OTP sent successfully" });
-    } catch(err) {
-        console.error("Error sending OTP:", err);
-        res.status(500).json({ success:false, message:"Failed to send OTP" });
-    }
+    console.log(`OTP for ${email}: ${otp}`);
+    res.json({ success:true, message:"OTP sent successfully" });
+
+  } catch(err) {
+    console.error("Error sending OTP:", err.response?.data || err.message);
+    res.status(500).json({ success:false, message:"Failed to send OTP" });
+  }
 });
 
-// Verify OTP
+// === Verify OTP ===
 app.post('/verify-otp', (req,res)=>{
-    const { email, otp } = req.body;
-    const storedOtp = otpStorage.get(email);
-    if(storedOtp && storedOtp.toString() === otp){
-        otpStorage.delete(email);
-        return res.json({ success:true, message:"OTP verified successfully" });
-    }
-    res.status(400).json({ success:false, message:"Invalid OTP" });
+  const { email, otp } = req.body;
+  const storedOtp = otpStorage.get(email);
+  if(storedOtp && storedOtp.toString() === otp){
+      otpStorage.delete(email);
+      return res.json({ success:true, message:"OTP verified successfully" });
+  }
+  res.status(400).json({ success:false, message:"Invalid OTP" });
 });
+
+
 
 // Reset password
 app.post('/reset-password', async (req,res)=>{

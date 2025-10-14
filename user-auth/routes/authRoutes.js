@@ -1,24 +1,22 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
 const User = require("../models/user");
-
-const router = express.Router();
-const otpStorage = new Map(); // ✅ Store OTPs temporarily
-
-// ✅ User Sign Up Route
 const nodemailer = require("nodemailer");
+const router = express.Router();
 
+const otpStorage = new Map(); // Store OTPs temporarily
+
+// Nodemailer transporter (Gmail App Password)
 const transporter = nodemailer.createTransport({
-    service: "gmail", // Use your email provider (Gmail, Outlook, etc.)
+    service: "gmail",
     auth: {
-        user: process.env.EMAIL_USER, // ✅ Ensure this is set correctly in Render
-        pass: process.env.EMAIL_PASS  // ✅ Ensure this is set correctly in Render
+        user: process.env.EMAIL_USER,  // Gmail address
+        pass: process.env.EMAIL_PASS   // Gmail App Password
     }
 });
 
-// Send OTP
+// ✅ Send OTP
 router.post("/send-otp", async (req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ success: false, message: "Email is required." });
@@ -42,11 +40,11 @@ router.post("/send-otp", async (req, res) => {
         res.json({ success: true, message: "OTP sent successfully!" });
     } catch (error) {
         console.error("❌ Error sending OTP:", error);
-        res.status(500).json({ success: false, message: "Failed to send OTP. Check email settings." });
+        res.status(500).json({ success: false, message: "Failed to send OTP. Check email or App Password." });
     }
 });
 
-// Verify OTP
+// ✅ Verify OTP
 router.post("/verify-otp", (req, res) => {
     const { email, otp } = req.body;
     const storedOtp = otpStorage.get(email);
@@ -60,86 +58,25 @@ router.post("/verify-otp", (req, res) => {
     }
 });
 
-// ✅ User Sign In Route
-router.post("/signin", async (req, res) => {
-    console.log("🔹 Sign In Attempt:", req.body);
-
+// ✅ Reset Password
+router.post("/reset-password", async (req, res) => {
+    const { email, newPassword } = req.body;
     try {
-        const user = await User.findOne({ email: req.body.email.trim() });
+        const user = await User.findOne({ email: email.trim() });
+        if (!user) return res.status(404).json({ message: "User not found." });
 
-        if (!user) {
-            console.log(" User Not Found:", req.body.email);
-            return res.status(400).json({ success: false, message: "Invalid email or password." });
-        }
+        const isSamePassword = await bcrypt.compare(newPassword, user.password);
+        if (isSamePassword) return res.status(409).json({ message: "New password cannot be same as old password." });
 
-        const isMatch = await bcrypt.compare(req.body.password, user.password);
-        if (!isMatch) {
-            console.log(" Invalid Password for:", req.body.email);
-            return res.status(400).json({ success: false, message: "Invalid email or password." });
-        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
 
-        // ✅ Generate JWT Token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-        // ✅ Store user ID in session
-        req.session.userId = user._id;
-        req.session.role = user.role;
-        req.session.save(err => {
-            if (err) {
-                console.error(" Error saving session:", err);
-                return res.status(500).json({ success: false, message: "Session error." });
-            }
-
-            console.log(" User logged in:", { userId: req.session.userId, role: req.session.role });
-            res.cookie("token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "None",
-                maxAge: 60 * 60 * 1000 // 1 hour
-            });
-
-            res.json({ success: true, message: "Login successful!", token });
-        });
-
+        res.status(200).json({ message: "Password reset successfully!" });
     } catch (error) {
-        console.error(" Error during login:", error);
-        res.status(500).json({ success: false, message: "Server error" });
+        console.error("Error resetting password:", error);
+        res.status(500).json({ message: "Failed to reset password." });
     }
-});
-
-// ✅ Google OAuth Authentication
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-router.get("/google/callback", 
-    passport.authenticate("google", { failureRedirect: "/signin" }), 
-    (req, res) => {
-        req.session.userId = req.user.id;
-        req.session.save();
-        res.redirect("https://swarize.in/profile"); // ✅ Redirect user to profile page
-    }
-);
-
-
-
-// ✅ Logout Route
-router.post("/logout", (req, res) => {
-    try {
-        res.clearCookie("token");
-        req.session.destroy(err => {
-            if (err) {
-                return res.status(500).json({ success: false, message: "Logout failed" });
-            }
-            res.json({ success: true, message: "Logout successful" });
-        });
-    } catch (error) {
-        console.error(" Logout error:", error);
-        res.status(500).json({ success: false, message: "Logout error" });
-    }
-});
-
-// ✅ Debug Session Route
-router.get("/debug-session", (req, res) => {
-    res.json({ session: req.session });
 });
 
 module.exports = router;

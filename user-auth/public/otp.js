@@ -36,91 +36,78 @@ function startTimer() {
 
 
 // ✅ Send OTP
+// Send OTP
 document.getElementById('get-otp').addEventListener('click', async () => {
-    const emailInput = document.getElementById('otp-email');
-    const email = emailInput.value.trim();
-
-    if (!email) return alert("Please enter your email");
+    const email = document.getElementById('otp-email').value.trim();
+    if (!email) return showMessage("error", "Please enter your email");
 
     try {
-        const response = await fetch("/send-otp", {
+        const response = await fetch("/api/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email })
         });
         const result = await response.json();
         if (result.success) {
-            startTimer(); // ✅ start countdown
-            alert("OTP sent successfully!");
+            startTimer();
+            showMessage("success", "OTP sent successfully!");
         } else {
-            alert("Error sending OTP: " + result.message);
+            showMessage("error", "Error sending OTP: " + result.message);
         }
     } catch (error) {
         console.error(error);
-        alert("Failed to send OTP. Check your internet or email settings.");
+        showMessage("error", "Failed to send OTP. Check your internet or email settings.");
     }
 });
 
-
-
-
-// ✅ Resend OTP (Fixed)
+// Resend OTP
 document.getElementById('resend-otp').addEventListener('click', async () => {
     const email = document.getElementById('otp-email').value.trim();
-
-    if (!validateEmail(email)) {
-        alert(" Please enter a valid email address.");
-        return;
-    }
+    if (!validateEmail(email)) return showMessage("error", "Please enter a valid email address.");
 
     try {
-const response = await fetch("/send-otp", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email })
-});
-
-
+        const response = await fetch("/api/auth/send-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+        });
         const result = await response.json();
         if (result.success) {
-            alert(" OTP has been resent to your email!");
+            showMessage("success", "OTP has been resent to your email!");
             startTimer();
         } else {
-            alert(" Failed to resend OTP: " + result.message);
+            showMessage("error", "Failed to resend OTP: " + result.message);
         }
     } catch (error) {
-        console.error(" Error:", error);
-        alert(" An unexpected error occurred.");
+        console.error(error);
+        showMessage("error", "An unexpected error occurred.");
     }
 });
 
-// ✅ Verify OTP
-// ✅ Verify OTP
+// Verify OTP
 document.getElementById('submit-email-otp').addEventListener('click', async () => {
-    const otp = document.getElementById('otp-email-input').value;
-    const email = document.getElementById('otp-email').value;
+    const email = document.getElementById('otp-email').value.trim();
+    const otp = document.getElementById('otp-email-input').value.trim();
 
     try {
-const response = await fetch("/verify-otp", {       
-          method: "POST",
+        const response = await fetch("/api/auth/verify-otp", {
+            method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, otp }),
+            body: JSON.stringify({ email, otp })
         });
-
         const result = await response.json();
         if (result.success) {
-            alert("✅ Email OTP verified successfully!");
-            setTimeout(() => {
-                window.location.href = 'index.html'; // Redirect to homepage after success
-            }, 2000);
+            showMessage("success", "Email OTP verified successfully!");
+            setTimeout(() => window.location.href = "index.html", 2000);
         } else {
-            alert(" Failed to verify OTP.");
+            showMessage("error", "Failed to verify OTP: " + result.message);
         }
     } catch (error) {
-        console.error(" Error:", error);
-        alert(" An unexpected error occurred.");
+        console.error(error);
+        showMessage("error", "An unexpected error occurred.");
     }
 });
+
 
 
 function validateEmail(email) {

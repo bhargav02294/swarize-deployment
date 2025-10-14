@@ -713,128 +713,6 @@ a:hover ~ .cursor, button:hover ~ .cursor {
 
 
 
-/* ============================all============= Product Slider Section ==== */
-.product-slider-section {
-  padding: 30px 20px;
-  background: #FFF5F7;
-  border-top: 3px solid #2A2B2D;
-  border-bottom: 1px solid #ddd;
-  overflow-x: hidden;
-}
-
-.product-slider-section h2 {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 25px;
-  color: #2A2B2D;
-  font-weight: bold;
-  text-shadow: 1px 1px 6px rgba(255, 174, 0, 0.3);
-  border-bottom: 2px solid #ff9100;
-  display: inline-block;
-  padding-bottom: 8px;
-}
-
-/* === Slider Container === */
-.product-slider {
-  display: flex;
-  gap: 20px;
-  animation: scrollSlider 50s linear infinite;
-  width: max-content;
-  padding-bottom: 10px;
-}
-
-@keyframes scrollSlider {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* === Product Card === */
-.slider-card {
-  flex-shrink: 0;
-  width: 160px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  padding: 10px;
-}
-
-.slider-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-}
-
-/* === Card Image === */
-.slider-card img {
-  width: 100%;
-  height: 180px; /* increased from 120px */
-  object-fit: contain; /* optional: makes image fill space more attractively */
-  border-radius: 8px;
-  background-color: #FFF5F7;
-}
-
-
-/* === Card Content === */
-.product-card-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.product-card-content h4 {
-  font-size: 14px;
-  color: #444;
-  margin-bottom: 6px;
-  font-weight: 600;
-}
-
-.product-card-content p {
-  font-size: 15px;
-  color: #000;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-/* === Price Styling === */
-.product-price {
-  font-weight: bold;
-  font-size: 15px;
-  color: #8C4A32;
-}
-
-/* === Hide Scrollbar === */
-.product-slider::-webkit-scrollbar {
-  display: none;
-}
-
-/* ==== Mobile Responsive Fix ==== */
-@media (max-width: 768px) {
-  .slider-card {
-    width: 46vw;
-    padding: 8px;
-  }
-
-  .slider-card img {
-    height: 160px;
-  }
-
-  .product-slider-section h2 {
-    font-size: 1.5rem;
-  }
-}
-
-
 
 
   
@@ -845,6 +723,7 @@ a:hover ~ .cursor, button:hover ~ .cursor {
 
 
 
+/* ==== product section ----------------------- by categories ==== */
 
 
 .product-section {
@@ -1128,7 +1007,7 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 
 
 
-/* ==================== BUSINESS SECTION ==================== */
+/* ===================================== BUSINESS SECTION ==================== */
 .business-section {
   position: relative;
   background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(26,42,58,0.7)), 

@@ -1006,218 +1006,298 @@ box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
 
 
 
-/* 🌸 BUSINESS SECTION */
-.business-section {
+/* ==================== GLOBAL ==================== */
+:root {
+  --deep-blue: #1A2A3A;
+  --soft-blue: #8BC6EC;
+  --light-sky: #E3F2FD;
+  --white: #FFFFFF;
+}
+
+section {
+  width: 100%;
   position: relative;
   overflow: hidden;
-  color: #fff;
+}
+
+/* ==================== BUSINESS SECTION ==================== */
+.business-section {
+  background: linear-gradient(135deg, var(--light-sky), var(--white));
+  padding: 80px 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 100px 20px;
-  background: linear-gradient(135deg, #f8c6e3, #b798f2);
 }
 
-.business-section .animated-bg {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-  animation: pulse 6s infinite alternate;
-  z-index: 0;
-}
-
-@keyframes pulse {
-  from { transform: scale(1); opacity: 0.8; }
-  to { transform: scale(1.2); opacity: 1; }
-}
-
-.business-content {
-  position: relative;
-  z-index: 1;
-}
-
-.business-section h2 {
+.business-content h2 {
+  color: var(--deep-blue);
   font-size: 2.5rem;
+  margin-bottom: 20px;
   font-weight: 700;
 }
 
 .highlight-text {
-  color: #4b0082;
-  text-shadow: 0 0 15px rgba(255,255,255,0.5);
+  color: var(--soft-blue);
+  font-weight: 700;
+}
+
+.business-content p {
+  color: #333;
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
 }
 
 .business-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 25px;
-  margin: 40px 0;
+  margin: 40px auto;
 }
 
 .business-item {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   padding: 20px;
-  border-radius: 20px;
-  width: 240px;
-  backdrop-filter: blur(5px);
-  transition: transform 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .business-item:hover {
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.25);
+  transform: translateY(-6px);
 }
 
 .business-item img {
   width: 50px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.business-item span {
+  display: block;
+  font-size: 1rem;
+  color: var(--deep-blue);
 }
 
 .cta-btn {
-  background: #fff;
-  color: #b52ea8;
-  padding: 12px 35px;
+  display: inline-block;
+  background: var(--soft-blue);
+  color: var(--deep-blue);
+  padding: 12px 30px;
   border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
-  box-shadow: 0 0 20px rgba(255,255,255,0.4);
-  transition: 0.3s;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .cta-btn:hover {
-  background: #b52ea8;
-  color: #fff;
+  background: var(--deep-blue);
+  color: var(--white);
+  transform: translateY(-3px);
 }
 
-/* 🌸 DISCOVER SECTION */
+/* ==================== DISCOVER & DEAL ==================== */
 .categories-section {
-  position: relative;
-  padding: 90px 20px;
+  background: linear-gradient(to right, var(--light-sky), var(--white));
+  padding: 100px 10%;
   text-align: center;
-  color: #333;
-  background: linear-gradient(120deg, #fff, #ffe8f6);
-}
-
-.categories-section .floating-bg {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  overflow: hidden;
-  z-index: 0;
+  position: relative;
 }
 
 .categories-section h2 {
-  font-size: 2.3rem;
-  margin-bottom: 20px;
-  font-weight: 600;
-  position: relative;
-  z-index: 1;
+  font-size: 2.2rem;
+  color: var(--deep-blue);
+  margin-bottom: 25px;
 }
 
-.categories-section .explore-button {
-  background: #b52ea8;
-  color: #fff;
-  padding: 10px 30px;
+.heading-main {
+  font-weight: 700;
+  color: var(--deep-blue);
+}
+
+.heading-sub {
+  font-weight: 400;
+  color: #555;
+}
+
+.explore-button {
+  display: inline-block;
+  margin-top: 25px;
+  background: var(--deep-blue);
+  color: var(--white);
+  padding: 12px 28px;
   border-radius: 25px;
   text-decoration: none;
-  font-weight: 600;
-  transition: 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.categories-section .explore-button:hover {
-  background: #ff6fcb;
-  box-shadow: 0 0 15px rgba(255, 0, 128, 0.4);
+.explore-button:hover {
+  background: var(--soft-blue);
+  color: var(--deep-blue);
+  transform: translateY(-3px);
 }
 
-/* 🌸 SELL ROUTE */
-.sell-route-section {
-  position: relative;
-  text-align: center;
-  padding: 100px 20px;
-  color: #fff;
-  background: linear-gradient(130deg, #c084fc, #9333ea);
-}
-
-.sell-route-section .floating-bg {
+/* Floating subtle dots */
+.floating-circles span {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  animation: floatGlow 8s infinite alternate;
-  z-index: 0;
+  background: rgba(139, 198, 236, 0.3);
+  border-radius: 50%;
+  animation: floatAnim 12s infinite ease-in-out;
+}
+.floating-circles span:nth-child(1) { width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s; }
+.floating-circles span:nth-child(2) { width: 100px; height: 100px; top: 70%; left: 85%; animation-delay: 2s; }
+.floating-circles span:nth-child(3) { width: 60px; height: 60px; top: 40%; left: 60%; animation-delay: 4s; }
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.1); }
 }
 
-@keyframes floatGlow {
-  from { transform: scale(1); opacity: 0.7; }
-  to { transform: scale(1.3); opacity: 1; }
+/* ==================== SELL ROUTE ==================== */
+.sell-route-section {
+  background: linear-gradient(135deg, var(--soft-blue), var(--light-sky));
+  padding: 100px 10%;
+  text-align: center;
+  color: var(--deep-blue);
 }
 
-.sell-route-section .content {
-  position: relative;
-  z-index: 1;
+.sell-route-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
 }
 
-.sell-route-section .cta-button {
-  background: #fff;
-  color: #9333ea;
-  padding: 12px 35px;
-  border-radius: 30px;
-  text-decoration: none;
+.serif-heading {
+  font-family: 'Merriweather', serif;
+}
+
+.script-heading {
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  box-shadow: 0 0 20px rgba(255,255,255,0.3);
-  transition: 0.3s;
 }
 
-.sell-route-section .cta-button:hover {
-  background: #9333ea;
-  color: #fff;
+.subtext {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 20px 0 35px;
 }
 
-/* 🌸 FOOTER */
+.cta-button {
+  display: inline-block;
+  background: var(--deep-blue);
+  color: var(--white);
+  padding: 12px 32px;
+  border-radius: 28px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background: var(--white);
+  color: var(--deep-blue);
+  box-shadow: 0 4px 12px rgba(26, 42, 58, 0.2);
+}
+
+/* ==================== FOOTER ==================== */
 .footer {
-  background: #1a1a1a;
-  color: #eee;
-  padding: 60px 10%;
+  background: var(--deep-blue);
+  color: var(--white);
+  padding: 60px 10% 30px;
   font-size: 0.95rem;
 }
 
 .footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 40px;
+  margin-bottom: 40px;
 }
 
 .footer-section h3 {
-  color: #ff80c6;
-  margin-bottom: 15px;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: var(--soft-blue);
 }
 
-.footer a {
-  color: #eee;
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: #ddd;
   text-decoration: none;
-  transition: 0.3s;
+  transition: color 0.3s ease;
 }
 
-.footer a:hover {
-  color: #ff80c6;
+.footer-section ul li a:hover {
+  color: var(--soft-blue);
 }
 
-.social-icons a {
-  font-size: 20px;
-  margin-right: 15px;
-  color: #ff80c6;
-  transition: 0.3s;
+.about-text {
+  color: #eee;
+  margin: 10px 0 25px;
 }
 
-.social-icons a:hover {
-  color: #fff;
-  text-shadow: 0 0 10px #ff80c6;
+.logo-text {
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, var(--soft-blue), var(--light-sky));
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+.social-icons img {
+  width: 28px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+.social-icons img:hover {
+  transform: scale(1.15);
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.contact-icon {
+  width: 18px;
+  margin-right: 8px;
 }
 
 .footer-bottom {
-  border-top: 1px solid #444;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: 30px;
-  font-size: 0.85rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+.footer-bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+}
+
+.india-flag {
+  width: 20px;
+  border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .business-content h2,
+  .categories-section h2,
+  .sell-route-section h2 {
+    font-size: 1.8rem;
+  }
+  .cta-btn, .cta-button, .explore-button {
+    padding: 10px 22px;
+  }
 }

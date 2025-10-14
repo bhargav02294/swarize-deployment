@@ -1,93 +1,62 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const emailInput = document.getElementById('otp-email');
-  const savedEmail = localStorage.getItem('signupEmail');
-  if(savedEmail){
-    emailInput.value = savedEmail;
-    emailInput.readOnly = true;
-  }
+const sendBtn = document.getElementById("sendOtp");
+const verifyBtn = document.getElementById("verifyOtp");
+const emailInput = document.getElementById("email");
+const otpInput = document.getElementById("otp");
+const messageDiv = document.getElementById("message");
+const timerDiv = document.getElementById("timer");
+
+let countdown;
+
+sendBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    if (!email) return alert("Enter email");
+
+    try {
+        const res = await fetch("/api/auth/send-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (data.success) {
+            messageDiv.textContent = "OTP sent!";
+            startTimer(120); // 2 minutes countdown
+        } else {
+            messageDiv.textContent = data.message;
+        }
+    } catch (err) {
+        console.error("Error:", err);
+        messageDiv.textContent = "Failed to send OTP. Check email or internet.";
+    }
 });
 
-let timer;
-let timeLeft = 60;
+verifyBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const otp = otpInput.value.trim();
+    if (!email || !otp) return alert("Enter email and OTP");
 
-function startTimer(){
-  const timerDisplay = document.getElementById('timer-count');
-  const resendButton = document.getElementById('resend-otp');
-  document.getElementById('timer').style.display='block';
-  resendButton.style.display='none';
-
-  if(timer) clearInterval(timer);
-  timeLeft=60;
-
-  timer = setInterval(()=>{
-    timeLeft--;
-    timerDisplay.textContent = timeLeft<10? `00:0${timeLeft}`:`00:${timeLeft}`;
-    if(timeLeft<=0){
-      clearInterval(timer);
-      resendButton.style.display='block';
-      document.getElementById('timer').style.display='none';
+    try {
+        const res = await fetch("/api/auth/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, otp })
+        });
+        const data = await res.json();
+        messageDiv.textContent = data.message;
+        if (data.success) clearInterval(countdown);
+    } catch (err) {
+        console.error(err);
+        messageDiv.textContent = "Verification failed";
     }
-  },1000);
-}
+});
 
-async function sendOtp(){
-  const email = document.getElementById('otp-email').value.trim();
-  if(!email) return alert("Email required");
-
-  try{
-    const res = await fetch("/api/auth/send-otp", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ email })
-    });
-
-    const data = await res.json();
-    if(data.success){
-      showMessage("success", data.message);
-      startTimer();
-    } else {
-      showMessage("error", data.message);
-    }
-  }catch(e){
-    console.error("Error sending OTP:", e);
-    showMessage("error","Failed to send OTP. Check email or internet settings.");
-  }
-}
-
-async function verifyOtp(){
-  const email = document.getElementById('otp-email').value.trim();
-  const otp = document.getElementById('otp-email-input').value.trim();
-  if(!email || !otp) return showMessage("error","Email and OTP are required.");
-
-  try{
-    const res = await fetch("/api/auth/verify-otp", {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ email, otp })
-    });
-
-    const data = await res.json();
-    if(data.success){
-      showMessage("success", data.message);
-      setTimeout(()=>{ window.location.href="index.html"; }, 2000);
-    } else {
-      showMessage("error", data.message);
-    }
-  }catch(e){
-    console.error("Error verifying OTP:", e);
-    showMessage("error","Error verifying OTP.");
-  }
-}
-
-document.getElementById('get-otp').addEventListener('click', sendOtp);
-document.getElementById('resend-otp').addEventListener('click', sendOtp);
-document.getElementById('submit-email-otp').addEventListener('click', verifyOtp);
-
-function showMessage(type, message){
-  const container = document.getElementById('message-container');
-  const text = document.getElementById('message-text');
-  container.className = type === "success"?"message success":"message error";
-  text.textContent = message;
-  container.style.display="block";
-  setTimeout(()=>{ container.style.display="none"; }, 5000);
+function startTimer(seconds) {
+    clearInterval(countdown);
+    countdown = setInterval(() => {
+        if (seconds <= 0) { clearInterval(countdown); timerDiv.textContent = "OTP expired"; return; }
+        let min = Math.floor(seconds / 60);
+        let sec = seconds % 60;
+        timerDiv.textContent = `Time left: ${min}:${sec < 10 ? "0"+sec : sec}`;
+        seconds--;
+    }, 1000);
 }

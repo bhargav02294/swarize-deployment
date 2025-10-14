@@ -3,7 +3,7 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const User = require('../models/user');
 
-// Store OTPs in memory for simplicity (or use DB / Redis for production)
+// Store OTPs in memory (for simplicity)
 const otpStore = new Map();
 
 // Send OTP
@@ -16,12 +16,17 @@ router.post('/send-otp', async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStore.set(email, otp);
 
-    // Email transporter
+    // Gmail SMTP transporter with TLS on port 587
     let transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false, // false for TLS
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
+        },
+        tls: {
+            rejectUnauthorized: false
         }
     });
 
@@ -38,7 +43,7 @@ router.post('/send-otp', async (req, res) => {
         res.json({ success: true, message: 'OTP sent' });
     } catch (error) {
         console.error('Error sending OTP:', error);
-        res.status(500).json({ success: false, message: 'Failed to send OTP' });
+        res.status(500).json({ success: false, message: 'Failed to send OTP. SMTP connection failed.' });
     }
 });
 

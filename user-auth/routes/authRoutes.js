@@ -27,12 +27,11 @@ router.post("/send-otp", async (req, res) => {
 
         console.log(` OTP for ${email}: ${otp}`);
 
-        // ✅ Send OTP Email
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
             subject: "Your Swarize OTP Code",
-            text: `Your OTP code is: ${otp}. It is valid for 1 minutes.`
+            text: `Your OTP code is: ${otp}. It is valid for 1 minute.`
         };
 
         await transporter.sendMail(mailOptions);
@@ -43,7 +42,6 @@ router.post("/send-otp", async (req, res) => {
         res.status(500).json({ success: false, message: "Failed to send OTP. Check email settings." });
     }
 });
-
 
 
 // ✅ Verify OTP Route
@@ -58,6 +56,7 @@ router.post("/verify-otp", (req, res) => {
         res.status(400).json({ success: false, message: "Invalid OTP." });
     }
 });
+
 // ✅ User Sign In Route
 router.post("/signin", async (req, res) => {
     console.log("🔹 Sign In Attempt:", req.body);

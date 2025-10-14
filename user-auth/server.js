@@ -323,131 +323,71 @@ app.post("/api/auth/signup", async (req, res) => {
 
 
 
-// --- Nodemailer transporter ---
+// ✅ Nodemailer Transporter Setup
+
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER, // required
-    pass: process.env.EMAIL_PASS, // app password recommended
-  },
-  // Optional: increase timeouts for slower hosts
-  // connectionTimeout: 30 * 1000
+    user: process.env.EMAIL_USER,  // ✅ Correct!
+    pass: process.env.EMAIL_PASS   // ✅ Correct!
+  }
 });
 
-transporter.verify((err, success) => {
-  if (err) {
-    console.error("❌ Nodemailer verify failed:", err);
+// ✅ Verify transporter setup
+
+transporter.verify((error, success) => {
+  if (error) {
+      console.error(" Email Transporter Error:", error);
   } else {
-    console.log("✅ Nodemailer transporter ready");
+      console.log(" Email Transporter Ready!");
   }
 });
+let otpStorage = new Map(); // ✅ Use a Map object for proper storage
 
-// --- OTP storage (Map) and expiry management ---
-const otpStorage = new Map(); // key = email, value = { otp, expiresAtTimestamp }
 
-// helper to set OTP with expiry (5 minutes)
-function setOtpForEmail(email, otp) {
-  const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
-  otpStorage.set(email, { otp, expiresAt });
-}
-
-// helper to validate OTP, returns { ok, reason }
-function validateOtpForEmail(email, otp) {
-  const entry = otpStorage.get(email);
-  if (!entry) return { ok: false, reason: "not_found" };
-  if (Date.now() > entry.expiresAt) {
-    otpStorage.delete(email);
-    return { ok: false, reason: "expired" };
-  }
-  if (entry.otp !== otp) return { ok: false, reason: "invalid" };
-  otpStorage.delete(email);
-  return { ok: true };
-}
-
-// Helper to send email
-async function sendMail(to, subject, textHtmlOrText) {
-  const info = await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to,
-    subject,
-    text: textHtmlOrText,
-  });
-  return info;
-}
-
-// -------------------------
-// API: send OTP
-// POST /api/auth/send-otp
-// body: { email: "user@example.com" }
-// -------------------------
-app.post("/api/auth/send-otp", async (req, res) => {
-  try {
+// ✅ API to Send OTP
+// Generate & Send OTP
+router.post("/send-otp", async (req, res) => {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ success: false, message: "Email required" });
+    try {
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        otpStorage.set(email, otp);
 
-    // create 6-digit OTP
-    const otp = crypto.randomInt(100000, 999999).toString();
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Your Swarize OTP Code",
+            text: `Your OTP code is: ${otp}. It is valid for 1 minute.`
+        };
 
-    // store OTP with expiry
-    setOtpForEmail(email, otp);
-
-    // send email
-    await sendMail(
-      email,
-      "Your Swarize OTP Code",
-      `Your OTP code is ${otp}. It is valid for 5 minutes.\n\nIf you did not request this, ignore this email.`
-    );
-
-    console.log(`OTP sent to ${email} -> ${otp}`); // NOTE: remove or restrict logging in production
-    return res.json({ success: true, message: "OTP sent successfully" });
-  } catch (err) {
-    console.error("Error in /api/auth/send-otp:", err);
-    return res.status(500).json({ success: false, message: "Failed to send OTP" });
-  }
-});
-
-// -------------------------
-// API: verify OTP
-// POST /api/auth/verify-otp
-// body: { email, otp }
-// -------------------------
-app.post("/api/auth/verify-otp", (req, res) => {
-  try {
-    const { email, otp } = req.body;
-    if (!email || !otp) return res.status(400).json({ success: false, message: "Email and OTP required" });
-
-    const result = validateOtpForEmail(email, otp);
-    if (!result.ok) {
-      if (result.reason === "expired" || result.reason === "not_found")
-        return res.status(400).json({ success: false, message: "OTP expired or not found. Please request a new one." });
-      if (result.reason === "invalid")
-        return res.status(400).json({ success: false, message: "Invalid OTP." });
-      return res.status(400).json({ success: false, message: "OTP validation failed." });
+        await transporter.sendMail(mailOptions);
+        res.json({ success: true, message: "OTP sent successfully to your email!" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Failed to send OTP." });
     }
-
-    // success
-    return res.json({ success: true, message: "OTP verified successfully" });
-  } catch (err) {
-    console.error("Error in /api/auth/verify-otp:", err);
-    return res.status(500).json({ success: false, message: "Server error verifying OTP" });
-  }
 });
 
-// Health endpoint for Render (optional)
-app.get("/health", (req, res) => res.json({ ok: true }));
-
-
-
-
-console.log(" Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
-console.log(" MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
-console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
 
 
 
 
 
 
+
+
+// API to verify email OTP
+router.post("/verify-otp", (req, res) => {
+    const { email, otp } = req.body;
+    const storedOtp = otpStorage.get(email);
+
+    if (storedOtp && storedOtp.toString() === otp) {
+        otpStorage.delete(email);
+        res.json({ success: true, message: "OTP verified successfully." });
+    } else {
+        res.status(400).json({ success: false, message: "Invalid OTP." });
+    }
+});
 
 
 
@@ -479,6 +419,16 @@ app.post("/api/auth/reset-password", async (req, res) => {
       res.status(500).json({ message: " Failed to reset password. Please try again." });
   }
 });
+
+
+
+
+
+
+console.log(" Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
+console.log(" MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
+console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
+
 
 
 

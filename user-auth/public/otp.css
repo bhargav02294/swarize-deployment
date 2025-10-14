@@ -95,3 +95,12 @@ input:focus { box-shadow: 0 6px 18px rgba(139,198,236,0.12); border-color: #8BC6
   .container { margin: 20px; padding: 18px; }
   .navbar-container { gap: 10px; }
 }
+
+
+
+.timer {
+  font-weight:600;
+  color:#1A2A3A;
+  margin-bottom: 8px;
+  display: none; /* hide initially */
+}

@@ -24,31 +24,21 @@ body {
 
 
 /* ==================== CUSTOM CURSOR ==================== */
+/* ==================== CUSTOM CURSOR ==================== */
 .cursor {
   position: fixed;
   top: 0;
   left: 0;
   width: 30px;
   height: 30px;
-  border: 2px solid #000000; /* Solid black border for visibility */
+  border: 2px solid #ffffff; /* Solid border */
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: transform 0.08s ease-out, box-shadow 0.2s ease;
+  transition: top 0.08s ease-out, left 0.08s ease-out; /* smooth movement only */
   z-index: 9999;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Subtle glow */
-  background-color: rgba(0, 0, 0, 0.05); /* Slight fill */
-}
-
-/* Ensure no size or color change on hover */
-button:hover ~ .cursor,
-a:hover ~ .cursor {
-  transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.05);
-  border-color: #000000;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* subtle glow */
+  background-color: rgba(0, 0, 0, 0.05); /* slight fill */
 }
 
 

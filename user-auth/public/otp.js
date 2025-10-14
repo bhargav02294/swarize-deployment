@@ -21,7 +21,7 @@ function startTimer(){
 
   timer = setInterval(()=>{
     timeLeft--;
-    timerDisplay.textContent = timeLeft<10? `00:0${timeLeft}`:`00:${timeLeft}`;
+    timerDisplay.textContent = timeLeft < 10 ? `00:0${timeLeft}` : `00:${timeLeft}`;
     if(timeLeft<=0){
       clearInterval(timer);
       resendButton.style.display='block';
@@ -31,42 +31,98 @@ function startTimer(){
 }
 
 async function sendOtp(){
-  const email=document.getElementById('otp-email').value.trim();
+  const email = document.getElementById('otp-email').value.trim();
   if(!email) return alert("Email required");
 
   try{
-    const res=await fetch("/api/auth/send-otp",{
+    const res = await fetch("/api/auth/send-otp", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ email })
+      body: JSON.stringify({ email })
     });
-    const data=await res.json();
-    if(data.success){ startTimer(); alert("OTP sent!"); }
-    else alert(data.message);
+
+    const data = await res.json();
+    if(data.success){
+      alert(data.message);
+      startTimer();
+    } else {
+      alert("Error: " + data.message);
+    }
   }catch(e){
     console.error("Error sending OTP:", e);
-    alert("Failed to send OTP. Check internet or email settings.");
+    alert("Failed to send OTP. Check email or internet settings.");
   }
 }
 
 document.getElementById('get-otp').addEventListener('click', sendOtp);
 document.getElementById('resend-otp').addEventListener('click', sendOtp);
 
-document.getElementById('submit-email-otp').addEventListener('click', async ()=>{
-  const email=document.getElementById('otp-email').value;
-  const otp=document.getElementById('otp-email-input').value;
+document.getElementById('submit-email-otp').addEventListener('click', async () => {
+  const email = document.getElementById('otp-email').value;
+  const otp = document.getElementById('otp-email-input').value;
 
   try{
-    const res=await fetch("/api/auth/verify-otp",{
+    const res = await fetch("/api/auth/verify-otp", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ email, otp })
+      body: JSON.stringify({ email, otp })
     });
-    const data=await res.json();
-    if(data.success){ alert("OTP Verified!"); window.location.href="index.html"; }
-    else alert(data.message);
-  }catch(e){
+    const data = await res.json();
+    if(data.success){
+      alert(data.message);
+      window.location.href = "index.html";
+    } else {
+      alert(data.message);
+    }
+  } catch(e){
     console.error("Error verifying OTP:", e);
     alert("Error verifying OTP");
   }
 });
+
+
+// ✅ Verify OTP
+// ✅ Verify OTP
+document.getElementById('submit-email-otp').addEventListener('click', async () => {
+    const otp = document.getElementById('otp-email-input').value;
+    const email = document.getElementById('otp-email').value;
+
+    try {
+        const response = await fetch("https://swarize.in/api/auth/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, otp }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert("✅ Email OTP verified successfully!");
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Redirect to homepage after success
+            }, 2000);
+        } else {
+            alert(" Failed to verify OTP.");
+        }
+    } catch (error) {
+        console.error(" Error:", error);
+        alert(" An unexpected error occurred.");
+    }
+});
+
+
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// ✅ Show Message in Alert Container
+function showMessage(type, message) {
+    const container = document.getElementById('message-container');
+    const textElement = document.getElementById('message-text');
+    container.className = type === 'success' ? 'message success' : 'message error';
+    textElement.textContent = message;
+    container.style.display = 'block';
+
+    setTimeout(() => {
+        container.style.display = 'none'; // Hide after 5 seconds
+    }, 5000);
+}

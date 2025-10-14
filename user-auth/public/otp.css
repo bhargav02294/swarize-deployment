@@ -1,8 +1,102 @@
-body { font-family: Arial, sans-serif; background:#f2f2f2; }
-.container { max-width:400px; margin:50px auto; padding:20px; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
-h1 { text-align:center; margin-bottom:20px;}
-.form-group { margin-bottom:15px;}
-input[type="email"], input[type="text"] { width:100%; padding:10px; border:1px solid #ccc; border-radius:5px; }
-button { padding:10px 15px; border:none; border-radius:5px; background:#007bff; color:#fff; cursor:pointer;}
-button:hover { background:#0056b3;}
-#timer { text-align:center; margin:10px 0; font-weight:bold;}
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Container */
+body {
+  background: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* OTP Box */
+.otp-box {
+  background: #fff;
+  padding: 30px 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.otp-box h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.otp-box p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.otp-box input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  background: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #45a049;
+}
+
+.resend {
+  background: #f39c12;
+}
+
+.resend:hover {
+  background: #e08e0b;
+}
+
+/* Timer */
+.timer {
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Message container */
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+}

@@ -1,73 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="robots" content="index, follow"> <!-- Directs search engines to index the page -->
-        <meta name="description" content="Swarize OTP Verification page. Securely verify your email address with OTP for account confirmation and access to exclusive offers.">
-        <meta name="keywords" content="Swarize, OTP Verification, Email Verification, account verification, email OTP, secure login">
-        <meta property="og:title" content="Email Verification | Swarize">
-        <meta property="og:description" content="Complete your email verification using the OTP sent to your inbox for secure account setup.">
-        <meta property="og:image" content="URL_to_image.jpg"> <!-- You can replace with an actual image URL -->
-        <meta property="og:url" content="https://swarize.in/otp.html">
-        <meta property="og:type" content="website">
-        <meta name="twitter:title" content="Email Verification | Swarize">
-        <meta name="twitter:description" content="Complete your email verification using the OTP sent to your inbox for secure account setup.">
-        <meta name="twitter:image" content="URL_to_image.jpg"> <!-- Replace with actual image URL -->
-        <meta name="twitter:card" content="summary_large_image">
-    
-        <title>Email Verification | Swarize</title>
-        <link rel="canonical" href="https://swarize.in/otp.html"> <!-- Add canonical link -->
-        <link rel="stylesheet" href="/otp.css">
-    </head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification</title>
+<link rel="stylesheet" href="otp.css">
+</head>
 <body>
-
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
-            </div>
-            <h1 class="navbar-title">Email Verification</h1>
-        </div>
-    </nav>
-    
-  
 <div class="container">
     <form id="otp-form">
         <h1>Verify Your Account</h1>
 
-        <!-- Email Address -->
         <div class="form-group">
             <label for="otp-email">Email Address</label>
             <input type="email" id="otp-email" placeholder="Enter your email" readonly>
             <div id="email-error" class="error"></div>
         </div>
 
-        <!-- Get OTP Button -->
         <div class="form-group">
             <button type="button" id="get-otp" class="btn primary">Get OTP</button>
         </div>
 
-        <!-- Timer -->
         <div id="timer" class="timer" style="display:none;">
             Time left: <span id="timer-count">01:00</span>
         </div>
 
-        <!-- Resend OTP -->
         <div class="form-group">
-            <button type="button" id="resend-otp" class="btn secondary" style="display: none;">Resend OTP</button>
+            <button type="button" id="resend-otp" style="display: none;" class="btn secondary">Resend OTP</button>
         </div>
 
-        <!-- Email OTP -->
         <div class="form-group">
-            <label for="otp-email-input">Enter Email OTP</label>
-            <input type="text" id="otp-email-input" placeholder="Enter Email OTP" required>
+            <label for="otp-email-input">Enter OTP</label>
+            <input type="text" id="otp-email-input" placeholder="Enter OTP" required>
             <div id="email-otp-error" class="error"></div>
 
-            <!-- Alert Message Section -->
-            <div id="message-container" class="message hidden">
+            <div id="message-container" class="hidden">
                 <p id="message-text"></p>
             </div>
 
@@ -75,8 +42,6 @@
         </div>
     </form>
 </div>
-
-
-    <script src="otp.js"></script>
+<script src="otp.js"></script>
 </body>
 </html>

@@ -21,7 +21,7 @@ function startTimer(){
 
   timer = setInterval(()=>{
     timeLeft--;
-    timerDisplay.textContent = timeLeft < 10 ? `00:0${timeLeft}` : `00:${timeLeft}`;
+    timerDisplay.textContent = timeLeft<10? `00:0${timeLeft}`:`00:${timeLeft}`;
     if(timeLeft<=0){
       clearInterval(timer);
       resendButton.style.display='block';
@@ -43,23 +43,21 @@ async function sendOtp(){
 
     const data = await res.json();
     if(data.success){
-      alert(data.message);
+      showMessage("success", data.message);
       startTimer();
     } else {
-      alert("Error: " + data.message);
+      showMessage("error", data.message);
     }
   }catch(e){
     console.error("Error sending OTP:", e);
-    alert("Failed to send OTP. Check email or internet settings.");
+    showMessage("error","Failed to send OTP. Check email or internet settings.");
   }
 }
 
-document.getElementById('get-otp').addEventListener('click', sendOtp);
-document.getElementById('resend-otp').addEventListener('click', sendOtp);
-
-document.getElementById('submit-email-otp').addEventListener('click', async () => {
-  const email = document.getElementById('otp-email').value;
-  const otp = document.getElementById('otp-email-input').value;
+async function verifyOtp(){
+  const email = document.getElementById('otp-email').value.trim();
+  const otp = document.getElementById('otp-email-input').value.trim();
+  if(!email || !otp) return showMessage("error","Email and OTP are required.");
 
   try{
     const res = await fetch("/api/auth/verify-otp", {
@@ -67,15 +65,29 @@ document.getElementById('submit-email-otp').addEventListener('click', async () =
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ email, otp })
     });
+
     const data = await res.json();
     if(data.success){
-      alert(data.message);
-      window.location.href = "index.html";
+      showMessage("success", data.message);
+      setTimeout(()=>{ window.location.href="index.html"; }, 2000);
     } else {
-      alert(data.message);
+      showMessage("error", data.message);
     }
-  } catch(e){
+  }catch(e){
     console.error("Error verifying OTP:", e);
-    alert("Error verifying OTP");
+    showMessage("error","Error verifying OTP.");
   }
-});
+}
+
+document.getElementById('get-otp').addEventListener('click', sendOtp);
+document.getElementById('resend-otp').addEventListener('click', sendOtp);
+document.getElementById('submit-email-otp').addEventListener('click', verifyOtp);
+
+function showMessage(type, message){
+  const container = document.getElementById('message-container');
+  const text = document.getElementById('message-text');
+  container.className = type === "success"?"message success":"message error";
+  text.textContent = message;
+  container.style.display="block";
+  setTimeout(()=>{ container.style.display="none"; }, 5000);
+}

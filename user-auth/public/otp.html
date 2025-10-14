@@ -1,46 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OTP Verification - Swarize</title>
-  <link rel="stylesheet" href="otp.css">
+    <meta charset="UTF-8">
+    <title>Swarize - OTP Verification</title>
+    <link rel="stylesheet" href="otp.css">
 </head>
 <body>
-  <div class="container">
-    <div class="otp-box">
-      <h2>Verify Your Email</h2>
-      <p>Enter your email and OTP to verify your account.</p>
+    <div class="otp-container">
+        <h2>Verify Your Email</h2>
 
-      <!-- Email Input -->
-      <label for="otp-email">Email</label>
-      <input type="email" id="otp-email" placeholder="Enter your email" required>
+        <div id="message-container">
+            <p id="message-text"></p>
+        </div>
 
-      <!-- Send OTP -->
-      <button id="get-otp" class="btn">Send OTP</button>
+        <label for="otp-email">Email</label>
+        <input type="email" id="otp-email" placeholder="Enter your email" required>
 
-      <!-- Timer -->
-      <div id="timer" class="timer" style="display:none;">
-        Resend OTP in <span id="timer-count">00:60</span>
-      </div>
+        <button id="get-otp">Send OTP</button>
 
-      <!-- Resend OTP -->
-      <button id="resend-otp" class="btn resend" style="display:none;">Resend OTP</button>
+        <div id="timer" style="display:none;">
+            OTP expires in: <span id="timer-count">01:00</span>
+        </div>
 
-      <!-- OTP Input -->
-      <label for="otp-email-input">OTP</label>
-      <input type="text" id="otp-email-input" placeholder="Enter OTP" maxlength="6" required>
+        <label for="otp-email-input">Enter OTP</label>
+        <input type="text" id="otp-email-input" placeholder="Enter OTP" required>
 
-      <!-- Submit OTP -->
-      <button id="submit-email-otp" class="btn submit">Verify OTP</button>
-
-      <!-- Message container -->
-      <div id="message-container" class="message" style="display:none;">
-        <span id="message-text"></span>
-      </div>
+        <button id="submit-email-otp">Verify OTP</button>
+        <button id="resend-otp" style="display:none;">Resend OTP</button>
     </div>
-  </div>
 
-  <script src="otp.js"></script>
+    <script src="otp.js"></script>
 </body>
 </html>

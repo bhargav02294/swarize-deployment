@@ -40,13 +40,7 @@ body {
   background-color: rgba(0,0,0,0.05); /* Slight transparent fill to make it visible on light backgrounds */
 }
 
-/* Optional: cursor hover effect for buttons or links */
-a:hover ~ .cursor, button:hover ~ .cursor {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0,0,0,0.1);
-  box-shadow: 0 0 15px rgba(0,0,0,0.8);
-}
+
 
 
     /* ====== TOP HEADER (PROMO LINE) ====== */
@@ -1240,7 +1234,6 @@ section {
 .logo-text {
   font-size: 2.5rem;
   background: linear-gradient(90deg, var(--soft-blue), var(--light-sky));
-  -webkit-background-clip: text;
   color: transparent;
   font-weight: 700;
 }
@@ -1255,6 +1248,7 @@ section {
 }
 
 .contact-item {
+  color: #ccc;
   display: flex;
   align-items: center;
   margin-bottom: 10px;

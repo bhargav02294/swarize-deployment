@@ -323,35 +323,94 @@ app.post("/api/auth/signup", async (req, res) => {
 
 
 
-// ✅ Nodemailer Transporter Setup
-
+// === Nodemailer transporter (SendGrid example) ===
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,  // ✅ Correct!
-    pass: process.env.EMAIL_PASS   // ✅ Correct!
-  }
+    host: "smtp.sendgrid.net",
+    port: 587,
+    auth: {
+        user: process.env.SENDGRID_USER,
+        pass: process.env.SENDGRID_PASS
+    }
 });
 
-// ✅ Verify transporter setup
+// === OTP storage ===
+const otpStorage = new Map();
 
-transporter.verify((error, success) => {
-  if (error) {
-      console.error(" Email Transporter Error:", error);
-  } else {
-      console.log(" Email Transporter Ready!");
-  }
+// === Routes ===
+
+// Serve OTP HTML
+app.get('/verify-otp', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'otp.html'));
 });
-let otpStorage = new Map(); // ✅ Use a Map object for proper storage
 
+// Send OTP
+app.post('/send-otp', async (req, res) => {
+    const { email } = req.body;
+    if(!email) return res.status(400).json({ success:false, message:"Email required" });
 
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    otpStorage.set(email, otp);
+    setTimeout(() => otpStorage.delete(email), 5*60*1000); // expire in 5 min
 
+    const mailOptions = {
+        from: process.env.SENDGRID_FROM,
+        to: email,
+        subject: "Your Swarize OTP",
+        text: `Your OTP is ${otp}. It is valid for 5 minutes.`
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log(`OTP for ${email}: ${otp}`);
+        res.json({ success:true, message:"OTP sent successfully" });
+    } catch(err) {
+        console.error("Error sending OTP:", err);
+        res.status(500).json({ success:false, message:"Failed to send OTP" });
+    }
+});
+
+// Verify OTP
+app.post('/verify-otp', (req,res)=>{
+    const { email, otp } = req.body;
+    const storedOtp = otpStorage.get(email);
+    if(storedOtp && storedOtp.toString() === otp){
+        otpStorage.delete(email);
+        return res.json({ success:true, message:"OTP verified successfully" });
+    }
+    res.status(400).json({ success:false, message:"Invalid OTP" });
+});
+
+// Reset password
+app.post('/reset-password', async (req,res)=>{
+    const { email, newPassword } = req.body;
+    try{
+        const user = await User.findOne({ email: email.trim() });
+        if(!user) return res.status(404).json({ message:"User not found." });
+
+        const same = await bcrypt.compare(newPassword, user.password);
+        if(same) return res.status(409).json({ message:"New password cannot be same as old" });
+
+        const hash = await bcrypt.hash(newPassword, 10);
+        user.password = hash;
+        await user.save();
+
+        res.json({ message:"Password reset successfully" });
+    }catch(err){
+        console.error(err);
+        res.status(500).json({ message:"Failed to reset password" });
+    }
+});
 
 
 
 console.log(" Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
 console.log(" MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
 console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
+
+
+
+
+
 
 
 

@@ -323,55 +323,78 @@ app.post("/api/auth/signup", async (req, res) => {
 
 
 
-// ✅ Nodemailer Transporter Setup
-
+// ✅ Nodemailer transporter setup
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,  // ✅ Correct!
-    pass: process.env.EMAIL_PASS   // ✅ Correct!
-  }
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
-// ✅ Verify transporter setup
-
+// ✅ Verify transporter
 transporter.verify((error, success) => {
-  if (error) {
-      console.error(" Email Transporter Error:", error);
-  } else {
-      console.log(" Email Transporter Ready!");
-  }
+  if (error) console.error("❌ Email Transporter Error:", error);
+  else console.log("✅ Email Transporter Ready!");
 });
-let otpStorage = new Map(); // ✅ Use a Map object for proper storage
 
+// ✅ OTP storage (Map for proper key handling)
+const otpStorage = new Map();
 
-// ✅ API to Send OTP
-// Generate & Send OTP
-app.post("/api/send-otp", async (req, res) => {
-  const { email } = req.body;
+// ✅ Helper to send email
+async function sendEmail({ to, subject, text }) {
+  await transporter.sendMail({
+    from: `"Swarize" <${process.env.EMAIL_USER}>`,
+    to,
+    subject,
+    text,
+  });
+}
 
-  if (!email) {
-      return res.status(400).json({ success: false, message: "Email is required" });
-  }
-
-  // Generate 6-digit OTP
-  const otp = crypto.randomInt(100000, 999999).toString();
-  otpStorage.set(email, otp); // ✅ Now OTPs are stored correctly
-
+// ✅ API — Send OTP
+app.post("/api/auth/send-otp", async (req, res) => {
   try {
-      await sendEmail({
-          to: email,
-          subject: "Your OTP Code",
-          text: `Your OTP code is ${otp}. It is valid for 5 minutes.`
-      });
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ success: false, message: "Email required" });
 
-      return res.status(200).json({ success: true, message: "OTP sent successfully" });
-  } catch (error) {
-      return res.status(500).json({ success: false, message: "Failed to send OTP" });
+    // Generate OTP
+    const otp = crypto.randomInt(100000, 999999).toString();
+    otpStorage.set(email, otp);
+
+    // Send mail
+    await sendEmail({
+      to: email,
+      subject: "Your Swarize OTP Code",
+      text: `Your OTP code is ${otp}. It is valid for 5 minutes.`,
+    });
+
+    // Auto-expire OTP after 5 min
+    setTimeout(() => otpStorage.delete(email), 5 * 60 * 1000);
+
+    res.status(200).json({ success: true, message: "OTP sent successfully" });
+  } catch (err) {
+    console.error("❌ Send OTP error:", err);
+    res.status(500).json({ success: false, message: "Failed to send OTP" });
   }
 });
 
+// ✅ API — Verify OTP
+app.post("/api/auth/verify-otp", (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp)
+    return res.status(400).json({ success: false, message: "Email and OTP required" });
 
+  const storedOtp = otpStorage.get(email);
+  if (!storedOtp)
+    return res.status(400).json({ success: false, message: "OTP expired or not found" });
+
+  if (storedOtp === otp) {
+    otpStorage.delete(email);
+    return res.json({ success: true, message: "OTP verified successfully" });
+  } else {
+    return res.status(400).json({ success: false, message: "Invalid OTP" });
+  }
+});
 
 
 console.log(" Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
@@ -385,30 +408,6 @@ console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "N
 
 
 
-
-// API to verify email OTP
-app.post('/verify-otp', (req, res) => {
-    const { email, otp } = req.body;
-
-    // Validate inputs
-    if (!email || !otp) {
-        return res.status(400).send({ success: false, message: 'Email and OTP are required.' });
-    }
-
-    const storedOtp = otpStorage[email];
-
-    if (!storedOtp) {
-        return res.status(400).send({ success: false, message: 'OTP not found or expired. Please resend the OTP.' });
-    }
-
-    if (storedOtp === otp) {
-      otpStorage.delete(email); // ✅ Remove OTP after successful verification
-      res.send({ success: true, message: 'Email OTP verified successfully.' });
-  }
-  else {
-        res.status(400).send({ success: false, message: 'Invalid OTP.' });
-    }
-});
 
 
 // Route to reset password

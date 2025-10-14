@@ -4,6 +4,8 @@ const User = require("../models/user");
 const router = express.Router();
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const passport = require("passport");
+
 
 // OTP storage
 const otpStorage = new Map();

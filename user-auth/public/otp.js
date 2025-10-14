@@ -1,3 +1,4 @@
+// public/otp.js
 document.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("otp-email");
   const getOtpBtn = document.getElementById("get-otp");
@@ -6,127 +7,126 @@ document.addEventListener("DOMContentLoaded", () => {
   const timerEl = document.getElementById("timer");
   const timerCount = document.getElementById("timer-count");
   const messageBox = document.getElementById("message-container");
-  const messageText = document.getElementById("message-text");
+  const otpInput = document.getElementById("otp-email-input");
 
+  // if you set signupEmail before, populate it
   const savedEmail = localStorage.getItem("signupEmail");
   if (savedEmail) {
     emailInput.value = savedEmail;
     emailInput.readOnly = true;
   }
 
-  let timer;
-  let timeLeft = 60;
-
-  function showMessage(type, text) {
+  function showMessage(text, type = "info") {
     messageBox.style.display = "block";
-    messageBox.style.color = type === "success" ? "green" : "red";
-    messageText.textContent = text;
-    setTimeout(() => (messageBox.style.display = "none"), 4000);
+    messageBox.textContent = text;
+    messageBox.style.color = type === "success" ? "green" : type === "error" ? "crimson" : "black";
+    setTimeout(() => {
+      messageBox.style.display = "none";
+    }, 5000);
   }
 
-  function startTimer() {
+  let timer;
+  function startTimer(seconds = 60) {
     clearInterval(timer);
-    timeLeft = 60;
+    let left = seconds;
+    timerCount.textContent = left;
     timerEl.style.display = "block";
     resendBtn.style.display = "none";
-    timerCount.textContent = timeLeft;
 
     timer = setInterval(() => {
-      timeLeft--;
-      timerCount.textContent = timeLeft;
-      if (timeLeft <= 0) {
+      left--;
+      timerCount.textContent = left;
+      if (left <= 0) {
         clearInterval(timer);
         timerEl.style.display = "none";
-        resendBtn.style.display = "block";
+        resendBtn.style.display = "inline-block";
       }
     }, 1000);
   }
 
-  // ✅ SEND OTP
-  getOtpBtn.addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    if (!email) return showMessage("error", "Please enter an email.");
+  async function postJSON(url, body) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return res.json();
+  }
 
+  getOtpBtn.addEventListener("click", async () => {
+    const email = (emailInput.value || "").trim();
+    if (!email) return showMessage("Please enter email", "error");
     getOtpBtn.disabled = true;
     getOtpBtn.textContent = "Sending...";
 
     try {
-      const res = await fetch("/api/auth/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        showMessage("success", "OTP sent successfully!");
-        startTimer();
+      const data = await postJSON("/api/auth/send-otp", { email });
+      if (data && data.success) {
+        showMessage("OTP sent to your email", "success");
+        startTimer(60);
       } else {
-        showMessage("error", data.message || "Failed to send OTP.");
+        showMessage(data?.message || "Failed to send OTP", "error");
       }
     } catch (err) {
       console.error(err);
-      showMessage("error", "Server error while sending OTP.");
+      showMessage("Server error sending OTP", "error");
     } finally {
       getOtpBtn.disabled = false;
       getOtpBtn.textContent = "Get OTP";
     }
   });
 
-  // ✅ RESEND OTP
   resendBtn.addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    if (!email) return showMessage("error", "Please enter an email.");
-
     resendBtn.disabled = true;
     resendBtn.textContent = "Resending...";
-
+    const email = (emailInput.value || "").trim();
+    if (!email) {
+      showMessage("Please enter email", "error");
+      resendBtn.disabled = false;
+      resendBtn.textContent = "Resend OTP";
+      return;
+    }
     try {
-      const res = await fetch("/api/auth/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        showMessage("success", "OTP resent successfully!");
-        startTimer();
+      const data = await postJSON("/api/auth/send-otp", { email });
+      if (data && data.success) {
+        showMessage("OTP resent", "success");
+        startTimer(60);
       } else {
-        showMessage("error", data.message || "Failed to resend OTP.");
+        showMessage(data?.message || "Failed to resend", "error");
       }
     } catch (err) {
       console.error(err);
-      showMessage("error", "Error resending OTP.");
+      showMessage("Server error resending OTP", "error");
     } finally {
       resendBtn.disabled = false;
       resendBtn.textContent = "Resend OTP";
     }
   });
 
-  // ✅ VERIFY OTP
   submitBtn.addEventListener("click", async () => {
-    const email = emailInput.value.trim();
-    const otp = document.getElementById("otp-email-input").value.trim();
-    if (!otp) return showMessage("error", "Please enter the OTP.");
-
     submitBtn.disabled = true;
     submitBtn.textContent = "Verifying...";
-
+    const email = (emailInput.value || "").trim();
+    const otp = (otpInput.value || "").trim();
+    if (!email || !otp) {
+      showMessage("Email and OTP required", "error");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit OTP";
+      return;
+    }
     try {
-      const res = await fetch("/api/auth/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        showMessage("success", "OTP verified successfully!");
-        setTimeout(() => (window.location.href = "index.html"), 1500);
+      const data = await postJSON("/api/auth/verify-otp", { email, otp });
+      if (data && data.success) {
+        showMessage("OTP verified — redirecting...", "success");
+        setTimeout(() => {
+          window.location.href = "/"; // change to desired page
+        }, 1400);
       } else {
-        showMessage("error", data.message || "Invalid OTP.");
+        showMessage(data?.message || "Invalid OTP", "error");
       }
     } catch (err) {
       console.error(err);
-      showMessage("error", "Error verifying OTP.");
+      showMessage("Server error verifying OTP", "error");
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit OTP";

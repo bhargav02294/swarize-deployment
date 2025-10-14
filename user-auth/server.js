@@ -323,84 +323,125 @@ app.post("/api/auth/signup", async (req, res) => {
 
 
 
-// ✅ Nodemailer transporter setup
+// --- Nodemailer transporter ---
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.EMAIL_USER, // required
+    pass: process.env.EMAIL_PASS, // app password recommended
   },
+  // Optional: increase timeouts for slower hosts
+  // connectionTimeout: 30 * 1000
 });
 
-// ✅ Verify transporter
-transporter.verify((error, success) => {
-  if (error) console.error("❌ Email Transporter Error:", error);
-  else console.log("✅ Email Transporter Ready!");
+transporter.verify((err, success) => {
+  if (err) {
+    console.error("❌ Nodemailer verify failed:", err);
+  } else {
+    console.log("✅ Nodemailer transporter ready");
+  }
 });
 
-// ✅ OTP storage (Map for proper key handling)
-const otpStorage = new Map();
+// --- OTP storage (Map) and expiry management ---
+const otpStorage = new Map(); // key = email, value = { otp, expiresAtTimestamp }
 
-// ✅ Helper to send email
-async function sendEmail({ to, subject, text }) {
-  await transporter.sendMail({
-    from: `"Swarize" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    text,
-  });
+// helper to set OTP with expiry (5 minutes)
+function setOtpForEmail(email, otp) {
+  const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+  otpStorage.set(email, { otp, expiresAt });
 }
 
-// ✅ API — Send OTP
+// helper to validate OTP, returns { ok, reason }
+function validateOtpForEmail(email, otp) {
+  const entry = otpStorage.get(email);
+  if (!entry) return { ok: false, reason: "not_found" };
+  if (Date.now() > entry.expiresAt) {
+    otpStorage.delete(email);
+    return { ok: false, reason: "expired" };
+  }
+  if (entry.otp !== otp) return { ok: false, reason: "invalid" };
+  otpStorage.delete(email);
+  return { ok: true };
+}
+
+// Helper to send email
+async function sendMail(to, subject, textHtmlOrText) {
+  const info = await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to,
+    subject,
+    text: textHtmlOrText,
+  });
+  return info;
+}
+
+// -------------------------
+// API: send OTP
+// POST /api/auth/send-otp
+// body: { email: "user@example.com" }
+// -------------------------
 app.post("/api/auth/send-otp", async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) return res.status(400).json({ success: false, message: "Email required" });
 
-    // Generate OTP
+    // create 6-digit OTP
     const otp = crypto.randomInt(100000, 999999).toString();
-    otpStorage.set(email, otp);
 
-    // Send mail
-    await sendEmail({
-      to: email,
-      subject: "Your Swarize OTP Code",
-      text: `Your OTP code is ${otp}. It is valid for 5 minutes.`,
-    });
+    // store OTP with expiry
+    setOtpForEmail(email, otp);
 
-    // Auto-expire OTP after 5 min
-    setTimeout(() => otpStorage.delete(email), 5 * 60 * 1000);
+    // send email
+    await sendMail(
+      email,
+      "Your Swarize OTP Code",
+      `Your OTP code is ${otp}. It is valid for 5 minutes.\n\nIf you did not request this, ignore this email.`
+    );
 
-    res.status(200).json({ success: true, message: "OTP sent successfully" });
+    console.log(`OTP sent to ${email} -> ${otp}`); // NOTE: remove or restrict logging in production
+    return res.json({ success: true, message: "OTP sent successfully" });
   } catch (err) {
-    console.error("❌ Send OTP error:", err);
-    res.status(500).json({ success: false, message: "Failed to send OTP" });
+    console.error("Error in /api/auth/send-otp:", err);
+    return res.status(500).json({ success: false, message: "Failed to send OTP" });
   }
 });
 
-// ✅ API — Verify OTP
+// -------------------------
+// API: verify OTP
+// POST /api/auth/verify-otp
+// body: { email, otp }
+// -------------------------
 app.post("/api/auth/verify-otp", (req, res) => {
-  const { email, otp } = req.body;
-  if (!email || !otp)
-    return res.status(400).json({ success: false, message: "Email and OTP required" });
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).json({ success: false, message: "Email and OTP required" });
 
-  const storedOtp = otpStorage.get(email);
-  if (!storedOtp)
-    return res.status(400).json({ success: false, message: "OTP expired or not found" });
+    const result = validateOtpForEmail(email, otp);
+    if (!result.ok) {
+      if (result.reason === "expired" || result.reason === "not_found")
+        return res.status(400).json({ success: false, message: "OTP expired or not found. Please request a new one." });
+      if (result.reason === "invalid")
+        return res.status(400).json({ success: false, message: "Invalid OTP." });
+      return res.status(400).json({ success: false, message: "OTP validation failed." });
+    }
 
-  if (storedOtp === otp) {
-    otpStorage.delete(email);
+    // success
     return res.json({ success: true, message: "OTP verified successfully" });
-  } else {
-    return res.status(400).json({ success: false, message: "Invalid OTP" });
+  } catch (err) {
+    console.error("Error in /api/auth/verify-otp:", err);
+    return res.status(500).json({ success: false, message: "Server error verifying OTP" });
   }
 });
+
+// Health endpoint for Render (optional)
+app.get("/health", (req, res) => res.json({ ok: true }));
+
+
 
 
 console.log(" Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
 console.log(" MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
 console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
-
 
 
 

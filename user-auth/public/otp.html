@@ -1,29 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Email Verification | Swarize</title>
-  <link rel="stylesheet" href="otp.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Swarize - Email OTP</title>
+  <link rel="stylesheet" href="/otp.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Email Verification</h1>
+  <main class="otp-container">
+    <h1>Verify your email</h1>
 
-    <input type="email" id="otp-email" placeholder="Enter your email" />
+    <label for="otp-email">Email</label>
+    <input id="otp-email" type="email" placeholder="you@example.com" />
+
     <button id="get-otp">Get OTP</button>
 
-    <div id="timer" style="display:none;">Time left: <span id="timer-count">60</span>s</div>
-    <button id="resend-otp" style="display:none;">Resend OTP</button>
+    <div id="timer" style="display:none">Time left: <span id="timer-count">60</span>s</div>
+    <button id="resend-otp" style="display:none">Resend OTP</button>
 
-    <input type="text" id="otp-email-input" placeholder="Enter OTP" />
+    <label for="otp-input">Enter OTP</label>
+    <input id="otp-email-input" type="text" placeholder="6-digit code" />
+
     <button id="submit-email-otp">Submit OTP</button>
 
-    <div id="message-container" class="hidden">
-      <p id="message-text"></p>
-    </div>
-  </div>
+    <div id="message-container" aria-live="polite" style="display:none"></div>
+  </main>
 
-  <script src="otp.js"></script>
+  <script src="/otp.js"></script>
 </body>
 </html>

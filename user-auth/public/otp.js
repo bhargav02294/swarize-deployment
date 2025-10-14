@@ -38,7 +38,7 @@ async function sendOtp(){
     const res=await fetch("/api/auth/send-otp",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ email })
+      body:JSON.stringify({ email })
     });
     const data=await res.json();
     if(data.success){ startTimer(); alert("OTP sent!"); }
@@ -60,7 +60,7 @@ document.getElementById('submit-email-otp').addEventListener('click', async ()=>
     const res=await fetch("/api/auth/verify-otp",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ email, otp })
+      body:JSON.stringify({ email, otp })
     });
     const data=await res.json();
     if(data.success){ alert("OTP Verified!"); window.location.href="index.html"; }

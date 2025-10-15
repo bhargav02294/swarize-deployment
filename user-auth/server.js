@@ -332,6 +332,115 @@ console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "N
 
 
 
+// ✅ Nodemailer Transporter Setup
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER, // ✅ Correct!
+    pass: process.env.EMAIL_PASS  // ✅ Correct!
+  }
+});
+
+// ✅ Verify transporter setup
+transporter.verify((error, success) => {
+  if (error) {
+    console.error(" Email Transporter Error:", error);
+  } else {
+    console.log(" Email Transporter Ready!");
+  }
+});
+
+let otpStorage = new Map(); // ✅ Use a Map object for proper storage
+
+// ✅ API to Send OTP
+// Generate & Send OTP
+app.post("/api/send-otp", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ success: false, message: "Email is required" });
+  }
+
+  // Generate 6-digit OTP
+  const otp = crypto.randomInt(100000, 999999).toString();
+  otpStorage.set(email, otp); // ✅ Now OTPs are stored correctly
+
+  try {
+    await sendEmail({
+      to: email,
+      subject: "Your OTP Code",
+      text: `Your OTP code is ${otp}. It is valid for 5 minutes.`
+    });
+
+    return res.status(200).json({ success: true, message: "OTP sent successfully" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Failed to send OTP" });
+  }
+});
+
+// ✅ API to verify email OTP
+app.post('/verify-otp', (req, res) => {
+  const { email, otp } = req.body;
+
+  // Validate inputs
+  if (!email || !otp) {
+    return res.status(400).send({
+      success: false,
+      message: 'Email and OTP are required.'
+    });
+  }
+
+  const storedOtp = otpStorage[email];
+
+  if (!storedOtp) {
+    return res.status(400).send({
+      success: false,
+      message: 'OTP not found or expired. Please resend the OTP.'
+    });
+  }
+
+  if (storedOtp === otp) {
+    otpStorage.delete(email); // ✅ Remove OTP after successful verification
+    res.send({
+      success: true,
+      message: 'Email OTP verified successfully.'
+    });
+  } else {
+    res.status(400).send({
+      success: false,
+      message: 'Invalid OTP.'
+    });
+  }
+});
+
+// ✅ Route to reset password
+// ✅ Reset Password API
+app.post("/api/auth/reset-password", async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email: email.trim() });
+
+    if (!user) {
+      return res.status(404).json({ message: " User not found." });
+    }
+
+    const isSamePassword = await bcrypt.compare(newPassword, user.password);
+    if (isSamePassword) {
+      return res.status(409).json({ message: " New password cannot be the same as the old password." });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: " Password reset successfully!" });
+  } catch (error) {
+    console.error(" Error resetting password:", error);
+    res.status(500).json({ message: " Failed to reset password. Please try again." });
+  }
+});
+
 
 
 

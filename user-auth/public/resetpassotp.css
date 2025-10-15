@@ -1,66 +1,333 @@
+/* General Page Styling */
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFF5F7;
+    color: #333;
+}
+
+/* Global Reset and Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Navbar */
+.navbar {
+    background-color: #2A2B2D;
+    display: flex;
+    width: 1520px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    height: 80px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.navbar-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFF5F7;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.footer {
+    background-color: #2A2B2D;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    margin-top: 40px;
+    color: #FFF5F7;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logo-container {
+    width: 60px;
+    height: 60px;
+    background-color: #FFF5F7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text {
+    font-size: 50px;
+    font-weight: 600;
+    color: #2A2B2D;
+    font-family: 'Times New Roman';
+}
+
+.logo-link {
+    text-decoration: none;
+}
+
+/* --- Custom Animated Back Button --- */
+.back-button {
+    display: block;
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    width: 56px;
+    height: 56px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    overflow: hidden;
+    outline: none;
+}
+
+.back-button:before,
+.back-button:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 7px;
+}
+
+.back-button:before {
+    border: 4px solid #2A2B2D;
+    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.back-button:after {
+    border: 4px solid #2A2B2D;
+    transform: scale(1.3);
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.back-button:hover:before {
+    opacity: 0;
+    transform: scale(0.7);
+}
+
+.back-button:hover:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.button-box {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.button-elem {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 17px 18px 0 18px;
+    transform: rotate(180deg);
+    fill: #4A403A;
+}
+
+.back-button:hover .button-box {
+    transition: 0.4s;
+    transform: translateX(-56px);
+}
+
+
+
+
+
+
+
+
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #FFF5F7;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-.container {
-  background: #fff;
-  padding: 30px;
-  width: 380px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  text-align: center;
+
+/* OTP Container */
+.otp-container {
+    background: rgb(255, 255, 255);
+    padding: 25px;
+    margin-top: 70px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
 }
 
-h1 {
-  color: #333;
-  margin-bottom: 20px;
+.otp-container h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
+/* Form Styling */
 .form-group {
-  margin: 15px 0;
-  text-align: left;
+    margin-bottom: 15px;
+    text-align: left;
 }
 
 label {
-  font-weight: 600;
+    font-weight: bold;
+    color: #4A403A;
+    display: block;
+    margin-bottom: 5px;
 }
 
 input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-top: 5px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
 }
 
 button {
-  width: 100%;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 5px;
-  margin-top: 15px;
-  cursor: pointer;
-  font-weight: 600;
+    width: 100%;
+    padding: 10px;
+    background-color: #2A2B2D;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
 }
 
-button:hover {
-  background-color: #0056b3;
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
-#timer {
-  color: #d9534f;
-  margin-top: 10px;
-  font-weight: bold;
+.timer {
+    font-size: 16px;
+    color: #2A2B2D;
+    margin-bottom: 10px;
 }
 
-#message {
-  margin-top: 15px;
-  font-weight: bold;
+/* Resend OTP Link */
+#resend-otp {
+    color: #4A403A;
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+#resend-otp:hover {
+    text-decoration: underline;
+}
+
+
+
+/* Responsive Mobile View */
+@media (max-width: 600px) {
+
+  /* Navbar */
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .navbar-title {
+    font-size: 24px;
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  .logo-container {
+    width: 45px;
+    height: 45px;
+    margin-left: 0;
+  }
+
+  .logo-text {
+    font-size: 36px;
+  }
+
+  /* OTP Container */
+  .otp-container {
+    width: 90%;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .otp-container h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  /* Inputs */
+  input {
+    font-size: 15px;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 12px;
+  }
+
+  .error {
+    font-size: 13px;
+  }
+
+  .timer {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  #resend-otp {
+    font-size: 13px;
+  }
+
+  /* Back Button */
+  .back-button {
+    top: 80px;
+    left: 10px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .button-elem {
+    width: 16px;
+    height: 16px;
+    margin: 14px 15px 0 15px;
+  }
+
+  /* Footer */
+  .footer {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+    margin-top: 60px;
+  }
 }

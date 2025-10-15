@@ -1,6 +1,66 @@
-body { font-family: Arial; display:flex; justify-content:center; align-items:center; height:100vh; background:#f0f0f0; }
-.container { background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center; }
-input { display:block; margin:10px auto; padding:10px; width:80%; }
-button { padding:10px 20px; margin:10px; cursor:pointer; }
-#message { margin-top:10px; font-weight:bold; }
-#timer { margin-top:10px; color:red; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f2f5f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  width: 360px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin: 15px 0;
+  text-align: left;
+}
+
+label {
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#timer {
+  margin-top: 10px;
+  color: #ff5252;
+}
+
+#message {
+  margin-top: 15px;
+  font-weight: bold;
+}

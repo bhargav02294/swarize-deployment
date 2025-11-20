@@ -111,6 +111,11 @@ app.use(session({
   }
 }));
 
+app.get("/healthz", (req, res) => {
+  res.status(200).send("OK");
+});
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());

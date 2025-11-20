@@ -1,130 +1,163 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const emailInput = document.getElementById('otp-email');
-  const savedEmail = localStorage.getItem('signupEmail');
+// otp.js — Optimized for new Resend API backend
+document.addEventListener("DOMContentLoaded", function () {
+  const emailInput = document.getElementById("otp-email");
+  const savedEmail = localStorage.getItem("signupEmail");
+
   if (savedEmail) {
     emailInput.value = savedEmail;
     emailInput.readOnly = true;
   }
 });
 
+// -----------------------------------------
+// TIMER
+// -----------------------------------------
 let timer;
 let timeLeft = 60;
 
 function startTimer() {
-  const timerDisplay = document.getElementById('timer-count');
-  const resendButton = document.getElementById('resend-otp');
+  const timerDisplay = document.getElementById("timer-count");
+  const resendButton = document.getElementById("resend-otp");
 
-  document.getElementById('timer').style.display = 'block';
-  resendButton.style.display = 'none';
+  document.getElementById("timer").style.display = "block";
+  resendButton.style.display = "none";
 
   if (timer) clearInterval(timer);
 
   timeLeft = 60;
   timer = setInterval(() => {
     timeLeft--;
-    timerDisplay.textContent = timeLeft < 10 ? `00:0${timeLeft}` : `00:${timeLeft}`;
+
+    timerDisplay.textContent =
+      timeLeft < 10 ? `00:0${timeLeft}` : `00:${timeLeft}`;
+
     if (timeLeft <= 0) {
       clearInterval(timer);
-      resendButton.style.display = 'block';
-      document.getElementById('timer').style.display = 'none';
+      resendButton.style.display = "block";
+      document.getElementById("timer").style.display = "none";
     }
   }, 1000);
 }
 
-// ✅ Send OTP
-document.getElementById('get-otp').addEventListener('click', async () => {
-  const email = document.getElementById('otp-email').value.trim(); // ✅ Ensure email is not empty
+// -----------------------------------------
+// SEND OTP
+// -----------------------------------------
+document.getElementById("get-otp").addEventListener("click", async () => {
+  const email = document.getElementById("otp-email").value.trim();
 
-  try {
-    const response = await fetch("https://swarize.in/api/auth/send-otp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }) // ✅ Fixed: Ensure email is sent
-    });
-
-    const result = await response.json();
-    if (result.success) {
-      alert("✅ OTP sent successfully!");
-      startTimer();
-    } else {
-      alert(" Error sending OTP: " + result.message);
-    }
-  } catch (error) {
-    console.error(" Error:", error);
-    alert(" Failed to send OTP. Please try again.");
-  }
-});
-
-// ✅ Resend OTP (Fixed)
-document.getElementById('resend-otp').addEventListener('click', async () => {
-  const email = document.getElementById('otp-email').value.trim();
   if (!validateEmail(email)) {
-    alert(" Please enter a valid email address.");
+    showMessage("error", "Please enter a valid email address.");
     return;
   }
 
   try {
-    const response = await fetch("https://swarize.in/api/auth/send-otp", {
+    const response = await fetch("/api/auth/send-otp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email })
     });
 
     const result = await response.json();
+
     if (result.success) {
-      alert(" OTP has been resent to your email!");
+      showMessage("success", "OTP sent successfully!");
       startTimer();
     } else {
-      alert(" Failed to resend OTP: " + result.message);
+      showMessage("error", result.message || "Failed to send OTP.");
     }
   } catch (error) {
-    console.error(" Error:", error);
-    alert(" An unexpected error occurred.");
+    console.error("Error:", error);
+    showMessage("error", "Failed to send OTP. Try again.");
   }
 });
 
-// ✅ Verify OTP
-document.getElementById('submit-email-otp').addEventListener('click', async () => {
-  const otp = document.getElementById('otp-email-input').value;
-  const email = document.getElementById('otp-email').value;
+// -----------------------------------------
+// RESEND OTP
+// -----------------------------------------
+document.getElementById("resend-otp").addEventListener("click", async () => {
+  const email = document.getElementById("otp-email").value.trim();
+
+  if (!validateEmail(email)) {
+    showMessage("error", "Please enter a valid email address.");
+    return;
+  }
 
   try {
-    const response = await fetch("https://swarize.in/api/auth/verify-otp", {
+    const response = await fetch("/api/auth/send-otp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, otp }),
+      body: JSON.stringify({ email })
     });
 
     const result = await response.json();
 
     if (result.success) {
-      alert("✅ Email OTP verified successfully!");
-      setTimeout(() => {
-        window.location.href = 'index.html'; // Redirect to homepage after success
-      }, 2000);
+      showMessage("success", "OTP resent successfully!");
+      startTimer();
     } else {
-      alert(" Failed to verify OTP.");
+      showMessage("error", result.message || "Failed to resend OTP.");
     }
   } catch (error) {
-    console.error(" Error:", error);
-    alert(" An unexpected error occurred.");
+    console.error("Error:", error);
+    showMessage("error", "Unexpected error occurred.");
   }
 });
 
+// -----------------------------------------
+// VERIFY OTP
+// -----------------------------------------
+document.getElementById("submit-email-otp").addEventListener("click", async () => {
+  const otp = document.getElementById("otp-email-input").value.trim();
+  const email = document.getElementById("otp-email").value.trim();
+
+  if (!otp || otp.length !== 6) {
+    showMessage("error", "Please enter a valid 6-digit OTP.");
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/auth/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, otp })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      showMessage("success", "OTP verified successfully!");
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
+    } else {
+      showMessage("error", "Invalid OTP. Try again.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    showMessage("error", "Unexpected error occurred.");
+  }
+});
+
+// -----------------------------------------
+// VALIDATE EMAIL
+// -----------------------------------------
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// ✅ Show Message in Alert Container
+// -----------------------------------------
+// SHOW INLINE MESSAGE (not alerts)
+// -----------------------------------------
 function showMessage(type, message) {
-  const container = document.getElementById('message-container');
-  const textElement = document.getElementById('message-text');
+  const container = document.getElementById("message-container");
+  const text = document.getElementById("message-text");
 
-  container.className = type === 'success' ? 'message success' : 'message error';
-  textElement.textContent = message;
-  container.style.display = 'block';
+  container.className = type === "success" ? "message success" : "message error";
+  text.textContent = message;
+  container.style.display = "block";
 
   setTimeout(() => {
-    container.style.display = 'none'; // Hide after 5 seconds
+    container.style.display = "none";
   }, 5000);
 }

@@ -1,33 +1,45 @@
+// resetpassotp.js — Updated for new Resend backend OTP system
+
 let timerInterval;
 
+// ---------------------------------------
+// SEND OTP
+// ---------------------------------------
 document.getElementById("get-otp").addEventListener("click", function () {
-    const email = document.getElementById("otp-email").value;
+    const email = document.getElementById("otp-email").value.trim();
 
-    if (validateEmail(email)) {
-        sendOtp(email);  
-        resetTimer();
-        startTimer(60);  
-        document.getElementById("timer").style.display = "block";
-        document.getElementById("resend-otp").style.display = "none";
-    } else {
-        document.getElementById("email-error").textContent = "Please enter a valid email address.";
+    if (!validateEmail(email)) {
+        showError("email-error", "Please enter a valid email address.");
+        return;
     }
+
+    sendOtp(email);
+    resetTimer();
+    startTimer(60);
+
+    document.getElementById("timer").style.display = "block";
+    document.getElementById("resend-otp").style.display = "none";
 });
 
+// ---------------------------------------
+// RESET TIMER
+// ---------------------------------------
 function resetTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-    }
+    if (timerInterval) clearInterval(timerInterval);
 }
 
+// ---------------------------------------
+// START TIMER
+// ---------------------------------------
 function startTimer(duration) {
-    let timer = duration, minutes, seconds;
+    let timer = duration;
     const display = document.getElementById("timer");
     const submitBtn = document.getElementById("submit-otp");
 
     timerInterval = setInterval(() => {
-        minutes = Math.floor(timer / 60);
-        seconds = timer % 60;
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+
         display.textContent = `Time left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
         if (--timer < 0) {
@@ -41,62 +53,115 @@ function startTimer(duration) {
     }, 1000);
 }
 
+// ---------------------------------------
+// RESEND OTP
+// ---------------------------------------
 document.getElementById("resend-otp").addEventListener("click", function (event) {
     event.preventDefault();
-    const email = document.getElementById("otp-email").value;
 
-    if (validateEmail(email)) {
-        sendOtp(email, true);
-        resetTimer();
-        startTimer(60);
-    } else {
-        document.getElementById("email-error").textContent = "Please enter a valid email address.";
+    const email = document.getElementById("otp-email").value.trim();
+
+    if (!validateEmail(email)) {
+        showError("email-error", "Please enter a valid email address.");
+        return;
     }
+
+    sendOtp(email, true);
+    resetTimer();
+    startTimer(60);
+
+    document.getElementById("resend-otp").style.display = "none";
 });
 
+// ---------------------------------------
+// VALIDATE EMAIL
+// ---------------------------------------
 function validateEmail(email) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// ---------------------------------------
+// SEND OTP API CALL (Updated Endpoint)
+// ---------------------------------------
 function sendOtp(email, isResend = false) {
-    fetch('/send-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, isResend }),
+    fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
     })
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error sending OTP:', error));
+        .then(res => res.json())
+        .then(result => {
+            if (result.success) {
+                showMessage("OTP sent successfully!");
+            } else {
+                showError("email-error", result.message || "Failed to send OTP.");
+            }
+        })
+        .catch(err => {
+            showError("email-error", "Something went wrong.");
+            console.error("OTP Error:", err);
+        });
 }
 
+// ---------------------------------------
+// VERIFY OTP
+// ---------------------------------------
 document.getElementById("otp-form").addEventListener("submit", function (event) {
     event.preventDefault();
-    const otp = document.getElementById("otp-input").value;
-    const email = document.getElementById("otp-email").value;
 
-    if (otp.length === 6) {
-        verifyOtp(email, otp);
-    } else {
-        document.getElementById("otp-error").textContent = "Please enter a valid 6-digit OTP.";
+    const otp = document.getElementById("otp-input").value.trim();
+    const email = document.getElementById("otp-email").value.trim();
+
+    if (otp.length !== 6) {
+        showError("otp-error", "Please enter a valid 6-digit OTP.");
+        return;
     }
+
+    verifyOtp(email, otp);
 });
 
+// ---------------------------------------
+// VERIFY OTP API CALL (Updated Endpoint)
+// ---------------------------------------
 function verifyOtp(email, otp) {
-    fetch('/verify-otp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp }),
+    fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp })
     })
-    .then(response => {
-        if (response.ok) {
-            localStorage.setItem('email', email);  // Store email in localStorage
-            window.location.href = '/reset-password.html';  // Redirect to reset password
-        } else {
-            return response.text().then(text => { throw new Error(text); });
-        }
-    })
-    .catch(error => {
-        document.getElementById("otp-error").textContent = error.message;
-    });
+        .then(async (res) => {
+            const result = await res.json();
+
+            if (res.ok && result.success) {
+                localStorage.setItem("resetEmail", email);
+                window.location.href = "/reset-password.html";
+            } else {
+                showError("otp-error", result.message || "Invalid OTP.");
+            }
+        })
+        .catch(error => {
+            console.error("Verify Error:", error);
+            showError("otp-error", "Something went wrong.");
+        });
+}
+
+// ---------------------------------------
+// SHOW UI MESSAGES
+// ---------------------------------------
+function showError(id, message) {
+    const el = document.getElementById(id);
+    el.textContent = message;
+    el.style.color = "red";
+}
+
+function showMessage(msg) {
+    const el = document.getElementById("otp-message");
+    if (!el) return;
+
+    el.textContent = msg;
+    el.style.color = "green";
+
+    setTimeout(() => {
+        el.textContent = "";
+    }, 3000);
 }

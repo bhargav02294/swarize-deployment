@@ -1,10 +1,9 @@
-
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 
 const MongoStore = require('connect-mongo');
 const express = require('express');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer'); // removed - using Resend instead
 require('dotenv').config();  // Load environment variables from .env file
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -23,6 +22,31 @@ const fs = require('fs');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+
+// --- Resend setup ---
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// helper to send email via Resend
+async function sendResendEmail({ to, subject, text, html }) {
+  try {
+    const fromAddress = process.env.FROM_EMAIL || 'Devalayaum <noreply@resend.dev>';
+    const payload = {
+      from: fromAddress,
+      to,
+      subject: subject || '',
+      html: html || (text ? `<pre>${text}</pre>` : '<div></div>')
+    };
+
+    const resp = await resend.emails.send(payload);
+    console.log("Resend response:", resp);
+    return { success: true, resp };
+  } catch (err) {
+    console.error("Resend send error:", err);
+    return { success: false, error: err };
+  }
+}
+// --- End resend setup ---
 
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -60,13 +84,13 @@ const Sale = require("./models/sale");
 const PromoCode = require("./models/promoCode");
 const Review = require("./models/review"); 
 
-const sendEmail = require("./utils/sendEmail"); 
-
-
+// NOTE: we removed the old utils/sendEmail require because we now use Resend directly
+// const sendEmail = require("./utils/sendEmail"); 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 
 
 
@@ -75,6 +99,7 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET
 });
+
 
 
 
@@ -137,8 +162,6 @@ app.get("/api/test-session", (req, res) => {
 });
 
 
-
-
 const uploadDir = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -167,9 +190,7 @@ app.use('/api/store', storeRoutes);
 
 
 
-
-
-// ✅ Authentication Middleware (Fix for Cart & Protected Routes)
+ // ✅ Authentication Middleware (Fix for Cart & Protected Routes)
 // ✅ Authentication Middleware
 const isAuthenticated = (req, res, next) => {
   if (req.session && req.session.userId) {
@@ -259,17 +280,6 @@ app.get("/api/user/session", async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 // Sign-Up Route
 
 
@@ -327,33 +337,16 @@ app.post("/api/auth/signup", async (req, res) => {
 
 
 
-
-
 console.log(" Session Secret Loaded:", process.env.SESSION_SECRET ? "Secure" : "Not Set");
 console.log(" MongoDB URI Loaded:", process.env.MONGO_URI ? "Secure" : "Not Set");
-console.log(" Email Credentials Loaded:", process.env.EMAIL_USER ? "Secure" : "Not Set");
+console.log(" Resend API Key Loaded:", process.env.RESEND_API_KEY ? "Secure" : "Not Set");
 
 
 
 
 
-// ✅ Nodemailer Transporter Setup
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER, // ✅ Correct!
-    pass: process.env.EMAIL_PASS  // ✅ Correct!
-  }
-});
 
-// ✅ Verify transporter setup
-transporter.verify((error, success) => {
-  if (error) {
-    console.error(" Email Transporter Error:", error);
-  } else {
-    console.log(" Email Transporter Ready!");
-  }
-});
+// old nodemailer transporter removed - replaced by sendResendEmail helper above
 
 let otpStorage = new Map(); // ✅ Use a Map object for proper storage
 
@@ -371,14 +364,27 @@ app.post("/api/send-otp", async (req, res) => {
   otpStorage.set(email, otp); // ✅ Now OTPs are stored correctly
 
   try {
-    await sendEmail({
+    const sendResult = await sendResendEmail({
       to: email,
-      subject: "Your OTP Code",
-      text: `Your OTP code is ${otp}. It is valid for 5 minutes.`
+      subject: "Your Swarize OTP",
+      text: `Your OTP code is ${otp}. It is valid for 5 minutes.`,
+      html: `
+        <div style="font-family: Arial; padding: 20px;">
+          <h2>Your OTP Code</h2>
+          <p style="font-size: 18px;">Your OTP is: <strong>${otp}</strong></p>
+          <p>This OTP will expire in 5 minutes.</p>
+        </div>
+      `
     });
+
+    if (!sendResult.success) {
+      console.error("Failed to send OTP via Resend:", sendResult.error);
+      return res.status(500).json({ success: false, message: "Failed to send OTP" });
+    }
 
     return res.status(200).json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
+    console.error("Error in /api/send-otp:", error);
     return res.status(500).json({ success: false, message: "Failed to send OTP" });
   }
 });
@@ -395,7 +401,8 @@ app.post('/verify-otp', (req, res) => {
     });
   }
 
-  const storedOtp = otpStorage[email];
+  // correct way to access Map
+  const storedOtp = otpStorage.get(email);
 
   if (!storedOtp) {
     return res.status(400).send({
@@ -485,7 +492,6 @@ passport.use(new GoogleStrategy({
 
 
 
-
 // ✅ Serialize & Deserialize User for Session Management
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (id, done) => {
@@ -496,6 +502,7 @@ passport.deserializeUser(async (id, done) => {
       done(error, null);
   }
 });
+
 
 // ✅ Google OAuth Routes
 app.get("/auth/google",
@@ -520,8 +527,6 @@ app.get("/logout", (req, res) => {
       });
   });
 });
-
-
 
 
 
@@ -578,6 +583,7 @@ app.post("/api/auth/signin", async (req, res) => {
 
 
 
+
 // ✅ Check if User is Logged In
 app.get("/api/auth/is-logged-in", (req, res) => {
     console.log(" Checking if user is logged in...");
@@ -604,6 +610,7 @@ app.get("/api/auth/is-logged-in", (req, res) => {
 
     return res.json({ isLoggedIn: false });
 });
+
 
 
 
@@ -1044,6 +1051,7 @@ app.get("/api/bank/check", isAuthenticated, async (req, res) => {
 
 
 
+// Payment route...
 app.post("/api/payment/create-order", async (req, res) => {
   console.log(" Payment route is loaded."); // This must appear in terminal
 
@@ -1075,6 +1083,7 @@ app.post("/api/payment/create-order", async (req, res) => {
 
 
 
+// Orders/create route (uses sendResendEmail for promo)
 app.post("/api/orders/create", async (req, res) => {
   try {
     const { productId, buyerId, paymentId, promoCode, selectedSize } = req.body;  
@@ -1231,12 +1240,26 @@ app.post("/api/orders/create", async (req, res) => {
 
         await newPromo.save();
 
-        // ✅ Send promo code via email
+        // ✅ Send promo code via email using Resend helper
         const subject = "🎉 Your Exclusive Promo Code!";
-        const message = `Hello ${buyer.name}, your promo code is: ${newPromoCode}. Use it for a 5% discount on your next purchase!`;
+        const htmlMessage = `
+          <div style="font-family: Arial, sans-serif; padding: 12px;">
+            <p>Hello ${buyer.name},</p>
+            <p>Your promo code is: <strong>${newPromoCode}</strong>. Use it for a 5% discount on your next purchase!</p>
+          </div>
+        `;
 
-        await sendEmail(buyer.email, subject, message);
-        console.log(" Promo Code Sent Successfully to:", buyer.email);
+        const sendResult = await sendResendEmail({
+          to: buyer.email,
+          subject,
+          html: htmlMessage
+        });
+
+        if (sendResult.success) {
+          console.log(" Promo Code Sent Successfully to:", buyer.email);
+        } else {
+          console.warn(" Failed to send promo code email:", sendResult.error);
+        }
     } else {
         console.log("Existing promo code found:", existingPromo.code);
     }
@@ -1356,9 +1379,7 @@ app.post("/api/promocode/apply", async (req, res) => {
 
 
 
-
-
-
+// Contact / send-message route (now using Resend)
 app.post("/send-message", async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -1366,32 +1387,35 @@ app.post("/send-message", async (req, res) => {
       return res.status(400).json({ error: "All fields are required." });
   }
 
-  let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-          user: process.env.EMAIL_USER, 
-          pass: process.env.EMAIL_PASS, 
-      },
-  });
-
-  let mailOptions = {
-      from: email,
-      to: process.env.EMAIL_USER, 
-      subject: `New Message from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-  };
-
   try {
-      await transporter.sendMail(mailOptions);
-      return res.status(200).json({ success: "Message sent successfully!" }); // Ensure success response
+    const adminEmail = process.env.FROM_EMAIL || process.env.EMAIL_USER || 'Devalayaum <noreply@resend.dev>';
+    const subject = `New Message from ${name}`;
+    const html = `
+      <div style="font-family: Arial, sans-serif; padding: 12px;">
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      </div>
+    `;
+
+    const sendResult = await sendResendEmail({
+      to: adminEmail,
+      subject,
+      html
+    });
+
+    if (!sendResult.success) {
+      console.error("Failed to send contact message via Resend:", sendResult.error);
+      return res.status(500).json({ error: "Error sending message." });
+    }
+
+    return res.status(200).json({ success: "Message sent successfully!" });
   } catch (error) {
       console.error("Email error:", error);
       return res.status(500).json({ error: "Error sending message." });
   }
 });
-
-
-
 
 
 

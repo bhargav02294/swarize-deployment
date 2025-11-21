@@ -519,16 +519,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // CURSOR
-const cursor = document.createElement('div');
-cursor.className = 'custom-cursor';
-document.body.appendChild(cursor);
-document.documentElement.classList.remove('touch');
-document.addEventListener('pointermove', e=>{
+// CUSTOM CURSOR FIXED
+const cursor = document.querySelector('.cursor');
+
+document.addEventListener('pointermove', (e) => {
   cursor.style.left = e.clientX + 'px';
-  cursor.style.top  = e.clientY + 'px';
+  cursor.style.top = e.clientY + 'px';
 });
-document.addEventListener('pointerdown', ()=> cursor.classList.add('cursor--big'));
-document.addEventListener('pointerup', ()=> cursor.classList.remove('cursor--big'));
+
+// OPTIONAL: click expand animation
+document.addEventListener('pointerdown', () => cursor.classList.add('cursor--big'));
+document.addEventListener('pointerup', () => cursor.classList.remove('cursor--big'));
 
 // LOGIN DROPDOWN toggle
 document.querySelectorAll('.login-toggle').forEach(btn=>{

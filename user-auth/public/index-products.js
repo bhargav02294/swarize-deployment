@@ -542,6 +542,19 @@ document.addEventListener('click', ()=> document.querySelectorAll('.login-dropdo
 
 
 
+function goToSlide(index) {
+  slides[currentIndex].classList.remove("active");
+  dots[currentIndex].classList.remove("active");
+
+  currentIndex = index;
+
+  slides[currentIndex].classList.add("active");
+  dots[currentIndex].classList.add("active");
+
+  // restart dot timer animation
+  dots.forEach(dot => dot.style.animation = "none");
+  void dots[currentIndex].offsetWidth;
+}
 
 
 

@@ -518,16 +518,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-// ==================== CUSTOM CURSOR ====================
-const cursor = document.querySelector('.cursor');
-
-document.addEventListener('mousemove', e => {
-  cursor.style.top = e.clientY + 'px';
+// CURSOR
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+document.body.appendChild(cursor);
+document.documentElement.classList.remove('touch');
+document.addEventListener('pointermove', e=>{
   cursor.style.left = e.clientX + 'px';
+  cursor.style.top  = e.clientY + 'px';
 });
+document.addEventListener('pointerdown', ()=> cursor.classList.add('cursor--big'));
+document.addEventListener('pointerup', ()=> cursor.classList.remove('cursor--big'));
 
-
+// LOGIN DROPDOWN toggle
+document.querySelectorAll('.login-toggle').forEach(btn=>{
+  btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    const parent = btn.closest('.login-dropdown');
+    parent.classList.toggle('open');
+  });
+});
+document.addEventListener('click', ()=> document.querySelectorAll('.login-dropdown.open').forEach(d=> d.classList.remove('open')));
 
 
 

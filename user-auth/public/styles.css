@@ -319,16 +319,17 @@ header h2 {
 /* ============================================================= */
 /* HERO SECTION (Short Height + Full Image + Clean Dark Theme)   */
 /* ============================================================= */
+/* HERO WRAPPER */
 .hero-slider {
   position: relative;
   width: 100%;
-  height: 68vh;                       /* ⬅️ Reduced height */
+  height: 68vh;
   overflow: hidden;
   background: #0b0d10;
   font-family: "Cormorant Garamond", serif;
 }
 
-/* SLIDES WRAPPER */
+/* SLIDES CONTAINER */
 .slides {
   width: 100%;
   height: 100%;
@@ -343,61 +344,50 @@ header h2 {
   width: 100%;
   height: 100%;
 
-  /* Show full image WITHOUT cropping */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   opacity: 0;
-  transform: scale(1);
   transition: opacity 1s ease;
 }
 
 .slide.active {
   opacity: 1;
-  z-index: 3;
+  z-index: 5;
 }
 
-/* IMAGE — FULLY VISIBLE */
+/* IMAGE FIX — SHOW FROM TOP, CROP ONLY BOTTOM */
 .slide img {
   width: 100%;
   height: 100%;
-  object-fit: contain !important;       /* ⬅️ No cropping */
-  background: #0b0d10;                  /* fills spacing */
-  filter: brightness(70%) saturate(115%);
+  object-fit: cover;            /* fills fully */
+  object-position: top center;  /* ⬅ TOP ANCHOR, bottom crops */
+  filter: brightness(70%) saturate(120%);
 }
 
-/* ============================================================= */
-/* SLIDE TEXT CONTENT                                             */
-/* ============================================================= */
+
+/* ============================= */
+/*        TEXT CONTENT           */
+/* ============================= */
 .slide-content {
   position: absolute;
   top: 50%;
   left: 7%;
   transform: translateY(-50%);
   color: #f8fafc;
-  z-index: 5;
   max-width: 450px;
   opacity: 0;
-  animation: fadeInUp 1.2s ease forwards;
+  animation: fadeInUp 1s ease forwards;
+  z-index: 10;
 }
 
 @keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(-50%);
-  }
+  0% { opacity: 0; transform: translateY(-30px); }
+  100% { opacity: 1; transform: translateY(-50%); }
 }
 
 .slide-content h1 {
-  font-size: 2.8rem;                  /* ⬅️ Reduced for height */
+  font-size: 2.7rem;
   font-weight: 700;
-  line-height: 1.1;
   margin-bottom: 10px;
+  line-height: 1.1;
 }
 
 .slide-content h1 span {
@@ -410,55 +400,56 @@ header h2 {
   color: #dbeafe;
 }
 
-/* ============================================================= */
-/* BUTTON — SMOOTH MINIMAL HOVER                                 */
-/* ============================================================= */
+
+/* ============================= */
+/*          BUTTON               */
+/* ============================= */
 .hero-btn {
-  padding: 10px 28px;
+  padding: 10px 26px;
   border-radius: 40px;
   background: #38bdf8;
   color: #0c0f13;
   border: none;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: all 0.25s ease;
+  transition: all .25s ease;
 }
 
 .hero-btn:hover {
-  background: #ffffff;
+  background: #fff;
   color: #0c0f13;
-  transform: translateY(-2px);      /* Smooth minimal hover */
+  transform: translateY(-2px);
 }
 
-/* ============================================================= */
-/* DOTS (Shorter, Cleaner, Smooth Timer)                         */
-/* ============================================================= */
+
+/* ============================= */
+/*        DOTS TIMER             */
+/* ============================= */
 .slider-dots {
   position: absolute;
-  bottom: 16px;                      /* closer */
+  bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
-  z-index: 10;
+  z-index: 20;
 }
 
 .slider-dots button {
   width: 10px;
   height: 10px;
   background: rgba(255,255,255,0.2);
-  border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
   position: relative;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform .2s ease;
 }
 
 .slider-dots button:hover {
-  transform: scale(1.15);
+  transform: scale(1.2);
 }
 
-/* TIMER ANIMATION */
 .slider-dots button::after {
   content: "";
   position: absolute;
@@ -467,7 +458,6 @@ header h2 {
   height: 100%;
   background: #38bdf8;
   opacity: 0;
-  transition: width linear;
 }
 
 .slider-dots button.active::after {
@@ -476,35 +466,28 @@ header h2 {
   transition: width 5s linear;
 }
 
-/* ============================================================= */
-/* RESPONSIVE                                                    */
-/* ============================================================= */
+
+/* ============================= */
+/*        RESPONSIVE             */
+/* ============================= */
 @media (max-width: 900px) {
-  .hero-slider {
-    height: 45vh;    /* smaller for mobile */
-  }
+  .hero-slider { height: 45vh; }
 
   .slide-content {
     left: 5%;
     max-width: 85%;
   }
 
-  .slide-content h1 {
-    font-size: 1.9rem;
-  }
+  .slide-content h1 { font-size: 1.9rem; }
 
-  .slide-content p {
-    font-size: 0.95rem;
-  }
+  .slide-content p { font-size: 1rem; }
 
   .hero-btn {
-    padding: 8px 22px;
+    padding: 8px 20px;
     font-size: 0.85rem;
   }
 
-  .slider-dots {
-    bottom: 10px;
-  }
+  .slider-dots { bottom: 10px; }
 }
 
 

@@ -70,7 +70,7 @@ header h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 28px;       /* reduced height */
+  padding: 6px 24px;       /* reduced height */
 }
 
 /* ============================================================
@@ -213,8 +213,8 @@ header h2 {
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 110%; /* just below the login button   20px*/
-  right: 0; /* 50px*/
+  top: 105%; /* just below the login button   20px*/
+  right: -10px; /* 50px*/
   background: #141518;
   min-width: 160px;
   border-radius: 8px;
@@ -247,7 +247,7 @@ header h2 {
   background: #0b0c0e;  /* SAME exact color */
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 50px;
   padding: 6px 0;     /* short height */
 }
 

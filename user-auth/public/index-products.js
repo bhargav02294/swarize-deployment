@@ -571,4 +571,15 @@ document.querySelectorAll('.category-image img').forEach(img => {
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const track = document.getElementById("marqueeTrack");
 
+  // Duplicate until track is more than twice screen width
+  let totalWidth = track.scrollWidth;
+
+  while (totalWidth < window.innerWidth * 2) {
+    let clone = track.cloneNode(true);
+    track.parentElement.appendChild(clone);
+    totalWidth += clone.scrollWidth;
+  }
+});

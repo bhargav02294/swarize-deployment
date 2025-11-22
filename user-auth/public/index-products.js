@@ -573,13 +573,33 @@ document.querySelectorAll('.category-image img').forEach(img => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.getElementById("marqueeTrack");
+  let speed = 0.5; // pixels per frame
+  let posX = 0;
 
-  // Duplicate until track is more than twice screen width
-  let totalWidth = track.scrollWidth;
-
-  while (totalWidth < window.innerWidth * 2) {
-    let clone = track.cloneNode(true);
+  // Duplicate items until enough width
+  const itemsWidth = track.scrollWidth;
+  while (track.scrollWidth < window.innerWidth * 2) {
+    const clone = track.cloneNode(true);
     track.parentElement.appendChild(clone);
-    totalWidth += clone.scrollWidth;
   }
+
+  function animate() {
+    posX -= speed;
+    if (Math.abs(posX) >= itemsWidth) {
+      posX = 0;
+    }
+    track.parentElement.style.transform = `translateX(${posX}px)`;
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Pause on hover
+  track.parentElement.addEventListener("mouseenter", () => {
+    speed = 0;
+  });
+  track.parentElement.addEventListener("mouseleave", () => {
+    speed = 0.5;
+  });
 });
+

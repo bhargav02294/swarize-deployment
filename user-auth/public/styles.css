@@ -502,7 +502,6 @@ header h2 {
   position: relative;
 }
 
-/* Fade Edges */
 .marquee-fade-left,
 .marquee-fade-right {
   position: absolute;
@@ -523,32 +522,26 @@ header h2 {
   background: linear-gradient(to left, #0b0d10, transparent);
 }
 
-/* TRACK */
 .marquee-track {
   display: flex;
   align-items: center;
   gap: 80px;
   white-space: nowrap;
   will-change: transform;
-  animation: marqueeMove 12s linear infinite;
 }
 
-/* ITEM */
 .marquee-item {
   font-family: "Vollkorn", serif;
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.9rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 8px;
-
+  letter-spacing: 9px;
   color: #ffffff;
   opacity: 0.9;
-
-  text-shadow: 
+  text-shadow:
     0 0 8px rgba(255,255,255,0.5),
     0 0 16px rgba(255,255,255,0.4),
     0 0 24px rgba(255,255,255,0.3);
-
   transform: perspective(400px) rotateY(-12deg);
   animation: tiltAnim 3s ease-in-out infinite alternate;
   transition: 0.3s;
@@ -562,13 +555,6 @@ header h2 {
   opacity: 1;
 }
 
-/* Base movement */
-@keyframes marqueeMove {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* Tilt effect */
 @keyframes tiltAnim {
   0% { transform: perspective(400px) rotateY(-10deg); }
   100% { transform: perspective(400px) rotateY(10deg); }

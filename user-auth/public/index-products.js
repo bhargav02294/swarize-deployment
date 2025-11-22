@@ -172,6 +172,78 @@ function viewProduct(id) {
 
 
 
+document.addEventListener("DOMContentLoaded", async () => {
+  const track = document.getElementById("productTrack");
+  const prev = document.querySelector(".carousel-btn.prev");
+  const next = document.querySelector(".carousel-btn.next");
+
+  let products = [];
+
+  // Fetch products
+  async function fetchProducts() {
+    try {
+      const res = await fetch("/api/products/all");
+      const data = await res.json();
+      if (Array.isArray(data)) return data;
+      if (data.products) return data.products;
+      return [];
+    } catch {
+      return [];
+    }
+  }
+
+  function resolveImagePath(path) {
+    if (!path) return "/assets/img-placeholder.png";
+    if (path.startsWith("uploads")) {
+      return `https://swarize.in/${path}`;
+    }
+    return path;
+  }
+
+  // Load 3 products only
+  async function loadCarousel() {
+    products = await fetchProducts();
+    const firstThree = products.slice(0, 3);
+
+    track.innerHTML = firstThree.map(prod => `
+      <div class="product-card" onclick="viewProduct('${prod._id}')">
+        <img src="${resolveImagePath(prod.thumbnailImage)}">
+        <div class="product-info">
+          <h3>${prod.name}</h3>
+          <p>₹${Number(prod.price).toLocaleString("en-IN")}</p>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  // Slide Logic (simple)
+  let index = 0;
+
+  function updateSlide() {
+    const cardWidth = track.children[0].offsetWidth + 25; 
+    track.style.transform = `translateX(${-index * cardWidth}px)`;
+  }
+
+  next.addEventListener("click", () => {
+    if (index < products.length - 3) {
+      index++;
+      updateSlide();
+    }
+  });
+
+  prev.addEventListener("click", () => {
+    if (index > 0) {
+      index--;
+      updateSlide();
+    }
+  });
+
+  loadCarousel();
+});
+
+function viewProduct(id) {
+  window.location.href = `product-detail.html?id=${id}`;
+}
 
 
 

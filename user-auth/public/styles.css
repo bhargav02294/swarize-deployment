@@ -514,10 +514,10 @@ header h2 {
 /* text */
 .marquee-track span {
   font-family: "Vollkorn", serif;
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 600;
   color: #fff;
-  letter-spacing: 8px;
+  letter-spacing: 7px;
   text-shadow: 0 0 10px rgba(255,255,255,0.4);
   user-select: none;
 }
@@ -545,166 +545,137 @@ header h2 {
 
 
 
-
-/* =====================trending products ===all ===============================PRODUCT CAROUSEL ===================== */
-/* ===================== TRENDING PRODUCTS / ALL PRODUCTS CAROUSEL ===================== */
+/* =========================================
+   PRODUCT CAROUSEL (3 ITEMS ONLY)
+========================================= */
 .product-carousel {
   width: 100%;
-  padding: 60px 5%;
-  background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
-  overflow: hidden;
+  padding: 50px 5%;
+  background: #0b0d10;
   position: relative;
 }
 
-/* Section title */
 .section-title {
-  font-size: 2rem;
+  font-size: 1.9rem;
+  color: #ffffff;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
   font-weight: 600;
-  color: #1a2a3a;
-  letter-spacing: 0.5px;
-  position: relative;
+  letter-spacing: 1px;
 }
 
-.section-title::after {
-  content: "";
-  width: 60px;
-  height: 3px;
-  background: #8bc6ec;
-  display: block;
-  margin: 10px auto 0;
-  border-radius: 2px;
-}
-
-/* Carousel wrapper */
+/* Wrapper */
 .carousel-wrapper {
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
-/* Carousel track */
+/* Track – fixed width layout for 3 cards */
 .carousel-track {
   display: flex;
   gap: 25px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  padding: 10px;
-  cursor: grab;
+  transition: transform 0.45s ease;
 }
 
-.carousel-track:active {
-  cursor: grabbing;
-}
-
-.carousel-track::-webkit-scrollbar {
-  display: none;
-}
-
-/* Product card */
+/* PRODUCT CARD */
 .product-card {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 5px 20px rgba(26, 42, 58, 0.08);
-  flex: 0 0 250px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: calc(33.33% - 20px);
+  background: #141518;
+  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(139, 198, 236, 0.3);
+  position: relative;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.07);
+  transition: transform .3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(26, 42, 58, 0.2);
+  transform: translateY(-5px);
 }
 
-/* Product image */
+/* IMAGE — FULLY VISIBLE */
 .product-card img {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-  border-bottom: 1px solid rgba(139, 198, 236, 0.2);
+  height: 320px;
+  object-fit: contain !important;
+  background: #0b0d10;
+  padding: 10px;
 }
 
-.product-card:hover img {
-  transform: scale(1.08);
-}
-
-/* Product info */
+/* Hover overlay for name + price */
 .product-info {
-  padding: 15px;
+  position: absolute;
+  bottom: -80px;
+  left: 0;
+  width: 100%;
+  padding: 12px;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
   text-align: center;
+  transition: bottom .35s ease;
+}
+
+.product-card:hover .product-info {
+  bottom: 0;
 }
 
 .product-info h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 6px;
-  color: #1a2a3a;
+  margin-bottom: 4px;
 }
 
 .product-info p {
-  font-size: 0.95rem;
-  color: #4f6a7b;
-  margin-bottom: 10px;
-}
-
-/* Quick View Button */
-.quick-view-btn {
-  background: linear-gradient(135deg, #8bc6ec, #1a2a3a);
-  border: none;
-  color: #ffffff;
-  padding: 10px 22px;
-  border-radius: 30px;
   font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
+  opacity: 0.85;
 }
 
-.quick-view-btn:hover {
-  background: linear-gradient(135deg, #1a2a3a, #8bc6ec);
-  transform: scale(1.05);
-}
-
-/* Carousel navigation arrows */
+/* =========================================
+   ARROWS — minimal, modern
+========================================= */
 .carousel-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(139, 198, 236, 0.4);
-  font-size: 2rem;
-  padding: 10px 15px;
-  border-radius: 50%;
-  cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  color: #1a2a3a;
-  transition: 0.3s ease;
-  z-index: 5;
+  width: 42px;
+  height: 42px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: .25s ease;
+  backdrop-filter: blur(4px);
+  z-index: 20;
 }
 
 .carousel-btn:hover {
-  background: #1a2a3a;
-  color: #ffffff;
+  background: rgba(255,255,255,0.2);
 }
 
+/* left */
 .carousel-btn.prev {
-  left: -10px;
+  left: -20px;
 }
 
+/* right */
 .carousel-btn.next {
-  right: -10px;
+  right: -20px;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .product-card {
-    flex: 0 0 70%;
+    width: 80%;
   }
-
-  .carousel-btn {
+  .carousel-btn.prev,
+  .carousel-btn.next {
     display: none;
   }
 }

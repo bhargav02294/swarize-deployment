@@ -704,211 +704,166 @@ header h2 {
 
 
 
-/* ===== Glassy Dark Pinterest Grid (Option B) ===== */
-:root{
-  --bg:#0b0f13;
-  --card-bg: rgba(255,255,255,0.03);
-  --glass-border: rgba(255,255,255,0.06);
-  --accent: #38bdf8;
-  --accent-2: #7dd3fc;
-  --muted:#9ca3af;
-  --text:#e6eef6;
-}
-
-/* Section container */
-.pinterest-grid-section.glass-theme{
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.003));
-  padding: 56px 20px;
-  color: var(--text);
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-
-/* inner max width */
-.pinterest-grid-section .section-inner{
-  max-width: 1400px;
-  margin: 0 auto;
+/* ============================================
+   PINTEREST SECTION — DARK PREMIUM THEME
+============================================ */
+.pinterest-grid-section {
+  width: 100%;
+  padding: 70px 5% 40px;
+  background: #0b0d10;
+  text-align: center;
 }
 
 /* Title */
-.section-title{
-  font-size: 28px;
-  text-align: center;
-  color: var(--text);
-  margin-bottom: 28px;
-  letter-spacing: 0.6px;
+.pinterest-grid-section .section-title {
+  font-size: 2.3rem;
   font-weight: 700;
-  position: relative;
-}
-.section-title::after{
-  content:"";
-  display:block;
-  width:72px;height:3px;border-radius:3px;
-  background: linear-gradient(90deg,var(--accent),var(--accent-2));
-  margin:14px auto 0;
-  opacity:0.95;
-  box-shadow: 0 6px 22px rgba(56,189,248,0.12);
+  color: #ffffff;
+  letter-spacing: 1px;
+  margin-bottom: 45px;
+  text-shadow: 0 0 18px rgba(255,255,255,0.12);
 }
 
-/* Masonry using CSS columns for good perf */
+.pinterest-grid-section .section-title::after {
+  content: "";
+  width: 70px;
+  height: 3px;
+  background: #38bdf8;
+  display: block;
+  margin: 12px auto 0;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(56,189,248,0.6);
+}
+
+/* ============================================
+   MASONRY GRID — Pinterest Style
+============================================ */
 .pinterest-grid {
   column-count: 4;
-  column-gap: 20px;
-  width: 100%;
+  column-gap: 22px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
-/* responsive column counts */
-@media (max-width: 1200px){ .pinterest-grid{ column-count:3; } }
-@media (max-width: 900px){ .pinterest-grid{ column-count:2; } }
-@media (max-width: 600px){ .pinterest-grid{ column-count:1; } }
+@media (max-width: 1250px) { .pinterest-grid { column-count: 3; } }
+@media (max-width: 900px)  { .pinterest-grid { column-count: 2; } }
+@media (max-width: 600px)  { .pinterest-grid { column-count: 1; } }
 
-/* Card */
+/* ============================================
+   Product Card
+============================================ */
 .pinterest-card {
-  display: inline-block; /* required for column masonry */
+  display: inline-block;
   width: 100%;
-  margin: 0 0 18px;
-  border-radius: 14px;
+  margin: 0 0 25px;
+  border-radius: 18px;
   overflow: hidden;
-  break-inside: avoid;
+
+  /* DARK PREMIUM LOOK */
+  background: #111317;
+  border: 1px solid rgba(255,255,255,0.06);
+
+  box-shadow:
+     0 10px 25px rgba(0,0,0,0.45),
+     0 0 15px rgba(255,255,255,0.03);
+
   position: relative;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(6px) saturate(120%);
-  transition: transform .35s cubic-bezier(.2,.9,.25,1), box-shadow .35s;
-  box-shadow: 0 6px 30px rgba(2,6,23,0.55);
+  cursor: pointer;
+  break-inside: avoid;
+  transition: transform .35s ease, box-shadow .35s ease;
 }
 
-/* soft lift on hover */
-.pinterest-card:hover{
-  transform: translateY(-10px);
-  box-shadow: 0 18px 60px rgba(2,6,23,0.65);
+/* Hover lift + glow */
+.pinterest-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 15px 30px rgba(0,0,0,0.55),
+    0 0 22px rgba(56,189,248,0.25);
 }
 
-/* image: full bleed inside card */
+/* ============================================
+   Product Image
+============================================ */
 .pinterest-card img {
-  width:100%;
-  height:auto;
-  display:block;
+  width: 100%;
+  height: auto;
+  display: block;
   object-fit: cover;
-  transition: transform .6s ease;
-  will-change: transform;
+
+  transition: transform .45s ease, filter .45s ease;
 }
 
-/* subtle zoom on hover */
-.pinterest-card:hover img{
-  transform: scale(1.03);
+/* Soft zoom on hover */
+.pinterest-card:hover img {
+  transform: scale(1.07);
+  filter: brightness(92%);
 }
 
-/* overlay panel (glass) at bottom that reveals on hover */
-.card-overlay {
+/* ============================================
+   Price Overlay (Modern Floating Tag)
+============================================ */
+.price-overlay {
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(8,10,12,0.45), rgba(8,10,12,0.6));
-  color: var(--text);
-  transform: translateY(12px);
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+
+  padding: 10px 20px;
+  border-radius: 30px;
+
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 1rem;
+
   opacity: 0;
-  transition: all .35s cubic-bezier(.2,.9,.25,1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  backdrop-filter: blur(8px) saturate(130%);
-  border: 1px solid rgba(255,255,255,0.03);
+  transition: .35s ease;
 }
 
-/* reveal overlay on hover */
-.pinterest-card:hover .card-overlay {
-  transform: translateY(0);
+.pinterest-card:hover .price-overlay {
   opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
-/* Product title */
-.card-title{
+/* ============================================
+   Loader
+============================================ */
+.grid-loader {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #d1d5db;
+  padding: 40px;
+  display: none;
+}
+
+/* ============================================
+   Load More Button — Dark Gradient
+============================================ */
+.load-more-btn {
+  margin: 35px auto 80px;
+  display: inline-block;
+
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  padding: 12px 32px;
+  border-radius: 35px;
+
+  color: #0b0d10;
+  border: none;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text);
-  letter-spacing: 0.2px;
+
+  cursor: pointer;
+  transition: 0.35s ease;
+  box-shadow: 0 4px 15px rgba(56,189,248,0.35);
 }
 
-/* Price badge */
-.card-price{
-  min-width: 86px;
-  text-align: right;
-  font-weight:700;
-  color: var(--bg);
-  padding: 8px 12px;
-  background: linear-gradient(90deg,var(--accent),var(--accent-2));
-  border-radius: 999px;
-  box-shadow: 0 6px 14px rgba(56,189,248,0.18);
-  font-size: 0.95rem;
-}
-
-/* small meta row (category / rating) */
-.card-meta{
-  display:flex;
-  gap:8px;
-  font-size:12px;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* load more area */
-.load-area{
-  text-align:center;
-  margin-top:22px;
-}
-
-.load-more-btn{
-  display:inline-block;
-  border-radius:999px;
-  padding:10px 24px;
-  background:transparent;
-  color:var(--text);
-  border:1px solid rgba(255,255,255,0.06);
-  cursor:pointer;
-  font-weight:600;
-  transition: all .28s;
-}
-.load-more-btn:hover{
+.load-more-btn:hover {
+  background: #ffffff;
+  color: #000;
   transform: translateY(-3px);
-  background: linear-gradient(90deg, rgba(56,189,248,0.06), rgba(125,211,252,0.03));
-  box-shadow: 0 10px 28px rgba(56,189,248,0.06);
-}
-
-/* loader */
-.grid-loader{
-  text-align:center;
-  color:var(--muted);
-  padding:18px;
-  display:none;
-}
-
-/* Entrance animation for cards */
-.pinterest-card[data-loaded="false"]{
-  opacity:0;
-  transform: translateY(10px);
-}
-.pinterest-card[data-loaded="true"]{
-  opacity:1;
-  transform: translateY(0);
-  transition: opacity .45s ease, transform .45s ease;
-}
-
-/* Accessibility: focus outline */
-.pinterest-card:focus {
-  outline: 3px solid rgba(56,189,248,0.18);
-  outline-offset: 4px;
-}
-
-/* small screens tune */
-@media (max-width:900px){
-  .card-overlay{ left:10px; right:10px; bottom:10px; padding:10px; }
-  .card-title{ font-size:0.95rem; }
-  .card-price{ font-size:0.88rem; padding:6px 10px; }
+  box-shadow: 0 6px 18px rgba(255,255,255,0.4);
 }
 
 

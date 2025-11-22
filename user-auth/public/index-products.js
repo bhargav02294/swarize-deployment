@@ -360,121 +360,101 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
+
+// ===================== PINTEREST STYLE PRODUCT GRID (Paginated) ===================== //
+
 document.addEventListener("DOMContentLoaded", () => {
-  const grid = document.getElementById("pinterest-grid");
-  const loadBtn = document.getElementById("load-more-btn");
+  const gridContainer = document.getElementById("pinterest-grid");
   const loader = document.getElementById("grid-loader");
+  const loadMoreBtn = document.getElementById("load-more-btn");
 
-  // SAMPLE products (replace image URLs with your real ones)
-  const sampleProducts = [
-    { id: "p1", name: "Classic Silk Saree - Royal", price: 3499, image: "/mnt/data/A_high-resolution_digital_photograph_captures_a_yo.png", category: "Saree"},
-    { id: "p2", name: "Festive Kurti Set", price: 1299, image: "/mnt/data/A_digital_photograph_captures_a_young_South_Asian_.png", category: "Kurti"},
-    { id: "p3", name: "Everyday Comfort Dress", price: 799, image: "/mnt/data/A_digital_photograph_captures_a_young_South_Asian_.png", category: "Everyday"},
-    { id: "p4", name: "Elegant Designer Saree", price: 4999, image: "/mnt/data/A_high-resolution_digital_photograph_features_a_yo.png", category: "Saree"},
-    { id: "p5", name: "Premium Festive Lehenga", price: 6999, image: "/mnt/data/A_high-resolution_digital_photograph_captures_a_young_woma.png", category: "Festive"},
-    { id: "p6", name: "Kurti - Summer Bloom", price: 999, image: "/mnt/data/A_digital_photograph_captures_a_young_South_Asian_.png", category: "Kurti"},
-    // add more as needed...
-  ];
+  let allProducts = [];
+  let currentIndex = 0;
+  const perPage = 12; // load 12 products at a time
 
-  // number to show per "page"
-  let perPage = 6;
-  let offset = 0;
+  // Safe JSON parse
+  async function safeParseJson(response) {
+    const text = await response.text();
+    try { return JSON.parse(text); } 
+    catch (err) { throw new Error("Invalid JSON"); }
+  }
 
-  // Render function (appends to grid)
-  function renderBatch(items){
-    const frag = document.createDocumentFragment();
-    items.forEach(it => {
-      const card = document.createElement("article");
-      card.className = "pinterest-card";
-      card.tabIndex = 0;
-      card.setAttribute("data-loaded", "false");
+  // Fetch all products
+  async function fetchAllProducts() {
+    try {
+      loader.style.display = "block";
+      const res = await fetch("/api/products/all", { method: "GET", credentials: "include" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await safeParseJson(res);
+      if (Array.isArray(data)) return data;
+      if (data && Array.isArray(data.products)) return data.products;
+      return [];
+    } catch (err) {
+      console.error("Error loading products:", err);
+      return [];
+    } finally {
+      loader.style.display = "none";
+    }
+  }
+
+  // Resolve image path
+  function resolveImagePath(path) {
+    if (!path) return "/assets/img-placeholder.png";
+    if (path.startsWith("uploads/") || path.startsWith("/uploads/"))
+      return `https://swarize.in/${path.replace(/^\/+/, "")}`;
+    return path;
+  }
+
+  // Escape HTML
+  function escapeHtml(str) {
+    return str ? str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+                 .replace(/"/g,"&quot;").replace(/'/g,"&#039;") : "";
+  }
+
+  // Format price
+  function formatPrice(p) { return p ? Number(p).toLocaleString("en-IN") : "-"; }
+
+  // Render products
+  function renderProducts() {
+    const productsToShow = allProducts.slice(currentIndex, currentIndex + perPage);
+    productsToShow.forEach(product => {
+      const imgPath = resolveImagePath(product.thumbnailImage);
+      const card = document.createElement("div");
+      card.classList.add("pinterest-card");
       card.innerHTML = `
-        <a href="product-detail.html?id=${encodeURIComponent(it.id)}" aria-label="${escapeHtml(it.name)}" class="card-link" style="display:block;">
-          <img data-src="${escapeHtml(it.image)}" alt="${escapeHtml(it.name)}" loading="lazy" />
-          <div class="card-overlay" aria-hidden="true">
-            <div>
-              <div class="card-title">${escapeHtml(it.name)}</div>
-              <div class="card-meta">${escapeHtml(it.category)}</div>
-            </div>
-            <div class="card-price">₹${Number(it.price).toLocaleString("en-IN")}</div>
-          </div>
-        </a>
+        <img src="${imgPath}" alt="${escapeHtml(product.name)}" loading="lazy" onclick="viewProduct('${product._id}')">
+        <div class="price-overlay">₹${formatPrice(product.price)}</div>
       `;
-      frag.appendChild(card);
+      gridContainer.appendChild(card);
     });
-    grid.appendChild(frag);
-    // lazy-load & reveal
-    lazyLoadAndReveal();
+    currentIndex += perPage;
+
+    // Hide Load More button if all loaded
+    if (currentIndex >= allProducts.length) loadMoreBtn.style.display = "none";
   }
 
-  // Basic escape (small helper)
-  function escapeHtml(s){ return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-
-  // IntersectionObserver for images + reveal animation
-  const ioOptions = { root: null, rootMargin: "200px 0px", threshold: 0.05 };
-  const imageObserver = new IntersectionObserver((entries, obs) => {
-    entries.forEach(en => {
-      if(en.isIntersecting){
-        const img = en.target;
-        const src = img.getAttribute("data-src");
-        if(src){
-          img.src = src;
-          img.removeAttribute("data-src");
-        }
-        obs.unobserve(img);
-      }
-    });
-  }, ioOptions);
-
-  // Card reveal observer
-  const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach(ent => {
-      if(ent.isIntersecting){
-        ent.target.setAttribute("data-loaded","true");
-        cardObserver.unobserve(ent.target);
-      }
-    });
-  }, { root:null, threshold: 0.12 });
-
-  function lazyLoadAndReveal(){
-    // images
-    grid.querySelectorAll('img[data-src]').forEach(img => {
-      imageObserver.observe(img);
-    });
-    // reveal cards
-    grid.querySelectorAll('.pinterest-card[data-loaded="false"]').forEach(c => {
-      cardObserver.observe(c);
-    });
+  // Load initial products
+  async function init() {
+    allProducts = await fetchAllProducts();
+    if (!allProducts || allProducts.length === 0) {
+      gridContainer.innerHTML = "<p>No products available 🛍️</p>";
+      loadMoreBtn.style.display = "none";
+      return;
+    }
+    renderProducts();
   }
 
-  // initial render
-  function loadInitial(){
-    const batch = sampleProducts.slice(offset, offset + perPage);
-    if(!batch.length) { loadBtn.style.display = "none"; return; }
-    renderBatch(batch);
-    offset += batch.length;
-    if(offset >= sampleProducts.length) loadBtn.style.display = "none";
-  }
+  // Load more products
+  loadMoreBtn.addEventListener("click", () => { renderProducts(); });
 
-  // load more handler
-  loadBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    loadBtn.disabled = true;
-    loadBtn.textContent = "Loading...";
-    // simulate a fetch delay (replace with real fetch)
-    setTimeout(() => {
-      const batch = sampleProducts.slice(offset, offset + perPage);
-      if(batch.length) renderBatch(batch);
-      offset += batch.length;
-      if(offset >= sampleProducts.length) loadBtn.style.display = "none";
-      loadBtn.disabled = false;
-      loadBtn.textContent = "Load more";
-    }, 450);
-  });
+  // Global redirect function
+  window.viewProduct = function(id) {
+    window.location.href = `product-detail.html?id=${id}`;
+  };
 
-  // start
-  loadInitial();
+  init();
 });
+
 
 
 document.addEventListener("DOMContentLoaded", () => {

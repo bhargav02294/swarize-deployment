@@ -415,7 +415,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <img data-src="${full}" src="${lq || ''}" alt="${escapeHtml(prod.name || 'Product')}" loading="lazy">
         <div class="card-meta">
           <div class="title">${escapeHtml(prod.name || 'Product')}</div>
-          <div class="sub">₹${formatPrice(prod.price)}</div>
         </div>
         <div class="price-chip">₹${formatPrice(prod.price)}</div>
       `;

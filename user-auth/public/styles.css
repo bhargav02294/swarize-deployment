@@ -1735,6 +1735,205 @@ header h2 {
 
 
 
+
+/* ============================================================
+   FOOTER — DARK PREMIUM (Compact + Perfect Logo Alignment)
+============================================================ */
+footer.footer {
+  background: #0b0f13;
+  padding: 10px 5% 22px; /* compact top spacing */
+  color: #e5e7eb;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-family: "Poppins", sans-serif;
+}
+
+/* ============================================================
+   LOGO + ABOUT TEXT (Left Column)
+============================================================ */
+.footer-logo-top {
+  margin: 0; /* remove all gaps */
+  padding: 0;
+}
+
+footer .logo-img {
+  width: 60px;              /* BIGGER LOGO */
+  height: 60px;
+  margin: 0 auto;           /* center horizontally */
+  display: block;
+  margin-top: 0 !important; /* force top alignment */
+}
+
+/* ABOUT TEXT — centered + brand colored */
+.about-text {
+  margin-top: 10px;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 400;
+  color: #7dd3fc;        /* BRAND BLUE */
+  line-height: 1.45;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================================
+   GRID LAYOUT
+============================================================ */
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 34px;
+  max-width: 1400px;
+  margin: 5px auto 3px; /* small spacing after logo area */
+}
+
+/* ============================================================
+   SECTION HEADINGS
+============================================================ */
+.footer-section h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 16px;
+  position: relative;
+  letter-spacing: 0.5px;
+}
+
+/* Hover underline */
+.footer-section h3::after {
+  content: "";
+  width: 0;
+  height: 2px;
+  background: #7dd3fc;
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  transition: width 0.3s ease;
+}
+.footer-section h3:hover::after {
+  width: 40%;
+}
+
+/* ============================================================
+   LINKS
+============================================================ */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 8px 0;
+}
+
+.footer-section ul li a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.92rem;
+  position: relative;
+  transition: 0.3s ease;
+}
+
+/* underline on hover */
+.footer-section ul li a::after {
+  content: "";
+  width: 0;
+  height: 2px;
+  background: #7dd3fc;
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  transition: width 0.25s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #ffffff;
+}
+.footer-section ul li a:hover::after {
+  width: 100%;
+}
+
+/* ============================================================
+   CONTACT INFO
+============================================================ */
+.contact-info .contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.contact-icon {
+  width: 20px;
+  opacity: 0.8;
+}
+
+.contact-info a {
+  color: #cbd5e1;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.contact-info a:hover {
+  color: #ffffff;
+}
+
+/* ============================================================
+   FOLLOW US (Under Contact)
+============================================================ */
+.follow-us-title {
+  margin-top: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.social-icons {
+  margin-top: 10px;
+  display: flex;
+  gap: 12px;
+}
+
+.social-icons img {
+  width: 26px;
+  height: 26px;
+  opacity: 0.82;
+  transition: 0.25s ease;
+}
+
+.social-icons img:hover {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+/* ============================================================
+   FOOTER BOTTOM
+============================================================ */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #94a3b8;
+  font-size: 0.83rem;
+}
+
+.footer-bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.india-flag {
+  width: 22px;
+  border-radius: 4px;
+}
+
+
 /* ============================================================
    FOOTER — MOBILE RESPONSIVENESS (MAX-WIDTH: 600PX)
 ============================================================ */

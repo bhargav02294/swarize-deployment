@@ -239,15 +239,19 @@
 
 
 <!-- ===================== PINTEREST STYLE PRODUCT GRID ===================== -->
-<section class="pinterest-grid-section">
-  <h2 class="section-title">Explore Our Collection</h2>
-  <div id="pinterest-grid" class="pinterest-grid"></div>
-  <button id="load-more-btn" class="load-more-btn">Load More Products</button>
+<!-- ===================== PINTEREST STYLE PRODUCT GRID (UPGRADED) ===================== -->
+<section id="pinterest-section" class="pinterest-grid-section dark-premium">
+  <div class="section-header">
+    <h2 class="section-title">Explore Our Collection</h2>
+    <button id="load-more-btn" class="load-more-btn" aria-label="Load more products">Load more</button>
+  </div>
+
+  <div id="pinterest-grid" class="pinterest-grid" aria-live="polite"></div>
+
+  <div id="grid-loader" class="grid-loader" aria-hidden="true">
+    <div class="loader-dot"></div>
+  </div>
 </section>
-
-<!-- Loader -->
-<div id="grid-loader" class="grid-loader">Loading products...</div>
-
 
 
 

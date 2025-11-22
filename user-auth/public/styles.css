@@ -310,13 +310,6 @@ header h2 {
 
 
 
-
-
-    /* ====== Hero section ===========images ================== ====== */
-
-/* ============================================================= */
-/*                     DARK THEME HERO SLIDER                    */
-/* ============================================================= */
 /* ============================================================= */
 /* HERO SECTION (Short Height + Full Image + Clean Dark Theme)   */
 /* ============================================================= */
@@ -502,21 +495,24 @@ header h2 {
 /* ======================================================
      ULTRA PREMIUM MARQUEE STRIP  – Dark Luxury Style
 ====================================================== */
+/* ========================================================
+   MARQUEE STRIP — PREMIUM "ELEGANCE" VERSION
+======================================================== */
 .marquee-strip {
   width: 100%;
   background: #0b0d10;
   overflow: hidden;
-  padding: 16px 0;
-  margin-top: 10px; /* simple natural spacing */
+  padding: 18px 0;
+  margin-top: 10px;
   position: relative;
 }
 
-/* Left & Right fade edges */
+/* Soft Fade Edges */
 .marquee-fade-left,
 .marquee-fade-right {
   position: absolute;
   top: 0;
-  width: 120px;
+  width: 140px;
   height: 100%;
   z-index: 10;
   pointer-events: none;
@@ -532,55 +528,62 @@ header h2 {
   background: linear-gradient(to left, #0b0d10, transparent);
 }
 
-/* MAIN TRACK */
+/* TRACK — Infinite motion */
 .marquee-track {
   display: flex;
-  gap: 80px;
+  align-items: center;
+  gap: 90px;
   white-space: nowrap;
-  animation: marqueeMove 14s linear infinite;
+  animation: marqueeMove 15s linear infinite;
   transform-style: preserve-3d;
 }
 
-/* TEXT ITEMS */
+/* TEXT ITEMS — ELEGANCE */
 .marquee-item {
-  font-size: 1.4rem;
+  font-family: "Vollkorn", serif;
+  font-size: 1.9rem;
   font-weight: 700;
-  letter-spacing: 6px;
+  text-transform: uppercase;
+  letter-spacing: 10px;
+
   color: #ffffff;
-  opacity: 0.92;
+  opacity: 0.9;
 
-  /* GLOW effect */
+  /* Glow */
   text-shadow:
-    0 0 8px rgba(255,255,255,0.6),
-    0 0 15px rgba(255,255,255,0.4);
+    0 0 8px rgba(255,255,255,0.5),
+    0 0 16px rgba(255,255,255,0.4),
+    0 0 28px rgba(255,255,255,0.2);
 
-  /* 3D Tilt */
-  transform: perspective(400px) rotateY(-12deg);
-  animation: tiltAnim 3s ease-in-out infinite alternate;
-  transition: 0.3s;
+  /* Subtle floating 3D tilt */
+  transform: perspective(500px) rotateY(-12deg);
+  animation: tiltAnim 3.5s ease-in-out infinite alternate;
+
+  transition: 0.35s ease;
 }
 
-/* Hover makes it pop stronger */
+/* Hover effect */
 .marquee-item:hover {
-  transform: scale(1.15) perspective(400px) rotateY(0deg);
-  color: #ffffff;
+  transform: scale(1.2) perspective(500px) rotateY(0deg);
+  opacity: 1;
   text-shadow:
     0 0 12px rgba(255,255,255,0.8),
-    0 0 28px rgba(255,255,255,0.6);
-  opacity: 1;
+    0 0 25px rgba(255,255,255,0.6),
+    0 0 35px rgba(255,255,255,0.4);
 }
 
-/* Smooth sideways movement */
+/* Infinite movement */
 @keyframes marqueeMove {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* Gentle 3D floating tilt */
+/* Smooth natural tilt */
 @keyframes tiltAnim {
-  0% { transform: perspective(400px) rotateY(-10deg); }
-  100% { transform: perspective(400px) rotateY(10deg); }
+  0% { transform: perspective(500px) rotateY(-10deg); }
+  100% { transform: perspective(500px) rotateY(10deg); }
 }
+
 
 
 

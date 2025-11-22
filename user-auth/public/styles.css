@@ -302,27 +302,126 @@ header h2 {
 }
 
 /* ============================================================
-   RESPONSIVE
+   MOBILE RESPONSIVENESS (MAX-WIDTH: 600PX)
 ============================================================ */
-@media (max-width: 900px) {
+@media screen and (max-width: 600px) {
+
+  /* Disable custom cursor on phone */
+  .cursor { display: none !important; }
+
+  /* Prevent left-right scrolling */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+  }
+
+  /* Navbar container becomes compact */
   .navbar-container {
-    flex-direction: column;
-    gap: 10px;
+    padding: 10px 14px;
   }
 
+  /* Logo size smaller */
+  .logo-img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand-name {
+    font-size: 1.4rem;
+  }
+
+  /* Hide search bar from navbar area */
   .search-container {
-    width: 95%;
+    display: none;
   }
 
+  /* Full-width search bar below navbar */
+  #mobile-search {
+    display: block;
+    width: 92%;
+    margin: 10px auto 0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 40px;
+    padding: 8px 14px;
+  }
+
+  #mobile-search input {
+    width: 100%;
+    color: white;
+  }
+
+  /* Hide desktop menu */
   .menu {
-    gap: 16px;
+    display: none;
   }
 
-  .category-bar {
-    flex-wrap: wrap;
-    gap: 18px;
+  /* Hamburger Menu Icon */
+  .hamburger {
+    display: block;
+    font-size: 1.7rem;
+    color: white;
+    cursor: pointer;
   }
+
+  /* Mobile menu (hidden initially) */
+  .mobile-menu {
+    display: none;
+    background: #111214;
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mobile-menu a {
+    display: block;
+    padding: 10px 0;
+    color: white;
+    font-size: 1rem;
+  }
+
+  /* Category bar → becomes dropdown button */
+  .category-bar {
+    display: none;  /* Hide horizontal bar */
+  }
+
+  .category-toggle {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #0b0c0e;
+    padding: 12px 0;
+    color: white;
+    font-size: 1.1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+  }
+
+  .category-list {
+    display: none;
+    background: #131416;
+    padding: 10px 0;
+  }
+
+  .category-list button {
+    display: block;
+    width: 100%;
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: white;
+  }
+    .show { display: block !important; }
+
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -478,29 +577,6 @@ header h2 {
   transition: width 5s linear;
 }
 
-
-/* ============================= */
-/*        RESPONSIVE             */
-/* ============================= */
-@media (max-width: 900px) {
-  .hero-slider { height: 45vh; }
-
-  .slide-content {
-    left: 5%;
-    max-width: 85%;
-  }
-
-  .slide-content h1 { font-size: 1.9rem; }
-
-  .slide-content p { font-size: 1rem; }
-
-  .hero-btn {
-    padding: 8px 20px;
-    font-size: 0.85rem;
-  }
-
-  .slider-dots { bottom: 10px; }
-}
 
 
 
@@ -698,22 +774,6 @@ header h2 {
   border: none;
 }
 
-/* Responsive layout: stack on small screens */
-@media (max-width: 1000px) {
-  .trending-container { padding: 0 12px; }
-  .big-card {
-    max-width: none;
-    flex: 0 0 80%;
-    height: 460px;
-  }
-  .trending-track { justify-content: center; }
-}
-
-/* On very small phones stack vertically */
-@media (max-width: 560px) {
-  .big-card { height: 380px; flex-basis: 100%; width: 100%; }
-
-}
 
 
 
@@ -813,10 +873,6 @@ header h2 {
   will-change:transform;
 }
 
-/* responsive columns */
-@media (max-width:1200px){ .pinterest-grid{ column-count:3; } }
-@media (max-width:900px){ .pinterest-grid{ column-count:2; } }
-@media (max-width:600px){ .pinterest-grid{ column-count:1; } }
 
 /* card */
 .pinterest-card{
@@ -960,12 +1016,7 @@ header h2 {
   perspective:1000px;
 }
 
-/* small responsive tweaks for meta text */
-@media (max-width:900px){
-  .card-meta .title{ font-size:1rem; }
-  .card-meta .sub{ font-size:0.88rem; }
-  .price-chip{ font-size:0.95rem; padding:7px 14px; }
-}
+
 
 /* loader */
 .grid-loader{
@@ -977,7 +1028,6 @@ header h2 {
   background:var(--accent); box-shadow:0 6px 18px rgba(56,189,248,0.22);
   animation: ping 1s ease-in-out infinite;
 }
-@keyframes ping{0%{transform:scale(.8)}50%{transform:scale(1.2)}100%{transform:scale(.8)}}
 
 
 
@@ -1160,73 +1210,6 @@ header h2 {
   transform: scale(1.1);
 }
 
-/* ============================= RESPONISVE ============================= */
-@media (max-width: 768px) {
-  .product-section {
-    width: 95%;
-    margin: 60px auto;
-    padding: 0 5px;
-  }
-
-  .product-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 25px;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #8BC6EC;
-  }
-
-  #products-grid {
-    gap: 25px;
-  }
-
-  .product-row {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .category-section {
-    width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-  }
-
-  .category-section h3 {
-    font-size: 1.3rem;
-  }
-
-  .category-products {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .product-card {
-    width: 48%;
-  }
-
-  .product-image {
-    height: 190px;
-    background-color: #E3F2FD;
-  }
-
-  .product-card h4 {
-    font-size: 1rem;
-  }
-
-  .product-price {
-    font-size: 18px;
-  }
-
-  .star-rating {
-    font-size: 0.9rem;
-  }
-
-  .cart-button {
-    height: 36px;
-    width: 36px;
-    font-size: 1.2rem;
-  }
-}
 
 
 
@@ -1414,17 +1397,6 @@ header h2 {
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-/* ------------ RESPONSIVE ------------ */
-@media (max-width: 900px) {
-  .about-mission {
-    flex-direction: column;
-    text-align: center;
-  }
-  .mission-text {
-    padding-top: 20px;
   }
 }
 
@@ -1630,29 +1602,4 @@ footer .logo-img {
 .india-flag {
   width: 22px;
   border-radius: 4px;
-}
-
-/* ============================================================
-   MOBILE
-============================================================ */
-@media (max-width: 768px) {
-
-  .footer-container {
-    gap: 26px;
-    text-align: center;
-  }
-
-  .footer-section ul li {
-    text-align: center;
-  }
-
-  .contact-info .contact-item {
-    justify-content: center;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 6px;
-    text-align: center;
-  }
 }

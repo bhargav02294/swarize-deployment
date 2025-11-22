@@ -817,3 +817,14 @@ document.querySelectorAll('.category-image img').forEach(img => {
 
 
 
+
+
+
+
+function toggleMobileMenu() {
+  document.getElementById("mobileMenu").classList.toggle("show");
+}
+
+function toggleCategory() {
+  document.getElementById("categoryList").classList.toggle("show");
+}

@@ -578,6 +578,75 @@ header h2 {
 }
 
 
+/* ============================================================= */
+/* HERO SECTION — MOBILE RESPONSIVENESS (MAX WIDTH 600PX)       */
+/* ============================================================= */
+@media screen and (max-width: 600px) {
+
+  /* Shorter safe height */
+  .hero-slider {
+    height: 55vh;                /* perfect for mobile screens */
+  }
+
+  /* Ensure no horizontal scrolling */
+  body, html {
+    overflow-x: hidden !important;
+  }
+
+  /* Slide images optimized */
+  .slide img {
+    object-position: center top;  /* shows model face, crops bottom */
+    height: 100%;
+    filter: brightness(75%) saturate(115%);
+  }
+
+  /* Text container adjustments */
+  .slide-content {
+    left: 6%;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 80%;
+  }
+
+  /* Heading size */
+  .slide-content h1 {
+    font-size: 1.8rem;       /* reduced for mobile */
+    line-height: 1.15;
+  }
+
+  /* Highlight word */
+  .slide-content h1 span {
+    font-size: 1.85rem;      /* slightly bigger emphasis */
+  }
+
+  /* Description text */
+  .slide-content p {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  /* Button */
+  .hero-btn {
+    font-size: 0.85rem;
+    padding: 9px 20px;
+    border-radius: 30px;
+  }
+
+  /* Dots positioning */
+  .slider-dots {
+    bottom: 12px;
+    gap: 8px;
+  }
+
+  .slider-dots button {
+    width: 8px;
+    height: 8px;
+  }
+
+  .slider-dots button.active::after {
+    transition: width 4s linear;    /* slightly faster on mobile */
+  }
+}
 
 
 
@@ -621,6 +690,35 @@ header h2 {
   100% { transform: translateX(-50%); }
 }
 
+/* ============================================================= */
+/* MARQUEE STRIP — MOBILE RESPONSIVENESS (MAX-WIDTH: 600PX)      */
+/* ============================================================= */
+@media screen and (max-width: 600px) {
+
+  /* Reduce vertical padding */
+  .marquee-strip {
+    padding: 12px 0;
+  }
+
+  /* Reduce gap between words for fitting mobile width */
+  .marquee-track {
+    gap: 40px;
+    animation: marqueeMoveMobile 12s linear infinite;
+  }
+
+  /* Text size scaling */
+  .marquee-track span {
+    font-size: 1.05rem;     /* perfect readable size */
+    letter-spacing: 4px;     /* adjusted spacing */
+    text-shadow: 0 0 6px rgba(255,255,255,0.35);
+  }
+
+  /* Faster & shorter animation for small screens */
+  @keyframes marqueeMoveMobile {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
 
 
 

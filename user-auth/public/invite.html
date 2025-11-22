@@ -22,52 +22,76 @@
     </head>
 <body>
     
-
+ <!-- ===================== NAVBAR ===================== -->
     <nav class="navbar">
         <div class="navbar-container">
+
             <div class="logo-container">
                 <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
+                    <img src="./images/logo.png" class="logo-img" alt="Swarize Logo">
                 </a>
+                <span class="brand-name">SWARIZE</span>
             </div>
+
             <h1 class="navbar-title">Invite</h1>
+
         </div>
     </nav>
-    
-    
 
 
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="invite-wrapper">
 
-    <main>
-        <section>
+        <section class="invite-section">
             <h2>Boost Your Business with Invitations</h2>
-            <p>Increase your sales by inviting buyers to explore and shop from your store on Swarize.</p>
+            <p>Share Swarize with potential buyers and increase your overall visibility and sales.</p>
         </section>
-        <section>
+
+        <section class="invite-section">
             <h2>How It Works</h2>
             <ol>
-                <li>Copy the official website link below.</li>
-                <li>Share it with your friends, family, and potential buyers.</li>
-                <li>As more people visit and purchase from Swarize, your sales increase!</li>
+                <li>Copy the official Swarize website link below.</li>
+                <li>Share it through WhatsApp, Instagram, Facebook, Email & more.</li>
+                <li>More visitors help boost your sales instantly!</li>
             </ol>
         </section>
-        <section>
+
+        <section class="invite-section share-box">
             <h2>Start Sharing Now</h2>
-            <p>Copy the website link and share it across social media, emails, and personal networks.</p>
-            <input type="text" value="https://swarize.in" readonly>
-            <button onclick="copyLink()">Copy Link</button>
+            <p>Copy the link and share it across your social networks.</p>
+
+            <div class="copy-container">
+                <input type="text" value="https://swarize.in" id="invite-link" readonly>
+                <button onclick="copyLink()">Copy Link</button>
+            </div>
+
+            <p id="copy-status" class="copy-status"></p>
         </section>
+
     </main>
+
+
+    <!-- ===================== FOOTER ===================== -->
     <footer class="footer">
-        <p>&copy; 2025 Swarize. All rights reserved.</p>
+        <p>© 2025 Swarize. All rights reserved.</p>
     </footer>
+
+     <!-- ===================== SCRIPT ===================== -->
     <script>
         function copyLink() {
-            var copyText = document.querySelector('input[type="text"]');
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(copyText.value);
-            alert("Link copied to clipboard!");
+            const input = document.getElementById("invite-link");
+            input.select();
+            input.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(input.value);
+
+            const status = document.getElementById("copy-status");
+            status.innerText = "✔ Link copied successfully!";
+            status.style.opacity = "1";
+
+            setTimeout(() => {
+                status.style.opacity = "0";
+            }, 2000);
         }
     </script>
 </body>

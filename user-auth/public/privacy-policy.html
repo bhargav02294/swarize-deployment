@@ -35,171 +35,238 @@
 
     
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
-            </div>
-            <h1 class="navbar-title">Privacy Policy</h1>
+    <!-- Skip link for accessibility -->
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- ====== NAVBAR (consistent logo + brand name) ====== -->
+  <header class="site-header" role="banner">
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar-container">
+
+        <!-- logo -->
+        <div class="logo-container">
+          <a class="logo-link" href="index.html" aria-label="Swarize home">
+            <!-- use image for brand (keeps consistency across pages) -->
+            <img src="./images/logo.png" alt="Swarize logo" class="logo-img" />
+            <span class="brand-name">swarize</span>
+          </a>
         </div>
+
+        <!-- page title (desktop visible) -->
+        <div class="nav-title-wrap" aria-hidden="true">
+          <h1 class="navbar-title">Privacy Policy</h1>
+        </div>
+
+      </div>
     </nav>
-    
-    
+  </header>
 
-    <div class="container">
-        <header>
-            <p><strong>Disclaimer:</strong> In case of any discrepancy or difference, the English version will take precedence over any translation.</p>
-        </header>
+  <!-- ====== MAIN CONTENT ====== -->
+  <main id="main-content" class="page-main" role="main">
+    <article class="privacy-article container">
 
-        <section>
-            <h2>Introduction</h2>
-            <p>At Swarize, we value the trust you place in us and recognize the importance of secure transactions and information privacy. 
-               This Privacy Policy outlines how Swarize collects, uses, shares, and processes your personal data through the Swarize website 
-               (<a href="https://swarize.in">www.swarize.in</a>).</p>
-            <p>By accessing or using our Platform, you agree to the terms outlined in this Privacy Policy. If you do not agree, please refrain from using our Platform.</p>
-            <p>Swarize is an online E-commerce platform that enables users to buy and sell products efficiently. Please note that we do not support Cash on Delivery (COD) or Return to Origin (RTO) services. All transactions are prepaid to ensure smooth and secure operations.</p>
-        </section>
+      <header class="policy-header">
+        <h2 class="page-title">Privacy Policy</h2>
+        <p class="lead">
+          Last Revised: <time datetime="2025-03">March 2025</time>
+        </p>
+        <p class="intro">
+          At Swarize, we value the trust you place in us and recognize the importance of secure transactions and information privacy.
+          This Privacy Policy outlines how Swarize collects, uses, shares, and processes your personal data through the Swarize website
+          (<a href="https://swarize.in" rel="nofollow noopener noreferrer">www.swarize.in</a>).
+        </p>
+        <p class="notice">
+          By accessing or using our Platform, you agree to the terms outlined in this Privacy Policy. If you do not agree, please refrain from using our Platform.
+        </p>
+      </header>
 
-        <section>
-            <h2>Collection of Your Information</h2>
-            <p>When you use our Platform, we collect and store information that you provide to us. This includes:</p>
-            <ul>
-                <li><strong>Personal Information:</strong> Name, email, phone number, billing/shipping address, payment details, and account credentials.</li>
-                <li><strong>Transaction Data:</strong> Purchase history, browsing activity, and preferences.</li>
-                <li><strong>Technical Data:</strong> IP address, browser type, device details, and usage patterns.</li>
-                <li><strong>Communication Data:</strong> Messages, inquiries, feedback, and support requests.</li>
-            </ul>
-            <p>We may collect additional data when you participate in promotions, surveys, or contests.</p>
+      <!-- Quick Table of Contents (internal links) -->
+      <nav class="policy-toc" aria-label="Privacy policy sections">
+        <ul>
+          <li><a href="#collection">Collection of Information</a></li>
+          <li><a href="#use">Use of Information</a></li>
+          <li><a href="#cookies">Cookies & Tracking</a></li>
+          <li><a href="#sharing">Sharing Personal Data</a></li>
+          <li><a href="#seller-profit">Seller's Margin & Profit</a></li>
+          <li><a href="#security">Security Measures</a></li>
+          <li><a href="#rights">Your Rights</a></li>
+          <li><a href="#children">Children’s Privacy</a></li>
+          <li><a href="#retention">Data Retention</a></li>
+          <li><a href="#changes">Changes to this Policy</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </nav>
 
-        </section>
+      <!-- Sections -->
+      <section id="collection" class="policy-section">
+        <h3>Collection of Your Information</h3>
+        <p>When you use our Platform, we collect and store information that you provide to us. This includes:</p>
+        <ul>
+          <li><strong>Personal Information:</strong> Name, email, phone number, billing/shipping address, payment details, and account credentials.</li>
+          <li><strong>Transaction Data:</strong> Purchase history, browsing activity, and preferences.</li>
+          <li><strong>Technical Data:</strong> IP address, browser type, device details, and usage patterns.</li>
+          <li><strong>Communication Data:</strong> Messages, inquiries, feedback, and support requests.</li>
+        </ul>
+        <p>We may collect additional data when you participate in promotions, surveys, or contests.</p>
+      </section>
 
-        <section>
-            <h2>Use of Your Information</h2>
-            <p>We use your data for the following purposes:</p>
-            <ul>
-                <li>To process orders, payments, and deliveries.</li>
-                <li>To improve user experience and provide customer support.</li>
-                <li>To personalize content, offers, and recommendations.</li>
-                <li>To send marketing communications (with an option to opt-out).</li>
-                <li>To detect fraud, ensure security, and comply with legal requirements.</li>
-            </ul>
-        </section>
+      <section id="use" class="policy-section">
+        <h3>Use of Your Information</h3>
+        <p>We use your data for the following purposes:</p>
+        <ul>
+          <li>To process orders, payments, and deliveries.</li>
+          <li>To improve user experience and provide customer support.</li>
+          <li>To personalize content, offers, and recommendations.</li>
+          <li>To send marketing communications (with an option to opt-out).</li>
+          <li>To detect fraud, ensure security, and comply with legal requirements.</li>
+        </ul>
+      </section>
 
-        <section>
-            <h2>Cookies and Tracking Technologies</h2>
-            <p>We use cookies and similar technologies to enhance your browsing experience by:</p>
-            <ul>
-                <li>Recognizing returning users.</li>
-                <li>Storing preferences for future visits.</li>
-                <li>Analyzing site traffic and user behavior.</li>
-            </ul>
-            <p>You can manage cookie preferences through your browser settings.</p>
-        </section>
+      <section id="cookies" class="policy-section">
+        <h3>Cookies and Tracking Technologies</h3>
+        <p>We use cookies and similar technologies to enhance your browsing experience by:</p>
+        <ul>
+          <li>Recognizing returning users.</li>
+          <li>Storing preferences for future visits.</li>
+          <li>Analyzing site traffic and user behavior.</li>
+        </ul>
+        <p>You can manage cookie preferences through your browser settings. For details on the specific cookies we use, refer to our cookie policy (if available).</p>
+      </section>
 
-        <section>
-            <h2>Sharing of Personal Data</h2>
-            <p>We may share your data with third parties in limited and necessary circumstances to ensure the smooth functioning of our e-commerce platform. This includes:</p>
-            <ul>
-                <li><strong>Third-Party Service Providers:</strong> We may share your personal data with payment gateways, logistics providers, and customer support services to process payments, fulfill orders, and handle customer queries efficiently. These partners are required to maintain confidentiality and use the data strictly for the intended purpose.</li>
-                <li><strong>Business Affiliates for Advertising & Promotions:</strong>Swarize may collaborate with trusted business affiliates to offer targeted promotions, advertisements, and discounts based on your purchase history and browsing behavior. This allows us to provide personalized marketing content and enhance your shopping experience.</li>
-                <li><strong>Legal authorities</strong> We may disclose personal data when required by law, such as to comply with a legal obligation, court order, or government request. This includes fraud prevention, investigations, and ensuring compliance with legal and regulatory frameworks.</li>
-            </ul>
-            <p>We do not sell, trade, or rent your personal data to third parties for independent commercial purposes. Any sharing of data is conducted with strict security measures to protect your privacy.</p>
-        </section>
+      <section id="sharing" class="policy-section">
+        <h3>Sharing of Personal Data</h3>
+        <p>We may share your data with third parties in limited and necessary circumstances to ensure the smooth functioning of our e-commerce platform. This includes:</p>
+        <ul>
+          <li><strong>Third-Party Service Providers:</strong> Payment gateways, logistics providers, and customer support services to process payments, fulfill orders, and handle queries. These partners are required to maintain confidentiality and use the data strictly for the intended purpose.</li>
+          <li><strong>Business Affiliates for Advertising & Promotions:</strong> Trusted affiliates to offer targeted promotions, advertisements, and discounts based on your purchase history and browsing behavior.</li>
+          <li><strong>Legal Authorities:</strong> We may disclose personal data when required by law (court order, government request) for fraud prevention or legal compliance.</li>
+        </ul>
+        <p>We do not sell, trade, or rent your personal data to third parties for independent commercial purposes. Any sharing of data is conducted with strict security measures to protect your privacy.</p>
+      </section>
 
+      <section id="seller-profit" class="policy-section">
+        <h3>Seller’s Margin & Profit Calculation</h3>
+        <p>At <strong>Swarize</strong>, sellers have two common ways to sell and earn. Below we explain the 'Selling Your Own Products' flow and show an example.</p>
 
-        <section class="seller-profit">
-            <h2>Seller’s Margin & Profit Calculation</h2>
-            <p>At <strong>Swarize</strong>, sellers have two ways to sell and earn:</p>
-        
-            <h3>Selling Your Own Products</h3>
-            <p>If you have your own products, Swarize will handle the shipping. Your earnings are calculated as follows:</p>
-            <ul>
-                <li><strong>Selling Price:</strong> You set the price considering shipping and platform fees.</li>
-                <li><strong>Platform Fee:</strong> A commission of approximately 5-15% is deducted per sale.</li>
-                <li><strong>Shipping Fee:</strong> Swarize deducts delivery charges based on location & weight.</li>
-                <li><strong>Final Profit:</strong> You receive the remaining amount after deductions.</li>
-            </ul>
-        
-            <h4>Example Profit Calculation (Own Product)</h4>
-            <table>
-                <tr><th>Item</th><th>Amount (₹)</th></tr>
-                <tr><td><strong>Selling Price</strong></td><td>₹2,000</td></tr>
-                <tr><td>Platform Fee (6%)</td><td>₹120</td></tr>
-                <tr><td>Shipping Fee</td><td>₹130</td></tr>
-                <tr><td><strong>Final Profit</strong></td><td><strong>₹1,750</strong></td></tr>
-            </table>
-        
-            
-        
-            <h3>Important Seller Guidelines</h3>
-            <ul>
-                <li>Sellers can list their own products through Swarize.</li>
-                <li>Ensure your listed products are available for purchase.</li>
-                <li>Price products smartly to cover costs and maximize earnings.</li>
-            </ul>
-        
-            <h3>💡 Keep Selling & Grow Your Business!</h3>
-            <p>Every order you place brings you one step closer to success! With Swarize, you can build a profitable online store and grow your startup effortlessly. Stay active, sell more, and watch your business thrive! </p>
-        </section>
-        
+        <h4>Selling Your Own Products</h4>
+        <p>If you have your own products, Swarize will handle the shipping. Your earnings are calculated as follows:</p>
+        <ul>
+          <li><strong>Selling Price:</strong> You set the price considering shipping and platform fees.</li>
+          <li><strong>Platform Fee:</strong> A commission of approximately 5–15% is deducted per sale.</li>
+          <li><strong>Shipping Fee:</strong> Swarize deducts delivery charges based on location & weight.</li>
+          <li><strong>Final Profit:</strong> You receive the remaining amount after deductions.</li>
+        </ul>
 
+        <h4>Example Profit Calculation (Own Product)</h4>
+        <div class="table-wrap">
+          <table class="example-table" aria-label="Profit calculation example">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Amount (₹)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Selling Price</strong></td><td>₹2,000</td></tr>
+              <tr><td>Platform Fee (6%)</td><td>₹120</td></tr>
+              <tr><td>Shipping Fee</td><td>₹130</td></tr>
+              <tr><td><strong>Final Profit</strong></td><td><strong>₹1,750</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
 
+        <h4>Important Seller Guidelines</h4>
+        <ul>
+          <li>Sellers can list their own products through Swarize.</li>
+          <li>Ensure your listed products are available and accurately described.</li>
+          <li>Price products smartly to cover costs and maximize earnings.</li>
+        </ul>
 
+        <p><strong>Tip:</strong> Keep shipping & platform fees in mind while setting prices to avoid negative margins.</p>
+      </section>
 
-        <section>
-            <h2>Security Measures</h2>
-            <p>At Swarize, we prioritize the security of our users’ personal and financial information. To ensure safe transactions, all payments are processed through trusted and encrypted payment gateways like Razorpay. Since we do not support Cash on Delivery (COD), all transactions are prepaid, significantly reducing the risk of fraudulent activities. Additionally, we do not store card details on our servers, ensuring that sensitive payment information remains protected.</p>
-            <p>We use SSL (Secure Sockets Layer) encryption to safeguard data during transmission, preventing unauthorized access. User information, including passwords and personal details, is securely stored using encryption techniques. To further enhance security, we encourage users to create strong passwords and avoid sharing their login credentials. In the future, we may introduce multi-factor authentication (MFA) for added protection.</p>
-            <p>To prevent fraudulent transactions, Swarize implements automated fraud detection systems that identify suspicious activities. Orders flagged for unusual behavior may require additional verification before processing. Personal data is stored in secured databases with restricted access, ensuring that sensitive information is never shared with third parties except for authorized payment processors. Additionally, we verify sellers before allowing them to list products on our platform, reducing the chances of scams or counterfeit products.</p>
-            <p>By implementing these security measures, Swarize ensures a safe, reliable, and trustworthy platform for both buyers and sellers. Protecting user data and transactions is our top priority, and we continuously enhance our security framework to provide a seamless shopping and reselling experience.</p>
+      <section id="security" class="policy-section">
+        <h3>Security Measures</h3>
+        <p>At Swarize, we prioritize the security of our users’ personal and financial information. To ensure safe transactions:</p>
+        <ul>
+          <li>All payments are processed through trusted, encrypted gateways (e.g., Razorpay).</li>
+          <li>We do not support Cash on Delivery (COD) to reduce fraud risk; transactions are prepaid.</li>
+          <li>We do not store card details on our servers — sensitive payment information is handled by payment partners.</li>
+          <li>We use SSL/TLS encryption to protect data in transit and encryption techniques for stored sensitive data.</li>
+          <li>Automated fraud detection systems monitor suspicious activity; some orders may require additional verification.</li>
+        </ul>
+        <p>We continually enhance our security posture and may introduce options like multi-factor authentication (MFA) in the future.</p>
+      </section>
 
-    </section>
+      <section id="rights" class="policy-section">
+        <h3>Your Rights</h3>
+        <p>As a user, you have certain rights regarding your personal data. These include:</p>
+        <ul>
+          <li><strong>Access:</strong> You can request and access the personal information associated with your account (name, email, contact, addresses).</li>
+          <li><strong>Correction:</strong> Update incorrect or outdated information via your account settings or by contacting support.</li>
+          <li><strong>Deletion:</strong> Request deletion of personal data where permitted; certain records may be retained for legal or tax reasons.</li>
+          <li><strong>Opt-Out:</strong> Withdraw consent for marketing communications anytime.</li>
+        </ul>
+        <p>To exercise these rights, contact our support at <a href="mailto:swarize4@gmail.com">swarize4@gmail.com</a>.</p>
+      </section>
 
-        <section>
-            <h2>Your Rights</h2>
-            <p>At Swarize, we believe in transparency and giving our users control over their personal data. As a user of our platform, you have specific rights regarding your information, ensuring that your privacy and preferences are always respected:</p>
-            <ul>
-                <li>You have the right to access the personal information associated with your Swarize account. This includes details such as your name, email address, contact number, and billing or shipping addresses. If any of your information is incorrect, outdated, or incomplete, you can update it through your account settings. Keeping your details accurate ensures smooth transactions, timely deliveries, and a seamless shopping experience. If you require assistance in modifying your data, you can contact our support team.</li>
-                <li>You may request the deletion of your personal data if you no longer wish to use our services. However, please note that certain information may be retained for legal, regulatory, or security reasons, such as records of past transactions, tax purposes, or fraud prevention. If your data is eligible for deletion, we will process your request and remove all personally identifiable information from our active databases. Some anonymized data may be retained for research and analytical purposes, but it will not be linked to you in any way.</li>
-                <li>Swarize occasionally sends promotional emails, special offers, and important updates related to our platform. If you no longer wish to receive marketing communications, you have the right to withdraw your consent at any time.</li>
-            </ul>
-            <p>To exercise any of these rights or if you have concerns regarding your personal data, please reach out to our support team at <a href="mailto:swarize4@gmail.com">swarize4@gmail.com</a>. Our team is dedicated to ensuring that your rights are upheld and that your data is handled securely and responsibly.</a>.</p>
-        </section>
+      <section id="children" class="policy-section">
+        <h3>Children’s Privacy</h3>
+        <p>Swarize is intended for users aged 18+. We do not knowingly collect personal data from children under 18. If you believe a minor has provided personal information, contact us and we will take steps to remove it.</p>
+      </section>
 
-        <section>
-            <h2>Children’s Privacy</h2>
-            <p>At Swarize, we prioritize the safety and privacy of all our users, including minors. Our platform is designed exclusively for individuals aged 18 years and above, and we do not knowingly collect, store, or process personal data from children under this age. If you are a parent or guardian and believe that a child under 18 has provided personal information on our platform, we urge you to contact us immediately. Upon verification, we will take prompt action to remove the data and prevent any further collection. Ensuring a safe and responsible online environment is one of our core commitments.</p>
-        </section>
+      <section id="retention" class="policy-section">
+        <h3>Data Retention</h3>
+        <p>We retain data only as long as necessary to fulfill the purposes described (order processing, support, legal obligations). Afterward, we securely delete or anonymize personal data. Transaction history may be retained longer for legal or tax compliance.</p>
+      </section>
 
-        <section>
-            <h2>Data Retention</h2>
-            <p>We retain personal data only for as long as it is necessary to fulfill the purposes outlined in this Privacy Policy. This includes processing orders, providing customer support, improving user experience, and complying with legal obligations. Once the data is no longer needed, we securely delete or anonymize it to prevent identification. Certain records, such as transaction history, may be retained for tax, legal, or fraud prevention purposes, even after an account is deactivated. Additionally, we may store anonymized or aggregated data for research and analytics, which helps us improve our services while ensuring that no personally identifiable information is linked to any user.</p>
-        </section>
+      <section id="changes" class="policy-section">
+        <h3>Changes to this Policy</h3>
+        <p>We may update this Privacy Policy periodically. When changes occur, we will publish the revised policy with an updated "Last Revised" date. Significant changes affecting data use will be communicated to users via email or site notice.</p>
+      </section>
 
-        <section>
-            <h2>Changes to this Policy</h2>
-            <p>To stay aligned with evolving laws, industry standards, and business practices, we may periodically update this Privacy Policy. Whenever changes are made, we will post the revised version on this page with an updated "Last Revised" date to keep users informed. In cases where significant modifications affect how we handle your data, we may provide additional notifications, such as sending an email or displaying a notice on our platform. We encourage you to review this policy regularly to stay informed about how we protect your privacy. Your continued use of our platform after updates to this policy indicates your acceptance of the revised terms.</p>
-        </section>
+      <section id="contact" class="policy-section">
+        <h3>Contact Us</h3>
+        <p>For questions about this policy or to exercise your data rights, contact:</p>
+        <ul>
+          <li><strong>Email:</strong> <a href="mailto:swarize4@gmail.com">swarize4@gmail.com</a></li>
+          <li><strong>Address:</strong> Swarize, Nashik, Maharashtra, India</li>
+        </ul>
+      </section>
 
-        <section>
-            <h2>Contact Us</h2>
-            <p>We value your privacy and are committed to addressing any questions or concerns you may have regarding this Privacy Policy. If you require clarification, need assistance with your personal data, or wish to exercise your rights, please do not hesitate to reach out to us:</p>
-            <ul>
-                <li><strong>Email:</strong> <a href="mailto:swarize4@gmail.com">swarize4@gmail.com</a></li>
-                <li><strong>Address:</strong> Swarize, Nashik, Maharashtra , India.</li>
-            </ul>
-        </section>
+      <footer class="policy-footer">
+        <p>Last Revised: <time datetime="2025-03">March 2025</time></p>
+      </footer>
 
-        <footer>
-            <p>Last Revised: [March 2025]</p>
-        </footer>
+    </article>
+  </main>
+
+  <!-- ====== SITE FOOTER ====== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner container">
+      <div class="footer-left">
+        <img src="./images/logo.png" alt="Swarize Logo" class="footer-logo" />
+        <p class="footer-tagline">Empowering Indian Businesses. Elevating Every Shopper.</p>
+      </div>
+      <div class="footer-right">
+        <p>© 2025 SWARIZE. All Rights Reserved.</p>
+      </div>
     </div>
-    <footer class="footer">
-        <p>&copy; 2025 Swarize. All Rights Reserved.</p>
-    </footer>
+  </footer>
+
+  <!-- Minimal inline script to handle anchor focus for accessibility (no external JS required) -->
+  <script>
+    // Ensure focus moves to the section when clicking TOC links for keyboard users
+    document.querySelectorAll('.policy-toc a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          window.setTimeout(() => el.setAttribute('tabindex', '-1') , 0);
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>

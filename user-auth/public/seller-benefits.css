@@ -1,358 +1,144 @@
-/* Global Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+/* GLOBAL DARK THEME */
+:root {
+  --bg: #0b0c0f;
+  --panel: #111418;
+  --text: #e6eef8;
+  --muted: #9aa6b2;
+  --accent: #38bdf8;
+  --accent-light: #7dd3fc;
+  --radius: 14px;
 }
 
 body {
-    background-color: #FFF5F7;
-    color: #2A2B2D;
-    line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: "Poppins", sans-serif;
 }
 
-/* Main Container */
-main {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(42, 43, 45, 0.1);
-}
-
-/* Section Titles */
-h2 {
-    color: #2A2B2D;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-/* Intro Section */
-.intro {
-    text-align: center;
-    padding: 20px;
-    background: #FFF5F7;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-/* Benefits Section */
-.benefits {
-    padding: 20px;
-}
-
-.benefit-box {
-    background: #FFF5F7;
-    padding: 15px;
-    border-left: 5px solid #2A2B2D;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    box-shadow: 2px 2px 10px rgba(42, 43, 45, 0.1);
-    transition: background 0.3s ease-in-out;
-}
-
-.benefit-box:hover {
-    background: #FEE9EC;
-}
-
-.benefit-box h3 {
-    color: #2A2B2D;
-}
-
-/* Seller Profit Section */
-.seller-profit {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(42, 43, 45, 0.1);
-    margin-top: 20px;
-}
-
-.seller-profit ul {
-    list-style: none;
-    padding: 10px;
-}
-
-.seller-profit ul li {
-    background: #FFF5F7;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background: #FFF5F7;
-}
-
-table th, table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-table th {
-    background: #2A2B2D;
-    color: #FFF5F7;
-}
-
-/* How to Sell Section */
-.how-to-sell {
-    text-align: center;
-    padding: 20px;
-    background: #FFF5F7;
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-.how-to-sell ol {
-    text-align: left;
-    margin: 15px auto;
-    max-width: 600px;
-}
-
-.how-to-sell li {
-    background: #ffffff;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-left: 5px solid #2A2B2D;
-    border-radius: 5px;
-}
-
-.sell-button {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background: #2A2B2D;
-    color: #FFF5F7;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-.sell-button:hover {
-    background: #FCA17D;
-    color: #2A2B2D;
-}
-
-/* Navbar */
+/* NAVBAR */
 .navbar {
-    background-color:  #2A2B2D;
-    display: flex;
-    width: 100%;
-    max-width: 1520px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    height: 90px;
-    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
-    margin: 0 auto;
+  background: #0b0d10;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .navbar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+  max-width: 1300px;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-family: "Vollkorn", serif;
+  font-weight: 700;
 }
 
 .navbar-title {
-    font-size: 32px;
-    font-weight: bold;
-    color:  #FFF5F7;
-    flex-grow: 1;
-    text-align: center;
+  font-size: 1.2rem;
+  color: var(--muted);
+  font-weight: 600;
 }
 
+/* SECTIONS */
+main {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h2 {
+  color: var(--accent-light);
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+}
+
+.intro p {
+  margin-bottom: 25px;
+  color: var(--muted);
+}
+
+/* BENEFIT BOXES */
+.benefits .benefit-box {
+  background: var(--panel);
+  padding: 18px;
+  border-radius: var(--radius);
+  margin: 15px 0;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.benefit-box h3 {
+  margin: 0 0 8px;
+  color: var(--accent);
+}
+
+/* PROFIT TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: var(--panel);
+  border-radius: var(--radius);
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #222;
+}
+
+th {
+  text-align: left;
+  color: var(--accent);
+}
+
+/* HOW TO SELL */
+.how-to-sell ol {
+  padding-left: 20px;
+}
+
+.sell-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: var(--accent);
+  color: #000;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sell-button:hover {
+  background: var(--accent-light);
+}
+
+/* FOOTER */
 .footer {
-    background-color:  #2A2B2D;
-    text-align: center;
-    padding: 15px;
-    width: 100%;
-    margin-top: 40px;
-    color: #FFF5F7;
-    font-size: 16px;
-    font-weight: bold;
+  background: #0b0d10;
+  text-align: center;
+  padding: 15px;
+  color: var(--muted);
+  margin-top: 40px;
 }
 
-/* Logo Styling */
-.logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #FFF5F7;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-text {
-    font-size: 50px;
-    font-weight: 600;
-    color:  #2A2B2D;
-    font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
-}
-
-.logo-link {
-    text-decoration: none;
-}
-
-/* --- Custom Animated Back Button --- */
-.back-button {
-    display: block;
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    width: 56px;
-    height: 56px;
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
-    overflow: hidden;
-    outline: none;
-}
-
-.back-button:before,
-.back-button:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    inset: 7px;
-}
-
-.back-button:before {
-    border: 4px solid #2A2B2D;
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.back-button:after {
-    border: 4px solid #2A2B2D;
-    transform: scale(1.3);
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.back-button:hover:before {
-    opacity: 0;
-    transform: scale(0.7);
-}
-
-.back-button:hover:after {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.button-box {
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.button-elem {
-    display: block;
-    width: 20px;
-    height: 20px;
-    margin: 17px 18px 0 18px;
-    transform: rotate(180deg);
-    fill: #4A403A;
-}
-
-.back-button:hover .button-box {
-    transition: 0.4s;
-    transform: translateX(-56px);
-}
-
-/* Responsive Adjustments */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        width: 100%;
-        height: auto;
-        padding: 10px;
-        align-items: flex-start;
-    }
-
-    .logo-container {
-        width: 45px;
-        height: 45px;
-    }
-
-    .logo-text {
-        font-size: 30px;
-    }
-
-    .navbar-title {
-        font-size: 20px;
-        text-align: center;
-        margin-top: 8px;
-        width: 100%;
-    }
-
-    .footer {
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .back-button {
-        top: 80px;
-        left: 10px;
-        width: 50px;
-        height: 50px;
-    }
-
-    .button-elem {
-        margin: 15px;
-        width: 18px;
-        height: 18px;
-    }
-
-    body {
-        padding: 0 10px;
-    }
-
-    main {
-        margin: 20px 0;
-        padding: 15px 10px;
-        width: 100%;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    .intro,
-    .benefits,
-    .seller-profit,
-    .how-to-sell {
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-
-    .benefit-box,
-    .seller-profit ul li,
-    .how-to-sell li {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    .sell-button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    table {
-        font-size: 13px;
-        display: block;
-        overflow-x: auto;
-        width: 100%;
-    }
+  .navbar-title { font-size: 1rem; }
+  .brand-name { font-size: 1.2rem; }
 }

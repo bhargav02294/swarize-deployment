@@ -56,41 +56,53 @@
       
 <body>
 
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
-            </div>
-            <h1 class="navbar-title">Contact us</h1>
-        </div>
-    </nav>
     
-   
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar">
+    <div class="navbar-container">
 
-    <section class="container">
-        <h2>Get in Touch</h2>
-        <p>If you have any inquiries or need support, feel free to reach out to us.</p>
+      <div class="logo-container">
+        <a href="index.html" class="logo-link">
+          <img src="./images/logo.png" class="logo-img" alt="Swarize Logo" />
+        </a>
+      </div>
 
-        <form id="contactForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" required>
+      <h1 class="navbar-title">Contact Us</h1>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" required>
+    </div>
+  </nav>
 
-            <label for="message">Message:</label>
-            <textarea id="message" required></textarea>
 
-            <button type="submit">Send Message</button>
-            <p id="responseMessage"></p>
-        </form>
-    </section>
+  <!-- ===================== CONTACT SECTION ===================== -->
+  <section class="contact-section">
 
-    <footer class="footer">
-        <p>&copy; 2025 Swarize. All Rights Reserved.</p>
-    </footer>
+    <div class="contact-header">
+      <h2>Get in Touch</h2>
+      <p>Need help? Have questions? We're here for you.</p>
+    </div>
+
+    <form id="contactForm" class="contact-form">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" placeholder="Enter your full name" required>
+
+      <label for="email">Your Email</label>
+      <input type="email" id="email" placeholder="Enter your email address" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" placeholder="Type your message here..." required></textarea>
+
+      <button type="submit" class="submit-btn">Send Message</button>
+
+      <p id="responseMessage"></p>
+    </form>
+
+  </section>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <p>© 2025 Swarize. All Rights Reserved.</p>
+  </footer>
 
     <script src="contact.js"></script>
 </body>

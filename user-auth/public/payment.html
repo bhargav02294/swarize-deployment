@@ -42,29 +42,54 @@
     
 <body>
 
-    <div class="payment-container">
-        <h2>Payment Summary</h2>
-        <p><strong>Product:</strong> <span id="product-name"></span></p>
-        <p><strong>Price:</strong> ₹<span id="product-price"></span></p>
+     <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar">
+    <div class="navbar-container">
 
-     
-        <div class="promo-section">
-            <label for="promo-code">Enter Promo Code:</label>
-            <input type="text" id="promo-code" placeholder="Enter promo code">
-            <button id="apply-promo-btn">Apply Promo Code</button>
-            <p id="promo-message"></p>
-        </div>
-        
-        <h3>Final Price: <span id="final-price"></span></h3>
-        
-        
+      <div class="logo-container">
+        <a href="index.html" class="logo-link">
+          <img src="./images/logo.png" class="logo-img" alt="Swarize Logo">
+        </a>
+        <span class="brand-name">SWARIZE</span>
+      </div>
 
-        <div id="message"></div>
-        <div id="payment-buttons">
-            <button id="pay-now-btn" class="hidden">Pay Now</button>
-            <button id="add-bank-btn" class="hidden" onclick="window.location.href='bank-details.html'">Add Bank Details</button>
-        </div>
+      <h1 class="navbar-title">Payment</h1>
     </div>
+  </nav>
+
+
+  <!-- ===================== PAYMENT BOX ===================== -->
+  <div class="payment-wrapper">
+    <div class="payment-box">
+
+      <h2>Payment Summary</h2>
+
+      <p class="info"><strong>Product:</strong> <span id="product-name"></span></p>
+      <p class="info"><strong>Price:</strong> ₹<span id="product-price"></span></p>
+
+      <!-- Promo Section -->
+      <div class="promo-section">
+        <label>Apply Promo Code</label>
+        <div class="promo-input-area">
+          <input type="text" id="promo-code" placeholder="Enter promo code">
+          <button id="apply-promo-btn" class="btn primary">Apply</button>
+        </div>
+        <p id="promo-message"></p>
+      </div>
+
+      <h3 class="final-price">Final Price: ₹<span id="final-price"></span></h3>
+
+      <div id="message"></div>
+
+      <div class="payment-btns">
+        <button id="pay-now-btn" class="btn success hidden">Pay Now</button>
+        <button id="add-bank-btn" class="btn secondary hidden" onclick="window.location.href='bank-details.html'">
+          Add Bank Details
+        </button>
+      </div>
+
+    </div>
+  </div>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="payment.js"></script>

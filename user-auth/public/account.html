@@ -5,31 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Save Bank Details | swarize</title>
   <link rel="stylesheet" href="/bank-details.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Vollkorn:wght@500;600&display=swap" rel="stylesheet">
+
 </head>
 <body>
-  <div class="bank-details-container">
-    <h2>Save Your Bank Details</h2>
-    <form id="bank-details-form">
-      <div class="form-group">
-        <label for="bankName">Bank Name:</label>
-        <input type="text" id="bankName" name="bankName" placeholder="Enter your bank name" required />
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="navbar-container">
+
+        <!-- Logo + Brand -->
+        <div class="brand-wrapper">
+          <div class="logo-container">
+            <img src="./images/logo.png" alt="Swarize Logo" class="logo-img">
+          </div>
+          <div class="brand-name">swarize</div>
+        </div>
+
+        <h1 class="navbar-title">Bank Details</h1>
       </div>
-      <div class="form-group">
-        <label for="accountHolder">Account Holder Name:</label>
-        <input type="text" id="accountHolder" name="accountHolder" placeholder="As per bank passbook" required />
-      </div>
-      <div class="form-group">
-        <label for="accountNumber">Account Number:</label>
-        <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter your account number" required />
-      </div>
-      <div class="form-group">
-        <label for="ifscCode">IFSC Code:</label>
-        <input type="text" id="ifscCode" name="ifscCode" placeholder="Enter IFSC code" required />
-      </div>
-      <button type="submit" class="save-btn">Save Details</button>
-    </form>
-    <div id="message"></div>
-  </div>
+    </nav>
+
+
+
+    <!-- MAIN FORM SECTION -->
+    <div class="bank-details-container">
+      <h2>Save Your Bank Details</h2>
+
+      <form id="bank-details-form">
+        <div class="form-group">
+          <label for="bankName">Bank Name</label>
+          <input type="text" id="bankName" placeholder="Enter your bank name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="accountHolder">Account Holder Name</label>
+          <input type="text" id="accountHolder" placeholder="As per bank passbook" required />
+        </div>
+
+        <div class="form-group">
+          <label for="accountNumber">Account Number</label>
+          <input type="text" id="accountNumber" placeholder="Enter your account number" required />
+        </div>
+
+        <div class="form-group">
+          <label for="ifscCode">IFSC Code</label>
+          <input type="text" id="ifscCode" placeholder="Enter IFSC code" required />
+        </div>
+
+        <button type="submit" class="save-btn">Save Details</button>
+      </form>
+
+      <div id="message"></div>
+    </div>
   <script src="bank-details.js"></script>
 </body>
 </html>

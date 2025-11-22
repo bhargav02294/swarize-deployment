@@ -18,47 +18,60 @@
   </head>
 <body>
 
+  <!-- ===================== NAVBAR ===================== -->
   <nav class="navbar">
     <div class="navbar-container">
-        <div class="logo-container">
-            <a href="index.html" class="logo-link">
-            <span class="logo-text">S</span> <!-- Swarize logo -->
-            </a>
-        </div>
-        <h1 class="navbar-title">Bank details</h1>
+
+      <div class="logo-container">
+        <a href="index.html" class="logo-link">
+            <img src="./images/logo.png" class="logo-img" alt="Swarize Logo">
+        </a>
+      </div>
+
+      <h1 class="navbar-title">Bank Details</h1>
     </div>
-</nav>
+  </nav>
 
 
 
 
+  <!-- ===================== FORM CONTAINER ===================== -->
   <div class="bank-details-container">
     <h2>Save Your Bank Details</h2>
+
     <form id="bank-details-form">
+      
       <div class="form-group">
-        <label for="bankName">Bank Name:</label>
-        <input type="text" id="bankName" name="bankName" placeholder="Enter your bank name" required />
+        <label for="bankName">Bank Name</label>
+        <input type="text" id="bankName" placeholder="Enter your bank name" required />
       </div>
+
       <div class="form-group">
-        <label for="accountHolder">Account Holder Name:</label>
-        <input type="text" id="accountHolder" name="accountHolder" placeholder="As per passbook" required />
+        <label for="accountHolder">Account Holder Name</label>
+        <input type="text" id="accountHolder" placeholder="As per passbook" required />
       </div>
+
       <div class="form-group">
-        <label for="accountNumber">Account Number:</label>
-        <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter your account number" required />
+        <label for="accountNumber">Account Number</label>
+        <input type="text" id="accountNumber" placeholder="Enter your account number" required />
       </div>
+
       <div class="form-group">
-        <label for="ifscCode">IFSC Code:</label>
-        <input type="text" id="ifscCode" name="ifscCode" placeholder="Enter IFSC code" required />
+        <label for="ifscCode">IFSC Code</label>
+        <input type="text" id="ifscCode" placeholder="Enter IFSC code" required />
       </div>
+
       <button type="submit" class="save-btn">Save Details</button>
     </form>
+
     <div id="message"></div>
   </div>
 
+
+  <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
-    <p>&copy; 2025 Swarize. All rights reserved.</p>
-</footer>
+    <p>© 2025 Swarize. All rights reserved.</p>
+  </footer>
   <script src="bank-details.js"></script>
 </body>
 </html>

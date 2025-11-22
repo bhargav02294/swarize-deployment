@@ -52,82 +52,80 @@
       
 <body>
 
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
-            </div>
-            <h1 class="navbar-title">Security</h1>
-        </div>
-    </nav>
-    
-    
+    <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="brand-left">
+        <a href="index.html" class="logo-link">
+          <img src="./images/logo.png" class="logo-img" alt="Swarize Logo">
+        </a>
+        <span class="brand-name">swarize</span>
+      </div>
+      <h1 class="navbar-title">Security</h1>
+    </div>
+  </nav>
 
+  <!-- MAIN CONTENT -->
+  <section class="container">
+    <h2>Your Security at Swarize</h2>
+    <p>Your safety is our priority. Swarize uses secure systems to protect your account, data, and financial information.</p>
 
-    
+    <h2>🔐 Password Security & Account Protection</h2>
+    <ul>
+      <li><strong>OTP-Based Password Reset:</strong> Reset your password safely via email OTP.</li>
+      <li><strong>Encrypted Payments:</strong> All transactions are processed using secure gateways.</li>
+      <li><strong>Login Alerts:</strong> Get notified of suspicious login attempts.</li>
+    </ul>
 
-    <section class="container">
-        <h2>Your Security at Swarize</h2>
-        <p>At Swarize, we take security seriously. We ensure that all transactions, account activities, and personal data remain safe and protected.</p>
+    <h2>⚠️ Security Alerts</h2>
+    <p>You will be alerted if we detect:</p>
+    <ul>
+      <li>Unusual login activity</li>
+      <li>Multiple failed login attempts</li>
+      <li>Password or email changes</li>
+    </ul>
 
-        <h2>🔹 Password Security & Account Protection</h2>
-        <ul>
-            <li><strong>Password Change:</strong> You can reset your password anytime using our <strong>email OTP verification</strong> feature.</li>
-            <li><strong>Secure Transactions:</strong> All payments are encrypted to prevent fraud and unauthorized access.</li>
-            <li><strong>Email Notifications:</strong> You will receive alerts for suspicious login attempts and password changes.</li>
-        </ul>
+    <h2>📢 Report a Security Issue</h2>
+    <p>If you suspect any phishing or hacking activity:</p>
+    <ul>
+      <li><strong>Email:</strong> <a href="mailto:swarize4@gmail.com">swarize4@gmail.com</a></li>
+      <li><strong>Phone:</strong> +91 73851 84575</li>
+    </ul>
 
-        <h2>🔹 Security Alerts</h2>
-        <p>We notify you in case of:</p>
-        <ul>
-            <li>Suspicious login attempts</li>
-            <li>Multiple failed login attempts</li>
-            <li>Password or email changes on your account</li>
-        </ul>
-        <p>Check your email regularly for security alerts from Swarize.</p>
+    <h2>❓ Security FAQs</h2>
+    <div class="faq">
+      <button class="faq-question">🔹 How can I reset my password?</button>
+      <div class="faq-answer">
+        <p>Go to the reset password page, enter your email, and verify with OTP.</p>
+      </div>
 
-        <h2>🔹 Report a Security Issue</h2>
-        <p>If you encounter any security threats such as phishing attempts or account hacks, please contact us immediately:</p>
-        <ul>
-            <li>📧 <strong>Email:</strong> <a href="mailto:swarize4@gmail.com">swarize4@gmail.com</a></li>
-            <li>📞 <strong>Phone:</strong> +91 73851 84575 (10 AM - 6 PM, Mon-Sat)</li>
-        </ul>
+      <button class="faq-question">🔹 Do you support 2FA?</button>
+      <div class="faq-answer">
+        <p>Currently, we support OTP-based email verification for password resets.</p>
+      </div>
 
-        <h2>🔹 Frequently Asked Questions (FAQs)</h2>
-        <div class="faq">
-            <button class="faq-question">🔹 How can I reset my password?</button>
-            <div class="faq-answer">
-                <p>Go to the password reset page and enter your email. You'll receive an OTP to create a new password.</p>
-            </div>
+      <button class="faq-question">🔹 How do I report suspicious activity?</button>
+      <div class="faq-answer">
+        <p>Contact us immediately and forward suspicious emails to our support team.</p>
+      </div>
+    </div>
+  </section>
 
-            <button class="faq-question">🔹 Does Swarize support Two-Factor Authentication (2FA)?</button>
-            <div class="faq-answer">
-                <p>No, but we provide secure email OTP verification for password changes.</p>
-            </div>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2025 Swarize. All rights reserved.</p>
+  </footer>
 
-            <button class="faq-question">🔹 How can I report a suspicious email?</button>
-            <div class="faq-answer">
-                <p>If you receive a suspicious email claiming to be from Swarize, do not click any links. Forward the email to <a href="mailto:swarize4@gmail.com">swarize4@gmail.com</a>.</p>
-            </div>
-        </div>
-    </section>
-
-   
-
-    <script>
-        document.querySelectorAll(".faq-question").forEach(button => {
-            button.addEventListener("click", () => {
-                button.classList.toggle("active");
-                let answer = button.nextElementSibling;
-                answer.style.display = (answer.style.display === "block") ? "none" : "block";
-            });
-        });
-    </script>
-    <footer class="footer">
-        <p>&copy; 2025 Swarize. All rights reserved.</p>
-    </footer>
+  <!-- FAQ SCRIPT -->
+  <script>
+    document.querySelectorAll(".faq-question").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.classList.toggle("active");
+        const answer = btn.nextElementSibling;
+        answer.style.display = answer.style.display === "block" ? "none" : "block";
+      });
+    });
+  </script>
 
 </body>
 </html>

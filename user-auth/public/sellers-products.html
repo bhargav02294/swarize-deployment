@@ -43,35 +43,36 @@
 
   
 
- <nav class="navbar">
+
+    <!-- GLOBAL NAVBAR -->
+    <nav class="navbar">
         <div class="navbar-container">
-            <div class="logo-container">
+
+            <div class="brand-left">
                 <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
+                    <img src="./images/logo.png" class="logo-img" />
                 </a>
+                <span class="brand-name">swarize</span>
             </div>
-            <h1 class="navbar-title">Products From Sellers</h1>
+
+            <h1 class="navbar-title">Seller Products</h1>
         </div>
     </nav>
 
-    
-  <header>
-    <h1>Store Products</h1>
-    <p>Products from a specific seller</p>
-  </header>
+    <header>
+        <h1 id="storeTitle">Loading...</h1>
+        <p id="storeSubtitle">Fetching products from seller...</p>
+    </header>
 
-  <section id="products-container">
-    <a href="product-detail.html?id=${product._id}" class="view-button">View Product</a>
+    <!-- PRODUCT GRID -->
+    <section id="products-container" class="products-grid">
+        <!-- Dynamic products will render here -->
+    </section>
 
-    <!-- Dynamic products will appear here -->
-  </section>
-
-
-
-  
-<footer class="footer">
-    <p>&copy; 2025 Swarize. All rights reserved.</p>
-</footer>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2025 Swarize. All rights reserved.</p>
+    </footer>
 
   <script src="sellers-products.js"></script>
 </body>

@@ -1,288 +1,197 @@
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
+/* ==========================================================================
+   Dark Theme — Profitability Page
+   ========================================================================== */
+
+:root {
+  --bg-900: #060709;
+  --bg-800: #0b0f13;
+  --panel: #12171d;
+  --text: #e6eef8;
+  --muted: #9aa8b5;
+  --accent: #38bdf8;
+  --accent-2: #7dd3fc;
+  --radius: 14px;
 }
 
-/* Ensure all elements respect box-sizing */
-*, *::before, *::after {
-  box-sizing: inherit;
-}
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-  background: #FFF5F7;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, var(--bg-900), var(--bg-800));
+  color: var(--text);
+  line-height: 1.6;
 }
 
-h1 {
-  flex-grow: 1;
-  text-align: center;
-  color: #2A2B2D;
+/* ---------------- NAVBAR ---------------- */
+.site-header {
+  background: rgba(10, 12, 14, 0.65);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-main {
-  padding: 40px;
-  margin-top: 50px;
-}
-
-h2 {
-  color: #2A2B2D;
-}
-
-p {
-  font-size: 16px;
-  line-height: 1.5;
-  color: #2A2B2D;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-ul li {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #2A2B2D;
-}
-
-.benefits, .promotion {
-  background: white;
-  padding: 15px;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-
-.promo-box {
-  background: #FFF5F7;
-  padding: 15px;
-  margin: 10px 0;
-  border-left: 5px solid #2A2B2D;
-  border-radius: 5px;
-}
-
-.sell-button {
-  background-color: #2A2B2D;
-  color: #FFF5F7;
-  padding: 12px 20px;
-  text-decoration: none;
-  font-size: 18px;
-  border-radius: 5px;
-  display: inline-block;
-  margin-top: 10px;
-}
-
-/* Navbar */
 .navbar {
-  background-color: #2A2B2D;
-  display: flex;
-  width: 1520px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
-  height: 70px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
+  padding: 12px 18px;
 }
 
 .navbar-container {
   display: flex;
   align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.navbar-title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #FFF5F7;
-  flex-grow: 1;
-  text-align: center;
-}
-
-.footer {
-    background-color:  #2A2B2D;
-    text-align: center;
-    padding: 15px;
-    width: 100%;
-    margin-top: 40px;
-    color: #FFF5F7;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-
-/* Logo Styling */
-.logo-container {
-  width: 60px;
-  height: 60px;
-  background-color: #FFF5F7;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-text {
-  font-size: 50px;
-  font-weight: 600;
-  color: #2A2B2D;
-  font-family: 'Times New Roman';
-  display: flex;
-  align-items: center;
+  gap: 12px;
 }
 
 .logo-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   text-decoration: none;
 }
 
-/* Back Button */
-.back-button {
-  display: block;
-  position: absolute;
-  top: 100px;
-  left: 20px;
-  width: 56px;
-  height: 56px;
-  margin: 0;
-  overflow: hidden;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  border: 0;
+.logo-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: contain;
 }
 
-.back-button:before,
-.back-button:after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  inset: 7px;
+.brand-name {
+  font-family: "Vollkorn", serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.6px;
+  color: var(--text);
 }
 
-.back-button:before {
-  border: 4px solid #2A2B2D;
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+/* Page title (visible on tablet + desktop) */
+.nav-title-wrap { margin-left: auto; }
+.navbar-title {
+  color: var(--muted);
+  font-size: 1rem;
 }
 
-.back-button:after {
-  border: 4px solid #FFF5F7;
-  transform: scale(1.3);
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-  opacity: 0;
+/* ---------------- MAIN CONTENT ---------------- */
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 16px;
 }
 
-.back-button:hover:before {
-  opacity: 0;
-  transform: scale(0.7);
+.hero-box {
+  background: var(--panel);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  margin-bottom: 24px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
-.back-button:hover:after {
-  opacity: 1;
-  transform: scale(1);
+.hero-box h2 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
 }
 
-.button-box {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
+/* Card Sections */
+.section-card {
+  background: var(--panel);
+  padding: 20px;
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
-.button-elem {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: 17px 18px 0 18px;
-  transform: rotate(180deg);
-  fill: #2A2B2D;
+.section-card h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
 }
 
-.back-button:hover .button-box {
-  transition: 0.4s;
-  transform: translateX(-56px);
+.points {
+  margin-top: 10px;
+  padding-left: 20px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    padding: 10px;
-    align-items: flex-start;
-  }
+.points li {
+  margin-bottom: 10px;
+  color: var(--muted);
+}
 
-  .logo-container {
-    width: 45px;
-    height: 45px;
-    margin-left: 0;
-  }
+/* Promo Grid */
+.promo-grid {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
 
-  .logo-text {
-    font-size: 30px;
-  }
+.promo-box {
+  background: rgba(255,255,255,0.03);
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.2s ease;
+}
 
-  .navbar-title {
-    font-size: 20px;
-    text-align: center;
-    margin-top: 8px;
-    width: 100%;
-  }
+.promo-box:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
 
-  main {
-    padding: 20px 15px;
-    margin-top: 30px;
-  }
+/* CTA */
+.cta-section {
+  text-align: center;
+  margin: 40px 0;
+}
 
-  h1 {
-    font-size: 22px;
-    text-align: center;
-  }
+.sell-btn {
+  display: inline-block;
+  background: var(--accent);
+  padding: 12px 24px;
+  border-radius: 10px;
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: 0.2s;
+}
 
-  h2 {
-    font-size: 20px;
-  }
+.sell-btn:hover {
+  background: var(--accent-2);
+}
 
-  p, ul li {
-    font-size: 15px;
-  }
+/* ---------------- FOOTER ---------------- */
+.site-footer {
+  text-align: center;
+  padding: 22px;
+  margin-top: 50px;
+  background: rgba(10,12,14,0.65);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
 
-  .benefits,
-  .promotion {
-    padding: 12px;
-  }
+/* ---------------- RESPONSIVE ---------------- */
 
-  .promo-box {
-    padding: 12px;
-    margin: 8px 0;
-  }
+/* Mobile */
+@media (max-width: 640px) {
+  .logo-img { width: 40px; height: 40px; }
+  .brand-name { font-size: 1rem; }
+  .navbar-title { display: none; }
 
-  .sell-button {
-    font-size: 16px;
-    padding: 10px 16px;
-  }
+  .hero-box h2 { font-size: 1.5rem; }
 
-  .footer {
-    width: 100%;
-    padding: 12px;
-    font-size: 14px;
-  }
+  .promo-grid { grid-template-columns: 1fr; }
+}
 
-  .back-button {
-    top: 80px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
+/* Tablet */
+@media (min-width: 641px) and (max-width: 991px) {
+  .promo-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .button-elem {
-    margin: 15px 15px 0 15px;
-    width: 18px;
-    height: 18px;
+/* Desktop */
+@media (min-width: 992px) {
+  .promo-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

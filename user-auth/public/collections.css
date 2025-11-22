@@ -1,281 +1,192 @@
-/* General Styles */
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #FFF5F7;  /* Light background */
-    color: #2A2B2D;             /* Dark text */
-}
-
-/* Global Reset and Styles */
+/* ============================================================
+   GLOBAL BASE
+============================================================ */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0b0c0f;
+  color: #e5e7eb;
+  font-family: "Poppins", sans-serif;
 }
 
 
 
-/* Navbar */
-/* Navbar */
+/* ============================================================
+   NAVBAR (Dark Premium)
+============================================================ */
 .navbar {
-    background-color:  #2A2B2D;
-    display: flex;
-    width: 100%;
-    max-width: 1520px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    height: 90px;
-    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
-    margin: 0 auto;
+  width: 100%;
+  background: #0f1115;
+  padding: 18px 5%;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .navbar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container {
+  width: 58px;
+  height: 58px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-img {
+  width: 42px;
 }
 
 .navbar-title {
-    font-size: 32px;
-    font-weight: bold;
-    color:  #FFF5F7;
-    flex-grow: 1;
-    text-align: center;
-}
-
-.footer {
-    background-color:  #2A2B2D;
-    text-align: center;
-    padding: 15px;
-    width: 100%;
-    margin-top: 40px;
-    color: #FFF5F7;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* Logo Styling */
-.logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #FFF5F7;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-text {
-    font-size: 50px;
-    font-weight: 600;
-    color:  #2A2B2D;
-    font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
-}
-
-.logo-link {
-    text-decoration: none;
-}
-
-/* --- Custom Animated Back Button --- */
-.back-button {
-    display: block;
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    width: 56px;
-    height: 56px;
-    margin: 0;
-    overflow: hidden;
-    outline: none;
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
-}
-
-.back-button:before,
-.back-button:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    inset: 7px;
-}
-
-.back-button:before {
-    border: 4px solid #2A2B2D;
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.back-button:after {
-    border: 4px solid #2A2B2D;
-    transform: scale(1.3);
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-    opacity: 0;
-}
-
-.back-button:hover:before {
-    opacity: 0;
-    transform: scale(0.7);
-}
-
-.back-button:hover:after {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.button-box {
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.button-elem {
-    display: block;
-    width: 20px;
-    height: 20px;
-    margin: 17px 18px 0 18px;
-    transform: rotate(180deg);
-    fill: #2A2B2D;
-}
-
-.back-button:hover .button-box {
-    transition: 0.4s;
-    transform: translateX(-56px);
+  color: #38bdf8;
+  font-size: 1.7rem;
+  font-weight: 600;
 }
 
 
 
-
-
-
-
-
-/* Container */
-.container {
-    padding: 20px;
-    max-width: 1200px;
-    margin-top: auto;
+/* ============================================================
+   ORDERS WRAPPER
+============================================================ */
+.orders-wrapper {
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 20px;
 }
 
-/* Orders Grid */
-#orders-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-top: 100px;
+.loading-text {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  margin-top: 40px;
 }
 
-/* Order Card */
+
+
+/* ============================================================
+   ORDER CARD
+============================================================ */
 .order-card {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 22px;
+  margin-bottom: 22px;
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 26px rgba(0,0,0,0.4);
+  transition: 0.25s ease;
 }
 
 .order-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.55);
 }
 
-.order-img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-    border-radius: 10px;
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  color: #7dd3fc;
+  font-weight: 600;
 }
 
-.order-card h2 {
-    font-size: 20px;
-    margin: 12px 0;
-    color: #4A403A;
-    font-weight: 600;
+.order-info {
+  margin-bottom: 10px;
+  color: #e2e8f0;
+  font-size: 0.95rem;
 }
 
-.order-card p {
-    font-size: 15px;
-    color: #555;
-    line-height: 1.6;
+.order-info span {
+  font-weight: 600;
+  color: #38bdf8;
 }
 
-.order-status {
-    font-size: 14px;
-    font-weight: bold;
-    color: #2A2B2D;
-    background: #FFF5F7;
-    padding: 5px 12px;
-    border-radius: 20px;
-    display: inline-block;
-    margin-top: 10px;
-}
-
-.received-btn {
-    background: linear-gradient(to right, #4A403A, #8C4A32);
-    color: white;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 15px;
-    font-size: 14px;
-    font-weight: 600;
-    transition: background 0.3s, transform 0.2s;
-    display: inline-block;
-}
-
-.received-btn:hover {
-    background: linear-gradient(to right, #520101, #8C4A32);
-    transform: scale(1.05);
-}
-
-/* Responsive Styling */
-@media (max-width: 768px) {
-    .navbar {
-        padding: 10px;
-    }
-
-    .navbar-title {
-        font-size: 20px;
-    }
-
-    .logo-container {
-        width: 45px;
-        height: 45px;
-    }
-
-    .logo-text {
-        font-size: 30px;
-    }
-
-    .order-card h2 {
-        font-size: 18px;
-    }
-
-    .order-card p {
-        font-size: 14px;
-    }
-
-    .received-btn {
-        font-size: 13px;
-        padding: 8px 14px;
-    }
-
-    .footer {
-        padding: 16px;
-        font-size: 14px;
-    }
-
-    
+.status-box {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(56,189,248,0.12);
+  color: #7dd3fc;
+  width: fit-content;
+  font-weight: 600;
 }
 
 
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer {
+  width: 100%;
+  margin-top: 50px;
+  padding: 20px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+
+
+/* ============================================================
+   MOBILE RESPONSIVENESS (max-width: 600px)
+============================================================ */
+@media (max-width: 600px) {
+
+  .navbar {
+    padding: 14px;
+  }
+
+  .logo-container {
+    width: 48px;
+    height: 48px;
+  }
+
+  .logo-img {
+    width: 34px;
+  }
+
+  .navbar-title {
+    font-size: 1.4rem;
+  }
+
+  .orders-wrapper {
+    margin: 30px auto;
+    padding: 10px;
+  }
+
+  .order-card {
+    padding: 18px;
+  }
+
+  .order-header {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 1rem;
+  }
+
+  .order-info {
+    font-size: 0.9rem;
+  }
+
+  .status-box {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .footer {
+    font-size: 0.78rem;
+  }
+}

@@ -42,30 +42,38 @@
 </head>
   
 
- <nav class="navbar">
-        <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
-            </div>
-            <h1 class="navbar-title">My Store</h1>
+<!-- ⭐ GLOBAL NAVBAR ⭐ -->
+<nav class="navbar">
+    <div class="navbar-container">
+
+        <div class="brand-left">
+            <a href="index.html" class="logo-link">
+                <img src="./images/logo.png" class="logo-img" alt="Swarize Logo">
+            </a>
+            <span class="brand-name">swarize</span>
         </div>
-    </nav>
 
+        <h1 class="navbar-title">My Store</h1>
+    </div>
+</nav>
 
-<body>
-  <div id="store-container">
-    <h1 id="store-name"></h1>
-    <img id="store-logo" width="150" />
-    <p id="store-description"></p>
-    <button id="add-product-btn" onclick="window.location.href='add-product.html'">+ Add Products</button>
+<!-- MAIN STORE SECTION -->
+<div id="store-container" class="store-wrapper">
+
+    <h1 id="store-name" class="store-title"></h1>
+
+    <img id="store-logo" class="store-logo" alt="Store Logo"/>
+
+    <p id="store-description" class="store-description"></p>
+
+    <button id="add-product-btn" class="add-product-btn" onclick="window.location.href='add-product.html'">
+        + Add Product
+    </button>
 
     <div id="product-container" class="product-container"></div>
-    <div id="error-message" style="color:red;"></div>
 
-  </div>
-
+    <p id="error-message" class="error-msg"></p>
+</div>
 
 <footer class="footer">
     <p>&copy; 2025 Swarize. All rights reserved.</p>

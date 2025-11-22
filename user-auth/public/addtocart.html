@@ -21,19 +21,30 @@
     <link rel="stylesheet" href="/addtocart.css" />
   </head>
 <body>
-  <nav class="navbar">
-    <div class="navbar-container">
-      <div class="logo-container">
-        <a href="index.html" class="logo-link"><span class="logo-text">S</span></a>
-      </div>
-      <h1 class="navbar-title">Your Cart</h1>
-    </div>
-  </nav>
-
   
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-container">
 
-  <div id="cart-message"></div>
-  <div id="cart-container"></div>
+    <div class="brand-wrapper">
+      <div class="logo-container">
+        <img src="./images/logo.png" class="logo-img" alt="Swarize Logo">
+      </div>
+      <span class="brand-name">swarize</span>
+    </div>
+
+    <h1 class="navbar-title">Your Cart</h1>
+
+  </div>
+</nav>
+
+
+
+<div id="cart-message" class="cart-message"></div>
+
+<!-- CART ITEMS -->
+<div id="cart-container" class="cart-grid"></div>
+
 
   
   <script src="addtocart.js"></script>

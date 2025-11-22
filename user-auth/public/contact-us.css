@@ -1,306 +1,225 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #FFF5F7;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  color: #2A2B2D;
-}
-
-/* Reset and Global Styles */
+/* ============================================================
+   GLOBAL BASE
+============================================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Contact Section */
-.container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+body {
+  background: #0b0c0f;
+  color: #e5e7eb;
+  font-family: "Poppins", sans-serif;
+}
+
+
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+.navbar {
+  width: 100%;
+  background: #0f1115;
+  padding: 18px 5%;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-container {
+  width: 60px;
+  height: 60px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  width: 42px;
+}
+
+.navbar-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+
+
+/* ============================================================
+   CONTACT SECTION
+============================================================ */
+.contact-section {
+  max-width: 700px;
+  margin: 60px auto;
+  background: rgba(255,255,255,0.04);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.8s ease;
+}
+
+.contact-header h2 {
+  font-size: 2rem;
+  color: #7dd3fc;
   text-align: center;
 }
 
-.container h2 {
-  color: #2A2B2D;
-  margin-bottom: 10px;
+.contact-header p {
+  text-align: center;
+  color: #94a3b8;
+  margin-top: 6px;
 }
 
-.container p {
-  font-size: 16px;
-  color: #444;
-  margin-bottom: 20px;
-}
-
-/* Form Styling */
-#contactForm {
+.contact-form {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
-#contactForm label {
-  text-align: left;
-  font-weight: 600;
-  color: #2A2B2D;
+.contact-form label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #e2e8f0;
+  font-size: 0.95rem;
 }
 
-#contactForm input,
-#contactForm textarea {
-  width: 580px;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 16px;
-  background: #FFF5F7;
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #e2e8f0;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  transition: border-color 0.25s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #38bdf8;
   outline: none;
-  transition: 0.3s ease-in-out;
 }
 
-#contactForm input:focus,
-#contactForm textarea:focus {
-  border-color: #2A2B2D;
-  background: #fff;
-  box-shadow: 0 0 8px rgba(255, 107, 107, 0.3);
+.contact-form textarea {
+  min-height: 130px;
+  resize: vertical;
 }
 
-#contactForm input::placeholder,
-#contactForm textarea::placeholder {
-  color: #999;
-  font-style: italic;
-}
 
-#contactForm textarea {
-  height: 120px;
-  resize: none;
-}
 
-#contactForm button {
-  background: #2A2B2D;
-  color: #fff;
-  padding: 12px;
+/* ============================================================
+   SUBMIT BUTTON
+============================================================ */
+.submit-btn {
+  padding: 14px;
+  background: linear-gradient(90deg, #38bdf8, #7dd3fc);
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  color: #0b0c0f;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: 50px;
   cursor: pointer;
   transition: 0.3s ease;
 }
 
-#contactForm button:hover {
-  background: #2A2B2D;
+.submit-btn:hover {
+  transform: translateY(-2px);
+  background: #7dd3fc;
 }
 
-/* Response Message */
+
+
+/* ============================================================
+   RESPONSE MESSAGE
+============================================================ */
 #responseMessage {
-  margin-top: 10px;
-  font-weight: bold;
-  color: #2A2B2D;
+  margin-top: 14px;
+  text-align: center;
+  color: #7dd3fc;
 }
 
-/* Navbar */
-/* Navbar */
-.navbar {
-    background-color:  #2A2B2D;
-    display: flex;
-    width: 100%;
-    max-width: 1520px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    height: 90px;
-    box-shadow: 0 2px 5px rgba(42, 43, 45, 0.1);
-    margin: 0 auto;
-}
 
-.navbar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
-}
 
-.navbar-title {
-    font-size: 32px;
-    font-weight: bold;
-    color:  #FFF5F7;
-    flex-grow: 1;
-    text-align: center;
-}
-
+/* ============================================================
+   FOOTER
+============================================================ */
 .footer {
-    background-color:  #2A2B2D;
-    text-align: center;
-    padding: 15px;
-    width: 100%;
-    margin-top: 40px;
-    color: #FFF5F7;
-    font-size: 16px;
-    font-weight: bold;
+  margin-top: 60px;
+  padding: 20px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 
-/* Logo Styling */
-.logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #FFF5F7;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.logo-text {
-    font-size: 50px;
-    font-weight: 600;
-    color:  #2A2B2D;
-    font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
-}
 
-.logo-link {
-    text-decoration: none;
-}
 
-/* Back Button */
+/* ============================================================
+   MOBILE RESPONSIVENESS
+============================================================ */
+@media (max-width: 600px) {
 
-/* --- Custom Animated Back Button --- */
-.back-button {
-  display: block;
-  position: absolute;
-  top: 120px;
-  left: 20px;
-  width: 56px;
-  height: 56px;
-  margin: 0;
-  overflow: hidden;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  border: 0;
-}
-
-.back-button:before,
-.back-button:after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  inset: 7px;
-}
-
-.back-button:before {
-  border: 4px solid #4A403A;
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.back-button:after {
-  border: 4px solid #2A2B2D;
-  transform: scale(1.3);
-  transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-  opacity: 0;
-}
-
-.back-button:hover:before {
-  opacity: 0;
-  transform: scale(0.7);
-}
-
-.back-button:hover:after {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.button-box {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.button-elem {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: 17px 18px 0 18px;
-  transform: rotate(180deg);
-  fill: #4A403A;
-}
-
-.back-button:hover .button-box {
-  transition: 0.4s;
-  transform: translateX(-56px);
-}
-  /* Responsive Styling */
-
-/* Responsive Design */
-@media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-    align-items: flex-start;
+    padding: 14px;
   }
 
   .logo-container {
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
   }
 
-  .logo-text {
-    font-size: 30px;
+  .logo-img {
+    width: 34px;
   }
 
   .navbar-title {
-    font-size: 20px;
-    text-align: center;
-    margin-top: 8px;
-    width: 100%;
+    font-size: 1.4rem;
   }
 
-  .footer {
-    font-size: 14px;
+  .contact-section {
+    padding: 26px 18px;
+    margin: 30px auto;
+  }
+
+  .contact-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .submit-btn {
+    font-size: 1rem;
     padding: 12px;
   }
 
-  .back-button {
-    top: 80px;
-    left: 10px;
-    width: 50px;
-    height: 50px;
+  #responseMessage {
+    font-size: 0.9rem;
   }
 
-  .button-elem {
-    margin: 15px 15px 0 15px;
-    width: 18px;
-    height: 18px;
-  }
-
-  .container {
-    width: 92%;
-    margin: 20px auto;
-    padding: 15px;
-  }
-
-  .container h2 {
-    font-size: 20px;
-  }
-
-  .container p {
-    font-size: 14px;
-  }
-
-  #contactForm input,
-  #contactForm textarea {
-    width: 100%;
-    font-size: 14px;
-  }
-
-  #contactForm button {
-    font-size: 15px;
-    width: 100%;
+  .footer {
+    font-size: 0.78rem;
   }
 }

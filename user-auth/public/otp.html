@@ -21,54 +21,58 @@
 </head>
 <body>
 
+ 
+  <!-- ===================== NAVBAR ===================== -->
   <nav class="navbar">
     <div class="navbar-container">
+
       <div class="logo-container">
         <a href="index.html" class="logo-link">
-          <span class="logo-text">S</span> <!-- Swarize logo -->
+          <img src="./images/logo.png" class="logo-img" alt="Swarize Logo">
         </a>
+        <span class="brand-name">SWARIZE</span>
       </div>
+
       <h1 class="navbar-title">Email Verification</h1>
     </div>
   </nav>
 
-  <div class="container">
-    <form id="otp-form">
-      <h1>Verify Your Account</h1>
 
-      <!-- Email Address -->
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <div class="otp-wrapper">
+    <form id="otp-form" class="otp-box">
+
+      <h2>Verify Your Account</h2>
+      <p class="sub-text">Enter the OTP sent to your email address.</p>
+
+      <!-- Email Field -->
       <div class="form-group">
         <label for="otp-email">Email Address</label>
-        <input type="email" id="otp-email" placeholder="Enter your email" readonly>
-        <div id="email-error" class="error"></div>
+        <input type="email" id="otp-email" readonly>
       </div>
 
-      <!-- Get OTP Button -->
-      <div class="form-group">
-        <button type="button" id="get-otp">Get OTP</button>
-      </div>
+      <!-- Get OTP -->
+      <button type="button" id="get-otp" class="btn primary">Get OTP</button>
 
       <!-- Timer -->
-      <div id="timer" class="timer">Time left: <span id="timer-count">01:00</span></div>
+      <div id="timer" class="timer hidden">
+        ⏳ Time left: <span id="timer-count">01:00</span>
+      </div>
 
       <!-- Resend OTP -->
-      <div class="form-group">
-        <button type="button" id="resend-otp" style="display: none;">Resend OTP</button>
-      </div>
+      <button type="button" id="resend-otp" class="btn secondary hidden">Resend OTP</button>
 
-      <!-- Email OTP -->
+      <!-- OTP Input -->
       <div class="form-group">
         <label for="otp-email-input">Enter Email OTP</label>
-        <input type="text" id="otp-email-input" placeholder="Enter Email OTP" required>
-        <div id="email-otp-error" class="error"></div>
-
-        <!-- Alert Message Section -->
-        <div id="message-container" class="hidden">
-          <p id="message-text"></p>
-        </div>
-
-        <button type="button" id="submit-email-otp">Submit OTP</button>
+        <input type="text" id="otp-email-input" placeholder="Enter your OTP">
       </div>
+
+      <!-- Message -->
+      <div id="message-box" class="message hidden"></div>
+
+      <button type="button" id="submit-email-otp" class="btn success">Submit OTP</button>
+
     </form>
   </div>
 

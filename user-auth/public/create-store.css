@@ -1,322 +1,127 @@
-/* -------------------- Base Styles -------------------- */
+/* ============================================================
+   UNIVERSAL NAVBAR — SWARIZE DARK THEME (Desktop + Mobile)
+============================================================ */
 
-/* -------------------- Fix for Page Overflow -------------------- */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
-}
-
-/* Ensure all elements respect box-sizing */
-*, *::before, *::after {
-  box-sizing: inherit;
-}
-
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-  background: #FFF5F7;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-
-
-/* -------------------- Form Container -------------------- */
-.form-container {
-  background: #ffffff;
-  padding: 40px 30px;
-  border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-  width: 420px;
-  max-width: 90%;
-  margin: 50px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.form-container h1 {
-  margin-bottom: 25px;
-  font-size: 28px;
-  color: #2A2B2D;
-  text-align: center;
-}
-
-/* -------------------- Form Inputs -------------------- */
-form {
-  width: 100%;
-}
-
-form input[type="text"],
-form textarea,
-form input[type="file"] {
-  width: 90%;
-  margin-bottom: 18px;
-  padding: 12px 14px;
-  font-size: 16px;
-  border: 1.5px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  transition: border 0.3s;
-}
-
-form input:focus,
-form textarea:focus {
-  border-color: #2A2B2D;
-  outline: none;
-}
-
-form textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-/* -------------------- Submit Button -------------------- */
-form button {
-  width: 90%;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: bold;
-  background: #2A2B2D;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.3s;
-}
-
-form button:hover {
-  background: rgb(70, 36, 25);
-}
-
-#store-message {
-  margin-top: 15px;
-  text-align: center;
-  color: red;
-  font-size: 14px;
-}
-
-
-
-
-
-
-
-
-/* Navbar */
+/* MAIN NAVBAR WRAPPER */
 .navbar {
-    background-color: #2A2B2D;
-    display: flex;
-    width: 1520px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    height: 80px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-.navbar-container {
-    display: flex;
-    align-items: center;
     width: 100%;
-    justify-content: space-between;
-}
-
-.navbar-title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #FFF5F7;
-    flex-grow: 1;
-    text-align: center;
-}
-
-.footer {
-    background-color: #2A2B2D;
-    text-align: center;
-    padding: 15px;
-    width: 100%;
-    margin-top: 40px;
-    color: #FFF5F7;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #FFF5F7;
-    border-radius: 50%;
+    background: #0b0d10;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 14px 22px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.logo-text {
-    font-size: 50px;
+/* CONTAINER (centers the items) */
+.navbar-container {
+    width: 100%;
+    max-width: 1500px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* ============================================================
+   LOGO + BRAND NAME
+============================================================ */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.15));
+}
+
+.brand-name {
+    font-size: 1.35rem;
+    font-family: "Vollkorn", serif;
+    color: #ffffff;
+    letter-spacing: 1.5px;
     font-weight: 600;
-    color: #2A2B2D;
-    font-family: 'Times New Roman';
+    text-shadow: 0 0 8px rgba(255,255,255,0.12);
 }
 
+/* Remove underline */
 .logo-link {
     text-decoration: none;
 }
 
-/* Back Button */
-.back-button {
-    display: block;
+/* ============================================================
+   PAGE TITLE — CENTERED
+============================================================ */
+.navbar-title {
     position: absolute;
-    top: 100px;
-    left: 20px;
-    width: 56px;
-    height: 56px;
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #eaf6ff;
+    font-size: 1.65rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    pointer-events: none;
+    text-align: center;
+    width: 100%;
 }
 
-.back-button:before,
-.back-button:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    inset: 7px;
-}
-
-.back-button:before {
-    border: 4px solid #FFF5F7;
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.back-button:after {
-    border: 4px solid #2A2B2D;
-    transform: scale(1.3);
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-    opacity: 0;
-}
-
-.back-button:hover:before {
-    opacity: 0;
-    transform: scale(0.7);
-}
-
-.back-button:hover:after {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.button-box {
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.button-elem {
-    width: 20px;
-    height: 20px;
-    margin: 17px 18px 0 18px;
-    transform: rotate(180deg);
-    fill: #FFF5F7;
-}
-
-.back-button:hover .button-box {
-    transition: 0.4s;
-    transform: translateX(-56px);
-}
-
-
-
-.store-info-warning {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeeba;
-  padding: 16px 20px;
-  border-radius: 8px;
-  margin-top: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.store-info-warning strong {
-  color: #795200;
-}
-
-.store-info-guidance {
-  background-color: #e9f7ef;
-  border-left: 5px solid #28a745;
-  padding: 16px 20px;
-  margin-top: 24px;
-  border-radius: 8px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  color: #155724;
-}
-
-.store-info-guidance ul {
-  margin: 12px 0;
-  padding-left: 20px;
-  list-style-type: disc;
-}
-
-.store-info-guidance a {
-  color: #117a8b;
-  text-decoration: underline;
-}
-
-.store-info-guidance a:hover {
-  color: #0c5460;
-  text-decoration: none;
-}
-
-
-/* -------------------- Responsive (Mobile View) -------------------- */
+/* ============================================================
+   MOBILE RESPONSIVE
+============================================================ */
 @media (max-width: 768px) {
-  .navbar-title {
-    font-size: 22px;
-  }
 
-  .form-container {
-    margin: 50px 16px;
-    padding: 40px 20px;
-  }
+    .navbar {
+        padding: 12px 16px;
+    }
 
-  form input[type="text"],
-  form textarea,
-  form input[type="file"] {
-    font-size: 15px;
-    padding: 10px 12px;
-  }
+    .logo-img {
+        width: 42px;
+        height: 42px;
+    }
 
-  form button {
-    padding: 12px;
-    font-size: 15px;
-  }
+    .brand-name {
+        font-size: 1.15rem;
+    }
 
-  .logo-container {
-    width: 50px;
-    height: 50px;
-  }
+    /* Title gets smaller + moves below logo */
+    .navbar-title {
+        position: relative;
+        left: 0;
+        transform: none;
+        margin-top: 6px;
+        font-size: 1.25rem;
+        width: 100%;
+        text-align: center;
+    }
 
-  .logo-text {
-    font-size: 40px;
-  }
+    /* Logo section centers on mobile */
+    .navbar-container {
+        flex-direction: column;
+        gap: 6px;
+        justify-content: center;
+    }
+}
 
-  .back-button {
-    top: 90px;
-    left: 10px;
-  }
+/* Extra small devices */
+@media (max-width: 480px) {
 
- .store-info-warning {
-    padding: 14px 16px;
-    font-size: 15px;
-  }
- .store-info-guidance {
-    padding: 14px 16px;
-    font-size: 15px;
-  }
+    .logo-img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .brand-name {
+        font-size: 1rem;
+    }
+
+    .navbar-title {
+        font-size: 1.15rem;
+        margin-top: 4px;
+    }
 }

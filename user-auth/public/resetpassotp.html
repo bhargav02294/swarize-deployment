@@ -41,53 +41,66 @@
     </head>
     
 <body>
+   
+<header class="site-header">
     <nav class="navbar">
         <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
+
+            <!-- Logo + Brand -->
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="Swarize Logo" class="logo-img">
+                <span class="brand-name">swarize</span>
+            </a>
+
+            <!-- Page Title -->
+            <div class="nav-title-wrap">
+                <h1 class="navbar-title">Email Verification</h1>
             </div>
-            <h1 class="navbar-title">Email Verification</h1>
+
         </div>
     </nav>
+</header>
 
-   
 
-    <div class="otp-container">               
-        <form id="otp-form">
-            <div class="form-group">
-                <label for="otp-email">Email Address</label>
-                <input type="email" id="otp-email" placeholder="Enter your email" required>
-                <div id="email-error" class="error"></div>
-            </div>
 
-            <div class="form-group">
-                <button type="button" id="get-otp">Get OTP</button>
-            </div>
+<div class="otp-wrapper">
+    <form id="otp-form" class="otp-box">
 
-            <div id="timer" class="timer" style="display:none;">Time left: 01:00</div>
+        <h2>Verify Your Email</h2>
 
-            <div class="form-group">
-                <label for="otp-input">Enter OTP</label>
-                <input type="text" id="otp-input" placeholder="Enter OTP" maxlength="6" required>
-                <div id="otp-error" class="error"></div>
-            </div>
+        <!-- Email -->
+        <div class="form-group">
+            <label for="otp-email">Email Address</label>
+            <input type="email" id="otp-email" placeholder="Enter your email" required>
+            <div id="email-error" class="error-text"></div>
+        </div>
 
-            <div class="form-group">
-                <button type="submit" id="submit-otp" disabled>Submit OTP</button>
-            </div>
+        <!-- Get OTP Button -->
+        <button type="button" id="get-otp" class="main-btn">Get OTP</button>
 
-            <div class="form-group">
-                <a href="#" id="resend-otp" style="display:none;">Resend OTP</a>
-            </div>
-        </form>
-    </div>
-    
+        <!-- Timer -->
+        <div id="timer" class="timer hidden">Time left: 01:00</div>
 
-    <footer class="footer">
-        <p>&copy; 2025 Swarize. All rights reserved.</p>
-    </footer>
+        <!-- OTP Input -->
+        <div class="form-group">
+            <label for="otp-input">Enter OTP</label>
+            <input type="text" id="otp-input" placeholder="Enter 6-digit OTP" maxlength="6" required>
+            <div id="otp-error" class="error-text"></div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" id="submit-otp" class="main-btn disabled" disabled>Submit OTP</button>
+
+        <!-- Resend -->
+        <a id="resend-otp" class="resend-link hidden">Resend OTP</a>
+
+    </form>
+</div>
+
+
+<footer class="site-footer">
+    <p>© 2025 Swarize. All rights reserved.</p>
+</footer>
     <script defer src="resetpassotp.js"></script>
 </body>
 </html>

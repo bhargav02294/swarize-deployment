@@ -5,145 +5,626 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swarize | Category</title>
   <link rel="stylesheet" href="style.css" />
+ <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Vollkorn:ital,wght@0,400;0,700;1,600&display=swap" rel="stylesheet">
   <style>
-    body {
-      background-color: #E3F2FD;
+    /* =========================
+       Global / Reset
+    ========================= */
+    :root{
+      --bg:#0b0c0f;
+      --panel:#0f1316;
+      --muted:#9aa6b2;
+      --accent:#38bdf8;
+      --accent-2:#7dd3fc;
+      --card-radius:14px;
+      --glass: rgba(255,255,255,0.03);
+      --max-width:1300px;
+      --gap:18px;
+      --text: #e6eef8;
+      --danger: #ff6b6b;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background: linear-gradient(180deg,#060709 0%, var(--bg) 100%);
+      color:var(--text);
       font-family: "Poppins", sans-serif;
-      margin: 0;
-      padding: 0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding-bottom:40px;
     }
 
-    .category-header {
-      background-color: #1A2A3A;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      font-size: 1.5rem;
-      letter-spacing: 1px;
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* =========================
+       NAVBAR
+    ========================= */
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:1200;
+      background:var(--bg);
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(4px);
+    }
+    .navbar-container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:10px 20px;
+      display:flex;
+      align-items:center;
+      gap:20px;
+      justify-content:space-between;
+    }
+    .brand-left{display:flex;align-items:center;gap:12px}
+    .logo-img{
+      width:46px;height:46px;border-radius:8px;object-fit:contain;
+      display:block;
+    }
+    .brand-name{
+      font-family:"Vollkorn", serif;
+      font-size:1.4rem;
+      font-weight:700;
+      color:var(--text);
+      letter-spacing:0.6px;
+      text-transform:lowercase;
+    }
+    .page-title{
+      font-size:1.05rem;
+      color:var(--muted);
+      font-weight:600;
+      text-align:center;
+      flex:1;
     }
 
-    #products-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
+    /* =========================
+       Page Wrapper
+    ========================= */
+    .wrap{
+      max-width:var(--max-width);
+      margin:28px auto;
+      padding:0 20px;
     }
 
-    .product-card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      padding: 1rem;
+    .header-hero{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .header-left h1{
+      font-size:1.4rem;
+      margin-bottom:6px;
+      color:var(--text);
+    }
+    .header-left p{
+      margin:0;color:var(--muted);font-size:0.95rem;
     }
 
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    /* =========================
+       Grid
+    ========================= */
+    .products-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+      align-items:stretch;
     }
 
-    .product-card img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      border-radius: 10px;
+    /* Card */
+    .product-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--card-radius);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+      box-shadow: 0 6px 22px rgba(2,6,23,0.6);
+      min-height:360px;
+    }
+    .product-card:hover{
+      transform: translateY(-8px);
+      box-shadow: 0 18px 44px rgba(3,10,25,0.7);
     }
 
-    .product-card h3 {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.4rem;
-      color: #1A2A3A;
-      margin: 0.8rem 0 0.3rem;
+    /* Image area */
+    .card-media{
+      width:100%;
+      aspect-ratio: 4/3;
+      background: #0b0d10;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .card-media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center top;
+      display:block;
+      transition: transform .5s ease, filter .45s;
     }
 
-    .price {
-      color: #1A2A3A;
-      font-weight: 600;
-      font-size: 1.1rem;
+    /* Content */
+    .card-body{
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1;
+    }
+    .meta-row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
     }
 
-    .display-price {
-      text-decoration: line-through;
-      color: gray;
-      font-size: 0.9rem;
-      margin-top: -0.2rem;
+    .title{
+      font-size:1rem;
+      font-weight:600;
+      color:var(--text);
+      line-height:1.2;
+      max-height:2.4em; /* approx 2 lines */
+      overflow:hidden;
     }
 
-    .category-back {
-      text-align: center;
-      margin: 1rem 0;
+    .category{
+      font-size:0.82rem;
+      color:var(--muted);
     }
 
-    .category-back button {
-      background-color: #1A2A3A;
-      color: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s ease;
+    /* Rating */
+    .rating{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .stars{display:flex;align-items:center;gap:3px}
+    .star{
+      width:16px;height:16px;display:inline-block;color:#ffd166;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
+      transform:translateY(0);
+    }
+    .rating-count{font-size:0.82rem;color:var(--muted)}
+
+    /* Price row */
+    .price-row{
+      display:flex;
+      align-items:baseline;
+      gap:12px;
+      margin-top:4px;
+    }
+    .price-current{
+      font-size:1.05rem;
+      font-weight:800;
+      color:var(--accent-2);
+    }
+    .price-old{
+      font-size:0.9rem;
+      color:rgba(255,255,255,0.45);
+      text-decoration:line-through;
+    }
+    .discount-badge{
+      margin-left:auto;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#061018;
+      padding:6px 8px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:0.8rem;
+      box-shadow:0 8px 20px rgba(56,189,248,0.06);
     }
 
-    .category-back button:hover {
-      background-color: #8BC6EC;
-      color: #1A2A3A;
+    /* CTA buttons */
+    .card-actions{
+      margin-top:auto;
+      display:flex;
+      gap:8px;
+      align-items:center;
     }
+    .btn{
+      flex:1;
+      padding:10px 12px;
+      border-radius:10px;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+      font-size:0.95rem;
+      transition: transform .18s ease, box-shadow .18s;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn-view{
+      background:transparent;color:var(--text);
+      border:1px solid rgba(255,255,255,0.06);
+      backdrop-filter:blur(6px);
+    }
+    .btn-buy{
+      background: linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#061018;
+      border:0;
+    }
+
+    /* Wish / wishlist icon */
+    .wish-btn{
+      position:absolute;top:10px;right:10px;background:var(--glass);padding:8px;border-radius:10px;border:0;color:var(--text);
+      cursor:pointer;font-size:14px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.35);
+      z-index:4;
+    }
+
+    /* Empty / error message */
+    .status{
+      text-align:center;
+      padding:28px;
+      color:var(--muted);
+      background:transparent;
+      border-radius:10px;
+    }
+
+    /* SKELETON LOADER */
+    .skeleton-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+    .skeleton{
+      background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius:var(--card-radius);
+      min-height:320px;overflow:hidden;
+      position:relative;
+    }
+    .skeleton::after{
+      content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(255,255,255,0.004), rgba(255,255,255,0.02), rgba(255,255,255,0.004));transform:translateX(-100%);animation: shimmer 1.2s linear infinite;
+    }
+    @keyframes shimmer{to{transform:translateX(100%)}}
+
+    /* =========================
+       Responsive
+    ========================= */
+    @media (max-width: 1100px){
+      .products-grid{grid-template-columns: repeat(2,1fr)}
+      .skeleton-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    /* Mobile — 2 columns on <=600 as requested */
+    @media (max-width: 600px){
+      .navbar-container{padding:10px 14px}
+      .products-grid{grid-template-columns: repeat(2, 1fr); gap:12px}
+      .skeleton-grid{grid-template-columns:repeat(2,1fr)}
+      .card-body{padding:12px}
+      .brand-name{font-size:1.1rem}
+      .title{font-size:0.98rem}
+      .price-current{font-size:1rem}
+    }
+
+    @media (max-width:420px){
+      .products-grid{grid-template-columns: 1fr}
+      .skeleton-grid{grid-template-columns:1fr}
+      .brand-name{font-size:1rem}
+      .page-title{font-size:0.92rem}
+      .header-hero{flex-direction:column;align-items:flex-start;gap:8px}
+    }
+
+    /* small helper */
+    .muted{color:var(--muted);font-size:0.92rem}
   </style>
 </head>
 <body>
+  <!-- NAVBAR -->
+  <header class="navbar" role="banner">
+    <div class="navbar-container">
+      <div class="brand-left">
+        <a class="logo-link" href="index.html" aria-label="Swarize home">
+          <img src="./images/logo.png" alt="Swarize logo" class="logo-img" onerror="this.onerror=null;this.src='https://via.placeholder.com/46x46?text=S'">
+        </a>
+        <div>
+          <div class="brand-name">swarize</div>
+          <div class="muted" style="margin-top:4px;font-size:0.82rem">India · Fashion Marketplace</div>
+        </div>
+      </div>
 
-  <div class="category-header" id="categoryHeader">
-    Loading...
-  </div>
+      <div class="page-title" aria-hidden="true">Category Products</div>
+    </div>
+  </header>
 
-  <div class="category-back">
-    <button onclick="window.history.back()">← Back</button>
-  </div>
+  <main class="wrap" id="mainWrap" role="main">
+    <div class="header-hero">
+      <div class="header-left">
+        <h1 id="sectionTitle">Loading products...</h1>
+        <p id="sectionSubtitle" class="muted">Discover curated items in this section.</p>
+      </div>
+      <div>
+        <!-- placeholder for filters / sort later -->
+      </div>
+    </div>
 
-  <div id="products-container"></div>
+    <!-- content area -->
+    <section id="productsArea">
+      <!-- skeleton shown by JS while fetching -->
+      <div id="skeleton" class="skeleton-grid" aria-hidden="true"></div>
+
+      <!-- actual grid -->
+      <div id="productsGrid" class="products-grid" aria-live="polite"></div>
+
+      <!-- status (error / empty) -->
+      <div id="statusMessage" class="status" role="status" aria-hidden="true"></div>
+    </section>
+  </main>
 
   <script>
-    async function loadSectionProducts() {
-      const params = new URLSearchParams(window.location.search);
-      const section = params.get("section");
+  (function(){
+    // ---------- Config ----------
+    const API_ENDPOINT = '/api/products/section';
+    const PRODUCTS_GRID = document.getElementById('productsGrid');
+    const SKELETON = document.getElementById('skeleton');
+    const STATUS = document.getElementById('statusMessage');
+    const SECTION_TITLE = document.getElementById('sectionTitle');
+    const SUB_TITLE = document.getElementById('sectionSubtitle');
 
-      // Update heading
-      const header = document.getElementById("categoryHeader");
-      header.textContent =
-        section === "saree" ? "Saree Collection" :
-        section === "dress" ? "Dress Collection" :
-        section === "festive-edit" ? "Festive Edit" :
-        section === "everyday-elegance" ? "Everyday Elegance" :
-        section === "under999" ? "Under ₹999" : "Products";
+    // Placeholder skeleton cards count
+    const SKELETON_COUNT = 6;
 
-      // Fetch products
-      const response = await fetch(`/api/products/section?section=${section}`);
-      const data = await response.json();
-
-      const container = document.getElementById("products-container");
-      container.innerHTML = "";
-
-      if (!data.success || data.products.length === 0) {
-        container.innerHTML = "<p style='text-align:center;color:#555;'>No products found.</p>";
-        return;
+    // small utility: safely parse JSON
+    async function safeParse(res){
+      try{
+        const txt = await res.text();
+        return JSON.parse(txt);
+      }catch(e){
+        return null;
       }
+    }
 
-      data.products.forEach(p => {
-        const div = document.createElement("div");
-        div.classList.add("product-card");
-        div.innerHTML = `
-          <img src="${p.thumbnailImage}" alt="${p.name}" />
-          <h3>${p.name}</h3>
-          <p class="price">₹${p.price}</p>
-          ${p.displayPrice ? `<p class="display-price">₹${p.displayPrice}</p>` : ""}
-          <p style="color:#666;font-size:0.9rem;">${p.category} - ${p.subcategory}</p>
-        `;
-        container.appendChild(div);
+    // show skeletons
+    function showSkeleton(){
+      SKELETON.innerHTML = '';
+      for(let i=0;i<SKELETON_COUNT;i++){
+        const s = document.createElement('div');
+        s.className = 'skeleton';
+        SKELETON.appendChild(s);
+      }
+      SKELETON.style.display = 'grid';
+      PRODUCTS_GRID.style.display = 'none';
+      STATUS.style.display = 'none';
+    }
+
+    function hideSkeleton(){
+      SKELETON.style.display = 'none';
+      PRODUCTS_GRID.style.display = '';
+    }
+
+    // format price (INR)
+    function formatINR(num){
+      if(num == null) return '-';
+      return Number(num).toLocaleString('en-IN');
+    }
+
+    // discount percentage
+    function calcDiscount(mrp, price){
+      if(!mrp || !price || mrp <= price) return null;
+      const diff = mrp - price;
+      return Math.round((diff / mrp) * 100);
+    }
+
+    // fallback image
+    function resolveImage(path){
+      if(!path) return 'https://via.placeholder.com/640x480?text=No+Image';
+      // if relative uploads path - adjust if needed
+      if(path.startsWith('uploads/') || path.startsWith('/uploads/')) {
+        return `https://swarize.in/${path.replace(/^\/+/,'')}`;
+      }
+      return path;
+    }
+
+    // create star SVG
+    function starSVG(fill=true){
+      return `<svg class="star" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="16" height="16" fill="${fill ? '#ffd166' : 'rgba(255,255,255,0.12)'}" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.79 1.402 8.168L12 18.896l-7.336 3.872 1.402-8.168L.132 9.21l8.2-1.192z"/></svg>`;
+    }
+
+    // render a product card
+    function renderProduct(prod){
+      const id = prod._id || prod.id || '';
+      const name = prod.name || prod.title || 'Product';
+      const price = prod.price || prod.finalPrice || 0;
+      const mrp = prod.displayPrice || prod.mrp || null;
+      const category = (prod.category || prod.cat || 'Uncategorized');
+      const rating = Number(prod.rating || prod.avgRating || 0);
+      const reviews = prod.reviewsCount || prod.reviews || 0;
+      const thumb = resolveImage(prod.thumbnailImage || prod.image || prod.images?.[0] || '');
+
+      const discount = calcDiscount(mrp, price);
+
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <button class="wish-btn" aria-label="Add to wishlist" title="Add to wishlist">♡</button>
+
+        <div class="card-media" aria-hidden="true">
+          <img data-src="${thumb}" src="${thumb}" alt="${escapeHtml(name)}" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/640x480?text=No+Image'">
+        </div>
+
+        <div class="card-body">
+          <div class="meta-row">
+            <div style="flex:1">
+              <div class="title">${escapeHtml(name)}</div>
+              <div class="category">${escapeHtml(category)}</div>
+            </div>
+            ${discount ? `<div class="discount-badge">${discount}% OFF</div>` : ''}
+          </div>
+
+          <div class="price-row" aria-hidden="true">
+            <div>
+              <div class="price-current">₹${formatINR(price)}</div>
+              ${mrp ? `<div class="price-old">₹${formatINR(mrp)}</div>` : ''}
+            </div>
+          </div>
+
+          <div class="meta-row" style="margin-top:6px;">
+            <div class="rating" aria-label="Rating: ${rating} out of 5">
+              <div class="stars">${renderStars(rating)}</div>
+              <div class="rating-count">(${formatINR(reviews)})</div>
+            </div>
+          </div>
+
+          <div class="card-actions" role="group" aria-label="Product actions">
+            <button class="btn btn-view" data-id="${escapeHtml(id)}">View Product</button>
+            <button class="btn btn-buy" data-id="${escapeHtml(id)}">Buy Now</button>
+          </div>
+        </div>
+      `;
+
+      // view button -> product-detail.html?id=
+      card.querySelector('.btn-view')?.addEventListener('click', (e)=>{
+        const pid = e.currentTarget.dataset.id;
+        if(!pid){ window.location.href = 'product-detail.html'; return; }
+        window.location.href = `product-detail.html?id=${encodeURIComponent(pid)}`;
+      });
+
+      // buy now -> checkout/payment route (you can adapt)
+      card.querySelector('.btn-buy')?.addEventListener('click', (e)=>{
+        const pid = e.currentTarget.dataset.id;
+        // Basic behavior: redirect to product detail with ?buy=1 or payment page
+        window.location.href = `product-detail.html?id=${encodeURIComponent(pid)}&buy=1`;
+      });
+
+      // wishlist toggle (simple UI)
+      const wishBtn = card.querySelector('.wish-btn');
+      wishBtn?.addEventListener('click', (ev)=>{
+        ev.stopPropagation();
+        wishBtn.textContent = wishBtn.classList.toggle('active') ? '♥' : '♡';
+      });
+
+      return card;
+    }
+
+    function renderStars(rating){
+      // rating: 0-5, may be decimal. show 5 stars with fill for each whole star and half star not implemented for simplicity.
+      const full = Math.round(Math.max(0, Math.min(5, rating)));
+      let out = '';
+      for(let i=0;i<5;i++){
+        out += (i<full) ? starSVG(true) : starSVG(false);
+      }
+      return out;
+    }
+
+    function escapeHtml(str){
+      return (''+str).replace(/[&<>"']/g, (s)=>{
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]);
       });
     }
 
-    loadSectionProducts();
+    // lazy load images using IntersectionObserver
+    function attachLazyLoading(container){
+      const imgs = container.querySelectorAll('img[data-src]');
+      const opts = { rootMargin:'200px 0px', threshold: 0.01 };
+      const io = new IntersectionObserver((entries, obs)=>{
+        entries.forEach(entry=>{
+          if(!entry.isIntersecting) return;
+          const img = entry.target;
+          const src = img.dataset.src;
+          if(src && img.src !== src){
+            const full = new Image();
+            full.src = src;
+            full.onload = ()=> { img.src = src; img.style.filter='none'; }
+            full.onerror = ()=> { img.src = 'https://via.placeholder.com/640x480?text=No+Image' }
+          }
+          obs.unobserve(img);
+        });
+      }, opts);
+      imgs.forEach(i=>io.observe(i));
+    }
+
+    // ---------- Fetch & render logic ----------
+    async function fetchProducts(section, attempt=1){
+      showSkeleton();
+      STATUS.style.display='none';
+      PRODUCTS_GRID.innerHTML = '';
+
+      // build URL
+      const url = new URL(API_ENDPOINT, window.location.origin);
+      if(section) url.searchParams.set('section', section);
+
+      try{
+        const res = await fetch(url.toString(), {credentials:'include', cache:'no-cache'});
+        if(!res.ok){
+          throw new Error('Network response not ok: ' + res.status);
+        }
+        const data = await safeParse(res) || {};
+        // data may be array or { success:true, products:[] }
+        let products = [];
+        if(Array.isArray(data)) products = data;
+        else if(Array.isArray(data.products)) products = data.products;
+        else products = data.items || [];
+
+        if(!products.length){
+          hideSkeleton();
+          STATUS.textContent = 'No products found in this section.';
+          STATUS.style.display = 'block';
+          return;
+        }
+
+        // show grid
+        hideSkeleton();
+        PRODUCTS_GRID.innerHTML = '';
+        products.forEach(p=>{
+          const card = renderProduct(p);
+          PRODUCTS_GRID.appendChild(card);
+        });
+
+        // attach image lazy
+        attachLazyLoading(PRODUCTS_GRID);
+
+      }catch(err){
+        console.error('Fetch products error:', err);
+        if(attempt < 2){
+          // retry once after short delay
+          setTimeout(()=>fetchProducts(section, attempt+1), 800);
+          return;
+        }
+        hideSkeleton();
+        PRODUCTS_GRID.innerHTML = '';
+        STATUS.innerHTML = `<strong>Unable to load products.</strong><br/>Please check your connection or try again later.`;
+        STATUS.style.display = 'block';
+      }
+    }
+
+    // Determine section from query param
+    function getSectionFromQuery(){
+      const params = new URLSearchParams(window.location.search);
+      return params.get('section') || params.get('cat') || params.get('category') || '';
+    }
+
+    // Set heading text friendly
+    function setSectionHeading(section){
+      const mapping = {
+        'saree':'Saree Collection',
+        'dress':'Dress Collection',
+        'festive-edit':'Festive Edit',
+        'everyday-elegance':'Everyday Elegance',
+        'under999':'Under ₹999'
+      };
+      SECTION_TITLE.textContent = mapping[section] || (section ? (section.replace(/[-_]/g,' ').replace(/\b\w/g,c=>c.toUpperCase())) : 'All Products');
+      SUB_TITLE.textContent = section ? `Showing products for "${SECTION_TITLE.textContent}"` : 'Showing all products';
+    }
+
+    // Prepare skeleton UI immediately
+    (function initSkeleton(){
+      const count = SKELETON_COUNT;
+      let html = '';
+      for(let i=0;i<count;i++) html += '<div class="skeleton"></div>';
+      SKELETON.innerHTML = html;
+    })();
+
+    // Run on load
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const section = getSectionFromQuery();
+      setSectionHeading(section);
+      fetchProducts(section);
+    });
+
+  })();
   </script>
 </body>
 </html>

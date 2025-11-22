@@ -1,310 +1,454 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background: #FFF5F7;
-    font-family: 'Poppins', sans-serif;
+/* ==========================================================================
+   privacy-policy.css
+   Dark theme — responsive (mobile → tablet → desktop)
+   ========================================================================== */
+
+/* ---------------------------
+   Base / Reset
+   --------------------------- */
+:root{
+  --bg-900: #07080a;
+  --bg-800: #0b0f13;
+  --panel: #0e1216;
+  --muted: #9aa6b2;
+  --text: #e6eef8;
+  --accent: #38bdf8;
+  --accent-2: #7dd3fc;
+  --glass: rgba(255,255,255,0.03);
+  --card-radius: 12px;
+  --container-max: 1100px;
+  --gap: 20px;
+  --focus: 3px;
 }
 
-/* Main Container */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, var(--bg-900) 0%, var(--bg-800) 100%);
+  color: var(--text);
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Skip link for keyboard users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  padding: 8px 12px;
+  background: #fff;
+  color: #0b0c0e;
+  border-radius: 6px;
+  z-index: 9999;
+}
+
+/* ---------------------------
+   Layout utilities
+   --------------------------- */
 .container {
-    width: 80%;
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(42, 43, 45, 0.1);
+  width: calc(100% - 32px);
+  max-width: var(--container-max);
+  margin: 24px auto;
+  padding: 0 16px;
 }
 
-/* Section Styling */
-section {
-    margin-bottom: 30px;
+/* subtle content panel for article */
+.privacy-article {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+  overflow: hidden;
 }
 
-h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    border-left: 5px solid #2A2B2D;
-    padding-left: 10px;
-    color: #2A2B2D;
+/* ---------------------------
+   NAVBAR / HEADER
+   --------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  background: linear-gradient(180deg, rgba(6,8,10,0.6), rgba(11,13,16,0.85));
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px);
 }
 
-/* Lists */
-ul {
-    padding-left: 20px;
-}
-
-ul li {
-    margin-bottom: 10px;
-    color: #4A403A;
-}
-
-/* Links */
-a {
-    color: #FF6B6B;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-table, th, td {
-    border: 1px solid #ffffff;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-    color: #4A403A;
-}
-
-th {
-    background-color: #2A2B2D;
-    color: white;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #4A403A;
-}
-
-/* Navbar */
 .navbar {
-    background-color: #2A2B2D;
-    display: flex;
-    width: 1520px;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    height: 90px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 12px 16px;
+  gap: 12px;
 }
 
 .navbar-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
 }
 
-.navbar-title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #FFF5F7;
-    flex-grow: 1;
-    text-align: center;
-}
-
-/* Footer */
-.footer {
-    background-color: #2A2B2D;
-    text-align: center;
-    padding: 35px;
-    width: 100%;
-    margin-top: 40px;
-    color: #FFF5F7;
-    font-size: 16px;
-    font-weight: bold;
-    height: 80px;
-}
-
-/* Logo Styling */
+/* Logo block */
 .logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #FFF5F7;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-text {
-    font-size: 50px;
-    font-weight: 600;
-    color: #2A2B2D;
-    font-family: 'Times New Roman';
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
 }
 
 .logo-link {
-    text-decoration: none;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration: none;
+  color: inherit;
 }
 
-/* Back Button */
-.back-button {
-    display: block;
-    position: absolute;
-    top: 100px;
-    left: 20px;
-    width: 56px;
-    height: 56px;
-    margin: 0;
-    overflow: hidden;
-    outline: none;
-    background-color: transparent;
-    cursor: pointer;
-    border: 0;
+.logo-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: transparent;
+  display: block;
+  flex-shrink: 0;
+  image-rendering: crisp-edges;
+  filter: none; /* remove glow — raw logo */
 }
 
-.back-button:before,
-.back-button:after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    inset: 7px;
+/* Brand name next to logo */
+.brand-name {
+  font-family: "Vollkorn", serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: lowercase;
+  letter-spacing: 0.6px;
+  color: var(--text);
 }
 
-.back-button:before {
-    border: 4px solid #4A403A;
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
+/* Navbar title (visible on wider screens to show page context) */
+.nav-title-wrap { display: none; } /* hidden on small screens for compact header */
+.navbar-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
 }
 
-.back-button:after {
-    border: 4px solid #2A2B2D;
-    transform: scale(1.3);
-    transition: opacity 0.4s ease-in-out, transform 0.5s ease-in-out;
-    opacity: 0;
+/* ---------------------------
+   Header / Policy title area
+   --------------------------- */
+.policy-header {
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(255,255,255,0.02);
 }
 
-.back-button:hover:before {
-    opacity: 0;
-    transform: scale(0.7);
+.page-title {
+  font-size: 1.6rem;
+  margin: 0 0 6px;
+  color: var(--text);
+  letter-spacing: 0.2px;
 }
 
-.back-button:hover:after {
-    opacity: 1;
-    transform: scale(1);
+.lead {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
-.button-box {
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
+/* intro / notice */
+.intro, .notice {
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin: 8px 0;
 }
 
-.button-elem {
-    display: block;
-    width: 20px;
-    height: 20px;
-    margin: 17px 18px 0 18px;
-    transform: rotate(180deg);
-    fill: #4A403A;
+/* ---------------------------
+   Policy Table of Contents (TOC)
+   --------------------------- */
+.policy-toc {
+  margin: 18px 0;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.02);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.back-button:hover .button-box {
-    transition: 0.4s;
-    transform: translateX(-56px);
+.policy-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-
-    .navbar {
-        flex-direction: column;
-        width: 100%;
-        height: auto;
-        padding: 10px;
-        align-items: flex-start;
-    }
-
-    .logo-container {
-        width: 45px;
-        height: 45px;
-        margin-left: 0;
-    }
-
-    .logo-text {
-        font-size: 30px;
-    }
-
-    .navbar-title {
-        font-size: 20px;
-        text-align: center;
-        margin-top: 8px;
-        width: 100%;
-    }
-
-    .footer {
-        width: 100%;
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    .back-button {
-        top: 80px;
-        left: 10px;
-        width: 50px;
-        height: 50px;
-    }
-
-    .button-elem {
-        margin: 15px 15px 0 15px;
-        width: 18px;
-        height: 18px;
-    }
-
-    .container {
-        width: 92%;
-        padding: 20px;
-        top: 60px;
-        margin: 20px auto;
-        border-radius: 8px;
-    }
-
-    h2 {
-        font-size: 18px;
-        padding-left: 8px;
-        border-left-width: 4px;
-        margin-bottom: 8px;
-    }
-
-    ul {
-        padding-left: 18px;
-    }
-
-    ul li {
-        font-size: 14px;
-        margin-bottom: 8px;
-    }
-
-    section p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #4A403A;
-    }
-
-    a {
-        font-size: 14px;
-    }
-
-    table {
-        font-size: 13px;
-        display: block;
-        overflow-x: auto;
-        width: 100%;
-    }
-
-    th, td {
-        padding: 8px;
-    }
-
-    th {
-        font-size: 14px;
-    }
+.policy-toc a {
+  color: var(--accent-2);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  background: transparent;
+  transition: background .18s ease, color .18s ease, transform .12s;
+  border: 1px solid transparent;
 }
+
+.policy-toc a:hover,
+.policy-toc a:focus {
+  background: rgba(56,189,248,0.06);
+  color: var(--accent);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* ---------------------------
+   Policy Sections
+   --------------------------- */
+.policy-section {
+  margin: 18px 0;
+  padding: 8px 4px;
+}
+
+.policy-section h3 {
+  font-size: 1.06rem;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.policy-section p,
+.policy-section li {
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin: 8px 0;
+}
+
+.policy-section ul {
+  margin: 8px 0 0 20px;
+  color: var(--muted);
+}
+
+/* Table wrapper for responsive overflow */
+.table-wrap {
+  overflow-x: auto;
+  margin: 14px 0;
+}
+
+/* Example table */
+.example-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 320px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.example-table thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: linear-gradient(90deg, rgba(56,189,248,0.03), rgba(125,211,252,0.02));
+  color: var(--text);
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+
+.example-table tbody td {
+  padding: 12px 14px;
+  border-top: 1px solid rgba(255,255,255,0.02);
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+/* highlight final profit row */
+.example-table tbody tr:last-child td {
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---------------------------
+   Policy footer note
+   --------------------------- */
+.policy-footer {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255,255,255,0.02);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------------------------
+   SITE FOOTER
+   --------------------------- */
+.site-footer {
+  margin-top: 28px;
+  padding: 22px 0;
+  background: linear-gradient(180deg, rgba(6,8,10,0.6), rgba(11,13,16,0.85));
+  border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.footer-tagline {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 12px;
+}
+
+/* footer right */
+.footer-right p { color: var(--muted); font-size: 0.92rem; margin: 0; }
+
+/* ---------------------------
+   Accessibility & Focus styles
+   --------------------------- */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 var(--focus) rgba(56,189,248,0.14);
+  border-radius: 6px;
+}
+
+/* ---------------------------
+   Small-screen / Mobile (mobile-first)
+   --------------------------- */
+@media (max-width: 639px) {
+
+  .container { width: calc(100% - 24px); margin: 12px auto; padding: 0 12px; }
+
+  .navbar { padding: 10px 12px; }
+  .logo-img { width: 40px; height: 40px; }
+  .brand-name { font-size: 1rem; }
+
+  .privacy-article { padding: 16px; border-radius: 12px; }
+  .page-title { font-size: 1.35rem; }
+  .policy-toc { padding: 8px; }
+
+  .policy-toc ul { flex-direction: column; align-items: stretch; gap: 8px; }
+  .policy-toc a { width: 100%; text-align: left; padding: 10px; }
+
+  .policy-section h3 { font-size: 1rem; }
+  .policy-section p, .policy-section li { font-size: 0.98rem; }
+
+  .footer-inner { flex-direction: column; gap: 10px; text-align: center; }
+
+  /* show compact navbar title inline with header on mobile */
+  .nav-title-wrap { display: none; }
+  .navbar-title { display: none; }
+}
+
+/* ---------------------------
+   Medium screens (tablet)
+   --------------------------- */
+@media (min-width: 640px) and (max-width: 991px) {
+
+  .container { width: calc(100% - 40px); margin: 18px auto; }
+  .navbar { padding: 12px 16px; }
+  .logo-img { width: 44px; height: 44px; }
+  .brand-name { font-size: 1.05rem; }
+
+  .privacy-article { padding: 20px; border-radius: 12px; }
+  .policy-toc ul { flex-wrap: wrap; }
+  .policy-toc a { font-size: 0.95rem; padding: 8px 10px; }
+  .policy-section h3 { font-size: 1.02rem; }
+  .policy-section p { font-size: 0.98rem; }
+
+  .nav-title-wrap { display: block; margin-left: auto; }
+  .navbar-title { display: block; color: var(--muted); font-size: 0.95rem; }
+}
+
+/* ---------------------------
+   Desktop / large screens
+   --------------------------- */
+@media (min-width: 992px) {
+
+  .container { width: 92%; max-width: var(--container-max); margin: 28px auto; }
+
+  /* show the page title in navbar on larger screens */
+  .nav-title-wrap { display: block; margin-left: auto; }
+  .navbar-title { display: block; color: var(--muted); font-size: 0.95rem; }
+
+  .privacy-article {
+    display: grid;
+    grid-template-columns: 1fr 320px; /* content + right column (TOC moved left) */
+    gap: 28px;
+    padding: 28px;
+  }
+
+  /* Move TOC into right column visually using order
+     (we keep it in flow for accessibility; use CSS to position) */
+  .policy-toc {
+    grid-column: 2 / 3;
+    align-self: start;
+    position: sticky;
+    top: 86px;
+    width: 100%;
+  }
+
+  .policy-header { grid-column: 1 / 2; }
+
+  .policy-section { grid-column: 1 / 2; }
+
+  .policy-toc ul { flex-direction: column; align-items: stretch; gap: 8px; }
+  .policy-toc a { display: inline-block; width: 100%; text-align: left; padding: 10px 12px; }
+
+  .footer-inner { justify-content: space-between; }
+}
+
+/* ---------------------------
+   Print styles (minimal)
+   --------------------------- */
+@media print {
+  :root { color-scheme: dark; }
+  body { background: white; color: black; }
+  .site-header, .site-footer, .policy-toc { display: none !important; }
+  .privacy-article { box-shadow: none; border: none; background: transparent; }
+}
+
+/* ---------------------------
+   Minor helpers
+   --------------------------- */
+.hidden { display: none !important; }
+.center { text-align: center; }
+.small { font-size: 0.9rem; color: var(--muted); }

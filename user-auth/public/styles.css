@@ -494,72 +494,38 @@ header h2 {
 /* ========================================================
    MARQUEE STRIP — PREMIUM SEAMLESS VERSION
 ======================================================== */
+/* strip */
 .marquee-strip {
   width: 100%;
-  background: #0b0d10;
   overflow: hidden;
-  padding: 20px 0;
+  background: #0b0d10;
+  padding: 18px 0;
+  white-space: nowrap;
   position: relative;
 }
 
-.marquee-fade-left,
-.marquee-fade-right {
-  position: absolute;
-  top: 0;
-  width: 140px;
-  height: 100%;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.marquee-fade-left {
-  left: 0;
-  background: linear-gradient(to right, #0b0d10, transparent);
-}
-
-.marquee-fade-right {
-  right: 0;
-  background: linear-gradient(to left, #0b0d10, transparent);
-}
-
+/* track */
 .marquee-track {
-  display: flex;
-  align-items: center;
+  display: inline-flex;
   gap: 80px;
-  white-space: nowrap;
-  will-change: transform;
+  animation: marqueeMove 14s linear infinite;
 }
 
-.marquee-item {
+/* text */
+.marquee-track span {
   font-family: "Vollkorn", serif;
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 9px;
-  color: #ffffff;
-  opacity: 0.9;
-  text-shadow:
-    0 0 8px rgba(255,255,255,0.5),
-    0 0 16px rgba(255,255,255,0.4),
-    0 0 24px rgba(255,255,255,0.3);
-  transform: perspective(400px) rotateY(-12deg);
-  animation: tiltAnim 3s ease-in-out infinite alternate;
-  transition: 0.3s;
+  color: #fff;
+  letter-spacing: 8px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.4);
+  user-select: none;
 }
 
-.marquee-item:hover {
-  transform: scale(1.12) perspective(400px) rotateY(0deg);
-  text-shadow:
-    0 0 14px rgba(255,255,255,0.8),
-    0 0 26px rgba(255,255,255,0.6);
-  opacity: 1;
+@keyframes marqueeMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
-
-@keyframes tiltAnim {
-  0% { transform: perspective(400px) rotateY(-10deg); }
-  100% { transform: perspective(400px) rotateY(10deg); }
-}
-
 
 
 

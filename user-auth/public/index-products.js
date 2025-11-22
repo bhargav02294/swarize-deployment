@@ -570,36 +570,3 @@ document.querySelectorAll('.category-image img').forEach(img => {
 
 
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  const track = document.getElementById("marqueeTrack");
-  let speed = 0.5; // pixels per frame
-  let posX = 0;
-
-  // Duplicate items until enough width
-  const itemsWidth = track.scrollWidth;
-  while (track.scrollWidth < window.innerWidth * 2) {
-    const clone = track.cloneNode(true);
-    track.parentElement.appendChild(clone);
-  }
-
-  function animate() {
-    posX -= speed;
-    if (Math.abs(posX) >= itemsWidth) {
-      posX = 0;
-    }
-    track.parentElement.style.transform = `translateX(${posX}px)`;
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-
-  // Pause on hover
-  track.parentElement.addEventListener("mouseenter", () => {
-    speed = 0;
-  });
-  track.parentElement.addEventListener("mouseleave", () => {
-    speed = 0.5;
-  });
-});
-

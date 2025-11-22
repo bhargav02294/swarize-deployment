@@ -1244,11 +1244,14 @@ header h2 {
   margin: 0 auto 60px;
 }
 
+
+
 .about-title {
   font-size: 2.6rem;
   font-weight: 700;
   background: linear-gradient(90deg, #7dd3fc, #38bdf8);
-  -webkit-background-clip: text;
+  background-clip: text;              /* modern */
+  -webkit-background-clip: text;      /* chrome/safari */
   color: transparent;
   letter-spacing: 1px;
 }
@@ -1416,137 +1419,200 @@ header h2 {
 
 
 
-
-
-/* ==================== FOOTER ==================== */
-.footer {
-  background: var(--deep-blue);
-  color: var(--white);
-  padding: 60px 10% 30px;
-  font-size: 0.95rem;
+/* ============================================================
+   FOOTER — DARK PREMIUM STYLE (Matches Whole Website Theme)
+============================================================ */
+footer.footer {
+  background: #0b0f13;
+  padding: 60px 5% 30px;
+  color: #e5e7eb;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-family: "Poppins", sans-serif;
 }
 
+/* Footer container */
 .footer-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 40px;
-  margin-bottom: 40px;
+  max-width: 1400px;
+  margin: 0 auto 50px;
 }
 
-.footer-section h3 {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: var(--soft-blue);
+/* ====================== LOGO / ABOUT SECTION ====================== */
+.footer-section .logo-container {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: 2px solid #7dd3fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.03);
+  box-shadow: inset 0 0 10px rgba(125,211,252,0.25);
 }
 
-.footer-section ul li {
-  margin-bottom: 10px;
-}
-
-.footer-section ul li a {
-  color: #ddd;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-  color: var(--soft-blue);
+.footer-section .logo-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #7dd3fc;
+  font-family: "Cormorant Garamond", serif;
 }
 
 .about-text {
-  color: #eee;
-  margin: 10px 0 25px;
+  margin-top: 16px;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-.logo-text {
-  font-size: 2.5rem;
-  background: linear-gradient(90deg, var(--soft-blue), var(--light-sky));
-  color: transparent;
-  font-weight: 700;
+/* ====================== FOLLOW US ====================== */
+.follow-us-title {
+  margin-top: 25px;
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.social-icons {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
 }
 
 .social-icons img {
-  width: 28px;
-  margin-right: 10px;
-  transition: transform 0.3s ease;
+  width: 30px;
+  height: 30px;
+  opacity: 0.85;
+  transition: 0.25s ease;
 }
+
 .social-icons img:hover {
-  transform: scale(1.15);
+  opacity: 1;
+  transform: scale(1.12);
 }
 
-.contact-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+/* ====================== SECTION HEADINGS ====================== */
+.footer-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+  position: relative;
 }
 
-
-
-.footer-section.contact-info a {
-  color: #ffffff; /* White text */
-  text-decoration: none; /* Remove underline */
-  font-weight: 400;
-  transition: color 0.3s ease;
+/* Underline animation (same as navbar) */
+.footer-section h3::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: #7dd3fc;
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  transition: width 0.3s ease;
 }
 
-.footer-section.contact-info a:hover {
-  color: #ffb6c1; /* Optional soft pink hover to match theme */
+.footer-section h3:hover::after {
+  width: 40%;
+}
+
+/* ====================== LINKS ====================== */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 10px 0;
+}
+
+.footer-section ul li a {
+  color: #cbd5e1;
   text-decoration: none;
+  font-size: 0.95rem;
+  position: relative;
+  transition: color .3s;
 }
 
-/* Also ensure icons and text align properly */
-.footer-section.contact-info .contact-item {
+/* Underline hover effect like navbar */
+.footer-section ul li a::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: #7dd3fc;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  transition: width 0.25s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #ffffff;
+}
+
+.footer-section ul li a:hover::after {
+  width: 100%;
+}
+
+/* ====================== CONTACT INFO ====================== */
+.contact-info .contact-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin: 12px 0;
 }
-
-.footer-section.contact-info .contact-icon {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1); /* make icons white if dark */
-}
-
 
 .contact-icon {
-  width: 18px;
-  margin-right: 8px;
+  width: 22px;
+  opacity: 0.8;
 }
 
+.contact-info a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+
+.contact-info a:hover {
+  color: #ffffff;
+}
+
+/* ====================== FOOTER BOTTOM ====================== */
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 18px;
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
   align-items: center;
-}
-
-.footer-bottom p {
-  margin: 0;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .footer-bottom-right {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #ccc;
+}
+
+.footer-bottom-right span {
+  margin: 0 4px;
 }
 
 .india-flag {
-  width: 20px;
-  border-radius: 3px;
+  width: 22px;
+  border-radius: 4px;
 }
 
-/* Responsive */
+/* ====================== RESPONSIVE ====================== */
 @media (max-width: 768px) {
-  .business-content h2,
-  .categories-section h2,
-  .sell-route-section h2 {
-    font-size: 1.8rem;
-  }
-  .cta-btn, .cta-button, .explore-button {
-    padding: 10px 22px;
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
   }
 }

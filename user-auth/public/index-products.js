@@ -370,16 +370,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let allProducts = [];
   let index = 0;
-  const perPage = 12; // change as needed
+  const perPage = 30;   // ⬅️ LOAD 30 AT A TIME (Updated)
   let isLoading = false;
 
-  // safe JSON parse
   async function safeParse(res) {
     const text = await res.text();
     try { return JSON.parse(text); } catch { return {}; }
   }
 
-  // resolves image path (use your resolveImagePath from elsewhere if available)
   function resolveImagePath(path) {
     if (!path) return "/assets/img-placeholder.png";
     if (path.startsWith("uploads/") || path.startsWith("/uploads/")) {
@@ -388,9 +386,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return path;
   }
 
-  function formatPrice(p) { return p ? Number(p).toLocaleString("en-IN") : "-"; }
+  function formatPrice(p) {
+    return p ? Number(p).toLocaleString("en-IN") : "-";
+  }
 
-  // render a batch of products
   function renderBatch() {
     const slice = allProducts.slice(index, index + perPage);
     if (!slice.length) {
@@ -399,36 +398,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const frag = document.createDocumentFragment();
-    slice.forEach((prod, i) => {
+
+    slice.forEach((prod) => {
       const card = document.createElement("article");
       card.className = "pinterest-card reveal";
       card.setAttribute("tabindex", "0");
       card.dataset.id = prod._id || "";
 
-      // Use a low-quality placeholder if available (thumbnailImageLow) else tiny blurred inline
       const full = resolveImagePath(prod.thumbnailImage || prod.image || "");
       const lq = prod.thumbnailLow || prod.blurDataURL || "";
 
-      // structure
       card.innerHTML = `
         <div class="wish" aria-hidden="true">♡</div>
         <img data-src="${full}" src="${lq || ''}" alt="${escapeHtml(prod.name || 'Product')}" loading="lazy">
-        
         <div class="price-chip">₹${formatPrice(prod.price)}</div>
       `;
 
-      // attach click => open product (no button)
       card.addEventListener("click", (e) => {
-        if (e.target.closest('.wish')) {
-          // wishlist toggle (visual only)
-          card.querySelector('.wish').textContent = card.querySelector('.wish').textContent === '♥' ? '♡' : '♥';
-          card.querySelector('.wish').classList.toggle('active');
+        if (e.target.closest(".wish")) {
+          const w = card.querySelector(".wish");
+          w.textContent = w.textContent === "♥" ? "♡" : "♥";
+          w.classList.toggle("active");
           return;
         }
         window.location.href = `product-detail.html?id=${prod._id}`;
       });
 
-      // ensure keyboard accessible
       card.addEventListener("keydown", (ev) => {
         if (ev.key === "Enter") card.click();
       });
@@ -438,131 +433,104 @@ document.addEventListener("DOMContentLoaded", () => {
 
     grid.appendChild(frag);
     index += perPage;
+
     attachLazyAndReveal();
+
+    if (index >= allProducts.length) {
+      loadMoreBtn.style.display = "none";
+    }
   }
 
-  // Lazy load images + progressive blur -> full
   function attachLazyAndReveal() {
-    const imgs = grid.querySelectorAll('img[data-src]');
-    const options = { rootMargin: '200px 0px', threshold: 0.01 };
+    const imgs = grid.querySelectorAll("img[data-src]");
+    const options = { rootMargin: "200px 0px", threshold: 0.01 };
 
     const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const img = entry.target;
         const src = img.dataset.src;
+
         if (!src) { obs.unobserve(img); return; }
 
-        // preload full image
         const full = new Image();
         full.src = src;
         full.onload = () => {
-          img.style.transition = 'filter 400ms ease, transform 500ms';
+          img.style.transition = "filter 400ms ease, transform 500ms";
           img.src = src;
-          img.style.filter = 'none';
+          img.style.filter = "none";
         };
         obs.unobserve(img);
       });
     }, options);
 
-    imgs.forEach(img => {
-      // make placeholder look blur if it's a data url or small image
-      img.style.filter = img.src ? 'blur(8px) saturate(.9)' : 'blur(10px)';
+    imgs.forEach((img) => {
+      img.style.filter = img.src ? "blur(8px) saturate(.9)" : "blur(10px)";
       io.observe(img);
     });
 
-    // reveal animation observer (stagger)
-    const reveals = grid.querySelectorAll('.reveal:not(.in-view)');
+    const reveals = grid.querySelectorAll(".reveal:not(.in-view)");
     let delay = 0;
-    reveals.forEach(el => {
-      setTimeout(() => el.classList.add('in-view'), delay);
+    reveals.forEach((el) => {
+      setTimeout(() => el.classList.add("in-view"), delay);
       delay += 60;
     });
 
-    // attach tilt / mouse parallax per card
-    grid.querySelectorAll('.pinterest-card').forEach(card => {
+    grid.querySelectorAll(".pinterest-card").forEach((card) => {
       if (card.dataset.tiltAttached) return;
-      card.dataset.tiltAttached = '1';
-      card.addEventListener('pointermove', handleTilt);
-      card.addEventListener('pointerleave', resetTilt);
-      function handleTilt(e) {
+      card.dataset.tiltAttached = "1";
+
+      card.addEventListener("pointermove", function (e) {
         const r = card.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width;
         const py = (e.clientY - r.top) / r.height;
-        const tiltX = (py - 0.5) * 6; // tilt intensity
+        const tiltX = (py - 0.5) * 6;
         const tiltY = (px - 0.5) * -8;
-        card.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-6px) scale(1.01)`;
-        card.classList.add('tilt');
-      }
-      function resetTilt() {
-        card.style.transform = '';
-        card.classList.remove('tilt');
-      }
+        card.style.transform =
+          `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-6px) scale(1.01)`;
+        card.classList.add("tilt");
+      });
+
+      card.addEventListener("pointerleave", function () {
+        card.style.transform = "";
+        card.classList.remove("tilt");
+      });
     });
   }
 
-  // fetch all products once
   async function fetchAll() {
     try {
-      loader.style.display = 'block';
+      loader.style.display = "block";
       isLoading = true;
-      const res = await fetch('/api/products/all', { credentials: 'include' });
+
+      const res = await fetch("/api/products/all", { credentials: "include" });
       const data = await safeParse(res);
-      // support different shapes returned from backend
+
       if (Array.isArray(data)) allProducts = data;
       else if (data && Array.isArray(data.products)) allProducts = data.products;
       else allProducts = [];
 
-      // if there are lots of products, randomize heights lightly for Pinterest feel
-      allProducts = allProducts.map((p, i) => {
-        // Keep original, but add tiny random factor used by CSS heights if needed
-        p._rnd = 0.9 + Math.random() * 0.5; // use to vary height if desired
-        return p;
-      });
+      allProducts = allProducts.map((p) => ({ ...p, _rnd: Math.random() }));
 
       renderBatch();
-      // enable infinite scroll
-      observeScroll();
     } catch (err) {
-      console.error('Error fetching products', err);
+      console.error("Error fetching products", err);
     } finally {
+      loader.style.display = "none";
       isLoading = false;
-      loader.style.display = 'none';
     }
   }
 
-  // Infinite scroll: when user scrolls near bottom of grid, load next batch
-  function observeScroll() {
-    const sentinel = document.createElement('div');
-    sentinel.style.height = '1px';
-    grid.parentElement.appendChild(sentinel);
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(ent => {
-        if (ent.isIntersecting && !isLoading && index < allProducts.length) {
-          isLoading = true;
-          renderBatch();
-          isLoading = false;
-        }
-      });
-    }, { root: null, rootMargin: '800px 0px' });
-
-    io.observe(sentinel);
-  }
-
-  // Load more button
-  loadMoreBtn.addEventListener('click', () => {
+  loadMoreBtn.addEventListener("click", () => {
     if (!isLoading) renderBatch();
   });
 
-  // small utility to escape HTML
-  function escapeHtml(s){
-    return String(s||'').replace(/[&<>"']/g, c=>{
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  function escapeHtml(str) {
+    return String(str || "").replace(/[&<>"']/g, (c) => {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   }
 
-  // init
   fetchAll();
 });
 

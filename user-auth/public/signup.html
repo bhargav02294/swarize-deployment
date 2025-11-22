@@ -27,66 +27,73 @@
     
 <body>
 
-
+ <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-container">
-            <div class="logo-container">
-                <a href="index.html" class="logo-link">
-                <span class="logo-text">S</span> <!-- Swarize logo -->
-                </a>
+
+            <!-- REAL LOGO -->
+            <div class="brand-wrapper">
+                <div class="logo-container">
+                    <img src="./images/info.jpg" class="logo-img" alt="Swarize Logo">
+                </div>
+                <div class="brand-name">swarize</div>
             </div>
-            <h1 class="navbar-title">Sign-Up Form</h1>
+
+            <h1 class="navbar-title">Sign Up</h1>
         </div>
     </nav>
-    
-    <!-- Back Button -->
-    <button class="back-button" onclick="window.location.href='index.html';">
-        <div class="button-box">
-            <span class="button-elem">
-                <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
-                </svg>
-            </span>
-            <span class="button-elem">
-                <svg viewBox="0 0 46 40">
-                    <path d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"></path>
-                </svg>
-            </span>
-        </div>
-    </button>
 
 
 
+    <!-- SIGNUP MODAL BOX -->
     <div id="signupModal" class="modal">
         <div class="modal-content">
-            
-            <div class="form-title">Sign Up</div>
+
+            <div class="form-title">Create Account</div>
+
             <div class="signup-container">
+
                 <form id="signup-form">
-                    
+
+                    <!-- NAME -->
                     <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="signup-name" placeholder="Name" required>
+                        <label>Name</label>
+                        <input type="text" id="signup-name" placeholder="Full Name" required>
                         <span class="error" id="name-error"></span>
                     </div>
+
+                    <!-- EMAIL -->
                     <div class="form-group">
-                        <label for="email">Email:</label>
+                        <label>Email</label>
                         <input type="email" id="signup-email" placeholder="Email" required>
                         <span class="error" id="email-error"></span>
                     </div>
+
+                    <!-- PASSWORD -->
                     <div class="form-group">
-                        <label for="password">Password:</label>
+                        <label>Password</label>
                         <input type="password" id="signup-password" placeholder="Password" required>
                         <span class="error" id="password-error"></span>
                     </div>
-                    <input type="hidden" id="signup-country" name="country" value="India"> <!-- Ensure country is set -->
 
-                    <button type="submit">Sign Up</button>
+                    <input type="hidden" id="signup-country" name="country" value="India">
+
+                    <button type="submit" class="signup-btn">Sign Up</button>
                 </form>
-                <p>By clicking Sign Up, you agree to our <a href="terms-and-condition.html">Terms and Service</a> & <a href="privacy-policy.html">Privacy Policy</a></p>
+
+                <p class="terms">
+                    By signing up, you agree to our
+                    <a href="terms-and-condition.html">Terms of Service</a> &
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                </p>
+
             </div>
-            
-            <p class="login-link">Already have an account? <a href="signin.html">Log in</a></p>
+
+            <p class="login-link">
+                Already have an account?
+                <a href="signin.html">Log in</a>
+            </p>
+
         </div>
     </div>
     <script src="signup.js"></script>

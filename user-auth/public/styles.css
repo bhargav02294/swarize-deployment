@@ -916,6 +916,93 @@ header h2 {
   border: none;
 }
 
+/* ============================================================
+   TRENDING SECTION — RESPONSIVE DESIGN
+============================================================ */
+
+/* TABLETS (≤ 992px) — show 2 cards */
+@media screen and (max-width: 992px) {
+  .trending-container {
+    justify-content: center;
+  }
+
+  .trending-track {
+    flex-wrap: wrap;
+    gap: 22px;
+  }
+
+  .big-card {
+    flex: 1 1 calc(50% - 15px);
+    max-width: 380px;
+    height: 480px;
+  }
+
+  .big-card .card-media {
+    height: 65%;
+  }
+}
+
+/* MOBILE (≤ 600px) — show 1 card, full width */
+@media screen and (max-width: 600px) {
+
+  .trending-large {
+    padding: 40px 6%;
+  }
+
+  /* Section Title */
+  .trending-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Track fits one card per row */
+  .trending-track {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Full-width card */
+  .big-card {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    height: 420px;               /* reduced height for mobile */
+    border-radius: 14px;
+  }
+
+  /* Adjust image area */
+  .big-card .card-media {
+    height: 62%; 
+  }
+
+  /* Mobile-friendly overlay */
+  .big-card .card-info {
+    padding: 16px;
+    transform: translateY(65%);
+    background: linear-gradient(180deg, rgba(10,12,14,0.0) 0%, rgba(6,8,10,0.92) 70%);
+    backdrop-filter: blur(5px);
+  }
+
+  .big-card:hover .card-info {
+    transform: translateY(0);
+  }
+
+  /* Text inside the overlay */
+  .card-info h3 {
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+  }
+
+  .card-info .price {
+    font-size: 1.15rem;
+  }
+
+  .card-info .cta {
+    font-size: 0.85rem;
+  }
+}
 
 
 
@@ -1171,186 +1258,111 @@ header h2 {
   animation: ping 1s ease-in-out infinite;
 }
 
+/* ============================================================
+   PINTEREST PRODUCT GRID — MOBILE RESPONSIVE (≤ 600px)
+============================================================ */
+@media screen and (max-width: 600px) {
 
+  /* Section Wrapper */
+  .pinterest-grid-section.dark-premium {
+    padding: 40px 16px;
+  }
 
+  /* Section Title */
+  .section-title {
+    font-size: 1.4rem;
+    letter-spacing: 0.3px;
+    text-align: center;
+    margin-bottom: 22px;
+  }
 
+  .section-title::after {
+    width: 40px;
+    height: 3px;
+    margin-left: 10px;
+  }
 
+  /* GRID — ONE COLUMN ON MOBILE */
+  .pinterest-grid {
+    column-count: 1 !important;
+    column-gap: 16px;
+    padding-bottom: 20px;
+  }
 
+  /* Card Adjustments */
+  .pinterest-card {
+    margin-bottom: 16px;
+    border-radius: 14px;
+    width: 100%;
+    transform: none !important;   /* Disable hover lift on mobile */
+    box-shadow: 0 4px 14px rgba(10,12,16,0.65);
+  }
 
+  /* Disable tilt effects on mobile for performance */
+  .pinterest-card.tilt {
+    transform: none !important;
+  }
 
+  /* Image tweaks */
+  .pinterest-card img {
+    border-radius: inherit;
+  }
 
+  /* Wishlist icon smaller */
+  .wish {
+    top: 10px;
+    right: 10px;
+    width: 44px;
+    height: 44px;
+    font-size: 15px;
+    background: rgba(255,255,255,0.04);
+  }
 
+  /* Price chip adjustment */
+  .price-chip {
+    font-size: 0.9rem;
+    padding: 7px 14px;
+    bottom: 14px;
+  }
 
+  /* Load More Button */
+  .load-more-btn {
+    margin-top: 20px;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    letter-spacing: 0.4px;
+    border-radius: 999px;
+  }
 
+  /* Loader */
+  .grid-loader {
+    padding: 20px 0;
+    font-size: 0.85rem;
+  }
 
+  .loader-dot {
+    width: 10px;
+    height: 10px;
+  }
 
+  /* Hover overlay softened for mobile */
+  .pinterest-card:hover img {
+    transform: none !important;
+    filter: none !important;
+  }
 
+  .pinterest-card:hover::before {
+    opacity: 0.3;
+  }
 
-
-
-
-
-
-  
-  
-
-
-
-
-
-
-/* ==== product section ----------------------- by categories ==== */
-
-/* ===================== PRODUCT SECTION ===================== */
-.product-section {
-  width: 90%;
-  max-width: 1200px;
-  margin: 10px auto;
-  color: #1A2A3A; /* primary text color */
-  text-align: center;
-  padding: 0 10px;
+  .pinterest-card:hover .price-chip,
+  .pinterest-card:hover .card-meta {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.product-section h2 {
-  font-size: 2.5rem;
-  color: #1A2A3A; /* primary dark text */
-  margin-bottom: 40px;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 10px;
-  border-bottom: 3px solid #8BC6EC; /* brand accent */
-}
 
-/* Grid Layout */
-#products-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-/* Row of categories */
-.product-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-/* Category Section */
-.category-section {
-  flex: 1;
-  background: #E3F2FD; /* light background for category */
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(26, 42, 58, 0.1); /* subtle shadow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.category-section:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(26, 42, 58, 0.15);
-}
-
-/* Category Heading */
-.category-section h3 {
-  font-size: 1.5rem;
-  color: #1A2A3A; /* dark color */
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* Category Products */
-.category-products {
-  display: flex;
-  overflow-x: auto;
-  flex-wrap: nowrap;
-  gap: 20px;
-  padding-bottom: 10px;
-  scroll-behavior: smooth;
-  justify-content: center;
-}
-
-.category-products::-webkit-scrollbar {
-  height: 8px;
-}
-
-.category-products::-webkit-scrollbar-thumb {
-  background-color: #8BC6EC; /* brand accent */
-  border-radius: 10px;
-}
-
-/* Product Card */
-.product-card {
-  flex: 0 0 auto;
-  width: 250px;
-  background: #FFFFFF; /* card background */
-  padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(26, 42, 58, 0.08);
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(26, 42, 58, 0.15);
-}
-
-/* Product Image */
-.product-image {
-  width: 100%;
-  height: 250px;
-  object-fit: contain;
-  border-radius: 12px;
-  background-color: #E3F2FD; /* light brand color */
-}
-
-/* Product Title */
-.product-card h4 {
-  font-size: 1.1rem;
-  color: #1A2A3A;
-  margin: 12px 0 6px;
-  font-weight: 500;
-}
-
-/* Product Price */
-.product-price {
-  font-size: 20px;
-  color: #8BC6EC; /* brand accent */
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-/* Rating */
-.star-rating {
-  color: #FFB400; /* golden stars */
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-
-/* Cart Button */
-.cart-button {
-  background-color: #8BC6EC; /* brand accent */
-  color: #FFFFFF;
-  border: none;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px auto 0;
-}
-
-.cart-button:hover {
-  background-color: #1A2A3A; /* dark accent on hover */
-  transform: scale(1.1);
-}
 
 
 
@@ -1542,205 +1554,290 @@ header h2 {
   }
 }
 
+/* ============================================================
+   ABOUT SECTION — MOBILE RESPONSIVENESS (MAX-WIDTH: 600PX)
+   Paste this at the end of your CSS
+============================================================ */
+@media screen and (max-width: 600px) {
 
+  /* Section wrapper: less vertical padding, tighter sides */
+  .about-section {
+    padding: 36px 16px;
+  }
+
+  /* Header area: center and reduce sizes */
+  .about-header {
+    max-width: 92%;
+    margin: 0 auto 28px;
+    text-align: center;
+  }
+
+  .about-title {
+    font-size: 1.6rem;       /* reduced for readability */
+    line-height: 1.12;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
+  }
+
+  .about-subtitle {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-top: 6px;
+    line-height: 1.45;
+    max-width: 98%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* FEATURES GRID: 1 column for narrow phones, 2 columns for slightly wider phones */
+  .about-features {
+    max-width: 100%;
+    margin: 0 auto 28px;
+    display: grid;
+    grid-template-columns: 1fr;   /* default single column */
+    gap: 16px;
+    padding: 0;
+  }
+
+  /* For slightly wider small screens, allow 2 columns */
+  @media screen and (min-width: 420px) {
+    .about-features {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+  }
+
+  .feature-card {
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(125,211,252,0.08);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .feature-icon {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  .feature-card p {
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
+  .feature-card:hover {
+    transform: none; /* disable hover lift on touch devices */
+    box-shadow: 0 8px 30px rgba(56,189,248,0.06);
+  }
+
+  /* MISSION SECTION: stack vertically for mobile */
+  .about-mission {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
+    align-items: stretch;
+  }
+
+  .mission-image {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(56,189,248,0.07);
+    flex: none;
+  }
+
+  .mission-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 16 / 9; /* ideal mobile crop */
+  }
+
+  .mission-text {
+    flex: none;
+    padding: 6px 2px 0 2px;
+  }
+
+  .mission-text h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .mission-text p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    opacity: 0.92;
+  }
+
+  /* CTA: full width, touch-friendly */
+  .mission-btn {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 12px 16px;
+    border-radius: 999px;
+    font-size: 0.98rem;
+  }
+
+  .mission-btn:hover {
+    transform: translateY(0); /* disable hover translate on mobile */
+    background: linear-gradient(90deg, #7dd3fc, #38bdf8);
+  }
+
+  /* Reveal animations: slightly faster and shorter for mobile snappiness */
+  .reveal-up,
+  .reveal-left,
+  .reveal-right {
+    animation-duration: 0.6s;
+    animation-timing-function: ease-out;
+  }
+
+  /* Ensure good focus outline for keyboard users on mobile */
+  .mission-btn:focus,
+  .feature-card:focus {
+    outline: 3px solid rgba(56,189,248,0.12);
+    outline-offset: 2px;
+  }
+
+  /* Reduce heading gradient glare for small screens for better contrast */
+  .about-title {
+    background: linear-gradient(90deg, #7dd3fc, #38bdf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Minor utilities to tighten layout */
+  .about-section .about-features .feature-card:last-child {
+    margin-bottom: 6px;
+  }
+
+  /* small screens: slightly reduce radius and shadow depth */
+  .feature-card,
+  .mission-image,
+  .pinterest-card {
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+  }
+}
 
 
 
 
 
 /* ============================================================
-   FOOTER — DARK PREMIUM (Compact + Perfect Logo Alignment)
+   FOOTER — MOBILE RESPONSIVENESS (MAX-WIDTH: 600PX)
 ============================================================ */
-footer.footer {
-  background: #0b0f13;
-  padding: 10px 5% 22px; /* compact top spacing */
-  color: #e5e7eb;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  font-family: "Poppins", sans-serif;
-}
+@media screen and (max-width: 600px) {
 
-/* ============================================================
-   LOGO + ABOUT TEXT (Left Column)
-============================================================ */
-.footer-logo-top {
-  margin: 0; /* remove all gaps */
-  padding: 0;
-}
+  footer.footer {
+    padding: 22px 16px 30px;
+    text-align: center;
+  }
 
-footer .logo-img {
-  width: 60px;              /* BIGGER LOGO */
-  height: 60px;
-  margin: 0 auto;           /* center horizontally */
-  display: block;
-  margin-top: 0 !important; /* force top alignment */
-}
+  /* LOGO */
+  footer .logo-img {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto;
+  }
 
-/* ABOUT TEXT — centered + brand colored */
-.about-text {
-  margin-top: 10px;
-  font-size: 1rem;
-  text-align: center;
-  font-weight: 400;
-  color: #7dd3fc;        /* BRAND BLUE */
-  line-height: 1.45;
-  max-width: 860px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .about-text {
+    font-size: 0.95rem;
+    margin-top: 10px;
+    line-height: 1.45;
+    max-width: 90%;
+  }
 
-/* ============================================================
-   GRID LAYOUT
-============================================================ */
-.footer-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 34px;
-  max-width: 1400px;
-  margin: 5px auto 3px; /* small spacing after logo area */
-}
+  /* FOOTER GRID → STACK VERTICALLY */
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 28px;
+    text-align: center;
+  }
 
-/* ============================================================
-   SECTION HEADINGS
-============================================================ */
-.footer-section h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 16px;
-  position: relative;
-  letter-spacing: 0.5px;
-}
+  /* EACH SECTION */
+  .footer-section h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
 
-/* Hover underline */
-.footer-section h3::after {
-  content: "";
-  width: 0;
-  height: 2px;
-  background: #7dd3fc;
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  transition: width 0.3s ease;
-}
-.footer-section h3:hover::after {
-  width: 40%;
-}
+  .footer-section h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
-/* ============================================================
-   LINKS
-============================================================ */
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
+  /* LINK LISTS */
+  .footer-section ul {
+    padding: 0;
+  }
 
-.footer-section ul li {
-  margin: 8px 0;
-}
+  .footer-section ul li {
+    margin: 6px 0;
+  }
 
-.footer-section ul li a {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-size: 0.92rem;
-  position: relative;
-  transition: 0.3s ease;
-}
+  .footer-section ul li a {
+    font-size: 0.9rem;
+  }
 
-/* underline on hover */
-.footer-section ul li a::after {
-  content: "";
-  width: 0;
-  height: 2px;
-  background: #7dd3fc;
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  transition: width 0.25s ease;
-}
+  /* CONTACT ITEMS CENTERED */
+  .contact-info .contact-item {
+    justify-content: center;
+    margin: 6px 0;
+  }
 
-.footer-section ul li a:hover {
-  color: #ffffff;
-}
-.footer-section ul li a:hover::after {
-  width: 100%;
-}
+  .contact-icon {
+    width: 18px;
+  }
 
-/* ============================================================
-   CONTACT INFO
-============================================================ */
-.contact-info .contact-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 8px 0;
-}
+  .contact-info a {
+    font-size: 0.9rem;
+  }
 
-.contact-icon {
-  width: 20px;
-  opacity: 0.8;
-}
+  /* FOLLOW US */
+  .follow-us-title {
+    margin-top: 18px;
+    font-size: 1rem;
+  }
 
-.contact-info a {
-  color: #cbd5e1;
-  font-size: 0.92rem;
-  text-decoration: none;
-  transition: 0.3s ease;
-}
+  .social-icons {
+    justify-content: center;
+    gap: 14px;
+  }
 
-.contact-info a:hover {
-  color: #ffffff;
-}
+  .social-icons img {
+    width: 28px;
+    height: 28px;
+  }
 
-/* ============================================================
-   FOLLOW US (Under Contact)
-============================================================ */
-.follow-us-title {
-  margin-top: 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-}
+  /* FOOTER BOTTOM — STACK VERTICALLY */
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    padding-top: 16px;
+  }
 
-.social-icons {
-  margin-top: 10px;
-  display: flex;
-  gap: 12px;
-}
+  .footer-bottom-right {
+    justify-content: center;
+    gap: 6px;
+  }
 
-.social-icons img {
-  width: 26px;
-  height: 26px;
-  opacity: 0.82;
-  transition: 0.25s ease;
-}
+  .india-flag {
+    width: 20px;
+  }
 
-.social-icons img:hover {
-  opacity: 1;
-  transform: scale(1.12);
-}
-
-/* ============================================================
-   FOOTER BOTTOM
-============================================================ */
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 12px;
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #94a3b8;
-  font-size: 0.83rem;
-}
-
-.footer-bottom-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.india-flag {
-  width: 22px;
-  border-radius: 4px;
 }

@@ -111,10 +111,7 @@ header h2 {
   cursor: pointer;
 }
 
-.logo-img:hover {
-  transform: scale(1.08);
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0));
-}
+
 
 /* Brand text */
 .brand-name {
@@ -300,6 +297,28 @@ header h2 {
 .category-bar button:hover {
   color: white;
 }
+
+
+.hamburger {
+  display: none;
+}
+
+#mobile-search {
+  display: none;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.category-toggle {
+  display: none;
+}
+
+.category-list {
+  display: none;
+}
+
 
 /* ============================================================
    MOBILE RESPONSIVENESS (MAX-WIDTH: 600PX)
@@ -1529,7 +1548,6 @@ footer .logo-img {
   margin: 0 auto;           /* center horizontally */
   display: block;
   margin-top: 0 !important; /* force top alignment */
-  filter: drop-shadow(0 0 6px rgba(56,189,248,0.25));
 }
 
 /* ABOUT TEXT — centered + brand colored */

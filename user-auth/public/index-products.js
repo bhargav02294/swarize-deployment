@@ -572,33 +572,3 @@ document.querySelectorAll('.category-image img').forEach(img => {
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  const banners = document.querySelectorAll(".mini-banner");
-  const dotsContainer = document.querySelector(".mini-dots");
-
-  banners.forEach((_, i) => {
-    const dot = document.createElement("button");
-    dot.addEventListener("click", () => switchBanner(i));
-    dotsContainer.appendChild(dot);
-  });
-
-  const dots = dotsContainer.querySelectorAll("button");
-  dots[0].classList.add("active");
-
-  let current = 0;
-
-  function switchBanner(i) {
-    banners[current].classList.remove("active");
-    dots[current].classList.remove("active");
-
-    current = i;
-
-    banners[current].classList.add("active");
-    dots[current].classList.add("active");
-  }
-
-  setInterval(() => {
-    let next = (current + 1) % banners.length;
-    switchBanner(next);
-  }, 4500);
-});

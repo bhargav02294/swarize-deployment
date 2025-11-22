@@ -26,9 +26,10 @@ html {
 ============================================================ */
 .cursor {
   position: fixed;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #ffffff;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ffffff;
+  box-shadow: #00000053;
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
@@ -105,7 +106,7 @@ header h2 {
   color: #ffffff;
   font-size: 1.7rem;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 1px;
 }
 
@@ -498,116 +499,97 @@ header h2 {
 
 
 
-
-/* =======================================
-   OPTION A — MARQUEE STRIP (Dark theme)
-======================================= */
+/* ======================================================
+     ULTRA PREMIUM MARQUEE STRIP  – Dark Luxury Style
+====================================================== */
 .marquee-strip {
   width: 100%;
   background: #0b0d10;
   overflow: hidden;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  padding: 12px 0;
+  padding: 16px 0;
+  margin-top: 10px; /* simple natural spacing */
+  position: relative;
 }
 
+/* Left & Right fade edges */
+.marquee-fade-left,
+.marquee-fade-right {
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.marquee-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #0b0d10, transparent);
+}
+
+.marquee-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #0b0d10, transparent);
+}
+
+/* MAIN TRACK */
 .marquee-track {
   display: flex;
-  gap: 60px;
+  gap: 80px;
   white-space: nowrap;
-  animation: marqueeMove 18s linear infinite;
+  animation: marqueeMove 14s linear infinite;
+  transform-style: preserve-3d;
 }
 
+/* TEXT ITEMS */
 .marquee-item {
-  color: #38bdf8;
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 4px;
-  opacity: 0.85;
-  transition: 0.25s;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: #ffffff;
+  opacity: 0.92;
+
+  /* GLOW effect */
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.6),
+    0 0 15px rgba(255,255,255,0.4);
+
+  /* 3D Tilt */
+  transform: perspective(400px) rotateY(-12deg);
+  animation: tiltAnim 3s ease-in-out infinite alternate;
+  transition: 0.3s;
 }
 
+/* Hover makes it pop stronger */
 .marquee-item:hover {
+  transform: scale(1.15) perspective(400px) rotateY(0deg);
+  color: #ffffff;
+  text-shadow:
+    0 0 12px rgba(255,255,255,0.8),
+    0 0 28px rgba(255,255,255,0.6);
   opacity: 1;
-  transform: scale(1.08);
 }
 
+/* Smooth sideways movement */
 @keyframes marqueeMove {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-
-
-
-
-
-
-
-/* ==============================================
-   OPTION B — MINI BANNER SLIDER (Dark theme)
-============================================== */
-.mini-banner-section {
-  width: 100%;
-  height: 220px;
-  background: #0b0d10;
-  position: relative;
-  overflow: hidden;
-  margin-top: 20px;
+/* Gentle 3D floating tilt */
+@keyframes tiltAnim {
+  0% { transform: perspective(400px) rotateY(-10deg); }
+  100% { transform: perspective(400px) rotateY(10deg); }
 }
 
-.mini-banner-slider {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
 
-.mini-banner {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.8s ease, transform 1s ease;
-}
 
-.mini-banner.active {
-  opacity: 1;
-  transform: translateX(0);
-  z-index: 2;
-}
 
-.mini-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
-/* Dots */
-.mini-dots {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-}
 
-.mini-dots button {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255,255,255,0.4);
-  cursor: pointer;
-  transition: 0.3s;
-}
 
-.mini-dots button.active {
-  background: #38bdf8;
-  width: 22px;
-  border-radius: 20px;
-}
+
+
 
 
 

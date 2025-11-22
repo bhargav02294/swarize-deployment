@@ -1441,7 +1441,7 @@ header h2 {
 ============================================================ */
 footer.footer {
   background: #0b0f13;
-  padding: 45px 5% 25px;  /* reduced height */
+  padding: 40px 5% 22px; /* reduced & balanced */
   color: #e5e7eb;
   border-top: 1px solid rgba(255,255,255,0.05);
   font-family: "Poppins", sans-serif;
@@ -1453,25 +1453,27 @@ footer.footer {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 34px;
   max-width: 1400px;
-  margin: 0 auto 40px;   /* reduced spacing */
+  margin: 0 auto 32px; /* reduced */
 }
 
-/* LOGO Section */
+/* LOGO SECTION — Move Logo Higher */
 footer .logo-img {
-  width: 52px;
-  height: 52px;
-  margin-bottom: 10px;  /* closer spacing */
+  width: 54px;
+  height: 54px;
+  margin-bottom: 8px; 
+  margin-top: -6px;   /* pulls logo up a bit */
 }
 
+/* About Text */
 .about-text {
-  margin-top: 6px;
+  margin-top: 4px;
   color: #cbd5e1;
   font-size: 0.92rem;
-  line-height: 1.45;
-  max-width: 260px;
+  line-height: 1.42;
+  max-width: 240px;
 }
 
-/* Section Titles */
+/* SECTION TITLES */
 .footer-section h3 {
   font-size: 1.05rem;
   font-weight: 600;
@@ -1481,7 +1483,7 @@ footer .logo-img {
   position: relative;
 }
 
-/* Underline Animation */
+/* Underline Hover (Brand Style) */
 .footer-section h3::after {
   content: "";
   width: 0%;
@@ -1496,11 +1498,12 @@ footer .logo-img {
   width: 40%;
 }
 
-/* Links */
+/* LIST LINKS */
 .footer-section ul {
   list-style: none;
   padding: 0;
 }
+
 .footer-section ul li {
   margin: 8px 0;
 }
@@ -1513,7 +1516,7 @@ footer .logo-img {
   transition: .3s;
 }
 
-/* Link underline effect */
+/* Link underline */
 .footer-section ul li a::after {
   content: "";
   width: 0%;
@@ -1522,11 +1525,11 @@ footer .logo-img {
   position: absolute;
   bottom: -3px;
   left: 0;
-  transition: width 0.25s ease;
+  transition: width .25s ease;
 }
 
 .footer-section ul li a:hover {
-  color: white;
+  color: #ffffff;
 }
 .footer-section ul li a:hover::after {
   width: 100%;
@@ -1537,7 +1540,7 @@ footer .logo-img {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .contact-icon {
@@ -1549,28 +1552,29 @@ footer .logo-img {
   color: #cbd5e1;
   text-decoration: none;
   font-size: 0.92rem;
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 .contact-info a:hover {
   color: #ffffff;
 }
 
-/* SOCIAL ICONS */
+/* FOLLOW US (Moved Below Contact Info) */
 .follow-us-title {
   font-size: 1rem;
   color: #ffffff;
-  margin-top: 22px;
+  margin-top: 22px; /* nice spacing from contact */
 }
 
+/* Social Icons */
 .social-icons {
-  margin-top: 12px;
+  margin-top: 10px;
   display: flex;
   gap: 12px;
 }
 
 .social-icons img {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   opacity: 0.82;
   transition: .25s ease;
 }
@@ -1583,12 +1587,12 @@ footer .logo-img {
 /* FOOTER BOTTOM */
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 14px; /* reduced height */
+  padding-top: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #94a3b8;
-  font-size: 0.84rem;
+  font-size: 0.83rem;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -1606,6 +1610,9 @@ footer .logo-img {
 
 /* MOBILE */
 @media (max-width: 768px) {
+  .footer-container {
+    gap: 26px;
+  }
   .footer-bottom {
     flex-direction: column;
     gap: 6px;

@@ -10,8 +10,7 @@
         <meta name="keywords" content="Swarize, Sign Up, fashion, ecommerce, register, create account">
         <meta name="author" content="Swarize">
         <meta name="robots" content="noindex, nofollow">
-            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Vollkorn:wght@500;600&display=swap" rel="stylesheet">
-
+        
         <meta property="og:title" content="Sign Up | Swarize">
         <meta property="og:description" content="Join Swarize and start shopping from India’s most stylish fashion collections.">
         <meta property="og:type" content="website">
@@ -28,7 +27,8 @@
     
 <body>
 
- <!-- NAVBAR -->
+
+       <!-- NAVBAR -->
     <nav class="navbar">
         <div class="navbar-container">
 
@@ -43,58 +43,40 @@
             <h1 class="navbar-title">Sign Up</h1>
         </div>
     </nav>
+    
 
 
 
-    <!-- SIGNUP MODAL BOX -->
     <div id="signupModal" class="modal">
         <div class="modal-content">
-
-            <div class="form-title">Create Account</div>
-
+            
+            <div class="form-title">Sign Up</div>
             <div class="signup-container">
-
                 <form id="signup-form">
-
-                    <!-- NAME -->
+                    
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" id="signup-name" placeholder="Full Name" required>
+                        <label for="name">Name:</label>
+                        <input type="text" id="signup-name" placeholder="Name" required>
                         <span class="error" id="name-error"></span>
                     </div>
-
-                    <!-- EMAIL -->
                     <div class="form-group">
-                        <label>Email</label>
+                        <label for="email">Email:</label>
                         <input type="email" id="signup-email" placeholder="Email" required>
                         <span class="error" id="email-error"></span>
                     </div>
-
-                    <!-- PASSWORD -->
                     <div class="form-group">
-                        <label>Password</label>
+                        <label for="password">Password:</label>
                         <input type="password" id="signup-password" placeholder="Password" required>
                         <span class="error" id="password-error"></span>
                     </div>
+                    <input type="hidden" id="signup-country" name="country" value="India"> <!-- Ensure country is set -->
 
-                    <input type="hidden" id="signup-country" name="country" value="India">
-
-                    <button type="submit" class="signup-btn">Sign Up</button>
+                    <button type="submit">Sign Up</button>
                 </form>
-
-                <p class="terms">
-                    By signing up, you agree to our
-                    <a href="terms-and-condition.html">Terms of Service</a> &
-                    <a href="privacy-policy.html">Privacy Policy</a>
-                </p>
-
+                <p>By clicking Sign Up, you agree to our <a href="terms-and-condition.html">Terms and Service</a> & <a href="privacy-policy.html">Privacy Policy</a></p>
             </div>
-
-            <p class="login-link">
-                Already have an account?
-                <a href="signin.html">Log in</a>
-            </p>
-
+            
+            <p class="login-link">Already have an account? <a href="signin.html">Log in</a></p>
         </div>
     </div>
     <script src="signup.js"></script>

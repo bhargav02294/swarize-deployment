@@ -544,140 +544,157 @@ header h2 {
 
 
 
+/* =========================
+   TRENDING — BIG PRODUCT CARDS (DARK)
+   ========================= */
 
-/* =========================================
-   PRODUCT CAROUSEL (3 ITEMS ONLY)
-========================================= */
-.product-carousel {
-  width: 100%;
-  padding: 50px 5%;
-  background: #0b0d10;
-  position: relative;
+.trending-large {
+  background: linear-gradient(180deg, #060709 0%, #0b0d10 100%);
+  padding: 60px 5%;
+  color: #fff;
 }
 
-.section-title {
-  font-size: 1.9rem;
-  color: #ffffff;
+.trending-title {
   text-align: center;
-  margin-bottom: 35px;
-  font-weight: 600;
+  font-size: 2rem;
   letter-spacing: 1px;
+  margin-bottom: 30px;
+  color: #f8fafc;
+  font-weight: 700;
 }
 
-/* Wrapper */
-.carousel-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-/* Track – fixed width layout for 3 cards */
-.carousel-track {
+/* Container centers the three big cards */
+.trending-container {
+  max-width: 1300px;
+  margin: 0 auto;
   display: flex;
-  gap: 25px;
-  transition: transform 0.45s ease;
-}
-
-/* PRODUCT CARD */
-.product-card {
-  width: calc(33.33% - 20px);
-  background: #141518;
-  border-radius: 14px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  border: 1px solid rgba(255,255,255,0.07);
-  transition: transform .3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-/* IMAGE — FULLY VISIBLE */
-.product-card img {
-  width: 100%;
-  height: 320px;
-  object-fit: contain !important;
-  background: #0b0d10;
-  padding: 10px;
-}
-
-/* Hover overlay for name + price */
-.product-info {
-  position: absolute;
-  bottom: -80px;
-  left: 0;
-  width: 100%;
-  padding: 12px;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(6px);
-  color: #ffffff;
-  text-align: center;
-  transition: bottom .35s ease;
-}
-
-.product-card:hover .product-info {
-  bottom: 0;
-}
-
-.product-info h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.product-info p {
-  font-size: 0.9rem;
-  opacity: 0.85;
-}
-
-/* =========================================
-   ARROWS — minimal, modern
-========================================= */
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 1.3rem;
+  align-items: stretch;
+  gap: 28px;
+}
+
+/* Track holds exactly 3 cards horizontally on desktop */
+.trending-track {
+  display: flex;
+  gap: 28px;
+  width: 100%;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* Big card */
+.big-card {
+  flex: 1 1 calc(33.333% - 18.66px);
+  min-width: 260px;
+  max-width: 420px;              /* constrain for large but bold cards */
+  height: 520px;                 /* tall, prominent hero card */
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
   cursor: pointer;
-  transition: .25s ease;
-  backdrop-filter: blur(4px);
-  z-index: 20;
+  transition: transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s;
+  /* soft outer glow */
+  box-shadow: 0 6px 30px rgba(56,189,248,0.03), 0 3px 12px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.carousel-btn:hover {
-  background: rgba(255,255,255,0.2);
+/* Slight lift on hover */
+.big-card:hover {
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 18px 50px rgba(56,189,248,0.08), 0 8px 30px rgba(0,0,0,0.65);
 }
 
-/* left */
-.carousel-btn.prev {
-  left: -20px;
+/* Product image area (keeps image fully visible) */
+.big-card .card-media {
+  width: 100%;
+  height: 70%;                /* image area dominates card */
+  display: flex;
+  align-items: flex-start;    /* show top portion first per your request */
+  justify-content: center;
+  background: #0b0d10;
 }
 
-/* right */
-.carousel-btn.next {
-  right: -20px;
+/* Image fills width, keep top aligned so the top of image shows */
+.big-card .card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* cover but top-aligned */
+  object-position: top center; /* IMPORTANT: top cropping preference */
+  display: block;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .product-card {
-    width: 80%;
+/* Info overlay (hidden by default, reveals on hover) */
+.big-card .card-info {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(11,13,16,0.0) 0%, rgba(6,8,10,0.88) 65%);
+  backdrop-filter: blur(6px);
+  transform: translateY(70%);
+  transition: transform .4s cubic-bezier(.2,.9,.2,1), opacity .35s;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Reveal overlay on hover */
+.big-card:hover .card-info {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Product name — bold, elegant */
+.card-info h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: .2px;
+  text-align: center;
+}
+
+/* Price — big and impactful */
+.card-info .price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #7ee7ff;
+  text-shadow: 0 6px 22px rgba(56,189,248,0.06);
+}
+
+/* subtle CTA line (optional) */
+.card-info .cta {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.75);
+}
+
+/* Remove any borders — purely glow, no stroke */
+.big-card {
+  border: none;
+}
+
+/* Responsive layout: stack on small screens */
+@media (max-width: 1000px) {
+  .trending-container { padding: 0 12px; }
+  .big-card {
+    max-width: none;
+    flex: 0 0 80%;
+    height: 460px;
   }
-  .carousel-btn.prev,
-  .carousel-btn.next {
-    display: none;
-  }
+  .trending-track { justify-content: center; }
+}
+
+/* On very small phones stack vertically */
+@media (max-width: 560px) {
+  .big-card { height: 380px; flex-basis: 100%; width: 100%; }
+
 }
 
 

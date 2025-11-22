@@ -173,77 +173,78 @@ function viewProduct(id) {
 
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const track = document.getElementById("productTrack");
-  const prev = document.querySelector(".carousel-btn.prev");
-  const next = document.querySelector(".carousel-btn.next");
+  const track = document.getElementById("trending-track");
+  if (!track) return;
 
-  let products = [];
-
-  // Fetch products
+  // Safe JSON fetch/parser
   async function fetchProducts() {
     try {
       const res = await fetch("/api/products/all");
-      const data = await res.json();
-      if (Array.isArray(data)) return data;
-      if (data.products) return data.products;
-      return [];
-    } catch {
+      const text = await res.text();
+      try { return JSON.parse(text); }
+      catch { 
+        // fallback if endpoint returns {products:[]}
+        try { return JSON.parse(text).products || []; } catch { return []; }
+      }
+    } catch (err) {
+      console.error("Failed to fetch products", err);
       return [];
     }
   }
 
   function resolveImagePath(path) {
     if (!path) return "/assets/img-placeholder.png";
-    if (path.startsWith("uploads")) {
-      return `https://swarize.in/${path}`;
+    if (typeof path === "string" && (path.startsWith("uploads/") || path.startsWith("/uploads/"))) {
+      return `https://swarize.in/${path.replace(/^\/+/, "")}`;
     }
     return path;
   }
 
-  // Load 3 products only
-  async function loadCarousel() {
-    products = await fetchProducts();
-    const firstThree = products.slice(0, 3);
+  // Build the 3 big cards
+  const all = await fetchProducts();
+  const selected = (Array.isArray(all) ? all : (Array.isArray(all.products) ? all.products : [])).slice(0, 3);
 
-    track.innerHTML = firstThree.map(prod => `
-      <div class="product-card" onclick="viewProduct('${prod._id}')">
-        <img src="${resolveImagePath(prod.thumbnailImage)}">
-        <div class="product-info">
-          <h3>${prod.name}</h3>
-          <p>₹${Number(prod.price).toLocaleString("en-IN")}</p>
+  // Fallback dummy if no products
+  if (!selected.length) {
+    track.innerHTML = `
+      <div class="big-card">
+        <div class="card-media"><img src="/assets/img-placeholder.png" alt="No product"></div>
+        <div class="card-info"><h3>No products found</h3><div class="price">—</div></div>
+      </div>`;
+    return;
+  }
+
+  track.innerHTML = selected.map(p => {
+    const img = resolveImagePath(p.thumbnailImage || p.image || "");
+    const safeName = (p.name || "Product").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    const price = p.price ? Number(p.price).toLocaleString("en-IN") : "-";
+    return `
+      <div class="big-card" role="link" tabindex="0" data-id="${p._id}">
+        <div class="card-media">
+          <img src="${img}" alt="${safeName}">
         </div>
-      </div>
-    `).join("");
-  }
+        <div class="card-info">
+          <h3>${safeName}</h3>
+          <div class="price">₹${price}</div>
+          <div class="cta">Tap to view details</div>
+        </div>
+      </div>`;
+  }).join("");
 
-  // Slide Logic (simple)
-  let index = 0;
-
-  function updateSlide() {
-    const cardWidth = track.children[0].offsetWidth + 25; 
-    track.style.transform = `translateX(${-index * cardWidth}px)`;
-  }
-
-  next.addEventListener("click", () => {
-    if (index < products.length - 3) {
-      index++;
-      updateSlide();
-    }
+  // Make whole card clickable and keyboard accessible
+  track.querySelectorAll(".big-card").forEach(card => {
+    card.addEventListener("click", e => {
+      const id = card.dataset.id;
+      if (id) window.location.href = `product-detail.html?id=${id}`;
+    });
+    card.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        const id = card.dataset.id;
+        if (id) window.location.href = `product-detail.html?id=${id}`;
+      }
+    });
   });
-
-  prev.addEventListener("click", () => {
-    if (index > 0) {
-      index--;
-      updateSlide();
-    }
-  });
-
-  loadCarousel();
 });
-
-function viewProduct(id) {
-  window.location.href = `product-detail.html?id=${id}`;
-}
 
 
 

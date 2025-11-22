@@ -370,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let allProducts = [];
   let index = 0;
-  const perPage = 30;   // ⬅️ LOAD 30 AT A TIME (Updated)
+  const perPage = 16;   // ⬅️ LOAD 16 AT A TIME (Updated)
   let isLoading = false;
 
   async function safeParse(res) {

@@ -499,6 +499,122 @@ header h2 {
 
 
 
+/* =======================================
+   OPTION A — MARQUEE STRIP (Dark theme)
+======================================= */
+.marquee-strip {
+  width: 100%;
+  background: #0b0d10;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 12px 0;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 60px;
+  white-space: nowrap;
+  animation: marqueeMove 18s linear infinite;
+}
+
+.marquee-item {
+  color: #38bdf8;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  opacity: 0.85;
+  transition: 0.25s;
+}
+
+.marquee-item:hover {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+@keyframes marqueeMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
+
+
+
+
+
+
+/* ==============================================
+   OPTION B — MINI BANNER SLIDER (Dark theme)
+============================================== */
+.mini-banner-section {
+  width: 100%;
+  height: 220px;
+  background: #0b0d10;
+  position: relative;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.mini-banner-slider {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.mini-banner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s ease, transform 1s ease;
+}
+
+.mini-banner.active {
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 2;
+}
+
+.mini-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dots */
+.mini-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.mini-dots button {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mini-dots button.active {
+  background: #38bdf8;
+  width: 22px;
+  border-radius: 20px;
+}
+
+
+
+
+
+
+
 
 
 

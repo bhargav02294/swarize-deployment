@@ -113,7 +113,7 @@ header h2 {
 
 .logo-img:hover {
   transform: scale(1.08);
-  filter: drop-shadow(0 0 10px rgba(56,189,248,0.5));
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0));
 }
 
 /* Brand text */
@@ -1436,79 +1436,52 @@ header h2 {
 
 
 
-
 /* ============================================================
-   FOOTER — DARK PREMIUM STYLE (Matches Whole Website Theme)
+   FOOTER — DARK PREMIUM STYLE (Compact + Professional)
 ============================================================ */
 footer.footer {
   background: #0b0f13;
-  padding: 60px 5% 30px;
+  padding: 45px 5% 25px;  /* reduced height */
   color: #e5e7eb;
   border-top: 1px solid rgba(255,255,255,0.05);
   font-family: "Poppins", sans-serif;
 }
 
-/* Footer container */
+/* Grid Container */
 .footer-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 34px;
   max-width: 1400px;
-  margin: 0 auto 50px;
+  margin: 0 auto 40px;   /* reduced spacing */
 }
 
-/* ====================== LOGO / ABOUT SECTION ====================== */
-
-/* FOOTER LOGO SIZE SLIGHTLY BIGGER */
+/* LOGO Section */
 footer .logo-img {
-  width: 58px;
-  height: 58px;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 10px;  /* closer spacing */
 }
 
 .about-text {
-  margin-top: 16px;
+  margin-top: 6px;
   color: #cbd5e1;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  max-width: 260px;
 }
 
-/* ====================== FOLLOW US ====================== */
-.follow-us-title {
-  margin-top: 25px;
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.social-icons {
-  margin-top: 12px;
-  display: flex;
-  gap: 12px;
-}
-
-.social-icons img {
-  width: 30px;
-  height: 30px;
-  opacity: 0.85;
-  transition: 0.25s ease;
-}
-
-.social-icons img:hover {
-  opacity: 1;
-  transform: scale(1.12);
-}
-
-/* ====================== SECTION HEADINGS ====================== */
+/* Section Titles */
 .footer-section h3 {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: #ffffff;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   letter-spacing: 0.5px;
   position: relative;
 }
 
-/* Underline animation (same as navbar) */
+/* Underline Animation */
 .footer-section h3::after {
   content: "";
   width: 0%;
@@ -1519,30 +1492,28 @@ footer .logo-img {
   bottom: -4px;
   transition: width 0.3s ease;
 }
-
 .footer-section h3:hover::after {
   width: 40%;
 }
 
-/* ====================== LINKS ====================== */
+/* Links */
 .footer-section ul {
   list-style: none;
   padding: 0;
 }
-
 .footer-section ul li {
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .footer-section ul li a {
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   position: relative;
-  transition: color .3s;
+  transition: .3s;
 }
 
-/* Underline hover effect like navbar */
+/* Link underline effect */
 .footer-section ul li a::after {
   content: "";
   width: 0%;
@@ -1555,46 +1526,69 @@ footer .logo-img {
 }
 
 .footer-section ul li a:hover {
-  color: #ffffff;
+  color: white;
 }
-
 .footer-section ul li a:hover::after {
   width: 100%;
 }
 
-/* ====================== CONTACT INFO ====================== */
+/* CONTACT INFO */
 .contact-info .contact-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 12px 0;
+  margin: 10px 0;
 }
 
 .contact-icon {
-  width: 22px;
+  width: 20px;
   opacity: 0.8;
 }
 
 .contact-info a {
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   transition: 0.3s;
 }
-
 .contact-info a:hover {
   color: #ffffff;
 }
 
-/* ====================== FOOTER BOTTOM ====================== */
+/* SOCIAL ICONS */
+.follow-us-title {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-top: 22px;
+}
+
+.social-icons {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+}
+
+.social-icons img {
+  width: 28px;
+  height: 28px;
+  opacity: 0.82;
+  transition: .25s ease;
+}
+
+.social-icons img:hover {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+/* FOOTER BOTTOM */
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 18px;
+  padding-top: 14px; /* reduced height */
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #94a3b8;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -1605,20 +1599,16 @@ footer .logo-img {
   gap: 8px;
 }
 
-.footer-bottom-right span {
-  margin: 0 4px;
-}
-
 .india-flag {
   width: 22px;
   border-radius: 4px;
 }
 
-/* ====================== RESPONSIVE ====================== */
+/* MOBILE */
 @media (max-width: 768px) {
   .footer-bottom {
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     text-align: center;
   }
 }

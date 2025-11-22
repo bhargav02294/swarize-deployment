@@ -37,9 +37,9 @@ html {
 
   /* --- New Glow Enhancement --- */
   box-shadow: 
-      0 0 10px rgba(0, 0, 0, 0.6),   /* strong black glow */
-      0 0 20px rgba(0, 0, 0, 0.4),   /* soft outer glow */
-      0 0 4px rgba(255,255,255,0.4); /* subtle white halo for contrast */
+      0 0 10px rgba(0, 0, 0, 0.39),   /* strong black glow */
+      0 0 20px rgba(0, 0, 0, 0.296),   /* soft outer glow */
+      0 0 4px rgba(255, 255, 255, 0.322); /* subtle white halo for contrast */
 }
 
 /* Click animation */
@@ -87,18 +87,26 @@ header h2 {
 /* ============================================================
    LOGO + BRAND NAME
 ============================================================ */
+/* Wrapper for logo + name */
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;           /* spacing between logo and text */
+}
 
+/* Logo container */
 .logo-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Logo Image */
 .logo-img {
-  width: 46px;       /* perfect size for navbar */
+  width: 46px;
   height: 46px;
   object-fit: contain;
-  filter: drop-shadow(0 0 6px rgba(56,189,248,0.25)); /* soft glow */
+  filter: drop-shadow(0 0 6px rgba(56,189,248,0.25));
   transition: transform .25s ease, filter .25s ease;
   cursor: pointer;
 }
@@ -108,16 +116,17 @@ header h2 {
   filter: drop-shadow(0 0 10px rgba(56,189,248,0.5));
 }
 
-/* BRAND NAME NEXT TO LOGO */
+/* Brand text */
 .brand-name {
-  font-size: 1.65rem;
-  font-weight: 700;
-  color: #e2f3ff;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-left: 10px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Vollkorn", serif !important;
+  color: #ffffff;
+  font-size: 1.7rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  margin-top: 2px; /* tiny alignment fix */
 }
+
 
 /* ============================================================
    SEARCH BAR (MINIMAL DARK)

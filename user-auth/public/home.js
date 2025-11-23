@@ -95,24 +95,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // mobile menu controls
   function openMobileMenu() {
-    mobileMenu.classList.add('open');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    menuToggle.setAttribute('aria-expanded', 'true');
-    menuToggle.querySelector('.menu-icon').textContent = '✕';
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMobileMenu() {
-    mobileMenu.classList.remove('open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    menuToggle.setAttribute('aria-expanded', 'false');
-    menuToggle.querySelector('.menu-icon').textContent = '☰';
-    document.body.style.overflow = '';
-  }
+  mobileMenu.classList.add('open');
+  mobileMenu.setAttribute('aria-hidden', 'false');
+  menuToggle.setAttribute('aria-expanded', 'true');
+  menuToggle.textContent = '✕';   // ← FIXED
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+  mobileMenu.classList.remove('open');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.textContent = '☰';  // ← FIXED
+  document.body.style.overflow = '';
+}
+
   menuToggle?.addEventListener('click', () => {
     if (mobileMenu.classList.contains('open')) closeMobileMenu();
     else openMobileMenu();
   });
-  mobileClose?.addEventListener('click', closeMobileMenu);
 
   // mobile logout
   mobileLogout?.addEventListener('click', async (e) => {

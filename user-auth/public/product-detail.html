@@ -15,167 +15,149 @@
   <meta id="og-image" property="og:image" content="/default-thumbnail.jpg" />
   <meta id="og-url" property="og:url" content="" />
 
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta id="twitter-title" name="twitter:title" content="Product Details | Swarize" />
+  <meta id="twitter-description" name="twitter:description" content="Explore premium products on Swarize. Trusted reviews, secure shopping and fast delivery." />
+  <meta id="twitter-image" name="twitter:image" content="/default-thumbnail.jpg" />
+
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/product-detail.css" />
 </head>
 <body>
-  <!-- NAVBAR (clean, dark) -->
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="navbar-container">
-      <a class="brand-left" href="index.html" aria-label="Swarize Home">
-        <!-- primary logo src; fallback to uploaded asset if missing -->
-        <img src="/images/logo.png" onerror="this.onerror=null; this.src='/mnt/data/58e54584-f6c6-4f93-a5a9-10d8e5971db4.png'" alt="Swarize Logo" class="logo-img">
-        <div class="brand-text">
-          <div class="brand-name">swarize</div>
-          <div class="brand-tag">Empowering Indian Businesses</div>
-        </div>
-      </a>
-
-      <ul class="nav-actions">
-        <li><a class="nav-link" href="addtocart.html">Cart</a></li>
-        <li class="login-dropdown">
+      <div class="logo-container">
+        <a href="index.html" class="logo-link"><span class="logo-text">S</span></a>
+      </div>
+      
+      <ul class="menu">
+        <li class="dropdown login-dropdown">
           <button class="dropdown-button">Login</button>
           <div class="dropdown-content login-content">
             <a href="signin.html">Sign In</a>
             <a href="signup.html">Sign Up</a>
           </div>
         </li>
-        <li><a class="nav-link" href="home.html">Home</a></li>
+        <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
+        <li><a href="home.html" class="menu-item">Home</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- MAIN (full width, no page side margin) -->
-  <main class="product-page">
-    <section class="product-grid">
+  <!-- Product Container -->
+  <div class="product-container">
+    <!-- Image Slider -->
+    <div class="product-image-section">
+      <div class="slider-container">
+        <button class="slider-btn prev" onclick="moveSlide(-1)">‹</button>
+        <div class="slider-track" id="media-slider"></div>
+        <button class="slider-btn next" onclick="moveSlide(1)">›</button>
+      </div>
+      <h3 id="preview-store-name">Sold by: <span id="store-link">Unknown Store</span></h3>
+    </div>
 
-      <!-- Column 1: Image gallery (50% width on desktop) -->
-      <div class="col gallery-col">
-        <div class="image-stage">
-          <div class="main-media-wrapper">
-            <img id="main-image" alt="Product image" class="main-image" />
-            <!-- video element will replace image when active video chosen -->
-            <video id="main-video" class="main-image" controls style="display:none;"></video>
-          </div>
-        </div>
-
-        <!-- Horizontal thumbnails below -->
-        <div class="thumbnails" id="thumbnail-track" aria-label="Product media thumbnails">
-          <!-- thumbnails will be injected here -->
-        </div>
-
-        <div class="store-line">Sold by: <button id="store-link" class="store-link">Unknown Store</button></div>
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="product-header">
+        <h1 id="preview-name">Product Name</h1>
+        <h2 id="preview-price">₹0.00</h2>
+        <h2 id="preview-display-price">₹0.00</h2>
+       
       </div>
 
-      <!-- Column 2: Product details (center) -->
-      <div class="col info-col">
-        <div class="product-header">
-          <h1 id="preview-name" class="product-title">Product Name</h1>
+      <!-- Product Selections -->
+      <div class="product-selections">
 
-          <div class="price-row">
-            <div class="display-price" id="preview-display-price" aria-hidden="true">₹0.00</div>
-            <div class="price" id="preview-price">₹0.00</div>
-          </div>
 
-          <div class="meta-row">
-            <div><strong>Product Code:</strong> <span id="preview-product-code">-</span></div>
-            <div><strong>Category:</strong> <span id="preview-category">-</span></div>
-            <div><strong>Subcategory:</strong> <span id="preview-subcategory">-</span></div>
-          </div>
+        <div class="selection-row">
+          <label>Color:</label>
+          <div id="preview-color" class="color-container">-</div>
         </div>
-
-        <div class="selections">
-          <div class="selection">
-            <label>Color</label>
-            <div id="preview-color" class="color-container">-</div>
-          </div>
-
-          <div class="selection">
-            <label>Size</label>
-            <div id="preview-size" class="size-container">-</div>
-            <button id="size-chart-btn" class="btn-secondary">Size Chart</button>
-          </div>
-
-          <div class="specs-grid">
-            <div><strong>Material:</strong> <span id="preview-material">-</span></div>
-            <div><strong>Pattern:</strong> <span id="preview-pattern">-</span></div>
-            <div><strong>Wash Care:</strong> <span id="preview-wash-care">-</span></div>
-            <div><strong>Model:</strong> <span id="preview-model-style">-</span></div>
-            <div><strong>Occasion:</strong> <span id="preview-occasion">-</span></div>
-            <div><strong>Available In:</strong> <span id="preview-available-in">All over India</span></div>
-          </div>
+        <div class="selection-row">
+          <label>Size:</label>
+          <div id="preview-size" class="size-container">-</div>
+          <button id="size-chart-btn" class="size-chart-trigger">Size Chart</button>
         </div>
-
-        <!-- Description block (collapsible) -->
-        <div class="description-block">
-          <button id="toggle-desc-btn" class="desc-toggle">+ Product Description</button>
-          <div id="desc-summary-content" class="desc-content" aria-hidden="true">
-            <p id="preview-description">-</p>
-            <p id="preview-summary">-</p>
-            <button id="toggle-less-btn" class="btn-link">Show Less</button>
-          </div>
+        <div class="selection-row">
+          <label>Saree Size:</label>
+          <span id="preview-saree-size">-</span>
+        </div>
+        <div class="selection-row">
+          <label>Blouse Size:</label>
+          <span id="preview-blouse-size">-</span>
         </div>
       </div>
 
-      <!-- Column 3: Buy box (right) -->
-      <aside class="col buy-col">
-        <div class="buy-card">
-          <div class="price-block">
-            <div class="label">Price</div>
-            <div class="big-price" id="preview-price-2">₹0.00</div>
-            <div class="small-display" id="preview-display-price-2">₹0.00</div>
-          </div>
+      <!-- Buy / Cart Buttons -->
+      <div class="action-buttons">
+        <button class="buy-now">Buy Now</button>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
 
-          <div class="cta">
-            <button id="buy-now" class="btn-primary buy-now">Buy Now</button>
-            <button id="add-to-cart" class="btn-outline add-to-cart">Add to Cart</button>
-          </div>
+      <!-- Product Details -->
+      <div class="product-details-section">
+         <div class="spec-row"><strong>Product Code:</strong> <span id="preview-product-code">-</span></div>
+        <div class="spec-row"><strong>Category:</strong> <span id="preview-category">-</span></div>
+        <div class="spec-row"><strong>Subcategory:</strong> <span id="preview-subcategory">-</span></div>
+        <div class="spec-row"><strong>Material:</strong> <span id="preview-material">-</span></div>
+        <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern">-</span></div>
+        <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care">-</span></div>
+        <div class="spec-row"><strong>Brand:</strong> <span id="preview-brand">-</span></div>
+        <div class="spec-row"><strong>Model:</strong> <span id="preview-model-style">-</span></div>
+        <div class="spec-row"><strong>Occasion:</strong> <span id="preview-occasion">-</span></div>
+        <div class="spec-row"><strong>Available In:</strong> <span id="preview-available-in">All over India</span></div>
+        <div class="spec-row"><strong>Tags:</strong> <span id="preview-tags">-</span></div>
+      </div>
 
-          <div class="notice">
-            <p><strong>Note:</strong> No COD / RTO available.</p>
-            <p>✔ Free Delivery across India</p>
-          </div>
-        </div>
-      </aside>
-
-    </section>
-
-    <!-- Reviews (full width beneath product) -->
-    <section class="reviews-section">
-      <div class="reviews-card">
-        <div class="reviews-left">
-          <h3>Customer Reviews</h3>
-          <div id="reviews-container">No reviews yet.</div>
-        </div>
-
-        <div class="reviews-right">
-          <h4>Submit a Review</h4>
-          <p id="review-message" class="muted"></p>
-          <select id="rating" aria-label="Rating">
-            <option value="5">★★★★★ (5)</option>
-            <option value="4">★★★★ (4)</option>
-            <option value="3">★★★ (3)</option>
-            <option value="2">★★ (2)</option>
-            <option value="1">★ (1)</option>
-          </select>
-          <textarea id="comment" placeholder="Write your review..." rows="4"></textarea>
-          <button id="submit-review" class="btn-primary">Submit Review</button>
+      <!-- Description -->
+      <div class="collapsible-desc">
+        <button id="toggle-desc-btn">+ Product Description</button>
+        <div id="desc-summary-content" style="display: none;">
+          <p id="preview-description">-</p>
+          <p id="preview-summary">-</p>
+          <button id="toggle-less-btn">- Show Less</button>
         </div>
       </div>
-    </section>
-  </main>
 
-  <!-- SIZE CHART MODAL -->
-  <div id="size-chart-overlay" class="modal-overlay" aria-hidden="true"></div>
-  <div id="size-chart-modal" class="modal" role="dialog" aria-hidden="true">
-    <div class="modal-inner">
-      <h3>Size Chart</h3>
-      <div id="size-chart-content">Loading...</div>
-      <button id="close-size-chart" class="btn-outline">Close</button>
+      <!-- Note -->
+      <div class="product-info-note">
+        <ul>
+          <li><strong>Note:</strong> No COD / RTO available.</li>
+          <li>✔ Free Delivery across India</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <script src="/product-detail.js" defer></script>
+  <!-- Size Chart Modal -->
+  <div id="size-chart-overlay"></div>
+  <div id="size-chart-modal">
+    <h3>Size Chart</h3>
+    <div id="size-chart-content">Loading...</div>
+    <button id="close-size-chart">Close</button>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="review-section">
+    <h3>Submit Your Review</h3>
+    <p id="review-message"></p>
+    <select id="rating">
+      <option value="5">★★★★★ (5 Stars)</option>
+      <option value="4">★★★★☆ (4 Stars)</option>
+      <option value="3">★★★☆☆ (3 Stars)</option>
+      <option value="2">★★☆☆☆ (2 Stars)</option>
+      <option value="1">★☆☆☆☆ (1 Star)</option>
+    </select>
+    <textarea id="comment" placeholder="Write your review here..."></textarea>
+    <button id="submit-review">Submit Review</button>
+
+    <h3>Customer Reviews</h3>
+    <div id="reviews-container">No reviews yet.</div>
+  </div>
+
+  <script src="product-detail.js"></script>
 </body>
 </html>

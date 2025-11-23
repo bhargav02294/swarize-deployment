@@ -1,276 +1,261 @@
-// product-detail.js
-// Gallery + product loading + interactions
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
-  if (!productId) {
-    document.body.innerHTML = "<h2 style='padding:40px;color:#fff'>No product ID provided.</h2>";
-    return;
-  }
 
-  // DOM refs
-  const mainImage = document.getElementById("main-image");
-  const mainVideo = document.getElementById("main-video");
-  const thumbnailTrack = document.getElementById("thumbnail-track");
-  const previewName = document.getElementById("preview-name");
-  const previewPrice = document.getElementById("preview-price");
-  const previewDisplay = document.getElementById("preview-display-price");
-  const previewPrice2 = document.getElementById("preview-price-2");
-  const previewDisplay2 = document.getElementById("preview-display-price-2");
-  const previewProductCode = document.getElementById("preview-product-code");
-  const previewCategory = document.getElementById("preview-category");
-  const previewSubcategory = document.getElementById("preview-subcategory");
-  const previewMaterial = document.getElementById("preview-material");
-  const previewPattern = document.getElementById("preview-pattern");
-  const previewWashCare = document.getElementById("preview-wash-care");
-  const previewModelStyle = document.getElementById("preview-model-style");
-  const previewOccasion = document.getElementById("preview-occasion");
-  const previewAvailableIn = document.getElementById("preview-available-in");
-  const previewTags = document.getElementById("preview-tags");
-  const previewDescription = document.getElementById("preview-description");
-  const previewSummary = document.getElementById("preview-summary");
-  const previewColor = document.getElementById("preview-color");
-  const previewSize = document.getElementById("preview-size");
-  const storeLinkBtn = document.getElementById("store-link");
-  const addToCartBtn = document.getElementById("add-to-cart");
-  const buyNowBtn = document.getElementById("buy-now");
+  if (!productId) return document.body.innerHTML = "<h2>No product ID provided.</h2>";
 
   try {
     const res = await fetch(`https://swarize.in/api/products/detail/${productId}`);
-    const json = await res.json();
-    const product = json.product;
-    if (!product) {
-      document.body.innerHTML = "<h2 style='padding:40px;color:#fff'>Product not found.</h2>";
-      return;
-    }
+    const { product } = await res.json();
 
-    // Helper to set
-    const setText = (el, val) => { if (!el) return; el.textContent = (val === null || val === undefined || val === "") ? "-" : val; };
+    if (!product) return document.body.innerHTML = "<h2>Product not found.</h2>";
 
-    // Basic fields
-    setText(previewName, product.name);
-    setText(previewProductCode, product.productCode || "-");
-    setText(previewCategory, product.category || "-");
-    setText(previewSubcategory, product.subcategory || "-");
-    setText(previewMaterial, product.material || "-");
-    setText(previewPattern, product.pattern || "-");
-    setText(previewWashCare, product.washCare || "-");
-    setText(previewModelStyle, product.modelStyle || "-");
-    setText(previewOccasion, product.occasion || "-");
-    setText(previewAvailableIn, product.availableIn || "All over India");
-    setText(previewTags, (product.tags || []).join(", "));
-    setText(previewDescription, product.description || "-");
-    setText(previewSummary, product.summary || "-");
+    // Helper to safely set text
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text || "-";
+    };
 
-    // Prices
-    const priceText = product.price ? `₹${product.price}` : "-";
-    const displayText = product.displayPrice ? `₹${product.displayPrice}` : "";
-    setText(previewPrice, priceText);
-    setText(previewDisplay, displayText);
-    setText(previewPrice2, priceText);
-    setText(previewDisplay2, displayText);
+    // Fill all product fields
+    const fields = {
+      "preview-name": product.name,
+      "preview-product-code": product.productCode,
+      "preview-price": product.price ? `₹${product.price}` : "-",
+      "preview-display-price": product.displayPrice ? `₹${product.displayPrice}` : "-",
+      "preview-category": product.category,
+      "preview-subcategory": product.subcategory,
+      "preview-material": product.material,
+      "preview-pattern": product.pattern,
+      "preview-wash-care": product.washCare,
+      "preview-brand": product.brand,
+      "preview-model-style": product.modelStyle,
+      "preview-occasion": product.occasion,
+      "preview-available-in": product.availableIn || "All over India",
+      "preview-tags": (product.tags || []).join(", "),
+      "preview-description": product.description,
+      "preview-summary": product.summary,
+      "preview-saree-size": product.sareeSize || "-",
+      "preview-blouse-size": product.blouseSize || "-"
+    };
 
-    // Store link
-    if (product.store) {
-      storeLinkBtn.textContent = product.store.storeName || "Unknown Store";
+    Object.entries(fields).forEach(([id, text]) => setText(id, text));
+
+    // Store info
+    const storeEl = document.getElementById("store-link");
+    if (storeEl && product.store) {
+      storeEl.textContent = product.store.storeName || "Unknown Store";
       if (product.store.slug) {
-        storeLinkBtn.addEventListener("click", () => {
+        storeEl.addEventListener("click", () => {
           window.location.href = `sellers-products.html?slug=${product.store.slug}`;
         });
       }
     }
 
-    // Sizes
-    previewSize.innerHTML = "";
-    const sizes = Array.isArray(product.size) ? product.size : (product.size || "").toString().split(",").map(s=>s.trim()).filter(Boolean);
-    if (sizes.length) {
-      sizes.forEach(sz => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "size-btn";
-        btn.textContent = sz;
-        btn.addEventListener("click", () => {
-          previewSize.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
-          btn.classList.add("selected");
-        });
-        previewSize.appendChild(btn);
-      });
-    } else {
-      previewSize.textContent = "-";
-    }
-
-    // Colors
-    previewColor.innerHTML = "";
-    const colors = Array.isArray(product.color) ? product.color : (product.color || "").toString().split(",").map(c=>c.trim()).filter(Boolean);
-    if (colors.length) {
-      colors.forEach(c => {
-        const span = document.createElement("span");
-        span.className = "color-swatch";
-        span.title = c;
-        // If color is a hex or recognized color, use directly; else fallback to gray
-        try { span.style.backgroundColor = c || "#999"; } catch(e) { span.style.backgroundColor = "#999"; }
-        previewColor.appendChild(span);
-      });
-    } else previewColor.textContent = "-";
-
-    // MEDIA: prepare items (thumbs + main)
-    const mediaItems = [];
-    if (product.thumbnailImage) mediaItems.push({ type: "img", src: product.thumbnailImage });
-    (product.extraImages || []).forEach(url => mediaItems.push({ type: "img", src: url }));
-    (product.extraVideos || []).forEach(url => mediaItems.push({ type: "video", src: url }));
-
-    // Render thumbnails horizontally
-    thumbnailTrack.innerHTML = "";
-    let selectedIndex = 0;
-
-    function setMainTo(index) {
-      const item = mediaItems[index];
-      if (!item) return;
-      // highlight selected thumb
-      thumbnailTrack.querySelectorAll(".thumb").forEach((t, i) => t.classList.toggle("selected", i === index));
-      // set main display
-      if (item.type === "img") {
-        mainVideo.style.display = "none";
-        mainVideo.pause?.();
-        mainImage.style.display = "block";
-        mainImage.src = item.src;
-      } else {
-        mainImage.style.display = "none";
-        mainVideo.style.display = "block";
-        mainVideo.src = item.src;
-      }
-      selectedIndex = index;
-    }
-
-    mediaItems.forEach((m, i) => {
-      const thumb = document.createElement("button");
-      thumb.className = "thumb";
-      thumb.type = "button";
-      if (m.type === "img") {
-        const img = document.createElement("img");
-        img.src = m.src;
-        img.alt = `thumb-${i}`;
-        thumb.appendChild(img);
-      } else {
-        const vid = document.createElement("video");
-        vid.src = m.src;
-        vid.muted = true;
-        vid.playsInline = true;
-        vid.preload = "metadata";
-        thumb.appendChild(vid);
-      }
-      thumb.addEventListener("click", () => setMainTo(i));
-      thumbnailTrack.appendChild(thumb);
-    });
-
-    // default to first
-    if (mediaItems.length) setMainTo(0);
-
-    // DESCRIPTION toggle
+    // Description toggle
     const showBtn = document.getElementById("toggle-desc-btn");
     const hideBtn = document.getElementById("toggle-less-btn");
     const descContent = document.getElementById("desc-summary-content");
     if (showBtn && hideBtn && descContent) {
       showBtn.addEventListener("click", () => {
         descContent.style.display = "block";
-        descContent.setAttribute("aria-hidden","false");
         showBtn.style.display = "none";
       });
       hideBtn.addEventListener("click", () => {
         descContent.style.display = "none";
-        descContent.setAttribute("aria-hidden","true");
         showBtn.style.display = "inline-block";
       });
     }
 
-    // ADD TO CART
-    addToCartBtn?.addEventListener("click", async () => {
-      try {
-        const r = await fetch("https://swarize.in/api/cart/add", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ productId })
+    // ==== SIZE SELECTION ====
+    const sizeContainer = document.getElementById("preview-size");
+    sizeContainer.innerHTML = "";
+    const sizes = Array.isArray(product.size)
+      ? product.size
+      : (product.size || "").split(",").map(s => s.trim()).filter(Boolean);
+    if (sizes.length > 0) {
+      sizes.forEach(size => {
+        const btn = document.createElement("button");
+        btn.textContent = size;
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".size-container button").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
         });
-        const d = await r.json();
-        if (d.success) window.location.href = `addtocart.html?id=${productId}`;
-        else alert(d.message || "Failed to add to cart.");
-      } catch (err) {
-        console.error(err);
-        alert("Error adding to cart.");
-      }
-    });
+        sizeContainer.appendChild(btn);
+      });
+    } else sizeContainer.textContent = "-";
 
-    // BUY NOW
-    buyNowBtn?.addEventListener("click", () => {
-      const price = product.price || 0;
-      window.location.href = `payment.html?id=${productId}&name=${encodeURIComponent(product.name)}&price=${price}`;
-    });
+    // ==== COLOR SWATCHES ====
+    const colorContainer = document.getElementById("preview-color");
+    colorContainer.innerHTML = "";
+    const colors = Array.isArray(product.color)
+      ? product.color
+      : (product.color || "").split(",").map(c => c.trim()).filter(Boolean);
+    if (colors.length > 0) {
+      colors.forEach(color => {
+        const swatch = document.createElement("span");
+        swatch.className = "color-swatch";
+        swatch.style.backgroundColor = color;
+        colorContainer.appendChild(swatch);
+      });
+    } else colorContainer.textContent = "-";
 
-    // SIZE CHART modal (sizeChartData must be globally available if used)
+    // ==== MEDIA SLIDER ====
+    const mediaSlider = document.getElementById("media-slider");
+    let currentSlide = 0;
+    if (mediaSlider) {
+      mediaSlider.innerHTML = "";
+      const mediaItems = [];
+
+      if (product.thumbnailImage) mediaItems.push({ type: "img", src: product.thumbnailImage });
+      (product.extraImages || []).forEach(img => mediaItems.push({ type: "img", src: img }));
+      (product.extraVideos || []).forEach(vid => mediaItems.push({ type: "video", src: vid }));
+
+      mediaItems.forEach(({ type, src }) => {
+        const wrapper = document.createElement("div");
+        wrapper.style.minWidth = "100%";
+        wrapper.style.height = "100%";
+        wrapper.style.display = "flex";
+        wrapper.style.alignItems = "center";
+        wrapper.style.justifyContent = "center";
+
+        const el = document.createElement(type);
+        el.src = src;
+        el.classList.add("slider-media");
+        if (type === "video") el.controls = true;
+
+        wrapper.appendChild(el);
+        mediaSlider.appendChild(wrapper);
+      });
+    }
+
+    window.moveSlide = function (direction) {
+      const totalItems = mediaSlider.children.length;
+      const containerWidth = mediaSlider.offsetWidth;
+      currentSlide = Math.max(0, Math.min(currentSlide + direction, totalItems - 1));
+      mediaSlider.style.transform = `translateX(-${containerWidth * currentSlide}px)`;
+    };
+
+    // ==== ADD TO CART ====
+    const addToCartBtn = document.querySelector(".add-to-cart");
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener("click", async () => {
+        try {
+          const res = await fetch("https://swarize.in/api/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId }),
+            credentials: "include"
+          });
+          const data = await res.json();
+          if (data.success) window.location.href = `addtocart.html?id=${productId}`;
+          else alert(data.message);
+        } catch (err) {
+          alert("Error adding product to cart.");
+        }
+      });
+    }
+
+    // ==== BUY NOW ====
+    const buyNowBtn = document.querySelector(".buy-now");
+    if (buyNowBtn) {
+      buyNowBtn.addEventListener("click", () => {
+        window.location.href = `payment.html?id=${productId}&name=${encodeURIComponent(product.name)}&price=${product.price}`;
+      });
+    }
+
+    // ==== SIZE CHART ====
     const sizeChartBtn = document.getElementById("size-chart-btn");
     const sizeChartModal = document.getElementById("size-chart-modal");
     const sizeChartOverlay = document.getElementById("size-chart-overlay");
     const closeSizeChart = document.getElementById("close-size-chart");
     const sizeChartContent = document.getElementById("size-chart-content");
 
-    sizeChartBtn?.addEventListener("click", () => {
-      // If sizeChartData defined, populate; otherwise show fallback
-      try {
-        const chartData = window.sizeChartData?.[product.category]?.[product.subcategory];
-        if (!chartData) {
-          sizeChartContent.innerHTML = "<p>No size chart available.</p>";
-        } else {
-          let html = "<table style='width:100%;border-collapse:collapse'><thead><tr>";
-          chartData.headers.forEach(h => html += `<th style="text-align:left;padding:8px;border-bottom:1px solid rgba(255,255,255,0.04)">${h}</th>`);
-          html += "</tr></thead><tbody>";
-          chartData.rows.forEach(row => {
-            html += "<tr>";
-            row.forEach(cell => html += `<td style="padding:8px;border-bottom:1px solid rgba(255,255,255,0.02)">${cell}</td>`);
-            html += "</tr>";
-          });
-          html += "</tbody></table>";
-          sizeChartContent.innerHTML = html;
-        }
-      } catch (e) {
+    sizeChartBtn.addEventListener("click", () => {
+      const chartData = sizeChartData[product.category]?.[product.subcategory];
+      if (!chartData) {
         sizeChartContent.innerHTML = "<p>No size chart available.</p>";
+      } else {
+        let table = '<table><thead><tr>' + chartData.headers.map(h => `<th>${h}</th>`).join("") + '</tr></thead><tbody>';
+        chartData.rows.forEach(row => {
+          table += '<tr>' + row.map(d => `<td>${d}</td>`).join("") + '</tr>';
+        });
+        table += '</tbody></table>';
+        sizeChartContent.innerHTML = table;
       }
-      sizeChartOverlay.style.display = "block";
       sizeChartModal.style.display = "block";
-      sizeChartOverlay.setAttribute("aria-hidden","false");
-      sizeChartModal.setAttribute("aria-hidden","false");
+      sizeChartOverlay.style.display = "block";
     });
 
-    closeSizeChart?.addEventListener("click", () => {
-      sizeChartOverlay.style.display = "none";
+    closeSizeChart.addEventListener("click", () => {
       sizeChartModal.style.display = "none";
-      sizeChartOverlay.setAttribute("aria-hidden","true");
-      sizeChartModal.setAttribute("aria-hidden","true");
-    });
-
-    sizeChartOverlay?.addEventListener("click", () => {
       sizeChartOverlay.style.display = "none";
-      sizeChartModal.style.display = "none";
     });
 
-    // REVIEWS placeholder
-    const reviewsContainer = document.getElementById("reviews-container");
-    reviewsContainer.innerHTML = "<p>No reviews yet.</p>";
-
-    // Submit review (placeholder)
-    document.getElementById("submit-review")?.addEventListener("click", async () => {
-      const rating = document.getElementById("rating").value;
-      const comment = document.getElementById("comment").value;
-      try {
-        // if you have reviews endpoint, call it here. For now show success message.
-        document.getElementById("review-message").textContent = "Thank you — your review was submitted (placeholder).";
-      } catch (e) {
-        alert("Failed to submit review.");
+    // ==== REVIEWS ====
+    function fetchReviews() {
+      const reviewsContainer = document.getElementById("reviews-container");
+      if (reviewsContainer) {
+        // Placeholder for future API reviews
+        reviewsContainer.innerHTML = "<p>No reviews yet.</p>";
       }
-    });
+    }
+    fetchReviews();
 
   } catch (err) {
+    document.body.innerHTML = "<h2>Failed to load product. Please try again later.</h2>";
     console.error(err);
-    document.body.innerHTML = "<h2 style='padding:40px;color:#fff'>Failed to load product. Please try again later.</h2>";
   }
 });
+
+
+
+
+
+
+
+//----------------dropdowns   --         login country category    -------------------------//
+
+document.addEventListener('click', function (event) {
+    const loginDropdown = document.querySelector('.login-dropdown');
+    const countryDropdown = document.querySelector('.country-dropdowner');
+    const categoryDropdowns = document.querySelectorAll('.category-dropdown');
+
+
+    // Toggle Login Dropdown
+    if (loginDropdown.contains(event.target)) {
+        loginDropdown.classList.toggle('active');
+    } else {
+        loginDropdown.classList.remove('active');
+    }
+
+    // Toggle Country Dropdown
+    if (countryDropdown.contains(event.target)) {
+        countryDropdown.classList.toggle('active');
+    } else {
+        countryDropdown.classList.remove('active');
+    }
+    // Toggle Category Dropdowns
+    categoryDropdowns.forEach(dropdown => {
+        if (dropdown.contains(event.target)) {
+            dropdown.classList.toggle('active');
+        } else {
+            dropdown.classList.remove('active');
+        }
+    });
+});
+
+// Update Country Flag on Selection
+
+
+// Prevent Dropdowns from Closing When Clicking Inside
+document.querySelector('.login-content').addEventListener('click', (event) => {
+    event.stopPropagation();
+});
+
+// Prevent Dropdowns from Closing When Clicking Inside
+document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+    dropdown.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+});
+

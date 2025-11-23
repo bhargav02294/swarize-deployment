@@ -1,220 +1,95 @@
-/* ======================================================
-   GLOBAL DARK THEME
-====================================================== */
+/* resetpassotp.css — Dark theme, responsive */
 
-:root {
-    --bg-dark-1: #060708;
-    --bg-dark-2: #0b0f13;
-    --panel: #12171d;
-    --input-bg: rgba(255,255,255,0.05);
-    --text-light: #e6eef8;
-    --text-muted: #9aa8b5;
-    --accent: #38bdf8;
-    --accent-soft: #7dd3fc;
-    --error: #ff6b6b;
-    --radius: 14px;
+/* -------------------- Root / Colors -------------------- */
+:root{
+  --bg: #0b0c0f;
+  --panel: #0f1316;
+  --muted: #98a2b3;
+  --text: #e6eef6;
+  --accent: #38bdf8;
+  --accent-2: #7dd3fc;
+  --card: #0f161a;
+  --danger: #ff6b6b;
+  --glass: rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.06);
+  --radius: 12px;
+  --max-width: 980px;
 }
 
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* -------------------- Base -------------------- */
+* { box-sizing: border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+html,body { height:100%; margin:0; padding:0; font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color:var(--text); }
+a { color: var(--accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* -------------------- NAVBAR -------------------- */
+.navbar { width:100%; background: linear-gradient(180deg,#071014 0%, #0b0d10 100%); border-bottom:1px solid var(--border); position: sticky; top:0; z-index: 40; }
+.navbar-container { width: 94%; max-width: var(--max-width); margin: 0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0; }
+.brand-left { display:flex; align-items:center; gap:12px; }
+.logo-img { width:46px; height:46px; border-radius:10px; object-fit:cover; display:block; }
+.brand-name { color:var(--text); font-weight:700; font-size:1.1rem; letter-spacing:0.6px; text-transform:lowercase; margin-left:4px; }
+.navbar-title { color:var(--muted); font-size:1rem; margin:0; font-weight:600; text-align:center; flex:1; }
+
+/* -------------------- PAGE WRAP -------------------- */
+.otp-page-wrap { display:flex; align-items:flex-start; justify-content:center; padding:36px 16px 80px; min-height: calc(100vh - 140px); }
+
+/* Center card */
+.otp-container { width:100%; max-width:680px; display:flex; justify-content:center; }
+.card { width:100%; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid var(--border); padding:28px; border-radius:14px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
+.card-title { margin:0 0 14px; font-size:1.25rem; color:var(--accent-2); font-weight:700; }
+
+/* -------------------- Form -------------------- */
+.form-group { margin-bottom:14px; }
+label { display:block; color:var(--accent-2); font-weight:600; margin-bottom:6px; font-size:0.95rem; }
+input[type="email"], input[type="text"]{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
+  color:var(--text);
+  font-size:0.96rem;
+}
+input::placeholder { color: rgba(255,255,255,0.35); }
+
+.error { color: var(--danger); font-size:0.88rem; margin-top:6px; display:block; }
+
+/* -------------------- Buttons -------------------- */
+.btn { display:inline-block; padding:11px 16px; border-radius:10px; border: none; cursor:pointer; font-weight:700; font-size:0.95rem; }
+.btn.primary { background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%); color:#061118; box-shadow: 0 6px 18px rgba(56,189,248,0.12); }
+.btn.ghost { background: transparent; border: 1px solid var(--border); color:var(--text); }
+
+.link.secondary { color: var(--muted); font-size:0.95rem; }
+
+/* timer style */
+.timer { margin: 6px 0 12px; color: var(--muted); font-size:0.95rem; text-align:left; }
+
+/* -------------------- Footer -------------------- */
+.footer { background: transparent; padding:20px 0; margin-top:28px; border-top:1px solid var(--border); }
+.footer-inner { width:94%; max-width:var(--max-width); margin: 0 auto; display:flex; align-items:center; justify-content:space-between; color:var(--muted); gap:8px; }
+.footer .flag { width:18px; height:auto; margin-right:8px; vertical-align:middle; }
+
+/* -------------------- Responsive Layout -------------------- */
+@media (max-width: 900px) {
+  .navbar-container { width: 96%; }
+  .otp-page-wrap { padding:24px 12px 60px; }
+  .card { padding:20px; border-radius:12px; }
+  .logo-img { width:44px; height:44px; }
 }
 
-body {
-    background: linear-gradient(180deg, var(--bg-dark-1), var(--bg-dark-2));
-    font-family: "Poppins", sans-serif;
-    color: var(--text-light);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+@media (max-width: 520px) {
+  .navbar-title { display:none; } /* keep navbar compact */
+  .brand-name { font-size:1rem; }
+  .otp-page-wrap { padding:18px 12px 60px; }
+  .card { padding:16px; }
+  input[type="email"], input[type="text"] { padding:12px; font-size:0.95rem; }
+  .btn { width:100%; padding:12px 14px; }
+  .form-group { margin-bottom:12px; }
+  .footer-inner { flex-direction:column; gap:8px; text-align:center; padding-bottom:12px; }
 }
 
-/* ======================================================
-   NAVBAR
-====================================================== */
+/* small accessibility focus */
+input:focus, button:focus, a:focus { outline: 3px solid rgba(56,189,248,0.12); outline-offset:2px; }
 
-.site-header {
-    backdrop-filter: blur(6px);
-    background: rgba(10,12,14,0.6);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: sticky;
-    top: 0;
-    z-index: 20;
-}
-
-.navbar {
-    max-width: 1200px;
-    margin: auto;
-    padding: 14px 20px;
-}
-
-.navbar-container {
-    display: flex;
-    align-items: center;
-}
-
-.logo-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-}
-
-.logo-img {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-}
-
-.brand-name {
-    font-family: "Vollkorn", serif;
-    font-size: 1.3rem;
-    color: var(--text-light);
-}
-
-.nav-title-wrap {
-    margin-left: auto;
-}
-
-.navbar-title {
-    font-size: 1rem;
-    color: var(--text-muted);
-}
-
-/* ======================================================
-   OTP FORM
-====================================================== */
-
-.otp-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    padding: 20px;
-}
-
-.otp-box {
-    background: var(--panel);
-    padding: 32px 28px;
-    border-radius: var(--radius);
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0 5px 18px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-.otp-box h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.6rem;
-}
-
-/* Inputs */
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    font-size: 0.95rem;
-    margin-bottom: 6px;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: var(--input-bg);
-    color: var(--text-light);
-    font-size: 15px;
-}
-
-input:focus {
-    outline: none;
-    border-color: var(--accent);
-}
-
-/* Buttons */
-.main-btn {
-    width: 100%;
-    padding: 13px;
-    margin-top: 8px;
-    background: var(--accent);
-    border: none;
-    border-radius: 10px;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-.main-btn:hover {
-    background: var(--accent-soft);
-}
-
-.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Timer */
-.timer {
-    margin-top: 10px;
-    color: var(--accent-soft);
-    font-size: 0.9rem;
-    text-align: center;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Resend Link */
-.resend-link {
-    display: block;
-    text-align: center;
-    margin-top: 12px;
-    color: var(--accent-soft);
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.resend-link:hover {
-    color: var(--accent);
-}
-
-/* Error Message */
-.error-text {
-    color: var(--error);
-    font-size: 0.85rem;
-    margin-top: 6px;
-}
-
-/* ======================================================
-   FOOTER
-====================================================== */
-
-.site-footer {
-    margin-top: auto;
-    padding: 22px;
-    text-align: center;
-    color: var(--text-muted);
-    background: rgba(10,12,14,0.4);
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-/* ======================================================
-   RESPONSIVE
-====================================================== */
-
-@media (max-width: 640px) {
-    .logo-img { width: 42px; height: 42px; }
-    .brand-name { font-size: 1.15rem; }
-    .navbar-title { display: none; }
-
-    .otp-box {
-        padding: 26px 20px;
-    }
-}
+/* optional helper classes if you want to show/hide */
+.hidden { display:none !important; }

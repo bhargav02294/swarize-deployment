@@ -184,3 +184,51 @@ body {
     height: 220px;
   }
 }
+
+/* ============================================================
+   NOT SIGNED IN PAGE (REUSED)
+============================================================ */
+.center-box {
+  text-align: center;
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.logo-img {
+  width: 70px;
+}
+
+.brand-name {
+  font-size: 1.8rem;
+  font-family: "Vollkorn", serif;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+  color: #7dd3fc;
+}
+
+.signin-btn {
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 1rem;
+  border: none;
+  background: #38bdf8;
+  color: #0b0c0f;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.signin-btn:hover {
+  background: #7dd3fc;
+  transform: translateY(-2px);
+}

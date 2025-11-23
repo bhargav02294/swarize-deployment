@@ -46,39 +46,29 @@
     
 
 
-
-    <div id="signupModal" class="modal">
-        <div class="modal-content">
-            
-            <div class="form-title">Sign Up</div>
-            <div class="signup-container">
-                <form id="signup-form">
-                    
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="signup-name" placeholder="Name" required>
-                        <span class="error" id="name-error"></span>
-                    </div>
-                    <div class="form-group">
+<div id="signupModal" class="modal">
+     <div class="modal-content">
+         <div class="form-title">Sign Up</div>
+          <div class="signup-container"> 
+            <form id="signup-form"> 
+                <div class="form-group">
+                     <label for="name">Name:</label>
+                      <input type="text" id="signup-name" placeholder="Name" required> 
+                      <span class="error" id="name-error"></span> 
+                    </div> <div class="form-group"> 
                         <label for="email">Email:</label>
-                        <input type="email" id="signup-email" placeholder="Email" required>
-                        <span class="error" id="email-error"></span>
+                         <input type="email" id="signup-email" placeholder="Email" required> 
+                         <span class="error" id="email-error"></span>
+                         </div> <div class="form-group"> 
+                            <label for="password">Password:</label> 
+                            <input type="password" id="signup-password" placeholder="Password" required> 
+                            <span class="error" id="password-error"></span>
+                         </div> <input type="hidden" id="signup-country" name="country" value="India"> <!-- Ensure country is set -->
+                          <button type="submit">Sign Up</button> 
+                        </form> <p>By clicking Sign Up, you agree to our <a href="terms-and-condition.html">Terms and Service</a> & <a href="privacy-policy.html">Privacy Policy</a></p>
+                     </div> <p class="login-link">Already have an account? <a href="signin.html">Log in</a></p>
+                     </div> 
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="signup-password" placeholder="Password" required>
-                        <span class="error" id="password-error"></span>
-                    </div>
-                    <input type="hidden" id="signup-country" name="country" value="India"> <!-- Ensure country is set -->
-
-                    <button type="submit">Sign Up</button>
-                </form>
-                <p>By clicking Sign Up, you agree to our <a href="terms-and-condition.html">Terms and Service</a> & <a href="privacy-policy.html">Privacy Policy</a></p>
-            </div>
-            
-            <p class="login-link">Already have an account? <a href="signin.html">Log in</a></p>
-        </div>
-    </div>
     <script src="signup.js"></script>
 </body>
 </html>

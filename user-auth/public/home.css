@@ -58,12 +58,20 @@ body {
   text-decoration: none;
 }
 
+/* ============================================
+   UPDATED LOGO STYLE (PC + MOBILE)
+============================================ */
 .logo-img {
-  height: 48px;
-  width: 48px;
-  border-radius: 50%;
-  background: white;
-  object-fit: cover;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: none !important;
+  transition: transform .25s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+  filter: none !important;
 }
 
 .brand-text {
@@ -71,10 +79,15 @@ body {
   flex-direction: column;
 }
 
+/* FULLY UPDATED BRAND NAME */
 .brand-name {
-  font-size: 22px;
+  font-family: "Vollkorn", serif !important;
+  color: #ffffff;
+  font-size: 1.7rem;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: lowercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
 }
 
 .brand-tag {
@@ -82,7 +95,7 @@ body {
   color: var(--muted);
 }
 
-/* Mobile Toggle (☰, ✕) */
+/* Mobile Toggle */
 .menu-toggle {
   background: none;
   border: none;
@@ -118,7 +131,6 @@ body {
   right: 0;
 }
 
-/* Brand inside menu */
 .mobile-brand {
   display: flex;
   align-items: center;
@@ -126,20 +138,22 @@ body {
   margin-bottom: 25px;
 }
 
+/* MOBILE LOGO updated same as navbar */
 .mobile-logo {
-  width: 42px;
-  height: 42px;
-  background: white;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
+  object-fit: contain;
 }
 
 .mobile-brand-name {
-  font-size: 20px;
+  font-family: "Vollkorn", serif !important;
+  font-size: 1.6rem;
   font-weight: 600;
-  text-transform: uppercase;
+  color: #fff;
+  text-transform: lowercase;
 }
 
-/* Menu List */
 .mobile-menu-list {
   list-style: none;
   display: flex;
@@ -171,7 +185,7 @@ body {
   padding: 20px;
   position: sticky;
   top: 70px;
-  display: none; /* Hidden on mobile */
+  display: none;
 }
 
 .sidebar-brand {
@@ -182,17 +196,17 @@ body {
 }
 
 .sidebar-logo {
-  width: 45px;
-  height: 45px;
-  background: white;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
 }
 
 .sidebar-title {
-  font-size: 20px;
+  font-family: "Vollkorn", serif !important;
+  font-size: 1.6rem;
+  color: #fff;
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 
 .sidebar-nav ul {
@@ -216,7 +230,6 @@ body {
   color: var(--accent);
 }
 
-/* Show sidebar only on desktop */
 @media (min-width: 769px) {
   .sidebar {
     display: block;
@@ -246,7 +259,7 @@ body {
   font-weight: 600;
 }
 
-/* Grid section (Dashboard cards) */
+/* Grid Section */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

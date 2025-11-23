@@ -53,94 +53,109 @@
 
 
 
-     <!-- MAIN LAYOUT -->
-  <main id="main-container" class="container hidden" role="main" aria-live="polite">
-    <!-- SIDEBAR -->
-    <aside class="sidebar" role="navigation" aria-label="Dashboard navigation">
-      <div class="sidebar-top">
-        <div class="sidebar-user">
-          <img src="/images/logo.png" alt="Swarize" class="sidebar-avatar" />
-          <div class="sidebar-user-info">
-            <div class="sidebar-user-name">Hello, Seller</div>
-            <div class="sidebar-user-small">Account: Basic</div>
-          </div>
-        </div>
+<!-- ================= MOBILE MENU ================= -->
+<nav class="mobile-slide-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu-header">
+    <span class="mobile-menu-title">Menu</span>
+    <button id="closeMenu" class="close-btn">×</button>
+  </div>
+
+  <ul class="mobile-menu-list">
+      <li><a href="/">Home</a></li>
+      <li><a href="/resetpassotp.html">Change Password</a></li>
+      <li><a href="/bank-details.html">Bank Details</a></li>
+      <li><a href="/sellers-store.html">Sellers Store</a></li>
+      <li><a href="/security.html">Security</a></li>
+      <li><a href="/invite.html">Invite</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/help.html">Help</a></li>
+      <li><a href="#" id="logout-btn-mobile" class="logout">Logout</a></li>
+  </ul>
+</nav>
+
+
+
+<!-- ================= MAIN CONTENT LAYOUT ================= -->
+<main id="main-container" class="container hidden">
+
+  <!-- ---------- SIDEBAR (PC VIEW) ---------- -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <img src="/images/logo.png" class="sidebar-avatar" alt="User Avatar">
+      <div class="sidebar-user-info">
+        <h3 class="sidebar-user-name">Hello, Seller</h3>
+        <p class="sidebar-user-small">Account: Basic</p>
+      </div>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a href="/">Home</a></li>
+      <li><a href="/resetpassotp.html">Change Password</a></li>
+      <li><a href="/bank-details.html">Bank Details</a></li>
+      <li><a href="/sellers-store.html">Sellers Store</a></li>
+      <li><a href="/security.html">Security</a></li>
+      <li><a href="/invite.html">Invite</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/help.html">Help</a></li>
+      <li><a href="#" id="logout-btn" class="logout">Logout</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button class="sidebar-cta" onclick="location.href='create-store.html'">Create Store</button>
+      <small class="sidebar-version">v2025.11</small>
+    </div>
+  </aside>
+
+
+
+  <!-- ---------- MAIN CONTENT ---------- -->
+  <section class="main-content">
+    <h1 class="page-title">Welcome to Your Dashboard</h1>
+
+    <div class="grid-container">
+      <div class="grid-item">
+        <h2>Collections / Downloads</h2>
+        <p class="item-desc">View and manage all your downloads.</p>
+        <button class="btn" id="collections-btn">View Collections</button>
       </div>
 
-      <nav class="sidebar-menu" aria-label="Main menu">
-        <ul>
-          <li><a href="/collections.html">Collections / Downloads</a></li>
-          <li><a href="/store.html">My Store</a></li>
-          <li><a href="/dashboard.html">Seller Dashboard</a></li>
-          <li><a href="/user-profile.html">User Profile</a></li>
-          <li><a href="/bank-details.html">Bank Details</a></li>
-          <li><a href="/sellers-store.html">Sellers Store</a></li>
-          <li><a href="/orders.html">Orders</a></li>
-          <li><a href="/invite.html">Invite</a></li>
-          <li><a href="/help.html">Help & Support</a></li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button id="createStoreBtn" class="sidebar-cta" onclick="location.href='create-store.html'">Create Store</button>
-        <small class="sidebar-version">v2025.11</small>
-      </div>
-    </aside>
-
-    <!-- CONTENT -->
-    <section class="main-content">
-      <h1 class="page-title">Welcome to Your Dashboard</h1>
-
-      <div id="button-container" class="button-container">
-        <!-- JS will populate this if needed -->
+      <div class="grid-item">
+        <h2>My Store</h2>
+        <p class="item-desc">Manage products and store settings.</p>
+        <button class="btn" id="store-btn">Manage Store</button>
       </div>
 
-      <div class="grid-container" id="grid-container">
-        <div class="grid-item">
-          <h2>My Collections / Downloads</h2>
-          <p class="item-desc">View and manage your downloads and past orders.</p>
-          <button class="btn" id="collections-btn">View Collections</button>
-        </div>
-
-        <div class="grid-item">
-          <h2>My Store</h2>
-          <p class="item-desc">Manage products, inventory and store settings.</p>
-          <button class="btn" id="store-btn">Manage Store</button>
-        </div>
-
-        <div class="grid-item">
-          <h2>Seller Dashboard</h2>
-          <p class="item-desc">Check sales, earnings, and analytics.</p>
-          <button class="btn" id="seller-dashboard-btn">View Seller Dashboard</button>
-        </div>
-
-        <div class="grid-item">
-          <h2>User Profile</h2>
-          <p class="item-desc">Update personal details and addresses.</p>
-          <button class="btn" id="profile-btn">User Profile</button>
-        </div>
+      <div class="grid-item">
+        <h2>Seller Dashboard</h2>
+        <p class="item-desc">View analytics and earnings.</p>
+        <button class="btn" id="seller-dashboard-btn">View Dashboard</button>
       </div>
-    </section>
+
+      <div class="grid-item">
+        <h2>User Profile</h2>
+        <p class="item-desc">Update personal and address details.</p>
+        <button class="btn" id="profile-btn">User Profile</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
 </body>
 <script defer src="home.js"></script>
 <script>
-  // Mobile menu toggle
-  document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mainContainer = document.getElementById('main-container');
-    const notSignedIn = document.getElementById('not-signed-in');
+  // Mobile menu toggle // Mobile menu toggle
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const closeMenu = document.getElementById("closeMenu");
 
-    menuToggle?.addEventListener('click', () => {
-      const visible = mobileMenu.getAttribute('aria-hidden') === 'false';
-      mobileMenu.style.right = visible ? '-100%' : '0';
-      mobileMenu.setAttribute('aria-hidden', visible ? 'true' : 'false');
-      if (!visible) mobileMenu.classList.add('open');
-      else mobileMenu.classList.remove('open');
-    });
-
+  menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.add("open");
   });
 
+  closeMenu.addEventListener("click", () => {
+    mobileMenu.classList.remove("open");
+  });
 </script>
 
 </html>

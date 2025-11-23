@@ -17,9 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
            if (window.innerWidth > 768) {
     document.querySelector('.sidebar').innerHTML = `
-                <div class="logo-container">
-                    <span class="logo-text">S</span>
-                </div>
+                
                 <ul class="menu">
                     <li><a href="/">Home</a></li>
                     <li><a href="/resetpassotp.html">Change Password</a></li>

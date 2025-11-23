@@ -17,14 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ====================================================== */
   function injectSidebar(userName) {
     sidebar.innerHTML = `
-      <div class="sidebar-brand">
-        <img src="/images/logo.png" class="sidebar-logo" alt="Swarize">
-
-        <div style="display:flex;flex-direction:column;">
-          <div class="sidebar-title">swarize</div>
-          <div style="font-size:12px;color:#9aa4ad;margin-top:4px;">${userName || ""}</div>
-        </div>
-      </div>
+      
 
       <nav class="sidebar-nav">
         <ul class="menu">

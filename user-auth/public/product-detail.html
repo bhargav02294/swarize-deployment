@@ -1,115 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title id="dynamic-title">Product Details | Swarize</title>
   <meta name="robots" content="index, follow" />
   <link rel="icon" href="/favicon.ico">
 
-  <!-- Fonts / Icons -->
+  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- CSS -->
+  <!-- Page CSS -->
   <link rel="stylesheet" href="/product-detail.css">
 </head>
 <body>
-  <!-- NAVBAR -->
-  <header class="navbar" role="banner">
-    <div class="navbar-inner">
-      <a class="brand" href="index.html" aria-label="Swarize home">
-        <img src="./images/logo.png" alt="Swarize" class="brand-logo" />
-        <div class="brand-text">
+  <!-- NAVBAR (shared across site) -->
+  <header class="site-navbar">
+    <div class="site-navbar-inner">
+      <a class="brand" href="/index.html" aria-label="Swarize home">
+        <img src="/images/logo.png" alt="Swarize" class="brand-logo">
+        <div class="brand-info">
           <div class="brand-name">swarize</div>
           <div class="brand-tag">Empowering Indian Businesses</div>
         </div>
       </a>
 
-      <!-- right actions -->
-      <div class="nav-actions">
-        <div class="dropdown login-dropdown" id="loginDropdown">
-          <button id="loginBtn" class="btn-link">Login</button>
+      <nav class="top-actions">
+        <div class="login-area dropdown">
+          <button id="loginBtn" class="btn-link" aria-haspopup="true" aria-expanded="false">Login</button>
           <div class="dropdown-content login-content" id="loginContent" aria-hidden="true">
-            <a href="signin.html">Sign In</a>
-            <a href="signup.html">Sign Up</a>
+            <a href="/signin.html">Sign In</a>
+            <a href="/signup.html">Sign Up</a>
           </div>
         </div>
 
-        <div class="country-dropdowner dropdown" id="countryDropdown">
-          <button class="btn-link">India ▾</button>
-          <div class="dropdown-content" aria-hidden="true">
-            <button class="country-item" data-code="IN">🇮🇳 India</button>
-            <button class="country-item" data-code="US">🇺🇸 US</button>
-          </div>
-        </div>
-
-        <div class="category-dropdown dropdown" id="categoryMenu">
-          <button class="btn-link">Categories ▾</button>
-          <div class="dropdown-content" aria-hidden="true">
-            <a href="women.html">Women</a>
-            <a href="men.html">Men</a>
-            <a href="kids.html">Kids</a>
-            <a href="accessories.html">Accessories</a>
-          </div>
-        </div>
-
-        <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mobileMenu">☰</button>
-      </div>
+        <button id="mobileMenuToggle" class="mobile-menu-toggle" aria-controls="mobileMenu" aria-expanded="false">☰</button>
+      </nav>
     </div>
 
-    <!-- MOBILE SLIDE MENU -->
+    <!-- mobile menu -->
     <nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
-      <div class="mobile-menu-header">
-        <div class="mobile-brand">
-          <img src="./images/logo.png" alt="Swarize" class="mobile-logo" />
-          <div class="mobile-brand-name">swarize</div>
-        </div>
-        <button id="mobileClose" class="mobile-close" aria-label="Close menu">✕</button>
-      </div>
-      <ul class="mobile-menu-list">
+      <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/resetpassotp.html">Change Password</a></li>
-        <li><a href="/bank-details.html">Bank Details</a></li>
         <li><a href="/sellers-store.html">Sellers Store</a></li>
-        <li><a href="/security.html">Security</a></li>
-        <li><a href="/invite.html">Invite</a></li>
         <li><a href="/about.html">About</a></li>
         <li><a href="/help.html">Help</a></li>
-        <li><a href="#" id="mobileLogout">Logout</a></li>
+        <li><a href="/signin.html">Sign In</a></li>
+        <li><a href="/signup.html">Sign Up</a></li>
       </ul>
+      <button id="mobileMenuClose" class="mobile-close">✕</button>
     </nav>
   </header>
 
   <!-- PRODUCT MAIN -->
   <main class="product-main container">
     <!-- Left: Gallery -->
-    <section class="gallery" aria-label="Product images">
+    <section class="gallery">
       <div class="gallery-viewport">
-        <button class="gallery-btn prev" id="prevBtn" aria-label="Previous">‹</button>
+        <button class="gallery-nav prev" id="prevBtn" aria-label="Previous">‹</button>
         <div class="slider-track" id="media-slider" tabindex="0" aria-live="polite"></div>
-        <button class="gallery-btn next" id="nextBtn" aria-label="Next">›</button>
+        <button class="gallery-nav next" id="nextBtn" aria-label="Next">›</button>
       </div>
 
-      <div class="thumbs" id="thumbs" aria-hidden="false"></div>
+      <div class="thumbs" id="thumbs" aria-hidden="true"></div>
 
-      <div class="seller-line">Sold by: <a id="store-link" href="#" aria-label="Seller store">Unknown Store</a></div>
+      <div class="seller-line">Sold by: <a href="#" id="store-link">Unknown Store</a></div>
     </section>
 
     <!-- Center: Info -->
-    <section class="info" aria-label="Product information">
+    <section class="info" id="info-section">
       <div class="title-row">
         <h1 id="preview-name">Product Name</h1>
-        <div class="codes">
+        <div class="meta-inline">
           <div class="spec"><strong>Code:</strong> <span id="preview-product-code">-</span></div>
           <div class="spec"><strong>Category:</strong> <span id="preview-category">-</span></div>
         </div>
       </div>
 
       <div class="price-row">
-        <div class="price-block">
-          <div class="display-price small-muted" id="preview-display-price"></div>
-          <div class="price" id="preview-price">₹0</div>
-        </div>
+        <div class="display-price" id="preview-display-price" aria-hidden="true"></div>
+        <div class="main-price" id="preview-price">₹0</div>
       </div>
 
       <div class="selectors">
@@ -121,7 +91,7 @@
         <div class="selector">
           <label>Size</label>
           <div id="preview-size" class="size-container">-</div>
-          <button id="size-chart-btn" class="size-chart-btn">Size Chart</button>
+          <button id="size-chart-btn" class="size-chart-btn" type="button">Size Chart</button>
         </div>
 
         <div class="selector small">
@@ -134,17 +104,18 @@
         </div>
       </div>
 
-      <div class="action-row">
-        <button class="buy-now" id="buyNowBtn">Buy Now</button>
-        <button class="add-to-cart" id="addToCartBtn">Add to Cart</button>
+      <!-- Mobile action buttons (visible only on small screens) -->
+      <div class="mobile-actions" id="mobileActions">
+        <button class="btn primary" id="mobileBuyNow">Buy Now</button>
+        <button class="btn outline" id="mobileAddCart">Add to Cart</button>
       </div>
 
       <div class="desc">
-        <button id="toggle-desc-btn" class="desc-toggle">+ Product Description</button>
+        <button id="toggle-desc-btn" class="desc-toggle" type="button">+ Product Description</button>
         <div id="desc-summary-content" class="desc-content" hidden>
           <p id="preview-description">-</p>
           <p id="preview-summary">-</p>
-          <button id="toggle-less-btn" class="desc-toggle">- Show Less</button>
+          <button id="toggle-less-btn" class="desc-toggle" type="button">- Show Less</button>
         </div>
       </div>
 
@@ -159,44 +130,51 @@
       </div>
     </section>
 
-    <!-- Right: Sticky buy panel on desktop -->
-    <aside class="buy-panel" aria-label="Purchase panel">
+    <!-- Right: Sticky buy panel (desktop only) -->
+    <aside class="buy-panel" id="buyPanel" aria-hidden="true">
       <div class="panel-inner">
-        <div class="panel-price" id="panelPrice">₹0</div>
-        <div class="panel-actions">
-          <button class="panel-buy" id="panelBuyNow">Buy Now</button>
-          <button class="panel-cart" id="panelAddCart">Add to Cart</button>
+        <div class="panel-store">Sold by: <a href="#" id="panel-store-link">Unknown Store</a></div>
+
+        <div class="panel-price-block">
+          <div class="panel-display-price" id="panel-display-price" aria-hidden="true"></div>
+          <div class="panel-price" id="panelPrice">₹0</div>
         </div>
+
+        <div class="panel-actions">
+          <button class="btn primary" id="panelBuyNow">Buy Now</button>
+          <button class="btn outline" id="panelAddCart">Add to Cart</button>
+        </div>
+
         <div class="panel-note">No COD. Free Delivery across India.</div>
       </div>
     </aside>
   </main>
 
-  <!-- SIZE CHART MODAL -->
-  <div id="size-chart-overlay" class="overlay hidden" tabindex="-1"></div>
-  <div id="size-chart-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="sizeChartTitle">
+  <!-- SIZE CHART MODAL (hidden by default) -->
+  <div id="size-chart-overlay" class="overlay hidden"></div>
+  <div id="size-chart-modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-inner">
-      <h3 id="sizeChartTitle">Size Chart</h3>
+      <h3>Size Chart</h3>
       <div id="size-chart-content">Loading...</div>
       <button id="close-size-chart" class="btn">Close</button>
     </div>
   </div>
 
   <!-- REVIEWS -->
-  <section class="reviews container" aria-label="Customer reviews">
+  <section class="reviews container">
     <h3>Customer Reviews</h3>
 
     <div class="write-review">
-      <select id="rating" aria-label="Rating">
+      <select id="rating">
         <option value="5">★★★★★ (5)</option>
         <option value="4">★★★★ (4)</option>
         <option value="3">★★★ (3)</option>
         <option value="2">★★ (2)</option>
         <option value="1">★ (1)</option>
       </select>
-      <textarea id="comment" placeholder="Write your review here" aria-label="Review comment"></textarea>
-      <button id="submit-review">Submit Review</button>
-      <p id="review-message" class="muted" aria-live="polite"></p>
+      <textarea id="comment" placeholder="Write your review here"></textarea>
+      <button id="submit-review" class="btn">Submit Review</button>
+      <p id="review-message" class="muted"></p>
     </div>
 
     <div id="reviews-container" class="reviews-list">Loading reviews...</div>

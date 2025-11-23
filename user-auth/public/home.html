@@ -12,8 +12,7 @@
         </style>
     </head>
 <body>
-    
-  <!-- NAVBAR -->
+      <!-- NAVBAR -->
   <header class="navbar" role="banner">
     <div class="navbar-container">
       <div class="brand-left">
@@ -34,6 +33,8 @@
     </div>
   </header>
 
+      
+
   <!-- MOBILE SLIDE MENU -->
   <nav class="mobile-slide-menu" id="mobileMenu" aria-hidden="true">
     <ul>
@@ -49,7 +50,10 @@
     </ul>
   </nav>
 
-  <!-- MAIN LAYOUT -->
+
+
+
+     <!-- MAIN LAYOUT -->
   <main id="main-container" class="container hidden" role="main" aria-live="polite">
     <!-- SIDEBAR -->
     <aside class="sidebar" role="navigation" aria-label="Dashboard navigation">
@@ -117,23 +121,8 @@
         </div>
       </div>
     </section>
-
-  </main>
-
-  <!-- NOT SIGNED IN FALLBACK (used when main-container hidden) -->
-  <div id="not-signed-in" class="not-signed-in" style="display:none;">
-    <div class="center-box">
-      <div class="logo-wrapper">
-        <img src="/images/logo.png" alt="Swarize Logo" class="logo-img-lg" />
-        <div class="brand-name-lg">swarize</div>
-      </div>
-      <h2>Please sign in to access your dashboard</h2>
-      <div>
-        <a class="signin-btn" href="/signin.html">Sign In</a>
-      </div>
-    </div>
-  </div>
-
+</body>
+<script defer src="home.js"></script>
 <script>
   // Mobile menu toggle
   document.addEventListener('DOMContentLoaded', () => {
@@ -150,17 +139,8 @@
       else mobileMenu.classList.remove('open');
     });
 
-    // Example logic: show main container if user token exists in localStorage.
-    // Your real auth logic will replace this.
-    const isSigned = !!localStorage.getItem('authToken'); // replace with real check
-    if (isSigned) {
-      mainContainer.classList.remove('hidden');
-      notSignedIn.style.display = 'none';
-    } else {
-      mainContainer.classList.add('hidden');
-      notSignedIn.style.display = 'block';
-    }
   });
+
 </script>
 
 </html>

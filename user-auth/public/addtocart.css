@@ -1,153 +1,164 @@
-/* ============================================================
-   GLOBAL DARK THEME
-============================================================ */
+/* ====================================================================================
+   GLOBAL THEME — MINIMAL & CLEAN (Matches Signin / Signup Styling)
+==================================================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --bg-dark: #0b0c0e;
+  --text-light: #e5e7eb;
+  --panel-dark: rgba(255, 255, 255, 0.04);
+  --border-dark: rgba(255, 255, 255, 0.08);
+
+  --accent: #38bdf8;
+  --accent-light: #7dd3fc;
+
+  /* Light mode */
+  --bg-light: #f6f8fa;
+  --text-dark: #222;
+  --panel-light: #ffffff;
+  --border-light: #e5e7eb;
+}
+
 body {
-  background: #0b0c0f;
-  color: #e5e7eb;
+  background: var(--bg-dark);
+  color: var(--text-light);
   font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 60px;
 }
 
 
-
-/* ============================================================
+/* ====================================================================================
    NAVBAR
-============================================================ */
+==================================================================================== */
 .navbar {
-  background: #0b0c0f;
-  padding: 16px 22px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  width: 100%;
+  background: var(--bg-dark);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-dark);
 }
 
 .navbar-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
+/* LOGO WRAPPER */
 .brand-wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.logo-container {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.04);
-}
-
-.logo-img {
-  width: 100%;
+.logo-container img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .brand-name {
-  font-size: 1.7rem;
-  font-weight: 600;
+  color: #fff;
+  font-size: 1.6rem;
   font-family: "Vollkorn", serif;
-  color: #ffffff;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .navbar-title {
-  font-size: 1.3rem;
-  color: #38bdf8;
+  font-size: 1rem;
+  color: var(--accent);
 }
 
 
-
-/* ============================================================
+/* ====================================================================================
    CART MESSAGE
-============================================================ */
+==================================================================================== */
 .cart-message {
   text-align: center;
+  margin-top: 25px;
   font-size: 1.1rem;
-  color: #7dd3fc;
-  margin: 20px 0;
+  opacity: 0.85;
 }
 
 
-
-/* ============================================================
+/* ====================================================================================
    CART GRID
-============================================================ */
+==================================================================================== */
 .cart-grid {
-  max-width: 1400px;
-  margin: 20px auto;
+  width: 92%;
+  max-width: 1150px;
+  margin: 30px auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 28px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 26px;
 }
 
 
-
-/* ============================================================
-   CART CARD
-============================================================ */
+/* ====================================================================================
+   CART ITEM CARD
+==================================================================================== */
 .cart-item {
-  background: rgba(255,255,255,0.03);
-  border-radius: 16px;
+  background: var(--panel-dark);
   padding: 18px;
-  border: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 8px 22px rgba(0,0,0,0.3);
-  transition: .25s ease;
+  border-radius: 16px;
+  border: 1px solid var(--border-dark);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  transition: 0.25s ease;
+  cursor: pointer;
+  position: relative;
 }
 
 .cart-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+  transform: translateY(-5px);
+  border-color: var(--accent);
 }
 
-
-
-/* image */
+/* Image */
 .cart-product-image {
   width: 100%;
-  height: 240px;
+  height: 180px;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 12px;
 }
 
-
-
-/* Product Title */
-.cart-item h3 {
+/* Name */
+.cart-product-name {
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 6px;
-  color: #ffffff;
 }
 
-.cart-item p {
-  font-size: 0.9rem;
-  color: #cbd5e1;
-}
-
-
-
-/* Remove Button */
-.remove-button {
-  margin-top: 14px;
-  width: 100%;
-  padding: 12px;
-  background: #ef4444;
-  color: white;
-  border-radius: 10px;
-  border: none;
+/* Price */
+.cart-product-price {
+  font-size: 1.1rem;
   font-weight: 600;
+  color: var(--accent-light);
+  margin-bottom: 14px;
+}
+
+
+/* ====================================================================================
+   REMOVE BUTTON
+==================================================================================== */
+.remove-button {
+  width: 100%;
+  padding: 10px;
+  background: #ef4444;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
   cursor: pointer;
   transition: 0.25s ease;
+  z-index: 5;
+  position: relative;
 }
 
 .remove-button:hover {
@@ -155,25 +166,107 @@ body {
   transform: translateY(-2px);
 }
 
+/* Prevent parent click when user clicks remove */
+.remove-button {
+  pointer-events: all !important;
+}
 
 
-/* ============================================================
-   RESPONSIVE — MOBILE
-============================================================ */
-@media (max-width: 600px) {
+/* ====================================================================================
+   NOT SIGNED IN PAGE STYLE
+==================================================================================== */
+.center-message {
+  width: 90%;
+  max-width: 480px;
+  margin: 100px auto;
+  padding: 30px;
+  background: var(--panel-dark);
+  border-radius: 18px;
+  border: 1px solid var(--border-dark);
+  backdrop-filter: blur(6px);
+  text-align: center;
+}
 
-  .navbar-container {
-    flex-direction: column;
-    gap: 8px;
+.center-message h2 {
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.center-message button {
+  padding: 12px 26px;
+  background: var(--accent);
+  border: none;
+  color: #0b0c0e;
+  font-size: 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.center-message button:hover {
+  background: var(--accent-light);
+  transform: translateY(-3px);
+}
+
+
+/* ====================================================================================
+   LIGHT MODE OVERRIDES
+==================================================================================== */
+@media (prefers-color-scheme: light) {
+
+  body {
+    background: var(--bg-light);
+    color: var(--text-dark);
+  }
+
+  .navbar {
+    background: #fff;
+    border-color: var(--border-light);
   }
 
   .navbar-title {
-    font-size: 1.1rem;
+    color: #0d47a1;
+  }
+
+  .brand-name {
+    color: #111;
+  }
+
+  .cart-item {
+    background: var(--panel-light);
+    border-color: var(--border-light);
+  }
+
+  .center-message {
+    background: #fff;
+    border-color: var(--border-light);
+    color: var(--text-dark);
+  }
+
+  .cart-product-price {
+    color: #059669;
+  }
+}
+
+
+/* ====================================================================================
+   RESPONSIVE — MOBILE
+==================================================================================== */
+@media (max-width: 600px) {
+
+  .navbar-title {
+    font-size: 0.9rem;
+  }
+
+  .brand-name {
+    font-size: 1.35rem;
   }
 
   .cart-grid {
-    padding: 12px;
-    grid-template-columns: 1fr;
+    width: 94%;
+    gap: 18px;
   }
 
   .cart-item {
@@ -181,54 +274,6 @@ body {
   }
 
   .cart-product-image {
-    height: 220px;
+    height: 160px;
   }
-}
-
-/* ============================================================
-   NOT SIGNED IN PAGE (REUSED)
-============================================================ */
-.center-box {
-  text-align: center;
-}
-
-.logo-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 14px;
-}
-
-.logo-img {
-  width: 70px;
-}
-
-.brand-name {
-  font-size: 1.8rem;
-  font-family: "Vollkorn", serif;
-  margin-top: 6px;
-  font-weight: 600;
-}
-
-h2 {
-  font-size: 1.3rem;
-  margin-bottom: 18px;
-  color: #7dd3fc;
-}
-
-.signin-btn {
-  padding: 12px 28px;
-  border-radius: 50px;
-  font-size: 1rem;
-  border: none;
-  background: #38bdf8;
-  color: #0b0c0f;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.25s ease;
-}
-
-.signin-btn:hover {
-  background: #7dd3fc;
-  transform: translateY(-2px);
 }

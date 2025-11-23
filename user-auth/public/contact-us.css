@@ -1,6 +1,6 @@
-/* ============================================================
-   GLOBAL BASE
-============================================================ */
+/* ============================================================================
+   GLOBAL STYLING — DARK THEME
+============================================================================ */
 * {
   margin: 0;
   padding: 0;
@@ -8,218 +8,200 @@
 }
 
 body {
-  background: #0b0c0f;
+  background: #0b0c0e;
   color: #e5e7eb;
   font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-
-
-/* ============================================================
-   NAVBAR
-============================================================ */
+/* ============================================================================
+   NAVBAR — Professional Dark
+============================================================================ */
 .navbar {
   width: 100%;
-  background: #0f1115;
-  padding: 18px 5%;
-  display: flex;
-  justify-content: center;
+  padding: 16px 24px;
+  background: #0b0c0e;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .navbar-container {
-  width: 100%;
-  max-width: 1400px;
+  max-width: 1450px;
+  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.logo-container {
-  width: 60px;
-  height: 60px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-img {
-  width: 42px;
+.logo-container img.logo-img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
 }
 
 .navbar-title {
-  font-size: 1.7rem;
+  font-size: 1.25rem;
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+/* ============================================================================
+   CONTACT FORM CONTAINER
+============================================================================ */
+.container {
+  max-width: 600px;
+  margin: 60px auto;
+  background: rgba(255,255,255,0.04);
+  padding: 40px 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+}
+
+.container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.container p {
+  margin-bottom: 22px;
+  font-size: 0.95rem;
+  color: #cfd5df;
+}
+
+/* ============================================================================
+   FORM ELEMENTS
+============================================================================ */
+form {
+  width: 100%;
+  text-align: left;
+}
+
+form label {
+  display: block;
+  font-size: 0.95rem;
+  margin: 10px 0 6px;
+  color: #cfd5df;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  color: white;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.25s ease;
+  margin-bottom: 16px;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #38bdf8;
+}
+
+form textarea {
+  height: 140px;
+  resize: none;
+}
+
+/* ============================================================================
+   SUBMIT BUTTON
+============================================================================ */
+form button {
+  width: 100%;
+  padding: 14px;
+  background: #38bdf8;
+  border: none;
+  border-radius: 12px;
   font-weight: 600;
+  font-size: 1rem;
+  color: #0b0c0e;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+form button:hover {
+  background: #7dd3fc;
+  transform: translateY(-3px);
+}
+
+/* Response message */
+#responseMessage {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.95rem;
   color: #38bdf8;
 }
 
-
-
-/* ============================================================
-   CONTACT SECTION
-============================================================ */
-.contact-section {
-  max-width: 700px;
-  margin: 60px auto;
-  background: rgba(255,255,255,0.04);
-  padding: 40px 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
-  backdrop-filter: blur(6px);
-  animation: fadeIn 0.8s ease;
-}
-
-.contact-header h2 {
-  font-size: 2rem;
-  color: #7dd3fc;
-  text-align: center;
-}
-
-.contact-header p {
-  text-align: center;
-  color: #94a3b8;
-  margin-top: 6px;
-}
-
-.contact-form {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-}
-
-.contact-form label {
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: #e2e8f0;
-  font-size: 0.95rem;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #e2e8f0;
-  margin-bottom: 16px;
-  font-size: 1rem;
-  transition: border-color 0.25s ease;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: #38bdf8;
-  outline: none;
-}
-
-.contact-form textarea {
-  min-height: 130px;
-  resize: vertical;
-}
-
-
-
-/* ============================================================
-   SUBMIT BUTTON
-============================================================ */
-.submit-btn {
-  padding: 14px;
-  background: linear-gradient(90deg, #38bdf8, #7dd3fc);
-  border: none;
-  color: #0b0c0f;
-  font-size: 1.05rem;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.submit-btn:hover {
-  transform: translateY(-2px);
-  background: #7dd3fc;
-}
-
-
-
-/* ============================================================
-   RESPONSE MESSAGE
-============================================================ */
-#responseMessage {
-  margin-top: 14px;
-  text-align: center;
-  color: #7dd3fc;
-}
-
-
-
-/* ============================================================
+/* ============================================================================
    FOOTER
-============================================================ */
+============================================================================ */
 .footer {
-  margin-top: 60px;
-  padding: 20px;
+  margin-top: auto;
+  padding: 18px 0;
   text-align: center;
-  font-size: 0.85rem;
-  color: #94a3b8;
   border-top: 1px solid rgba(255,255,255,0.06);
+  color: #989ea6;
+  font-size: 0.9rem;
 }
 
+/* ============================================================================
+   RESPONSIVE — TABLET & MOBILE
+============================================================================ */
+@media (max-width: 768px) {
+  .navbar-title {
+    font-size: 1.05rem;
+  }
 
+  .container {
+    margin: 30px 16px;
+    padding: 28px;
+  }
 
-/* ============================================================
-   ANIMATIONS
-============================================================ */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
+  .container h2 {
+    font-size: 1.55rem;
+  }
+
+  form input,
+  form textarea {
+    font-size: 0.9rem;
+    padding: 11px 12px;
+  }
+
+  form button {
+    padding: 12px;
+    font-size: 0.92rem;
+  }
 }
 
-
-
-/* ============================================================
-   MOBILE RESPONSIVENESS
-============================================================ */
-@media (max-width: 600px) {
-
-  .navbar {
-    padding: 14px;
-  }
-
-  .logo-container {
-    width: 48px;
-    height: 48px;
-  }
-
-  .logo-img {
-    width: 34px;
+@media (max-width: 480px) {
+  .container {
+    padding: 24px;
   }
 
   .navbar-title {
-    font-size: 1.4rem;
-  }
-
-  .contact-section {
-    padding: 26px 18px;
-    margin: 30px auto;
-  }
-
-  .contact-header h2 {
-    font-size: 1.6rem;
-  }
-
-  .submit-btn {
     font-size: 1rem;
-    padding: 12px;
   }
 
-  #responseMessage {
-    font-size: 0.9rem;
+  .container h2 {
+    font-size: 1.45rem;
   }
 
-  .footer {
-    font-size: 0.78rem;
+  form label {
+    font-size: 0.85rem;
+  }
+
+  form input,
+  form textarea {
+    font-size: 0.85rem;
   }
 }

@@ -13,79 +13,154 @@
     </head>
 <body>
     
+  <!-- NAVBAR -->
+  <header class="navbar" role="banner">
+    <div class="navbar-container">
+      <div class="brand-left">
+        <a href="index.html" class="brand-link" aria-label="Swarize Home">
+          <div class="logo-wrap" aria-hidden="true">
+            <img src="/images/logo.png" alt="Swarize logo" class="logo-img" />
+          </div>
+          <div class="brand-text">
+            <div class="brand-name">swarize</div>
+            <div class="brand-tag">Empowering Indian Businesses</div>
+          </div>
+        </a>
+      </div>
 
-        <!-- Only for mobile view -->
-<button class="menu-toggle">&#9776;</button>
-
-<div class="mobile-slide-menu hidden">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/resetpassotp.html">Change Password</a></li>
-        <li><a href="/bank-details.html">Bank Details</a></li>
-        <li><a href="/sellers-store.html">Sellers Store</a></li>
-        <li><a href="/security.html">Security</a></li>
-        <li><a href="/invite.html">Invite</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/help.html">Help</a></li>
-        <li><a href="#" id="logout-btn" class="logout">Logout</a></li>
-    </ul>
-</div>
-
-
-
-
-    <!-- Main Content Section (Initially Hidden) -->
-    <div id="main-container" class="container hidden">
-        <aside class="sidebar"></aside>
-        <div class="main-content">
-            <h1>Welcome to Your Dashboard</h1>
-
-            <div id="button-container" class="button-container"></div>
-
-            <div class="grid-container" id="grid-container">
-                <div class="grid-item">
-                    <h2>My Collections / Downloads</h2>
-                    <button class="btn" id="collections-btn">View Collections</button>
-                </div>
-                <div class="grid-item">
-                    <h2>My Store</h2>
-                    <button class="btn" id="store-btn">Manage Store</button>
-                </div>
-                <div class="grid-item">
-                    <h2>Seller Dashboard</h2>
-                    <button class="btn" id="seller-dashboard-btn">View Seller Dashboard</button> <!-- Added button for Seller Dashboard -->
-                </div>
-                <div class="grid-item">
-                    <h2>User Profile</h2>
-                    <button class="btn" id="profile-btn">User Profile</button>
-                </div>
-            </div>
-            
-        </div>
+      <div class="nav-actions">
+        <button class="menu-toggle" aria-label="Open menu" id="menuToggle">☰</button>
+      </div>
     </div>
-</body>
-<script defer src="home.js"></script>
+  </header>
+
+  <!-- MOBILE SLIDE MENU -->
+  <nav class="mobile-slide-menu" id="mobileMenu" aria-hidden="true">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/resetpassotp.html">Change Password</a></li>
+      <li><a href="/bank-details.html">Bank Details</a></li>
+      <li><a href="/sellers-store.html">Sellers Store</a></li>
+      <li><a href="/security.html">Security</a></li>
+      <li><a href="/invite.html">Invite</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/help.html">Help</a></li>
+      <li><a href="#" id="logout-btn" class="logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <main id="main-container" class="container hidden" role="main" aria-live="polite">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Dashboard navigation">
+      <div class="sidebar-top">
+        <div class="sidebar-user">
+          <img src="/images/logo.png" alt="Swarize" class="sidebar-avatar" />
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Hello, Seller</div>
+            <div class="sidebar-user-small">Account: Basic</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu" aria-label="Main menu">
+        <ul>
+          <li><a href="/collections.html">Collections / Downloads</a></li>
+          <li><a href="/store.html">My Store</a></li>
+          <li><a href="/dashboard.html">Seller Dashboard</a></li>
+          <li><a href="/user-profile.html">User Profile</a></li>
+          <li><a href="/bank-details.html">Bank Details</a></li>
+          <li><a href="/sellers-store.html">Sellers Store</a></li>
+          <li><a href="/orders.html">Orders</a></li>
+          <li><a href="/invite.html">Invite</a></li>
+          <li><a href="/help.html">Help & Support</a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="createStoreBtn" class="sidebar-cta" onclick="location.href='create-store.html'">Create Store</button>
+        <small class="sidebar-version">v2025.11</small>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <section class="main-content">
+      <h1 class="page-title">Welcome to Your Dashboard</h1>
+
+      <div id="button-container" class="button-container">
+        <!-- JS will populate this if needed -->
+      </div>
+
+      <div class="grid-container" id="grid-container">
+        <div class="grid-item">
+          <h2>My Collections / Downloads</h2>
+          <p class="item-desc">View and manage your downloads and past orders.</p>
+          <button class="btn" id="collections-btn">View Collections</button>
+        </div>
+
+        <div class="grid-item">
+          <h2>My Store</h2>
+          <p class="item-desc">Manage products, inventory and store settings.</p>
+          <button class="btn" id="store-btn">Manage Store</button>
+        </div>
+
+        <div class="grid-item">
+          <h2>Seller Dashboard</h2>
+          <p class="item-desc">Check sales, earnings, and analytics.</p>
+          <button class="btn" id="seller-dashboard-btn">View Seller Dashboard</button>
+        </div>
+
+        <div class="grid-item">
+          <h2>User Profile</h2>
+          <p class="item-desc">Update personal details and addresses.</p>
+          <button class="btn" id="profile-btn">User Profile</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- NOT SIGNED IN FALLBACK (used when main-container hidden) -->
+  <div id="not-signed-in" class="not-signed-in" style="display:none;">
+    <div class="center-box">
+      <div class="logo-wrapper">
+        <img src="/images/logo.png" alt="Swarize Logo" class="logo-img-lg" />
+        <div class="brand-name-lg">swarize</div>
+      </div>
+      <h2>Please sign in to access your dashboard</h2>
+      <div>
+        <a class="signin-btn" href="/signin.html">Sign In</a>
+      </div>
+    </div>
+  </div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.querySelector(".menu-toggle");
-    const slideMenu = document.querySelector(".mobile-slide-menu");
-function toggleMobileMenu() {
-    document.querySelector('.mobile-slide-menu').classList.toggle('visible');
-}
-    if (toggleBtn && slideMenu) {
-        toggleBtn.addEventListener("click", () => {
-            slideMenu.classList.toggle("visible");
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mainContainer = document.getElementById('main-container');
+    const notSignedIn = document.getElementById('not-signed-in');
 
-            // Remove .hidden if visible
-            if (slideMenu.classList.contains("visible")) {
-                slideMenu.classList.remove("hidden");
-            } else {
-                slideMenu.classList.add("hidden");
-            }
-        });
+    menuToggle?.addEventListener('click', () => {
+      const visible = mobileMenu.getAttribute('aria-hidden') === 'false';
+      mobileMenu.style.right = visible ? '-100%' : '0';
+      mobileMenu.setAttribute('aria-hidden', visible ? 'true' : 'false');
+      if (!visible) mobileMenu.classList.add('open');
+      else mobileMenu.classList.remove('open');
+    });
+
+    // Example logic: show main container if user token exists in localStorage.
+    // Your real auth logic will replace this.
+    const isSigned = !!localStorage.getItem('authToken'); // replace with real check
+    if (isSigned) {
+      mainContainer.classList.remove('hidden');
+      notSignedIn.style.display = 'none';
+    } else {
+      mainContainer.classList.add('hidden');
+      notSignedIn.style.display = 'block';
     }
-});
-
+  });
 </script>
 
 </html>

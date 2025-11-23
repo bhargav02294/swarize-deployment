@@ -1,337 +1,323 @@
-/* =========================================================
-   DARK THEME VERSION OF YOUR ORIGINAL CSS (NO STRUCTURE CHANGE)
-   Layout, alignment, spacing, sizing — EXACTLY SAME
-   Only colors updated to professional dark palette
-============================================================ */
-
-/* ==== General Reset & Fonts ==== */
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #0d0f12; /* Dark background */
-    color: #e5e7eb;
+/* ============================================================================
+   GLOBAL DARK THEME — PROFESSIONAL (Same layout, colors updated only)
+============================================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Global Box Model */
-* {
-    box-sizing: border-box;
+body {
+  font-family: "Poppins", sans-serif;
+  background: #0b0c0e;
+  color: #e5e7eb;
+  overflow-x: hidden;
 }
 
 html, body {
-    width: 100%;
-    overflow-x: hidden;
+  width: 100%;
 }
 
-/* ==== Container Layout ==== */
+/* ============================================================================
+   NAVBAR — UPDATED WITH REAL LOGO (Professional)
+============================================================================ */
+.navbar {
+  width: 100%;
+  background: #0b0c0e;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1500px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo Container */
+.logo-container {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.logo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* If user still wants S-style fallback logo */
+.logo-text {
+  font-size: 46px;
+  font-family: "Vollkorn", serif;
+  color: #0b0c0e;
+  font-weight: 600;
+}
+
+.navbar-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  color: #38bdf8;
+  margin-left: -60px; /* keeps exact alignment like your old version */
+}
+
+/* ============================================================================
+   FORM CONTAINER (LEFT PANEL) — Same layout, dark polished finish
+============================================================================ */
 .container {
-    width: 64%;
-    padding: 20px;
-    background-color: #14161a; /* Dark card */
-    float: left;
-    border-radius: 10px;
-    margin: 20px;
-    border: 1px solid #1f2125;
+  width: 64%;
+  float: left;
+  margin: 20px;
+  padding: 24px;
+  background: #14161a;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* ==== Section Headings ==== */
-.section-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #f5f5f5;
-    margin-bottom: 20px;
-    border-left: 6px solid #4ea8de;
-    padding-left: 12px;
-    background: linear-gradient(to right, #14161a 80%, #1c1f23);
-    padding: 10px;
-    border-radius: 4px;
+/* Main heading */
+.container h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #f5f5f5;
+  margin-bottom: 18px;
 }
 
-.size-options {
-    margin-top: 6px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-/* ==== Form Elements ==== */
-form {
-    display: flex;
-    flex-direction: column;
-}
-
+/* Labels */
 label {
-    margin: 10px 0 5px;
-    font-weight: 500;
-    color: #d1d5db;
+  margin: 10px 0 4px;
+  font-size: 0.95rem;
+  color: #d1d5db;
+  font-weight: 500;
 }
 
+/* Inputs & Textareas */
 input[type="text"],
 input[type="number"],
 input[type="file"],
 textarea,
 select {
-    padding: 10px;
-    border: 1px solid #2b2e33;
-    border-radius: 6px;
-    margin-bottom: 15px;
-    width: 100%;
-    font-size: 15px;
-    background-color: #1b1e23;
-    color: #f3f4f6;
-    transition: border-color 0.2s ease-in-out;
+  width: 100%;
+  padding: 12px;
+  background: #1b1d22;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  transition: border 0.25s ease;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-    outline: none;
-    border-color: #4ea8de;
+  border-color: #38bdf8;
+  outline: none;
 }
 
-/* ==== Info Note ==== */
+/* Info note */
 .info-note {
-    font-size: 13px;
-    color: #9ca3af;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
 
-/* ==== Buttons ==== */
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-}
-
+/* ============================================================================
+   BUTTONS
+============================================================================ */
 button {
-    padding: 12px 28px;
-    background-color: #4ea8de;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+  padding: 12px 26px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
 }
 
-button:hover {
-    transform: translateY(-2px) scale(1.02);
-    background-color: #3c8bb9;
+#nextBtn,
+#submit {
+  background: #38bdf8;
+  color: #0b0c0e;
 }
 
-/* ==== Hidden Section ==== */
+#nextBtn:hover,
+#submit:hover {
+  background: #7dd3fc;
+  transform: translateY(-2px);
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* ============================================================================
+   HIDDEN SECTIONS
+============================================================================ */
 .hidden {
-    display: none;
+  display: none;
 }
 
-#additional-details-section {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 2px dashed #2e3237;
-    animation: fadeIn 0.6s ease-in-out;
+/* Additional details fade animation */
+#product-details-section {
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* =========================================================
-   LIVE PREVIEW PANEL (Exact same layout — dark theme)
-============================================================ */
-
+/* ============================================================================
+   LIVE PREVIEW PANEL — EXACT SAME LAYOUT, PROFESSIONAL DARK STYLE
+============================================================================ */
 .live-preview {
-    width: 30%;
-    padding: 20px;
-    background-color: #14161a;
-    border-radius: 12px;
-    float: right;
-    border: 1px solid #1f2125;
-    text-align: center;
+  width: 30%;
+  float: right;
+  margin: 20px;
+  padding: 22px;
+  background: #14161a;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.live-preview h2 {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #38bdf8;
 }
 
 .preview-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Thumbnail Styling */
+/* Thumbnail */
 .preview-thumbnail {
-    width: 100%;
-    max-width: 250px;
-    margin-bottom: 15px;
-    overflow: hidden;
-    border-radius: 10px;
-    border: 2px solid #2e3237;
-    transition: transform 0.3s ease-in-out;
+  width: 100%;
+  max-width: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.12);
+  margin-bottom: 14px;
+  transition: 0.25s ease;
 }
 
 .preview-thumbnail img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
+  width: 100%;
 }
 
 .preview-thumbnail:hover {
-    transform: scale(1.05);
-    border-color: #4ea8de;
+  transform: scale(1.05);
+  border-color: #38bdf8;
 }
 
-/* Product Name & Price */
+/* Name & Price */
 #preview-name {
-    font-size: 20px;
-    font-weight: bold;
-    color: #f5f5f5;
-    margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #fff;
 }
 
 #preview-price {
-    font-size: 18px;
-    font-weight: bold;
-    color: #22c55e;
-    margin-bottom: 10px;
+  font-size: 18px;
+  color: #22c55e;
+  margin-bottom: 10px;
 }
 
 /* Description */
 #preview-description {
-    font-size: 14px;
-    color: #9ca3af;
-    text-align: center;
-    padding: 0 10px;
-    margin-bottom: 15px;
+  font-size: 13px;
+  color: #9ca3af;
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 0 6px;
 }
 
-/* Extra Media */
+/* Extra Media Grid */
 .preview-extra-images,
 .preview-extra-videos {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
 }
 
 .preview-extra-images img,
 .preview-extra-videos video {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 2px solid #2e3237;
-    transition: transform 0.3s ease-in-out, border-color 0.3s;
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.12);
+  transition: 0.25s;
 }
 
 .preview-extra-images img:hover,
 .preview-extra-videos video:hover {
-    transform: scale(1.1);
-    border-color: #4ea8de;
+  transform: scale(1.1);
+  border-color: #38bdf8;
 }
 
-/* =========================================================
-   PROFESSIONAL DARK NAVBAR (GLOBAL FOR SWARIZE)
-============================================================ */
-
-.navbar {
-    background-color: #0f1115;
-    display: flex;
-    align-items: center;
+/* ============================================================================
+   RESPONSIVE DESIGN (MOBILE + TABLET)
+============================================================================ */
+@media (max-width: 1024px) {
+  .container {
     width: 100%;
-    padding: 15px;
-    height: 80px;
-    border-bottom: 1px solid #1f2125;
-}
-
-.navbar-container {
-    display: flex;
-    align-items: center;
+    float: none;
+  }
+  .live-preview {
     width: 100%;
-    justify-content: space-between;
-    max-width: 1450px;
-    margin: auto;
+    float: none;
+  }
 }
-
-.navbar-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #e5e7eb;
-    flex-grow: 1;
-    text-align: center;
-    margin-left: -60px; /* Keeps your exact alignment */
-}
-
-.logo-container {
-    width: 60px;
-    height: 60px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-text {
-    font-size: 50px;
-    font-weight: 600;
-    color: #0f1115;
-    font-family: 'Times New Roman';
-}
-
-.logo-link {
-    text-decoration: none;
-}
-
-/* =========================================================
-   RESPONSIVE FIXES (SAME LAYOUT AS YOUR OLD CSS)
-============================================================ */
 
 @media (max-width: 768px) {
 
-    html, body {
-        overflow-x: hidden;
-    }
+  .navbar-title {
+    font-size: 20px;
+    margin-left: 0;
+  }
 
-    .container {
-        width: 100%;
-        float: none;
-        padding: 15px;
-    }
+  .logo-container {
+    width: 50px;
+    height: 50px;
+  }
 
-    .live-preview {
-        width: 100%;
-        float: none;
-        margin-top: 20px;
-    }
+  .container {
+    width: 100%;
+    margin: 10px;
+  }
 
-    .button-container {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .live-preview {
+    width: 100%;
+    margin: 10px;
+  }
 
-    .navbar {
-        flex-direction: column;
-        height: auto;
-        padding: 10px;
-        gap: 10px;
-    }
+  button {
+    width: 100%;
+  }
 
-    .navbar-title {
-        font-size: 22px;
-        margin-left: 0;
-    }
-
-    .logo-container {
-        width: 50px;
-        height: 50px;
-    }
-
-    .logo-text {
-        font-size: 32px;
-    }
+  .button-container {
+    flex-direction: column;
+    gap: 12px;
+  }
 }

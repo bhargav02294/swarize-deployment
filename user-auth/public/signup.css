@@ -1,5 +1,5 @@
 /* ============================================================
-   GLOBAL THEME
+   GLOBAL RESET / BASE STYLE
 ============================================================ */
 * {
   margin: 0;
@@ -8,11 +8,12 @@
 }
 
 body {
-  background: #0b0c0e;
+  background: #0d0f12;
   color: #e5e7eb;
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
 }
+
 
 
 /* ============================================================
@@ -20,9 +21,9 @@ body {
 ============================================================ */
 .navbar {
   width: 100%;
-  background: #0b0c0e;
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: #0d0f12;
+  padding: 14px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .navbar-container {
@@ -31,11 +32,10 @@ body {
   justify-content: space-between;
 }
 
-/* LOGO */
 .brand-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .logo-container {
@@ -51,21 +51,23 @@ body {
 
 .brand-name {
   font-family: "Vollkorn", serif;
-  font-size: 1.7rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: white;
   text-transform: lowercase;
 }
 
 .navbar-title {
   color: #38bdf8;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.4px;
+  font-weight: 500;
 }
 
 
 
 /* ============================================================
-   SIGNUP MODAL BOX
+   SIGNUP MODAL
 ============================================================ */
 .modal {
   padding: 40px 0;
@@ -73,20 +75,20 @@ body {
 
 .modal-content {
   max-width: 480px;
-  margin: 60px auto;
+  margin: 70px auto;
   background: rgba(255,255,255,0.04);
-  padding: 36px;
+  padding: 38px;
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.07);
   backdrop-filter: blur(6px);
   text-align: center;
 }
 
 .form-title {
-  font-size: 1.8rem;
-  color: #fff;
+  font-size: 1.9rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  color: #ffffff;
 }
 
 .signup-container {
@@ -110,27 +112,33 @@ body {
 
 .form-group input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 13px 14px;
   margin-top: 6px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 12px;
   color: white;
   font-size: 0.95rem;
   outline: none;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.form-group input::placeholder {
+  color: #a7a9ad;
 }
 
 .form-group input:focus {
   border-color: #38bdf8;
+  background: rgba(255,255,255,0.1);
 }
 
 
-/* Error message */
+/* Error text */
 .error {
   display: block;
   margin-top: 4px;
   font-size: 0.8rem;
-  color: #ff6b6b;
+  color: #ff7b7b;
 }
 
 
@@ -138,47 +146,50 @@ body {
 /* ============================================================
    SUBMIT BUTTON
 ============================================================ */
-.signup-btn {
+button[type="submit"],
+.modal-content button {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   background: #38bdf8;
   border: none;
   border-radius: 12px;
-  color: #0b0c0e;
+  color: #0d0f12;
   font-size: 1rem;
   font-weight: 600;
-  margin-top: 12px;
+  margin-top: 14px;
   cursor: pointer;
-  transition: 0.25s ease;
+  transition: 0.25s ease-in-out;
 }
 
-.signup-btn:hover {
+button[type="submit"]:hover {
   background: #7dd3fc;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 
 
 /* ============================================================
-   TERMS & LOGIN LINK
+   TERMS + LOGIN LINK
 ============================================================ */
-.terms {
-  margin-top: 16px;
-  font-size: 0.85rem;
-  color: #cbd5e1;
+.modal-content p {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  opacity: 0.85;
 }
 
-.terms a {
+.modal-content p a {
   color: #38bdf8;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.modal-content p a:hover {
+  text-decoration: underline;
 }
 
 .login-link {
   margin-top: 20px;
   font-size: 0.9rem;
-}
-
-.login-link a {
-  color: #38bdf8;
 }
 
 
@@ -189,7 +200,7 @@ body {
 @media (max-width: 600px) {
 
   .navbar {
-    padding: 10px 16px;
+    padding: 12px 16px;
   }
 
   .logo-img {
@@ -198,20 +209,20 @@ body {
   }
 
   .brand-name {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
   }
 
   .navbar-title {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .modal-content {
     margin: 40px 14px;
-    padding: 26px;
+    padding: 28px;
   }
 
   .form-title {
-    font-size: 1.55rem;
+    font-size: 1.65rem;
   }
 
   .form-group label {
@@ -219,20 +230,78 @@ body {
   }
 
   .form-group input {
+    padding: 12px 12px;
     font-size: 0.88rem;
-    padding: 11px 12px;
   }
 
-  .signup-btn {
-    padding: 11px;
-    font-size: 0.9rem;
+  button[type="submit"] {
+    padding: 12px;
+    font-size: 0.95rem;
   }
 
-  .terms {
-    font-size: 0.8rem;
-  }
-
-  .login-link {
+  .modal-content p {
     font-size: 0.85rem;
   }
+}
+
+
+
+/* ============================================================
+   LIGHT THEME (Optional)
+   Apply by adding <body class="light">
+============================================================ */
+
+body.light {
+  background: #f3f4f6;
+  color: #111;
+}
+
+body.light .navbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+body.light .brand-name {
+  color: #111;
+}
+
+body.light .navbar-title {
+  color: #0ea5e9;
+}
+
+body.light .modal-content {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  color: #111;
+}
+
+body.light .form-group label {
+  color: #444;
+}
+
+body.light .form-group input {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #111;
+}
+
+body.light .form-group input::placeholder {
+  color: #6b7280;
+}
+
+body.light .form-group input:focus {
+  border-color: #0ea5e9;
+}
+
+body.light button[type="submit"] {
+  background: #0ea5e9;
+  color: white;
+}
+
+body.light button[type="submit"]:hover {
+  background: #38bdf8;
+}
+
+body.light .modal-content p a {
+  color: #0284c7;
 }

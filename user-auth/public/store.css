@@ -1,167 +1,275 @@
-/* DARK THEME BASE */
-:root {
-    --bg: #0b0c0f;
-    --panel: #111418;
-    --panel-light: #14171d;
-    --text: #e4e9f2;
-    --muted: #9aa3b4;
-    --accent: #38bdf8;
-    --danger: #ff6363;
-    --radius: 14px;
+/* ============================================================
+   GLOBAL RESET & BASE
+============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: "Poppins", sans-serif;
-    margin: 0;
+  background: #0b0c0f;
+  color: #e5e7eb;
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 40px;
 }
 
-/* NAVBAR */
+/* ============================================================
+   NAVBAR
+============================================================ */
 .navbar {
-    background: #0b0d10;
-    padding: 14px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,.5);
+  width: 100%;
+  background: #0b0c0f;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 12px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar-container {
-    width: 92%;
-    margin: auto;
-    max-width: 1300px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .brand-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo-img {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    object-fit: cover;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  background: #fff;
+  padding: 5px;
+  border-radius: 8px;
 }
 
 .brand-name {
-    font-size: 1.6rem;
-    font-family: "Vollkorn", serif;
-    font-weight: 700;
+  font-family: "Vollkorn", serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
 }
 
 .navbar-title {
-    color: var(--muted);
-    font-size: 1.3rem;
-    font-weight: 600;
+  font-size: 1.2rem;
+  color: #7dd3fc;
+  font-weight: 500;
 }
 
-/* STORE HEADER */
-.store-wrapper {
-    width: 92%;
-    max-width: 1200px;
-    margin: 40px auto;
-    text-align: center;
+/* ============================================================
+   STORE HEADER SECTION
+============================================================ */
+#store-container {
+  max-width: 1250px;
+  margin: 40px auto;
+  padding: 30px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
 }
 
-.store-title {
-    font-size: 2rem;
-    font-weight: 700;
+#store-name {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #7dd3fc;
+  text-align: center;
 }
 
-.store-logo {
-    width: 150px;
-    border-radius: var(--radius);
-    margin-top: 10px;
+#store-logo {
+  display: block;
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
-.store-description {
-    margin-top: 10px;
-    font-size: 1rem;
-    color: var(--muted);
+#store-description {
+  text-align: center;
+  font-size: 1rem;
+  color: #cbd5e1;
+  max-width: 800px;
+  margin: 0 auto 20px;
 }
 
-/* ADD PRODUCT BUTTON */
-.add-product-btn {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: var(--accent);
-    border: none;
-    border-radius: var(--radius);
-    color: black;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-}
-.add-product-btn:hover {
-    opacity: 0.85;
+/* Add Product Button */
+#add-product-btn {
+  display: block;
+  margin: 20px auto;
+  background: #38bdf8;
+  padding: 12px 24px;
+  color: #0b0c0f;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
 }
 
-/* PRODUCT GRID */
+#add-product-btn:hover {
+  background: #7dd3fc;
+  transform: translateY(-3px);
+}
+
+/* ============================================================
+   PRODUCT GRID
+============================================================ */
 .product-container {
-    margin: 40px auto;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
 }
 
+/* ============================================================
+   PRODUCT CARD
+============================================================ */
 .product-card {
-    background: var(--panel);
-    border-radius: var(--radius);
-    padding: 16px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(255,255,255,0.03);
-    transition: 0.3s ease;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: 0.25s ease-in-out;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }
+
 .product-card:hover {
-    background: var(--panel-light);
-    transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
 }
 
 .product-card img {
-    width: 100%;
-    height: 240px;
-    border-radius: var(--radius);
-    object-fit: cover;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
+/* Product Name */
 .product-card h3 {
-    margin-top: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: white;
+  margin-top: 4px;
 }
 
+/* Price */
 .product-card p {
-    color: var(--accent);
-    font-size: 1.1rem;
-    font-weight: 600;
+  font-size: 0.95rem;
+  color: #cbd5e1;
 }
 
-/* REMOVE BUTTON */
+.product-card p strong {
+  color: #7dd3fc;
+}
+
+/* Remove Button OR View Button */
+.product-card button {
+  margin-top: auto;
+  padding: 10px 14px;
+  background: #38bdf8;
+  color: #0b0c0f;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  transition: 0.25s ease;
+}
+
+.product-card button:hover {
+  background: #7dd3fc;
+  transform: translateY(-3px);
+}
+
+/* Remove button (Owner only) */
 .remove-btn {
-    padding: 8px 16px;
-    border: none;
-    background: var(--danger);
-    color: white;
-    border-radius: var(--radius);
-    margin-top: 10px;
-    cursor: pointer;
-    font-weight: 600;
+  background: #ef4444 !important;
+  color: white;
 }
+
 .remove-btn:hover {
-    opacity: 0.85;
+  background: #f87171 !important;
 }
 
-.error-msg {
-    color: var(--danger);
-    margin-top: 20px;
-}
+/* ============================================================
+   RESPONSIVE
+============================================================ */
 
-/* FOOTER */
-.footer {
-    text-align: center;
+/* Tablets */
+@media (max-width: 1024px) {
+  .product-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  #store-container {
     padding: 20px;
-    background: #0b0d10;
-    color: var(--muted);
-    margin-top: 50px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #store-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  #store-logo {
+    width: 110px;
+    height: 110px;
+  }
+
+  #store-name {
+    font-size: 1.65rem;
+  }
+
+  .product-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .navbar-title {
+    display: none;
+  }
+
+  .logo-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-name {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+@media (max-width: 450px) {
+  #store-container {
+    padding: 16px;
+  }
+
+  #store-name {
+    font-size: 1.5rem;
+  }
+
+  .product-card img {
+    height: 200px;
+  }
 }

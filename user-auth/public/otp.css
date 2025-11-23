@@ -1,44 +1,39 @@
-/* ===========================================================
-   GLOBAL RESET
-=========================================================== */
+/* ============================================================================
+   GLOBAL DARK THEME
+============================================================================ */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  background: #0b0d10;
-  color: #e5eef7;
+body {
+  background: #0b0c0e;
+  color: #e5e7eb;
   font-family: "Poppins", sans-serif;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
-
-/* ===========================================================
+/* ============================================================================
    NAVBAR
-=========================================================== */
+============================================================================ */
 .navbar {
   width: 100%;
-  padding: 14px 20px;
-  background: #0b0d10;
+  background: #0b0c0e;
+  padding: 14px 26px;
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  display: flex;
-  justify-content: center;
-  position: sticky;
-  top: 0;
-  z-index: 20;
 }
 
 .navbar-container {
-  width: 100%;
-  max-width: 1500px;
+  max-width: 1400px;
+  margin: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
 }
 
+/* Logo + Brand Left */
 .logo-container {
   display: flex;
   align-items: center;
@@ -46,191 +41,188 @@ html, body {
 }
 
 .logo-img {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   object-fit: contain;
 }
 
 .brand-name {
   font-family: "Vollkorn", serif;
-  font-size: 1.4rem;
-  letter-spacing: 1px;
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: white;
+  text-transform: lowercase;
+}
+
+/* Page Title */
+.navbar-title {
+  color: #38bdf8;
+  font-size: 1.2rem;
+  letter-spacing: 0.4px;
+}
+
+/* ============================================================================
+   CONTAINER (CARD STYLE)
+============================================================================ */
+.container {
+  max-width: 430px;
+  margin: 70px auto;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+/* ============================================================================
+   HEADINGS
+============================================================================ */
+.container h1 {
+  font-size: 1.65rem;
+  font-weight: 600;
+  margin-bottom: 20px;
   color: white;
 }
 
-.navbar-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.7rem;
-  font-weight: 600;
-  color: #e5faff;
-}
-
-@media (max-width: 768px) {
-  .navbar-container {
-    flex-direction: column;
-    gap: 8px;
-  }
-  .navbar-title {
-    position: relative;
-    transform: none;
-    font-size: 1.3rem;
-  }
-}
-
-
-/* ===========================================================
-   OTP BOX FORM
-=========================================================== */
-.otp-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 50px 20px;
-}
-
-.otp-box {
-  width: 100%;
-  max-width: 400px;
-  background: #121417;
-  padding: 30px;
-  border-radius: 14px;
-  box-shadow: 0 0 15px rgba(125,211,252,0.15);
-  border: 1px solid rgba(255,255,255,0.06);
-  animation: fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.otp-box h2 {
-  color: #7dd3fc;
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-.sub-text {
-  text-align: center;
-  font-size: 0.95rem;
-  color: #b7c4d6;
-  margin-bottom: 20px;
-}
-
-
-/* ===========================================================
-   INPUT FIELDS
-=========================================================== */
+/* ============================================================================
+   FORM ELEMENTS
+============================================================================ */
 .form-group {
   margin-bottom: 18px;
+  text-align: left;
 }
 
 label {
   font-size: 0.9rem;
-  color: #cbd7e4;
+  color: #cbd5e1;
 }
 
 input {
   width: 100%;
   padding: 12px 14px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: #0d0f12;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  margin-top: 6px;
   color: white;
-  transition: 0.25s;
-  font-size: 1rem;
-}
-
-input:focus {
-  border-color: #7dd3fc;
+  font-size: 0.95rem;
   outline: none;
-}
-
-
-/* ===========================================================
-   BUTTONS
-=========================================================== */
-.btn {
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: none;
-  margin-top: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
   transition: 0.25s ease;
 }
 
-.primary {
-  background: #38bdf8;
-  color: #0b0d10;
+input:focus {
+  border-color: #38bdf8;
 }
 
-.primary:hover {
+/* Error Messages */
+.error {
+  font-size: 0.85rem;
+  color: #ff6b6b;
+  margin-top: 4px;
+}
+
+/* ============================================================================
+   BUTTONS
+============================================================================ */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #38bdf8;
+  border: none;
+  border-radius: 12px;
+  color: #0b0c0e;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+  margin-top: 4px;
+}
+
+button:hover {
   background: #7dd3fc;
   transform: translateY(-2px);
 }
 
-.secondary {
-  background: #1f2933;
-  color: #cbd3df;
+/* Resend button style */
+#resend-otp {
+  background: #475569;
+  color: #e2e8f0;
+}
+#resend-otp:hover {
+  background: #64748b;
 }
 
-.secondary:hover {
-  background: #2a3440;
-}
-
-.success {
-  background: #16a34a;
-  color: white;
-}
-
-.success:hover {
-  background: #22c55e;
-}
-
-
-/* ===========================================================
-   TIMER + MESSAGE
-=========================================================== */
+/* ============================================================================
+   TIMER
+============================================================================ */
 .timer {
-  margin-top: 12px;
-  padding: 10px;
-  text-align: center;
-  background: rgba(125,211,252,0.08);
-  border: 1px solid rgba(125,211,252,0.2);
-  border-radius: 8px;
-  color: #7dd3fc;
   font-size: 0.95rem;
+  margin-bottom: 14px;
+  color: #7dd3fc;
 }
 
-.message {
-  text-align: center;
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  background: rgba(34,197,94,0.12);
-  border: 1px solid rgba(34,197,94,0.3);
-  color: #4ade80;
+/* ============================================================================
+   MESSAGE BOX
+============================================================================ */
+#message-container {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 4px solid #38bdf8;
+  border-radius: 10px;
 }
 
 .hidden {
   display: none;
 }
 
+#message-text {
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
 
-/* ===========================================================
-   RESPONSIVE
-=========================================================== */
+/* ============================================================================
+   RESPONSIVE FOR MOBILE
+============================================================================ */
 @media (max-width: 600px) {
-  .otp-box {
-    padding: 24px;
+  .navbar {
+    padding: 12px 16px;
   }
-  .btn {
-    font-size: 0.95rem;
-    padding: 10px;
+
+  .logo-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-name {
+    font-size: 1.35rem;
+  }
+
+  .navbar-title {
+    font-size: 1rem;
+  }
+
+  .container {
+    margin: 40px 16px;
+    padding: 32px;
+  }
+
+  .container h1 {
+    font-size: 1.45rem;
+  }
+
+  input {
+    font-size: 0.87rem;
+    padding: 11px 12px;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 11px;
+  }
+
+  .timer {
+    font-size: 0.88rem;
   }
 }

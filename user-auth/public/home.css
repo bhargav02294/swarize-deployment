@@ -1,212 +1,316 @@
-/* --- GLOBAL --- */
-:root{
-  --bg:#0d0f12;
-  --text:#e5e5e5;
-  --muted:#9ba3ae;
-  --accent:#38bdf8;
-  --panel:rgba(255,255,255,0.03);
-}
-body {
-  margin:0;
-  font-family:Poppins, sans-serif;
-  background:var(--bg);
-  color:var(--text);
+/* ============================================
+   GLOBAL THEME
+============================================ */
+:root {
+  --bg: #0d0f12;
+  --card: #14161a;
+  --sidebar: #0f1115;
+  --text: #e5e7eb;
+  --muted: #9aa4ad;
+  --accent: #4ea8de;
+  --danger: #ef4444;
 }
 
-/* --- NAVBAR --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Hidden utility */
+.hidden {
+  display: none !important;
+}
+
+/* ============================================
+   NAVBAR
+============================================ */
 .navbar {
-  width:100%;
-  padding:12px 20px;
-  background:var(--panel);
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  position:sticky;
-  top:0;
-  z-index:200;
+  width: 100%;
+  background: var(--sidebar);
+  padding: 14px 20px;
+  border-bottom: 1px solid #1f2125;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar-container {
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  max-width: 1450px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
+/* Brand (Left side) */
 .brand-left {
-  display:flex;
-  align-items:center;
-  gap:12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
 }
 
 .logo-img {
-  width:50px;
-  height:50px;
-  background:white;
-  border-radius:12px;
-  padding:6px;
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  background: white;
+  object-fit: cover;
 }
 
 .brand-text {
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
 }
 
 .brand-name {
-  font-family:Vollkorn, serif;
-  font-size:18px;
-  font-weight:700;
+  font-size: 22px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .brand-tag {
-  font-size:12px;
-  color:var(--muted);
+  font-size: 11px;
+  color: var(--muted);
 }
 
-/* --- TOGGLE BUTTON (Mobile Only) --- */
+/* Mobile Toggle (☰, ✕) */
 .menu-toggle {
-  display:none; /* hidden on pc */
-  background:transparent;
-  border:1px solid rgba(255,255,255,0.1);
-  padding:10px 14px;
-  border-radius:8px;
-  color:var(--text);
-  font-size:20px;
-  cursor:pointer;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
 }
 
+/* Show toggle only on mobile */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+}
 
-
-/* ================= MOBILE MENU ================= */
+/* ============================================
+   MOBILE SLIDE MENU
+============================================ */
 .mobile-slide-menu {
-  position:fixed;
-  top:0;
-  right:-100%;
-  width:78%;
-  max-width:340px;
-  height:100vh;
-  background:var(--panel);
-  padding:20px;
-  transition:right .3s ease;
-  z-index:300;
-}
-
-/* mobile brand (only 1 logo now) */
-.mobile-brand {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:20px;
-}
-
-.mobile-logo {
-  width:42px;
-  height:42px;
-  background:white;
-  border-radius:10px;
-  padding:5px;
-}
-
-.mobile-brand-name {
-  font-family:Vollkorn, serif;
-  font-weight:700;
-  font-size:16px;
-}
-
-.mobile-menu-list {
-  list-style:none;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.mobile-menu-list a {
-  display:block;
-  padding:12px;
-  border-radius:10px;
-  background:rgba(255,255,255,0.04);
-  color:var(--text);
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 260px;
+  height: 100vh;
+  background: #14161a;
+  padding: 20px;
+  transition: right 0.35s ease-in-out;
+  z-index: 2000;
 }
 
 .mobile-slide-menu.open {
-  right:0;
+  right: 0;
 }
 
+/* Brand inside menu */
+.mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
 
-/* ================= SIDEBAR (PC ONLY) ================= */
+.mobile-logo {
+  width: 42px;
+  height: 42px;
+  background: white;
+  border-radius: 50%;
+}
+
+.mobile-brand-name {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Menu List */
+.mobile-menu-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mobile-menu-list a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 16px;
+  padding: 8px 0;
+  display: block;
+  transition: 0.25s;
+}
+
+.mobile-menu-list a:hover {
+  color: var(--accent);
+}
+
+/* ============================================
+   DESKTOP SIDEBAR
+============================================ */
 .sidebar {
-  width:260px;
-  display:block;
+  width: 260px;
+  background: var(--sidebar);
+  height: calc(100vh - 70px);
+  border-right: 1px solid #1f2125;
+  padding: 20px;
+  position: sticky;
+  top: 70px;
+  display: none; /* Hidden on mobile */
 }
 
-/* hide sidebar on mobile */
-@media(max-width:900px){
-  .sidebar { display:none; }
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
 }
 
+.sidebar-logo {
+  width: 45px;
+  height: 45px;
+  background: white;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-/* ================= MAIN CONTAINER ================= */
+.sidebar-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-nav ul li a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  display: block;
+  transition: 0.25s ease;
+}
+
+.sidebar-nav ul li a:hover {
+  background: #1c1f23;
+  color: var(--accent);
+}
+
+/* Show sidebar only on desktop */
+@media (min-width: 769px) {
+  .sidebar {
+    display: block;
+  }
+}
+
+/* ============================================
+   MAIN CONTENT
+============================================ */
 .app-container {
-  max-width:1200px;
-  margin:30px auto;
-  display:flex;
-  gap:24px;
+  display: flex;
+  padding: 20px;
+  gap: 25px;
 }
 
+.main-content {
+  width: 100%;
+  background: var(--card);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #1f2125;
+}
 
+.page-title {
+  font-size: 28px;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
 
-/* ================= GRID ================= */
+/* Grid section (Dashboard cards) */
 .grid-container {
-  display:grid;
-  grid-template-columns: repeat(2,1fr);
-  gap:20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
 }
 
 .grid-item {
-  background:rgba(255,255,255,0.03);
-  padding:20px;
-  border-radius:14px;
+  background: #191c21;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #1f2125;
+  text-align: left;
+}
+
+.grid-item h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
 }
 
 .btn {
-  padding:12px 20px;
-  background:var(--accent);
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  color:black;
-  font-weight:600;
-  width:100%;
+  padding: 10px 20px;
+  background: var(--accent);
+  border: none;
+  color: white;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.25s ease;
 }
 
+.btn:hover {
+  background: #3b8cbc;
+}
+
+/* ============================================
+   FOOTER
+============================================ */
 .page-footer {
-  text-align:center;
-  padding:20px;
-  color:var(--muted);
+  text-align: center;
+  padding: 25px;
+  margin-top: 40px;
+  color: var(--muted);
+  font-size: 14px;
 }
 
-
-/* ======== MOBILE FIXES ======== */
-@media(max-width:900px) {
-
-  .menu-toggle {
-    display:block; /* show toggle only on mobile */
-  }
-
-  .navbar-container {
-    padding-right:6px;
-  }
-
-  .sidebar {
-    display:none !important; /* ensure never appears on mobile */
-  }
-
+/* ============================================
+   RESPONSIVE FIXES
+============================================ */
+@media (max-width: 768px) {
   .app-container {
-    flex-direction:column;
-    padding:12px;
+    flex-direction: column;
+    padding: 15px;
   }
 
-  .grid-container {
-    grid-template-columns:1fr;
+  .main-content {
+    padding: 20px;
   }
 
+  .logo-img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-text .brand-name {
+    font-size: 20px;
+  }
 }

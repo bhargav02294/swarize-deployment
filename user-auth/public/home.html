@@ -30,12 +30,35 @@
   </header>
 
 
-  <!-- ================= MOBILE SLIDE MENU ================= -->
+ 
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="navbar-container">
+
+      <!-- Brand -->
+      <a href="index.html" class="brand-left">
+        <img src="/images/logo.png" class="logo-img" alt="Swarize Logo">
+        <div class="brand-text">
+          <div class="brand-name">swarize</div>
+          <div class="brand-tag">Empowering Indian Businesses</div>
+        </div>
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mobileMenu">
+        ☰
+      </button>
+
+    </div>
+  </header>
+
+
+ <!-- ================= MOBILE SLIDE MENU ================= -->
   <nav id="mobileMenu" class="mobile-slide-menu" aria-hidden="true">
 
-    <!-- ONE Single Mobile Brand Line -->
+    <!-- Single Brand Row -->
     <div class="mobile-brand">
-      <img src="/images/logo.png" class="mobile-logo" alt="">
+      <img src="/images/logo.png" class="mobile-logo" alt="Swarize">
       <span class="mobile-brand-name">swarize</span>
     </div>
 
@@ -54,17 +77,18 @@
   </nav>
 
 
-
   <!-- ================= MAIN CONTENT ================= -->
   <main id="main-container" class="app-container hidden">
 
-    <!-- Sidebar (Desktop Only) -->
+    <!-- Desktop Sidebar (JS Injects Content) -->
     <aside class="sidebar"></aside>
 
+    <!-- Dashboard Area -->
     <section class="main-content">
       <h1 class="page-title">Welcome to Your Dashboard</h1>
 
       <div class="grid-container">
+
         <div class="grid-item">
           <h2>My Collections / Downloads</h2>
           <button class="btn" id="collections-btn">View Collections</button>
@@ -84,6 +108,7 @@
           <h2>User Profile</h2>
           <button class="btn" id="profile-btn">User Profile</button>
         </div>
+
       </div>
     </section>
 

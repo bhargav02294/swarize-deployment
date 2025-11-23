@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title id="dynamic-title">Product Details | Swarize</title>
   <meta name="robots" content="index, follow" />
@@ -18,8 +18,7 @@
   <header class="navbar" role="banner">
     <div class="navbar-inner">
       <a class="brand" href="index.html" aria-label="Swarize home">
-        <!-- fallback logo path (uploaded file path available on your environment) -->
-        <img src="/images/logo.png" alt="Swarize" class="brand-logo" />
+        <img src="./images/logo.png" alt="Swarize" class="brand-logo" />
         <div class="brand-text">
           <div class="brand-name">swarize</div>
           <div class="brand-tag">Empowering Indian Businesses</div>
@@ -31,10 +30,8 @@
         <div class="dropdown login-dropdown" id="loginDropdown">
           <button id="loginBtn" class="btn-link">Login</button>
           <div class="dropdown-content login-content" id="loginContent" aria-hidden="true">
-            <div class="login-links">
-              <a href="signin.html">Sign In</a>
-              <a href="signup.html">Sign Up</a>
-            </div>
+            <a href="signin.html">Sign In</a>
+            <a href="signup.html">Sign Up</a>
           </div>
         </div>
 
@@ -64,7 +61,7 @@
     <nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
       <div class="mobile-menu-header">
         <div class="mobile-brand">
-          <img src="/images/logo.png" alt="Swarize" class="mobile-logo" />
+          <img src="./images/logo.png" alt="Swarize" class="mobile-logo" />
           <div class="mobile-brand-name">swarize</div>
         </div>
         <button id="mobileClose" class="mobile-close" aria-label="Close menu">✕</button>
@@ -86,20 +83,20 @@
   <!-- PRODUCT MAIN -->
   <main class="product-main container">
     <!-- Left: Gallery -->
-    <section class="gallery">
+    <section class="gallery" aria-label="Product images">
       <div class="gallery-viewport">
         <button class="gallery-btn prev" id="prevBtn" aria-label="Previous">‹</button>
         <div class="slider-track" id="media-slider" tabindex="0" aria-live="polite"></div>
         <button class="gallery-btn next" id="nextBtn" aria-label="Next">›</button>
       </div>
 
-      <div class="thumbs" id="thumbs"></div>
+      <div class="thumbs" id="thumbs" aria-hidden="false"></div>
 
-      <div class="seller-line">Sold by: <a href="#" id="store-link">Unknown Store</a></div>
+      <div class="seller-line">Sold by: <a id="store-link" href="#" aria-label="Seller store">Unknown Store</a></div>
     </section>
 
     <!-- Center: Info -->
-    <section class="info">
+    <section class="info" aria-label="Product information">
       <div class="title-row">
         <h1 id="preview-name">Product Name</h1>
         <div class="codes">
@@ -110,8 +107,8 @@
 
       <div class="price-row">
         <div class="price-block">
+          <div class="display-price small-muted" id="preview-display-price"></div>
           <div class="price" id="preview-price">₹0</div>
-          <div class="display-price" id="preview-display-price"> </div>
         </div>
       </div>
 
@@ -163,7 +160,7 @@
     </section>
 
     <!-- Right: Sticky buy panel on desktop -->
-    <aside class="buy-panel">
+    <aside class="buy-panel" aria-label="Purchase panel">
       <div class="panel-inner">
         <div class="panel-price" id="panelPrice">₹0</div>
         <div class="panel-actions">
@@ -176,30 +173,30 @@
   </main>
 
   <!-- SIZE CHART MODAL -->
-  <div id="size-chart-overlay" class="overlay hidden"></div>
-  <div id="size-chart-modal" class="modal hidden" role="dialog" aria-modal="true">
+  <div id="size-chart-overlay" class="overlay hidden" tabindex="-1"></div>
+  <div id="size-chart-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="sizeChartTitle">
     <div class="modal-inner">
-      <h3>Size Chart</h3>
+      <h3 id="sizeChartTitle">Size Chart</h3>
       <div id="size-chart-content">Loading...</div>
       <button id="close-size-chart" class="btn">Close</button>
     </div>
   </div>
 
   <!-- REVIEWS -->
-  <section class="reviews container">
+  <section class="reviews container" aria-label="Customer reviews">
     <h3>Customer Reviews</h3>
 
     <div class="write-review">
-      <select id="rating">
+      <select id="rating" aria-label="Rating">
         <option value="5">★★★★★ (5)</option>
         <option value="4">★★★★ (4)</option>
         <option value="3">★★★ (3)</option>
         <option value="2">★★ (2)</option>
         <option value="1">★ (1)</option>
       </select>
-      <textarea id="comment" placeholder="Write your review here"></textarea>
+      <textarea id="comment" placeholder="Write your review here" aria-label="Review comment"></textarea>
       <button id="submit-review">Submit Review</button>
-      <p id="review-message" class="muted"></p>
+      <p id="review-message" class="muted" aria-live="polite"></p>
     </div>
 
     <div id="reviews-container" class="reviews-list">Loading reviews...</div>

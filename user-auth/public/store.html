@@ -55,12 +55,17 @@
 
         <h1 class="navbar-title">My Store</h1>
     </div>
-</nav><section id="stores-container">
-     <!-- Dynamic Store Cards will appear here -->
-     </section> <footer class="footer">
-         <p>&copy; 2025 Swarize. All rights reserved.</p> 
-        </footer>
+</nav>
 
+<body> 
+    <div id="store-container"> 
+        <h1 id="store-name"></h1> 
+        <img id="store-logo" width="150" /> 
+        <p id="store-description"></p> 
+        <button id="add-product-btn" onclick="window.location.href='add-product.html'">+ Add Products</button> 
+    <div id="product-container" class="product-container"></div>
+     <div id="error-message" style="color:red;"></div>
+ </div>
 
   <script src="store.js"></script>
 </body>

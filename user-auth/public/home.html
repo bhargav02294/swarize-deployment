@@ -6,9 +6,10 @@
   <title>Home | Swarize</title>
   <link rel="stylesheet" href="/home.css">
 </head>
+
 <body>
 
-  <!-- ================= NAVBAR ================= -->
+  <!-- =============== NAVBAR (ONE & ONLY) =============== -->
   <header class="navbar">
     <div class="navbar-container">
 
@@ -21,7 +22,7 @@
         </div>
       </a>
 
-      <!-- Mobile Toggle Only (Hidden on PC) -->
+      <!-- Mobile Toggle (Hidden on Desktop) -->
       <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mobileMenu">
         ☰
       </button>
@@ -29,34 +30,9 @@
     </div>
   </header>
 
-
- 
-  <!-- ================= NAVBAR ================= -->
-  <header class="navbar">
-    <div class="navbar-container">
-
-      <!-- Brand -->
-      <a href="index.html" class="brand-left">
-        <img src="/images/logo.png" class="logo-img" alt="Swarize Logo">
-        <div class="brand-text">
-          <div class="brand-name">swarize</div>
-          <div class="brand-tag">Empowering Indian Businesses</div>
-        </div>
-      </a>
-
-      <!-- Mobile Toggle -->
-      <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mobileMenu">
-        ☰
-      </button>
-
-    </div>
-  </header>
-
-
- <!-- ================= MOBILE SLIDE MENU ================= -->
+  <!-- =============== MOBILE SLIDE MENU =============== -->
   <nav id="mobileMenu" class="mobile-slide-menu" aria-hidden="true">
 
-    <!-- Single Brand Row -->
     <div class="mobile-brand">
       <img src="/images/logo.png" class="mobile-logo" alt="Swarize">
       <span class="mobile-brand-name">swarize</span>
@@ -76,14 +52,13 @@
 
   </nav>
 
-
-  <!-- ================= MAIN CONTENT ================= -->
+  <!-- =============== MAIN DASHBOARD =============== -->
   <main id="main-container" class="app-container hidden">
 
-    <!-- Desktop Sidebar (JS Injects Content) -->
+    <!-- Sidebar (Desktop) -->
     <aside class="sidebar"></aside>
 
-    <!-- Dashboard Area -->
+    <!-- Content -->
     <section class="main-content">
       <h1 class="page-title">Welcome to Your Dashboard</h1>
 
@@ -113,7 +88,6 @@
     </section>
 
   </main>
-
 
   <footer class="page-footer">
     <p>© 2025 Swarize. All rights reserved.</p>

@@ -172,6 +172,16 @@ if (colors.length > 0) {
 } else {
   colorContainer.textContent = "-";
 }
+// Move Buy Buttons Under Price on Mobile
+if (window.innerWidth <= 768) {
+  const buyBox = document.querySelector(".mobile-buy-box");
+  const placeholder = document.getElementById("mobile-buttons-placeholder");
+
+  if (buyBox && placeholder) {
+    placeholder.appendChild(buyBox);
+  }
+}
+
 
 
     // =======================================

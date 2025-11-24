@@ -156,20 +156,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     const colorContainer = document.getElementById("preview-color");
     colorContainer.innerHTML = "";
     const colors = Array.isArray(product.color)
-      ? product.color
-      : (product.color || "")
-          .split(",")
-          .map((c) => c.trim())
-          .filter(Boolean);
+  ? product.color
+  : (product.color || "")
+      .split(",")
+      .map((c) => c.trim())
+      .filter(Boolean);
 
-    if (colors.length > 0) {
-      colors.forEach((color) => {
-        const swatch = document.createElement("span");
-        swatch.className = "color-swatch";
-        swatch.style.backgroundColor = color;
-        colorContainer.appendChild(swatch);
-      });
-    } else colorContainer.textContent = "-";
+if (colors.length > 0) {
+  colors.forEach((color) => {
+    const swatch = document.createElement("span");
+    swatch.className = "color-swatch";
+    swatch.style.backgroundColor = color;
+    colorContainer.appendChild(swatch);
+  });
+} else {
+  colorContainer.textContent = "-";
+}
+
 
     // =======================================
     // ADD TO CART

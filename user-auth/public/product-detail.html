@@ -8,6 +8,7 @@
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/product-detail.css" />
+  
 </head>
 
 <body>
@@ -51,80 +52,84 @@
 
       </aside>
 
-      <!-- PRODUCT DETAILS (25%) -->
-      <section class="col-middle">
+    <!-- PRODUCT DETAILS (30%) -->
+<section class="col-middle">
 
-        <h1 id="preview-name" class="product-title">Product Name</h1>
+  <h1 id="preview-name" class="product-title">Product Name</h1>
 
-        <div class="price-box">
-          <div class="display-price" id="preview-display-price">₹0</div>
-          <div class="main-price" id="preview-price">₹0</div>
-        </div>
+  <div class="price-box">
+    <div class="display-price" id="preview-display-price">₹0</div>
+    <div class="main-price" id="preview-price">₹0</div>
+  </div>
 
-        <div class="product-selections">
-          <div class="selection-row">
-            <label>Color:</label>
-            <div id="preview-color"></div>
-          </div>
+  <div class="product-selections">
 
-          <div class="selection-row">
-            <label>Size:</label>
-            <div id="preview-size" class="size-container">-</div>
-            <button id="size-chart-btn" class="size-chart-btn">Size Chart</button>
-          </div>
+    <div class="selection-row">
+      <label>Color:</label>
+      <div id="preview-color" class="color-field"></div>
+    </div>
 
-          <div class="selection-row">
-            <label>Saree Size:</label>
-            <span id="preview-saree-size">-</span>
-          </div>
+    <div class="selection-row">
+      <label>Size:</label>
+      <div id="preview-size" class="size-container">-</div>
+    </div>
 
-          <div class="selection-row">
-            <label>Blouse Size:</label>
-            <span id="preview-blouse-size">-</span>
-          </div>
-        </div>
+    <!-- Size Chart Below Size -->
+    <button id="size-chart-btn" class="size-chart-link">Size Chart</button>
 
-        <hr>
+    <div class="selection-row">
+      <label>Saree Size:</label>
+      <span id="preview-saree-size">-</span>
+    </div>
 
-        <div class="product-details-section">
-          <div class="spec-row">Product Code: <span id="preview-product-code"></span></div>
-          <div class="spec-row">Category: <span id="preview-category"></span></div>
-          <div class="spec-row">Subcategory: <span id="preview-subcategory"></span></div>
+    <div class="selection-row">
+      <label>Blouse Size:</label>
+      <span id="preview-blouse-size">-</span>
+    </div>
 
-          <div class="spec-row">Material: <span id="preview-material"></span></div>
-          <div class="spec-row">Pattern: <span id="preview-pattern"></span></div>
-          <div class="spec-row">Wash Care: <span id="preview-wash-care"></span></div>
-          <div class="spec-row">Model: <span id="preview-model-style"></span></div>
-          <div class="spec-row">Occasion: <span id="preview-occasion"></span></div>
-          <div class="spec-row">Tags: <span id="preview-tags"></span></div>
-        </div>
+  </div>
 
-        <div class="collapsible-desc">
-          <button id="toggle-desc-btn" class="desc-toggle">+ Product Description</button>
-          <div id="desc-summary-content" style="display:none;">
-            <p id="preview-description"></p>
-            <p id="preview-summary"></p>
-            <button id="toggle-less-btn" class="desc-toggle">− Show Less</button>
-          </div>
-          <div class="cta-note">
-            <p><strong>Note:</strong> No COD / RTO available.</p>
-            <p>✔ Free Delivery across India</p>
-          </div>
-        </div>
+  <hr class="spec-separator">
 
-      </section>
+  <div class="product-details-section">
+    <div class="spec-row">Product Code: <span id="preview-product-code"></span></div>
+    <div class="spec-row">Category: <span id="preview-category"></span></div>
+    <div class="spec-row">Subcategory: <span id="preview-subcategory"></span></div>
+    <div class="spec-row">Material: <span id="preview-material"></span></div>
+    <div class="spec-row">Pattern: <span id="preview-pattern"></span></div>
+    <div class="spec-row">Wash Care: <span id="preview-wash-care"></span></div>
+    <div class="spec-row">Model: <span id="preview-model-style"></span></div>
+    <div class="spec-row">Occasion: <span id="preview-occasion"></span></div>
+    <div class="spec-row">Tags: <span id="preview-tags"></span></div>
+  </div>
+
+  <div class="collapsible-desc">
+
+    <button id="toggle-desc-btn" class="desc-link">+ Product Description</button>
+
+    <div id="desc-summary-content" style="display:none;">
+      <p id="preview-description"></p>
+      <p id="preview-summary"></p>
+      <button id="toggle-less-btn" class="desc-link">− Show Less</button>
+    </div>
+
+  </div>
+
+</section>
+
+
 
       <!-- BUY SECTION (25%) -->
-      <aside class="col-right">
+      <!-- BUY SECTION (20%) -->
+<!-- BUY SECTION (20%) -->
+<aside class="col-right">
+  <div class="buy-box">
+    <button class="btn buy-now">Buy Now</button>
+    <button class="btn add-to-cart">Add to Cart</button>
+  </div>
+</aside>
 
-        <div class="buy-box">
-          <button class="btn buy-now">Buy Now</button>
-          <button class="btn add-to-cart">Add to Cart</button>
 
-          
-        </div>
-
-      </aside>
     </div>
 
     <!-- REVIEWS FULL WIDTH -->

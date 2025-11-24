@@ -4,140 +4,118 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title id="dynamic-title">Product Details | Swarize</title>
-  <meta id="meta-description" name="description" content="Find the best products on Swarize with quality details, pricing, reviews and fast delivery." />
-  <meta id="meta-keywords" name="keywords" content="shopping, online store, buy, swarize" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="product" />
-  <meta property="og:site_name" content="Swarize" />
-  <meta id="og-title" property="og:title" content="Product Details | Swarize" />
-  <meta id="og-description" property="og:description" content="Discover top quality products on Swarize. Read reviews, view images and order online now." />
-  <meta id="og-image" property="og:image" content="/default-thumbnail.jpg" />
-  <meta id="og-url" property="og:url" content="" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta id="twitter-title" name="twitter:title" content="Product Details | Swarize" />
-  <meta id="twitter-description" name="twitter:description" content="Explore premium products on Swarize. Trusted reviews, secure shopping and fast delivery." />
-  <meta id="twitter-image" name="twitter:image" content="/default-thumbnail.jpg" />
 
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/product-detail.css" />
 </head>
+
 <body>
 
   <!-- NAVBAR -->
-  <nav class="navbar" role="navigation" aria-label="Main">
+  <nav class="navbar">
     <div class="navbar-container">
       <div class="logo-container">
-        <!-- Path served from your public folder. On disk: E:\swarize-deploy\user-auth\public\images\logo.png -->
         <img src="/images/logo.png" alt="Swarize logo" class="logo-img" />
       </div>
 
       <ul class="menu">
         <li><a href="signin.html" class="menu-item">Login</a></li>
-        <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
+        <li><a href="addtocart.html" class="menu-item">Cart</a></li>
         <li><a href="index.html" class="menu-item">Home</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- FULL WIDTH 3-COLUMN LAYOUT (no page margins) -->
-  <main class="page-main" role="main">
+  <!-- MAIN FULL-WIDTH -->
+  <main class="page-main">
+
     <div class="product-container">
 
-      <!-- COLUMN 1: Large image + thumbnails + store -->
-      <aside class="col col-left" aria-label="Product images">
-        <div class="large-media-wrap">
-          <button class="slider-btn prev" aria-label="Previous" onclick="moveSlide(-1)">‹</button>
-          <div class="slider-viewport">
-            <div class="slider-track" id="media-slider" aria-live="polite"></div>
-          </div>
-          <button class="slider-btn next" aria-label="Next" onclick="moveSlide(1)">›</button>
+      <!-- LEFT IMAGE COLUMN (50%) -->
+      <aside class="col-left">
+
+        <!-- BIG MAIN IMAGE -->
+        <div class="main-image-wrap">
+          <img id="main-preview-image" src="/default-thumbnail.jpg" alt="Product Image" />
+          <video id="main-preview-video" controls style="display:none;"></video>
         </div>
 
-        <div class="thumbs-row" id="thumbs-row" aria-hidden="false">
-          <!-- thumbnails inserted by JS or server; styles below make them selectable -->
-        </div>
+        <!-- THUMBNAILS -->
+        <div class="thumbnail-row" id="thumbnail-row"></div>
 
         <div class="store-line">
           <strong>Sold by:</strong>
           <a id="store-link" href="#" class="store-link">Unknown Store</a>
         </div>
+
       </aside>
 
-      <!-- COLUMN 2: Product details -->
-      <section class="col col-center" aria-label="Product details">
-        <header class="product-header">
-          <h1 id="preview-name">Product Name</h1>
-          <div class="price-row">
-            <div class="display-price" id="preview-display-price">—</div>
-            <div class="price" id="preview-price">₹0.00</div>
-          </div>
-        </header>
+      <!-- PRODUCT DETAILS (25%) -->
+      <section class="col-middle">
 
-        
+        <h1 id="preview-name" class="product-title">Product Name</h1>
+
+        <div class="price-box">
+          <div class="display-price" id="preview-display-price">₹0</div>
+          <div class="main-price" id="preview-price">₹0</div>
+        </div>
 
         <div class="product-selections">
           <div class="selection-row">
-            <label class="sel-label">Color:</label>
-            <div id="preview-color" class="color-container">-</div>
+            <label>Color:</label>
+            <div id="preview-color"></div>
           </div>
 
           <div class="selection-row">
-            <label class="sel-label">Size:</label>
+            <label>Size:</label>
             <div id="preview-size" class="size-container">-</div>
-            <button id="size-chart-btn" class="size-chart-trigger">Size Chart</button>
+            <button id="size-chart-btn" class="size-chart-btn">Size Chart</button>
           </div>
 
           <div class="selection-row">
-            <label class="sel-label">Saree Size:</label>
+            <label>Saree Size:</label>
             <span id="preview-saree-size">-</span>
           </div>
 
           <div class="selection-row">
-            <label class="sel-label">Blouse Size:</label>
+            <label>Blouse Size:</label>
             <span id="preview-blouse-size">-</span>
           </div>
         </div>
 
-        <hr class="sep">
+        <hr>
 
         <div class="product-details-section">
-          <div class="spec-row"><strong>Product Code:</strong> <span id="preview-product-code">-</span></div>
-          <div class="spec-row"><strong>Category:</strong> <span id="preview-category">-</span></div>
-          <div class="spec-row"><strong>Subcategory:</strong> <span id="preview-subcategory">-</span></div>
+          <div class="spec-row">Product Code: <span id="preview-product-code"></span></div>
+          <div class="spec-row">Category: <span id="preview-category"></span></div>
+          <div class="spec-row">Subcategory: <span id="preview-subcategory"></span></div>
 
-          <div class="spec-row"><strong>Material:</strong> <span id="preview-material">-</span></div>
-          <div class="spec-row"><strong>Pattern:</strong> <span id="preview-pattern">-</span></div>
-          <div class="spec-row"><strong>Wash Care:</strong> <span id="preview-wash-care">-</span></div>
-          <div class="spec-row"><strong>Model:</strong> <span id="preview-model-style">-</span></div>
-          <div class="spec-row"><strong>Occasion:</strong> <span id="preview-occasion">-</span></div>
-          <div class="spec-row"><strong>Available In:</strong> <span id="preview-available-in">All over India</span></div>
-          <div class="spec-row"><strong>Tags:</strong> <span id="preview-tags">-</span></div>
+          <div class="spec-row">Material: <span id="preview-material"></span></div>
+          <div class="spec-row">Pattern: <span id="preview-pattern"></span></div>
+          <div class="spec-row">Wash Care: <span id="preview-wash-care"></span></div>
+          <div class="spec-row">Model: <span id="preview-model-style"></span></div>
+          <div class="spec-row">Occasion: <span id="preview-occasion"></span></div>
+          <div class="spec-row">Tags: <span id="preview-tags"></span></div>
         </div>
 
         <div class="collapsible-desc">
           <button id="toggle-desc-btn" class="desc-toggle">+ Product Description</button>
-          <div id="desc-summary-content" style="display: none;">
-            <p id="preview-description">-</p>
-            <p id="preview-summary">-</p>
+          <div id="desc-summary-content" style="display:none;">
+            <p id="preview-description"></p>
+            <p id="preview-summary"></p>
             <button id="toggle-less-btn" class="desc-toggle">− Show Less</button>
           </div>
         </div>
 
       </section>
 
-      <!-- COLUMN 3: Sticky Buy / Cart area -->
-      <aside class="col col-right" aria-label="Purchase actions">
-        <div class="sticky-buy">
-          
+      <!-- BUY SECTION (25%) -->
+      <aside class="col-right">
 
-          <div class="cta-row">
-            <button class="btn buy-now">Buy Now</button>
-            <button class="btn add-to-cart">Add to Cart</button>
-          </div>
+        <div class="buy-box">
+          <button class="btn buy-now">Buy Now</button>
+          <button class="btn add-to-cart">Add to Cart</button>
 
           <div class="cta-note">
             <p><strong>Note:</strong> No COD / RTO available.</p>
@@ -145,47 +123,45 @@
           </div>
         </div>
 
-        
       </aside>
     </div>
 
-    <!-- REVIEWS SECTION - full width under the product container -->
-    <section class="review-section" aria-label="Reviews">
+    <!-- REVIEWS FULL WIDTH -->
+    <section class="review-section">
       <div class="review-inner">
         <h3>Customer Reviews</h3>
 
         <div class="submit-review">
           <h4>Submit Your Review</h4>
-          <p id="review-message" class="review-message"></p>
           <div class="review-controls">
-            <select id="rating" aria-label="Rating">
+            <select id="rating">
               <option value="5">★★★★★ (5 Stars)</option>
               <option value="4">★★★★☆ (4 Stars)</option>
               <option value="3">★★★☆☆ (3 Stars)</option>
               <option value="2">★★☆☆☆ (2 Stars)</option>
               <option value="1">★☆☆☆☆ (1 Star)</option>
             </select>
-            <textarea id="comment" placeholder="Write your review here..." aria-label="Write your review"></textarea>
-            <button id="submit-review" class="btn submit-btn">Submit Review</button>
+            <textarea id="comment" placeholder="Write your review..."></textarea>
+            <button id="submit-review" class="btn submit-btn">Submit</button>
           </div>
         </div>
 
         <h4>All Reviews</h4>
-        <div id="reviews-container" class="reviews-list">No reviews yet.</div>
+        <div id="reviews-container">No reviews yet.</div>
+
       </div>
     </section>
+
   </main>
 
   <!-- SIZE CHART MODAL -->
-  <div id="size-chart-overlay" class="modal-overlay" aria-hidden="true"></div>
-  <div id="size-chart-modal" class="modal" role="dialog" aria-hidden="true">
+  <div id="size-chart-overlay" class="modal-overlay"></div>
+  <div id="size-chart-modal" class="modal">
     <h3>Size Chart</h3>
     <div id="size-chart-content">Loading...</div>
     <button id="close-size-chart" class="btn close-btn">Close</button>
   </div>
 
-  <!-- keep your product JS unchanged - this will populate the DOM -->
   <script src="product-detail.js"></script>
-
 </body>
 </html>

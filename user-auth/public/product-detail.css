@@ -143,158 +143,205 @@ body {
 
 
 /* ------------------------------
-   MIDDLE COLUMN (25%)
+   STORE LINE (Sold by:)
 ------------------------------ */
+
+.store-line {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Store Link */
+.store-link {
+  position: relative;
+  font-size: 15px;
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding-bottom: 2px;
+}
+
+/* Underline animation from CENTER → SIDES */
+.store-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 2px;
+  background: #38bdf8;
+  transition: 0.3s ease;
+}
+
+.store-link:hover::after {
+  width: 100%;
+}
+
+
+/* ------------------------------------
+   IMPORT CUSTOM FONT (CEREBELLUM)
+------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Cerebri+Sans:wght@400;600;700&display=swap');
+
+/* Overwrite only title & price font */
+.product-title,
+.display-price,
+.main-price {
+  font-family: "Cerebri Sans", "Poppins", sans-serif;
+}
+
+/* ------------------------------------
+   UPDATED MIDDLE COLUMN
+------------------------------------ */
+
 .col-middle {
   width: 25%;
-  padding: 30px 25px;
+  padding: 35px 30px;
   border-left: 1px solid #222;
   border-right: 1px solid #222;
 }
 
-/* TITLE */
+/* PRODUCT TITLE */
 .product-title {
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 700;
-  margin-bottom: 20px;
-  color: #ffffff;
+  color: #38bdf8;
+  margin-bottom: 25px;
+  line-height: 1.3;
 }
 
 /* PRICE BOX */
 .price-box {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 .display-price {
-  font-size: 20px;
-  color: #bbbbbb;
+  font-size: 22px;
+  color: #aaa;
   text-decoration: line-through;
+  opacity: 0.8;
 }
 
 .main-price {
-  font-size: 30px;
-  color: #00e676;
+  font-size: 34px;
   font-weight: 700;
-  margin-top: 4px;
+  color: #ffffff;
+  margin-top: 5px;
 }
 
-/* SELECTIONS */
+/* ------------------------------------
+   SELECTION ROWS — CLEAN INLINE ALIGNMENT
+------------------------------------ */
+
 .selection-row {
-  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
 }
 
 .selection-row label {
-  color: #ccc;
+  color: #e5e5e5;
   font-weight: 600;
+  min-width: 110px; /* keeps alignment clean */
+  display: inline-block;
 }
+
+/* COLOR SWATCH FIX */
+#preview-color .color-swatch {
+  margin-top: 0 !important;
+}
+
+/* ------------------------------------
+   SIZE BUTTONS — BRANDED THEME
+------------------------------------ */
 
 .size-container button {
-  background: #222;
-  color: #eee;
-  padding: 6px 12px;
-  border: 1px solid #333;
-  margin-right: 6px;
-  border-radius: 4px;
+  background: #1a1a1a;
+  border: 1px solid #38bdf8;
+  padding: 7px 14px;
+  color: #e5e5e5;
+  border-radius: 5px;
   cursor: pointer;
-}
-
-.size-container button.selected {
-  background: #00e676;
-  color: #000;
-  border-color: #00e676;
-}
-
-/* COLOR SWATCHES */
-.color-swatch {
-  width: 25px;
-  height: 25px;
-  border-radius: 4px;
-  border: 1px solid #444;
-  display: inline-block;
-  margin-right: 6px;
-}
-
-/* SIZE CHART BTN */
-.size-chart-btn {
-  padding: 5px 10px;
-  background: #333;
-  color: #eee;
-  border: 1px solid #444;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.size-chart-btn:hover {
-  background: #444;
-}
-
-/* PRODUCT DETAILS */
-.spec-row {
-  margin-bottom: 10px;
-  color: #ccc;
-}
-
-hr {
-  border: none;
-  border-top: 1px solid #333;
-  margin: 20px 0;
-}
-
-/* DESCRIPTION */
-.desc-toggle {
-  background: none;
-  border: none;
-  color: #00e676;
-  font-size: 18px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-
-/* ------------------------------
-   RIGHT COLUMN (25%)
------------------------------- */
-.col-right {
-  width: 25%;
-  padding: 30px;
-}
-
-.buy-box {
-  background: #111;
-  padding: 25px;
-  border-radius: 10px;
-  border: 1px solid #222;
-}
-
-/* BUTTONS */
-.btn {
-  width: 100%;
-  padding: 15px;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 600;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+  font-size: 14px;
   transition: 0.2s;
 }
 
-.buy-now {
-  background: #00e676;
+.size-container button:hover {
+  background: #0f172a;
+}
+
+.size-container button.selected {
+  background: #38bdf8;
   color: #000;
+  border-color: #38bdf8;
 }
 
-.buy-now:hover {
-  background: #00c95d;
+/* SIZE CHART BUTTON */
+.size-chart-btn {
+  margin-left: auto;
+  padding: 6px 13px;
+  background: #1f2937;
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 13px;
 }
 
-.add-to-cart {
-  background: #333;
-  color: #eee;
-  border: 1px solid #444;
+.size-chart-btn:hover {
+  background: #0f172a;
 }
 
-.add-to-cart:hover {
-  background: #444;
+/* ------------------------------------
+   PRODUCT DETAILS LIST
+------------------------------------ */
+
+.spec-row {
+  margin-bottom: 12px;
+  color: #cfcfcf;
+  font-size: 15px;
+}
+
+.spec-row span {
+  color: #ffffff;
+}
+
+/* ------------------------------------
+   DESCRIPTION SECTION
+------------------------------------ */
+
+.desc-toggle {
+  color: #38bdf8;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top: 25px;
+  background: none;
+}
+
+#desc-summary-content {
+  margin-top: 15px;
+  line-height: 1.6;
+}
+
+#preview-description {
+  margin-bottom: 18px;
+}
+
+#preview-summary {
+  margin-bottom: 20px;
+}
+
+/* Proper spacing below */
+.collapsible-desc {
+  margin-top: 25px;
 }
 
 .cta-note {
@@ -302,15 +349,96 @@ hr {
   color: #bbb;
   font-size: 14px;
 }
+/* ------------------------------
+   RIGHT COLUMN (BUY SECTION)
+------------------------------ */
+
+.col-right {
+  width: 25%;
+  padding: 30px;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+
+.buy-box {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
 
 /* ------------------------------
-   REVIEWS
+   CTA BUTTONS (PREMIUM STYLE)
 ------------------------------ */
+
+.btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 0;        /* No curve */
+  transition: 0.25s ease;
+  margin-bottom: 18px;
+  letter-spacing: 0.3px;
+}
+
+/* BUY NOW — White theme */
+.buy-now {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+}
+
+.buy-now:hover {
+  background: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* ADD TO CART — Black theme */
+.add-to-cart {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.add-to-cart:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #000000;
+}
+
+/* Clean spacing */
+.col-right .buy-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .col-right {
+    width: 100%;
+    position: relative;
+    top: 0;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 14px;
+  }
+}
+
+/* ------------------------------------
+   REVIEW SECTION — PREMIUM DARK THEME
+------------------------------------ */
+
 .review-section {
   width: 100%;
   padding: 60px 30px;
-  background: #0f0f0f;
-  border-top: 1px solid #222;
+  background: #0b0b0b;
+  border-top: 1px solid #1a1a1a;
 }
 
 .review-inner {
@@ -318,26 +446,149 @@ hr {
   margin: auto;
 }
 
-.review-controls select,
-.review-controls textarea {
-  width: 100%;
-  background: #151515;
-  border: 1px solid #333;
-  color: #eee;
-  padding: 10px;
-  border-radius: 4px;
+/* Section titles */
+.review-section h3 {
+  font-size: 26px;
+  margin-bottom: 25px;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.4px;
 }
 
+.review-section h4 {
+  margin: 25px 0 15px;
+  font-size: 20px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* ------------------------------------
+   FORM CONTAINER
+------------------------------------ */
+.submit-review {
+  background: #111;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #1f1f1f;
+}
+
+/* ------------------------------------
+   SELECT (Star rating)
+------------------------------------ */
+.review-controls select {
+  width: 100%;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  color: #ffd700; /* GOLD stars */
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+/* On focus */
+.review-controls select:focus {
+  outline: none;
+  border-color: #38bdf8;
+}
+
+/* ------------------------------------
+   TEXTAREA
+------------------------------------ */
+.review-controls textarea {
+  width: 100%;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 6px;
+  height: 120px;
+  resize: vertical;
+}
+
+.review-controls textarea::placeholder {
+  color: #666;
+}
+
+.review-controls textarea:focus {
+  border-color: #38bdf8;
+  outline: none;
+}
+
+/* ------------------------------------
+   SUBMIT BUTTON (matches your new theme)
+------------------------------------ */
+
 .submit-btn {
-  background: #00e676;
-  color: #000;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 0;
+  margin-top: 18px;
+  padding: 14px;
+  width: 100%;
+  font-size: 17px;
   font-weight: 700;
-  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.25s;
 }
 
 .submit-btn:hover {
-  background: #00c95d;
+  background: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
 }
+
+/* ------------------------------------
+   ALL REVIEWS LIST
+------------------------------------ */
+#reviews-container {
+  margin-top: 20px;
+  padding: 20px;
+  background: #0f0f0f;
+  border-radius: 10px;
+  border: 1px solid #1f1f1f;
+  color: #cccccc;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* If dynamic reviews added later */
+.review-item {
+  padding: 15px 0;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-rating {
+  color: #ffd700; /* GOLD stars */
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+/* ------------------------------------
+   RESPONSIVE
+------------------------------------ */
+@media (max-width: 768px) {
+  .submit-review {
+    padding: 18px;
+  }
+
+  .submit-btn {
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  #reviews-container {
+    padding: 15px;
+  }
+}
+
 
 /* ------------------------------
    MODAL

@@ -1,3 +1,41 @@
+// =======================================================
+// UNIVERSAL WOMEN'S DRESS SIZE CHART (Swarize Standard)
+// =======================================================
+const sizeChartData = {
+
+  Dresses: {
+    Universal: {
+      headers: ["Size", "Bust (in)", "Waist (in)", "Hip (in)"],
+      rows: [
+        ["XS", "32", "26", "34"],
+        ["S",  "34", "28", "36"],
+        ["M",  "36", "30", "38"],
+        ["L",  "38", "32", "40"],
+        ["XL", "40", "34", "42"],
+        ["XXL","42", "36", "44"],
+        ["3XL","44", "38", "46"]
+      ]
+    }
+  },
+
+  // CATEGORY MAPPING
+  
+  Kurti: { Universal: "USE_DRESS_CHART" },
+  Lehenga: { Universal: "USE_DRESS_CHART" },
+  "Anarkali Dress": { Universal: "USE_DRESS_CHART" },
+  Gown: { Universal: "USE_DRESS_CHART" },
+  Sharara: { Universal: "USE_DRESS_CHART" },
+  "Salwar Suit": { Universal: "USE_DRESS_CHART" },
+  "Palazzo Set": { Universal: "USE_DRESS_CHART" },
+  "Skirt Set": { Universal: "USE_DRESS_CHART" },
+  "Indo Western Dress": { Universal: "USE_DRESS_CHART" },
+  "Co-ord Set": { Universal: "USE_DRESS_CHART" },
+  "Churidar Set": { Universal: "USE_DRESS_CHART" }
+
+};
+
+
+
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get("id");
@@ -276,44 +314,51 @@ if (category === "sarees" || category === "saree") {
         )}&price=${product.price}`;
       });
     }
+// =======================================
+// SIZE CHART HANDLER
+// =======================================
+sizeChartBtn.addEventListener("click", () => {
+  const categoryName = product.category;
 
-    // =======================================
-    // SIZE CHART
-    // =======================================
-    const sizeChartModal = document.getElementById("size-chart-modal");
-    const sizeChartOverlay = document.getElementById("size-chart-overlay");
-    const closeSizeChart = document.getElementById("close-size-chart");
-    const sizeChartContent = document.getElementById("size-chart-content");
+  let chartData;
 
-    sizeChartBtn.addEventListener("click", () => {
-      const chartData =
-        sizeChartData[product.category]?.[product.subcategory];
+  // Check if category has a direct match
+  if (sizeChartData[categoryName]) {
 
-      if (!chartData) {
-        sizeChartContent.innerHTML = "<p>No size chart available.</p>";
-      } else {
-        let table =
-          "<table><thead><tr>" +
-          chartData.headers.map((h) => `<th>${h}</th>`).join("") +
-          "</tr></thead><tbody>";
+    // If category says "USE_DRESS_CHART" → load universal dress chart
+    if (sizeChartData[categoryName].Universal === "USE_DRESS_CHART") {
+      chartData = sizeChartData.Dresses.Universal;
+    } else {
 
-        chartData.rows.forEach((row) => {
-          table +=
-            "<tr>" + row.map((d) => `<td>${d}</td>`).join("") + "</tr>";
-        });
+      // If category has its own chart
+      chartData = sizeChartData[categoryName].Universal;
+    }
 
-        table += "</tbody></table>";
-        sizeChartContent.innerHTML = table;
-      }
+  } else {
+    chartData = null;
+  }
 
-      sizeChartModal.style.display = "block";
-      sizeChartOverlay.style.display = "block";
+  // If no size chart available
+  if (!chartData) {
+    sizeChartContent.innerHTML = "<p>No size chart available.</p>";
+  } else {
+    let table =
+      "<table><thead><tr>" +
+      chartData.headers.map((h) => `<th>${h}</th>`).join("") +
+      "</tr></thead><tbody>";
+
+    chartData.rows.forEach((row) => {
+      table +=
+        "<tr>" + row.map((d) => `<td>${d}</td>`).join("") + "</tr>";
     });
 
-    closeSizeChart.addEventListener("click", () => {
-      sizeChartModal.style.display = "none";
-      sizeChartOverlay.style.display = "none";
-    });
+    table += "</tbody></table>";
+    sizeChartContent.innerHTML = table;
+  }
+
+  sizeChartModal.style.display = "block";
+  sizeChartOverlay.style.display = "block";
+});
 
     // =======================================
     // REVIEWS (placeholder)

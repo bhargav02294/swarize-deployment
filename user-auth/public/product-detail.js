@@ -220,16 +220,20 @@ if (window.innerWidth <= 768) {
   }
 }
 
-
 // ================================
-// CATEGORY-BASED SIZE DISPLAY LOGIC  (FIXED)
+// CATEGORY-BASED SIZE DISPLAY LOGIC (FULLY FIXED)
 // ================================
 
-const category = (product.category || "").toLowerCase();
+// Normalize category safely
+const rawCategory = (product.category || "").trim().toLowerCase();
 
-// Lists
+// Clean category for matching
+const category = rawCategory.replace(/\s+/g, " ").trim();
+
+// Saree categories
 const sareeCategories = ["saree", "sarees"];
 
+// Dress categories
 const dressCategories = [
   "kurti",
   "lehenga",
@@ -241,7 +245,9 @@ const dressCategories = [
   "skirt set",
   "indo western dress",
   "co-ord set",
-  "churidar set"
+  "churidar set",
+  "dress",
+  "dresses"   // ← ADDED THIS IMPORTANT FIX
 ];
 
 // UI elements
@@ -253,13 +259,13 @@ const blouseRow = document.querySelector('#preview-blouse-size')?.closest('.sele
 function hide(el) { if (el) el.style.display = "none"; }
 function show(el) { if (el) el.style.display = "flex"; }
 
-// Hide all initially
+// Hide everything initially
 hide(sizeRow);
 hide(sizeChartBtn);
 hide(sareeRow);
 hide(blouseRow);
 
-// Detect saree category
+// Check saree
 if (sareeCategories.includes(category)) {
 
   show(sareeRow);
@@ -268,7 +274,7 @@ if (sareeCategories.includes(category)) {
   hide(sizeRow);
   hide(sizeChartBtn);
 
-// Detect dress categories
+// Check dresses
 } else if (dressCategories.includes(category)) {
 
   show(sizeRow);
@@ -277,7 +283,7 @@ if (sareeCategories.includes(category)) {
   hide(sareeRow);
   hide(blouseRow);
 
-// Unknown → hide all
+// Unknown category
 } else {
 
   hide(sizeRow);
@@ -325,50 +331,64 @@ if (sareeCategories.includes(category)) {
       });
     }
 // =======================================
-// SIZE CHART HANDLER
+// SIZE CHART HANDLER (FULLY UPDATED)
 // =======================================
 sizeChartBtn.addEventListener("click", () => {
-  const categoryName = product.category;
 
-  let chartData;
+  // Normalize DB category name (fix spaces + lowercase)
+  const categoryName = (product.category || "").trim();
+  const normalized = categoryName.toLowerCase();
 
-  // Check if category has a direct match
-  if (sizeChartData[categoryName]) {
+  let chartKey = null;
 
-    // If category says "USE_DRESS_CHART" → load universal dress chart
-    if (sizeChartData[categoryName].Universal === "USE_DRESS_CHART") {
-      chartData = sizeChartData.Dresses.Universal;
-    } else {
-
-      // If category has its own chart
-      chartData = sizeChartData[categoryName].Universal;
+  // Find matching key inside sizeChartData (case-insensitive)
+  for (const key of Object.keys(sizeChartData)) {
+    if (key.toLowerCase() === normalized) {
+      chartKey = key;
+      break;
     }
-
-  } else {
-    chartData = null;
   }
 
-  // If no size chart available
+  let chartData = null;
+
+  // If category exists in sizeChartData
+  if (chartKey) {
+
+    // CASE 1: Category uses universal dress chart
+    if (sizeChartData[chartKey].Universal === "USE_DRESS_CHART") {
+      chartData = sizeChartData.Dresses.Universal;
+
+    // CASE 2: Category has own size chart
+    } else {
+      chartData = sizeChartData[chartKey].Universal;
+    }
+  }
+
+  // When no chart exists
   if (!chartData) {
     sizeChartContent.innerHTML = "<p>No size chart available.</p>";
+
   } else {
-    let table =
+    // Build HTML Table
+    let tableHTML =
       "<table><thead><tr>" +
       chartData.headers.map((h) => `<th>${h}</th>`).join("") +
       "</tr></thead><tbody>";
 
     chartData.rows.forEach((row) => {
-      table +=
-        "<tr>" + row.map((d) => `<td>${d}</td>`).join("") + "</tr>";
+      tableHTML += "<tr>" + row.map((d) => `<td>${d}</td>`).join("") + "</tr>";
     });
 
-    table += "</tbody></table>";
-    sizeChartContent.innerHTML = table;
+    tableHTML += "</tbody></table>";
+
+    sizeChartContent.innerHTML = tableHTML;
   }
 
+  // Show modal
   sizeChartModal.style.display = "block";
   sizeChartOverlay.style.display = "block";
 });
+
 
     // =======================================
     // REVIEWS (placeholder)

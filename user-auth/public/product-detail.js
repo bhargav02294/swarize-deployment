@@ -222,60 +222,70 @@ if (window.innerWidth <= 768) {
 
 
 // ================================
-// CATEGORY-BASED SIZE DISPLAY LOGIC
+// CATEGORY-BASED SIZE DISPLAY LOGIC  (FIXED)
 // ================================
+
 const category = (product.category || "").toLowerCase();
 
-// UI ELEMENTS
+// Lists
+const sareeCategories = ["saree", "sarees"];
+
+const dressCategories = [
+  "kurti",
+  "lehenga",
+  "anarkali dress",
+  "gown",
+  "sharara",
+  "salwar suit",
+  "palazzo set",
+  "skirt set",
+  "indo western dress",
+  "co-ord set",
+  "churidar set"
+];
+
+// UI elements
 const sizeRow = document.querySelector('#preview-size')?.closest('.selection-row');
 const sizeChartBtn = document.getElementById('size-chart-btn');
-
 const sareeRow = document.querySelector('#preview-saree-size')?.closest('.selection-row');
 const blouseRow = document.querySelector('#preview-blouse-size')?.closest('.selection-row');
 
-function hide(el) {
-  if (el) el.style.display = "none";
-}
+function hide(el) { if (el) el.style.display = "none"; }
+function show(el) { if (el) el.style.display = "flex"; }
 
-function show(el) {
-  if (el) el.style.display = "flex";
-}
-
-// RESET TO HIDE EVERYTHING INITIALLY
+// Hide all initially
 hide(sizeRow);
 hide(sizeChartBtn);
 hide(sareeRow);
 hide(blouseRow);
 
-// APPLY CATEGORY LOGIC
-if (category === "sarees" || category === "saree") {
+// Detect saree category
+if (sareeCategories.includes(category)) {
 
-  // Show Saree Details
   show(sareeRow);
   show(blouseRow);
 
-  // Hide Dress Size
   hide(sizeRow);
   hide(sizeChartBtn);
 
-} else if (category === "dresses" || category === "dress") {
+// Detect dress categories
+} else if (dressCategories.includes(category)) {
 
-  // Show Dress Size & Size Chart
   show(sizeRow);
   sizeChartBtn.style.display = "inline-block";
 
-  // Hide Saree Size
   hide(sareeRow);
   hide(blouseRow);
 
+// Unknown → hide all
 } else {
 
-  // Unknown category → hide all size features
   hide(sizeRow);
   hide(sizeChartBtn);
   hide(sareeRow);
   hide(blouseRow);
 }
+
 
 
 

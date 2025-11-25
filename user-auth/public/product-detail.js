@@ -183,6 +183,64 @@ if (window.innerWidth <= 768) {
 }
 
 
+// ================================
+// CATEGORY-BASED SIZE DISPLAY LOGIC
+// ================================
+const category = (product.category || "").toLowerCase();
+
+// UI ELEMENTS
+const sizeRow = document.querySelector('#preview-size')?.closest('.selection-row');
+const sizeChartBtn = document.getElementById('size-chart-btn');
+
+const sareeRow = document.querySelector('#preview-saree-size')?.closest('.selection-row');
+const blouseRow = document.querySelector('#preview-blouse-size')?.closest('.selection-row');
+
+function hide(el) {
+  if (el) el.style.display = "none";
+}
+
+function show(el) {
+  if (el) el.style.display = "flex";
+}
+
+// RESET TO HIDE EVERYTHING INITIALLY
+hide(sizeRow);
+hide(sizeChartBtn);
+hide(sareeRow);
+hide(blouseRow);
+
+// APPLY CATEGORY LOGIC
+if (category === "sarees" || category === "saree") {
+
+  // Show Saree Details
+  show(sareeRow);
+  show(blouseRow);
+
+  // Hide Dress Size
+  hide(sizeRow);
+  hide(sizeChartBtn);
+
+} else if (category === "dresses" || category === "dress") {
+
+  // Show Dress Size & Size Chart
+  show(sizeRow);
+  sizeChartBtn.style.display = "inline-block";
+
+  // Hide Saree Size
+  hide(sareeRow);
+  hide(blouseRow);
+
+} else {
+
+  // Unknown category → hide all size features
+  hide(sizeRow);
+  hide(sizeChartBtn);
+  hide(sareeRow);
+  hide(blouseRow);
+}
+
+
+
 
     // =======================================
     // ADD TO CART
@@ -222,7 +280,6 @@ if (window.innerWidth <= 768) {
     // =======================================
     // SIZE CHART
     // =======================================
-    const sizeChartBtn = document.getElementById("size-chart-btn");
     const sizeChartModal = document.getElementById("size-chart-modal");
     const sizeChartOverlay = document.getElementById("size-chart-overlay");
     const closeSizeChart = document.getElementById("close-size-chart");

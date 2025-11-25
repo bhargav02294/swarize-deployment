@@ -327,3 +327,98 @@ body {
     font-size: 20px;
   }
 }
+
+
+
+
+/* ============================================
+   NOT SIGNED IN PAGE
+============================================ */
+
+.center-box {
+  width: 100%;
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  background: var(--card);
+  border-radius: 14px;
+  text-align: center;
+  border: 1px solid #1f2125;
+  box-shadow: 0 0 22px rgba(78,168,222,0.12);
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo wrapper */
+.logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.logo-wrapper .logo-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.logo-wrapper .brand-name {
+  font-family: "Vollkorn", serif !important;
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: lowercase;
+  letter-spacing: 1.2px;
+  margin-top: 8px;
+}
+
+/* Main heading */
+.center-box h2 {
+  font-size: 20px;
+  color: var(--text);
+  margin: 10px 0 25px;
+  font-weight: 500;
+}
+
+/* Sign In Button */
+.signin-btn {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  transition: 0.25s ease;
+}
+
+.signin-btn:hover {
+  background: var(--accent);
+  color: #0d0f12;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .center-box {
+    margin: 40px 16px;
+    padding: 30px 20px;
+  }
+  .logo-wrapper .logo-img {
+    width: 60px;
+    height: 60px;
+  }
+  .logo-wrapper .brand-name {
+    font-size: 26px;
+  }
+  .signin-btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+}

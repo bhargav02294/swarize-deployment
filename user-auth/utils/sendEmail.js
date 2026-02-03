@@ -3,7 +3,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async ({ to, subject, text, html, otp }) => {
     try {
-        const fromEmail = "Swarize <noreply@mail.swarize.com>"; // ✅ Use your verified domain
+        const fromEmail = "Swarize <noreply@mail.swarize.in>"; // ✅ Use your verified domain
 
         let finalHtml = html;
 

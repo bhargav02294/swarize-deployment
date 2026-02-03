@@ -1388,7 +1388,7 @@ app.post("/send-message", async (req, res) => {
   }
 
   try {
-    const adminEmail = process.env.FROM_EMAIL || process.env.EMAIL_USER || 'Devalayaum <noreply@resend.dev>';
+    const adminEmail = process.env.FROM_EMAIL || process.env.EMAIL_USER || 'Swarize <noreply@mail.swarize.in>';
     const subject = `New Message from ${name}`;
     const html = `
       <div style="font-family: Arial, sans-serif; padding: 12px;">

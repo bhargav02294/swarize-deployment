@@ -125,14 +125,14 @@ app.use(session({
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
     collectionName: 'sessions',
-    ttl: 24 * 60 * 60,
+    ttl: 30 * 24 * 60 * 60, // 30 days in seconds
     autoRemove: 'native'
   }),
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "None",
-    maxAge: 3600000
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
   }
 }));
 

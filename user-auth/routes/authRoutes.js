@@ -6,9 +6,7 @@ const User = require("../models/user");
 const router = express.Router();
 
 // Import new Resend email util
-const sendEmail = require("../utils/sendEmail");
-
-// OTP Storage
+// OTP Storage with expiry
 const otpStorage = new Map();
 
 // ================================
@@ -19,15 +17,20 @@ router.post("/send-otp", async (req, res) => {
 
   try {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    otpStorage.set(email, otp);
+
+    // Store OTP with 5 min expiry
+    otpStorage.set(email, {
+      code: otp,
+      expiresAt: Date.now() + 5 * 60 * 1000
+    });
 
     console.log(`🔐 Generated OTP for ${email}: ${otp}`);
 
     const success = await sendEmail({
       to: email,
       subject: "Your Swarize verification code",
-      otp: otp,                 // 👈 triggers professional template
-      expiryMinutes: 1          // shows expiry inside email
+      otp,
+      expiryMinutes: 5
     });
 
     if (!success) {
@@ -48,16 +51,25 @@ router.post("/send-otp", async (req, res) => {
 // ================================
 router.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
+  const record = otpStorage.get(email);
 
-  const storedOtp = otpStorage.get(email);
-
-  if (storedOtp && storedOtp.toString() === otp) {
-    otpStorage.delete(email);
-    return res.json({ success: true, message: "OTP verified successfully." });
+  if (!record) {
+    return res.status(400).json({ success: false, message: "OTP expired. Please request again." });
   }
 
-  return res.status(400).json({ success: false, message: "Invalid OTP." });
+  if (Date.now() > record.expiresAt) {
+    otpStorage.delete(email);
+    return res.status(400).json({ success: false, message: "OTP expired." });
+  }
+
+  if (record.code !== otp) {
+    return res.status(400).json({ success: false, message: "Invalid OTP." });
+  }
+
+  otpStorage.delete(email);
+  return res.json({ success: true, message: "OTP verified successfully." });
 });
+
 
 // ================================
 // ✅ SIGN IN
@@ -76,7 +88,11 @@ router.post("/signin", async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid email or password." });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+const token = jwt.sign(
+  { id: user._id },
+  process.env.JWT_SECRET,
+  { expiresIn: "30d" }
+);
 
     req.session.userId = user._id;
     req.session.role = user.role;
@@ -90,7 +106,8 @@ router.post("/signin", async (req, res) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "None",
-        maxAge: 3600000
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+
       });
 
       res.json({ success: true, message: "Login successful!", token });

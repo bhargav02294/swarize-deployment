@@ -12,28 +12,22 @@ const sendEmail = require("../utils/sendEmail");
 const otpStorage = new Map();
 
 // ================================
-// ✅ SEND OTP (REPLACED WITH RESEND)
+// ✅ SEND OTP (PROFESSIONAL EMAIL)
 // ================================
 router.post("/send-otp", async (req, res) => {
   const { email } = req.body;
 
   try {
-    const otp = Math.floor(100000 + Math.random() * 900000);
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otpStorage.set(email, otp);
 
     console.log(`🔐 Generated OTP for ${email}: ${otp}`);
 
     const success = await sendEmail({
       to: email,
-      subject: "Your Swarize OTP Code",
-      text: `Your OTP is ${otp}. It is valid for 1 minute.`,
-      html: `
-        <div style="font-family: Arial; padding:16px;">
-          <h2>Your OTP Code</h2>
-          <p>Your code is: <strong>${otp}</strong></p>
-          <p>It is valid for 1 minute.</p>
-        </div>
-      `
+      subject: "Your Swarize verification code",
+      otp: otp,                 // 👈 triggers professional template
+      expiryMinutes: 1          // shows expiry inside email
     });
 
     if (!success) {
@@ -47,6 +41,7 @@ router.post("/send-otp", async (req, res) => {
     res.status(500).json({ success: false, message: "OTP sending failed." });
   }
 });
+
 
 // ================================
 // ✅ VERIFY OTP

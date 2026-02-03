@@ -541,18 +541,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
+  const slider = document.querySelector(".hero-slider");
   const slides = document.querySelectorAll(".slide");
   const dotsContainer = document.querySelector(".slider-dots");
-  let currentIndex = 0;
 
-  // Create dots dynamically
+  let currentIndex = 0;
+  let autoSlideInterval;
+  let startX = 0;
+  let endX = 0;
+
+  // Create dots
   slides.forEach((_, idx) => {
     const dot = document.createElement("button");
-    dot.addEventListener("click", () => goToSlide(idx));
+    dot.addEventListener("click", () => {
+      goToSlide(idx);
+      resetAutoSlide();
+    });
     dotsContainer.appendChild(dot);
   });
 
@@ -562,17 +567,57 @@ document.addEventListener("DOMContentLoaded", () => {
   function goToSlide(index) {
     slides[currentIndex].classList.remove("active");
     dots[currentIndex].classList.remove("active");
+
     currentIndex = index;
+
     slides[currentIndex].classList.add("active");
     dots[currentIndex].classList.add("active");
   }
 
   function nextSlide() {
-    let next = (currentIndex + 1) % slides.length;
-    goToSlide(next);
+    goToSlide((currentIndex + 1) % slides.length);
   }
 
-  setInterval(nextSlide, 5000); // Auto slide every 5s
+  function prevSlide() {
+    goToSlide((currentIndex - 1 + slides.length) % slides.length);
+  }
+
+  function startAutoSlide() {
+    autoSlideInterval = setInterval(nextSlide, 5000);
+  }
+
+  function resetAutoSlide() {
+    clearInterval(autoSlideInterval);
+    startAutoSlide();
+  }
+
+  startAutoSlide();
+
+  // ================================
+  // 📱 MOBILE SWIPE SUPPORT
+  // ================================
+  slider.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  slider.addEventListener("touchend", (e) => {
+    endX = e.changedTouches[0].clientX;
+    handleSwipe();
+  });
+
+  function handleSwipe() {
+    const diff = startX - endX;
+
+    if (Math.abs(diff) < 50) return; // Ignore small swipes
+
+    if (diff > 0) {
+      nextSlide(); // Swipe Left
+    } else {
+      prevSlide(); // Swipe Right
+    }
+
+    resetAutoSlide();
+  }
 });
 
 // Category-style redirection for hero buttons

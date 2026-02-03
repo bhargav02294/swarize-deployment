@@ -478,6 +478,8 @@ header h2 {
 .hero-slider {
   position: relative;
   width: 100%;
+    touch-action: pan-y;
+
   height: 68vh;
   overflow: hidden;
   background: #0b0d10;

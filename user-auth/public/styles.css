@@ -59,6 +59,9 @@ html {
 /* ============================================================
    TOP PROMO HEADER
 ============================================================ */
+/* ============================================================
+   TOP PROMO HEADER
+============================================================ */
 header h2 {
   background: #0b0c0e;
   color: #e5e7eb;
@@ -70,9 +73,6 @@ header h2 {
 }
 
 /* ============================================================
-   NAVBAR (WITH PROPER SIDE MARGINS)
-============================================================ */
-/* ============================================================
    NAVBAR BASE
 ============================================================ */
 .navbar {
@@ -81,7 +81,6 @@ header h2 {
   width: 100%;
   background: #0b0c0e;
   z-index: 2000;
-  transition: box-shadow 0.3s ease;
 }
 
 /* Smooth bottom glow */
@@ -140,7 +139,7 @@ header h2 {
 }
 
 /* ============================================================
-   CENTER CATEGORIES (DESKTOP)
+   DESKTOP CATEGORIES
 ============================================================ */
 .nav-categories {
   display: flex;
@@ -198,32 +197,30 @@ header h2 {
 }
 
 /* ============================================================
-   MOBILE
+   MOBILE ELEMENTS (HIDDEN BY DEFAULT)
 ============================================================ */
 .hamburger {
   display: none;
-  font-size: 1.7rem;
-  color: white;
-  cursor: pointer;
 }
 
 .mobile-menu {
   display: none;
-  background: #111214;
-  padding: 15px 20px;
-  border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-.mobile-menu a {
-  display: block;
-  padding: 12px 0;
-  color: white;
-  font-size: 1rem;
+.category-toggle {
+  display: none;   /* FIX: hidden on desktop */
 }
 
-/* Hide desktop categories/icons on mobile */
+.category-list {
+  display: none;   /* FIX: hidden on desktop */
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE
+============================================================ */
 @media screen and (max-width: 768px) {
 
+  /* Hide desktop elements */
   .nav-categories,
   .nav-icons {
     display: none;
@@ -231,8 +228,26 @@ header h2 {
 
   .hamburger {
     display: block;
+    font-size: 1.7rem;
+    color: white;
+    cursor: pointer;
   }
 
+  .mobile-menu {
+    display: none;
+    background: #111214;
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mobile-menu a {
+    display: block;
+    padding: 12px 0;
+    color: white;
+    font-size: 1rem;
+  }
+
+  /* Show mobile category toggle */
   .category-toggle {
     display: block;
     width: 100%;
@@ -269,6 +284,7 @@ header h2 {
     padding: 4px 0;
   }
 }
+
 
 
 

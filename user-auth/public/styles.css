@@ -1226,334 +1226,139 @@ header h2 {
 
 
 
-
 /* ============================================================
-   FOOTER — DARK PREMIUM (Compact + Perfect Logo Alignment)
+   FOOTER — MINIMAL PREMIUM
 ============================================================ */
-footer.footer {
+.footer {
   background: #0b0f13;
-  padding: 10px 5% 22px; /* compact top spacing */
-  color: #e5e7eb;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 60px 6% 30px;
+  color: #cbd5e1;
   font-family: "Poppins", sans-serif;
 }
 
 /* ============================================================
-   LOGO + ABOUT TEXT (Left Column)
+   INNER LAYOUT
 ============================================================ */
-.footer-logo-top {
-  margin: 0; /* remove all gaps */
-  padding: 0;
-}
-
-footer .logo-img {
-  width: 60px;              /* BIGGER LOGO */
-  height: 60px;
-  margin: 0 auto;           /* center horizontally */
-  display: block;
-  margin-top: 0 !important; /* force top alignment */
-}
-
-/* ABOUT TEXT — centered + brand colored */
-.about-text {
-  margin-top: 10px;
-  font-size: 1rem;
-  text-align: center;
-  font-weight: 400;
-  color: #7dd3fc;        /* BRAND BLUE */
-  line-height: 1.45;
-  max-width: 860px;
-  margin-left: auto;
-  margin-right: auto;
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+  flex-wrap: wrap;
 }
 
 /* ============================================================
-   GRID LAYOUT
+   BRAND
 ============================================================ */
-.footer-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 34px;
-  max-width: 1400px;
-  margin: 5px auto 3px; /* small spacing after logo area */
+.footer-brand {
+  max-width: 280px;
 }
 
-/* ============================================================
-   SECTION HEADINGS
-============================================================ */
-.footer-section h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #ffffff;
+.footer-logo {
+  width: 55px;
   margin-bottom: 16px;
-  position: relative;
-  letter-spacing: 0.5px;
 }
 
-/* Hover underline */
-.footer-section h3::after {
-  content: "";
-  width: 0;
-  height: 2px;
-  background: #7dd3fc;
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  transition: width 0.3s ease;
-}
-.footer-section h3:hover::after {
-  width: 40%;
+.footer-tagline {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #94a3b8;
 }
 
 /* ============================================================
    LINKS
 ============================================================ */
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-section ul li {
-  margin: 8px 0;
-}
-
-.footer-section ul li a {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-size: 0.92rem;
-  position: relative;
-  transition: 0.3s ease;
-}
-
-/* underline on hover */
-.footer-section ul li a::after {
-  content: "";
-  width: 0;
-  height: 2px;
-  background: #7dd3fc;
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  transition: width 0.25s ease;
-}
-
-.footer-section ul li a:hover {
-  color: #ffffff;
-}
-.footer-section ul li a:hover::after {
-  width: 100%;
-}
-
-/* ============================================================
-   CONTACT INFO
-============================================================ */
-.contact-info .contact-item {
+.footer-links {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 8px 0;
-}
-
-.contact-icon {
-  width: 20px;
-  opacity: 0.8;
-}
-
-.contact-info a {
-  color: #cbd5e1;
-  font-size: 0.92rem;
-  text-decoration: none;
-  transition: 0.3s ease;
-}
-
-.contact-info a:hover {
-  color: #ffffff;
-}
-
-/* ============================================================
-   FOLLOW US (Under Contact)
-============================================================ */
-.follow-us-title {
-  margin-top: 20px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-}
-
-.social-icons {
-  margin-top: 10px;
-  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
-.social-icons img {
-  width: 26px;
-  height: 26px;
-  opacity: 0.82;
+.footer-links a {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 0.9rem;
   transition: 0.25s ease;
 }
 
-.social-icons img:hover {
-  opacity: 1;
-  transform: scale(1.12);
+.footer-links a:hover {
+  color: #ffffff;
 }
 
 /* ============================================================
-   FOOTER BOTTOM
+   CONTACT
+============================================================ */
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-contact a {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  transition: 0.25s ease;
+}
+
+.footer-contact a:hover {
+  color: #ffffff;
+}
+
+/* Instagram */
+.footer-social {
+  margin-top: 10px;
+}
+
+.footer-social i {
+  font-size: 1.2rem;
+  color: #cbd5e1;
+  transition: 0.25s ease;
+}
+
+.footer-social i:hover {
+  color: #38bdf8;
+}
+
+/* ============================================================
+   BOTTOM STRIP
 ============================================================ */
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 12px;
-  max-width: 1400px;
-  margin: 0 auto;
+  margin-top: 40px;
+  padding-top: 18px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  font-size: 0.8rem;
   color: #94a3b8;
-  font-size: 0.83rem;
-}
-
-.footer-bottom-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.india-flag {
-  width: 22px;
-  border-radius: 4px;
 }
 
 /* ============================================================
-   FOOTER — MOBILE RESPONSIVENESS (PERFECTED)
+   MOBILE
 ============================================================ */
-@media screen and (max-width: 600px) {
+@media (max-width: 768px) {
 
-  footer.footer {
-    padding: 25px 14px 26px;
+  .footer {
+    padding: 40px 20px 25px;
     text-align: center;
   }
 
-  /* ---------------- TOP LOGO + TAGLINE ---------------- */
-  footer .logo-img {
-    width: 52px;
-    height: 52px;
-    margin: 0 auto;
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
   }
 
-  .about-text {
-    font-size: 0.88rem;
-    margin-top: 8px;
-    line-height: 1.4;
-    max-width: 95%;
-    color: #89d8ff;
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  /* ---------------- GRID → MOBILE LAYOUT ---------------- */
-  /* 2 columns but stacked logically */
-  .footer-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;   /* 2 columns */
-    gap: 18px;
-    margin-top: 22px;
-  }
-
-  /* Make sections compact */
-  .footer-section {
-    text-align: left;
-    padding: 0 6px;
-  }
-
-  /* Center titles in mobile */
-  .footer-section h3 {
-    font-size: 0.95rem;
-    margin-bottom: 8px;
-    text-align: center;
-  }
-
-  .footer-section h3::after {
-    left: 50%;
-    transform: translateX(-50%);
-    width: 28%;
-  }
-
-  /* ---------------- LINKS ---------------- */
-  .footer-section ul {
-    padding: 0;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .footer-section ul li {
-    margin: 4px 0;
-  }
-
-  .footer-section ul li a {
-    font-size: 0.85rem;
-  }
-
-  /* ---------------- RESTRUCTURE FOR MOBILE ---------------- */
-  /* Force correct order */
-  .footer-container > .footer-section:nth-child(1) { order: 1; } /* Quick Links */
-  .footer-container > .footer-section:nth-child(2) { order: 2; } /* Customer Support */
-  .footer-container > .footer-section:nth-child(3) { order: 3; } /* About & Contact (place below Quick Links) */
-  .footer-container > .footer-section:nth-child(4) { order: 4; } /* Contact Us + Social */
-
-  /* ---------------- "About & Contact" smaller styling ---------------- */
-  .footer-container > .footer-section:nth-child(3) ul li a {
-    font-size: 0.85rem;
-  }
-
-  /* ---------------- CONTACT INFO ---------------- */
-  .contact-info .contact-item {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin: 5px 0;
-  }
-
-  .contact-icon {
-    width: 16px;
-  }
-
-  .contact-info a {
-    font-size: 0.85rem;
-  }
-
-  /* ---------------- FOLLOW US ---------------- */
-  .follow-us-title {
-    font-size: 0.9rem;
-    margin-top: 14px;
-    text-align: center;
-  }
-
-  .social-icons {
-    margin-top: 8px;
-    justify-content: center;
-    gap: 12px;
-  }
-
-  .social-icons img {
-    width: 24px;
-    height: 24px;
-  }
-
-  /* ---------------- FOOTER BOTTOM ---------------- */
   .footer-bottom {
     flex-direction: column;
+    gap: 8px;
     text-align: center;
-    gap: 6px;
-    font-size: 0.75rem;
-    padding-top: 14px;
-    margin-top: 18px;
-  }
-
-  .footer-bottom-right {
-    justify-content: center;
-    gap: 5px;
-  }
-
-  .india-flag {
-    width: 18px;
   }
 }

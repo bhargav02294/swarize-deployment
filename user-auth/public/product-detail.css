@@ -1,62 +1,54 @@
-/* ------------------------------
-   GLOBAL DARK THEME
------------------------------- */
+/* ===================================
+   GLOBAL
+=================================== */
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 body {
   background: #0d0d0d;
   color: #f0f0f0;
-  overflow-x: hidden;
 }
 
-/* ------------------------------
+/* ===================================
    NAVBAR
------------------------------- */
+=================================== */
+
 .navbar {
   width: 100%;
   background: #111;
-  padding: 15px 25px;
+  padding: 18px 40px;
   border-bottom: 1px solid #222;
 }
 
 .navbar-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
-.logo-img {
-  height: 40px;
-}
+.logo-img { height: 40px; }
 
 .menu {
   display: flex;
-  gap: 25px;
+  gap: 30px;
   list-style: none;
 }
 
 .menu-item {
   color: #ccc;
-  font-weight: 500;
   text-decoration: none;
 }
 
-.menu-item:hover {
-  color: #fff;
-}
+.menu-item:hover { color: #fff; }
 
-
-
-
-/* ==============================
+/* ===================================
    LAYOUT
-============================== */
+=================================== */
 
 .product-wrapper {
   max-width: 1350px;
@@ -64,17 +56,13 @@ body {
   padding: 0 40px;
   display: grid;
   grid-template-columns: 60% 40%;
-  gap: 70px;
+  gap: 80px;
   align-items: start;
 }
 
-/* ==============================
+/* ===================================
    GALLERY
-============================== */
-
-.product-gallery {
-  width: 100%;
-}
+=================================== */
 
 .main-image-wrap {
   width: 100%;
@@ -99,9 +87,16 @@ body {
   overflow-x: auto;
 }
 
-/* ==============================
-   PRODUCT INFO
-============================== */
+.thumb-item {
+  width: 90px;
+  height: 90px;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+
+/* ===================================
+   INFO PANEL
+=================================== */
 
 .product-info {
   position: sticky;
@@ -112,15 +107,11 @@ body {
   font-size: 34px;
   font-weight: 600;
   margin-bottom: 25px;
-  color: #ffffff;
 }
 
-.price-box {
-  margin-bottom: 30px;
-}
+.price-box { margin-bottom: 25px; }
 
 .display-price {
-  font-size: 18px;
   color: #777;
   text-decoration: line-through;
 }
@@ -128,60 +119,134 @@ body {
 .main-price {
   font-size: 30px;
   font-weight: 700;
-  margin-top: 6px;
+  margin-top: 5px;
 }
 
-/* ==============================
-   BUY BUTTONS
-============================== */
+.selection-row {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.selection-row label {
+  min-width: 110px;
+  font-weight: 600;
+}
+
+.size-container button {
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.size-container button.selected {
+  background: #fff;
+  color: #000;
+}
+
+.size-chart-link {
+  background: none;
+  border: none;
+  color: #38bdf8;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+/* ===================================
+   BUTTONS
+=================================== */
 
 .buy-box {
-  margin-top: 35px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 15px;
 }
 
 .btn {
   padding: 16px;
   font-size: 15px;
   font-weight: 600;
-  border-radius: 6px;
   cursor: pointer;
-  transition: 0.25s ease;
 }
 
 .buy-now {
-  background: #ffffff;
+  background: #fff;
   color: #000;
   border: none;
 }
 
-.buy-now:hover {
-  background: #e5e5e5;
-}
-
 .add-to-cart {
   background: transparent;
-  color: #ffffff;
   border: 1px solid #444;
+  color: #fff;
 }
 
 .add-to-cart:hover {
-  border-color: #ffffff;
+  border-color: #fff;
 }
 
-/* ==============================
+/* ===================================
+   DETAILS
+=================================== */
+
+.spec-separator {
+  margin: 30px 0;
+  border-top: 1px solid #333;
+}
+
+.spec-row {
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
+.spec-row span {
+  color: #fff;
+}
+
+/* ===================================
+   MODAL
+=================================== */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #111;
+  padding: 30px;
+  width: 400px;
+  border: 1px solid #333;
+  z-index: 1001;
+}
+
+.close-btn {
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+}
+
+/* ===================================
    MOBILE
-============================== */
+=================================== */
 
 @media (max-width: 768px) {
 
   .product-wrapper {
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 0 18px;
-    margin-top: 30px;
+    gap: 40px;
+    padding: 0 20px;
   }
 
   .main-image-wrap {
@@ -198,10 +263,4 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
-
-  .btn {
-    padding: 14px;
-    font-size: 14px;
-  }
-
 }

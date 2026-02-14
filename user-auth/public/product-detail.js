@@ -1,373 +1,266 @@
-// =======================================================
-// UNIVERSAL WOMEN'S DRESS SIZE CHART (Swarize Standard)
-// =======================================================
-const sizeChartData = {
-  Dresses: {
-    Universal: {
-      headers: ["Size", "Bust (in)", "Waist (in)", "Hip (in)"],
-      rows: [
-        ["XS", "32", "26", "34"],
-        ["S", "34", "28", "36"],
-        ["M", "36", "30", "38"],
-        ["L", "38", "32", "40"],
-        ["XL", "40", "34", "42"],
-        ["XXL", "42", "36", "44"],
-        ["3XL", "44", "38", "46"],
-      ],
-    },
-  },
+/* ===================================
+   GLOBAL
+=================================== */
 
-  // CATEGORY MAPPING -> map to USE_DRESS_CHART to reuse Dresses chart
-  Kurti: { Universal: "USE_DRESS_CHART" },
-  Lehenga: { Universal: "USE_DRESS_CHART" },
-  "Anarkali Dress": { Universal: "USE_DRESS_CHART" },
-  Gown: { Universal: "USE_DRESS_CHART" },
-  Sharara: { Universal: "USE_DRESS_CHART" },
-  "Salwar Suit": { Universal: "USE_DRESS_CHART" },
-  "Palazzo Set": { Universal: "USE_DRESS_CHART" },
-  "Skirt Set": { Universal: "USE_DRESS_CHART" },
-  "Indo Western Dress": { Universal: "USE_DRESS_CHART" },
-  "Co-ord Set": { Universal: "USE_DRESS_CHART" },
-  "Churidar Set": { Universal: "USE_DRESS_CHART" },
-};
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const productId = urlParams.get("id");
+body {
+  background: #0d0d0d;
+  color: #f0f0f0;
+}
 
-  if (!productId) return (document.body.innerHTML = "<h2>No product ID provided.</h2>");
+/* ===================================
+   NAVBAR
+=================================== */
 
-  try {
-    const res = await fetch(`https://swarize.in/api/products/detail/${productId}`);
-    const { product } = await res.json();
+.navbar {
+  width: 100%;
+  background: #111;
+  padding: 18px 40px;
+  border-bottom: 1px solid #222;
+}
 
-    if (!product) return (document.body.innerHTML = "<h2>Product not found.</h2>");
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    // Helper to safely set text
-    const setText = (id, text) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = text || "-";
-    };
+.logo-img { height: 40px; }
 
-    // Populate fields
-    const fields = {
-      "preview-name": product.name,
-      "preview-product-code": product.productCode,
-      "preview-price": product.price ? `₹${product.price}` : "-",
-      "preview-display-price": product.displayPrice ? `₹${product.displayPrice}` : "-",
-      "preview-category": product.category,
-      "preview-subcategory": product.subcategory,
-      "preview-material": product.material,
-      "preview-pattern": product.pattern,
-      "preview-wash-care": product.washCare,
-      "preview-brand": product.brand,
-      "preview-model-style": product.modelStyle,
-      "preview-occasion": product.occasion,
-      "preview-available-in": product.availableIn || "All over India",
-      "preview-tags": (product.tags || []).join(", "),
-      "preview-description": product.description,
-      "preview-summary": product.summary,
-      "preview-saree-size": product.sareeSize || "-",
-      "preview-blouse-size": product.blouseSize || "-",
-    };
-    Object.entries(fields).forEach(([id, text]) => setText(id, text));
+.menu {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
 
-    // Store link
-    const storeEl = document.getElementById("store-link");
-    if (storeEl && product.store) {
-      storeEl.textContent = product.store.storeName || "Unknown Store";
-      if (product.store.slug) {
-        storeEl.addEventListener("click", () => {
-          window.location.href = `sellers-products.html?slug=${product.store.slug}`;
-        });
-      }
-    }
+.menu-item {
+  color: #ccc;
+  text-decoration: none;
+}
 
-    // Description toggle (show/hide)
-    const showBtn = document.getElementById("toggle-desc-btn");
-    const hideBtn = document.getElementById("toggle-less-btn");
-    const descContent = document.getElementById("desc-summary-content");
-    if (showBtn && hideBtn && descContent) {
-      showBtn.addEventListener("click", () => {
-        descContent.style.display = "block";
-        showBtn.style.display = "none";
-      });
-      hideBtn.addEventListener("click", () => {
-        descContent.style.display = "none";
-        showBtn.style.display = "inline-block";
-      });
-    }
+.menu-item:hover { color: #fff; }
 
-    // ========== IMAGE / VIDEO GALLERY ==========
-    const mainImage = document.getElementById("main-preview-image");
-    const mainVideo = document.getElementById("main-preview-video");
-    const thumbnailRow = document.getElementById("thumbnail-row");
+/* ===================================
+   LAYOUT
+=================================== */
 
-    const mediaItems = [];
-    if (product.thumbnailImage) mediaItems.push({ type: "img", src: product.thumbnailImage });
-    (product.extraImages || []).forEach((img) => mediaItems.push({ type: "img", src: img }));
-    (product.extraVideos || []).forEach((vid) => mediaItems.push({ type: "video", src: vid }));
+.product-wrapper {
+  max-width: 1350px;
+  margin: 60px auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 80px;
+  align-items: start;
+}
 
-    function showMedia(item) {
-      if (item.type === "img") {
-        mainVideo.style.display = "none";
-        mainImage.style.display = "block";
-        mainImage.src = item.src;
-      } else {
-        mainImage.style.display = "none";
-        mainVideo.style.display = "block";
-        mainVideo.src = item.src;
-      }
-    }
-    if (mediaItems.length > 0) showMedia(mediaItems[0]);
+/* ===================================
+   GALLERY
+=================================== */
 
-    mediaItems.forEach((item) => {
-      const thumb = document.createElement("div");
-      thumb.className = "thumb-item";
-      if (item.type === "img") {
-        const img = document.createElement("img");
-        img.src = item.src;
-        thumb.appendChild(img);
-      } else {
-        thumb.classList.add("video-thumb");
-      }
-      thumb.addEventListener("click", () => showMedia(item));
-      thumbnailRow.appendChild(thumb);
-    });
+.main-image-wrap {
+  width: 100%;
+  height: 650px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    // ========== SIZE SELECTION ==========
-    const sizeContainer = document.getElementById("preview-size");
-    sizeContainer.innerHTML = "";
-    const sizes = Array.isArray(product.size)
-      ? product.size
-      : (product.size || "")
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean);
-    if (sizes.length > 0) {
-      sizes.forEach((size) => {
-        const btn = document.createElement("button");
-        btn.textContent = size;
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".size-container button").forEach((b) => b.classList.remove("selected"));
-          btn.classList.add("selected");
-        });
-        sizeContainer.appendChild(btn);
-      });
-    } else sizeContainer.textContent = "-";
+.main-image-wrap img,
+.main-image-wrap video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
 
-    // ========== COLOR SWATCHES ==========
-    const colorContainer = document.getElementById("preview-color");
-    colorContainer.innerHTML = "";
-    const colors = Array.isArray(product.color)
-      ? product.color
-      : (product.color || "").split(",").map((c) => c.trim()).filter(Boolean);
+.thumbnail-row {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+}
 
-    if (colors.length > 0) {
-      colors.forEach((color) => {
-        const swatch = document.createElement("span");
-        swatch.className = "color-swatch";
-        // Try to accept both named colors and hex — safe fallback
-        swatch.style.backgroundColor = color || "#444";
-        colorContainer.appendChild(swatch);
-      });
-    } else {
-      colorContainer.textContent = "-";
-    }
+.thumb-item {
+  width: 90px;
+  height: 90px;
+  border: 1px solid #333;
+  cursor: pointer;
+}
 
-    // Mobile: move buy buttons below price
-    if (window.innerWidth <= 768) {
-      const buyBox = document.querySelector(".mobile-buy-box");
-      const placeholder = document.getElementById("mobile-buttons-placeholder");
-      if (buyBox && placeholder) placeholder.appendChild(buyBox);
-    }
+/* ===================================
+   INFO PANEL
+=================================== */
 
-    // ===========================
-    // CATEGORY-BASED SIZE DISPLAY
-    // ===========================
-    const rawCategory = (product.category || "").toString().trim().toLowerCase();
-    const category = rawCategory.replace(/\s+/g, " ").trim();
+.product-info {
+  position: sticky;
+  top: 120px;
+}
 
-    const sareeCategories = ["saree", "sarees"];
-    const dressCategories = [
-      "kurti",
-      "lehenga",
-      "anarkali dress",
-      "gown",
-      "sharara",
-      "salwar suit",
-      "palazzo set",
-      "skirt set",
-      "indo western dress",
-      "co-ord set",
-      "churidar set",
-      "dress",
-      "dresses",
-    ];
+.product-title {
+  font-size: 34px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
 
-    const sizeRow = document.querySelector('#preview-size')?.closest('.selection-row');
-    const sizeChartBtn = document.getElementById('size-chart-btn');
-    const sareeRow = document.querySelector('#preview-saree-size')?.closest('.selection-row');
-    const blouseRow = document.querySelector('#preview-blouse-size')?.closest('.selection-row');
+.price-box { margin-bottom: 25px; }
 
-    function hide(el) { if (el) el.style.display = "none"; }
-    function show(el) { if (el) el.style.display = "flex"; }
+.display-price {
+  color: #777;
+  text-decoration: line-through;
+}
 
-    // hide all initially
-    hide(sizeRow);
-    if (sizeChartBtn) hide(sizeChartBtn);
-    hide(sareeRow);
-    hide(blouseRow);
+.main-price {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 5px;
+}
 
-    if (sareeCategories.includes(category)) {
-      show(sareeRow);
-      show(blouseRow);
-      hide(sizeRow);
-      if (sizeChartBtn) hide(sizeChartBtn);
-    } else if (dressCategories.includes(category)) {
-      show(sizeRow);
-      if (sizeChartBtn) sizeChartBtn.style.display = "inline-block";
-      hide(sareeRow);
-      hide(blouseRow);
-    } else {
-      hide(sizeRow);
-      if (sizeChartBtn) hide(sizeChartBtn);
-      hide(sareeRow);
-      hide(blouseRow);
-    }
+.selection-row {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0;
+}
 
-    // ========== ADD TO CART ==========
-    const addToCartBtn = document.querySelector(".add-to-cart");
-    if (addToCartBtn) {
-      addToCartBtn.addEventListener("click", async () => {
-        try {
-          const res = await fetch("https://swarize.in/api/cart/add", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId }),
-            credentials: "include",
-          });
-          const data = await res.json();
-          if (data.success) window.location.href = `addtocart.html?id=${productId}`;
-          else alert(data.message || "Failed to add to cart.");
-        } catch (err) {
-          alert("Error adding product.");
-          console.error(err);
-        }
-      });
-    }
+.selection-row label {
+  min-width: 110px;
+  font-weight: 600;
+}
 
-    // ========== BUY NOW ==========
-    const buyNowBtn = document.querySelector(".buy-now");
-    if (buyNowBtn) {
-      buyNowBtn.addEventListener("click", () => {
-        window.location.href = `payment.html?id=${productId}&name=${encodeURIComponent(product.name)}&price=${product.price}`;
-      });
-    }
+.size-container button {
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 6px 12px;
+  cursor: pointer;
+}
 
-    // ========== SIZE CHART MODAL ELEMENTS (ensure they exist) ==========
-    const sizeChartModal = document.getElementById("size-chart-modal");
-    const sizeChartOverlay = document.getElementById("size-chart-overlay");
-    const sizeChartContent = document.getElementById("size-chart-content");
-    const closeSizeChart = document.getElementById("close-size-chart");
+.size-container button.selected {
+  background: #fff;
+  color: #000;
+}
 
-    // Safety: if modal elements missing, create them (defensive)
-    if (!sizeChartModal || !sizeChartOverlay || !sizeChartContent) {
-      console.warn("Size chart modal elements missing from DOM. Creating fallback modal...");
+.size-chart-link {
+  background: none;
+  border: none;
+  color: #38bdf8;
+  cursor: pointer;
+  margin-top: 5px;
+}
 
-      // create overlay
-      const overlay = document.createElement("div");
-      overlay.id = "size-chart-overlay";
-      overlay.className = "modal-overlay";
-      document.body.appendChild(overlay);
+/* ===================================
+   BUTTONS
+=================================== */
 
-      // create modal
-      const modal = document.createElement("div");
-      modal.id = "size-chart-modal";
-      modal.className = "modal";
-      modal.innerHTML = `<h3>Size Chart</h3><div id="size-chart-content">Loading...</div><button id="close-size-chart" class="btn close-btn">Close</button>`;
-      document.body.appendChild(modal);
+.buy-box {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-      // re-query
-      sizeChartModal = document.getElementById("size-chart-modal");
-      sizeChartOverlay = document.getElementById("size-chart-overlay");
-      sizeChartContent = document.getElementById("size-chart-content");
-      closeSizeChart = document.getElementById("close-size-chart");
-    }
+.btn {
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
 
-    // Close handlers
-    if (closeSizeChart) {
-      closeSizeChart.addEventListener("click", () => {
-        if (sizeChartModal) sizeChartModal.style.display = "none";
-        if (sizeChartOverlay) sizeChartOverlay.style.display = "none";
-      });
-    }
-    if (sizeChartOverlay) {
-      sizeChartOverlay.addEventListener("click", () => {
-        if (sizeChartModal) sizeChartModal.style.display = "none";
-        if (sizeChartOverlay) sizeChartOverlay.style.display = "none";
-      });
-    }
-    // Escape key to close
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        if (sizeChartModal) sizeChartModal.style.display = "none";
-        if (sizeChartOverlay) sizeChartOverlay.style.display = "none";
-      }
-    });
+.buy-now {
+  background: #fff;
+  color: #000;
+  border: none;
+}
 
-    // ========== SIZE CHART BUTTON / HANDLER ==========
-    if (sizeChartBtn) {
-      sizeChartBtn.addEventListener("click", () => {
-        // Determine normalized category name for lookup
-        const raw = (product.category || "").toString().trim();
-        const normalized = raw.toLowerCase().replace(/\s+/g, " ").trim();
+.add-to-cart {
+  background: transparent;
+  border: 1px solid #444;
+  color: #fff;
+}
 
-        // try to find a matching key in sizeChartData (case-insensitive)
-        let chartKey = null;
-        for (const key of Object.keys(sizeChartData)) {
-          if (key.toLowerCase() === normalized) {
-            chartKey = key;
-            break;
-          }
-        }
+.add-to-cart:hover {
+  border-color: #fff;
+}
 
-        // If exact category key not found, but product is in dressCategories, use Dresses.Universal
-        let chartData = null;
-        if (chartKey) {
-          const candidate = sizeChartData[chartKey];
-          if (candidate && candidate.Universal === "USE_DRESS_CHART") {
-            chartData = sizeChartData.Dresses.Universal;
-          } else if (candidate && candidate.Universal) {
-            chartData = candidate.Universal;
-          }
-        } else if (dressCategories.includes(normalized)) {
-          chartData = sizeChartData.Dresses.Universal;
-        }
+/* ===================================
+   DETAILS
+=================================== */
 
-        if (!chartData) {
-          sizeChartContent.innerHTML = "<p>No size chart available.</p>";
-        } else {
-          let html =
-            "<table><thead><tr>" +
-            chartData.headers.map((h) => `<th>${h}</th>`).join("") +
-            "</tr></thead><tbody>";
-          chartData.rows.forEach((row) => {
-            html += "<tr>" + row.map((d) => `<td>${d}</td>`).join("") + "</tr>";
-          });
-          html += "</tbody></table>";
-          sizeChartContent.innerHTML = html;
-        }
+.spec-separator {
+  margin: 30px 0;
+  border-top: 1px solid #333;
+}
 
-        // show modal + overlay
-        if (sizeChartModal) sizeChartModal.style.display = "block";
-        if (sizeChartOverlay) sizeChartOverlay.style.display = "block";
-      });
-    }
+.spec-row {
+  margin-bottom: 10px;
+  color: #ccc;
+}
 
- 
-  } catch (err) {
-    document.body.innerHTML = "<h2>Failed to load product. Please try again later.</h2>";
-    console.error(err);
+.spec-row span {
+  color: #fff;
+}
+
+/* ===================================
+   MODAL
+=================================== */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #111;
+  padding: 30px;
+  width: 400px;
+  border: 1px solid #333;
+  z-index: 1001;
+}
+
+.close-btn {
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+}
+
+/* ===================================
+   MOBILE
+=================================== */
+
+@media (max-width: 768px) {
+
+  .product-wrapper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 20px;
   }
-});
+
+  .main-image-wrap {
+    height: 420px;
+  }
+
+  .product-info {
+    position: relative;
+    top: 0;
+  }
+
+  .buy-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}

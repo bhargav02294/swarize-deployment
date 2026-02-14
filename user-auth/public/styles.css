@@ -1227,154 +1227,97 @@ header h2 {
 
 
 /* ============================================================
-   PREMIUM FOOTER
+   NEWSLETTER SECTION
 ============================================================ */
-.footer {
-  background: linear-gradient(to bottom, #0b0f13, #080c10);
-  padding: 70px 8% 35px;
-  color: #cbd5e1;
-  font-family: "Poppins", sans-serif;
+.footer-newsletter {
+  max-width: 750px;
+  margin: 50px auto 40px;
+  text-align: center;
 }
 
-/* ============================================================
-   STRUCTURE
-============================================================ */
-.footer-wrapper {
-  max-width: 1250px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr;
-  gap: 80px;
-  align-items: start;
+.footer-newsletter h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
 }
 
-/* ============================================================
-   BRAND
-============================================================ */
-.footer-brand {
-  max-width: 320px;
-}
-
-.footer-logo {
-  width: 60px;
-  margin-bottom: 22px;
-}
-
-.footer-tagline {
-  font-size: 0.95rem;
-  line-height: 1.6;
+.footer-newsletter p {
+  font-size: 0.9rem;
   color: #94a3b8;
-  letter-spacing: 0.3px;
+  margin-bottom: 25px;
 }
 
-/* ============================================================
-   LINKS
-============================================================ */
-.footer-links {
+/* Form Layout */
+.newsletter-form {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.footer-links a {
-  text-decoration: none;
-  color: #cbd5e1;
-  font-size: 0.92rem;
-  letter-spacing: 0.3px;
-  transition: all 0.25s ease;
-  position: relative;
-}
-
-.footer-links a:hover {
-  color: #ffffff;
-  transform: translateX(4px);
-}
-
-/* ============================================================
-   CONTACT
-============================================================ */
-.footer-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.footer-contact a {
-  text-decoration: none;
-  color: #cbd5e1;
-  font-size: 0.92rem;
-  transition: 0.25s ease;
-}
-
-.footer-contact a:hover {
-  color: #ffffff;
-}
-
-.footer-social {
-  margin-top: 10px;
-}
-
-.footer-social i {
-  font-size: 1.3rem;
-  color: #cbd5e1;
-  transition: 0.25s ease;
-}
-
-.footer-social i:hover {
-  color: #38bdf8;
-  transform: scale(1.1);
-}
-
-/* ============================================================
-   DIVIDER
-============================================================ */
-.footer-divider {
-  height: 1px;
-  background: rgba(255,255,255,0.05);
-  margin: 50px auto 25px;
-  max-width: 1250px;
-}
-
-/* ============================================================
-   BOTTOM
-============================================================ */
-.footer-bottom {
-  max-width: 1250px;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  max-width: 500px;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
+  border-radius: 50px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  transition: 0.3s ease;
+}
+
+/* Input */
+.newsletter-form input {
+  flex: 1;
+  padding: 14px 18px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.newsletter-form input::placeholder {
   color: #64748b;
-  letter-spacing: 0.3px;
+}
+
+/* Button */
+.newsletter-form button {
+  padding: 14px 26px;
+  border: none;
+  background: #ffffff;
+  color: #0b0f13;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.newsletter-form button:hover {
+  background: #38bdf8;
+  color: #ffffff;
+}
+
+/* Focus effect */
+.newsletter-form:focus-within {
+  border-color: #38bdf8;
+  box-shadow: 0 0 15px rgba(56,189,248,0.2);
 }
 
 /* ============================================================
    MOBILE
 ============================================================ */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
 
-  .footer-wrapper {
-    grid-template-columns: 1fr;
-    gap: 45px;
-    text-align: center;
-  }
-
-  .footer-brand {
-    margin: 0 auto;
-  }
-
-  .footer-links,
-  .footer-contact {
-    align-items: center;
-  }
-
-  .footer-links a:hover {
-    transform: none;
-  }
-
-  .footer-bottom {
+  .newsletter-form {
     flex-direction: column;
-    gap: 10px;
-    text-align: center;
+    border-radius: 14px;
+  }
+
+  .newsletter-form input {
+    width: 100%;
+    padding: 12px 14px;
+  }
+
+  .newsletter-form button {
+    width: 100%;
+    border-radius: 0 0 14px 14px;
   }
 }

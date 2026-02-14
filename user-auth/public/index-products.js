@@ -853,6 +853,33 @@ document.querySelectorAll('.category-image img').forEach(img => {
 
 
 
+document.getElementById("newsletterForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const email = document.getElementById("newsletterEmail").value;
+  const msg = document.getElementById("newsletterMsg");
+
+  try {
+    const res = await fetch("/subscribe-newsletter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+
+    if(res.ok){
+      msg.textContent = "Successfully subscribed!";
+      this.reset();
+    } else {
+      msg.textContent = data.error;
+    }
+  } catch(err){
+    msg.textContent = "Something went wrong.";
+  }
+});
+
+
 
 
 

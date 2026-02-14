@@ -1420,6 +1420,44 @@ app.post("/send-message", async (req, res) => {
 
 
 
+
+// Newsletter Route
+app.post("/subscribe-newsletter", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required." });
+  }
+
+  try {
+    const adminEmail = process.env.FROM_EMAIL || "Swarize <noreply@mail.swarize.in>";
+
+    const html = `
+      <div style="font-family: Arial; padding: 10px;">
+        <h3>New Newsletter Subscriber</h3>
+        <p><strong>Email:</strong> ${email}</p>
+      </div>
+    `;
+
+    const sendResult = await sendResendEmail({
+      to: adminEmail,
+      subject: "New Newsletter Subscription",
+      html
+    });
+
+    if (!sendResult.success) {
+      return res.status(500).json({ error: "Failed to subscribe." });
+    }
+
+    res.status(200).json({ success: "Subscribed successfully!" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error." });
+  }
+});
+
+
 const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

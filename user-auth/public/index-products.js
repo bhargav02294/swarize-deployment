@@ -823,15 +823,6 @@ document.addEventListener('pointermove', (e) => {
 document.addEventListener('pointerdown', () => cursor.classList.add('cursor--big'));
 document.addEventListener('pointerup', () => cursor.classList.remove('cursor--big'));
 
-// LOGIN DROPDOWN toggle
-document.querySelectorAll('.login-toggle').forEach(btn=>{
-  btn.addEventListener('click', e=>{
-    e.stopPropagation();
-    const parent = btn.closest('.login-dropdown');
-    parent.classList.toggle('open');
-  });
-});
-document.addEventListener('click', ()=> document.querySelectorAll('.login-dropdown.open').forEach(d=> d.classList.remove('open')));
 
 
 

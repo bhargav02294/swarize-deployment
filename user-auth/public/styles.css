@@ -122,53 +122,6 @@ header h2 {
 
 
 /* ============================================================
-   SEARCH BAR (MINIMAL DARK)
-============================================================ */
-.search-container {
-  display: flex;
-  align-items: center;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 40px;
-  width: 350px;
-  padding: 6px 14px;
-  transition: 0.25s ease;
-}
-
-.search-container:hover {
-  background: rgba(255,255,255,0.12);
-  border-color: #38bdf8;
-}
-
-.search-container input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 0.9rem;
-  color: #e2e8f0;
-}
-
-.search-container button {
-  background: #38bdf8;
-  color: #0d1117;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
-  font-weight: bold;
-  transition: 0.25s ease;
-}
-
-.search-container button:hover {
-  background: #0ea5e9;
-  transform: scale(1.12);
-}
-/* ============================================================
    MENU LINKS (MINIMAL UNDERLINE HOVER)
 ============================================================ */
 .menu {
@@ -218,61 +171,35 @@ header h2 {
 /* ============================================================
    LOGIN DROPDOWN (FIXED POSITION)
 ============================================================ */
-.login-dropdown {
-  position: relative;
-}
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 105%; /* just below the login button   20px*/
-  right: -10px; /* 50px*/
-  background: #141518;
-  min-width: 160px;
-  border-radius: 8px;
-  padding: 6px 0;
-  border: 1px solid rgba(255,255,255,0.08);
-  z-index: 200;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px 16px;
-  font-size: 0.9rem;
-  color: #e5e7eb;
-  transition: 0.25s ease;
-}
-
-.dropdown-content a:hover {
-  background: rgba(255,255,255,0.08);
-  color: #38bdf8;
-}
-
-.dropdown.login-dropdown:hover .dropdown-content {
-  display: block;
-}
 
 /* ============================================================
    CATEGORY BAR (MATCHING SAME DARK COLOR + SHORT HEIGHT)
 ============================================================ */
+/* ============================================================
+   CATEGORY BAR (BLUE THEME)
+============================================================ */
 .category-bar {
-  background: #0b0c0e;  /* SAME exact color */
+  background: #0b0c0e;
   display: flex;
   justify-content: center;
   gap: 50px;
-  padding: 6px 0;     /* short height */
+  padding: 6px 0;
 }
 
 .category-bar button {
-  background: none;
-  border: none;
-  color: #e5e7eb;
-  margin: 5px;
-  font-size: 0.95rem;
+  background: transparent;
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-size: 0.9rem;
   font-weight: 500;
-  position: relative;
   cursor: pointer;
+  transition: 0.25s ease;
 }
+
+
 
 /* underline */
 .category-bar button::after {
@@ -290,8 +217,11 @@ header h2 {
   width: 100%;
 }
 
+
+
 .category-bar button:hover {
-  color: white;
+  background: #38bdf8;
+  color: #0b0c0e;
 }
 
 
@@ -299,9 +229,7 @@ header h2 {
   display: none;
 }
 
-#mobile-search {
-  display: none;
-}
+
 
 .mobile-menu {
   display: none;
@@ -344,33 +272,19 @@ header h2 {
     font-size: 1.4rem;
   }
 
-  /* Hide search bar from navbar area */
-  .search-container {
-    display: none;
-  }
 
-  /* Full-width search bar below navbar */
-  #mobile-search {
-    display: block;
-    width: 92%;
-    margin: 10px auto 0;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 40px;
-    padding: 8px 14px;
-  }
 
-  #mobile-search input {
-    width: 100%;
-    color: white;
-  }
+  
+.category-toggle {
+  display: none;
+}
 
-  /* Hide desktop menu */
+@media screen and (max-width: 600px) {
+
   .menu {
     display: none;
   }
 
-  /* Hamburger Menu Icon */
   .hamburger {
     display: block;
     font-size: 1.7rem;
@@ -378,7 +292,6 @@ header h2 {
     cursor: pointer;
   }
 
-  /* Mobile menu (hidden initially) */
   .mobile-menu {
     display: none;
     background: #111214;
@@ -388,68 +301,47 @@ header h2 {
 
   .mobile-menu a {
     display: block;
-    padding: 10px 0;
+    padding: 12px 0;
     color: white;
     font-size: 1rem;
   }
 
-  /* Category bar → becomes dropdown button */
   .category-bar {
-    display: none;  /* Hide horizontal bar */
+    display: none;
   }
 
   .category-toggle {
     display: block;
     width: 100%;
     text-align: center;
-    background: #0b0c0e;
-    padding: 12px 0;
-    color: white;
+    background: #38bdf8;
+    padding: 14px 0;
     font-size: 1.1rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #0b0c0e;
+    font-weight: 600;
+    letter-spacing: 1px;
     cursor: pointer;
   }
 
   .category-list {
-  display: none;
-  background: #0d0f12;   /* deep matte dark */
-  padding: 12px 0;
-  border-top: 1px solid rgba(255,255,255,0.05);
+    display: none;
+    background: #0d0f12;
+  }
+
+  .category-list button {
+    width: 100%;
+    padding: 14px 0;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .show { display: block !important; }
 }
 
-.category-list button {
-  width: 100%;
-  padding: 14px 0;
-  text-align: center;            /* center text */
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 500;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.category-list button:last-child {
-  border-bottom: none;
-}
-.category-toggle {
-  display: block;
-  width: 100%;
-  text-align: center;
-  background: #0b0c0e;
-  padding: 14px 0;
-  font-size: 1.15rem;
-  color: #ffffff;
-  font-weight: 500;
-  letter-spacing: 1px;
-  border-top: 1px solid rgba(255,255,255,0.08);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  cursor: pointer;
-}
-
-    .show { display: block !important; }
-
-    
   header h2 {
     font-size: 0.65rem;
     padding: 4px 0;

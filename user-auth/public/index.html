@@ -83,41 +83,25 @@
       <div class="brand-name">swarize</div>
     </div>
 
-    <!-- Hamburger Icon (Visible in Mobile Only) -->
+    <!-- Hamburger (Mobile Only) -->
     <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
-
-    <!-- Desktop Search Bar -->
-    <div class="search-container" id="searchBox">
-      <input type="text" id="search-input" placeholder="Search for products...">
-      <button id="search-button"><i class="fas fa-search"></i></button>
-    </div>
 
     <!-- Desktop Menu -->
     <ul class="menu">
-      <li class="dropdown login-dropdown">
-        <button class="dropdown-button">Login</button>
-        <div class="dropdown-content login-content">
-          <a href="signin.html">Sign In</a>
-          <a href="signup.html">Sign Up</a>
-        </div>
-      </li>
       <li><a href="home.html" class="menu-item">Home</a></li>
       <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
+      <li>
+        <a href="signin.html" class="menu-item login-btn">Login</a>
+      </li>
     </ul>
 
   </div>
 
-  <!-- Mobile Search Bar -->
-  <div id="mobile-search" class="search-container" style="display:none;">
-    <input type="text" placeholder="Search products...">
-    <button><i class="fas fa-search"></i></button>
-  </div>
-
-  <!-- Mobile Menu (Hidden by Default) -->
+  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="signin.html">Login</a>
     <a href="home.html">Home</a>
     <a href="addtocart.html">Add to Cart</a>
+    <a href="signin.html">Login</a>
   </div>
 
   <!-- Category Toggle for Mobile -->

@@ -26,62 +26,50 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-container">
-    <div class="logo-container">
-      <img src="/images/logo.png" alt="Swarize logo" class="logo-img" />
-    </div>
-
+    <img src="/images/logo.png" class="logo-img" />
     <ul class="menu">
-      <li><a href="signin.html" class="menu-item">Login</a></li>
-      <li><a href="addtocart.html" class="menu-item">Cart</a></li>
-      <li><a href="index.html" class="menu-item">Home</a></li>
+      <li><a href="signin.html">Login</a></li>
+      <li><a href="addtocart.html">Cart</a></li>
+      <li><a href="index.html">Home</a></li>
     </ul>
   </div>
 </nav>
 
 <main class="page-main">
 
-  <div class="product-wrapper">
+  <div class="product-layout">
 
-    <!-- ================= LEFT: IMAGE GALLERY ================= -->
-    <div class="product-gallery">
-
+    <!-- LEFT SIDE -->
+    <div class="gallery-section">
       <div class="main-image-wrap">
         <img id="main-preview-image" src="/default-thumbnail.jpg" />
         <video id="main-preview-video" controls style="display:none;"></video>
       </div>
-
       <div class="thumbnail-row" id="thumbnail-row"></div>
-
-      <div class="store-line">
-        <strong>Sold by:</strong>
-        <a id="store-link" href="#" class="store-link">Unknown Store</a>
-      </div>
-
     </div>
 
-    <!-- ================= RIGHT: PRODUCT INFO ================= -->
-    <div class="product-info">
+    <!-- RIGHT SIDE -->
+    <div class="details-section">
 
-      <h1 id="preview-name" class="product-title">Product Name</h1>
+      <h1 id="preview-name" class="product-title"></h1>
 
       <div class="price-box">
-        <div class="display-price" id="preview-display-price">₹0</div>
-        <div class="main-price" id="preview-price">₹0</div>
+        <div id="preview-display-price" class="display-price"></div>
+        <div id="preview-price" class="main-price"></div>
       </div>
 
       <div class="product-selections">
 
         <div class="selection-row">
-          <label>Color :</label>
+          <label>Color</label>
           <div id="preview-color" class="color-field"></div>
         </div>
 
         <div class="selection-row">
-          <label>Size :</label>
-          <div id="preview-size" class="size-container">-</div>
+          <label>Size</label>
+          <div id="preview-size" class="size-container"></div>
         </div>
 
         <button id="size-chart-btn" class="size-chart-link">
@@ -89,13 +77,13 @@
         </button>
 
         <div class="selection-row">
-          <label>Saree Size:</label>
-          <span id="preview-saree-size">-</span>
+          <label>Saree Size</label>
+          <span id="preview-saree-size"></span>
         </div>
 
         <div class="selection-row">
-          <label>Blouse Size:</label>
-          <span id="preview-blouse-size">-</span>
+          <label>Blouse Size</label>
+          <span id="preview-blouse-size"></span>
         </div>
 
       </div>
@@ -105,19 +93,17 @@
         <button class="btn add-to-cart">Add to Cart</button>
       </div>
 
-      <hr class="spec-separator">
+      <hr>
 
-      <div class="product-details-section">
-        <div class="spec-row">Product Code: <span id="preview-product-code"></span></div>
-        <div class="spec-row">Category: <span id="preview-category"></span></div>
-        <div class="spec-row">Subcategory: <span id="preview-subcategory"></span></div>
-        <div class="spec-row">Material: <span id="preview-material"></span></div>
-        <div class="spec-row">Pattern: <span id="preview-pattern"></span></div>
-        <div class="spec-row">Wash Care: <span id="preview-wash-care"></span></div>
-        <div class="spec-row">Occasion: <span id="preview-occasion"></span></div>
-      </div>
+      <div class="spec-row">Product Code: <span id="preview-product-code"></span></div>
+      <div class="spec-row">Category: <span id="preview-category"></span></div>
+      <div class="spec-row">Subcategory: <span id="preview-subcategory"></span></div>
+      <div class="spec-row">Material: <span id="preview-material"></span></div>
+      <div class="spec-row">Pattern: <span id="preview-pattern"></span></div>
+      <div class="spec-row">Wash Care: <span id="preview-wash-care"></span></div>
+      <div class="spec-row">Occasion: <span id="preview-occasion"></span></div>
 
-      <div class="collapsible-desc">
+      <div class="description-block">
         <button id="toggle-desc-btn" class="desc-link">
           + Product Description
         </button>
@@ -137,17 +123,14 @@
 
 </main>
 
-<!-- SIZE CHART MODAL -->
 <div id="size-chart-overlay" class="modal-overlay"></div>
 <div id="size-chart-modal" class="modal">
   <h3>Size Chart</h3>
-  <div id="size-chart-content">Loading...</div>
+  <div id="size-chart-content"></div>
   <button id="close-size-chart" class="btn close-btn">Close</button>
 </div>
 
 <script src="product-detail.js"></script>
-
- 
 
 </body>
 </html>

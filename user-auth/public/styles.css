@@ -52,6 +52,19 @@ html {
 }
 
 
+/* ============================================
+   DISABLE CUSTOM CURSOR ON TOUCH DEVICES
+============================================ */
+@media (hover: none), (pointer: coarse) {
+  .cursor {
+    display: none !important;
+  }
+
+  body {
+    cursor: auto !important;
+  }
+}
+
 
 /* ============================================================
    TOP PROMO HEADER (MINIMAL, SHORT HEIGHT)
@@ -1415,8 +1428,8 @@ header h2 {
   }
 
   /* Order */
-  .footer-newsletter { order: 1; }
-  .footer-brand { order: 2; }
+  .footer-newsletter { order: 2; }
+  .footer-brand { order: 1; }
   .footer-links { order: 3; }
   .footer-contact { order: 4; }
 

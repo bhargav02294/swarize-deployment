@@ -810,18 +810,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// CURSOR
-// CUSTOM CURSOR FIXED
+// ==============================
+// CUSTOM CURSOR (DESKTOP ONLY)
+// ==============================
+
 const cursor = document.querySelector('.cursor');
 
-document.addEventListener('pointermove', (e) => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
+// Detect touch device
+const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
-// OPTIONAL: click expand animation
-document.addEventListener('pointerdown', () => cursor.classList.add('cursor--big'));
-document.addEventListener('pointerup', () => cursor.classList.remove('cursor--big'));
+if (cursor && !isTouchDevice) {
+
+  document.addEventListener('pointermove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  document.addEventListener('pointerdown', () => 
+    cursor.classList.add('cursor--big')
+  );
+
+  document.addEventListener('pointerup', () => 
+    cursor.classList.remove('cursor--big')
+  );
+
+} else {
+  // Remove cursor element completely on mobile
+  if (cursor) cursor.remove();
+}
+
+
+
+
+
+
 
 
 

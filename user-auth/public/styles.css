@@ -1219,13 +1219,12 @@ header h2 {
 
 
 
-
 /* ============================================================
-   FOOTER — PREMIUM REFINED
+   FOOTER — STRUCTURED PREMIUM
 ============================================================ */
 .footer {
   background: #0b0f13;
-  padding: 60px 4% 25px;
+  padding: 50px 3% 20px;
   color: #cbd5e1;
   font-family: "Poppins", sans-serif;
   position: relative;
@@ -1239,34 +1238,40 @@ header h2 {
   left: 15%;
   width: 70%;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(56,189,248,0.5), transparent);
+  background: linear-gradient(to right, transparent, rgba(56,189,248,0.4), transparent);
 }
 
 /* ============================================================
    DESKTOP GRID
 ============================================================ */
 .footer-container {
-  max-width: 1300px;
+  max-width: 1350px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
-  gap: 60px;
+  grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+  gap: 50px;
   align-items: start;
 }
 
 /* ============================================================
    BRAND
 ============================================================ */
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .footer-logo {
-  width: 55px;
-  margin-bottom: 15px;
+  width: 50px;
+  height: 50px;
 }
 
 .footer-tagline {
-  font-size: 0.92rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.5;
   color: #94a3b8;
-  max-width: 250px;
+  max-width: 260px;
 }
 
 /* ============================================================
@@ -1282,28 +1287,42 @@ header h2 {
 }
 
 /* ============================================================
-   LINKS
+   EXPLORE LINKS
 ============================================================ */
-.footer-links a,
-.footer-contact a {
-  display: block;
-  margin-bottom: 9px;
+.links-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.footer-links a {
   text-decoration: none;
   color: #cbd5e1;
   font-size: 0.88rem;
   transition: 0.3s ease;
 }
 
-.footer-links a:hover,
-.footer-contact a:hover {
+.footer-links a:hover {
   color: #ffffff;
 }
 
 /* ============================================================
-   SOCIAL
+   CONTACT
 ============================================================ */
+.footer-contact a {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+}
+
+.footer-contact a:hover {
+  color: #ffffff;
+}
+
 .footer-social {
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .footer-social i {
@@ -1317,34 +1336,38 @@ header h2 {
 }
 
 /* ============================================================
-   NEWSLETTER
+   NEWSLETTER — PROFESSIONAL
 ============================================================ */
 .footer-newsletter p {
-  font-size: 0.85rem;
-  margin-bottom: 12px;
+  font-size: 0.82rem;
+  margin-bottom: 14px;
   color: #94a3b8;
 }
 
 .newsletter-form {
   display: flex;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 40px;
+  background: #11161c;
+  border-radius: 12px;
   overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 .newsletter-form input {
   flex: 1;
-  padding: 12px 16px;
+  padding: 14px;
   border: none;
-  outline: none;
   background: transparent;
-  color: #ffffff;
+  color: white;
   font-size: 0.9rem;
 }
 
+.newsletter-form input::placeholder {
+  color: #64748b;
+}
+
 .newsletter-form button {
-  padding: 0 20px;
-  background: #38bdf8;
+  padding: 0 22px;
+  background: linear-gradient(135deg,#38bdf8,#0ea5e9);
   border: none;
   color: #0b0f13;
   font-weight: 600;
@@ -1353,7 +1376,7 @@ header h2 {
 }
 
 .newsletter-form button:hover {
-  background: #0ea5e9;
+  opacity: 0.9;
 }
 
 .newsletter-msg {
@@ -1364,20 +1387,20 @@ header h2 {
 }
 
 /* ============================================================
-   BOTTOM
+   BOTTOM STRIP
 ============================================================ */
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,0.05);
-  margin-top: 40px;
-  padding-top: 15px;
+  margin-top: 35px;
+  padding-top: 14px;
   display: flex;
   justify-content: space-between;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: #94a3b8;
 }
 
 /* ============================================================
-   MOBILE REFINED
+   MOBILE LAYOUT
 ============================================================ */
 @media (max-width: 768px) {
 
@@ -1387,26 +1410,45 @@ header h2 {
 
   .footer-container {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 26px;
     text-align: center;
   }
 
-  /* Newsletter first */
-  .footer-newsletter {
-    order: -1;
+  /* Order */
+  .footer-newsletter { order: 1; }
+  .footer-brand { order: 2; }
+  .footer-links { order: 3; }
+  .footer-contact { order: 4; }
+
+  /* Brand compact */
+  .brand-row {
+    justify-content: center;
+    gap: 12px;
   }
 
   .footer-tagline {
-    max-width: 100%;
+    max-width: 220px;
+    font-size: 0.82rem;
   }
 
+  /* Explore 2x3 grid */
+  .links-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    justify-items: center;
+  }
+
+  .footer-links a {
+    font-size: 0.85rem;
+  }
+
+  /* Newsletter stacked */
   .newsletter-form {
     flex-direction: column;
-    border-radius: 12px;
+    border-radius: 14px;
   }
 
   .newsletter-form input {
-    padding: 14px;
     text-align: center;
   }
 

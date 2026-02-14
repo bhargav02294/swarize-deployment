@@ -1227,44 +1227,44 @@ header h2 {
 
 
 /* ============================================================
-   FOOTER — MINIMAL PREMIUM
+   PREMIUM FOOTER
 ============================================================ */
 .footer {
-  background: #0b0f13;
-  padding: 60px 6% 30px;
+  background: linear-gradient(to bottom, #0b0f13, #080c10);
+  padding: 70px 8% 35px;
   color: #cbd5e1;
   font-family: "Poppins", sans-serif;
 }
 
 /* ============================================================
-   INNER LAYOUT
+   STRUCTURE
 ============================================================ */
-.footer-inner {
-  max-width: 1200px;
+.footer-wrapper {
+  max-width: 1250px;
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 60px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 80px;
+  align-items: start;
 }
 
 /* ============================================================
    BRAND
 ============================================================ */
 .footer-brand {
-  max-width: 280px;
+  max-width: 320px;
 }
 
 .footer-logo {
-  width: 55px;
-  margin-bottom: 16px;
+  width: 60px;
+  margin-bottom: 22px;
 }
 
 .footer-tagline {
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: #94a3b8;
+  letter-spacing: 0.3px;
 }
 
 /* ============================================================
@@ -1273,18 +1273,21 @@ header h2 {
 .footer-links {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .footer-links a {
   text-decoration: none;
   color: #cbd5e1;
-  font-size: 0.9rem;
-  transition: 0.25s ease;
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
+  transition: all 0.25s ease;
+  position: relative;
 }
 
 .footer-links a:hover {
   color: #ffffff;
+  transform: translateX(4px);
 }
 
 /* ============================================================
@@ -1293,13 +1296,13 @@ header h2 {
 .footer-contact {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 }
 
 .footer-contact a {
   text-decoration: none;
   color: #cbd5e1;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   transition: 0.25s ease;
 }
 
@@ -1307,58 +1310,71 @@ header h2 {
   color: #ffffff;
 }
 
-/* Instagram */
 .footer-social {
   margin-top: 10px;
 }
 
 .footer-social i {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: #cbd5e1;
   transition: 0.25s ease;
 }
 
 .footer-social i:hover {
   color: #38bdf8;
+  transform: scale(1.1);
 }
 
 /* ============================================================
-   BOTTOM STRIP
+   DIVIDER
+============================================================ */
+.footer-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+  margin: 50px auto 25px;
+  max-width: 1250px;
+}
+
+/* ============================================================
+   BOTTOM
 ============================================================ */
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.05);
-  margin-top: 40px;
-  padding-top: 18px;
+  max-width: 1250px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
-  color: #94a3b8;
+  font-size: 0.85rem;
+  color: #64748b;
+  letter-spacing: 0.3px;
 }
 
 /* ============================================================
    MOBILE
 ============================================================ */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
-  .footer {
-    padding: 40px 20px 25px;
+  .footer-wrapper {
+    grid-template-columns: 1fr;
+    gap: 45px;
     text-align: center;
   }
 
-  .footer-inner {
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
+  .footer-brand {
+    margin: 0 auto;
   }
 
-  .footer-links {
-    flex-direction: column;
-    gap: 10px;
+  .footer-links,
+  .footer-contact {
+    align-items: center;
+  }
+
+  .footer-links a:hover {
+    transform: none;
   }
 
   .footer-bottom {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     text-align: center;
   }
 }

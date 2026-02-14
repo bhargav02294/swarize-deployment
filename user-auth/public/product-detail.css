@@ -94,8 +94,9 @@ html, body {
 
 .thumb-item {
   min-width: 90px;
+  margin-left: 10px;
   height: 90px;
-  background: #000;
+  background: #00000000;
   border: 1px solid #222;
   cursor: pointer;
 }

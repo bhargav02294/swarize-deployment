@@ -75,21 +75,38 @@
 <header class="navbar">
   <div class="navbar-container">
 
-    <!-- Logo & Brand -->
+    <!-- LEFT: Logo -->
     <div class="brand-wrapper">
       <img src="images/logo.png" class="logo-img" alt="Swarize Logo">
       <div class="brand-name">swarize</div>
     </div>
 
+    <!-- CENTER: Categories (Desktop Only) -->
+    <div class="nav-categories">
+      <button onclick="openSection('saree')">Saree</button>
+      <button onclick="openSection('dress')">Dress</button>
+      <button onclick="openSection('festive-edit')">Festive Edit</button>
+      <button onclick="openSection('everyday-elegance')">Everyday Elegance</button>
+      <button onclick="openSection('under999')">Under ₹999</button>
+    </div>
+
+    <!-- RIGHT: Icons -->
+    <div class="nav-icons">
+      <a href="home.html" class="nav-icon" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+
+      <a href="addtocart.html" class="nav-icon" title="Cart">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+
+      <a href="signin.html" class="nav-icon" title="Login">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
+
     <!-- Hamburger (Mobile Only) -->
     <div class="hamburger" onclick="toggleMobileMenu()">☰</div>
-
-    <!-- Desktop Menu -->
-    <ul class="menu">
-      <li><a href="home.html" class="menu-item">Home</a></li>
-      <li><a href="addtocart.html" class="menu-item">Add to Cart</a></li>
-      <li><a href="signin.html" class="menu-item">Login</a></li>
-    </ul>
 
   </div>
 
@@ -100,20 +117,10 @@
     <a href="signin.html">Login</a>
   </div>
 
-  <!-- Category Toggle for Mobile -->
+  <!-- Mobile Categories -->
   <div class="category-toggle" onclick="toggleCategory()">Categories ▾</div>
 
-  <!-- Mobile Category List -->
   <div class="category-list" id="categoryList">
-    <button onclick="openSection('saree')">Saree</button>
-    <button onclick="openSection('dress')">Dress</button>
-    <button onclick="openSection('festive-edit')">Festive Edit</button>
-    <button onclick="openSection('everyday-elegance')">Everyday Elegance</button>
-    <button onclick="openSection('under999')">Under ₹999</button>
-  </div>
-
-  <!-- Desktop Category Bar -->
-  <div class="category-bar">
     <button onclick="openSection('saree')">Saree</button>
     <button onclick="openSection('dress')">Dress</button>
     <button onclick="openSection('festive-edit')">Festive Edit</button>

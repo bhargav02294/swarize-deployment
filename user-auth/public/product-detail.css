@@ -1,3 +1,59 @@
+/* ------------------------------
+   GLOBAL DARK THEME
+------------------------------ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #0d0d0d;
+  color: #f0f0f0;
+  overflow-x: hidden;
+}
+
+/* ------------------------------
+   NAVBAR
+------------------------------ */
+.navbar {
+  width: 100%;
+  background: #111;
+  padding: 15px 25px;
+  border-bottom: 1px solid #222;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-img {
+  height: 40px;
+}
+
+.menu {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+
+.menu-item {
+  color: #ccc;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.menu-item:hover {
+  color: #fff;
+}
+
+
+
+
 /* ==============================
    LAYOUT
 ============================== */

@@ -365,12 +365,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
 
-    // ========== REVIEWS placeholder ==========
-    function fetchReviews() {
-      const reviewsContainer = document.getElementById("reviews-container");
-      if (reviewsContainer) reviewsContainer.innerHTML = "<p>No reviews yet.</p>";
-    }
-    fetchReviews();
+ 
   } catch (err) {
     document.body.innerHTML = "<h2>Failed to load product. Please try again later.</h2>";
     console.error(err);

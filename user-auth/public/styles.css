@@ -56,8 +56,11 @@ html {
 /* ============================================================
    TOP PROMO HEADER (MINIMAL, SHORT HEIGHT)
 ============================================================ */
+/* ============================================================
+   TOP PROMO HEADER
+============================================================ */
 header h2 {
-  background: #0b0c0e;      /* same color as navbar */
+  background: #0b0c0e;
   color: #e5e7eb;
   font-size: 0.85rem;
   text-align: center;
@@ -67,49 +70,45 @@ header h2 {
 }
 
 /* ============================================================
-   NAVBAR (PURE DARK, NO SHADOW, NO BORDER, SHORT HEIGHT)
+   NAVBAR (WITH PROPER SIDE MARGINS)
 ============================================================ */
 .navbar {
   position: sticky;
   top: 0;
   width: 100%;
-  background: #0b0c0e;    /* same plain matte color */
+  background: #0b0c0e;
   z-index: 2000;
 }
 
 .navbar-container {
+  max-width: 1200px;        /* prevents stretching */
+  margin: 0 auto;           /* centers navbar */
+  padding: 10px 24px;       /* proper inner spacing */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 24px;       /* reduced height */
 }
 
 /* ============================================================
-   LOGO + BRAND NAME
+   LOGO + BRAND
 ============================================================ */
-/* Wrapper for logo + name */
 .brand-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;           /* spacing between logo and text */
+  gap: 10px;
 }
 
 .logo-img {
   width: 46px;
   height: 46px;
   object-fit: contain;
-  filter: none !important;      /* remove glow */
   transition: transform .25s ease;
 }
 
 .logo-img:hover {
   transform: scale(1.05);
-  filter: none !important;       /* no glow on hover */
 }
 
-
-
-/* Brand text */
 .brand-name {
   font-family: "Vollkorn", serif !important;
   color: #ffffff;
@@ -117,37 +116,30 @@ header h2 {
   font-weight: 600;
   text-transform: lowercase;
   letter-spacing: 1px;
-  margin-top: 2px; /* tiny alignment fix */
 }
 
-
 /* ============================================================
-   MENU LINKS (MINIMAL UNDERLINE HOVER)
+   MENU LINKS (SIMPLE + PROFESSIONAL)
 ============================================================ */
 .menu {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 28px;   /* slightly spaced */
 }
 
-.menu-item,
-.dropdown-button {
-  background: none;
-  border: none;
-  color: #e5e7eb;
+.menu-item {
   text-decoration: none;
+  color: #e5e7eb;
   font-size: 0.95rem;
-  cursor: pointer;
-  padding: 4px 0;
   font-weight: 500;
   position: relative;
+  padding: 4px 0;
   transition: color .25s ease;
 }
 
-/* Underline Animation */
-.menu-item::after,
-.dropdown-button::after {
+/* Underline animation */
+.menu-item::after {
   content: "";
   position: absolute;
   left: 0;
@@ -155,81 +147,64 @@ header h2 {
   width: 0%;
   height: 2px;
   background: #38bdf8;
-  transition: width .25s;
+  transition: width .25s ease;
 }
 
-.menu-item:hover::after,
-.dropdown-button:hover::after {
+.menu-item:hover::after {
   width: 100%;
 }
 
-.menu-item:hover,
-.dropdown-button:hover {
+.menu-item:hover {
   color: #38bdf8;
 }
 
 /* ============================================================
-   LOGIN DROPDOWN (FIXED POSITION)
-============================================================ */
-
-
-/* ============================================================
-   CATEGORY BAR (MATCHING SAME DARK COLOR + SHORT HEIGHT)
-============================================================ */
-/* ============================================================
-   CATEGORY BAR (BLUE THEME)
+   DESKTOP CATEGORY BAR (SIMPLE, NOT COLORED BUTTONS)
 ============================================================ */
 .category-bar {
   background: #0b0c0e;
   display: flex;
   justify-content: center;
   gap: 50px;
-  padding: 6px 0;
+  padding: 8px 0;
 }
 
 .category-bar button {
-  background: transparent;
-  border: 1px solid #38bdf8;
-  color: #38bdf8;
-  padding: 6px 18px;
-  border-radius: 30px;
-  font-size: 0.9rem;
+  background: none;
+  border: none;
+  color: #e5e7eb;
+  font-size: 0.95rem;
   font-weight: 500;
+  position: relative;
   cursor: pointer;
-  transition: 0.25s ease;
 }
 
-
-
-/* underline */
+/* underline animation */
 .category-bar button::after {
   content: "";
-  width: 0%;
-  height: 2px;
-  background: #ffffff;
   position: absolute;
   left: 0;
   bottom: -4px;
-  transition: width .25s;
+  width: 0%;
+  height: 2px;
+  background: #ffffff;
+  transition: width .25s ease;
 }
 
 .category-bar button:hover::after {
   width: 100%;
 }
 
-
-
 .category-bar button:hover {
-  background: #38bdf8;
-  color: #0b0c0e;
+  color: white;
 }
 
-
+/* ============================================================
+   MOBILE
+============================================================ */
 .hamburger {
   display: none;
 }
-
-
 
 .mobile-menu {
   display: none;
@@ -243,46 +218,23 @@ header h2 {
   display: none;
 }
 
-
-/* ============================================================
-   MOBILE RESPONSIVENESS (MAX-WIDTH: 600PX)
-============================================================ */
 @media screen and (max-width: 600px) {
 
-  /* Disable custom cursor on phone */
-  .cursor { display: none !important; }
-
-  /* Prevent left-right scrolling */
-  html, body {
-    overflow-x: hidden !important;
-    width: 100%;
+  .menu {
+    display: none;
   }
 
-  /* Navbar container becomes compact */
   .navbar-container {
-    padding: 10px 14px;
+    padding: 10px 16px;
   }
 
- .logo-img {
+  .logo-img {
     width: 38px;
     height: 38px;
   }
 
   .brand-name {
     font-size: 1.4rem;
-  }
-
-
-
-  
-.category-toggle {
-  display: none;
-}
-
-@media screen and (max-width: 600px) {
-
-  .menu {
-    display: none;
   }
 
   .hamburger {
@@ -293,7 +245,6 @@ header h2 {
   }
 
   .mobile-menu {
-    display: none;
     background: #111214;
     padding: 15px 20px;
     border-top: 1px solid rgba(255,255,255,0.08);
@@ -310,44 +261,41 @@ header h2 {
     display: none;
   }
 
+  /* MOBILE CATEGORY (LIKE YOUR OLD VERSION) */
   .category-toggle {
     display: block;
     width: 100%;
     text-align: center;
-    background: #38bdf8;
+    background: #0b0c0e;
     padding: 14px 0;
     font-size: 1.1rem;
-    color: #0b0c0e;
-    font-weight: 600;
-    letter-spacing: 1px;
+    color: white;
+    border-top: 1px solid rgba(255,255,255,0.1);
     cursor: pointer;
   }
 
   .category-list {
-    display: none;
     background: #0d0f12;
   }
 
   .category-list button {
     width: 100%;
     padding: 14px 0;
-    text-align: center;
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: white;
     font-size: 1rem;
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
 
-  .show { display: block !important; }
-}
+  .show {
+    display: block !important;
+  }
 
   header h2 {
     font-size: 0.65rem;
     padding: 4px 0;
   }
-    
-
 }
 
 

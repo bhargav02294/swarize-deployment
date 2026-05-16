@@ -4,9 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const savedEmail = localStorage.getItem("signupEmail");
 
   if (savedEmail) {
-    emailInput.value = savedEmail;
-    emailInput.readOnly = true;
-  }
+  emailInput.value = savedEmail;
+}
 });
 
 // -----------------------------------------
@@ -25,6 +24,8 @@ function startTimer() {
   if (timer) clearInterval(timer);
 
   timeLeft = 60;
+    timerDisplay.textContent = "01:00";
+
   timer = setInterval(() => {
     timeLeft--;
 

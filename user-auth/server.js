@@ -352,8 +352,8 @@ let otpStorage = new Map(); // ✅ Use a Map object for proper storage
 
 // ✅ API to Send OTP
 // Generate & Send OTP
-app.post("/api/send-otp", async (req, res) => {
-  const { email } = req.body;
+app.post("/api/auth/send-otp", async (req, res) => {
+    const { email } = req.body;
 
   if (!email) {
     return res.status(400).json({ success: false, message: "Email is required" });
@@ -361,7 +361,11 @@ app.post("/api/send-otp", async (req, res) => {
 
   // Generate 6-digit OTP
   const otp = crypto.randomInt(100000, 999999).toString();
-  otpStorage.set(email, otp); // ✅ Now OTPs are stored correctly
+  otpStorage.set(email, {
+  otp,
+  expiresAt: Date.now() + 5 * 60 * 1000 // 5 min
+});
+// ✅ Now OTPs are stored correctly
 
   try {
     const sendResult = await sendResendEmail({
@@ -390,8 +394,8 @@ app.post("/api/send-otp", async (req, res) => {
 });
 
 // ✅ API to verify email OTP
-app.post('/verify-otp', (req, res) => {
-  const { email, otp } = req.body;
+app.post('/api/auth/verify-otp', (req, res) => {
+    const { email, otp } = req.body;
 
   // Validate inputs
   if (!email || !otp) {
@@ -402,9 +406,24 @@ app.post('/verify-otp', (req, res) => {
   }
 
   // correct way to access Map
-  const storedOtp = otpStorage.get(email);
+  const storedData = otpStorage.get(email);
 
-  if (!storedOtp) {
+if (!storedData) {
+  return res.status(400).send({
+    success: false,
+    message: 'OTP not found or expired.'
+  });
+}
+
+if (Date.now() > storedData.expiresAt) {
+  otpStorage.delete(email);
+
+  return res.status(400).send({
+    success: false,
+    message: 'OTP expired. Please resend OTP.'
+  });
+}
+ {
     return res.status(400).send({
       success: false,
       message: 'OTP not found or expired. Please resend the OTP.'

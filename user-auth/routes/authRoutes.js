@@ -4,21 +4,18 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../models/user");
 const router = express.Router();
+const sendEmail = require("../utils/sendEmail");
 
-// Import new Resend email util
-// OTP Storage with expiry
+// OTP Storage
 const otpStorage = new Map();
 
-// ================================
-// ✅ SEND OTP (PROFESSIONAL EMAIL)
-// ================================
+// SEND OTP
 router.post("/send-otp", async (req, res) => {
   const { email } = req.body;
 
   try {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Store OTP with 5 min expiry
     otpStorage.set(email, {
       code: otp,
       expiresAt: Date.now() + 5 * 60 * 1000
@@ -34,40 +31,62 @@ router.post("/send-otp", async (req, res) => {
     });
 
     if (!success) {
-      return res.status(500).json({ success: false, message: "Failed to send OTP email." });
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send OTP email."
+      });
     }
 
-    res.json({ success: true, message: "OTP sent successfully!" });
+    return res.json({
+      success: true,
+      message: "OTP sent successfully!"
+    });
 
   } catch (error) {
     console.error("❌ Error sending OTP:", error);
-    res.status(500).json({ success: false, message: "OTP sending failed." });
+
+    return res.status(500).json({
+      success: false,
+      message: "OTP sending failed."
+    });
   }
 });
 
-
-// ================================
-// ✅ VERIFY OTP
-// ================================
+// VERIFY OTP
 router.post("/verify-otp", (req, res) => {
   const { email, otp } = req.body;
+
   const record = otpStorage.get(email);
 
   if (!record) {
-    return res.status(400).json({ success: false, message: "OTP expired. Please request again." });
+    return res.status(400).json({
+      success: false,
+      message: "OTP expired. Please request again."
+    });
   }
 
   if (Date.now() > record.expiresAt) {
     otpStorage.delete(email);
-    return res.status(400).json({ success: false, message: "OTP expired." });
+
+    return res.status(400).json({
+      success: false,
+      message: "OTP expired."
+    });
   }
 
   if (record.code !== otp) {
-    return res.status(400).json({ success: false, message: "Invalid OTP." });
+    return res.status(400).json({
+      success: false,
+      message: "Invalid OTP."
+    });
   }
 
   otpStorage.delete(email);
-  return res.json({ success: true, message: "OTP verified successfully." });
+
+  return res.json({
+    success: true,
+    message: "OTP verified successfully."
+  });
 });
 
 

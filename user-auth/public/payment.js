@@ -104,37 +104,147 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 var options = {
-                    key: "rzp_live_zWGkMsnbOyIT0L", // ✅ Replace with your Razorpay Live Key  
-                    amount: finalPrice,
-                    currency: "INR",
-                    name: "Swarize",
-                    description: productName,
-                    order_id: order.orderId,
-                    handler: async function (response) {
-                        const appliedPromoCode = document.getElementById("promo-code")?.value.trim() || null;
+    key: "rzp_live_zWGkMsnbOyIT0L",
 
-                        const saveOrder = await fetch("/api/orders/create", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            credentials: "include",
-                            body: JSON.stringify({
-                                productId,
-                                buyerId,
-                                paymentId: response.razorpay_payment_id,
-                                promoCode: appliedPromoCode || null
-                            })
-                        });
+    amount: order.amount,
 
-                        const saveOrderData = await saveOrder.json();
+    currency: "INR",
 
-                        if (!saveOrderData.success) {
-                            throw new Error(saveOrderData.message);
+    redirect: true,
+
+    send_sms_hash: true,
+    
+    name: "Swarize",
+
+    description: productName,
+
+    image: "/favicon.png",
+
+    order_id: order.orderId,
+
+    theme: {
+        color: "#000000"
+    },
+
+    // =========================
+    // ✅ MOBILE UPI APP REDIRECT
+    // =========================
+    method: {
+        upi: true,
+        card: true,
+        netbanking: true,
+        wallet: true
+    },
+
+    upi: {
+        flow: "intent"
+    },
+
+    config: {
+        display: {
+            blocks: {
+                upi: {
+                    name: "Pay using UPI",
+                    instruments: [
+                        {
+                            method: "upi"
                         }
+                    ]
+                },
 
-                        window.location.href = `payment.html?success=true&paymentId=${response.razorpay_payment_id}`;
-                    },
-                    prefill: { name: "Customer", email: userEmail }
-                };
+                other: {
+                    name: "Other Payment Methods",
+                    instruments: [
+                        {
+                            method: "card"
+                        },
+                        {
+                            method: "netbanking"
+                        },
+                        {
+                            method: "wallet"
+                        }
+                    ]
+                }
+            },
+
+            sequence: ["block.upi", "block.other"],
+
+            preferences: {
+                show_default_blocks: false
+            }
+        }
+    },
+
+    prefill: {
+        name: "Customer",
+        email: userEmail
+    },
+
+    notes: {
+        productId: productId,
+        productName: productName
+    },
+
+    retry: {
+        enabled: true,
+        max_count: 3
+    },
+
+    timeout: 300,
+
+    remember_customer: true,
+
+    modal: {
+        ondismiss: function () {
+            console.log("Payment popup closed.");
+        }
+    },
+
+    handler: async function (response) {
+
+        try {
+
+            const appliedPromoCode =
+                document.getElementById("promo-code")?.value.trim() || null;
+
+            const saveOrder = await fetch("/api/orders/create", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+                    productId,
+                    buyerId,
+                    paymentId: response.razorpay_payment_id,
+                    promoCode: appliedPromoCode || null
+                })
+            });
+
+            const saveOrderData = await saveOrder.json();
+
+            if (!saveOrderData.success) {
+                throw new Error(saveOrderData.message);
+            }
+
+            window.location.href =
+                `payment-success.html?paymentId=${response.razorpay_payment_id}`;
+
+        } catch (error) {
+
+            console.error("Order Save Error:", error);
+
+            messageBox.textContent =
+                "Payment succeeded but order saving failed.";
+
+            messageBox.style.color = "red";
+        }
+    }
+};
 
                 var rzp = new Razorpay(options);
                 rzp.open();

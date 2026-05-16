@@ -346,6 +346,7 @@ console.log(" Resend API Key Loaded:", process.env.RESEND_API_KEY ? "Secure" : "
 
 
 
+
 // ✅ Route to reset password
 // ✅ Reset Password API
 app.post("/api/auth/reset-password", async (req, res) => {
